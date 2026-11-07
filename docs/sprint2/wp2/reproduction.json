@@ -1,0 +1,37 @@
+{
+ "metro": {
+  "registered": "246b945fe031da12f7695d25e460b5fe0ad1e1ae0c8c84f147df22214dc52e53",
+  "frozen_rebuild": "246b945fe031da12f7695d25e460b5fe0ad1e1ae0c8c84f147df22214dc52e53",
+  "wp2_copy_rebuild": "246b945fe031da12f7695d25e460b5fe0ad1e1ae0c8c84f147df22214dc52e53",
+  "registered_file": "246b945fe031da12f7695d25e460b5fe0ad1e1ae0c8c84f147df22214dc52e53",
+  "match": true
+ },
+ "beijing_pm25": {
+  "registered": "d9678fbdaca5885b54b151029f2c87c218bad71aa555c1ec64d7161cac9fd31f",
+  "frozen_rebuild": "d9678fbdaca5885b54b151029f2c87c218bad71aa555c1ec64d7161cac9fd31f",
+  "wp2_copy_rebuild": "d9678fbdaca5885b54b151029f2c87c218bad71aa555c1ec64d7161cac9fd31f",
+  "registered_file": "d9678fbdaca5885b54b151029f2c87c218bad71aa555c1ec64d7161cac9fd31f",
+  "match": true
+ },
+ "bike_hour": {
+  "registered": "3b60ad9611fab2cc87f6f3c771a1dae555cd3287e4e691923217f0f2b61e45f9",
+  "frozen_rebuild": "3b60ad9611fab2cc87f6f3c771a1dae555cd3287e4e691923217f0f2b61e45f9",
+  "wp2_copy_rebuild": "3b60ad9611fab2cc87f6f3c771a1dae555cd3287e4e691923217f0f2b61e45f9",
+  "registered_file": "3b60ad9611fab2cc87f6f3c771a1dae555cd3287e4e691923217f0f2b61e45f9",
+  "match": true
+ },
+ "appliances": {
+  "registered": "8fa166d957f6539e9c18d20b237effc03ffc906fdd674259623ee10aa44a9ba3",
+  "frozen_rebuild": "8fa166d957f6539e9c18d20b237effc03ffc906fdd674259623ee10aa44a9ba3",
+  "wp2_copy_rebuild": "8fa166d957f6539e9c18d20b237effc03ffc906fdd674259623ee10aa44a9ba3",
+  "registered_file": "8fa166d957f6539e9c18d20b237effc03ffc906fdd674259623ee10aa44a9ba3",
+  "match": true
+ },
+ "household_power": {
+  "registered": "0bae5e456d4b4f65972d8c4844b227a9f5fd843c241c5fa5ade36649f9f3e490",
+  "frozen_rebuild": "0bae5e456d4b4f65972d8c4844b227a9f5fd843c241c5fa5ade36649f9f3e490",
+  "wp2_copy_rebuild": "0bae5e456d4b4f65972d8c4844b227a9f5fd843c241c5fa5ade36649f9f3e490",
+  "registered_file": "0bae5e456d4b4f65972d8c4844b227a9f5fd843c241c5fa5ade36649f9f3e490",
+  "match": true
+ }
+}

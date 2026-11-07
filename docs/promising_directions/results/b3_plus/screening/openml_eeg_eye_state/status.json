@@ -1,0 +1,69 @@
+{
+  "dataset_id": "openml_eeg_eye_state",
+  "status": "USELESS_NO_IMPROVEMENT",
+  "reason": "condition 1 failed: P7s - P3b = +3.115, 95% CI [-0.380, +6.876] does not lie entirely below 0",
+  "timestamps": {
+    "registered_at_utc": "2026-11-02T23:38:00.074082+00:00",
+    "downloaded_at_utc": "2026-11-02T23:38:21.048846+00:00",
+    "loaded_at_utc": "2026-11-02T23:38:21.096565+00:00",
+    "validated_at_utc": "2026-11-02T23:38:21.127150+00:00",
+    "pair_selected_at_utc": "2026-11-02T23:38:21.390638+00:00",
+    "locked_window_read_at_utc": "2026-11-02T23:38:21.391198+00:00",
+    "evaluated_at_utc": "2026-11-02T23:38:23.912174+00:00"
+  },
+  "screening": {
+    "stage": "evaluated",
+    "mean_cost": {
+      "P0": 468.5,
+      "P1": 1208.0,
+      "P2": 478.28599999999994,
+      "P3b": 536.5004999999999,
+      "P6": 758.1395,
+      "P7s": 539.6152500000001
+    },
+    "paired": {
+      "P7s_minus_P3b": {
+        "mean": 3.1147500000001003,
+        "lo": -0.37950625000000554,
+        "hi": 6.875543749999997,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.5
+      },
+      "P7s_minus_P0": {
+        "mean": 71.11525000000003,
+        "lo": 57.45973125000002,
+        "hi": 84.74304375,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.0
+      },
+      "P7s_minus_P6": {
+        "mean": -218.5242499999999,
+        "lo": -233.16343125,
+        "hi": -203.52381250000002,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.5
+      },
+      "P7s_minus_P2": {
+        "mean": 61.32925000000009,
+        "lo": 47.59801875000001,
+        "hi": 74.73739375,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.5
+      },
+      "P3b_minus_P0": {
+        "mean": 68.00049999999993,
+        "lo": 54.77871875,
+        "hi": 80.96940624999996,
+        "bootstrap_level": "seed",
+        "low_power": true,
+        "frac_episodes_a_below_b": 0.0
+      }
+    },
+    "episodes": 2,
+    "low_power": true
+  }
+}

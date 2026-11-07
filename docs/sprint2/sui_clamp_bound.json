@@ -1,0 +1,34 @@
+{
+  "scope": "Sprint 2 saved runs with T=2000; MarkovSUI and subclasses using its factor definitions",
+  "manifest_count": 243,
+  "manifests_with_horizon": 214,
+  "horizons": [
+    2000
+  ],
+  "event_gap_scope": "integer gaps >= 1; one-step minima occur at gap 1 by factor monotonicity",
+  "null_min_log_factor_by_case_at_gap_1": {
+    "prev=None,hit=0": -0.6921476802268619,
+    "prev=None,hit=1": -2.9957322735539913,
+    "prev=0,hit=0": -0.6918129438844212,
+    "prev=0,hit=1": -12.206122645113494,
+    "prev=1,hit=0": -9.902538051786365,
+    "prev=1,hit=1": -2.9893787103212297
+  },
+  "alternative_min_log_factor_by_case_at_gap_1": {
+    "prev=None,hit=0": -2.995732273553999,
+    "prev=None,hit=1": -0.5978370007556204,
+    "prev=0,hit=0": -2.995732273553999,
+    "prev=0,hit=1": -4.509860006183765,
+    "prev=1,hit=0": -6.907755278982136,
+    "prev=1,hit=1": -0.5978370007556204
+  },
+  "null_per_step_lower_bound": -12.206122645113494,
+  "alternative_per_step_lower_bound": -6.907755278982136,
+  "null_log_cumulative_lower_bound_at_T": -24412.245290226987,
+  "alternative_log_cumulative_lower_bound_at_T": -13815.510557964271,
+  "log_floor": -1000000000.0,
+  "null_floor_can_bind": false,
+  "alternative_floor_can_bind": false,
+  "method": "For each factor case, the worst gap is gap=1 (or the limiting independent-event probability); multiply the minimum factor log by T. Factors are positive on the implemented grids. Since each resulting lower bound exceeds LOG0, no per-cell cumulative value reaches the floor.",
+  "limitation": "This verifies the arithmetic bound from code and saved manifests; it does not instrument each historical run or establish the statistical validity assumptions."
+}

@@ -1,0 +1,1 @@
+{"role":"experiment-audit","verdict":"PASS WITH ISSUES","review_completed":true,"recomputed_from_raw":true,"scratch":"scratchpad/audit/{recompute.py,mc.py,lrmd_null.py,fl.py}","findings":{"critical":0,"major":3,"minor":7}}

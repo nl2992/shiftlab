@@ -1,0 +1,74 @@
+[
+ {
+  "id": "C1a",
+  "value": "-44.2 [-46.9,-41.4]",
+  "source": "docs/sota_sprint/validation/transfer_results.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C1b",
+  "value": "-47.3 [-49.8,-44.8]",
+  "source": "docs/sota_sprint/validation/transfer_results.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C1c",
+  "value": "-13.3 [-16.0,-10.6]",
+  "source": "docs/sota_sprint/validation/transfer_results.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C1d",
+  "value": "V_late_600: -24.9 [-30.4,-19.5] vs xu_acquisition_only",
+  "source": "docs/sota_sprint/validation/rmm_certified_hosts.txt",
+  "precheck": "verified"
+ },
+ {
+  "id": "C1e",
+  "value": "W_late_1000: -15.2 [-19.8,-10.6] vs xu_acquisition_only",
+  "source": "docs/sota_sprint/validation/rmm_certified_hosts.txt",
+  "precheck": "verified"
+ },
+ {
+  "id": "C1f",
+  "value": "(3/5 hosts with CI<0 and iid-null safety)",
+  "source": "docs/sota_sprint/validation/transfer_results.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C2a",
+  "value": "**0.239** (ub 0.266",
+  "source": "docs/sota_sprint/validation/validation_results.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C2b",
+  "value": "0.001 (ub 0.006; harm +5.25)",
+  "source": "docs/sota_sprint/validation/validation_results.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C2c",
+  "value": "+257.3 [+150.8,+363.9]",
+  "source": "docs/sota_sprint/validation/real_results.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C2d",
+  "value": "part 3 NI (+5): 1/5 iid",
+  "source": "docs/sota_sprint/validation/validation_results.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C3a",
+  "value": "24/24",
+  "source": "docs/sota_sprint/REPORT.md",
+  "precheck": "verified"
+ },
+ {
+  "id": "C3b",
+  "value": "-33.2 (13/14)",
+  "source": "docs/sota_sprint/validation/transfer_results.md",
+  "precheck": "verified"
+ }
+]

@@ -1,0 +1,4076 @@
+{
+  "registered_utc": "2026-10-30T17:30:09.970469+00:00",
+  "stage": "development composition screen, NOT novelty or confirmation",
+  "configurations": [
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uniform",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "disagreement",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "free",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 1
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "remaining",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.9,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 0.98,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "kelly",
+      "cap": 0.75,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.5,
+      "epochs": 10
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 2
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 4
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 5
+    },
+    {
+      "allocation": "uncertainty",
+      "pace": "quota",
+      "gamma": 1.0,
+      "bet": "ftl",
+      "cap": 0.75,
+      "epochs": 10
+    }
+  ],
+  "effective_count": 504,
+  "excluded_aliases": "36 one-epoch quota settings equal remaining-budget pacing",
+  "cases": [
+    "harmful",
+    "tie",
+    "harmful_after_shift",
+    "useful_initial",
+    "useful",
+    "late",
+    "small",
+    "reversal"
+  ],
+  "paths": 64,
+  "horizon": 2000,
+  "world_seed": 202662000,
+  "query_seed": 202663000,
+  "contract": "budget400 frac.2 delay5 margin.01 alpha.05 query.001 switch1; same economic eligibility; one promotion",
+  "epochs": "deterministic equal-length tests; alpha/J each; discard pending labels from prior epoch evidence, charge all requests; gamma affects only bet learning",
+  "primary": "all-case macro excess cost, with null promotion-rate diagnostics; rank only development, independently confirm any finalist",
+  "practical_gate": "10 percent lower persistent cost than strongest eligible tuned comparator; no safety degradation; not inferred from64 paths",
+  "references": [
+    "Kelly",
+    "tuned_FTL",
+    "CUSUM_.05",
+    "CUSUM_.1"
+  ],
+  "cusum_thresholds": [
+    6.820000000000014,
+    4.479999999999999
+  ],
+  "sources_sha256": {
+    "src/shiftlab/sota_search/paced_epochs.py": "165c8b32933a687fd657cd899a22155e98e4e1b2aec8f17c130fd0092f935e4e",
+    "src/shiftlab/sota_search/paired_control.py": "f629e0b6db64ec094ef47cf238ed2d894f48cdadd237629ecfb1d508afd9fd61",
+    "src/shiftlab/sota_search/paired_cusum.py": "0c829641bacf4652618b84f57c32d764c3ed4664f5f80490de86ef93e72373a2",
+    "src/shiftlab/sota_search/paired_references.py": "0dc89e24398e2761f4f56dd143b03ff587d9fbf2cedd4355f44fa0db626004b8",
+    "src/shiftlab/sota_search/combination_screen.py": "ff995be8d0c74dda2d8f8729b3bb07a1758c9c2cec03f05c4001a37cc023dcac",
+    "scripts/exhaustive_evaluation/run_paced_epochs.py": "f2a733d6e62741e67839c78407836dc222aa2012964ba4f0187151884c965eb8"
+  }
+}

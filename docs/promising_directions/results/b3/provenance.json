@@ -1,0 +1,162 @@
+{
+  "protocol_sha256": "b17b5a318e65be5ed7729357fb1f0692c0764b6444a4f686797756fb420cba3a",
+  "protocol_sha256_verified": true,
+  "repo_head": "19f1090550525e2235ae39f00b581b5a738f94cc",
+  "b1_policy_code": {
+    "commit": "041bc26",
+    "source": "worktree file (git diff --quiet 041bc26 is clean)",
+    "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shiftlab-promising-directions-2026-10-30\\scripts\\promising_directions\\b1_certified_switching.py",
+    "sha256": "6458719875678e1a52e687e89c9d4335c2e5071187a72780a3976dd86227a788"
+  },
+  "b1_worktree_identical_to_041bc26": true,
+  "b3_script_sha256": "d2b7e83e28e656bf9c11f6a37a5b720ef96778b51b42dcb259982560d059f271",
+  "params": {
+    "T": 2000,
+    "delay": 5,
+    "cq": 0.05,
+    "alpha": 0.05,
+    "pmin": 0.05,
+    "tau": 600,
+    "hazard_mean": 150.0,
+    "eps": 0.05,
+    "base_err": 0.1,
+    "gamma": 0.99,
+    "n0": 10.0,
+    "s2_prior": 1.0,
+    "kelly_cap": 3.0,
+    "prior_rate": 0.25,
+    "prior_w": 20.0,
+    "lb_step": 0.01,
+    "lb_M": 31,
+    "lb_offset": 150,
+    "lb_K": 10,
+    "seeds": 100,
+    "seed_base": 20261101
+  },
+  "settings": {
+    "B200_cs5": {
+      "budget": 200,
+      "cs": 5.0
+    },
+    "B200_cs20": {
+      "budget": 200,
+      "cs": 20.0
+    },
+    "B400_cs5": {
+      "budget": 400,
+      "cs": 5.0
+    }
+  },
+  "streams": {
+    "airlines": {
+      "n": 539383,
+      "delay": 100,
+      "status": "unexposed"
+    },
+    "weather": {
+      "n": 18159,
+      "delay": 1,
+      "status": "unexposed"
+    },
+    "spam": {
+      "n": 9324,
+      "delay": 50,
+      "status": "unexposed"
+    },
+    "bank": {
+      "n": 41188,
+      "delay": 100,
+      "status": "unexposed"
+    },
+    "rialto": {
+      "n": 82250,
+      "delay": 100,
+      "status": "unexposed"
+    },
+    "elec2": {
+      "n": 45312,
+      "delay": 48,
+      "status": "partly exposed",
+      "locked_start": 36250
+    },
+    "criteo": {
+      "n": 16468027,
+      "delay": 100,
+      "status": "partly exposed (label-maturity counts)"
+    }
+  },
+  "libraries": {
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "numpy": "2.4.2",
+    "pandas": "3.0.1",
+    "scipy": "1.17.1",
+    "sklearn": "1.6.1"
+  },
+  "data_files": {
+    "elec2": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\elec2\\electricity-normalized.arff",
+      "bytes": 3092013,
+      "sha256": "2d86fbc74c69a5c04bcde0119bce280dd6d8efa0115987edc75b77ccf024d7f2",
+      "receipt_sha256": null,
+      "receipt_match": null
+    },
+    "criteo": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\criteo_attribution\\criteo_attribution_dataset.tsv.gz",
+      "bytes": 653015824,
+      "sha256": "94ac7a465564349bc7ba008602211d5990a3c53cc133abc0aadef61ea2391a98",
+      "receipt_sha256": "94ac7a465564349bc7ba008602211d5990a3c53cc133abc0aadef61ea2391a98",
+      "receipt_match": true
+    },
+    "airlines": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\openml_airlines_1169\\dataset_1169.pq",
+      "bytes": 3128080,
+      "sha256": "9969df72e4384ce06ca9f06cb9df1a2a58c02d6575fd66c8651787eb3831360c",
+      "receipt_sha256": "9969df72e4384ce06ca9f06cb9df1a2a58c02d6575fd66c8651787eb3831360c",
+      "receipt_match": true
+    },
+    "weather_data": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\weather_elwell_polikar\\NEweather_data.csv",
+      "bytes": 664639,
+      "sha256": "e38ef95890ec0df3daee0493e92e59c38ae1c27cd01c4805367f189d52dfeed9",
+      "receipt_sha256": "e38ef95890ec0df3daee0493e92e59c38ae1c27cd01c4805367f189d52dfeed9",
+      "receipt_match": true
+    },
+    "weather_class": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\weather_elwell_polikar\\NEweather_class.csv",
+      "bytes": 36318,
+      "sha256": "90f39b754a9c95fc34047beb41752ebeb6fa1cde4e2d03fad3d3c5a46aee360f",
+      "receipt_sha256": "90f39b754a9c95fc34047beb41752ebeb6fa1cde4e2d03fad3d3c5a46aee360f",
+      "receipt_match": true
+    },
+    "spam": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\spam_katakis\\spam.zip",
+      "bytes": 4076932,
+      "sha256": "0c3eb317fcca5495d5768bb9fb57603965b42c36da514bae9d98087c144baf26",
+      "receipt_sha256": "0c3eb317fcca5495d5768bb9fb57603965b42c36da514bae9d98087c144baf26",
+      "receipt_match": true
+    },
+    "bank": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\uci_bank_marketing\\bank-marketing.zip",
+      "bytes": 1023843,
+      "sha256": "e0bf5f5de5b846e2f18e9d90606637267d46dfa260e0f17bb12e605db5efbeb4",
+      "receipt_sha256": "e0bf5f5de5b846e2f18e9d90606637267d46dfa260e0f17bb12e605db5efbeb4",
+      "receipt_match": true
+    },
+    "rialto_data": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\rialto\\rialto.data",
+      "bytes": 10239344,
+      "sha256": "1ff9e55a52e9412adaed3773ab51ceedfa808901b6a15751d77c9ae326637ad5",
+      "receipt_sha256": "1ff9e55a52e9412adaed3773ab51ceedfa808901b6a15751d77c9ae326637ad5",
+      "receipt_match": true
+    },
+    "rialto_labels": {
+      "path": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\data\\raw\\rialto\\rialto.labels",
+      "bytes": 164500,
+      "sha256": "42c7fc42363c11f9da91caf9c115b82286228c59b74b19a8977af5d2034bca97",
+      "receipt_sha256": "42c7fc42363c11f9da91caf9c115b82286228c59b74b19a8977af5d2034bca97",
+      "receipt_match": true
+    }
+  },
+  "pid": 34188,
+  "started_utc": "2026-11-01T06:39:28.560938+00:00"
+}

@@ -1,0 +1,36 @@
+{
+  "audit": "PASS",
+  "source": "outputs/sprint2/round5/P6_LRMD_U_null1000/records.jsonl",
+  "report": "docs/sprint2/LEADERBOARD.md",
+  "regime_order": [
+    "F0_null",
+    "F5_dep_null_r8",
+    "F5_dep_null_r95",
+    "O_null_order2",
+    "O_null_semimarkov",
+    "P_hmm_null"
+  ],
+  "promotion_counts": {
+    "A5b": [
+      1,
+      2,
+      3,
+      16,
+      60,
+      176
+    ],
+    "P6_LRMD_U": [
+      10,
+      2,
+      6,
+      13,
+      79,
+      139
+    ]
+  },
+  "rows_per_policy_regime": 1000,
+  "differences": [],
+  "limitations": [
+    "Counts are descriptive for the saved six-regime run; they do not establish validity."
+  ]
+}

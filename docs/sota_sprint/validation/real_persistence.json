@@ -1,0 +1,72 @@
+{
+ "appliances": {
+  "median_rho_hat_all_disagreements": 0.7000000000000001,
+  "mean_p_challenger_right": 0.6731168876558109,
+  "K": 6
+ },
+ "beijing_pm25": {
+  "median_rho_hat_all_disagreements": 0.8,
+  "mean_p_challenger_right": 0.655373341089769,
+  "K": 14
+ },
+ "bike_hour": {
+  "median_rho_hat_all_disagreements": 0.55,
+  "mean_p_challenger_right": 0.8088275353044626,
+  "K": 6
+ },
+ "household_power": {
+  "median_rho_hat_all_disagreements": 0.8,
+  "mean_p_challenger_right": 0.6478700177506347,
+  "K": 20
+ },
+ "metro": {
+  "median_rho_hat_all_disagreements": 0.4,
+  "mean_p_challenger_right": 0.9359522632820677,
+  "K": 16
+ },
+ "airlines": {
+  "median_rho_hat_all_disagreements": 0.1,
+  "mean_p_challenger_right": 0.4315811050615414,
+  "K": 50
+ },
+ "bank": {
+  "median_rho_hat_all_disagreements": 0.1,
+  "mean_p_challenger_right": 0.24575466101203144,
+  "K": 7
+ },
+ "criteo": {
+  "median_rho_hat_all_disagreements": 0.0,
+  "mean_p_challenger_right": 0.6031794393599329,
+  "K": 50
+ },
+ "elec2": {
+  "median_rho_hat_all_disagreements": 0.6000000000000001,
+  "mean_p_challenger_right": 0.5644241589670693,
+  "K": 4
+ },
+ "openml_ldpa": {
+  "median_rho_hat_all_disagreements": 0.75,
+  "mean_p_challenger_right": 0.8027658475531527,
+  "K": 32
+ },
+ "rialto": {
+  "median_rho_hat_all_disagreements": 0.7000000000000001,
+  "mean_p_challenger_right": 0.9434950597187026,
+  "K": 16
+ },
+ "spam": {
+  "median_rho_hat_all_disagreements": 0.8,
+  "mean_p_challenger_right": 0.968705547652916,
+  "K": 1
+ },
+ "uci_occupancy": {
+  "median_rho_hat_all_disagreements": 0.98,
+  "mean_p_challenger_right": 0.8199135975534065,
+  "K": 3
+ },
+ "weather": {
+  "median_rho_hat_all_disagreements": 0.1,
+  "mean_p_challenger_right": 0.6764140454970861,
+  "K": 3
+ }
+}

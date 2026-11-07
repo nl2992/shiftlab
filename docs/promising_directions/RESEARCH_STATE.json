@@ -1,0 +1,96 @@
+{
+  "branch": "research/shiftlab-promising-directions-2026-10-30",
+  "budget": {
+    "max_consecutive_infra_failures": 2,
+    "max_consecutive_no_insight": 3,
+    "max_cycles_per_session": 20,
+    "max_workers": 2,
+    "per_cycle_timeout_s": 600
+  },
+  "consecutive_infra_failures": 0,
+  "consecutive_no_insight": 0,
+  "cycle_counter": 1,
+  "lanes": {
+    "A": {
+      "name": "lane-A",
+      "status": "planned"
+    },
+    "B": {
+      "name": "lane-B",
+      "status": "planned"
+    },
+    "C": {
+      "name": "lane-C",
+      "status": "active"
+    },
+    "D": {
+      "name": "lane-D",
+      "status": "planned"
+    },
+    "E": {
+      "name": "lane-E",
+      "status": "planned"
+    },
+    "F": {
+      "name": "lane-F",
+      "status": "planned"
+    },
+    "G": {
+      "name": "lane-G",
+      "status": "planned"
+    }
+  },
+  "last_verified_checkpoint": "cycle-0001-C0-smoke",
+  "next_task": null,
+  "source_commit": "9cb4a1d6053e809665fc7e43040fcaafa14d75e2",
+  "stop_reason": "queue_empty",
+  "tasks": {
+    "C0-smoke": {
+      "artifacts": {
+        "outputs/promising_directions/C0-smoke/result.json": "6bc0da1f42f96fc37b8bd7ed20ba57606d2a0da5cda2b135c7854fbdc985b8a3",
+        "outputs/promising_directions/cycles/cycle-0001-C0-smoke/insight.json": "1554ed68f280b554c9361fa080059a4edc0f3428a6a0f35a9df328ae0acc93e2",
+        "outputs/promising_directions/cycles/cycle-0001-C0-smoke/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "command": [
+        "python",
+        "-c",
+        "import json,os;os.makedirs('outputs/promising_directions/C0-smoke',exist_ok=True);json.dump({'ok':True},open('outputs/promising_directions/C0-smoke/result.json','w'));json.dump({'new_insight':True,'summary':'smoke ok'},open(os.environ['LOOP_INSIGHT_PATH'],'w'))"
+      ],
+      "cycles": [
+        {
+          "branch": "research/shiftlab-promising-directions-2026-10-30",
+          "command": [
+            "python",
+            "-c",
+            "import json,os;os.makedirs('outputs/promising_directions/C0-smoke',exist_ok=True);json.dump({'ok':True},open('outputs/promising_directions/C0-smoke/result.json','w'));json.dump({'new_insight':True,'summary':'smoke ok'},open(os.environ['LOOP_INSIGHT_PATH'],'w'))"
+          ],
+          "cycle_id": "cycle-0001-C0-smoke",
+          "dirty": true,
+          "error": null,
+          "finished_at": "2026-10-30T17:52:43+00:00",
+          "head": "9cb4a1d6053e809665fc7e43040fcaafa14d75e2",
+          "insight": {
+            "new_insight": true,
+            "summary": "smoke ok"
+          },
+          "last_verified_checkpoint": null,
+          "outcome": "completed",
+          "protocol_sha256": "1f506609fdaaf5341bdb9670633ec1bd732304089a522e30c68e4053acd07e71",
+          "started_at": "2026-10-30T17:52:43+00:00"
+        }
+      ],
+      "error": null,
+      "expected_outputs": [
+        "outputs/promising_directions/C0-smoke/result.json"
+      ],
+      "hypothesis": "The loop can run one cycle, verify outputs and record state (plumbing only).",
+      "id": "C0-smoke",
+      "lane": "C",
+      "protocol_path": "docs/promising_directions/protocols/C0-smoke.md",
+      "protocol_sha256": "1f506609fdaaf5341bdb9670633ec1bd732304089a522e30c68e4053acd07e71",
+      "registered_at": "2026-10-30T17:52:43+00:00",
+      "status": "completed"
+    }
+  },
+  "updated_at": "2026-10-30T17:52:44+00:00"
+}

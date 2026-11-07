@@ -85,6 +85,8 @@ src/shiftlab/dive/analyze_direct_ipw_query_grid.py
 src/shiftlab/dive/analyze_residual_variance_start_prior.py
 src/shiftlab/dive/analyze_risk_proxy_stress_grid.py
 src/shiftlab/dive/anytime_policy_identification.py
+src/shiftlab/dive/atlas_components.py
+src/shiftlab/dive/atlas_r6_baselines.py
 src/shiftlab/dive/budgeted_promotion.py
 src/shiftlab/dive/budgeted_promotion_context_calibration.py
 src/shiftlab/dive/budgeted_promotion_context_confirmation.py
@@ -151,6 +153,7 @@ src/shiftlab/dive/eprocess.py
 src/shiftlab/dive/estimators.py
 src/shiftlab/dive/evaluation.py
 src/shiftlab/dive/experiment.py
+src/shiftlab/dive/failure_atlas.py
 src/shiftlab/dive/feature_intervention.py
 src/shiftlab/dive/feature_intervention_calibration.py
 src/shiftlab/dive/feature_intervention_confirmation.py
@@ -210,6 +213,7 @@ src/shiftlab/dive/stratified_growth_prescreen.py
 src/shiftlab/dive/stratified_harm_allocation.py
 src/shiftlab/dive/stratified_harm_design.py
 src/shiftlab/dive/stratified_harm_eprocess.py
+src/shiftlab/dive/switching_explore.py
 src/shiftlab/dive/switching_fsc_risk.py
 src/shiftlab/dive/upf_retraining.py
 src/shiftlab/dive/upworthy_policy_selection.py
@@ -224,6 +228,16 @@ src/shiftlab/dive/rpoq_next/crsp_r1.py
 src/shiftlab/dive/rpoq_next/growth_alloc.py
 src/shiftlab/dive/rpoq_next/screen_a.py
 src/shiftlab/dive/rpoq_next/screen_a2.py
+src/shiftlab/hgxh2c/__init__.py
+src/shiftlab/hgxh2c/baselines.py
+src/shiftlab/hgxh2c/contract.py
+src/shiftlab/hgxh2c/engines.py
+src/shiftlab/hgxh2c/evaluate.py
+src/shiftlab/hgxh2c/freeze.py
+src/shiftlab/hgxh2c/grammar.py
+src/shiftlab/hgxh2c/search.py
+src/shiftlab/hgxh2c/stats.py
+src/shiftlab/hgxh2c/tapes.py
 src/shiftlab/real_tasks/__init__.py
 src/shiftlab/real_tasks/binance_momentum.py
 src/shiftlab/real_tasks/binance_split_clock.py
@@ -241,8 +255,10 @@ src/shiftlab/sota_search/g6.py
 src/shiftlab/sota_search/generators.py
 src/shiftlab/sota_search/harness.py
 src/shiftlab/sota_search/learned_paired_rcps.py
+src/shiftlab/sota_search/paced_epochs.py
 src/shiftlab/sota_search/paired_control.py
 src/shiftlab/sota_search/paired_cusum.py
+src/shiftlab/sota_search/paired_edetectors.py
 src/shiftlab/sota_search/paired_references.py
 src/shiftlab/sota_search/published_baselines.py
 src/shiftlab/sota_search/restart.py
@@ -251,6 +267,10 @@ tests/test_adg_growth_prescreen.py
 tests/test_analyze_risk_proxy_stress_grid.py
 tests/test_anyrank_shiftguard_cost.py
 tests/test_anytime_policy_identification.py
+tests/test_atlas_components.py
+tests/test_atlas_cycle4_map.py
+tests/test_atlas_mechanism_check.py
+tests/test_atlas_r6_baselines.py
 tests/test_benchmark.py
 tests/test_binance_split_clock.py
 tests/test_budget_frontier.py
@@ -273,8 +293,10 @@ tests/test_contextual_weighted_alpha_validation.py
 tests/test_contract.py
 tests/test_contract_sandbox.py
 tests/test_contract_v2.py
+tests/test_controller_abandonment.py
 tests/test_controller_risk_lp.py
 tests/test_controller_risk_verifier.py
+tests/test_controller_synthesis_pilot.py
 tests/test_criteo_maturity_audit.py
 tests/test_criteo_privateads_cost_baseline.py
 tests/test_criteo_uplift_stream_audit.py
@@ -349,6 +371,7 @@ tests/test_eia_injected_harm.py
 tests/test_eia_paired_reserve.py
 tests/test_eia_real_data_validity.py
 tests/test_eia_retraining_frontier.py
+tests/test_failure_atlas.py
 tests/test_feature_intervention.py
 tests/test_first_promotion_decomposition.py
 tests/test_fixed_dollar_horizon_analysis.py
@@ -362,6 +385,9 @@ tests/test_hard_budget_delayed_online_picker.py
 tests/test_harm_confirmation_analysis.py
 tests/test_harm_power_grid.py
 tests/test_harm_power_grid_analysis.py
+tests/test_hgxh2c_engine.py
+tests/test_hgxh2c_search.py
+tests/test_hgxh2c_stats.py
 tests/test_hillstrom_policy_development.py
 tests/test_history_predictable_bound_confirmation.py
 tests/test_history_predictable_query_bounds.py
@@ -390,8 +416,10 @@ tests/test_null_calibration_results.py
 tests/test_open_bandit_mope.py
 tests/test_opsd_split_clock.py
 tests/test_orientation_replay.py
+tests/test_paced_epochs.py
 tests/test_paired_control.py
 tests/test_paired_cusum.py
+tests/test_paired_edetectors.py
 tests/test_policy_bound_harm_confirmation.py
 tests/test_policy_bound_null_calibration.py
 tests/test_pprm_block_mixture_confirmation.py
@@ -432,6 +460,7 @@ tests/test_stratified_growth_prescreen.py
 tests/test_stratified_harm_allocation.py
 tests/test_stratified_harm_design.py
 tests/test_stratified_prescreen_gate.py
+tests/test_switching_explore.py
 tests/test_switching_fsc_risk.py
 tests/test_switching_onset_mixture.py
 tests/test_target_scout_fixed_split_calibration.py

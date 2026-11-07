@@ -1,0 +1,199 @@
+"""Dev-only admissibility audit of fetched streams. Labels/losses are only ever touched for rows < 60% (train+dev).
+Locked window = rows [int(.6n), n): only its row count is reported. Run: python -I fetch_audit.py bank weather ..."""
+
+import io
+import json
+import zipfile
+import sys
+import numpy as np
+import pandas as pd
+from scipy import sparse
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+RAW = "C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/data/raw"
+OUT = "C:/Users/nigel/OneDrive/桌面/ICML/shiftlab-promising-directions-2026-10-30/docs/promising_directions/results/realdata_audit/fetched"
+Q = 0.05
+
+
+def load(name):
+    """Returns X, y (already truncated to rows < 60%), n (full length), time-index note."""
+    if name == "bank":
+        z = zipfile.ZipFile(f"{RAW}/uci_bank_marketing/bank-marketing.zip")
+        z2 = zipfile.ZipFile(io.BytesIO(z.read("bank-additional.zip")))
+        d = pd.read_csv(io.BytesIO(z2.read("bank-additional/bank-additional-full.csv")), sep=";")
+        n = len(d)
+        n60 = int(0.6 * n)
+        y = (d["y"] == "yes").to_numpy().astype(int)[:n60]
+        return (
+            d.drop(columns=["y", "duration"]),
+            y,
+            n,
+            "file order (chronological May 2008-Nov 2010; no date column)",
+        )
+    if name == "airlines":
+        d = pd.read_parquet(f"{RAW}/openml_airlines_1169/dataset_1169.pq")
+        n = len(d)
+        n60 = int(0.6 * n)
+        y = (d["Delay"].astype(str) == "1").to_numpy().astype(int)[:n60]
+        X = d.drop(columns=["Delay"]).copy()
+        for c in ["Airline", "AirportFrom", "AirportTo", "DayOfWeek"]:
+            X[c] = X[c].astype(str)
+        return X, y, n, "file order (OpenML 1169); no date column"
+    if name == "weather":
+        X = pd.read_csv(f"{RAW}/weather_elwell_polikar/NEweather_data.csv", header=None)
+        yy = pd.read_csv(f"{RAW}/weather_elwell_polikar/NEweather_class.csv", header=None)[
+            0
+        ].to_numpy()
+        n = len(X)
+        return X, yy[: int(0.6 * n)].astype(int), n, "day order 1949-1999"
+    if name == "rialto":
+        X = pd.read_csv(f"{RAW}/rialto/rialto.data", sep=" ", header=None)
+        yy = np.loadtxt(f"{RAW}/rialto/rialto.labels", dtype=int)
+        n = len(X)
+        return X, yy[: int(0.6 * n)], n, "image capture order"
+    if name == "outdoor":
+        X = pd.read_csv(f"{RAW}/outdoor_objects/outdoorStream.data", sep=" ", header=None)
+        yy = np.loadtxt(f"{RAW}/outdoor_objects/outdoorStream.labels", dtype=int)
+        n = len(X)
+        return X, yy[: int(0.6 * n)], n, "approach order"
+    if name == "spam":
+        z = zipfile.ZipFile(f"{RAW}/spam_katakis/spam.zip")
+        yy = np.loadtxt(io.BytesIO(z.read("spam/spam.labels")), dtype=int)
+        n = len(yy)
+        n60 = int(0.6 * n)
+        rows = []
+        with z.open("spam/spam.data") as f:
+            for i, line in enumerate(f):
+                if i >= n60:
+                    break  # locked rows never parsed
+                rows.append(sparse.csr_matrix(np.array(line.split(), dtype=np.float32)))
+        return sparse.vstack(rows).tocsr(), yy[:n60], n, "email arrival order"
+
+
+def prep(Xtr):
+    """Train-only preprocessing (fit on rows < 30%)."""
+    if sparse.issparse(Xtr):
+        return lambda A: A
+    num = Xtr.select_dtypes("number").columns.tolist()
+    cat = [c for c in Xtr.columns if c not in num]
+    sc = StandardScaler().fit(Xtr[num]) if num else None
+    oh = (
+        OneHotEncoder(handle_unknown="ignore", min_frequency=20, sparse_output=False).fit(Xtr[cat])
+        if cat
+        else None
+    )
+
+    def f(A):
+        parts = []
+        if sc is not None:
+            parts.append(sc.transform(A[num]))
+        if oh is not None:
+            parts.append(oh.transform(A[cat]))
+        return np.hstack(parts)
+
+    return f
+
+
+def mk(kind):
+    if kind == "LR":
+        return LogisticRegression(max_iter=300, C=1.0)
+    return HistGradientBoostingClassifier(
+        max_iter=100, max_depth=4, learning_rate=0.1, random_state=0
+    )
+
+
+def clairvoyant(l0, l1, cs):
+    """Min over paths (start on incumbent) of sum loss + cs*#switches, full hindsight. Returns (cost, #switches)."""
+    INF = 1e18
+    c = [0.0, INF]
+    s = [0, 0]
+    for t in range(len(l0)):
+        b0 = min((c[0], s[0]), (c[1] + cs, s[1] + 1))
+        b1 = min((c[1], s[1]), (c[0] + cs, s[0] + 1))
+        c = [b0[0] + l0[t], b1[0] + l1[t]]
+        s = [b0[1], b1[1]]
+    k = 0 if c[0] <= c[1] else 1
+    return c[k], s[k]
+
+
+def run(name):
+    X, y, n, tinfo = load(name)
+    n15, n30, n60 = int(0.15 * n), int(0.3 * n), int(0.6 * n)
+    classes = np.unique(y)
+    if len(classes) > 2:  # rule fixed before outcomes: majority class of the TRAIN block vs rest
+        vals, cnt = np.unique(y[:n30], return_counts=True)
+        maj = int(vals[np.argmax(cnt)])
+        y = (y == maj).astype(int)
+        rule = f"class {maj} (train-block majority) vs rest"
+    else:
+        y = (y == classes.max()).astype(int)
+        rule = "native binary"
+    sl = (lambda a, b: X[a:b]) if sparse.issparse(X) else (lambda a, b: X.iloc[a:b])
+    f = prep(sl(0, n30))
+    T = lambda a, b: f(sl(a, b))
+    Xd = T(n30, n60)
+    yd = y[n30:n60]
+    pairs = {
+        "LR15|LR15-30": (("LR", 0, n15), ("LR", n15, n30)),
+        "LR15|HGB15-30": (("LR", 0, n15), ("HGB", n15, n30)),
+        "LR0-30|HGB0-30": (("LR", 0, n30), ("HGB", 0, n30)),
+        "LR15|HGB0-30": (("LR", 0, n15), ("HGB", 0, n30)),
+        "HGB15|HGB15-30": (("HGB", 0, n15), ("HGB", n15, n30)),
+    }
+    if sparse.issparse(X):
+        pairs = {k: v for k, v in pairs.items() if "HGB" not in k}
+    cache = {}
+
+    def pred(spec):
+        if spec not in cache:
+            kind, a, b = spec
+            if len(np.unique(y[a:b])) < 2:
+                cache[spec] = np.full(len(yd), int(y[a:b][0]))
+            else:
+                cache[spec] = mk(kind).fit(T(a, b), y[a:b]).predict(Xd)
+        return cache[spec]
+
+    res = {}
+    for k, (si, sc_) in pairs.items():
+        pi, pc = pred(si), pred(sc_)
+        li, lc = (pi != yd).astype(float), (pc != yd).astype(float)
+        adv = li - lc
+        r = dict(
+            inc_err=float(li.mean()),
+            chal_err=float(lc.mean()),
+            disagree=float((pi != pc).mean()),
+            mean_adv=float(adv.mean()),
+            adv_profile=[round(float(c.mean()), 4) for c in np.array_split(adv, 10)],
+        )
+        for cs in (5, 20):
+            cost, ns = clairvoyant(li, lc, cs)
+            h = float((li.sum() - cost) / len(li))
+            r[f"headroom_cs{cs}"] = h
+            r[f"switches_cs{cs}"] = int(ns)
+            r[f"breakeven_label_frac_cs{cs}"] = float(min(1.0, h / Q))
+        res[k] = r
+    elig = {k: v for k, v in res.items() if v["disagree"] >= 0.05}
+    best = max(elig, key=lambda k: elig[k]["headroom_cs5"]) if elig else None
+    out = dict(
+        name=name,
+        n=n,
+        n_features=int(X.shape[1]),
+        bounds=dict(train=[0, n30], dev=[n30, n60], locked=[n60, n]),
+        time_index=tinfo,
+        binary_rule=rule,
+        dev_pos_rate=float(yd.mean()),
+        pairs=res,
+        selected_pair=best,
+        locked_note="labels/losses in [n60,n) never read",
+    )
+    json.dump(out, open(f"{OUT}/{name}_dev_audit.json", "w"), indent=1)
+    print(name, "n=", n, rule, "dev_pos=%.3f" % yd.mean(), "selected:", best)
+    for k, v in res.items():
+        print("  ", k, {a: (round(b, 4) if isinstance(b, float) else b) for a, b in v.items()})
+
+
+if __name__ == "__main__":
+    for nm in sys.argv[1:]:
+        run(nm)

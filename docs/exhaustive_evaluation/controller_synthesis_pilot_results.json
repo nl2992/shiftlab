@@ -1,0 +1,1267 @@
+{
+  "status": "completed",
+  "cells": [
+    {
+      "horizon": 12,
+      "budget": 6,
+      "delay": 2,
+      "elapsed_seconds": 0.06621200009249151,
+      "best_deterministic_cost": "1300479/156250",
+      "best_deterministic_id": 3,
+      "best_root_mixture_cost": "32375911/3906250",
+      "mixture_risk_upper": "1/20",
+      "mixture": [
+        {
+          "id": 3,
+          "weight": "24/25",
+          "controller": {
+            "start": 1,
+            "stride": 1,
+            "streak": 5,
+            "special": ""
+          }
+        },
+        {
+          "id": 2,
+          "weight": "1/25",
+          "controller": {
+            "start": 1,
+            "stride": 1,
+            "streak": 4,
+            "special": ""
+          }
+        }
+      ],
+      "summed_risk_states": 3466,
+      "summed_alternative_states": 4379
+    },
+    {
+      "horizon": 24,
+      "budget": 12,
+      "delay": 2,
+      "elapsed_seconds": 0.3938020998612046,
+      "best_deterministic_cost": "153339779/9765625",
+      "best_deterministic_id": 5,
+      "best_root_mixture_cost": "6457196039/439453125",
+      "mixture_risk_upper": "1/20",
+      "mixture": [
+        {
+          "id": 5,
+          "weight": "16/45",
+          "controller": {
+            "start": 1,
+            "stride": 1,
+            "streak": 7,
+            "special": ""
+          }
+        },
+        {
+          "id": 4,
+          "weight": "29/45",
+          "controller": {
+            "start": 1,
+            "stride": 1,
+            "streak": 6,
+            "special": ""
+          }
+        }
+      ],
+      "summed_risk_states": 11222,
+      "summed_alternative_states": 17843
+    }
+  ],
+  "records": [
+    {
+      "horizon": 12,
+      "id": 0,
+      "risk": "43/64",
+      "cost": "761119/156250",
+      "risk_states": 51,
+      "alternative_states": 113
+    },
+    {
+      "horizon": 12,
+      "id": 1,
+      "risk": "5/16",
+      "cost": "192723/31250",
+      "risk_states": 69,
+      "alternative_states": 114
+    },
+    {
+      "horizon": 12,
+      "id": 2,
+      "risk": "1/8",
+      "cost": "232883/31250",
+      "risk_states": 83,
+      "alternative_states": 113
+    },
+    {
+      "horizon": 12,
+      "id": 3,
+      "risk": "3/64",
+      "cost": "1300479/156250",
+      "risk_states": 93,
+      "alternative_states": 110
+    },
+    {
+      "horizon": 12,
+      "id": 4,
+      "risk": "1/64",
+      "cost": "1390591/156250",
+      "risk_states": 99,
+      "alternative_states": 110
+    },
+    {
+      "horizon": 12,
+      "id": 5,
+      "risk": "0",
+      "cost": "483/50",
+      "risk_states": 103,
+      "alternative_states": 110
+    },
+    {
+      "horizon": 12,
+      "id": 6,
+      "risk": "19/32",
+      "cost": "910383/156250",
+      "risk_states": 41,
+      "alternative_states": 65
+    },
+    {
+      "horizon": 12,
+      "id": 7,
+      "risk": "1/4",
+      "cost": "234419/31250",
+      "risk_states": 55,
+      "alternative_states": 73
+    },
+    {
+      "horizon": 12,
+      "id": 8,
+      "risk": "3/32",
+      "cost": "1346687/156250",
+      "risk_states": 65,
+      "alternative_states": 79
+    },
+    {
+      "horizon": 12,
+      "id": 9,
+      "risk": "1/32",
+      "cost": "1452543/156250",
+      "risk_states": 71,
+      "alternative_states": 83
+    },
+    {
+      "horizon": 12,
+      "id": 10,
+      "risk": "0",
+      "cost": "483/50",
+      "risk_states": 73,
+      "alternative_states": 85
+    },
+    {
+      "horizon": 12,
+      "id": 11,
+      "risk": "0",
+      "cost": "483/50",
+      "risk_states": 73,
+      "alternative_states": 85
+    },
+    {
+      "horizon": 12,
+      "id": 12,
+      "risk": "1/2",
+      "cost": "20761/3125",
+      "risk_states": 35,
+      "alternative_states": 49
+    },
+    {
+      "horizon": 12,
+      "id": 13,
+      "risk": "3/16",
+      "cost": "26269/3125",
+      "risk_states": 45,
+      "alternative_states": 53
+    },
+    {
+      "horizon": 12,
+      "id": 14,
+      "risk": "1/16",
+      "cost": "5897/625",
+      "risk_states": 50,
+      "alternative_states": 55
+    },
+    {
+      "horizon": 12,
+      "id": 15,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 50,
+      "alternative_states": 55
+    },
+    {
+      "horizon": 12,
+      "id": 16,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 50,
+      "alternative_states": 55
+    },
+    {
+      "horizon": 12,
+      "id": 17,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 50,
+      "alternative_states": 55
+    },
+    {
+      "horizon": 12,
+      "id": 18,
+      "risk": "43/64",
+      "cost": "943327/156250",
+      "risk_states": 49,
+      "alternative_states": 95
+    },
+    {
+      "horizon": 12,
+      "id": 19,
+      "risk": "5/16",
+      "cost": "223443/31250",
+      "risk_states": 65,
+      "alternative_states": 98
+    },
+    {
+      "horizon": 12,
+      "id": 20,
+      "risk": "1/8",
+      "cost": "254387/31250",
+      "risk_states": 77,
+      "alternative_states": 99
+    },
+    {
+      "horizon": 12,
+      "id": 21,
+      "risk": "3/64",
+      "cost": "1374207/156250",
+      "risk_states": 85,
+      "alternative_states": 98
+    },
+    {
+      "horizon": 12,
+      "id": 22,
+      "risk": "1/64",
+      "cost": "1439743/156250",
+      "risk_states": 89,
+      "alternative_states": 98
+    },
+    {
+      "horizon": 12,
+      "id": 23,
+      "risk": "0",
+      "cost": "483/50",
+      "risk_states": 91,
+      "alternative_states": 98
+    },
+    {
+      "horizon": 12,
+      "id": 24,
+      "risk": "1/2",
+      "cost": "86897/12500",
+      "risk_states": 35,
+      "alternative_states": 51
+    },
+    {
+      "horizon": 12,
+      "id": 25,
+      "risk": "3/16",
+      "cost": "521781/62500",
+      "risk_states": 45,
+      "alternative_states": 57
+    },
+    {
+      "horizon": 12,
+      "id": 26,
+      "risk": "1/16",
+      "cost": "574709/62500",
+      "risk_states": 51,
+      "alternative_states": 61
+    },
+    {
+      "horizon": 12,
+      "id": 27,
+      "risk": "0",
+      "cost": "193/20",
+      "risk_states": 53,
+      "alternative_states": 63
+    },
+    {
+      "horizon": 12,
+      "id": 28,
+      "risk": "0",
+      "cost": "193/20",
+      "risk_states": 53,
+      "alternative_states": 63
+    },
+    {
+      "horizon": 12,
+      "id": 29,
+      "risk": "0",
+      "cost": "193/20",
+      "risk_states": 53,
+      "alternative_states": 63
+    },
+    {
+      "horizon": 12,
+      "id": 30,
+      "risk": "3/8",
+      "cost": "23841/3125",
+      "risk_states": 29,
+      "alternative_states": 40
+    },
+    {
+      "horizon": 12,
+      "id": 31,
+      "risk": "1/8",
+      "cost": "28349/3125",
+      "risk_states": 35,
+      "alternative_states": 43
+    },
+    {
+      "horizon": 12,
+      "id": 32,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 36,
+      "alternative_states": 44
+    },
+    {
+      "horizon": 12,
+      "id": 33,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 36,
+      "alternative_states": 44
+    },
+    {
+      "horizon": 12,
+      "id": 34,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 36,
+      "alternative_states": 44
+    },
+    {
+      "horizon": 12,
+      "id": 35,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 36,
+      "alternative_states": 44
+    },
+    {
+      "horizon": 12,
+      "id": 36,
+      "risk": "43/64",
+      "cost": "225107/31250",
+      "risk_states": 47,
+      "alternative_states": 77
+    },
+    {
+      "horizon": 12,
+      "id": 37,
+      "risk": "5/16",
+      "cost": "254163/31250",
+      "risk_states": 61,
+      "alternative_states": 82
+    },
+    {
+      "horizon": 12,
+      "id": 38,
+      "risk": "1/8",
+      "cost": "275891/31250",
+      "risk_states": 71,
+      "alternative_states": 85
+    },
+    {
+      "horizon": 12,
+      "id": 39,
+      "risk": "3/64",
+      "cost": "289587/31250",
+      "risk_states": 77,
+      "alternative_states": 86
+    },
+    {
+      "horizon": 12,
+      "id": 40,
+      "risk": "1/64",
+      "cost": "297779/31250",
+      "risk_states": 79,
+      "alternative_states": 86
+    },
+    {
+      "horizon": 12,
+      "id": 41,
+      "risk": "0",
+      "cost": "483/50",
+      "risk_states": 79,
+      "alternative_states": 86
+    },
+    {
+      "horizon": 12,
+      "id": 42,
+      "risk": "3/8",
+      "cost": "25041/3125",
+      "risk_states": 29,
+      "alternative_states": 39
+    },
+    {
+      "horizon": 12,
+      "id": 43,
+      "risk": "1/8",
+      "cost": "28349/3125",
+      "risk_states": 35,
+      "alternative_states": 43
+    },
+    {
+      "horizon": 12,
+      "id": 44,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 37,
+      "alternative_states": 45
+    },
+    {
+      "horizon": 12,
+      "id": 45,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 37,
+      "alternative_states": 45
+    },
+    {
+      "horizon": 12,
+      "id": 46,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 37,
+      "alternative_states": 45
+    },
+    {
+      "horizon": 12,
+      "id": 47,
+      "risk": "0",
+      "cost": "241/25",
+      "risk_states": 37,
+      "alternative_states": 45
+    },
+    {
+      "horizon": 12,
+      "id": 48,
+      "risk": "1/4",
+      "cost": "21339/2500",
+      "risk_states": 25,
+      "alternative_states": 32
+    },
+    {
+      "horizon": 12,
+      "id": 49,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 28,
+      "alternative_states": 34
+    },
+    {
+      "horizon": 12,
+      "id": 50,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 28,
+      "alternative_states": 34
+    },
+    {
+      "horizon": 12,
+      "id": 51,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 28,
+      "alternative_states": 34
+    },
+    {
+      "horizon": 12,
+      "id": 52,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 28,
+      "alternative_states": 34
+    },
+    {
+      "horizon": 12,
+      "id": 53,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 28,
+      "alternative_states": 34
+    },
+    {
+      "horizon": 12,
+      "id": 54,
+      "risk": "1/2",
+      "cost": "52151/6250",
+      "risk_states": 37,
+      "alternative_states": 57
+    },
+    {
+      "horizon": 12,
+      "id": 55,
+      "risk": "3/16",
+      "cost": "282323/31250",
+      "risk_states": 45,
+      "alternative_states": 63
+    },
+    {
+      "horizon": 12,
+      "id": 56,
+      "risk": "1/16",
+      "cost": "295347/31250",
+      "risk_states": 49,
+      "alternative_states": 67
+    },
+    {
+      "horizon": 12,
+      "id": 57,
+      "risk": "0",
+      "cost": "483/50",
+      "risk_states": 49,
+      "alternative_states": 69
+    },
+    {
+      "horizon": 12,
+      "id": 58,
+      "risk": "0",
+      "cost": "483/50",
+      "risk_states": 49,
+      "alternative_states": 69
+    },
+    {
+      "horizon": 12,
+      "id": 59,
+      "risk": "0",
+      "cost": "483/50",
+      "risk_states": 49,
+      "alternative_states": 69
+    },
+    {
+      "horizon": 12,
+      "id": 60,
+      "risk": "1/4",
+      "cost": "22299/2500",
+      "risk_states": 23,
+      "alternative_states": 29
+    },
+    {
+      "horizon": 12,
+      "id": 61,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 25,
+      "alternative_states": 31
+    },
+    {
+      "horizon": 12,
+      "id": 62,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 25,
+      "alternative_states": 31
+    },
+    {
+      "horizon": 12,
+      "id": 63,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 25,
+      "alternative_states": 31
+    },
+    {
+      "horizon": 12,
+      "id": 64,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 25,
+      "alternative_states": 31
+    },
+    {
+      "horizon": 12,
+      "id": 65,
+      "risk": "0",
+      "cost": "963/100",
+      "risk_states": 25,
+      "alternative_states": 31
+    },
+    {
+      "horizon": 12,
+      "id": 66,
+      "risk": "1/4",
+      "cost": "93/10",
+      "risk_states": 21,
+      "alternative_states": 24
+    },
+    {
+      "horizon": 12,
+      "id": 67,
+      "risk": "0",
+      "cost": "481/50",
+      "risk_states": 21,
+      "alternative_states": 24
+    },
+    {
+      "horizon": 12,
+      "id": 68,
+      "risk": "0",
+      "cost": "481/50",
+      "risk_states": 21,
+      "alternative_states": 24
+    },
+    {
+      "horizon": 12,
+      "id": 69,
+      "risk": "0",
+      "cost": "481/50",
+      "risk_states": 21,
+      "alternative_states": 24
+    },
+    {
+      "horizon": 12,
+      "id": 70,
+      "risk": "0",
+      "cost": "481/50",
+      "risk_states": 21,
+      "alternative_states": 24
+    },
+    {
+      "horizon": 12,
+      "id": 71,
+      "risk": "0",
+      "cost": "481/50",
+      "risk_states": 21,
+      "alternative_states": 24
+    },
+    {
+      "horizon": 12,
+      "id": 72,
+      "risk": "0",
+      "cost": "48/5",
+      "risk_states": 12,
+      "alternative_states": 13
+    },
+    {
+      "horizon": 12,
+      "id": 73,
+      "risk": "1",
+      "cost": "5/2",
+      "risk_states": 1,
+      "alternative_states": 13
+    },
+    {
+      "horizon": 24,
+      "id": 0,
+      "risk": "3719/4096",
+      "cost": "1764732047/244140625",
+      "risk_states": 111,
+      "alternative_states": 443
+    },
+    {
+      "horizon": 24,
+      "id": 1,
+      "risk": "2391/4096",
+      "cost": "2078003467/244140625",
+      "risk_states": 159,
+      "alternative_states": 450
+    },
+    {
+      "horizon": 24,
+      "id": 2,
+      "risk": "153/512",
+      "cost": "2510171979/244140625",
+      "risk_states": 203,
+      "alternative_states": 455
+    },
+    {
+      "horizon": 24,
+      "id": 3,
+      "risk": "571/4096",
+      "cost": "3002115787/244140625",
+      "risk_states": 243,
+      "alternative_states": 458
+    },
+    {
+      "horizon": 24,
+      "id": 4,
+      "risk": "1/16",
+      "cost": "5522427/390625",
+      "risk_states": 279,
+      "alternative_states": 459
+    },
+    {
+      "horizon": 24,
+      "id": 5,
+      "risk": "7/256",
+      "cost": "153339779/9765625",
+      "risk_states": 311,
+      "alternative_states": 458
+    },
+    {
+      "horizon": 24,
+      "id": 6,
+      "risk": "1815/2048",
+      "cost": "10133951499/1220703125",
+      "risk_states": 89,
+      "alternative_states": 203
+    },
+    {
+      "horizon": 24,
+      "id": 7,
+      "risk": "1121/2048",
+      "cost": "12914519879/1220703125",
+      "risk_states": 127,
+      "alternative_states": 223
+    },
+    {
+      "horizon": 24,
+      "id": 8,
+      "risk": "279/1024",
+      "cost": "3159651531/244140625",
+      "risk_states": 161,
+      "alternative_states": 241
+    },
+    {
+      "horizon": 24,
+      "id": 9,
+      "risk": "255/2048",
+      "cost": "18280282359/1220703125",
+      "risk_states": 191,
+      "alternative_states": 257
+    },
+    {
+      "horizon": 24,
+      "id": 10,
+      "risk": "7/128",
+      "cost": "6452219/390625",
+      "risk_states": 217,
+      "alternative_states": 271
+    },
+    {
+      "horizon": 24,
+      "id": 11,
+      "risk": "3/128",
+      "cost": "34338791/1953125",
+      "risk_states": 239,
+      "alternative_states": 283
+    },
+    {
+      "horizon": 24,
+      "id": 12,
+      "risk": "201/256",
+      "cost": "3658758/390625",
+      "risk_states": 75,
+      "alternative_states": 147
+    },
+    {
+      "horizon": 24,
+      "id": 13,
+      "risk": "107/256",
+      "cost": "24284234/1953125",
+      "risk_states": 105,
+      "alternative_states": 159
+    },
+    {
+      "horizon": 24,
+      "id": 14,
+      "risk": "3/16",
+      "cost": "1176266/78125",
+      "risk_states": 130,
+      "alternative_states": 169
+    },
+    {
+      "horizon": 24,
+      "id": 15,
+      "risk": "5/64",
+      "cost": "6594802/390625",
+      "risk_states": 150,
+      "alternative_states": 177
+    },
+    {
+      "horizon": 24,
+      "id": 16,
+      "risk": "1/32",
+      "cost": "35259066/1953125",
+      "risk_states": 165,
+      "alternative_states": 183
+    },
+    {
+      "horizon": 24,
+      "id": 17,
+      "risk": "3/256",
+      "cost": "36669114/1953125",
+      "risk_states": 175,
+      "alternative_states": 187
+    },
+    {
+      "horizon": 24,
+      "id": 18,
+      "risk": "3719/4096",
+      "cost": "10287742699/1220703125",
+      "risk_states": 109,
+      "alternative_states": 401
+    },
+    {
+      "horizon": 24,
+      "id": 19,
+      "risk": "2391/4096",
+      "cost": "11823983159/1220703125",
+      "risk_states": 155,
+      "alternative_states": 410
+    },
+    {
+      "horizon": 24,
+      "id": 20,
+      "risk": "153/512",
+      "cost": "2771053899/244140625",
+      "risk_states": 197,
+      "alternative_states": 417
+    },
+    {
+      "horizon": 24,
+      "id": 21,
+      "risk": "571/4096",
+      "cost": "16093372919/1220703125",
+      "risk_states": 235,
+      "alternative_states": 422
+    },
+    {
+      "horizon": 24,
+      "id": 22,
+      "risk": "1/16",
+      "cost": "5792763/390625",
+      "risk_states": 269,
+      "alternative_states": 425
+    },
+    {
+      "horizon": 24,
+      "id": 23,
+      "risk": "7/256",
+      "cost": "158254979/9765625",
+      "risk_states": 299,
+      "alternative_states": 426
+    },
+    {
+      "horizon": 24,
+      "id": 24,
+      "risk": "55/64",
+      "cost": "371109627/39062500",
+      "risk_states": 83,
+      "alternative_states": 177
+    },
+    {
+      "horizon": 24,
+      "id": 25,
+      "risk": "65/128",
+      "cost": "3669191/312500",
+      "risk_states": 117,
+      "alternative_states": 195
+    },
+    {
+      "horizon": 24,
+      "id": 26,
+      "risk": "251/1024",
+      "cost": "13644290611/976562500",
+      "risk_states": 147,
+      "alternative_states": 211
+    },
+    {
+      "horizon": 24,
+      "id": 27,
+      "risk": "7/64",
+      "cost": "4939719/312500",
+      "risk_states": 173,
+      "alternative_states": 225
+    },
+    {
+      "horizon": 24,
+      "id": 28,
+      "risk": "3/64",
+      "cost": "26776291/1562500",
+      "risk_states": 195,
+      "alternative_states": 237
+    },
+    {
+      "horizon": 24,
+      "id": 29,
+      "risk": "5/256",
+      "cost": "704063531/39062500",
+      "risk_states": 213,
+      "alternative_states": 247
+    },
+    {
+      "horizon": 24,
+      "id": 30,
+      "risk": "47/64",
+      "cost": "4121966/390625",
+      "risk_states": 69,
+      "alternative_states": 130
+    },
+    {
+      "horizon": 24,
+      "id": 31,
+      "risk": "47/128",
+      "cost": "26359914/1953125",
+      "risk_states": 95,
+      "alternative_states": 141
+    },
+    {
+      "horizon": 24,
+      "id": 32,
+      "risk": "5/32",
+      "cost": "1240906/78125",
+      "risk_states": 116,
+      "alternative_states": 150
+    },
+    {
+      "horizon": 24,
+      "id": 33,
+      "risk": "1/16",
+      "cost": "6822642/390625",
+      "risk_states": 132,
+      "alternative_states": 157
+    },
+    {
+      "horizon": 24,
+      "id": 34,
+      "risk": "3/128",
+      "cost": "36047546/1953125",
+      "risk_states": 143,
+      "alternative_states": 162
+    },
+    {
+      "horizon": 24,
+      "id": 35,
+      "risk": "1/128",
+      "cost": "37201594/1953125",
+      "risk_states": 149,
+      "alternative_states": 165
+    },
+    {
+      "horizon": 24,
+      "id": 36,
+      "risk": "3719/4096",
+      "cost": "11751825163/1220703125",
+      "risk_states": 107,
+      "alternative_states": 359
+    },
+    {
+      "horizon": 24,
+      "id": 37,
+      "risk": "2391/4096",
+      "cost": "13257948983/1220703125",
+      "risk_states": 151,
+      "alternative_states": 370
+    },
+    {
+      "horizon": 24,
+      "id": 38,
+      "risk": "153/512",
+      "cost": "3031935819/244140625",
+      "risk_states": 191,
+      "alternative_states": 379
+    },
+    {
+      "horizon": 24,
+      "id": 39,
+      "risk": "571/4096",
+      "cost": "17176166903/1220703125",
+      "risk_states": 227,
+      "alternative_states": 386
+    },
+    {
+      "horizon": 24,
+      "id": 40,
+      "risk": "1/16",
+      "cost": "6063099/390625",
+      "risk_states": 259,
+      "alternative_states": 391
+    },
+    {
+      "horizon": 24,
+      "id": 41,
+      "risk": "7/256",
+      "cost": "163170179/9765625",
+      "risk_states": 287,
+      "alternative_states": 394
+    },
+    {
+      "horizon": 24,
+      "id": 42,
+      "risk": "423/512",
+      "cost": "1044709337/97656250",
+      "risk_states": 77,
+      "alternative_states": 153
+    },
+    {
+      "horizon": 24,
+      "id": 43,
+      "risk": "119/256",
+      "cost": "251689957/19531250",
+      "risk_states": 107,
+      "alternative_states": 169
+    },
+    {
+      "horizon": 24,
+      "id": 44,
+      "risk": "111/512",
+      "cost": "1460802873/97656250",
+      "risk_states": 133,
+      "alternative_states": 183
+    },
+    {
+      "horizon": 24,
+      "id": 45,
+      "risk": "3/32",
+      "cost": "2591177/156250",
+      "risk_states": 155,
+      "alternative_states": 195
+    },
+    {
+      "horizon": 24,
+      "id": 46,
+      "risk": "5/128",
+      "cost": "69111457/3906250",
+      "risk_states": 173,
+      "alternative_states": 205
+    },
+    {
+      "horizon": 24,
+      "id": 47,
+      "risk": "1/64",
+      "cost": "359684389/19531250",
+      "risk_states": 187,
+      "alternative_states": 213
+    },
+    {
+      "horizon": 24,
+      "id": 48,
+      "risk": "43/64",
+      "cost": "18332591/1562500",
+      "risk_states": 65,
+      "alternative_states": 114
+    },
+    {
+      "horizon": 24,
+      "id": 49,
+      "risk": "5/16",
+      "cost": "908311/62500",
+      "risk_states": 88,
+      "alternative_states": 124
+    },
+    {
+      "horizon": 24,
+      "id": 50,
+      "risk": "1/8",
+      "cost": "5205747/312500",
+      "risk_states": 106,
+      "alternative_states": 132
+    },
+    {
+      "horizon": 24,
+      "id": 51,
+      "risk": "3/64",
+      "cost": "28132031/1562500",
+      "risk_states": 119,
+      "alternative_states": 138
+    },
+    {
+      "horizon": 24,
+      "id": 52,
+      "risk": "1/64",
+      "cost": "29408959/1562500",
+      "risk_states": 127,
+      "alternative_states": 142
+    },
+    {
+      "horizon": 24,
+      "id": 53,
+      "risk": "0",
+      "cost": "1927/100",
+      "risk_states": 130,
+      "alternative_states": 144
+    },
+    {
+      "horizon": 24,
+      "id": 54,
+      "risk": "3719/4096",
+      "cost": "13215907627/1220703125",
+      "risk_states": 105,
+      "alternative_states": 317
+    },
+    {
+      "horizon": 24,
+      "id": 55,
+      "risk": "2391/4096",
+      "cost": "14691914807/1220703125",
+      "risk_states": 147,
+      "alternative_states": 330
+    },
+    {
+      "horizon": 24,
+      "id": 56,
+      "risk": "153/512",
+      "cost": "3292817739/244140625",
+      "risk_states": 185,
+      "alternative_states": 341
+    },
+    {
+      "horizon": 24,
+      "id": 57,
+      "risk": "571/4096",
+      "cost": "18258960887/1220703125",
+      "risk_states": 219,
+      "alternative_states": 350
+    },
+    {
+      "horizon": 24,
+      "id": 58,
+      "risk": "1/16",
+      "cost": "1266687/78125",
+      "risk_states": 249,
+      "alternative_states": 357
+    },
+    {
+      "horizon": 24,
+      "id": 59,
+      "risk": "7/256",
+      "cost": "168085379/9765625",
+      "risk_states": 275,
+      "alternative_states": 362
+    },
+    {
+      "horizon": 24,
+      "id": 60,
+      "risk": "201/256",
+      "cost": "464560969/39062500",
+      "risk_states": 71,
+      "alternative_states": 131
+    },
+    {
+      "horizon": 24,
+      "id": 61,
+      "risk": "107/256",
+      "cost": "547194921/39062500",
+      "risk_states": 97,
+      "alternative_states": 145
+    },
+    {
+      "horizon": 24,
+      "id": 62,
+      "risk": "3/16",
+      "cost": "993401/62500",
+      "risk_states": 119,
+      "alternative_states": 157
+    },
+    {
+      "horizon": 24,
+      "id": 63,
+      "risk": "5/64",
+      "cost": "27001041/1562500",
+      "risk_states": 137,
+      "alternative_states": 167
+    },
+    {
+      "horizon": 24,
+      "id": 64,
+      "risk": "1/32",
+      "cost": "142068757/7812500",
+      "risk_states": 151,
+      "alternative_states": 175
+    },
+    {
+      "horizon": 24,
+      "id": 65,
+      "risk": "3/256",
+      "cost": "732691561/39062500",
+      "risk_states": 161,
+      "alternative_states": 181
+    },
+    {
+      "horizon": 24,
+      "id": 66,
+      "risk": "43/64",
+      "cost": "2015423/156250",
+      "risk_states": 61,
+      "alternative_states": 98
+    },
+    {
+      "horizon": 24,
+      "id": 67,
+      "risk": "5/16",
+      "cost": "484819/31250",
+      "risk_states": 81,
+      "alternative_states": 106
+    },
+    {
+      "horizon": 24,
+      "id": 68,
+      "risk": "1/8",
+      "cost": "2709727/156250",
+      "risk_states": 96,
+      "alternative_states": 112
+    },
+    {
+      "horizon": 24,
+      "id": 69,
+      "risk": "3/64",
+      "cost": "2885983/156250",
+      "risk_states": 106,
+      "alternative_states": 116
+    },
+    {
+      "horizon": 24,
+      "id": 70,
+      "risk": "1/64",
+      "cost": "597779/31250",
+      "risk_states": 111,
+      "alternative_states": 118
+    },
+    {
+      "horizon": 24,
+      "id": 71,
+      "risk": "0",
+      "cost": "963/50",
+      "risk_states": 111,
+      "alternative_states": 118
+    },
+    {
+      "horizon": 24,
+      "id": 72,
+      "risk": "0",
+      "cost": "96/5",
+      "risk_states": 24,
+      "alternative_states": 25
+    },
+    {
+      "horizon": 24,
+      "id": 73,
+      "risk": "1",
+      "cost": "49/10",
+      "risk_states": 1,
+      "alternative_states": 25
+    }
+  ],
+  "native_solver_dependencies_available": {
+    "stormpy": false,
+    "gurobipy": false,
+    "pycarl": false,
+    "cdd": false,
+    "pipenv": false
+  },
+  "limits": "root mixture bound sufficient, not necessarily tight under hidden randomization; no unrestricted optimum/value gap, no author SCP execution, no new safety or complexity theorem"
+}

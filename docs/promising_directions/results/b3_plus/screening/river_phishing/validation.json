@@ -1,0 +1,64 @@
+{
+  "dataset_id": "river_phishing",
+  "n_rows": 1250,
+  "order": {
+    "declared_basis": "none",
+    "n": 1250,
+    "justification": "As shipped: no timestamp or documented order; 1,250 rows < one 2,000-event episode.",
+    "verdict": "no_defensible_order",
+    "sorted_by": null
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      187
+    ],
+    "train_challenger": [
+      0,
+      375
+    ],
+    "dev": [
+      375,
+      750
+    ],
+    "locked": [
+      750,
+      1250
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": false,
+      "detail": "verdict=no_defensible_order; declared_basis=none",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=1250 loaded=1250",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": false,
+      "detail": "locked rows=500, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": false,
+      "detail": "window sizes 187,188,375",
+      "hard": true
+    }
+  ],
+  "status": "USELESS_INELIGIBLE",
+  "ok": false,
+  "reason": "no defensible chronological order (no_defensible_order); no order invented"
+}

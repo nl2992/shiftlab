@@ -1,0 +1,79 @@
+{
+  "starting_head": "e61a3b0adfff54e2e1793759ce669ff5b1d241dd",
+  "manifest_digest": "f0a0ec9b1d94cb2b4a8d63bec7e6b2a1a0cf3183348a11263ae5650ba43d9fdb",
+  "audit": {
+    "status": "DETERMINISTIC_CHECKS_PASS",
+    "scope": "artifact consistency, completeness, budget, accounting, metric ranges and exact analysis recomputation; not independent experiment integrity or novelty audit",
+    "manifest_digest": "f0a0ec9b1d94cb2b4a8d63bec7e6b2a1a0cf3183348a11263ae5650ba43d9fdb",
+    "checked_method_runs": 281600,
+    "seed_range": [
+      290000,
+      290200
+    ],
+    "confirmation_seeds_used": false,
+    "verdicts_recomputed": {
+      "A1": true,
+      "A2": false,
+      "A3": false,
+      "A4": true,
+      "A5": "scoped prior-art audit carried forward; conditional"
+    },
+    "sha256": {
+      "manifest.json": "1e5d96c539d9a308f8409272de2c3e3ba9b2ea8c8de8d4722115241171f71978",
+      "records.jsonl": "74f2258d78f816e62ae8a9ca5a016e8e6b7fa4223e09952425102be586388c36",
+      "results.json": "d62ba5b0438989c60c2e2b67d94f36f882ffe25a743b09915bac12e0e67adc1a",
+      "summary.md": "b8eedc201f744c4fcf3ac127755ec929c445d4d44bb9b0201e463572b356a455"
+    }
+  },
+  "test_record": {
+    "provenance": "transcribed from completed exec session 76465, exit code 0; not an independent rerun",
+    "command": ".venv/Scripts/python -m pytest tests/test_atlas_cycle7_validation.py tests/test_atlas_dependence_baselines.py tests/test_atlas_components.py tests/test_switching_explore.py tests/test_dive_eprocess.py -q",
+    "result": "147 passed in 413.08s (0:06:53)",
+    "smoke_command": ".venv/Scripts/python scripts/run_atlas_cycle7_validation_v1.py --smoke --workers 4",
+    "smoke_result": "258 method runs completed; deterministic smoke audit passed",
+    "cache_verification": "full trajectories, query masks and costs match the uncached alarm checks across all 11 primary methods"
+  },
+  "environment": {
+    "record_type": "runtime environment snapshot during execution",
+    "python": "3.13.1 (tags/v3.13.1:0671451, Dec  3 2024, 19:06:28) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\.venv\\Scripts\\python.exe",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "workers_requested": 12,
+    "thread_environment_in_shell": {
+      "OPENBLAS_NUM_THREADS": null,
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+    },
+    "worker_thread_setup": "runner setdefault(...,1) before numpy/scipy import; inherited explicit environment values take precedence"
+  },
+  "line_endings": {
+    "event": "stage commit normalized CRLF to LF; restored identical executed CRLF working bytes after verifying exact frozen hash; Git blob unchanged",
+    "path": "src/shiftlab/dive/atlas_dependence_baselines.py",
+    "normalized_sha256": "7cfaf1414bce8a2732d73431a95ed0475e7be54a1f3e4d8693ed247d699ab6f4",
+    "executed_sha256": "06134bdf757ffeace10c9bc572f02da51bce1aace7c96f2cbdf18a8d39e9701c",
+    "semantic_content_changed": false
+  },
+  "unique_neighbour_supplement": {
+    "status": "post-run descriptive completion of predeclared unique-neighbour aggregate; no decision rule changed",
+    "n_unique_neighbours": 96,
+    "seed_range": [
+      290000,
+      290200
+    ],
+    "aggregation": "equal weight per unique neighbour within seed, paired t interval across seeds",
+    "dss_minus_best_ci": [
+      -0.008797828125000025,
+      -0.010003434831809129,
+      -0.007592221418190922
+    ],
+    "does_not_override_per_parent_A2_failures": true
+  },
+  "raw_artifact_location": "C:\\Users\\nigel\\OneDrive\\\u684c\u9762\\ICML\\shift-research-starter\\outputs\\failure_atlas_v1_cycle7\\validation",
+  "raw_outputs_git_ignored": true,
+  "stage_commits": [
+    "f573e00",
+    "8f8b10e"
+  ]
+}

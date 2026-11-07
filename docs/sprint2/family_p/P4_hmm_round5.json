@@ -1,0 +1,90 @@
+{
+  "protocol": "post-development P4 HMM-null out-of-class stress follow-up",
+  "regime": "P_hmm_null",
+  "seed_base": 2026110802,
+  "n_seeds": 1000,
+  "policies": {
+    "A5b": {
+      "promotions": 176,
+      "n": 1000,
+      "rate": 0.176,
+      "wilson95": [
+        0.15364942465804565,
+        0.2008303148405941
+      ],
+      "mean_net": 371.4517,
+      "mean_labels": 199.554
+    },
+    "D2": {
+      "promotions": 256,
+      "n": 1000,
+      "rate": 0.256,
+      "wilson95": [
+        0.22992018472379963,
+        0.2839472734171513
+      ],
+      "mean_net": 370.4078,
+      "mean_labels": 169.696
+    },
+    "P1_A5b_c10": {
+      "promotions": 179,
+      "n": 1000,
+      "rate": 0.179,
+      "wilson95": [
+        0.1564821152191892,
+        0.20397466372853723
+      ],
+      "mean_net": 371.56264999999996,
+      "mean_labels": 198.373
+    },
+    "P1_renew": {
+      "promotions": 54,
+      "n": 1000,
+      "rate": 0.054,
+      "wilson95": [
+        0.04162131372306273,
+        0.06979215484605245
+      ],
+      "mean_net": 370.0203,
+      "mean_labels": 182.926
+    },
+    "P1_union": {
+      "promotions": 44,
+      "n": 1000,
+      "rate": 0.044,
+      "wilson95": [
+        0.0329382145884185,
+        0.058551789150407776
+      ],
+      "mean_net": 369.99255,
+      "mean_labels": 182.791
+    },
+    "P6_LRMD_U": {
+      "promotions": 139,
+      "n": 1000,
+      "rate": 0.139,
+      "wilson95": [
+        0.11893638905078911,
+        0.16182653057578172
+      ],
+      "mean_net": 371.23044999999996,
+      "mean_labels": 199.649
+    },
+    "rmm:gated_deployment+RMM": {
+      "promotions": 250,
+      "n": 1000,
+      "rate": 0.25,
+      "wilson95": [
+        0.2241530989836914,
+        0.27776028025908617
+      ],
+      "mean_net": 371.93195000000003,
+      "mean_labels": 199.999
+    }
+  },
+  "limitations": [
+    "The hidden-state HMM is outside A5b's declared first-order stationary Markov null.",
+    "Rates describe this fixed generator and do not establish guarantee validity or theorem failure.",
+    "P1_renew additionally assumes i.i.d. observation gaps; this run does not establish that assumption."
+  ]
+}

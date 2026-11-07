@@ -1,0 +1,116 @@
+{
+  "dataset_id": "openml_ldpa",
+  "n_rows": 164860,
+  "order": {
+    "declared_basis": "timestamp_column",
+    "n": 164860,
+    "justification": "V3 is a global rank of the original sensor timestamp and V4 a rank of the original date string; they come from two independent encodings of the same absolute clock, so the stream is sorted by V3 and the validator requires Spearman(V3, V4) >= 0.99 as corroboration. V1 (person) is kept as a covariate; V3/V4 are excluded from the features (time proxies).",
+    "time_finite_frac": 1.0,
+    "time_corroboration_spearman": 0.9999999999999819,
+    "time_inversions": 15,
+    "verdict": "sorted_by_timestamp",
+    "sorted_by": "V3"
+  },
+  "windows": {
+    "train_incumbent": [
+      0,
+      24729
+    ],
+    "train_challenger": [
+      0,
+      49458
+    ],
+    "dev": [
+      49458,
+      98916
+    ],
+    "locked": [
+      98916,
+      164860
+    ]
+  },
+  "checks": [
+    {
+      "check": "chronological_order_defensible",
+      "pass": true,
+      "detail": "verdict=sorted_by_timestamp; declared_basis=timestamp_column",
+      "hard": true
+    },
+    {
+      "check": "row_count_matches_source",
+      "pass": true,
+      "detail": "declared=164860 loaded=164860",
+      "hard": false
+    },
+    {
+      "check": "X_y_aligned",
+      "pass": true,
+      "detail": "feature rows equal label rows",
+      "hard": true
+    },
+    {
+      "check": "locked_window_has_one_episode",
+      "pass": true,
+      "detail": "locked rows=65944, T=2000",
+      "hard": true
+    },
+    {
+      "check": "train_dev_windows_nonempty",
+      "pass": true,
+      "detail": "window sizes 24729,24729,49458",
+      "hard": true
+    },
+    {
+      "check": "not_class_sorted",
+      "pass": true,
+      "detail": "runs=428 classes=11",
+      "hard": true
+    },
+    {
+      "check": "two_classes_in_training_window",
+      "pass": true,
+      "detail": "11 classes in first 30%",
+      "hard": true
+    },
+    {
+      "check": "columns_not_mostly_missing",
+      "pass": true,
+      "detail": "0 columns >50% missing",
+      "hard": true
+    },
+    {
+      "check": "has_informative_columns",
+      "pass": true,
+      "detail": "0 const cols",
+      "hard": true
+    },
+    {
+      "check": "no_target_equals_feature",
+      "pass": true,
+      "detail": "max |corr(feature, target)|=0.17706362239917847 (V7)",
+      "hard": true
+    }
+  ],
+  "status": null,
+  "ok": true,
+  "class_sorted_check": {
+    "runs": 428,
+    "n_classes": 11,
+    "expected_runs_if_shuffled": 79620.0516007873,
+    "class_sorted": false
+  },
+  "missing": {
+    "max_col_missing_frac": 0.0,
+    "cols_over_half_missing": 0
+  },
+  "constant_columns_in_train": 0,
+  "exchangeability_diagnostic": {
+    "class_mix_by_block_chi2_p": 0.0,
+    "median_abs_std_feature_shift_first_vs_second_half_of_train_dev": 0.03508606894426288
+  },
+  "leakage_screen": {
+    "max_abs_corr": 0.17706362239917847,
+    "column": "V7"
+  },
+  "order_array_length": 164860
+}

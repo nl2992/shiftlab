@@ -1,0 +1,1772 @@
+# Failure Atlas v1 ledger (EXPLORATORY; no confirmatory claim)
+
+**Post-cycle-7 diagnostic COMPLETE:** [results](failure_atlas_cycle7_followup_results_v1.md).
+640 development method runs on seeds [181000,181040). Fallback gap 4 reduces false promotion
+from 9/40 to 0/40 at rho=.5,B/T=.5,d=10, but 11/40 becomes 12/40 at rho=.8,B/T=.25,d=10;
+both adverse primary cost settings remain unchanged. This local patch is not a solution.
+All requested cycle-7 execution and its bounded follow-up are finished; new method work
+requires a separate prospective protocol, not retrospective acceptance of DSS.
+
+**Cycle 7 COMPLETE (2026-11-01):** [decision and limitations](failure_atlas_cycle7_decision_v1.md),
+[full validation tables](failure_atlas_cycle7_validation_results_v1.md). A1 PASS (13/16 cells,
+aggregate -.03772 [-.04068,-.03476]); A2 FAIL (14/16 parent neighbourhoods pass);
+A3 FAIL (all six rho=.8 relative checks fail); whole-acquisition A4 PASS, individual new-rule
+cost ablations do not explain the gain. A5 remains conditional. 281,600 method runs,
+200 fresh seeds per cell; deterministic audit PASS, 147 tests PASS. No final confirmation.
+Retain the useful acquisition-cost result, investigate a scoped safety/behaviour repair,
+and preserve this failed full-claim verdict. Natural stage commits package the execution
+contract/code and then results/review; the original source-hashed run predates those commits.
+
+**Current direction (2026-11-01):** [evidence review and decision trail](failure_atlas_review_2026_11_01.md).
+Continue the method search under protocol Amendments 8–9. The cycle-6 consolidation recommendation
+below is retained as history; it does not override the user's renewed practical-method objective.
+
+Protocol: `docs/failure_atlas_v1_protocol.md` including Amendment 1. All numbers below are copied from
+`outputs/failure_atlas_v1/summary.md` (cycle 1), `outputs/failure_atlas_v1_cycle2/summary.md` (cycle 2) or
+computed from the `state.json`/`archive.jsonl` next to them. Nothing here is confirmatory: discovery,
+development and mechanism-validation seeds only.
+
+## 1. Run record
+
+- Cycle 1 invocation: not recorded in the repository. `outputs/failure_atlas_v1/run.log` header:
+  `out=outputs/failure_atlas_v1 smoke=False workers=12`; other arguments were the script defaults.
+- Cycle 2 command (repository root):
+  `.venv/Scripts/python scripts/run_failure_atlas_loop.py --out outputs/failure_atlas_v1_cycle2 --workers 12 --val-offset 50000 --reuse-cells-from outputs/failure_atlas_v1/state.json --compare-to outputs/failure_atlas_v1`
+  (started detached, logging to `outputs/failure_atlas_v1_cycle2/run.log`; `run.err` empty).
+- Tests before the run: `.venv/Scripts/python -m pytest tests/test_failure_atlas.py tests/test_atlas_components.py tests/test_switching_explore.py -q` -> 94 passed. Smoke loop:
+  `.venv/Scripts/python scripts/run_failure_atlas_loop.py --smoke --out outputs/failure_atlas_v1_cycle2_smoke --workers 8 --val-offset 50000` (completed, all stages).
+- Cycle 1 header: 
+  - git head `81707c0938a9ed293bf6d942d66808f15397f0ad`, dirty = True
+  - source sha256:
+  - `failure_atlas.py`: `4626be6e4d7f90520fdc860dc5b5db8f48ba49ad9a2bac9aa96415d6352b4e07`
+  - `switching_explore.py`: `f7a330f595d2b2390c7a2b3bd4e08da7c3f71a2a8caf8463700f3ee71823dbee`
+  - method-runs 175220; wall time 1828 s.
+- Cycle 2 header: 
+  - git head `81707c0938a9ed293bf6d942d66808f15397f0ad`, dirty = True
+    (the new code was uncommitted when the run started; `switching_explore.py` and `eprocess.py` unchanged)
+  - source sha256:
+  - `failure_atlas.py`: `6d53c69695e76400431febf7c05e9ee2af82a6ee4a01fafb910e1f1a10576ae7`
+  - `atlas_components.py`: `8b71867bf025d6d09274d1e66b52e7fb28da7ec0ccfd12861b7f90f3fa1c5aae`
+  - `switching_explore.py`: `f7a330f595d2b2390c7a2b3bd4e08da7c3f71a2a8caf8463700f3ee71823dbee`
+  - `eprocess.py`: `a9355d3883118ed32039feafe0db0b01fd8824dfbaed2e3d70e6710964565d41`
+  - `run_failure_atlas_loop.py`: `4bc59e9b551067a107f5506b09499b5761e299cfdc8f34759b4e16d7003719ad`
+  - method-runs 211460; wall time 3438 s; per stage:
+  - stage1_discover: 1290 s
+  - stage2_reproduce: 207 s
+  - stage2b_diagnose: 181 s
+  - stage4_isolate: 232 s
+  - stage5_6_mechanism: 1528 s
+- Cycle 2 reuses the cycle-1 sampled (240) and refinement (120) cells and the same discovery seeds, so classes
+  are comparable. The refinement cells were therefore not re-chosen adaptively around cycle-2 failures.
+  Stage-2b diagnostics use discovery seeds 3000-3099; mechanism validation uses seeds 250000-250019 (offset 50000).
+
+## 2. Baseline registry
+
+## Registry (stage 0)
+
+| baseline | status | role | guarantee | notes |
+|---|---|---|---|---|
+| no_switch | implemented | floor | none needed (never promotes) | zero false promotion by construction |
+| periodic_mean | implemented | ungated | none | periodic window-mean re-evaluation on a uniform calendar |
+| episode_geo / episode_equal / episode_front | implemented | safety-gated | per-episode bounded-mean started-mixture e-process with alpha spending | validity under repeated episodes is a research target, not established here |
+| allonset_edetector | implemented | safety-gated | all-onset mixture e-detector threshold 1/alpha; promotes once | no rollback |
+| dal_restart | implemented | ungated | none (CUSUM-triggered query bursts) | detect-then-re-evaluate |
+| pacing_bernoulli | implemented | ungated | none (EWMA threshold, Bernoulli query pacing) | budget respected only through the harness guard |
+| c2_rho0.75 | implemented | safety-gated | rho*B to alpha-spent e-process gate; remainder to CUSUM rollback | exploratory C2 candidate used as a benchmark anchor, not a target |
+| c1_hmm_cs | implemented | safety-gated | delayed-HMM likelihood-ratio confidence-set gate over a declared bank | exploratory C1 candidate; bank misspecification not covered |
+| gong_zhang_delayed | missing | safety-gated (when added) | R6 baseline: delayed-feedback sequential testing wrapper | not in harness; every atlas entry carries this limitation |
+| qiu_et_al_delayed | missing | safety-gated (when added) | R6 baseline: delayed-label monitoring wrapper | not in harness |
+| ryabchenko_delayed_wrapper | wrapper-needed | safety-gated (when added) | R6 baseline: sequential testing under delayed feedback | requires a delayed-feedback wrapper around the base test; missing |
+| online_fwer_comparator | missing | safety-gated (when added) | online FWER control across repeated promotion episodes | would replace ad hoc alpha spending in episode_* |
+| hard_budget_pacing_comparator | missing | ungated (when added) | none (budget-feasible pacing comparator) | strong hard-budget pacing baseline absent |
+
+The R6 baselines `gong_zhang_delayed`, `qiu_et_al_delayed`, `ryabchenko_delayed_wrapper` (wrapper-needed),
+`online_fwer_comparator` and `hard_budget_pacing_comparator` are missing. Every failure below is a failure
+against the implemented baselines only.
+
+## 3. Cycle 1 results
+
+## R_family kappa calibration (discovery null twins)
+
+chosen kappa = 0.05 (calibrated=True, 80 distinct twins, seeds [0, 19])
+
+| kappa | FP count | n | pooled any-FP rate |
+|---|---|---|---|
+| 0.5 | 1532 | 1600 | 0.958 |
+| 0.3 | 1035 | 1600 | 0.647 |
+| 0.2 | 653 | 1600 | 0.408 |
+| 0.1 | 301 | 1600 | 0.188 |
+| 0.05 | 117 | 1600 | 0.073 |
+| 0.02 | 40 | 1600 | 0.025 |
+| 0.01 | 19 | 1600 | 0.012 |
+
+## Discovery counts by class (stage 1)
+
+| class | cells |
+|---|---|
+| headroom_not_shared | 2 |
+| info_limited | 57 |
+| no_headroom | 189 |
+| reference_unsafe | 20 |
+| shared_failure | 92 |
+| total | 360 |
+
+### The R_law reference defect
+
+R_law and R_family valued a promotion as the expected benefit of staying promoted until T. After a transient
+window closes the posterior sees the harmful off state, so that tail made R_law never promote in the 57 cells
+labelled `info_limited` below. Their "no_switch - R_law" CIs are all within [-0.0025, -0.0005] (negative:
+R_law did not beat doing nothing). The information-limit test was therefore not informative in cycle 1.
+Amendment 1 replaced the value by a promote-then-revert plan value.
+
+In the stage-2 table below, 12 candidate cells were reproduced; 11 survived (label `shared_failure`). The twelfth,
+`on0.3_L0.3_strong_harmful_d10_b0.05_s0.5`, is labelled `info_limited` only because of this defect.
+
+## Reproduced failures (stage 2, fresh discovery seeds)
+
+| cell | label | severity | H [95% CI] | best_safe | R_family null FP [Wilson] |
+|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1861 | +0.1861 [+0.1689, +0.2032] | episode_front | 0.130 [0.078,0.210] |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1833 | +0.1833 [+0.1727, +0.1938] | allonset_edetector | 0.130 [0.078,0.210] |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1056 | +0.1056 [+0.0998, +0.1113] | c1_hmm_cs | 0.130 [0.078,0.210] |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | shared_failure | 0.1102 | +0.1102 [+0.1052, +0.1152] | episode_front | 0.090 [0.048,0.162] |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | shared_failure | 0.1790 | +0.1790 [+0.1628, +0.1952] | episode_front | 0.090 [0.048,0.162] |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | shared_failure | 0.1319 | +0.1319 [+0.1252, +0.1387] | allonset_edetector | 0.090 [0.048,0.162] |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1115 | +0.1115 [+0.1049, +0.1181] | c1_hmm_cs | 0.070 [0.034,0.137] |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | shared_failure | 0.2027 | +0.2027 [+0.1844, +0.2210] | episode_front | 0.090 [0.048,0.162] |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | shared_failure | 0.1013 | +0.1013 [+0.0941, +0.1085] | allonset_edetector | 0.110 [0.063,0.186] |
+| on0.3_L0.3_strong_harmful_d10_b0.05_s0.5 | info_limited | 0.1050 | +0.1050 [+0.0931, +0.1169] | no_switch | 0.090 [0.048,0.162] |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | shared_failure | 0.1096 | +0.1096 [+0.1031, +0.1162] | no_switch | 0.100 [0.055,0.174] |
+| on0.8_L0.6_strong_harmful_d1_b0.1_s0.5 | shared_failure | 0.1056 | +0.1056 [+0.0993, +0.1118] | c1_hmm_cs | 0.090 [0.048,0.162] |
+
+### Per-baseline gap to R_family (mean, lower CI bound; cost per round)
+
+| cell | episode_geo | episode_equal | episode_front | allonset_edetector | c2_rho0.75 | c1_hmm_cs | no_switch |
+|---|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | +0.217 (+0.198) | +0.303 (+0.282) | +0.186 (+0.169) | +0.207 (+0.190) | +0.255 (+0.232) | +0.315 (+0.294) | +0.315 (+0.294) |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | +0.201 (+0.189) | +0.221 (+0.209) | +0.188 (+0.177) | +0.183 (+0.173) | +0.217 (+0.205) | +0.221 (+0.209) | +0.220 (+0.208) |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | +0.108 (+0.102) | +0.108 (+0.102) | +0.108 (+0.102) | +0.108 (+0.102) | +0.108 (+0.102) | +0.106 (+0.100) | +0.107 (+0.102) |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | +0.114 (+0.109) | +0.119 (+0.113) | +0.110 (+0.105) | +0.112 (+0.107) | +0.117 (+0.112) | +0.110 (+0.105) | +0.118 (+0.112) |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | +0.194 (+0.179) | +0.290 (+0.275) | +0.179 (+0.163) | +0.186 (+0.177) | +0.234 (+0.217) | +0.331 (+0.321) | +0.401 (+0.394) |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | +0.163 (+0.152) | +0.237 (+0.230) | +0.144 (+0.134) | +0.132 (+0.125) | +0.210 (+0.200) | +0.255 (+0.249) | +0.274 (+0.268) |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | +0.112 (+0.106) | +0.112 (+0.106) | +0.112 (+0.106) | +0.112 (+0.106) | +0.112 (+0.106) | +0.112 (+0.105) | +0.112 (+0.105) |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | +0.235 (+0.217) | +0.320 (+0.303) | +0.203 (+0.184) | +0.220 (+0.203) | +0.274 (+0.255) | +0.329 (+0.311) | +0.328 (+0.311) |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | +0.125 (+0.116) | +0.199 (+0.193) | +0.107 (+0.099) | +0.101 (+0.094) | +0.176 (+0.167) | +0.229 (+0.223) | +0.228 (+0.223) |
+| on0.3_L0.3_strong_harmful_d10_b0.05_s0.5 | +0.116 (+0.102) | +0.106 (+0.094) | +0.115 (+0.103) | +0.217 (+0.183) | +0.106 (+0.094) | +0.105 (+0.094) | +0.105 (+0.093) |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | +0.110 (+0.104) | +0.110 (+0.104) | +0.110 (+0.104) | +0.110 (+0.104) | +0.110 (+0.103) | +0.110 (+0.103) | +0.110 (+0.103) |
+| on0.8_L0.6_strong_harmful_d1_b0.1_s0.5 | +0.122 (+0.117) | +0.129 (+0.123) | +0.115 (+0.110) | +0.118 (+0.113) | +0.127 (+0.122) | +0.106 (+0.099) | +0.128 (+0.122) |
+
+## Isolation (stage 4): does moving one axis to its easiest level remove the failure?
+
+| failure cell | onset | duration | effect | d | budget_frac | s |
+|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.040, shared_failure) | keeps (H lo +0.113, shared_failure) | at easiest | keeps (H lo +0.135, shared_failure) | keeps (H lo +0.101, shared_failure) | keeps (H lo +0.184, shared_failure) |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | REMOVES (H lo -0.125, no_headroom) | at easiest | at easiest | keeps (H lo +0.143, shared_failure) | keeps (H lo +0.052, shared_failure) | keeps (H lo +0.169, shared_failure) |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | REMOVES (H lo -0.125, no_headroom) | at easiest | at easiest | keeps (H lo +0.092, shared_failure) | keeps (H lo +0.063, shared_failure) | keeps (H lo +0.089, shared_failure) |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | REMOVES (H lo -0.027, no_headroom) | at easiest | at easiest | keeps (H lo +0.096, shared_failure) | keeps (H lo +0.063, shared_failure) | keeps (H lo +0.105, shared_failure) |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | keeps (H lo +0.057, shared_failure) | keeps (H lo +0.098, shared_failure) | at easiest | keeps (H lo +0.143, shared_failure) | keeps (H lo +0.101, shared_failure) | keeps (H lo +0.131, shared_failure) |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | REMOVES (H lo -0.027, no_headroom) | at easiest | at easiest | keeps (H lo +0.115, shared_failure) | keeps (H lo +0.052, shared_failure) | keeps (H lo +0.114, shared_failure) |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.014, shared_failure) | keeps (H lo +0.092, shared_failure) | at easiest | at easiest | keeps (H lo +0.060, shared_failure) | keeps (H lo +0.105, shared_failure) |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | keeps (H lo +0.031, shared_failure) | keeps (H lo +0.108, shared_failure) | at easiest | keeps (H lo +0.108, shared_failure) | keeps (H lo +0.087, shared_failure) | keeps (H lo +0.184, shared_failure) |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | REMOVES (H lo -0.088, no_headroom) | at easiest | at easiest | keeps (H lo +0.115, shared_failure) | keeps (H lo +0.039, shared_failure) | keeps (H lo +0.085, shared_failure) |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | keeps (H lo +0.019, shared_failure) | keeps (H lo +0.101, shared_failure) | at easiest | at easiest | keeps (H lo +0.058, shared_failure) | keeps (H lo +0.105, shared_failure) |
+| on0.8_L0.6_strong_harmful_d1_b0.1_s0.5 | keeps (H lo +0.051, shared_failure) | keeps (H lo +0.095, shared_failure) | at easiest | at easiest | keeps (H lo +0.058, shared_failure) | keeps (H lo +0.097, shared_failure) |
+
+### Stage 5/6 (cycle 1): no repair
+
+## Mechanism stages 5-6
+
+see per-failure rows below
+
+- `on0.3_L0.6_strong_harmful_d10_b0.05_s0.1` (axes removing: []): no single axis removes the failure; no mechanism candidates
+
+- `on0.6_L1_strong_harmful_d10_b0.05_s0.1` (axes removing: ['onset']): 14 proposed, 0 invalid, 14 run; best `991567bb7ec8` cost 0.3455, gap closure 0.14, null FP 0.00, gated=True; validation: candidate=991567bb7ec8, seeds=mechanism 200000+20, cost=0.337189, gap_closure=0.23652094993193132, null_fp=0.0, ablated_cost=0.337189, closes_50=False, null_ok=True, ablation_removes_gain=False, neighbours=[{'cell': 'on0.3_L1_strong_harmful_d10_b0.05_s0.1', 'best_safe': 'allonset_edetector', 'cand_minus_best_safe': [0.006908499999999977, -0.04016099482128983, 0.05397799482128979], 'cand_minus_R_family': [0.12177849999999997, 0.0667601292171513, 0.17679687078284864], 'null_fp': 0.0, 'no_worse_than_best_safe': False}, {'cell': 'on0.8_L1_strong_harmful_d10_b0.05_s0.1', 'best_safe': 'c1_hmm_cs', 'cand_minus_best_safe': [-0.004904500000000011, -0.015094325067887642, 0.00528532506788762], 'cand_minus_R_family': [0.1178215, 0.10472497444999605, 0.13091802555000392], 'null_fp': 0.0, 'no_worse_than_best_safe': True}], neighbours_ok=False, repair=False, validation_uses=1
+
+- `on0.8_L1_strong_harmful_d10_b0.05_s0.1` (axes removing: ['onset']): 14 proposed, 0 invalid, 14 run; best `991567bb7ec8` cost 0.2505, gap closure 0.04, null FP 0.00, gated=True; validation: candidate=991567bb7ec8, seeds=mechanism 200000+20, cost=0.26069149999999996, gap_closure=0.039963007023776816, null_fp=0.0, ablated_cost=0.26069149999999996, closes_50=False, null_ok=True, ablation_removes_gain=False, neighbours=[{'cell': 'on0.6_L1_strong_harmful_d10_b0.05_s0.1', 'best_safe': 'allonset_edetector', 'cand_minus_best_safe': [-0.03909100000000002, -0.07565498703232579, -0.0025270129676742484], 'cand_minus_R_family': [0.126184, 0.07642902134706689, 0.1759389786529331], 'null_fp': 0.0, 'no_worse_than_best_safe': True}], neighbours_ok=True, repair=False, validation_uses=2, status=reclassified_development
+
+- `on0.8_L1_strong_harmful_d10_b0.1_s0.1` (axes removing: ['onset']): 14 proposed, 0 invalid, 14 run; best `66051244cf2b` cost 0.2297, gap closure 0.15, null FP 0.00, gated=True; validation: candidate=66051244cf2b, seeds=mechanism 200000+20, cost=0.22924499999999998, gap_closure=0.15781363306743987, null_fp=0.0, ablated_cost=0.25458500000000006, closes_50=False, null_ok=True, ablation_removes_gain=True, neighbours=[{'cell': 'on0.6_L1_strong_harmful_d10_b0.1_s0.1', 'best_safe': 'allonset_edetector', 'cand_minus_best_safe': [0.027984999999999993, -0.008028951535427455, 0.06399895153542744], 'cand_minus_R_family': [0.1627, 0.1314869051685406, 0.1939130948314594], 'null_fp': 0.0, 'no_worse_than_best_safe': False}], neighbours_ok=False, repair=False, validation_uses=1
+
+- `on0.3_L0.6_strong_harmful_d10_b0.1_s0.1` (axes removing: []): no single axis removes the failure; no mechanism candidates
+
+- `on0.6_L1_strong_harmful_d10_b0.1_s0.1` (axes removing: ['onset']): 14 proposed, 0 invalid, 14 run; best `10862081b509` cost 0.2816, gap closure -0.06, null FP 0.00, gated=True; validation: candidate=10862081b509, seeds=mechanism 200000+20, cost=0.28298999999999996, gap_closure=-0.027428274505437444, null_fp=0.0, closes_50=False, null_ok=True, ablation_removes_gain=None, neighbours=[{'cell': 'on0.3_L1_strong_harmful_d10_b0.1_s0.1', 'best_safe': 'allonset_edetector', 'cand_minus_best_safe': [0.01635000000000001, 0.006102756775075564, 0.026597243224924457], 'cand_minus_R_family': [0.15226, 0.12312053613157539, 0.18139946386842462], 'null_fp': 0.0, 'no_worse_than_best_safe': False}, {'cell': 'on0.8_L1_strong_harmful_d10_b0.1_s0.1', 'best_safe': 'episode_front', 'cand_minus_best_safe': [-0.0017049999999999995, -0.0052736060127661685, 0.001863606012766169], 'cand_minus_R_family': [0.10861499999999999, 0.10045644029292117, 0.11677355970707881], 'null_fp': 0.0, 'no_worse_than_best_safe': True}], neighbours_ok=False, repair=None, validation_uses=1
+
+- `on0.8_L0.6_strong_harmful_d1_b0.05_s0.1` (axes removing: []): no single axis removes the failure; no mechanism candidates
+
+- `on0.3_L0.6_strong_harmful_d10_b0.05_s0.5` (axes removing: []): no single axis removes the failure; no mechanism candidates
+
+- `on0.6_L1_strong_harmful_d50_b0.1_s0.1` (axes removing: ['onset']): 14 proposed, 0 invalid, 14 run; best `10862081b509` cost 0.2984, gap closure -0.02, null FP 0.00, gated=True; validation: candidate=10862081b509, seeds=mechanism 200000+20, cost=0.324785, gap_closure=-0.061810242159587026, null_fp=0.0, closes_50=False, null_ok=True, ablation_removes_gain=None, neighbours=[{'cell': 'on0.3_L1_strong_harmful_d50_b0.1_s0.1', 'best_safe': 'allonset_edetector', 'cand_minus_best_safe': [0.008799999999999975, -0.0046821672227988324, 0.02228216722279878], 'cand_minus_R_family': [0.11135999999999999, 0.08174463256807271, 0.14097536743192726], 'null_fp': 0.0, 'no_worse_than_best_safe': False}, {'cell': 'on0.8_L1_strong_harmful_d50_b0.1_s0.1', 'best_safe': 'episode_front', 'cand_minus_best_safe': [-1.5265566588595904e-17, -2.954214071730701e-17, -9.889924598848003e-19], 'cand_minus_R_family': [0.09444499999999999, 0.08102206172563782, 0.10786793827436215], 'null_fp': 0.0, 'no_worse_than_best_safe': True}], neighbours_ok=False, repair=None, validation_uses=1
+
+- `on0.8_L0.6_strong_harmful_d1_b0.05_s0.5` (axes removing: []): no single axis removes the failure; no mechanism candidates
+
+- `on0.8_L0.6_strong_harmful_d1_b0.1_s0.5` (axes removing: []): no single axis removes the failure; no mechanism candidates
+
+Stage-6 outcomes in cycle 1: 5 survivors reached validation; repair flags [False, False, False, None, None] (False = criteria
+not met, None = ablation unavailable so the repair criterion could not be evaluated). No candidate repaired a
+failure. Cycle-1 reclassified_development pairs: ['on0.8_L1_strong_harmful_d10_b0.05_s0.1|991567bb7ec8']. Survivors with no single removing axis
+(6 of 11) got no mechanism candidates in cycle 1.
+
+## 4. Cycle 2 results (Amendment 1)
+
+## R_family kappa calibration (discovery null twins)
+
+chosen kappa = 0.05 (calibrated=True, 80 distinct twins, seeds [0, 19])
+
+| kappa | FP count | n | pooled any-FP rate |
+|---|---|---|---|
+| 0.5 | 1524 | 1600 | 0.953 |
+| 0.3 | 1033 | 1600 | 0.646 |
+| 0.2 | 650 | 1600 | 0.406 |
+| 0.1 | 298 | 1600 | 0.186 |
+| 0.05 | 115 | 1600 | 0.072 |
+| 0.02 | 37 | 1600 | 0.023 |
+| 0.01 | 18 | 1600 | 0.011 |
+
+Recalibrated kappa = 0.05 (same as cycle 1; calibrated = True).
+
+## Discovery counts by class (stage 1)
+
+| class | cells |
+|---|---|
+| headroom_not_shared | 1 |
+| no_headroom | 215 |
+| reference_unsafe | 21 |
+| shared_failure | 123 |
+| total | 360 |
+
+## Class transitions: previous cycle (rows) -> this cycle (columns)
+
+| prev \ now | headroom_not_shared | info_limited | no_headroom | reference_unsafe | shared_failure | total |
+|---|---|---|---|---|---|---|
+| headroom_not_shared | 1 | 0 | 0 | 0 | 1 | 2 |
+| info_limited | 0 | 0 | 33 | 1 | 23 | 57 |
+| no_headroom | 0 | 0 | 182 | 0 | 7 | 189 |
+| reference_unsafe | 0 | 0 | 0 | 20 | 0 | 20 |
+| shared_failure | 0 | 0 | 0 | 0 | 92 | 92 |
+
+Previous-cycle class counts recomputed from its archive: headroom_not_shared=2, info_limited=57, no_headroom=189, reference_unsafe=20, shared_failure=92 (total 360)
+
+### Cells entering or leaving shared_failure
+
+| cell | previous | now | H (now) |
+|---|---|---|---|
+| on0.1_L0.15_strong_harmful_d1_b0.25_s0.5 | info_limited | shared_failure | +0.0644 |
+| on0.1_L0.3_strong_harmful_d10_b0.05_s0.5 | info_limited | shared_failure | +0.0431 |
+| on0.1_L0.3_strong_harmful_d1_b0.05_s0.1 | info_limited | shared_failure | +0.0489 |
+| on0.1_L0.3_strong_harmful_d1_b0.05_s0.5 | info_limited | shared_failure | +0.0374 |
+| on0.1_L0.3_strong_harmful_d1_b0.1_s0.1 | info_limited | shared_failure | +0.0784 |
+| on0.1_L0.3_strong_harmful_d1_b0.1_s0.5 | info_limited | shared_failure | +0.1062 |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | no_headroom | shared_failure | +0.0491 |
+| on0.1_L0.6_strong_harmful_d10_b0.25_s0.1 | headroom_not_shared | shared_failure | +0.1050 |
+| on0.1_L0.6_strong_harmful_d50_b0.1_s0.5 | no_headroom | shared_failure | +0.0898 |
+| on0.1_L0.6_strong_harmful_d50_b0.25_s0.1 | no_headroom | shared_failure | +0.0780 |
+| on0.1_L1_strong_harmful_d1_b0.25_s0.05 | no_headroom | shared_failure | +0.0522 |
+| on0.3_L0.15_strong_harmful_d1_b0.1_s0.5 | info_limited | shared_failure | +0.0739 |
+| on0.3_L0.15_strong_harmful_d1_b0.25_s0.5 | info_limited | shared_failure | +0.0845 |
+| on0.3_L0.3_medium_harmful_d10_b0.25_s0.5 | info_limited | shared_failure | +0.0518 |
+| on0.3_L0.3_medium_harmful_d1_b0.25_s0.05 | info_limited | shared_failure | +0.0641 |
+| on0.3_L0.3_strong_harmful_d10_b0.05_s0.1 | info_limited | shared_failure | +0.1240 |
+| on0.3_L0.3_strong_harmful_d10_b0.05_s0.5 | info_limited | shared_failure | +0.0920 |
+| on0.3_L0.3_strong_harmful_d10_b0.1_s0.5 | info_limited | shared_failure | +0.1451 |
+| on0.3_L0.3_strong_harmful_d1_b0.25_s0.5 | info_limited | shared_failure | +0.1128 |
+| on0.3_L0.6_medium_harmful_d10_b0.1_s0.1 | no_headroom | shared_failure | +0.0569 |
+| on0.6_L0.15_strong_harmful_d10_b0.05_s0.05 | info_limited | shared_failure | +0.0261 |
+| on0.6_L0.15_strong_harmful_d10_b0.05_s0.1 | info_limited | shared_failure | +0.0346 |
+| on0.6_L0.15_strong_harmful_d10_b0.1_s0.05 | info_limited | shared_failure | +0.0711 |
+| on0.6_L0.15_strong_harmful_d10_b0.25_s0.1 | info_limited | shared_failure | +0.0808 |
+| on0.6_L0.15_strong_harmful_d1_b0.05_s0.1 | info_limited | shared_failure | +0.0455 |
+| on0.6_L0.15_strong_harmful_d1_b0.05_s0.5 | info_limited | shared_failure | +0.0436 |
+| on0.6_L0.15_strong_harmful_d1_b0.1_s0.1 | info_limited | shared_failure | +0.0772 |
+| on0.6_L0.15_strong_harmful_d1_b0.25_s0.5 | info_limited | shared_failure | +0.0810 |
+| on0.6_L0.15_strong_harmful_d50_b0.25_s0.1 | info_limited | shared_failure | +0.0210 |
+| on0.6_L0.6_medium_harmful_d50_b0.25_s0.1 | no_headroom | shared_failure | +0.0397 |
+| on0.6_L1_medium_harmful_d50_b0.25_s0.5 | no_headroom | shared_failure | +0.0433 |
+
+## Reproduced failures (stage 2, fresh discovery seeds)
+
+| cell | label | severity | H [95% CI] | best_safe | R_family null FP [Wilson] |
+|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1965 | +0.1965 [+0.1781, +0.2150] | episode_front | 0.130 [0.078,0.210] |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1937 | +0.1937 [+0.1831, +0.2044] | allonset_edetector | 0.130 [0.078,0.210] |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | shared_failure | 0.2139 | +0.2139 [+0.1943, +0.2334] | episode_front | 0.090 [0.048,0.162] |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | shared_failure | 0.1822 | +0.1822 [+0.1658, +0.1986] | episode_front | 0.090 [0.048,0.162] |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1064 | +0.1064 [+0.1008, +0.1121] | c1_hmm_cs | 0.130 [0.078,0.210] |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | shared_failure | 0.1104 | +0.1104 [+0.1054, +0.1154] | episode_front | 0.090 [0.048,0.162] |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | shared_failure | 0.1334 | +0.1334 [+0.1264, +0.1404] | allonset_edetector | 0.090 [0.048,0.162] |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1119 | +0.1119 [+0.1053, +0.1185] | c1_hmm_cs | 0.070 [0.034,0.137] |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | shared_failure | 0.1146 | +0.1146 [+0.1083, +0.1208] | allonset_edetector | 0.110 [0.063,0.186] |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | shared_failure | 0.1100 | +0.1100 [+0.1035, +0.1166] | no_switch | 0.090 [0.048,0.162] |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1903 | +0.1903 [+0.1790, +0.2017] | allonset_edetector | 0.070 [0.034,0.137] |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | shared_failure | 0.1582 | +0.1582 [+0.1444, +0.1719] | allonset_edetector | 0.110 [0.063,0.186] |
+
+### Per-baseline gap to R_family (mean, lower CI bound; cost per round)
+
+| cell | episode_geo | episode_equal | episode_front | allonset_edetector | c2_rho0.75 | c1_hmm_cs | no_switch |
+|---|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | +0.227 (+0.208) | +0.313 (+0.292) | +0.197 (+0.178) | +0.218 (+0.199) | +0.266 (+0.243) | +0.326 (+0.305) | +0.325 (+0.304) |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | +0.211 (+0.200) | +0.231 (+0.220) | +0.198 (+0.187) | +0.194 (+0.183) | +0.228 (+0.216) | +0.231 (+0.220) | +0.231 (+0.220) |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | +0.246 (+0.227) | +0.331 (+0.313) | +0.214 (+0.194) | +0.231 (+0.213) | +0.285 (+0.265) | +0.340 (+0.322) | +0.339 (+0.322) |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | +0.197 (+0.182) | +0.293 (+0.278) | +0.182 (+0.166) | +0.190 (+0.180) | +0.237 (+0.220) | +0.334 (+0.324) | +0.405 (+0.398) |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | +0.109 (+0.103) | +0.109 (+0.103) | +0.109 (+0.103) | +0.109 (+0.103) | +0.109 (+0.103) | +0.106 (+0.101) | +0.108 (+0.103) |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | +0.114 (+0.109) | +0.119 (+0.113) | +0.110 (+0.105) | +0.112 (+0.107) | +0.118 (+0.112) | +0.111 (+0.105) | +0.118 (+0.112) |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | +0.165 (+0.154) | +0.238 (+0.231) | +0.146 (+0.135) | +0.133 (+0.126) | +0.212 (+0.202) | +0.256 (+0.250) | +0.275 (+0.269) |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | +0.113 (+0.106) | +0.113 (+0.106) | +0.113 (+0.106) | +0.113 (+0.106) | +0.113 (+0.106) | +0.112 (+0.105) | +0.112 (+0.106) |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | +0.138 (+0.130) | +0.213 (+0.206) | +0.121 (+0.113) | +0.115 (+0.108) | +0.189 (+0.179) | +0.242 (+0.235) | +0.242 (+0.235) |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | +0.111 (+0.104) | +0.111 (+0.104) | +0.111 (+0.104) | +0.111 (+0.104) | +0.110 (+0.104) | +0.110 (+0.104) | +0.110 (+0.103) |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | +0.206 (+0.195) | +0.236 (+0.223) | +0.195 (+0.184) | +0.190 (+0.179) | +0.231 (+0.219) | +0.236 (+0.224) | +0.235 (+0.223) |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | +0.171 (+0.158) | +0.186 (+0.171) | +0.160 (+0.146) | +0.158 (+0.144) | +0.184 (+0.169) | +0.186 (+0.171) | +0.185 (+0.171) |
+
+## Diagnostic decomposition (stage 2b; evaluator-side, descriptive, 100 seeds)
+
+Cost is per round. `front` = `episode_front`, the decision rule shared by the `diag_oracle_*` variants (oracle: onset and/or Kelly stake given by the evaluator; never methods). Parts: onset = front - known_onset; stake = front - known_stake; interaction = (front - known_both) - onset - stake; residual = known_both - R_family; gap = best_safe - R_family = (best_safe - front) + onset + stake + interaction + residual. Brackets are paired 95% CIs.
+
+| cell | best_safe | Kelly stake | gap | best_safe-front | onset | stake | interaction | residual |
+|---|---|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | episode_front | 0.778 | +0.2012 [+0.1782, +0.2243] | +0.0000 [+0.0000, +0.0000] | +0.0992 [+0.0861, +0.1123] | +0.0562 [+0.0479, +0.0644] | -0.0023 [-0.0149, +0.0103] | +0.0482 [+0.0279, +0.0684] |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | allonset_edetector | 0.778 | +0.1878 [+0.1775, +0.1981] | -0.0039 [-0.0066, -0.0013] | +0.0745 [+0.0646, +0.0845] | +0.0396 [+0.0327, +0.0465] | +0.0185 [+0.0063, +0.0307] | +0.0591 [+0.0429, +0.0753] |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | episode_front | 0.778 | +0.2102 [+0.1914, +0.2291] | +0.0000 [+0.0000, +0.0000] | +0.0971 [+0.0841, +0.1102] | +0.0578 [+0.0488, +0.0668] | -0.0080 [-0.0232, +0.0071] | +0.0633 [+0.0427, +0.0840] |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | allonset_edetector | 0.778 | +0.1843 [+0.1768, +0.1917] | -0.0049 [-0.0200, +0.0101] | +0.0754 [+0.0542, +0.0965] | +0.0387 [+0.0238, +0.0537] | +0.0027 [-0.0236, +0.0290] | +0.0724 [+0.0562, +0.0886] |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | c1_hmm_cs | 0.778 | +0.1072 [+0.1015, +0.1128] | -0.0019 [-0.0030, -0.0008] | +0.0114 [+0.0074, +0.0155] | +0.0009 [+0.0001, +0.0017] | +0.0269 [+0.0222, +0.0315] | +0.0698 [+0.0629, +0.0767] |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | episode_front | 0.778 | +0.1146 [+0.1105, +0.1187] | +0.0000 [+0.0000, +0.0000] | +0.0479 [+0.0417, +0.0540] | +0.0159 [+0.0122, +0.0196] | +0.0121 [+0.0057, +0.0185] | +0.0388 [+0.0324, +0.0452] |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | allonset_edetector | 0.778 | +0.1252 [+0.1182, +0.1322] | -0.0193 [-0.0284, -0.0103] | +0.0769 [+0.0638, +0.0899] | +0.0390 [+0.0292, +0.0489] | -0.0053 [-0.0222, +0.0117] | +0.0339 [+0.0229, +0.0449] |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | no_switch | 0.778 | +0.1149 [+0.1088, +0.1211] | -0.0005 [-0.0005, -0.0005] | +0.0183 [+0.0135, +0.0231] | +0.0021 [+0.0008, +0.0034] | +0.0342 [+0.0292, +0.0391] | +0.0608 [+0.0540, +0.0677] |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | allonset_edetector | 0.778 | +0.1249 [+0.1179, +0.1318] | -0.0092 [-0.0140, -0.0045] | +0.0703 [+0.0614, +0.0791] | +0.0320 [+0.0254, +0.0386] | -0.0072 [-0.0201, +0.0058] | +0.0390 [+0.0296, +0.0485] |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | c1_hmm_cs | 0.778 | +0.1065 [+0.0988, +0.1142] | -0.0006 [-0.0016, +0.0004] | +0.0182 [+0.0130, +0.0233] | +0.0024 [+0.0010, +0.0039] | +0.0257 [+0.0208, +0.0307] | +0.0608 [+0.0532, +0.0683] |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | allonset_edetector | 0.778 | +0.1967 [+0.1860, +0.2074] | -0.0040 [-0.0071, -0.0008] | +0.0866 [+0.0746, +0.0986] | +0.0456 [+0.0375, +0.0536] | +0.0024 [-0.0083, +0.0131] | +0.0661 [+0.0508, +0.0814] |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | episode_front | 0.778 | +0.1572 [+0.1443, +0.1702] | +0.0000 [+0.0000, +0.0000] | +0.0643 [+0.0565, +0.0720] | +0.0312 [+0.0257, +0.0367] | +0.0235 [+0.0132, +0.0338] | +0.0383 [+0.0240, +0.0526] |
+
+### Per-baseline exposure (log(1/alpha) = 2.303)
+
+| cell | method | cost | labels from favourable state | frac promoted | mean first-promotion round | final log e (episode 0) | analytic labels needed |
+|---|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | episode_geo | 0.4910 | 30.3 | 0.91 | 717 | +2.91 | 29.1 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | episode_equal | 0.5726 | 30.3 | 0.37 | 813 | +2.94 | 40.2 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | episode_front | 0.4618 | 30.3 | 0.95 | 683 | +2.40 | 26.8 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | allonset_edetector | 0.4786 | 30.3 | 0.98 | 664 | +2.19 | 26.0 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | c2_rho0.75 | 0.5193 | 24.0 | 0.77 | 757 | +2.43 | 28.1 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | c1_hmm_cs | 0.5820 | 31.1 | 0.00 | none | - | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | no_switch | 0.5815 | 0.0 | 0.00 | none | - | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_onset | 0.3627 | 30.3 | 0.98 | 557 | +2.50 | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_stake | 0.4057 | 30.3 | 0.98 | 606 | +2.44 | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_both | 0.3088 | 30.3 | 0.98 | 470 | +2.40 | - |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | episode_geo | 0.3922 | 19.9 | 0.46 | 931 | +2.24 | 29.1 |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | episode_equal | 0.4166 | 19.9 | 0.04 | 995 | +2.73 | 40.2 |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | episode_front | 0.3788 | 19.9 | 0.60 | 919 | +1.96 | 26.8 |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | allonset_edetector | 0.3749 | 19.9 | 0.71 | 926 | +2.77 | 26.0 |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | c2_rho0.75 | 0.4158 | 14.8 | 0.03 | 960 | +1.35 | 28.1 |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | c1_hmm_cs | 0.4168 | 26.3 | 0.00 | none | - | - |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | no_switch | 0.4163 | 0.0 | 0.00 | none | - | - |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_onset | 0.3043 | 19.9 | 0.91 | 838 | +2.48 | - |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_stake | 0.3392 | 19.9 | 0.80 | 872 | +2.20 | - |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_both | 0.2461 | 19.9 | 0.96 | 763 | +2.53 | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | episode_geo | 0.4828 | 30.3 | 0.86 | 699 | +2.79 | 29.1 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | episode_equal | 0.5689 | 30.3 | 0.51 | 816 | +3.63 | 40.2 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | episode_front | 0.4540 | 30.3 | 0.93 | 672 | +2.36 | 26.8 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | allonset_edetector | 0.4732 | 30.3 | 0.98 | 663 | +2.28 | 26.0 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | c2_rho0.75 | 0.5106 | 23.8 | 0.74 | 738 | +2.37 | 28.1 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | c1_hmm_cs | 0.5815 | 30.4 | 0.00 | none | - | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | no_switch | 0.5810 | 0.0 | 0.00 | none | - | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | diag_oracle_known_onset | 0.3568 | 30.3 | 0.98 | 547 | +2.54 | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | diag_oracle_known_stake | 0.3962 | 30.3 | 0.98 | 606 | +2.41 | - |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | diag_oracle_known_both | 0.3071 | 30.3 | 0.98 | 470 | +2.47 | - |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | episode_geo | 0.3837 | 60.6 | 0.99 | 570 | +3.17 | 27.8 |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | episode_equal | 0.4822 | 60.6 | 0.91 | 699 | +6.63 | 41.2 |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | episode_front | 0.3629 | 60.6 | 0.99 | 534 | +2.47 | 25.5 |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | allonset_edetector | 0.3580 | 60.6 | 1.00 | 522 | +5.62 | 28.9 |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | c2_rho0.75 | 0.4114 | 44.5 | 0.97 | 615 | +3.13 | 28.2 |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | c1_hmm_cs | 0.5138 | 63.5 | 0.97 | 767 | - | - |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | no_switch | 0.5801 | 0.0 | 0.00 | none | - | - |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_onset | 0.2876 | 60.6 | 1.00 | 431 | +2.56 | - |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_stake | 0.3242 | 60.6 | 1.00 | 492 | +2.57 | - |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_both | 0.2461 | 60.6 | 1.00 | 393 | +2.61 | - |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | episode_geo | 0.2614 | 10.1 | 0.00 | none | +0.15 | 29.1 |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | episode_equal | 0.2614 | 10.1 | 0.00 | none | +0.15 | 40.2 |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | episode_front | 0.2614 | 10.1 | 0.00 | none | +0.15 | 26.8 |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | allonset_edetector | 0.2614 | 10.1 | 0.00 | none | +0.24 | 26.0 |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | c2_rho0.75 | 0.2612 | 7.2 | 0.00 | none | -0.24 | 28.1 |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | c1_hmm_cs | 0.2595 | 20.5 | 0.14 | 983 | - | - |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | no_switch | 0.2609 | 0.0 | 0.00 | none | - | - |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_onset | 0.2499 | 10.1 | 0.44 | 967 | +1.82 | - |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_stake | 0.2605 | 10.1 | 0.11 | 990 | +0.58 | - |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | diag_oracle_known_both | 0.2221 | 10.1 | 0.71 | 931 | +1.98 | - |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | episode_geo | 0.2534 | 19.8 | 0.30 | 972 | +1.61 | 27.8 |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | episode_equal | 0.2604 | 19.8 | 0.00 | none | +1.82 | 41.2 |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | episode_front | 0.2487 | 19.8 | 0.42 | 965 | +1.42 | 25.5 |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | allonset_edetector | 0.2502 | 19.8 | 0.43 | 971 | +1.93 | 28.9 |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | c2_rho0.75 | 0.2586 | 15.4 | 0.10 | 983 | +0.85 | 28.2 |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | c1_hmm_cs | 0.2502 | 26.2 | 0.57 | 978 | - | - |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | no_switch | 0.2594 | 0.0 | 0.00 | none | - | - |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_onset | 0.2008 | 19.8 | 0.86 | 910 | +2.44 | - |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_stake | 0.2328 | 19.8 | 0.69 | 950 | +1.94 | - |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_both | 0.1729 | 19.8 | 0.94 | 877 | +2.49 | - |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | episode_geo | 0.3070 | 40.0 | 0.91 | 836 | +3.10 | 27.8 |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | episode_equal | 0.3814 | 40.0 | 0.61 | 911 | +5.85 | 41.2 |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | episode_front | 0.2927 | 40.0 | 0.96 | 820 | +2.44 | 25.5 |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | allonset_edetector | 0.2734 | 40.0 | 1.00 | 816 | +6.81 | 28.9 |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | c2_rho0.75 | 0.3619 | 41.5 | 0.80 | 879 | +2.86 | 28.2 |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | c1_hmm_cs | 0.4019 | 49.0 | 0.98 | 974 | - | - |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | no_switch | 0.4214 | 0.0 | 0.00 | none | - | - |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_onset | 0.2158 | 40.0 | 1.00 | 725 | +2.59 | - |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_stake | 0.2537 | 40.0 | 0.98 | 780 | +2.56 | - |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | diag_oracle_known_both | 0.1821 | 40.0 | 1.00 | 686 | +2.60 | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | episode_geo | 0.2648 | 10.7 | 0.00 | none | +0.41 | 29.1 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | episode_equal | 0.2648 | 10.7 | 0.00 | none | +0.41 | 40.2 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | episode_front | 0.2648 | 10.7 | 0.00 | none | +0.41 | 26.8 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | allonset_edetector | 0.2648 | 10.7 | 0.00 | none | +0.51 | 26.0 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | c2_rho0.75 | 0.2646 | 7.6 | 0.00 | none | -0.05 | 28.1 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | c1_hmm_cs | 0.2647 | 25.6 | 0.03 | 997 | - | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | no_switch | 0.2643 | 0.0 | 0.00 | none | - | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | diag_oracle_known_onset | 0.2465 | 10.7 | 0.55 | 959 | +2.03 | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | diag_oracle_known_stake | 0.2626 | 10.7 | 0.20 | 988 | +0.96 | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | diag_oracle_known_both | 0.2102 | 10.7 | 0.84 | 918 | +2.31 | - |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | episode_geo | 0.3257 | 37.4 | 0.90 | 866 | +3.07 | 27.8 |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | episode_equal | 0.3952 | 37.4 | 0.51 | 933 | +5.68 | 41.2 |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | episode_front | 0.3099 | 37.4 | 0.97 | 852 | +2.45 | 25.5 |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | allonset_edetector | 0.3007 | 37.4 | 1.00 | 850 | +6.21 | 28.9 |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | c2_rho0.75 | 0.3661 | 39.3 | 0.77 | 894 | +2.86 | 28.2 |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | c1_hmm_cs | 0.4217 | 12.0 | 0.00 | none | - | - |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | no_switch | 0.4214 | 0.0 | 0.00 | none | - | - |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | diag_oracle_known_onset | 0.2397 | 37.4 | 1.00 | 770 | +2.58 | - |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | diag_oracle_known_stake | 0.2779 | 37.4 | 0.99 | 816 | +2.58 | - |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | diag_oracle_known_both | 0.2148 | 37.4 | 1.00 | 734 | +2.59 | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | episode_geo | 0.2613 | 10.5 | 0.00 | none | +0.29 | 29.1 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | episode_equal | 0.2613 | 10.5 | 0.00 | none | +0.29 | 40.2 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | episode_front | 0.2613 | 10.5 | 0.01 | 1000 | +0.29 | 26.8 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | allonset_edetector | 0.2613 | 10.5 | 0.01 | 1000 | +0.38 | 26.0 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | c2_rho0.75 | 0.2612 | 7.5 | 0.00 | none | -0.08 | 28.1 |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | c1_hmm_cs | 0.2608 | 25.3 | 0.02 | 969 | - | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | no_switch | 0.2608 | 0.0 | 0.00 | none | - | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | diag_oracle_known_onset | 0.2432 | 10.5 | 0.51 | 954 | +1.92 | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | diag_oracle_known_stake | 0.2589 | 10.5 | 0.17 | 980 | +0.78 | - |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | diag_oracle_known_both | 0.2150 | 10.5 | 0.69 | 915 | +2.03 | - |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | episode_geo | 0.3975 | 20.6 | 0.55 | 945 | +2.24 | 29.1 |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | episode_equal | 0.4215 | 20.6 | 0.02 | 990 | +2.62 | 40.2 |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | episode_front | 0.3820 | 20.6 | 0.65 | 923 | +1.91 | 26.8 |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | allonset_edetector | 0.3780 | 20.6 | 0.69 | 922 | +2.71 | 26.0 |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | c2_rho0.75 | 0.4162 | 17.1 | 0.19 | 961 | +1.69 | 28.1 |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | c1_hmm_cs | 0.4217 | 29.4 | 0.01 | 999 | - | - |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | no_switch | 0.4212 | 0.0 | 0.00 | none | - | - |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | diag_oracle_known_onset | 0.2954 | 20.6 | 0.84 | 809 | +2.41 | - |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | diag_oracle_known_stake | 0.3364 | 20.6 | 0.80 | 861 | +2.16 | - |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | diag_oracle_known_both | 0.2474 | 20.6 | 0.94 | 754 | +2.45 | - |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | episode_geo | 0.3982 | 18.7 | 0.44 | 944 | +2.07 | 29.1 |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | episode_equal | 0.4181 | 18.7 | 0.01 | 1000 | +2.50 | 40.2 |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | episode_front | 0.3855 | 18.7 | 0.53 | 924 | +1.81 | 26.8 |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | allonset_edetector | 0.3859 | 18.7 | 0.58 | 932 | +2.50 | 26.0 |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | c2_rho0.75 | 0.4165 | 13.7 | 0.07 | 976 | +1.41 | 28.1 |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | c1_hmm_cs | 0.4179 | 11.3 | 0.00 | none | - | - |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | no_switch | 0.4176 | 0.0 | 0.00 | none | - | - |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | diag_oracle_known_onset | 0.3212 | 18.7 | 0.86 | 858 | +2.43 | - |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | diag_oracle_known_stake | 0.3543 | 18.7 | 0.74 | 892 | +2.04 | - |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | diag_oracle_known_both | 0.2665 | 18.7 | 0.93 | 791 | +2.42 | - |
+
+## Isolation (stage 4): does moving one axis to its easiest level remove the failure?
+
+| failure cell | onset | duration | effect | d | budget_frac | s |
+|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.045, shared_failure) | keeps (H lo +0.137, shared_failure) | at easiest | keeps (H lo +0.144, shared_failure) | keeps (H lo +0.102, shared_failure) | keeps (H lo +0.188, shared_failure) |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | REMOVES (H lo -0.094, no_headroom) | at easiest | at easiest | keeps (H lo +0.147, shared_failure) | keeps (H lo +0.054, shared_failure) | keeps (H lo +0.173, shared_failure) |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | keeps (H lo +0.032, shared_failure) | keeps (H lo +0.112, shared_failure) | at easiest | keeps (H lo +0.113, shared_failure) | keeps (H lo +0.089, shared_failure) | keeps (H lo +0.188, shared_failure) |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | keeps (H lo +0.089, shared_failure) | keeps (H lo +0.099, shared_failure) | at easiest | keeps (H lo +0.145, shared_failure) | keeps (H lo +0.102, shared_failure) | keeps (H lo +0.137, shared_failure) |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | REMOVES (H lo -0.094, no_headroom) | at easiest | at easiest | keeps (H lo +0.093, shared_failure) | keeps (H lo +0.063, shared_failure) | keeps (H lo +0.090, shared_failure) |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | REMOVES (H lo +0.006, no_headroom) | at easiest | at easiest | keeps (H lo +0.097, shared_failure) | keeps (H lo +0.063, shared_failure) | keeps (H lo +0.108, shared_failure) |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | REMOVES (H lo +0.006, no_headroom) | at easiest | at easiest | keeps (H lo +0.118, shared_failure) | keeps (H lo +0.054, shared_failure) | keeps (H lo +0.115, shared_failure) |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.015, shared_failure) | keeps (H lo +0.093, shared_failure) | at easiest | at easiest | keeps (H lo +0.061, shared_failure) | keeps (H lo +0.106, shared_failure) |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | REMOVES (H lo -0.032, no_headroom) | at easiest | at easiest | keeps (H lo +0.118, shared_failure) | keeps (H lo +0.053, shared_failure) | keeps (H lo +0.111, shared_failure) |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | keeps (H lo +0.022, shared_failure) | keeps (H lo +0.101, shared_failure) | at easiest | at easiest | keeps (H lo +0.058, shared_failure) | keeps (H lo +0.106, shared_failure) |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.015, shared_failure) | keeps (H lo +0.147, shared_failure) | at easiest | at easiest | keeps (H lo +0.046, shared_failure) | keeps (H lo +0.156, shared_failure) |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | REMOVES (H lo -0.101, no_headroom) | at easiest | at easiest | keeps (H lo +0.147, shared_failure) | keeps (H lo +0.053, shared_failure) | keeps (H lo +0.129, shared_failure) |
+
+## Candidate and repair table (stages 5-6)
+
+| failure cell | axes removing | proposed/invalid | stage-6 candidate | val cost | gap closure | null FP | closes >=50% | ablation removes gain | neighbours ok | neighbour detail | repair | status | best dev candidate |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | none | 23/0 | 891a240116da | 0.4055 | 0.29 | 0.00 | False | False | False | on0.1_L0.6_strong_harmful_d10_b0.05_s0.1: vs best_safe -0.009 [-0.067,+0.048], ok=False; on0.6_L0.6_strong_harmful_d10_b0.05_s0.1: vs best_safe -0.040 [-0.077,-0.002], ok=True | False |  | 891a240116da |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | ['onset'] | 31/0 | bc27f3692d70 | 0.3463 | 0.15 | 0.00 | False | None | False | on0.3_L1_strong_harmful_d10_b0.05_s0.1: vs best_safe -0.015 [-0.048,+0.017], ok=False; on0.8_L1_strong_harmful_d10_b0.05_s0.1: vs best_safe -0.004 [-0.011,+0.003], ok=True | None |  | bc27f3692d70 |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | none | 23/0 | b1a17927d9ad | 0.4435 | 0.28 | 0.00 | False | True | False | on0.1_L0.6_strong_harmful_d10_b0.05_s0.5: vs best_safe +0.041 [-0.016,+0.098], ok=False; on0.6_L0.6_strong_harmful_d10_b0.05_s0.5: vs best_safe -0.032 [-0.063,-0.001], ok=True | False |  | b1a17927d9ad |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | none | 23/0 | 612b8e1a975e | 0.3699 | -0.09 | 0.00 | False | False | False | on0.1_L0.6_strong_harmful_d10_b0.1_s0.1: vs best_safe +0.058 [+0.013,+0.102], ok=False; on0.6_L0.6_strong_harmful_d10_b0.1_s0.1: vs best_safe +0.030 [-0.002,+0.063], ok=False | False |  | 612b8e1a975e |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | ['onset'] | 31/0 | bc27f3692d70 | 0.2544 | 0.03 | 0.00 | False | None | True | on0.6_L1_strong_harmful_d10_b0.05_s0.1: vs best_safe -0.027 [-0.060,+0.006], ok=True | None | reclassified_development | bc27f3692d70 |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | ['onset'] | 31/0 | 612b8e1a975e | 0.2369 | 0.12 | 0.00 | False | True | False | on0.6_L1_strong_harmful_d10_b0.1_s0.1: vs best_safe +0.008 [-0.027,+0.043], ok=False | False |  | 612b8e1a975e |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | ['onset'] | 31/0 | 487ae8a2643f | 0.2799 | -0.01 | 0.00 | False | False | False | on0.3_L1_strong_harmful_d10_b0.1_s0.1: vs best_safe -0.001 [-0.013,+0.011], ok=False; on0.8_L1_strong_harmful_d10_b0.1_s0.1: vs best_safe -0.001 [-0.015,+0.012], ok=False | False |  | 487ae8a2643f |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | none | 23/0 | b1a17927d9ad | 0.2454 | 0.21 | 0.00 | False | True | True | on0.6_L0.6_strong_harmful_d1_b0.05_s0.1: vs best_safe -0.088 [-0.130,-0.045], ok=True; on0.8_L0.3_strong_harmful_d1_b0.05_s0.1: vs best_safe -0.019 [-0.034,-0.005], ok=True | False |  | b1a17927d9ad |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | ['onset'] | 31/0 | 487ae8a2643f | 0.2819 | 0.01 | 0.00 | False | True | True | on0.3_L1_strong_harmful_d50_b0.1_s0.1: vs best_safe -0.001 [-0.010,+0.008], ok=True; on0.8_L1_strong_harmful_d50_b0.1_s0.1: vs best_safe -0.002 [-0.003,-0.000], ok=True | False |  | 487ae8a2643f |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | none | 23/0 | b1a17927d9ad | 0.2460 | 0.23 | 0.00 | False | True | True | on0.6_L0.6_strong_harmful_d1_b0.05_s0.5: vs best_safe -0.091 [-0.117,-0.064], ok=True; on0.8_L0.3_strong_harmful_d1_b0.05_s0.5: vs best_safe -0.014 [-0.027,-0.001], ok=True | False |  | b1a17927d9ad |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | none | 23/0 | b1a17927d9ad | 0.2663 | 0.48 | 0.00 | False | True | True | on0.3_L0.6_strong_harmful_d1_b0.05_s0.1: vs best_safe -0.098 [-0.138,-0.057], ok=True; on0.8_L0.6_strong_harmful_d1_b0.05_s0.1: vs best_safe -0.023 [-0.043,-0.002], ok=True | False | reclassified_development | b1a17927d9ad |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | ['onset'] | 31/0 | 612b8e1a975e | 0.3578 | 0.16 | 0.00 | False | True | False | on0.3_L1_strong_harmful_d50_b0.05_s0.1: vs best_safe +0.042 [-0.033,+0.118], ok=False; on0.8_L1_strong_harmful_d50_b0.05_s0.1: vs best_safe +0.000 [+0.000,+0.000], ok=True | False |  | 612b8e1a975e |
+
+Stage-6 candidate legend (ids from the table above):
+
+| id | acquisition / evidence / memory / decision | hypothesised slot | hypothesis |
+|---|---|---|---|
+| `487ae8a2643f` | uniform / weighted_starts / none / certificate_econ | evidence | Onset-informed starts promote as soon as evidence rejects when the economic margin is halved and there is no rollback. |
+| `612b8e1a975e` | reserve_pacing / wide_stakes / none / rollback_monitor | evidence | Wide stakes with a decaying reserve: near-Kelly growth on the labels that arrive after a late onset. |
+| `891a240116da` | straddle / weighted_starts / none / rollback_monitor | evidence | Onset-informed start weights with undecided-only straddle queries. |
+| `b1a17927d9ad` | straddle / started_mixture_eprocess / none / rollback_monitor | acquisition | Querying while undecided adapts spend to the evidence. |
+| `bc27f3692d70` | straddle / started_mixture_eprocess / none / rollback_monitor | evidence | Ablation of evidence (weighted_starts -> started_mixture_eprocess): Onset-informed start weights with undecided-only straddle queries. |
+
+Repair verdicts: 12 survivors reached validation. Repair flags [False, None, False, False, None, False, False, False, False, False, False, False]
+(True: 0, False: 10, None: 2).
+Locked criteria: gap to R_family closed by >= 50%, null-twin FP <= alpha + 0.05, ablation removes most of the gain, and the
+candidate is no worse than best_safe in two neighbouring cells. The per-cell ablation and neighbour results are in the
+table above (columns `ablation removes gain`, `neighbours ok`, `neighbour detail`). `ablation removes gain = None` means the
+hypothesised slot already held its default component (no ablation partner), so those rows are unverified, not repaired.
+
+### reclassified_development pairs (validation seeds used more than once)
+
+- `on0.8_L1_strong_harmful_d10_b0.05_s0.1|bc27f3692d70`
+- `on0.6_L0.6_strong_harmful_d1_b0.05_s0.1|b1a17927d9ad`
+
+These arose because a neighbour-cell check evaluated the same (cell, spec) pair that was also the main
+validation target of another survivor. Their results count as development, not validation.
+
+## Validation-seed use log (pairs used more than once are reclassified_development)
+
+| cell|spec | uses | status |
+|---|---|---|
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.1|891a240116da | 1 | first use |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5|b1a17927d9ad | 1 | first use |
+| on0.1_L0.6_strong_harmful_d10_b0.1_s0.1|612b8e1a975e | 1 | first use |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1|891a240116da | 1 | first use |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5|b1a17927d9ad | 1 | first use |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1|612b8e1a975e | 1 | first use |
+| on0.3_L0.6_strong_harmful_d1_b0.05_s0.1|b1a17927d9ad | 1 | first use |
+| on0.3_L1_strong_harmful_d10_b0.05_s0.1|bc27f3692d70 | 1 | first use |
+| on0.3_L1_strong_harmful_d10_b0.1_s0.1|487ae8a2643f | 1 | first use |
+| on0.3_L1_strong_harmful_d50_b0.05_s0.1|612b8e1a975e | 1 | first use |
+| on0.3_L1_strong_harmful_d50_b0.1_s0.1|487ae8a2643f | 1 | first use |
+| on0.6_L0.6_strong_harmful_d10_b0.05_s0.1|891a240116da | 1 | first use |
+| on0.6_L0.6_strong_harmful_d10_b0.05_s0.5|b1a17927d9ad | 1 | first use |
+| on0.6_L0.6_strong_harmful_d10_b0.1_s0.1|612b8e1a975e | 1 | first use |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1|b1a17927d9ad | 2 | reclassified_development |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.5|b1a17927d9ad | 1 | first use |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1|bc27f3692d70 | 1 | first use |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1|487ae8a2643f | 1 | first use |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1|612b8e1a975e | 1 | first use |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1|612b8e1a975e | 1 | first use |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1|487ae8a2643f | 1 | first use |
+| on0.8_L0.3_strong_harmful_d1_b0.05_s0.1|b1a17927d9ad | 1 | first use |
+| on0.8_L0.3_strong_harmful_d1_b0.05_s0.5|b1a17927d9ad | 1 | first use |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1|b1a17927d9ad | 1 | first use |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5|b1a17927d9ad | 1 | first use |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1|bc27f3692d70 | 2 | reclassified_development |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1|487ae8a2643f | 1 | first use |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1|612b8e1a975e | 1 | first use |
+| on0.8_L1_strong_harmful_d50_b0.05_s0.1|612b8e1a975e | 1 | first use |
+| on0.8_L1_strong_harmful_d50_b0.1_s0.1|487ae8a2643f | 1 | first use |
+
+## 5. Explanation ledger (cycle 2, one entry per reproduced failure)
+
+Avoidable: H = cost(best_safe) - cost(R_family) with paired 95% CI (R_family's null-twin FP is within the locked
+allowance in the table of reproduced failures); the R_law figure is the same difference against the law-aware
+filter on the reproduction seeds. Decomposition: gap parts from stage 2b (per-round cost; onset/stake/interaction/residual
+as defined there; "largest" is the largest of onset, stake and residual by mean). Repaired: yes / no / unverified.
+
+| failure cell | avoidable? | isolated axis | decomposition attribution | repaired? |
+|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | yes: H +0.1965 [+0.1781, +0.2150] vs R_family; best_safe (episode_front) - R_law +0.3249 | none (no single axis) | onset +0.0992, stake +0.0562, interaction -0.0023, residual +0.0482; largest: onset-uncertainty | no |
+| on0.6_L1_strong_harmful_d10_b0.05_s0.1 | yes: H +0.1937 [+0.1831, +0.2044] vs R_family; best_safe (allonset_edetector) - R_law +0.2678 | onset | onset +0.0745, stake +0.0396, interaction +0.0185, residual +0.0591; largest: onset-uncertainty | unverified |
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.5 | yes: H +0.2139 [+0.1943, +0.2334] vs R_family; best_safe (episode_front) - R_law +0.3296 | none (no single axis) | onset +0.0971, stake +0.0578, interaction -0.0080, residual +0.0633; largest: onset-uncertainty | no |
+| on0.3_L0.6_strong_harmful_d10_b0.1_s0.1 | yes: H +0.1822 [+0.1658, +0.1986] vs R_family; best_safe (episode_front) - R_law +0.2366 | none (no single axis) | onset +0.0754, stake +0.0387, interaction +0.0027, residual +0.0724; largest: onset-uncertainty | no |
+| on0.8_L1_strong_harmful_d10_b0.05_s0.1 | yes: H +0.1064 [+0.1008, +0.1121] vs R_family; best_safe (c1_hmm_cs) - R_law +0.1402 | onset | onset +0.0114, stake +0.0009, interaction +0.0269, residual +0.0698; largest: residual (label count/information) | unverified |
+| on0.8_L1_strong_harmful_d10_b0.1_s0.1 | yes: H +0.1104 [+0.1054, +0.1154] vs R_family; best_safe (episode_front) - R_law +0.1271 | onset | onset +0.0479, stake +0.0159, interaction +0.0121, residual +0.0388; largest: onset-uncertainty | no |
+| on0.6_L1_strong_harmful_d10_b0.1_s0.1 | yes: H +0.1334 [+0.1264, +0.1404] vs R_family; best_safe (allonset_edetector) - R_law +0.1589 | onset | onset +0.0769, stake +0.0390, interaction -0.0053, residual +0.0339; largest: onset-uncertainty | no |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.1 | yes: H +0.1119 [+0.1053, +0.1185] vs R_family; best_safe (c1_hmm_cs) - R_law +0.1419 | none (no single axis) | onset +0.0183, stake +0.0021, interaction +0.0342, residual +0.0608; largest: residual (label count/information) | no |
+| on0.6_L1_strong_harmful_d50_b0.1_s0.1 | yes: H +0.1146 [+0.1083, +0.1208] vs R_family; best_safe (allonset_edetector) - R_law +0.1706 | onset | onset +0.0703, stake +0.0320, interaction -0.0072, residual +0.0390; largest: onset-uncertainty | no |
+| on0.8_L0.6_strong_harmful_d1_b0.05_s0.5 | yes: H +0.1100 [+0.1035, +0.1166] vs R_family; best_safe (no_switch) - R_law +0.1395 | none (no single axis) | onset +0.0182, stake +0.0024, interaction +0.0257, residual +0.0608; largest: residual (label count/information) | no |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | yes: H +0.1903 [+0.1790, +0.2017] vs R_family; best_safe (allonset_edetector) - R_law +0.2601 | none (no single axis) | onset +0.0866, stake +0.0456, interaction +0.0024, residual +0.0661; largest: onset-uncertainty | no |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | yes: H +0.1582 [+0.1444, +0.1719] vs R_family; best_safe (allonset_edetector) - R_law +0.2700 | onset | onset +0.0643, stake +0.0312, interaction +0.0235, residual +0.0383; largest: onset-uncertainty | no |
+
+## 6. Limitations
+
+- R_family is an empirically calibrated Bayes filter that has prior knowledge of the declared family; its kappa was
+  calibrated on the same discovery null twins. It is a reference, not a method, and not an anytime-valid test.
+- The family is 2-state Bernoulli D only (scripted regime path, onset jitter); no covariates, drift or dependence.
+- R6 baselines are missing (section 2).
+- `best_safe` is selected on the same seeds it is evaluated on (favours baselines).
+- Heuristic validity: `horizon_cusum` uses a fixed finite-horizon threshold, not an anytime-valid level; validity of
+  repeated episodes with alpha spending is a research target. `weighted_starts` weights are a declared family-informed prior
+  (validity does not depend on them); the straddle schedule used to place them is approximated by the uniform pace.
+- The `diag_oracle_*` variants see truth and are evaluator-side diagnostics only; the decomposition is descriptive
+  (it depends on the order of ablation, hence the interaction term) and uses `episode_front` as the common decision rule.
+- Reference change in cycle 2: R_law/R_family use the promote-then-revert plan value; the demotion rule was made symmetric
+  (demote when every revert round u<T has cumulative expected benefit < -margin and staying to T is below -(s+margin)).
+  Cycle-2 classes are not directly comparable to cycle-1 beyond the transition table, which is its purpose.
+- In cycle 2 no cell is classified `info_limited`; every cycle-1 `info_limited` cell moved (see transitions). That the
+  corrected R_law now beats no_switch everywhere is a point to audit, not a result.
+- Nothing here is confirmatory: no confirmation seeds were touched; mechanism-validation reuse is logged above.
+
+## 7. Reviewer assessment (2026-10-30)
+
+**Engine: CONTINUE.** The loop works end to end. It discovers, reproduces, decomposes, isolates,
+searches typed candidates, and validates with ablation and neighbours, using locked criteria and
+logged seed reuse. Two cycles took about 1.5 h of CPU time in total. Cycle 1 surfaced a real
+defect in the reference (R_law), which was fixed through an amendment registered before cycle 2.
+This is the intended behaviour.
+
+**Failure family 1 (late or transient advantage, strong effect, harmful off state): the failure is
+reproducible and explained, but not repaired. PIVOT away from repairing it with the existing
+components.**
+
+1. **The failure is real against the declared references.** All 12 reproduced survivors have H CIs
+   far from 0.01. In the to-end cells with onset 0.6 or 0.8, every gated baseline sits near
+   `no_switch`.
+2. **Most of the gap is attributable to known, structural costs of a valid sequential gate:**
+   - In most cells, the largest share is onset multiplicity: the start-mixture penalty of about
+     log(#starts).
+   - The next share is a mismatch between the stake grid and the alternative.
+   - In the onset-0.8 cells the residual dominates. The gate sees about 10 favourable labels
+     against an analytic requirement of 26 to 29. That is an absolute label shortage, not an
+     algorithmic gap.
+3. **The residual is mostly the cost of validity, not a repairable mechanism.** The residual is the
+   oracle-onset, oracle-stake e-process minus R_family. R_family is a Bayes filter: it knows the
+   family prior and is calibrated only empirically, on the same family. That residual should not
+   count as avoidable headroom for any method that claims an anytime guarantee. The avoidable part
+   is at most the onset plus stake share, roughly 0.02 to 0.16 per round. The onset share is
+   close to the multiplicity penalty, which is expected to be unavoidable under a
+   false-promotion-probability constraint with unknown onset. That still needs a stated lower
+   bound before it can be claimed.
+4. **No typed composition of valid components closed 50% of the gap.** The best closed 48%. The
+   family-informed `weighted_starts` and `wide_stakes` gave only small gains. So spreading prior
+   mass over four onset levels with jitter does not remove the multiplicity penalty.
+5. **The info_limited test is uninformative.** With the plan-value fix, R_law knows the law almost
+   exactly and can promote nearly blind. It therefore beats `no_switch` in every cell, and no cell
+   is info_limited. Avoidability must be judged against a reference that is information-matched
+   and validity-matched, not against R_law.
+
+**Next cycle (registered direction, not yet run):**
+- (a) Add a validity-matched reference, `R_valid`. It is the best valid e-process gate that is
+  given the family prior only as fixed mixture weights (no oracle onset or stake). Redefine
+  headroom against it. Cells where `best_safe - R_valid` vanishes are recorded as "cost of
+  validity", not as failures.
+- (b) State and check a lower bound on the onset-multiplicity penalty under the finite-horizon
+  false-promotion constraint, and audit sources first. Recent conformal-martingale and e-detector
+  change-detection work is the closest prior art, and the R2 kill rule applies.
+- (c) Implement the missing R6 baselines: the Gong–Zhang, Qiu et al. and Ryabchenko delayed
+  wrappers, and the online FWER comparator. Until then, no atlas failure counts as shared across
+  the strongest methods.
+- (d) Open failure family 2 (dependence and recurrent regimes, or boundary nulls with reversals)
+  in the same engine.
+
+None of the evidence here is confirmatory. No confirmation seeds were touched.
+
+## Cycle 3
+
+Protocol: `docs/failure_atlas_v1_protocol.md` including Amendments 2, 3 and 4. All numbers below are copied from
+`outputs/failure_atlas_v1_cycle3/family1/summary.md`, `outputs/failure_atlas_v1_cycle3/family2/summary.md`,
+`outputs/failure_atlas_v1_cycle3/run.log`, `docs/failure_atlas_onset_multiplicity_bound_v1.md` or the protocol
+amendments. Nothing here is confirmatory: discovery, development and mechanism-validation seeds only.
+
+### 1. Run record
+
+- Command (repository root; the `run.log` header records only `out=... smoke=False family=both workers=12`, so the
+  command is the one supplied with the task):
+  `python scripts/run_failure_atlas_loop.py --family both --out outputs/failure_atlas_v1_cycle3/ --workers 12 --reuse-cells-from outputs/failure_atlas_v1_cycle2/state.json --compare-to outputs/failure_atlas_v1_cycle2`
+- Commits: `4a8a576` (code; "Add R_valid reference, failure family 2 and triggered_kelly component") and `ba131d6`
+  (R6 switching baselines and onset-multiplicity bound audit).
+- Family 1 header: git head `ba131d6233`, dirty = True; sources `failure_atlas.py` `24a2542f20`,
+  `atlas_components.py` `79f9665b76`, `atlas_r6_baselines.py` `3ebc8dfe67`, `switching_explore.py` `f7a330f595`,
+  `eprocess.py` `a9355d3883`, `run_failure_atlas_loop.py` `d235af61bc`; T=1000; smoke=False; method-runs 220480;
+  elapsed 2929 s; stopped: completed all stages.
+- Family 2 header: git head `4a8a576bd9`, dirty = False; sources `failure_atlas.py` `80bd6bd88f`,
+  `atlas_components.py` `79f9665b76`, `atlas_r6_baselines.py` `3ebc8dfe67`, `switching_explore.py` `f7a330f595`,
+  `eprocess.py` `a9355d3883`, `run_failure_atlas_loop.py` `8202d9288c`; T=1000; smoke=False; method-runs 103920;
+  elapsed 840 s; stopped: no failure survives stage 2/3.
+- Per-stage wall time, family 1 (s): stage1_discover 1609; stage2_reproduce 258; stage2b_diagnose 107;
+  stage4_isolate 103; stage5_6_mechanism 852 (sum 2929). Family 2 (s): stage1_discover 840.
+- Family 1 reuses the sampled and refinement cells and the discovery seeds of cycle 2
+  (`outputs/failure_atlas_v1_cycle2/state.json`), so classes are comparable. R6 baselines loaded in both families:
+  gong_zhang_paid_obs, qiu_delayed_movement, ryabchenko_capacity, online_fwer_spending.
+
+### 2. Validity checks
+
+- R_valid boundary null (any-promotion rate): 0.0333 for family 1 and 0.0100 for family 2.
+- R_valid pooled null twins (discovery seeds, from the summaries; alpha = 0.1):
+  family 1 0/1600 = 0.000 (80 distinct twins); family 2 0/1520 = 0.000 (76 distinct twins).
+- `triggered_kelly` nulls: 0.0733 on the boundary null and 0.0000 on the harmful-off null.
+- `online_fwer_spending` boundary null: 0.005.
+- Source of the boundary-null figures above: they were supplied with the task (validity tests,
+  `tests/test_atlas_components.py` and `tests/test_atlas_r6_baselines.py`); they do not appear in the cycle-3
+  summaries or `run.log`, so they were not re-derived here.
+- R_family kappa, family 1: chosen kappa = 0.05 (calibrated=True, 80 distinct twins, seeds [0, 19]).
+
+| kappa | FP count | n | pooled any-FP rate |
+|---|---|---|---|
+| 0.5 | 1524 | 1600 | 0.953 |
+| 0.3 | 1033 | 1600 | 0.646 |
+| 0.2 | 650 | 1600 | 0.406 |
+| 0.1 | 298 | 1600 | 0.186 |
+| 0.05 | 115 | 1600 | 0.072 |
+| 0.02 | 37 | 1600 | 0.023 |
+| 0.01 | 18 | 1600 | 0.011 |
+
+- R_family kappa, family 2: chosen kappa = 0.2 (calibrated=True, 76 distinct twins, seeds [0, 19]).
+
+| kappa | FP count | n | pooled any-FP rate |
+|---|---|---|---|
+| 0.5 | 530 | 1520 | 0.349 |
+| 0.3 | 158 | 1520 | 0.104 |
+| 0.2 | 69 | 1520 | 0.045 |
+| 0.1 | 15 | 1520 | 0.010 |
+| 0.05 | 5 | 1520 | 0.003 |
+| 0.02 | 1 | 1520 | 0.001 |
+| 0.01 | 0 | 1520 | 0.000 |
+
+### 3. Lower-bound audit outcome (`docs/failure_atlas_onset_multiplicity_bound_v1.md`)
+
+- The finite-horizon packing bound (Theorem 1) is classical: Huang and Veeravalli (arXiv 2511.12803) Theorem 1 states
+  the same `log T + log(1/delta_F)` latency lower bound, and the repository's own finite-horizon QCD audit already holds
+  the non-asymptotic version. R2 kill rule: not novel. No novelty is claimed (reviewer note).
+- In the harmful-off cells (`q_off = 0.1`, all twelve cycle-2 ledger failure cells) the bound is vacuous. With
+  `q' = q0 = 0.55` it is vacuous beyond a few labels; with `q' = q_off = 0.1` it gives only n >= 3 labels, below the
+  known-onset floor of 4.65. It therefore does not establish that the family-1 onset share is unavoidable.
+- The literal "stop at the first 1 after r zeros" counterexample is valid only against the simple null Bern(q0). The
+  project null is the composite conditional null, which contains the harmful off state itself, so the counterexample
+  does not show a valid gate exists under the project null (reviewer note).
+- The toy history-triggered Kelly bettor is valid under the composite null (predictable stake in [0, 1)); its toy
+  detection result (51% versus 0%) stands only as evidence of algorithmic headroom, and it ignores delay, the economic
+  check and rollback.
+- The cycle-2 ledger section 7 reading ("onset share expected unavoidable") is corrected: it applies to neutral-like off
+  states only, and only to the `ln(N/n)` part. Cells whose shortfall is the post-onset label count alone remain
+  `cost_of_validity`.
+
+### 4. Family 1 results
+
+Discovery counts by class (stage 1; 360 cells):
+
+| class | cells |
+|---|---|
+| cost_of_validity | 117 |
+| no_headroom | 214 |
+| prior_gap | 1 |
+| reference_unsafe | 21 |
+| shared_failure | 7 |
+| total | 360 |
+
+Information-limited cells: none.
+
+Class transitions: cycle 2 (rows) -> cycle 3 (columns). 116 of the 123 shared failures of cycle 2 moved to
+`cost_of_validity`; 7 stayed `shared_failure`.
+
+| prev \ now | cost_of_validity | headroom_not_shared | no_headroom | prior_gap | reference_unsafe | shared_failure | total |
+|---|---|---|---|---|---|---|---|
+| cost_of_validity | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| headroom_not_shared | 1 | 0 | 0 | 0 | 0 | 0 | 1 |
+| no_headroom | 0 | 0 | 214 | 1 | 0 | 0 | 215 |
+| prior_gap | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| reference_unsafe | 0 | 0 | 0 | 0 | 21 | 0 | 21 |
+| shared_failure | 116 | 0 | 0 | 0 | 0 | 7 | 123 |
+
+The per-cell list of the 116 cells is in `outputs/failure_atlas_v1_cycle3/family1/summary.md`.
+
+Reproduced failures (stage 2, fresh discovery seeds). Two of the seven candidates reproduced as `cost_of_validity`
+(severity 0.0000) and are not pursued; the five `shared_failure` rows are the survivors.
+
+| cell | label | severity | H [95% CI] | best_safe | R_family null FP [Wilson] |
+|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1965 | +0.1965 [+0.1781, +0.2150] | episode_front | 0.130 [0.078,0.210] |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1903 | +0.1903 [+0.1790, +0.2017] | allonset_edetector | 0.070 [0.034,0.137] |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | shared_failure | 0.1582 | +0.1582 [+0.1444, +0.1719] | allonset_edetector | 0.110 [0.063,0.186] |
+| on0.1_L0.6_strong_harmful_d10_b0.1_s0.05 | cost_of_validity | 0.0000 | +0.1073 [+0.0955, +0.1191] | episode_front | 0.130 [0.078,0.210] |
+| on0.1_L0.6_strong_harmful_d50_b0.25_s0.1 | cost_of_validity | 0.0000 | +0.0969 [+0.0842, +0.1096] | episode_front | 0.080 [0.041,0.150] |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.0694 | +0.0694 [+0.0520, +0.0869] | episode_front | 0.070 [0.034,0.137] |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | shared_failure | 0.0822 | +0.0822 [+0.0628, +0.1017] | episode_front | 0.090 [0.048,0.162] |
+
+Per-baseline gap to R_family (mean, lower CI bound; cost per round):
+
+| cell | episode_geo | episode_equal | episode_front | allonset_edetector | c2_rho0.75 | c1_hmm_cs | online_fwer_spending | no_switch |
+|---|---|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | +0.227 (+0.208) | +0.313 (+0.292) | +0.197 (+0.178) | +0.218 (+0.199) | +0.266 (+0.243) | +0.326 (+0.305) | +0.227 (+0.208) | +0.325 (+0.304) |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | +0.206 (+0.195) | +0.236 (+0.223) | +0.195 (+0.184) | +0.190 (+0.179) | +0.231 (+0.219) | +0.236 (+0.224) | +0.206 (+0.195) | +0.235 (+0.223) |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | +0.171 (+0.158) | +0.186 (+0.171) | +0.160 (+0.146) | +0.158 (+0.144) | +0.184 (+0.169) | +0.186 (+0.171) | +0.171 (+0.158) | +0.185 (+0.171) |
+| on0.1_L0.6_strong_harmful_d10_b0.1_s0.05 | +0.128 (+0.116) | +0.240 (+0.227) | +0.107 (+0.095) | +0.287 (+0.278) | +0.170 (+0.151) | +0.282 (+0.265) | +0.128 (+0.116) | +0.357 (+0.346) |
+| on0.1_L0.6_strong_harmful_d50_b0.25_s0.1 | +0.100 (+0.092) | +0.159 (+0.147) | +0.097 (+0.084) | +0.242 (+0.236) | +0.125 (+0.113) | +0.390 (+0.375) | +0.100 (+0.092) | +0.367 (+0.362) |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | +0.099 (+0.083) | +0.193 (+0.171) | +0.069 (+0.052) | +0.243 (+0.226) | +0.154 (+0.128) | +0.183 (+0.156) | +0.099 (+0.083) | +0.205 (+0.181) |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | +0.107 (+0.087) | +0.197 (+0.172) | +0.082 (+0.063) | +0.254 (+0.236) | +0.155 (+0.128) | +0.234 (+0.211) | +0.107 (+0.087) | +0.203 (+0.178) |
+
+Diagnostic decomposition (stage 2b; evaluator-side, descriptive, 100 seeds, discovery seeds). Cost is per round;
+`front` = `episode_front`; the parts are as defined in the cycle-2 ledger (onset, stake, interaction, residual).
+Brackets are paired 95% CIs. Kelly stake is 0.778 in all five cells.
+
+| cell | best_safe | gap | best_safe-front | onset | stake | interaction | residual |
+|---|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | episode_front | +0.2012 [+0.1782, +0.2243] | +0.0000 [+0.0000, +0.0000] | +0.0992 [+0.0861, +0.1123] | +0.0562 [+0.0479, +0.0644] | -0.0023 [-0.0149, +0.0103] | +0.0482 [+0.0279, +0.0684] |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | allonset_edetector | +0.1967 [+0.1860, +0.2074] | -0.0040 [-0.0071, -0.0008] | +0.0866 [+0.0746, +0.0986] | +0.0456 [+0.0375, +0.0536] | +0.0024 [-0.0083, +0.0131] | +0.0661 [+0.0508, +0.0814] |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | episode_front | +0.1572 [+0.1443, +0.1702] | +0.0000 [+0.0000, +0.0000] | +0.0643 [+0.0565, +0.0720] | +0.0312 [+0.0257, +0.0367] | +0.0235 [+0.0132, +0.0338] | +0.0383 [+0.0240, +0.0526] |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | episode_front | +0.0882 [+0.0653, +0.1111] | +0.0000 [+0.0000, +0.0000] | +0.1123 [+0.0975, +0.1270] | +0.0482 [+0.0399, +0.0565] | +0.0086 [-0.0068, +0.0240] | -0.0809 [-0.1043, -0.0575] |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | episode_front | +0.0758 [+0.0562, +0.0954] | +0.0000 [+0.0000, +0.0000] | +0.1076 [+0.0940, +0.1212] | +0.0557 [+0.0474, +0.0641] | -0.0043 [-0.0189, +0.0102] | -0.0832 [-0.1058, -0.0606] |
+
+Isolation (stage 4): does moving one axis to its easiest level remove the failure?
+
+| failure cell | onset | duration | effect | d | budget_frac | s |
+|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.045, shared_failure) | keeps (H lo +0.137, cost_of_validity) | at easiest | keeps (H lo +0.144, shared_failure) | keeps (H lo +0.102, cost_of_validity) | keeps (H lo +0.188, shared_failure) |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.015, shared_failure) | keeps (H lo +0.147, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.046, cost_of_validity) | keeps (H lo +0.156, cost_of_validity) |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | REMOVES (H lo -0.101, no_headroom) | at easiest | at easiest | keeps (H lo +0.147, cost_of_validity) | keeps (H lo +0.053, cost_of_validity) | keeps (H lo +0.129, cost_of_validity) |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | at easiest | REMOVES (H lo -0.014, no_headroom) | at easiest | at easiest | keeps (H lo +0.078, cost_of_validity) | REMOVES (H lo -0.009, prior_gap) |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | at easiest | REMOVES (H lo -0.098, no_headroom) | at easiest | keeps (H lo +0.022, shared_failure) | keeps (H lo +0.085, shared_failure) | keeps (H lo +0.066, shared_failure) |
+
+Candidate and repair table (stages 5-6). Spec decodes:
+`8ac25a41d4a8` = uniform + triggered_kelly + none + rollback_monitor;
+`891a240116da` = straddle + weighted_starts + none + rollback_monitor;
+`b1a17927d9ad` = straddle acquisition + started_mixture + rollback_monitor.
+
+| failure cell | axes removing | proposed/invalid | stage-6 candidate | val cost | gap closure | null FP | closes >=50% | ablation removes gain | neighbours ok | neighbour detail | repair |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | none | 25/0 | 891a240116da | 0.4164 | 0.18 | 0.00 | False | False | False | on0.1_L0.6_strong_harmful_d10_b0.05_s0.1: vs best_safe +0.048 [-0.014,+0.110], ok=False; on0.6_L0.6_strong_harmful_d10_b0.05_s0.1: vs best_safe -0.038 [-0.067,-0.009], ok=True | False |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | none | 25/0 | b1a17927d9ad | 0.2578 | 0.59 | 0.00 | True | True | True | on0.3_L0.6_strong_harmful_d1_b0.05_s0.1: vs best_safe -0.084 [-0.139,-0.029], ok=True; on0.8_L0.6_strong_harmful_d1_b0.05_s0.1: vs best_safe -0.017 [-0.034,-0.001], ok=True | True |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | ['onset'] | 33/0 | 8ac25a41d4a8 | 0.3775 | 0.13 | 0.00 | False | True | False | on0.3_L1_strong_harmful_d50_b0.05_s0.1: vs best_safe +0.035 [-0.005,+0.074], ok=False; on0.8_L1_strong_harmful_d50_b0.05_s0.1: vs best_safe -0.000 [-0.002,+0.001], ok=True | False |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | ['duration', 's'] | 18/0 | 8ac25a41d4a8 | 0.3994 | 1.09 | 0.00 | True | True | False | on0.1_L0.3_strong_harmful_d1_b0.05_s0.1: vs best_safe -0.030 [-0.049,-0.010], ok=True; on0.1_L1_strong_harmful_d1_b0.05_s0.1: vs best_safe -0.013 [-0.063,+0.036], ok=False | False |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | ['duration'] | 18/0 | 8ac25a41d4a8 | 0.4332 | 0.93 | 0.00 | True | True | False | on0.1_L0.3_strong_harmful_d10_b0.05_s0.5: vs best_safe -0.024 [-0.043,-0.006], ok=True; on0.1_L1_strong_harmful_d10_b0.05_s0.5: vs best_safe +0.036 [-0.032,+0.105], ok=False | False |
+
+The one stage-6 repair, `b1a17927d9ad` (straddle acquisition + started_mixture + rollback_monitor) on
+`on0.6_L0.6_strong_harmful_d1_b0.05_s0.1`, is reclassified as development evidence under Amendment 4. The same
+(cell, spec) pair was already viewed on cycle-2 validation seeds, and cycle-3 validation seeds overlap the cycle-1
+range; the per-directory validation-seed log cannot see reuse across cycles, so its "first use" entry for this pair
+does not establish fresh seeds. Its fresh-seed check is pending and goes in section 7. No stage-6 repair in
+cycle 3 counts as validated.
+
+Amendment 3 check: `triggered_kelly` gain over its started-mixture ablation. Gain = ablated cost - triggered_kelly
+cost (per round; positive = triggered_kelly better). Dev = development seeds (stage 5), val = mechanism-validation seeds.
+
+| failure cell | off_type | spec | decision | dev gain | val gain | val null FP |
+|---|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | harmful | 8ac25a41d4a8 | rollback_monitor | +0.0406 | +0.0343 | +0.0000 |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | harmful | 8ac25a41d4a8 | rollback_monitor | +0.0309 | +0.0315 | +0.0000 |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | harmful | 8ac25a41d4a8 | rollback_monitor | +0.0407 | +0.0378 | +0.0000 |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | harmful | 8ac25a41d4a8 | rollback_monitor | +0.0749 | +0.0747 | +0.0000 |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | harmful | 8ac25a41d4a8 | rollback_monitor | +0.0674 | +0.0704 | +0.0000 |
+
+| off_type | n survivors | mean dev gain | mean val gain |
+|---|---|---|---|
+| harmful | 5 | +0.0509 | +0.0498 |
+| neutral | 0 | - | - |
+
+The neutral-off arm of the Amendment 3 prediction was not testable in this run (0 neutral survivors); it is deferred to
+Amendment 4 item 3 (section 7).
+
+### 5. Family 2 results (recurrent regimes and reversals)
+
+Discovery counts by class (stage 1; 200 sampled cells):
+
+| class | cells |
+|---|---|
+| cost_of_validity | 45 |
+| info_limited | 1 |
+| no_headroom | 154 |
+| total | 200 |
+
+- Calibration: chosen kappa = 0.2 (calibrated=True, 76 distinct twins, seeds [0, 19]); table in section 2. R_valid
+  null-twin any-promotion rate (pooled, 76 distinct twins, 1520 runs): 0/1520 = 0.000 (alpha = 0.1).
+- Information-limited cell:
+
+| cell | no_switch - R_law [95% CI] |
+|---|---|
+| f2_r0.02_weak_harmful_d10_b0.25_s0.5 | -0.0072 [-0.0213, +0.0069] |
+
+  The CI includes 0, so this single cell is a weak signal only.
+- The run stopped after discovery ("no failure survives stage 2/3"): 0 cells reached reproduction (`[stage2]
+  reproducing 0 candidate failure cells`), so no refinement, isolation or mechanism stage ran for family 2. There are
+  no family-2 shared failures in this run.
+
+### 6. Explanation ledger (cycle 3, one entry per family-1 survivor)
+
+Avoidable: H = cost(best_safe) - cost(R_family) with paired 95% CI from the table of reproduced failures (R_family's
+null-twin FP is in that table). The R_law comparison is not in the cycle-3 summary and is not reported. Decomposition:
+largest of onset, stake and residual by mean (stage 2b). Repaired: yes / no / unverified.
+
+| failure cell | avoidable? | isolated axis | decomposition attribution | repaired? |
+|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | yes: H +0.1965 [+0.1781, +0.2150] vs R_family; best_safe (episode_front) | none (no single axis) | onset +0.0992, stake +0.0562, interaction -0.0023, residual +0.0482; largest: onset-uncertainty | no |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | yes: H +0.1903 [+0.1790, +0.2017] vs R_family; best_safe (allonset_edetector) | none (no single axis) | onset +0.0866, stake +0.0456, interaction +0.0024, residual +0.0661; largest: onset-uncertainty | unverified (development repair `b1a17927d9ad`; fresh-seed check pending, section 7) |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | yes: H +0.1582 [+0.1444, +0.1719] vs R_family; best_safe (allonset_edetector) | onset | onset +0.0643, stake +0.0312, interaction +0.0235, residual +0.0383; largest: onset-uncertainty | no |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | yes: H +0.0694 [+0.0520, +0.0869] vs R_family; best_safe (episode_front) | duration, s | onset +0.1123, stake +0.0482, interaction +0.0086, residual -0.0809; largest: onset-uncertainty | no |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | yes: H +0.0822 [+0.0628, +0.1017] vs R_family; best_safe (episode_front) | duration | onset +0.1076, stake +0.0557, interaction -0.0043, residual -0.0832; largest: onset-uncertainty | no |
+
+### 7. Pending checks
+
+### Amendment 4 mechanism checks (fresh seeds 280000-280199)
+
+**Run record.** Command: `.venv/Scripts/python scripts/run_atlas_mechanism_check_v1.py`.
+
+- Code: `scripts/run_atlas_mechanism_check_v1.py`. Output: `outputs/failure_atlas_v1_mechcheck/`. The run ran on git head `089edbb0b9` (dirty=True, from the uncommitted check script).
+- 214 s of script time on 12 workers, using seeds [280000, 280200) (200 seeds) and kappa 0.05.
+- **Freshness check.** The reviewer grepped all four earlier archives. No mechanism seed falls in [280000, 280200). The one numeric hit, in the cycle-1 archive, is a cost value (0.280165), not a seed.
+
+**Check 1: straddle repair (`b1a17927d9ad` on `on0.6_L0.6_strong_harmful_d1_b0.05_s0.1`). PASS, with a thin margin on closure.**
+
+| quantity | value |
+|---|---|
+| cost: candidate / ablation (uniform acquisition) / best_safe (`allonset_edetector`) / R_family / R_valid | 0.2781 / 0.3933 / 0.3733 / 0.1838 / 0.3541 |
+| gap closure to R_family (ratio of means, no CI) | 0.503 (threshold 0.5) |
+| candidate − best_safe | −0.0953 [−0.1051, −0.0855] |
+| candidate − ablation | −0.1152 [−0.1245, −0.1059] |
+| null-twin FP: candidate / ablation / best_safe / R_family / R_valid | 0.000 / 0.000 / 0.000 / 0.145 / 0.000 |
+| neighbour `on0.3_L0.6_strong_harmful_d1_b0.05_s0.1`: candidate − best_safe (`episode_front`) | −0.0823 [−0.0987, −0.0658] |
+| neighbour `on0.8_L0.6_strong_harmful_d1_b0.05_s0.1`: candidate − best_safe (`no_switch`) | −0.0197 [−0.0244, −0.0149] |
+
+**Check 2: straddle gain falls as delay grows. PASS.** Gain is ablation cost minus candidate cost.
+
+| d | gain |
+|---|---|
+| 1 | +0.1152 [+0.1059, +0.1245] |
+| 10 | +0.0660 [+0.0565, +0.0755] |
+| 50 | −0.0166 [−0.0204, −0.0129] |
+
+gain(d=1) − gain(d=50) = +0.1318 [+0.1218, +0.1418].
+
+**Check 3: `triggered_kelly` (`8ac25a41d4a8`), harmful-off vs neutral-off arms. PASS on the locked criterion, but the explanation is incomplete.**
+
+- Mean gain over the 5 cells: harmful +0.0531 [+0.0498, +0.0564]; neutral +0.0218 [+0.0187, +0.0250].
+- Harmful − neutral = +0.0313 [+0.0270, +0.0356].
+- The "neutral gain upper bound < 0.01" branch fails. The check passes only through the "significantly smaller" branch.
+- The neutral gains concentrate in the two onset-0.1 cells, at +0.0619 and +0.0553. The other three neutral cells are at or below zero.
+
+### 8. Limitations (cycle 3)
+
+- R_valid had a pooled null false-promotion rate of 0 against alpha 0.1 (0/1600 in family 1, 0/1520 in family 2), so
+  it may be conservative. Some `cost_of_validity` labels, including the 116 cells that moved from `shared_failure`, may
+  reflect a weak valid reference rather than an unavoidable cost.
+- The hard-budget pacing comparator is still missing (registry status: missing).
+- The R6 wrappers (gong_zhang_paid_obs, qiu_delayed_movement, ryabchenko_capacity, online_fwer_spending) depart from
+  their sources as documented in the registry; a shared failure is a failure against the implemented baselines only.
+- `best_safe` (including `no_switch`) is chosen on the same seeds it is evaluated on, which favours the baselines.
+- The data are 2-state Bernoulli D only; no covariates or drift. R_family is calibrated empirically on one declared
+  family, not an anytime-valid test.
+- Family 1 was run with uncommitted code (git dirty = True at head `ba131d6233`); family 2 ran from `4a8a576bd9`.
+- Nothing here is confirmatory: no confirmation seeds were touched, and the stage-6 repair is development evidence only.
+
+### Cycle 3 reviewer assessment (2026-10-31)
+
+**Engine: CONTINUE.** Cycle 3 did what the loop is for.
+
+- The validity-matched reference reclassified 116 of the 123 cycle-2 shared failures as
+  `cost_of_validity`. Most of the family-1 "failure" was therefore the price of a valid gate, not
+  a missing algorithm.
+- The lower-bound audit corrected an over-reading in the cycle-2 assessment. The onset share is not
+  provably unavoidable in harmful-off cells.
+- Family 2 (recurrent regimes) produced no shared failure among 200 cells.
+
+**First mechanism to survive fresh-seed validation: straddle acquisition (query only while the
+decision is undecided). CONTINUE, as a mechanism finding, not a method claim.**
+
+- On fresh seeds it beats the strongest implemented gated baseline by 0.095 per round in the
+  repair cell, and it is no worse in both registered neighbours.
+- Its null false-promotion rate is 0.
+- The gain disappears when acquisition is ablated to uniform.
+- It also beats R_valid (0.278 vs 0.354), even though R_valid uses the declared family prior.
+- The gain depends on delay, as the mechanism hypothesis predicts. It is large at d=1, smaller at
+  d=10, and negative at d=50. The mechanism is therefore "fast feedback lets the method stop paying
+  for labels once the call is clear". It is not a general improvement, and it must be scoped to
+  short release delays.
+
+Limits:
+
+- The closure margin is thin (0.503 against 0.5, with no CI).
+- The result covers one cell plus its neighbours in a 2-state Bernoulli simulator.
+- Undecided-only (uncertainty-driven) querying is a classical idea in active learning and active
+  sequential testing. No novelty is claimed until an R2 source audit is done.
+
+**`triggered_kelly`: its mechanism explanation is PARTLY FALSIFIED, so PIVOT the explanation.**
+
+- The locked criterion passes, and the gain is larger in harmful-off cells.
+- But the gain is also substantial in the two onset-0.1 neutral cells. "Pre-onset data are
+  informative" therefore does not explain all of it.
+- A second effect, probably faster re-entry after a window closes and the method rolls back, is
+  untested. The explanation ledger records it as incomplete.
+
+**Validity caveats carried forward:**
+
+- R_valid's pooled null false-promotion rate was 0 against alpha 0.1, so it may be conservative.
+  Some `cost_of_validity` labels could therefore be an artefact of a weak valid reference.
+- `straddle`'s query rule depends on released labels only, so it is predictable, and the
+  e-process stays valid under the conditional null. No proof is written down yet for
+  delayed-release selection.
+
+**Cycle 4 (registered direction, not yet run):**
+
+- (a) **Straddle mechanism map.** Run straddle against its uniform ablation across the full
+  family-1 and family-2 grids on development seeds. This maps where it helps or hurts by d, B, s
+  and onset.
+- (b) **R2 prior-art audit** of uncertainty-driven acquisition for anytime-valid tests under delay
+  and a hard budget. Starting sources:
+  - active sequential hypothesis testing (Chernoff, Naghshvar–Javidi);
+  - testing by betting with adaptive sampling;
+  - the repository's `switching_*_prior_audit` docs.
+- (c) **Theory target.** A label-saving bound for straddle as a function of `d`, together with a
+  written validity argument for predictable query selection under release delay.
+- (d) **Second mechanism test for `triggered_kelly`.** Count re-entries after rollback in the
+  onset-0.1 neutral cells.
+- (e) **Strengthen R_valid** so that its null false-promotion rate uses its alpha budget, for
+  example with wider stakes or Kelly-adaptive weights. Then re-run the `cost_of_validity`
+  classification.
+- (f) **Add the missing hard-budget pacing comparator.**
+
+None of this is confirmatory. The confirmation seeds remain untouched.
+
+## Cycle 4
+
+Protocol: `docs/failure_atlas_v1_protocol.md` including Amendments 5 and 5b. All numbers below are copied from
+`outputs/failure_atlas_v1_cycle4_map/summary.md`, `outputs/failure_atlas_v1_cycle4_rvalid2/summary.md`,
+`docs/failure_atlas_straddle_theory_v1.md`, the two `run.log` files, the protocol amendments, or the reviewer's
+evaluation of `outputs/failure_atlas_v1_cycle4_map/checkpoint.jsonl` (marked as such). Nothing here is confirmatory:
+development seeds only.
+
+### 1. Run record
+
+- Straddle map and H-TK2 (Amendment 5 items 1-2): script `scripts/run_atlas_cycle4_map_v1.py`, output
+  `outputs/failure_atlas_v1_cycle4_map/`. The exact command line is not recorded in the summary or `run.log`; the
+  script defaults are T = 1000, `--n-seeds 40`, `--n-f1 400`, `--n-f2 200`, `--workers 6` (the log header records
+  `jobs=791 workers=6 T=1000 n_seeds=40`). Seeds [100000, 100040) (n = 40); cells drawn with rng seed 4040. Git head
+  `1dcf1a9fe4`, dirty = False. Sources: `failure_atlas.py` `2d53ec40d6`, `atlas_components.py` `79f9665b76`,
+  `switching_explore.py` `f7a330f595`, `run_atlas_cycle4_map_v1.py` `ac9d934c23`. Wall time 4179 s.
+- R_valid2 substitution and R_best reclassification (Amendment 5 items 3-4): script
+  `scripts/run_atlas_rvalid2_reclassify_v1.py` (`--workers` default 6; `--best` appends the R_best section). The
+  command line is likewise not recorded. Discovery seeds 0..19 per cell, as in cycle 3; null-twin validity on 100
+  dedicated seeds (offset 5000); stored cycle-3 per-seed costs were reused, and `ref_valid2` and `hard_budget_pacing`
+  were rerun on the same cells and seeds. Output `outputs/failure_atlas_v1_cycle4_rvalid2/`. Wall time 3706 s
+  (`run.log`; `summary.md` and `timing.json` give 3710 s and 3709.5 s for the same run).
+- Git history of this cycle: `7fe9f5a` (register Amendment 5), `7258e08` (register Amendment 5b latency predictions
+  before map results), `27429af` (checkpoint atlas straddle analysis and HG-H2c protocol), `1dcf1a9` (add
+  best-valid-reference reclassification to the R_valid2 script).
+- Reproducibility check of the rerun: max abs diff of rerun vs stored `ref_valid` per-seed cost on 4 cells = 1.11e-16
+  (both families). In family 1 the stored shared-failure labels were reproduced as MISMATCH for
+  `on0.1_L0.6_strong_harmful_d50_b0.25_s0.1` and `on0.1_L0.6_strong_harmful_d10_b0.1_s0.05` (7 stored); the R_best
+  table below reproduces all 7 from the discovery archive.
+
+### 2. R_valid2 and hard_budget_pacing
+
+Validity rates:
+
+- R_valid2 boundary null (any-promotion rate): 0.0233 for family 1 and 0.005 for family 2; harmful-off null: 0.0000.
+  These three figures were supplied with the task; they do not appear in the cycle-4 summaries and were not re-derived
+  here.
+- Pooled null twins, family 1, 20 discovery seeds (cell-weighted): R_valid 0/7200 = 0.0000, R_valid2 0/7200 = 0.0000.
+  Distinct twins, 100 dedicated seeds: R_valid 2/8000 = 0.0003, R_valid2 1/8000 = 0.0001.
+- Pooled null twins, family 2, 20 discovery seeds: R_valid 0/4000 = 0.0000, R_valid2 0/4000 = 0.0000. Distinct twins,
+  100 dedicated seeds: R_valid 0/7600 = 0.0000, R_valid2 0/7600 = 0.0000.
+
+Null-twin tables (alpha = 0.1):
+
+| family | scope | R_valid | R_valid2 |
+|---|---|---|---|
+| 1 | cell-weighted, 20 seeds | 0.0000 (0/7200, Wilson [0.0000, 0.0005]) | 0.0000 (0/7200, Wilson [0.0000, 0.0005]) |
+| 1 | distinct twins, 100 seeds | 0.0003 (2/8000, Wilson [0.0001, 0.0009]) | 0.0001 (1/8000, Wilson [0.0000, 0.0007]) |
+| 2 | cell-weighted, 20 seeds | 0.0000 (0/4000, Wilson [0.0000, 0.0010]) | 0.0000 (0/4000, Wilson [0.0000, 0.0010]) |
+| 2 | distinct twins, 100 seeds | 0.0000 (0/7600, Wilson [0.0000, 0.0005]) | 0.0000 (0/7600, Wilson [0.0000, 0.0005]) |
+
+**R_valid2 substitution: an artifact, not a finding.** Replacing R_valid by R_valid2 gives these class counts.
+
+| class | F1 R_valid (cycle 3) | F1 R_valid2 | F2 R_valid (cycle 3) | F2 R_valid2 |
+|---|---|---|---|---|
+| shared_failure | 7 | 0 | 0 | 0 |
+| cost_of_validity | 117 | 124 | 45 | 45 |
+| prior_gap | 1 | 0 | 0 | 0 |
+| no_headroom | 214 | 215 | 154 | 154 |
+| info_limited | 0 | 0 | 1 | 1 |
+| reference_unsafe | 21 | 21 | 0 | 0 |
+
+All 7 family-1 shared failures moved to `cost_of_validity` and the one `prior_gap` cell moved to `no_headroom`. The
+cause is that R_valid2 is costlier than R_valid (mean per-round cost over cells: family 1 0.4293 for R_valid against
+0.4328 for R_valid2; family 2 0.5111 against 0.5135). A costlier valid reference raises the bar that "cost of
+validity" is measured against, so substituting it mechanically creates `cost_of_validity` and removes
+`shared_failure`. The substitution is not used for classification.
+
+**R_best (the classification used).** R_best is, per cell, whichever of `ref_valid` and `ref_valid2` has the lower mean
+cost on that cell's discovery seeds (a 2-way selection on the same seeds). Caveat: taking the minimum on the same seeds
+biases the reference downward (winner's curse), which is the anti-conservative direction for failure claims.
+
+- Classes under R_best are identical to cycle 3 in both families (F1: shared_failure 7, cost_of_validity 117,
+  prior_gap 1, no_headroom 214, reference_unsafe 21; F2: cost_of_validity 45, no_headroom 154, info_limited 1). No
+  cell becomes shared_failure or prior_gap.
+- R_valid2 was chosen in 52/360 family-1 cells (0.144; R_valid in 308) and in 21/200 family-2 cells (0.105; R_valid in
+  179).
+
+The 7 cycle-3 family-1 shared failures (H = gap to the reference, mean [95% CI]):
+
+| cell | H vs R_valid | H vs R_valid2 | H vs R_best | chosen | class under R_best |
+|---|---|---|---|---|---|
+| on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | 0.0484 [0.0245, 0.0723] | 0.0167 [0.0033, 0.0300] | 0.0484 [0.0245, 0.0723] | ref_valid | shared_failure |
+| on0.1_L0.6_strong_harmful_d50_b0.25_s0.1 | 0.0189 [0.0113, 0.0265] | 0.0015 [-0.0238, 0.0268] | 0.0189 [0.0113, 0.0265] | ref_valid | shared_failure |
+| on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | 0.0193 [0.0105, 0.0281] | 0.0043 [-0.0034, 0.0119] | 0.0193 [0.0105, 0.0281] | ref_valid | shared_failure |
+| on0.1_L0.6_strong_harmful_d1_b0.05_s0.1 | 0.0394 [0.0198, 0.0590] | 0.0153 [-0.0009, 0.0315] | 0.0394 [0.0198, 0.0590] | ref_valid | shared_failure |
+| on0.1_L0.6_strong_harmful_d10_b0.1_s0.05 | 0.0205 [0.0105, 0.0306] | 0.0062 [-0.0003, 0.0128] | 0.0205 [0.0105, 0.0306] | ref_valid | shared_failure |
+| on0.6_L1_strong_harmful_d50_b0.05_s0.1 | 0.0316 [0.0145, 0.0487] | 0.0096 [-0.0045, 0.0236] | 0.0316 [0.0145, 0.0487] | ref_valid | shared_failure |
+| on0.1_L0.6_strong_harmful_d10_b0.05_s0.5 | 0.0278 [0.0150, 0.0406] | 0.0041 [-0.0037, 0.0119] | 0.0278 [0.0150, 0.0406] | ref_valid | shared_failure |
+
+**hard_budget_pacing (ungated comparator; completes R6).** It beats the best gated baseline by more than 0.01 (lower
+CI) in 249/360 family-1 cells (mean best_safe minus pacing cost 0.0570) and in 108/200 family-2 cells (mean 0.0522).
+Pacing is ungated and carries no validity guarantee, so this is not a failure test: it shows the gated baselines pay a
+cost that a budget-feasible ungated controller does not, and nothing more. In shared_failure cells under R_valid2 the
+comparison is 0/0 (there are none).
+
+### 3. Straddle mechanism map
+
+Straddle `b1a17927d9ad` against its uniform-acquisition ablation `99ccbdfde7ab` (slot `acquisition`), 40 seeds per
+cell, 400 family-1 and 200 family-2 cells. Gain = ablation cost minus candidate cost per round (positive means the
+candidate is better). Level means and CIs are across cells.
+
+Locked predictions:
+
+- **P1: PASS.** Family 1, gain(d=1) minus gain(d=50), Welch across cells: +0.0275 [+0.0182, +0.0369]. Secondary, exact
+  matched pairs (n = 32): +0.0282 [+0.0059, +0.0505].
+- **P2: PASS.** Pooled null-twin false-promotion rate (alpha = 0.1): straddle 0.0000, ablation 0.0000 (family 1, family
+  2 and all).
+- **P3 (descriptive).** Harm cells (gain CI upper bound < -0.01): family 1 24/400, family 2 12/200.
+
+P1 table, family 1, mean gain by d:
+
+| d | n cells | mean gain [95% CI] |
+|---|---|---|
+| 1 | 126 | +0.0153 [+0.0090, +0.0215] |
+| 10 | 133 | +0.0058 [+0.0013, +0.0104] |
+| 50 | 141 | -0.0123 [-0.0193, -0.0053] |
+
+P3 harm region, family 1 (24/400 cells), harm cells / cells by level:
+
+| axis | level: harm/n |
+|---|---|
+| onset | 0.1: 8/98; 0.3: 6/115; 0.6: 5/95; 0.8: 5/92 |
+| duration | 0.15: 4/87; 0.3: 5/109; 0.6: 8/106; 1.0: 7/98 |
+| effect | medium: 2/157; strong: 22/109; weak: 0/134 |
+| d | 1: 3/126; 10: 6/133; 50: 15/141 |
+| budget_frac | 0.05: 4/141; 0.1: 5/139; 0.25: 15/120 |
+| s | 0.05: 10/146; 0.1: 6/132; 0.5: 8/122 |
+
+P3 harm region, family 2 (12/200 cells):
+
+| axis | level: harm/n |
+|---|---|
+| rate | 0.002: 3/68; 0.005: 7/61; 0.02: 2/71 |
+| effect | medium: 0/62; strong: 12/69; weak: 0/69 |
+| d | 1: 0/69; 10: 2/67; 50: 10/64 |
+| budget_frac | 0.05: 2/64; 0.1: 3/64; 0.25: 7/72 |
+| s | 0.05: 5/65; 0.1: 5/72; 0.5: 2/63 |
+
+Mean-gain highlights, family 1 (overall +0.0024 [-0.0012, +0.0061]):
+
+- By d: +0.0153 [+0.0090, +0.0215] at d = 1, +0.0058 [+0.0013, +0.0104] at d = 10, -0.0123 [-0.0193, -0.0053] at d = 50.
+- By budget_frac: +0.0057 [+0.0012, +0.0101] at 0.05, +0.0021 [-0.0047, +0.0088] at 0.1, -0.0010 [-0.0089, +0.0068] at 0.25
+  (15 harm cells at 0.25).
+- By effect: medium +0.0033 [+0.0014, +0.0052]; strong +0.0032 [-0.0101, +0.0164] with 22 harm cells; weak +0.0007
+  [+0.0006, +0.0009].
+- By onset: 0.1 -0.0026 [-0.0124, +0.0072]; 0.3 +0.0061 [-0.0020, +0.0142]; 0.6 +0.0046 [-0.0017, +0.0108]; 0.8 +0.0009
+  [-0.0011, +0.0028].
+- Duration and s levels all have CIs that include 0.
+
+Family 2 (overall +0.0047 [-0.0000, +0.0095]) mean gain by d:
+
+| d | n cells | mean gain [95% CI] | harm cells |
+|---|---|---|---|
+| 1 | 69 | +0.0223 [+0.0124, +0.0321] | 0 |
+| 10 | 67 | +0.0046 [+0.0004, +0.0089] | 2 |
+| 50 | 64 | -0.0141 [-0.0214, -0.0068] | 10 |
+
+### 4. Latency predictions (Amendment 5b), evaluated by the reviewer from `checkpoint.jsonl`
+
+Amendment 5b was registered before the map summary existed. Under the latency explanation, straddle's request rate is
+about P/d (pending cap P = 2) and uniform pacing's is B/T, so the gain should change sign near d* ≈ P·T/(B + P),
+which gives d* ≈ 38 at B/T = 0.05, ≈ 20 at 0.1 and ≈ 8 at 0.25. The map summary does not report the d × B/T
+cross-tabulation, so the reviewer computed it from `checkpoint.jsonl`: family-1 straddle cells, gain = ablation −
+candidate per round, mean over cells with a t-CI.
+
+| d | B/T | mean gain [95% CI] | n cells |
+|---|---|---|---|
+| 1 | 0.05 | +0.0089 [+0.0014, +0.0164] | 43 |
+| 1 | 0.10 | +0.0207 [+0.0090, +0.0324] | 42 |
+| 1 | 0.25 | +0.0164 [+0.0030, +0.0297] | 41 |
+| 10 | 0.05 | +0.0181 [+0.0080, +0.0281] | 41 |
+| 10 | 0.10 | +0.0042 [+0.0003, +0.0081] | 49 |
+| 10 | 0.25 | −0.0040 [−0.0125, +0.0044] | 43 |
+| 50 | 0.05 | −0.0057 [−0.0107, −0.0007] | 57 |
+| 50 | 0.10 | −0.0164 [−0.0315, −0.0013] | 48 |
+| 50 | 0.25 | −0.0172 [−0.0351, +0.0007] | 36 |
+
+Verdicts:
+
+- **L1: PASS.** gain(d10, b.05) − gain(d10, b.25) = +0.0221 [+0.0093, +0.0349] (Welch, normal approximation).
+- **L2: PASS, by a thin margin.** At d = 10 and B/T = 0.25 the CI upper bound is +0.0044, below 0.005.
+- **L3: PASS.** Every d = 1 budget level has a positive mean gain with a CI that excludes 0.
+
+### 5. triggered_kelly H-TK2
+
+`triggered_kelly` `8ac25a41d4a8` against its ablation `00125145cc58` (slot `evidence`). Neutral-off arm, strong effect,
+s = 0.1, L {0.6, 1} × d {1, 10} × B {0.05, 0.1}, 8 cells per onset, 40 seeds.
+
+| onset | gain [95% CI, per-seed mean of 8 cells] | first promo cand | first promo abl | frac runs promoted cand | abl | promotions/run cand | abl |
+|---|---|---|---|---|---|---|---|
+| 0.1 | +0.0411 [+0.0337, +0.0485] | 368.7 | 425.3 | 0.978 | 0.978 | 1.266 | 1.144 |
+| 0.3 | +0.0062 [+0.0000, +0.0124] | 586.0 | 603.0 | 0.947 | 0.991 | 1.119 | 1.106 |
+| 0.6 | -0.0161 [-0.0202, -0.0121] | 858.3 | 867.2 | 0.584 | 0.769 | 0.600 | 0.769 |
+| 0.8 | -0.0043 [-0.0059, -0.0026] | 924.3 | nan | 0.138 | 0.259 | 0.138 | 0.259 |
+
+- **H-TK2: PASS.** Onset 0.1 minus onset 0.8 = +0.0454 [+0.0383, +0.0524] (per-seed pooled over 8 cells); matched 8 cell
+  pairs +0.0454 [+0.0379, +0.0528].
+- The gain is negative at onset 0.6 and 0.8, where the candidate promotes less often (fraction of runs promoted 0.584
+  against 0.769 at onset 0.6, and 0.138 against 0.259 at onset 0.8). The candidate wins when onset is early and loses
+  when it is late.
+- First-promotion time excludes runs with no promotion. The ablation's value at onset 0.8 is nan.
+- The cycle-3 "re-entry after rollback" conjecture is withdrawn (Amendment 5): family 1 has a single window, so
+  re-entry cannot occur.
+
+### 6. Straddle theory and prior art (`docs/failure_atlas_straddle_theory_v1.md`)
+
+- R2 verdict: no single source theorem states the straddle package, but every ingredient is covered. Undecided-only
+  querying is Chernoff, Naghshvar-Javidi and active-learning practice; validity under predictable selection follows from
+  Waudby-Smith and Ramdas (Prop. 1), Xu et al. (Prop. 2) and the repository's pending-label lemma. Verdict: a known
+  technique in a new (delayed, hard-cap, conditional-null) contract, not a contribution. No novelty claim.
+- Audit gaps: Chernoff 1959, Chugg et al. and Lindon-Kallus were not read as primary texts, and sequential-testing
+  sources on pathwise budgets with pending requests were not searched beyond the repository notes.
+- Validity: a written argument, not a machine-checked proof. Under a conditional null (A1), exogenous outcomes (A2),
+  predictable query selection (A3) and predictable stakes (A4), the e-process is a test supermartingale with delayed
+  release, and the union bound over rollback episodes keeps P(any false promotion) <= alpha. It does not cover the
+  rollback monitor, the economic check, informative or out-of-order release, or a stream that reacts to the deployed
+  action. Numeric corroboration (1500 reps per cell, development-grade): predictable q gives 0.015, 0.018 and 0.009 at
+  d = 1, 10, 50; the two violation rules break the guarantee.
+- Label-saving bound: Propositions 1-2 are exact for the stated schedule. In-flight wasted labels W <= min(P, d−1), and
+  labels saved against uniform = B − tau − W(d) − k_alive(d). In the exact schedule (tau = 10) the saving is 29, 29, 29,
+  30, 31 labels at d = 1, 10, 25, 38, 50.
+- Correction: saved labels are almost independent of d (a spread of 2 labels out of 50), so they cannot explain a gain
+  that goes from +0.115 at d = 1 to −0.017 at d = 50. Acquisition latency does. Proposition 3 (proved for the stylised
+  deterministic schedule) gives d* ≈ P·T/(B + P), about 38.5 for (T, B, P) = (1000, 50, 2). The link to the atlas gain is
+  heuristic. The Amendment 4 wording ("saves labels only when feedback arrives before the decision becomes clear")
+  is incomplete.
+
+### 7. Limitations (cycle 4)
+
+- Both valid references leave alpha essentially unused (null false-promotion about 0 against alpha 0.1), so
+  `cost_of_validity` is relative to conservative references.
+- The R6 wrappers depart from their sources as documented in the registry; a shared failure is a failure against the
+  implemented baselines only.
+- Results are development-grade and use 2-state Bernoulli data only.
+- The map compares the candidate with its own ablation, not with `best_safe`.
+- R_best selects the minimum of two references on the same seeds it is evaluated on (winner's curse).
+- The run command lines are not recorded in the output files, so the commands above are the script defaults.
+- The confirmation seeds are untouched.
+
+### Cycle 4 reviewer assessment (2026-10-31)
+
+**Engine: CONTINUE.** Every locked cycle-4 prediction passed: P1, P2, H-TK2, L1, L2 and L3. In addition, the loop caught one reference-design artifact, R_valid2 substitution, before it entered the record.
+
+**Straddle: mechanism explained; STOP as a contribution.**
+- Averaged over the grid, the gain is small: family 1 +0.0024 [−0.0012, +0.0061]; family 2 +0.0047 [−0.0000, +0.0095].
+- The sign is predictable from acquisition latency:
+  - straddle's request rate is about P/d, against uniform pacing's B/T, so it helps when d < d* ≈ P·T/(B+P) and hurts beyond that;
+  - the latency predictions were registered before the map summary existed, and they hold.
+- Undecided-only querying is a known technique (R2: active sequential testing, predictable-selection e-processes). What remains is a design rule for this contract: use undecided-only acquisition only when release delay is short relative to T/B. That rule is not a method contribution.
+
+**triggered_kelly: mechanism explained; STOP as a contribution.**
+- A single process started at label 0 beats the start mixture when onset is early (onset 0.1 gain +0.0411).
+- It loses when onset is late, because it promotes less often.
+- This is the known start-multiplicity trade-off.
+
+**Main open question: how large the true cost of validity is.**
+- Most family-1 headroom against the Bayes reference is labelled cost_of_validity.
+- That label is relative to two valid references that use essentially none of alpha. It shows that our valid designs cannot close the gap. It does not show that no valid design can.
+
+**PIVOT for cycle 5:**
+- (a) **Measure the validity-constrained optimum on small instances.** Use the repository's exact constrained solver (causal_switching_game.py, sequence-form LP with the causal-null risk constraint, R1: oracle as reference). Compare R_valid and best_safe against the exact constrained optimum at T ≤ 8, plus the largest solvable cells. This separates true cost of validity from reference conservatism.
+- (b) **Open failure families where baselines may fail for reasons other than validity:**
+  - within-regime outcome dependence;
+  - informative or selective label release;
+  - multiple frozen candidates (certification with multiplicity);
+  - admissible real-data replays under R4 (elec2, EIA), with declared imposed costs.
+- (c) **Keep straddle and triggered_kelly** as library components, with the delay rule recorded.
+
+None of this is confirmatory. The confirmation seeds remain untouched.
+
+## Cycle 5
+
+Protocol: `docs/failure_atlas_v1_protocol.md` Amendment 6 (registered in commit `7a80e14` before any cycle-5 code or run;
+code in commit `6b08c39`). All numbers below are copied from `outputs/failure_atlas_v1_cycle5/exact_cov/summary.md`,
+`outputs/failure_atlas_v1_cycle5/exact_cov/results.json`, `outputs/failure_atlas_v1_cycle5/family3/summary.md` and
+`outputs/failure_atlas_v1_cycle5/family4/summary.md`, or computed from `results.json` (marked as such). Nothing here is
+confirmatory: development and discovery seeds only.
+
+### 1. Run record
+
+- Exact cost of validity (Amendment 6 item 1): script `scripts/run_atlas_exact_cov_v1.py`, output
+  `outputs/failure_atlas_v1_cycle5/exact_cov/`. The exact command line is not recorded in the summary. `results.json` meta:
+  5000 seeds per cell, seed range [210000, 214999], 6 workers, alpha = 0.1, straddle spec `b1a17927d9ad`, solver
+  `max_nodes` 3000000, 144 cells solved, 0 skipped. Git head `9a6c63ecd0b98975296573a002f0c4d4afa3c079` (from meta;
+  the summary has no header). Wall time 8005 s (6 workers).
+- Family 3 (within-regime dependence): script `scripts/run_failure_atlas_loop.py --family 3`, output
+  `outputs/failure_atlas_v1_cycle5/family3/`. T = 1000, smoke = False, method-runs = 148940. Discovery: 192 cells, 20 seeds
+  (seeds [0, 19], as recorded for the kappa calibration); null-twin false-promotion rates on 100 dedicated seeds per twin
+  (seeds 5000+100, 12 distinct twins). The reproduction-stage seed range is not recorded in the summary. Git head
+  `9a6c63ecd0`, dirty = True. Sources: `failure_atlas.py` `d4a9af8c97`, `atlas_components.py` `79f9665b76`,
+  `atlas_r6_baselines.py` `1ccb231962`, `atlas_release_hook.py` `73523d75a7`, `switching_explore.py` `f7a330f595`,
+  `eprocess.py` `a9355d3883`, `run_failure_atlas_loop.py` `693014359d`. Wall time 7557 s (stage1_discover 5382,
+  stage_null_baselines 863, stage2_reproduce 840, stage2b_diagnose 0, stage4_isolate 473). STOPPED: completed all stages.
+- Family 4 (informative release): script `scripts/run_failure_atlas_loop.py --family 4`, output
+  `outputs/failure_atlas_v1_cycle5/family4/`. T = 1000, smoke = False, method-runs = 150840. Same seed scheme as family 3
+  (discovery seeds [0, 19], null twins seeds 5000+100, 12 distinct twins). Git head `9a6c63ecd0`, dirty = True; same source
+  hashes as family 3. Wall time 7652 s (stage1_discover 5457, stage_null_baselines 830, stage2_reproduce 831,
+  stage2b_diagnose 0, stage4_isolate 534). STOPPED: completed all stages.
+- Stages 5-6 (mechanism search and validation) were not run for families 3 and 4 (Amendment 6, item 4).
+- Git history of this cycle: `7a80e14` (register Amendment 6: exact cost of validity, dependence and informative-release
+  families), `6b08c39` (add exact cost-of-validity study and dependence/informative-release families).
+- The git head recorded in all three outputs (`9a6c63ecd0`) predates commit `6b08c39` and the working tree was dirty, so
+  the recorded head does not by itself identify the code that ran.
+
+### 2. Exact cost of validity
+
+Costs are expected TOTAL cost over T rounds (decision loss + 0.01 per query + 0.1 per switch), the solver's contract, not
+per-round cost. MC entries are mean +/- 95% half-width (paired-t across seeds, Rao-Blackwellised over unqueried labels).
+V_free is the optimal cost without the null-risk constraint, V_valid the optimum under the alpha = 0.1 null-risk constraint,
+CoV = V_valid - V_free. RC is reference conservatism (R_valid cost minus V_valid) and `best_safe - V_valid` is the gap of
+the best safe baseline to the constrained optimum. Grid: a in {0.1, 0.25}; effect strong/medium; off state harmful/neutral;
+T in {6, 7, 8}; B in {2, 3, 4}; d in {1, 2} (144 cells; the cell name encodes a, effect, off state, T, B, d).
+
+Representative rows (10 of 144, chosen to span a, effect, off, T, B and d; the full 144-row table is in
+`outputs/failure_atlas_v1_cycle5/exact_cov/summary.md`):
+
+| cell | V_free | V_valid | CoV | R_valid cost | RC | best_safe - V_valid |
+|---|---|---|---|---|---|---|
+| a0.1_medium_harmful_T6_B2_d2 | 2.1502 | 2.2273 | +0.0771 | 2.2888 ± 0.0367 | +0.0616 | +0.0416 |
+| a0.1_strong_harmful_T6_B2_d1 | 0.9208 | 1.6320 | +0.7112 | 1.8501 ± 0.0588 | +0.2181 | +0.1981 |
+| a0.25_strong_harmful_T6_B4_d1 | 1.1381 | 2.9076 | +1.7695 | 3.5636 ± 0.0584 | +0.6560 | +0.6160 |
+| a0.1_medium_neutral_T7_B3_d1 | 2.9086 | 3.9968 | +1.0882 | 4.2208 ± 0.0216 | +0.2241 | +0.1941 |
+| a0.25_medium_harmful_T7_B4_d2 | 2.6797 | 3.8416 | +1.1619 | 4.0793 ± 0.0398 | +0.2376 | +0.1976 |
+| a0.25_strong_neutral_T7_B2_d1 | 1.4878 | 4.8127 | +3.3249 | 5.6314 ± 0.0318 | +0.8188 | +0.7988 |
+| a0.1_strong_neutral_T8_B3_d2 | 2.7204 | 4.8323 | +2.1119 | 5.4055 ± 0.0398 | +0.5732 | +0.5432 |
+| a0.1_medium_harmful_T8_B4_d1 | 2.7049 | 3.1263 | +0.4214 | 3.3594 ± 0.0498 | +0.2331 | +0.1931 |
+| a0.25_strong_neutral_T8_B2_d2 | 1.5558 | 5.7250 | +4.1692 | 6.5538 ± 0.0345 | +0.8288 | +0.8088 |
+| a0.25_strong_neutral_T8_B4_d1 | 1.5558 | 4.8260 | +3.2701 | 6.5738 ± 0.0345 | +1.7479 | +1.7079 |
+
+Locked reading, verbatim:
+
+RC > CoV in 0 of 144 solved cells (0%).
+
+**Verdict:** RC > CoV in at most half of solved cells: the `cost_of_validity` labels stand at small T. Extrapolation to T = 1000 is not claimed.
+
+Ranges across all 144 cells (computed from `results.json`):
+
+- CoV: min +0.0771, max +4.1692 (n = 144)
+- RC: min +0.0616, max +1.7479 (n = 144)
+- best_safe - V_valid: min +0.0416, max +1.7079 (n = 144)
+
+### 3. Family 3 (within-regime dependence)
+
+Discovery class counts (stage 1, 192 cells):
+
+| class | cells |
+|---|---|
+| cost_of_validity | 41 |
+| no_headroom | 123 |
+| reference_unsafe | 16 |
+| shared_failure | 12 |
+| total | 192 |
+
+R_valid null-twin any-promotion rate (pooled, 12 distinct twins, 240 runs): 14/240 = 0.058 (alpha = 0.1)
+
+Reproduced failures (stage 2, fresh discovery seeds):
+
+| cell | label | severity | H [95% CI] | best_safe | R_family null FP [Wilson] |
+|---|---|---|---|---|---|
+| f3_rho0.5_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1877 | +0.1877 [+0.1784, +0.1971] | allonset_edetector | 0.000 [0.000,0.037] |
+| f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.2176 | +0.2176 [+0.1984, +0.2369] | episode_front | 0.010 [0.002,0.054] |
+| f3_rho0.5_on0.3_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.2153 | +0.2153 [+0.1952, +0.2354] | episode_front | 0.000 [0.000,0.037] |
+| f3_rho0.5_on0.6_L1_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.2000 | +0.2000 [+0.1895, +0.2106] | allonset_edetector | 0.000 [0.000,0.037] |
+| f3_rho0_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1846 | +0.1846 [+0.1723, +0.1970] | allonset_edetector | 0.010 [0.002,0.054] |
+| f3_rho0.5_on0.6_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1919 | +0.1919 [+0.1816, +0.2023] | allonset_edetector | 0.010 [0.002,0.054] |
+| f3_rho0_on0.6_L1_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1946 | +0.1946 [+0.1852, +0.2041] | allonset_edetector | 0.010 [0.002,0.054] |
+| f3_rho0.5_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2153 | +0.2153 [+0.1966, +0.2341] | episode_front | 0.010 [0.002,0.054] |
+| f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.1_s0.1 | shared_failure | 0.1749 | +0.1749 [+0.1598, +0.1900] | episode_front | 0.010 [0.002,0.054] |
+| f3_rho0.8_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | shared_failure | 0.1792 | +0.1792 [+0.1670, +0.1915] | allonset_edetector | 0.020 [0.006,0.070] |
+| f3_rho0.8_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1905 | +0.1905 [+0.1799, +0.2011] | allonset_edetector | 0.010 [0.002,0.054] |
+| f3_rho0_on0.6_L1_strong_harmful_d10_b0.1_s0.1 | cost_of_validity | 0.0000 | +0.1240 [+0.1177, +0.1302] | allonset_edetector | 0.010 [0.002,0.054] |
+
+Isolation (stage 4): does moving one axis to its easiest level remove the failure?
+
+| failure cell | rho | onset | duration | effect | d | budget_frac |
+|---|---|---|---|---|---|---|
+| f3_rho0.5_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.154, shared_failure) | keeps (H lo +0.148, shared_failure) | keeps (H lo +0.154, shared_failure) | at easiest | at easiest | keeps (H lo +0.127, cost_of_validity) |
+| f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.05_s0.1 | at easiest | at easiest | keeps (H lo +0.156, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.178, cost_of_validity) |
+| f3_rho0.5_on0.3_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.163, shared_failure) | at easiest | keeps (H lo +0.134, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.133, cost_of_validity) |
+| f3_rho0.5_on0.6_L1_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.152, shared_failure) | keeps (H lo +0.134, cost_of_validity) | at easiest | at easiest | at easiest | keeps (H lo +0.118, cost_of_validity) |
+| f3_rho0_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | at easiest | keeps (H lo +0.163, shared_failure) | keeps (H lo +0.152, shared_failure) | at easiest | at easiest | keeps (H lo +0.117, cost_of_validity) |
+| f3_rho0.5_on0.6_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.141, cost_of_validity) | keeps (H lo +0.168, shared_failure) | keeps (H lo +0.155, shared_failure) | at easiest | keeps (H lo +0.169, shared_failure) | keeps (H lo +0.102, cost_of_validity) |
+| f3_rho0_on0.6_L1_strong_harmful_d1_b0.05_s0.1 | at easiest | keeps (H lo +0.156, cost_of_validity) | at easiest | at easiest | at easiest | keeps (H lo +0.108, cost_of_validity) |
+| f3_rho0.5_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.184, cost_of_validity) | at easiest | keeps (H lo +0.117, cost_of_validity) | at easiest | keeps (H lo +0.148, shared_failure) | keeps (H lo +0.173, cost_of_validity) |
+| f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.1_s0.1 | at easiest | at easiest | keeps (H lo +0.085, cost_of_validity) | at easiest | at easiest | at easiest |
+| f3_rho0.8_on0.6_L0.6_strong_harmful_d1_b0.05_s0.1 | keeps (H lo +0.154, shared_failure) | keeps (H lo +0.193, shared_failure) | keeps (H lo +0.185, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.116, cost_of_validity) |
+| f3_rho0.8_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.178, cost_of_validity) | keeps (H lo +0.136, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.185, cost_of_validity) | keeps (H lo +0.121, cost_of_validity) |
+
+Null-twin false promotion per baseline (Amendment 6; 100 dedicated seeds per twin, pooled; kappa (R_family) = 0.05; alpha = 0.1;
+each cell shows null runs with a promotion / runs = rate [Wilson 95%]; `any_gated` = at least one safety-gated baseline promoted in the same run):
+
+| method | rho=0 | rho=0.5 | rho=0.8 | pooled |
+|---|---|---|---|---|
+| episode_geo | 2/400 = 0.005 [0.001,0.018] | 3/400 = 0.007 [0.003,0.022] | 10/400 = 0.025 [0.014,0.045] | 15/1200 = 0.013 [0.008,0.021] |
+| episode_equal | 0/400 = 0.000 [0.000,0.010] | 0/400 = 0.000 [0.000,0.010] | 0/400 = 0.000 [0.000,0.010] | 0/1200 = 0.000 [0.000,0.003] |
+| episode_front | 9/400 = 0.022 [0.012,0.042] | 19/400 = 0.048 [0.031,0.073] | 21/400 = 0.052 [0.035,0.079] | 49/1200 = 0.041 [0.031,0.054] |
+| allonset_edetector | 18/400 = 0.045 [0.029,0.070] | 34/400 = 0.085 [0.061,0.116] | 33/400 = 0.083 [0.059,0.114] | 85/1200 = 0.071 [0.058,0.087] |
+| c2_rho0.75 | 2/400 = 0.005 [0.001,0.018] | 4/400 = 0.010 [0.004,0.025] | 2/400 = 0.005 [0.001,0.018] | 8/1200 = 0.007 [0.003,0.013] |
+| c1_hmm_cs | 3/400 = 0.007 [0.003,0.022] | 13/400 = 0.033 [0.019,0.055] | 69/400 = 0.172 [0.139,0.213] | 85/1200 = 0.071 [0.058,0.087] |
+| online_fwer_spending | 2/400 = 0.005 [0.001,0.018] | 3/400 = 0.007 [0.003,0.022] | 10/400 = 0.025 [0.014,0.045] | 15/1200 = 0.013 [0.008,0.021] |
+| ref_family | 4/400 = 0.010 [0.004,0.025] | 8/400 = 0.020 [0.010,0.039] | 25/400 = 0.062 [0.043,0.091] | 37/1200 = 0.031 [0.022,0.042] |
+| ref_valid | 11/400 = 0.028 [0.015,0.049] | 22/400 = 0.055 [0.037,0.082] | 24/400 = 0.060 [0.041,0.088] | 57/1200 = 0.048 [0.037,0.061] |
+| any_gated | 22/400 = 0.055 [0.037,0.082] | 50/400 = 0.125 [0.096,0.161] | 93/400 = 0.233 [0.194,0.276] | 165/1200 = 0.138 [0.119,0.158] |
+
+Locked predictions D1 and D2, verbatim:
+
+- **D1 PASS**: at rho = 0.8 the highest pooled null any-promotion rate among safety-gated baselines is `c1_hmm_cs` 69/400 = 0.172 [0.139,0.213] (criterion: > alpha + 0.05 = 0.15, point estimate; Wilson lower bound not above the criterion). Baselines above the criterion: c1_hmm_cs.
+- **D2 (descriptive) FAIL**: null false-promotion rate non-decreasing in rho (point estimates) for 5 of 7 gated baselines. `episode_geo` 0.005/0.007/0.025 ok; `episode_equal` 0.000/0.000/0.000 ok; `episode_front` 0.022/0.048/0.052 ok; `allonset_edetector` 0.045/0.085/0.083 NOT monotone; `c2_rho0.75` 0.005/0.010/0.005 NOT monotone; `c1_hmm_cs` 0.007/0.033/0.172 ok; `online_fwer_spending` 0.005/0.007/0.025 ok (rho = 0, 0.5, 0.8).
+
+### 4. Family 4 (informative release)
+
+Discovery class counts (stage 1, 192 cells):
+
+| class | cells |
+|---|---|
+| cost_of_validity | 47 |
+| no_headroom | 84 |
+| reference_unsafe | 48 |
+| shared_failure | 13 |
+| total | 192 |
+
+R_valid null-twin any-promotion rate (pooled, 12 distinct twins, 240 runs): 10/240 = 0.042 (alpha = 0.1)
+
+Reproduced failures (stage 2, fresh discovery seeds):
+
+| cell | label | severity | H [95% CI] | best_safe | R_family null FP [Wilson] |
+|---|---|---|---|---|---|
+| f4_u3_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2183 | +0.2183 [+0.2109, +0.2258] | allonset_edetector | 0.070 [0.034,0.137] |
+| f4_u3_on0.3_L0.6_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2338 | +0.2338 [+0.2161, +0.2515] | episode_front | 0.070 [0.034,0.137] |
+| f4_u3_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2346 | +0.2346 [+0.2269, +0.2422] | allonset_edetector | 0.030 [0.010,0.085] |
+| f4_same_on0.6_L0.6_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2165 | +0.2165 [+0.2090, +0.2240] | allonset_edetector | 0.070 [0.034,0.137] |
+| f4_u3_on0.6_L0.6_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2135 | +0.2135 [+0.2042, +0.2228] | allonset_edetector | 0.070 [0.034,0.137] |
+| f4_same_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2129 | +0.2129 [+0.2047, +0.2210] | allonset_edetector | 0.050 [0.022,0.112] |
+| f4_same_on0.6_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2099 | +0.2099 [+0.2019, +0.2179] | allonset_edetector | 0.050 [0.022,0.112] |
+| f4_same_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2105 | +0.2105 [+0.2004, +0.2206] | allonset_edetector | 0.070 [0.034,0.137] |
+| f4_u3_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2407 | +0.2407 [+0.2221, +0.2594] | episode_front | 0.030 [0.010,0.085] |
+| f4_f3_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | shared_failure | 0.2038 | +0.2038 [+0.1951, +0.2125] | allonset_edetector | 0.020 [0.006,0.070] |
+| f4_same_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.2246 | +0.2246 [+0.2081, +0.2411] | episode_front | 0.050 [0.022,0.112] |
+| f4_f3_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | shared_failure | 0.1951 | +0.1951 [+0.1849, +0.2053] | allonset_edetector | 0.020 [0.006,0.070] |
+
+Isolation (stage 4):
+
+| failure cell | delay | d | onset | duration | effect | budget_frac |
+|---|---|---|---|---|---|---|
+| f4_u3_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | keeps (H lo +0.192, cost_of_validity) | at easiest | keeps (H lo +0.150, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.126, reference_unsafe) |
+| f4_u3_on0.3_L0.6_strong_harmful_d2_b0.05_s0.1 | keeps (H lo +0.172, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.150, cost_of_validity) | at easiest | keeps (H lo +0.154, reference_unsafe) |
+| f4_u3_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.189, cost_of_validity) | keeps (H lo +0.180, shared_failure) | keeps (H lo +0.186, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.145, reference_unsafe) |
+| f4_same_on0.6_L0.6_strong_harmful_d2_b0.05_s0.1 | at easiest | at easiest | keeps (H lo +0.172, cost_of_validity) | keeps (H lo +0.192, cost_of_validity) | at easiest | keeps (H lo +0.118, cost_of_validity) |
+| f4_u3_on0.6_L0.6_strong_harmful_d2_b0.05_s0.1 | keeps (H lo +0.182, shared_failure) | at easiest | keeps (H lo +0.203, cost_of_validity) | keeps (H lo +0.180, shared_failure) | at easiest | keeps (H lo +0.127, reference_unsafe) |
+| f4_same_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | at easiest | keeps (H lo +0.192, cost_of_validity) | keeps (H lo +0.167, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.128, reference_unsafe) |
+| f4_same_on0.6_L0.6_strong_harmful_d10_b0.05_s0.1 | at easiest | keeps (H lo +0.182, shared_failure) | keeps (H lo +0.221, shared_failure) | keeps (H lo +0.189, cost_of_validity) | at easiest | keeps (H lo +0.121, reference_unsafe) |
+| f4_same_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | at easiest | at easiest | keeps (H lo +0.142, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.114, cost_of_validity) |
+| f4_u3_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.221, shared_failure) | keeps (H lo +0.203, cost_of_validity) | at easiest | keeps (H lo +0.186, cost_of_validity) | at easiest | keeps (H lo +0.156, reference_unsafe) |
+| f4_f3_on0.6_L1_strong_harmful_d2_b0.05_s0.1 | keeps (H lo +0.192, cost_of_validity) | at easiest | keeps (H lo +0.142, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.111, reference_unsafe) |
+| f4_same_on0.3_L0.6_strong_harmful_d10_b0.05_s0.1 | at easiest | keeps (H lo +0.172, cost_of_validity) | at easiest | keeps (H lo +0.167, cost_of_validity) | at easiest | keeps (H lo +0.138, reference_unsafe) |
+| f4_f3_on0.6_L1_strong_harmful_d10_b0.05_s0.1 | keeps (H lo +0.189, cost_of_validity) | keeps (H lo +0.196, cost_of_validity) | keeps (H lo +0.102, cost_of_validity) | at easiest | at easiest | keeps (H lo +0.101, cost_of_validity) |
+
+Null-twin false promotion per baseline (Amendment 6; 100 dedicated seeds per twin, pooled; kappa (R_family) = 0.1; alpha = 0.1;
+columns are (d_f, d_u, d); same cell format as family 3):
+
+| method | d_f=10,d_u=10,d=10 | d_f=10,d_u=30,d=10 | d_f=2,d_u=2,d=2 | d_f=2,d_u=6,d=2 | d_f=30,d_u=10,d=10 | d_f=6,d_u=2,d=2 | pooled |
+|---|---|---|---|---|---|---|---|
+| episode_geo | 3/200 = 0.015 [0.005,0.043] | 1/200 = 0.005 [0.001,0.028] | 2/200 = 0.010 [0.003,0.036] | 0/200 = 0.000 [0.000,0.019] | 3/200 = 0.015 [0.005,0.043] | 3/200 = 0.015 [0.005,0.043] | 12/1200 = 0.010 [0.006,0.017] |
+| episode_equal | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/200 = 0.000 [0.000,0.019] | 0/1200 = 0.000 [0.000,0.003] |
+| episode_front | 4/200 = 0.020 [0.008,0.050] | 1/200 = 0.005 [0.001,0.028] | 7/200 = 0.035 [0.017,0.070] | 4/200 = 0.020 [0.008,0.050] | 4/200 = 0.020 [0.008,0.050] | 4/200 = 0.020 [0.008,0.050] | 24/1200 = 0.020 [0.013,0.030] |
+| allonset_edetector | 15/200 = 0.075 [0.046,0.120] | 9/200 = 0.045 [0.024,0.083] | 16/200 = 0.080 [0.050,0.126] | 12/200 = 0.060 [0.035,0.102] | 6/200 = 0.030 [0.014,0.064] | 10/200 = 0.050 [0.027,0.090] | 68/1200 = 0.057 [0.045,0.071] |
+| c2_rho0.75 | 1/200 = 0.005 [0.001,0.028] | 2/200 = 0.010 [0.003,0.036] | 6/200 = 0.030 [0.014,0.064] | 0/200 = 0.000 [0.000,0.019] | 4/200 = 0.020 [0.008,0.050] | 2/200 = 0.010 [0.003,0.036] | 15/1200 = 0.013 [0.008,0.021] |
+| c1_hmm_cs | 0/200 = 0.000 [0.000,0.019] | 1/200 = 0.005 [0.001,0.028] | 7/200 = 0.035 [0.017,0.070] | 4/200 = 0.020 [0.008,0.050] | 0/200 = 0.000 [0.000,0.019] | 2/200 = 0.010 [0.003,0.036] | 14/1200 = 0.012 [0.007,0.019] |
+| online_fwer_spending | 3/200 = 0.015 [0.005,0.043] | 1/200 = 0.005 [0.001,0.028] | 2/200 = 0.010 [0.003,0.036] | 0/200 = 0.000 [0.000,0.019] | 3/200 = 0.015 [0.005,0.043] | 3/200 = 0.015 [0.005,0.043] | 12/1200 = 0.010 [0.006,0.017] |
+| ref_family | 21/200 = 0.105 [0.070,0.155] | 21/200 = 0.105 [0.070,0.155] | 22/200 = 0.110 [0.074,0.161] | 16/200 = 0.080 [0.050,0.126] | 6/200 = 0.030 [0.014,0.064] | 19/200 = 0.095 [0.062,0.144] | 105/1200 = 0.087 [0.073,0.105] |
+| ref_valid | 4/200 = 0.020 [0.008,0.050] | 3/200 = 0.015 [0.005,0.043] | 9/200 = 0.045 [0.024,0.083] | 6/200 = 0.030 [0.014,0.064] | 5/200 = 0.025 [0.011,0.057] | 8/200 = 0.040 [0.020,0.077] | 35/1200 = 0.029 [0.021,0.040] |
+| any_gated | 16/200 = 0.080 [0.050,0.126] | 12/200 = 0.060 [0.035,0.102] | 27/200 = 0.135 [0.094,0.189] | 16/200 = 0.080 [0.050,0.126] | 9/200 = 0.045 [0.024,0.083] | 14/200 = 0.070 [0.042,0.114] | 94/1200 = 0.078 [0.064,0.095] |
+
+Locked predictions I1 and I2, verbatim:
+
+- **I1 FAIL**: d_u = 3d > d_f, base d = 10: highest gated null false-promotion rate is `allonset_edetector` 9/200 = 0.045 [0.024,0.083] (criterion: > 0.15, point estimate; Wilson lower bound not above). Baselines above: none.
+- **I2 PASS**: d_f > d_u (both base d, pooled): highest gated rate is `allonset_edetector` 16/400 = 0.040 [0.025,0.064] (criterion: every gated baseline <= alpha = 0.1, point estimate; Wilson upper bound of the highest <= alpha). Baselines above alpha: none.
+
+### 5. Declared misspecifications
+
+Verbatim from the family 3 and family 4 summaries (identical text in both):
+
+Declared misspecifications: family 3 breaks the conditional null `E[X_t | F_{t-1}] <= 0` (only the stationary mean sits at the boundary) and R_family ignores the dependence; in family 4 the methods keep `cfg.d` = base d (calendars, `can_query` t + d <= T), queries released after T are charged and wasted, and `c1_hmm_cs` runs behind a head-of-line reorder buffer because its HMM bank needs event-ordered labels.
+
+### Cycle 5 reviewer assessment (2026-11-01)
+
+**Exact cost of validity: the labels stand at small T, but the evidence is weak.**
+- Reference conservatism exceeded the true cost of validity in 0 of 144 solved cells.
+- At T ≤ 8 and B ≤ 4, every e-process method is degenerate. With at most 4 labels, a bounded-stake e-process cannot reach 1/alpha, so R_valid, best_safe and straddle all sit at `no_switch`.
+- The constrained optimum reaches its value through an exact, randomized, fixed-horizon test. That class has no cheap anytime-valid analogue, which explains the gap between `no_switch` and V_valid.
+- Tiny-T cells therefore cannot tell us whether the T = 1000 `cost_of_validity` labels reflect an unavoidable cost or conservative references. This question stays OPEN at realistic horizons. Settling it needs either a scalable constrained solver or a lower bound. Neither is available in the repository.
+
+**Families 3 and 4: published e-process baselines kept their validity under both stresses; a ShiftLab candidate did not.**
+- D1 passes only through `c1_hmm_cs`, whose likelihood assumes iid emissions within a regime. Its false-promotion rate is 0.172 at rho = 0.8.
+- Every e-process baseline stays at or below 0.085, even though the conditional null fails under rho > 0.
+- I1 fails: favourable-first release did not inflate false promotion. I2 passes.
+- Both results have one probable explanation: sparse sampling. With uniform calendars at B/T ≤ 0.1, the queried labels are about 10–20 rounds apart. At rho = 0.8 the lag-20 autocorrelation is about 0.8^20 ≈ 0.01, so the queried labels are nearly independent. A delay asymmetry of 2–20 rounds holds back only one or two labels.
+- The shared failures found in families 3 and 4 are the family-1 late-onset pattern again. They appear at rho = 0 and with equal delays, and isolation shows that the dependence and delay axes are not the cause.
+
+**PIVOT for cycle 6: test the sampling-density explanation, where the real validity risk sits.**
+- The explanation predicts that validity breaks when queries are dense relative to the correlation time or the delay asymmetry. That covers large budgets (B/T in {0.25, 0.5}), bursty acquisition (straddle, `dal_restart` bursts, the C2 monitor) and long informative delays (d_u at least 10× the query spacing).
+- This matters for the mechanism library. Straddle, the one mechanism that survived fresh seeds, queries in bursts by design, so it may be valid in the iid family yet unsafe under dependence.
+- Planned predictions, to be locked in Amendment 7 before any run:
+  - **(V1)** At rho = 0.8 and B/T = 0.5, at least one e-process baseline's null false-promotion rate exceeds alpha + 0.05.
+  - **(V2)** At rho = 0.8, straddle's null false-promotion rate exceeds that of its uniform ablation, with the CI of the difference excluding 0.
+  - **(V3)** With d_u = 10× the query spacing and favourable-first release, the false-promotion rate exceeds alpha + 0.05 for some gated baseline.
+- If they hold, the candidate contribution is a dependence-aware or release-aware acquisition and evidence rule, for example spacing queries by an estimated mixing time, or blocked betting. It would first need an R2 audit: e-processes under mixing or beta-mixing, and anytime-valid tests for Markov data.
+
+None of this is confirmatory. The confirmation seeds remain untouched.
+
+## Cycle 6
+
+Protocol: `docs/failure_atlas_v1_protocol.md` Amendment 7 (registered in commit `0d332bf` before the cycle-6 run; code in
+commit `c598a96`; prior-art audit in commit `c19d3ba`, `docs/failure_atlas_dependence_prior_art_v1.md`). All numbers below
+are copied from `outputs/failure_atlas_v1_cycle6/summary.md`. Nothing here is confirmatory: boundary null twins, development
+seeds only.
+
+### 1. Run record
+
+- Script `scripts/run_atlas_cycle6_validity_v1.py`, launched detached via `scripts/launch_atlas_cycle6.ps1`. Output
+  `outputs/failure_atlas_v1_cycle6/`.
+- Seeds [150000, 150199] (200 per configuration), 36 configurations (dependence 32/32, release 4/4), T = 1000, alpha = 0.1,
+  threshold alpha + 0.05 = 0.15. Wall time about 2650 s on 10 workers.
+- Git head recorded in summary.md: `73ee3d95c9d6d2301c3665a27026632ed50a5a54`, dirty working tree = True (the cycle-6 script
+  was uncommitted when it ran). The code was committed afterwards as `c598a96` with lint-only changes. Recorded script
+  sha256 `bf32e256add1387e3aaf10d964bef08763a15bf6046a9f746c71e37946bfd83a`.
+- Git history of this cycle: `0d332bf` (register Amendment 7), `c19d3ba` (R2 audit), `c598a96` (add cycle-6 sampling-density
+  validity map).
+
+### 2. Dependence grid
+
+False promotion = any promotion on the null twin (`fp_regime > 0`); Wilson 95% CIs. Null false-promotion rate, copied
+verbatim from summary.md:
+
+| rho | B/T | d | episode_geo | episode_equal | episode_front | allonset_edetector | c2_rho0.75 | c1_hmm_cs | online_fwer_spending | R_valid | straddle | straddle_abl |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | 0.05 | 1 | 0.020 [0.008,0.050] | 0.000 [0.000,0.019] | 0.030 [0.014,0.064] | 0.060 [0.035,0.102] | 0.010 [0.003,0.036] | 0.010 [0.003,0.036] | 0.020 [0.008,0.050] | 0.030 [0.014,0.064] | 0.010 [0.003,0.036] | 0.020 [0.008,0.050] |
+| 0 | 0.05 | 10 | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.020 [0.008,0.050] | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.020 [0.008,0.050] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] |
+| 0 | 0.1 | 1 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.070 [0.042,0.114] | 0.015 [0.005,0.043] | 0.015 [0.005,0.043] | 0.005 [0.001,0.028] | 0.040 [0.020,0.077] | 0.000 [0.000,0.019] | 0.005 [0.001,0.028] |
+| 0 | 0.1 | 10 | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.020 [0.008,0.050] | 0.040 [0.020,0.077] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.030 [0.014,0.064] | 0.020 [0.008,0.050] | 0.010 [0.003,0.036] |
+| 0 | 0.25 | 1 | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.045 [0.024,0.083] | 0.015 [0.005,0.043] | 0.035 [0.017,0.070] | 0.010 [0.003,0.036] | 0.055 [0.031,0.096] | 0.005 [0.001,0.028] | 0.010 [0.003,0.036] |
+| 0 | 0.25 | 10 | 0.020 [0.008,0.050] | 0.000 [0.000,0.019] | 0.035 [0.017,0.070] | 0.075 [0.046,0.120] | 0.015 [0.005,0.043] | 0.035 [0.017,0.070] | 0.020 [0.008,0.050] | 0.055 [0.031,0.096] | 0.005 [0.001,0.028] | 0.020 [0.008,0.050] |
+| 0 | 0.5 | 1 | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.040 [0.020,0.077] | 0.075 [0.046,0.120] | 0.000 [0.000,0.019] | 0.075 [0.046,0.120] | 0.010 [0.003,0.036] | 0.070 [0.042,0.114] | 0.005 [0.001,0.028] | 0.010 [0.003,0.036] |
+| 0 | 0.5 | 10 | 0.015 [0.005,0.043] | 0.000 [0.000,0.019] | 0.055 [0.031,0.096] | 0.075 [0.046,0.120] | 0.010 [0.003,0.036] | 0.030 [0.014,0.064] | 0.015 [0.005,0.043] | 0.100 [0.066,0.149] | 0.005 [0.001,0.028] | 0.015 [0.005,0.043] |
+| 0.5 | 0.05 | 1 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.020 [0.008,0.050] | 0.040 [0.020,0.077] | 0.000 [0.000,0.019] | 0.040 [0.020,0.077] | 0.005 [0.001,0.028] | 0.035 [0.017,0.070] | 0.130 [0.090,0.184] | 0.005 [0.001,0.028] |
+| 0.5 | 0.05 | 10 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.045 [0.024,0.083] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.005 [0.001,0.028] | 0.040 [0.020,0.077] | 0.030 [0.014,0.064] | 0.005 [0.001,0.028] |
+| 0.5 | 0.1 | 1 | 0.020 [0.008,0.050] | 0.000 [0.000,0.019] | 0.045 [0.024,0.083] | 0.065 [0.038,0.108] | 0.000 [0.000,0.019] | 0.100 [0.066,0.149] | 0.020 [0.008,0.050] | 0.065 [0.038,0.108] | 0.265 [0.209,0.330] | 0.020 [0.008,0.050] |
+| 0.5 | 0.1 | 10 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.025 [0.011,0.057] | 0.070 [0.042,0.114] | 0.005 [0.001,0.028] | 0.005 [0.001,0.028] | 0.005 [0.001,0.028] | 0.035 [0.017,0.070] | 0.050 [0.027,0.090] | 0.005 [0.001,0.028] |
+| 0.5 | 0.25 | 1 | 0.020 [0.008,0.050] | 0.000 [0.000,0.019] | 0.065 [0.038,0.108] | 0.115 [0.078,0.167] | 0.015 [0.005,0.043] | 0.960 [0.923,0.980] | 0.020 [0.008,0.050] | 0.095 [0.062,0.144] | 0.440 [0.373,0.509] | 0.020 [0.008,0.050] |
+| 0.5 | 0.25 | 10 | 0.025 [0.011,0.057] | 0.000 [0.000,0.019] | 0.075 [0.046,0.120] | 0.090 [0.058,0.138] | 0.010 [0.003,0.036] | 0.010 [0.003,0.036] | 0.025 [0.011,0.057] | 0.060 [0.035,0.102] | 0.050 [0.027,0.090] | 0.025 [0.011,0.057] |
+| 0.5 | 0.5 | 1 | 0.160 [0.116,0.217] | 0.005 [0.001,0.028] | 0.250 [0.195,0.314] | 0.340 [0.278,0.408] | 0.080 [0.050,0.126] | 1.000 [0.981,1.000] | 0.160 [0.116,0.217] | 0.290 [0.232,0.356] | 0.570 [0.501,0.637] | 0.160 [0.116,0.217] |
+| 0.5 | 0.5 | 10 | 0.145 [0.103,0.200] | 0.005 [0.001,0.028] | 0.250 [0.195,0.314] | 0.355 [0.292,0.423] | 0.090 [0.058,0.138] | 0.040 [0.020,0.077] | 0.145 [0.103,0.200] | 0.320 [0.259,0.388] | 0.050 [0.027,0.090] | 0.145 [0.103,0.200] |
+| 0.8 | 0.05 | 1 | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.005 [0.001,0.028] | 0.045 [0.024,0.083] | 0.000 [0.000,0.019] | 0.065 [0.038,0.108] | 0.000 [0.000,0.019] | 0.035 [0.017,0.070] | 0.475 [0.407,0.544] | 0.000 [0.000,0.019] |
+| 0.8 | 0.05 | 10 | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.040 [0.020,0.077] | 0.005 [0.001,0.028] | 0.035 [0.017,0.070] | 0.005 [0.001,0.028] | 0.020 [0.008,0.050] | 0.080 [0.050,0.126] | 0.005 [0.001,0.028] |
+| 0.8 | 0.1 | 1 | 0.025 [0.011,0.057] | 0.000 [0.000,0.019] | 0.065 [0.038,0.108] | 0.130 [0.090,0.184] | 0.015 [0.005,0.043] | 0.455 [0.387,0.524] | 0.025 [0.011,0.057] | 0.090 [0.058,0.138] | 0.655 [0.587,0.717] | 0.025 [0.011,0.057] |
+| 0.8 | 0.1 | 10 | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.035 [0.017,0.070] | 0.090 [0.058,0.138] | 0.015 [0.005,0.043] | 0.070 [0.042,0.114] | 0.010 [0.003,0.036] | 0.080 [0.050,0.126] | 0.135 [0.094,0.189] | 0.010 [0.003,0.036] |
+| 0.8 | 0.25 | 1 | 0.345 [0.283,0.413] | 0.065 [0.038,0.108] | 0.440 [0.373,0.509] | 0.510 [0.441,0.578] | 0.160 [0.116,0.217] | 0.990 [0.964,0.997] | 0.345 [0.283,0.413] | 0.495 [0.426,0.564] | 0.880 [0.828,0.918] | 0.345 [0.283,0.413] |
+| 0.8 | 0.25 | 10 | 0.395 [0.330,0.464] | 0.090 [0.058,0.138] | 0.495 [0.426,0.564] | 0.585 [0.516,0.651] | 0.210 [0.159,0.272] | 0.385 [0.320,0.454] | 0.395 [0.330,0.464] | 0.520 [0.451,0.588] | 0.185 [0.137,0.245] | 0.395 [0.330,0.464] |
+| 0.8 | 0.5 | 1 | 0.910 [0.862,0.942] | 0.365 [0.301,0.434] | 0.955 [0.917,0.976] | 0.950 [0.910,0.973] | 0.680 [0.612,0.741] | 1.000 [0.981,1.000] | 0.910 [0.862,0.942] | 0.940 [0.898,0.965] | 0.960 [0.923,0.980] | 0.910 [0.862,0.942] |
+| 0.8 | 0.5 | 10 | 0.930 [0.886,0.958] | 0.445 [0.378,0.514] | 0.955 [0.917,0.976] | 0.990 [0.964,0.997] | 0.740 [0.675,0.796] | 0.330 [0.269,0.398] | 0.930 [0.886,0.958] | 0.945 [0.904,0.969] | 0.140 [0.099,0.195] | 0.930 [0.886,0.958] |
+| 0.95 | 0.05 | 1 | 0.055 [0.031,0.096] | 0.005 [0.001,0.028] | 0.110 [0.074,0.161] | 0.210 [0.159,0.272] | 0.020 [0.008,0.050] | 0.075 [0.046,0.120] | 0.055 [0.031,0.096] | 0.155 [0.111,0.212] | 0.910 [0.862,0.942] | 0.055 [0.031,0.096] |
+| 0.95 | 0.05 | 10 | 0.090 [0.058,0.138] | 0.010 [0.003,0.036] | 0.130 [0.090,0.184] | 0.215 [0.164,0.277] | 0.040 [0.020,0.077] | 0.085 [0.054,0.132] | 0.090 [0.058,0.138] | 0.205 [0.155,0.266] | 0.455 [0.387,0.524] | 0.090 [0.058,0.138] |
+| 0.95 | 0.1 | 1 | 0.450 [0.383,0.519] | 0.165 [0.120,0.223] | 0.580 [0.511,0.646] | 0.605 [0.536,0.670] | 0.330 [0.269,0.398] | 0.580 [0.511,0.646] | 0.450 [0.383,0.519] | 0.605 [0.536,0.670] | 0.935 [0.892,0.962] | 0.450 [0.383,0.519] |
+| 0.95 | 0.1 | 10 | 0.500 [0.431,0.569] | 0.160 [0.116,0.217] | 0.590 [0.521,0.656] | 0.605 [0.536,0.670] | 0.280 [0.222,0.346] | 0.250 [0.195,0.314] | 0.500 [0.431,0.569] | 0.600 [0.531,0.665] | 0.615 [0.546,0.680] | 0.500 [0.431,0.569] |
+| 0.95 | 0.25 | 1 | 0.970 [0.936,0.986] | 0.745 [0.680,0.800] | 0.990 [0.964,0.997] | 0.975 [0.943,0.989] | 0.900 [0.851,0.934] | 0.905 [0.856,0.938] | 0.970 [0.936,0.986] | 0.970 [0.936,0.986] | 0.960 [0.923,0.980] | 0.970 [0.936,0.986] |
+| 0.95 | 0.25 | 10 | 0.960 [0.923,0.980] | 0.745 [0.680,0.800] | 0.965 [0.930,0.983] | 0.975 [0.943,0.989] | 0.855 [0.800,0.897] | 0.745 [0.680,0.800] | 0.960 [0.923,0.980] | 0.965 [0.930,0.983] | 0.610 [0.541,0.675] | 0.960 [0.923,0.980] |
+| 0.95 | 0.5 | 1 | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 0.910 [0.862,0.942] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 0.980 [0.950,0.992] | 1.000 [0.981,1.000] |
+| 0.95 | 0.5 | 10 | 1.000 [0.981,1.000] | 0.995 [0.972,0.999] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 0.765 [0.702,0.818] | 1.000 [0.981,1.000] | 1.000 [0.981,1.000] | 0.705 [0.638,0.764] | 1.000 [0.981,1.000] |
+
+### 3. Release grid
+
+Release grid (rho = 0): null false-promotion rate, copied verbatim from summary.md:
+
+| B/T | arm | (d_f, d_u) | episode_geo | episode_equal | episode_front | allonset_edetector | c2_rho0.75 | c1_hmm_cs | online_fwer_spending | R_valid | straddle | straddle_abl |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0.1 | control | (100, 10) | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.005 [0.001,0.028] | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] |
+| 0.1 | favourable-first | (10, 100) | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.015 [0.005,0.043] | 0.040 [0.020,0.077] | 0.005 [0.001,0.028] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.015 [0.005,0.043] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] |
+| 0.25 | control | (40, 4) | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.015 [0.005,0.043] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] |
+| 0.25 | favourable-first | (4, 40) | 0.000 [0.000,0.019] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.025 [0.011,0.057] | 0.010 [0.003,0.036] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] | 0.010 [0.003,0.036] | 0.010 [0.003,0.036] | 0.000 [0.000,0.019] |
+
+### 4. Verdicts
+
+**V1: PASS** (rho=0.8, B/T=0.5, pooled over d; any of episode_geo, episode_equal, episode_front, allonset_edetector, online_fwer_spending, c2_rho0.75 with rate > 0.15)
+
+| method | k/n | rate [Wilson] | exceeds |
+|---|---|---|---|
+| episode_geo | 368/400 | 0.920 [0.889,0.943] | yes |
+| episode_equal | 162/400 | 0.405 [0.358,0.454] | yes |
+| episode_front | 382/400 | 0.955 [0.930,0.971] | yes |
+| allonset_edetector | 388/400 | 0.970 [0.948,0.983] | yes |
+| online_fwer_spending | 368/400 | 0.920 [0.889,0.943] | yes |
+| c2_rho0.75 | 284/400 | 0.710 [0.664,0.752] | yes |
+
+**V2: PASS** (rho=0.8 pooled over B/T and d, n=1600 paired seeds): straddle 0.439 - ablation 0.328 = +0.1113, 95% paired CI [+0.0813, +0.1412]
+
+**V3: FAIL** (favourable-first, d_u = 10g, pooled over the two spacings; gated baselines above 0.15: none; control (10g, g) at or below alpha for those baselines: PASS; for all gated baselines: PASS)
+
+| method | favourable-first | control |
+|---|---|---|
+| episode_geo | 0.005 [0.001,0.018] | 0.000 [0.000,0.010] |
+| episode_equal | 0.000 [0.000,0.010] | 0.000 [0.000,0.010] |
+| episode_front | 0.013 [0.005,0.029] | 0.005 [0.001,0.018] |
+| allonset_edetector | 0.033 [0.019,0.055] | 0.013 [0.005,0.029] |
+| c2_rho0.75 | 0.007 [0.003,0.022] | 0.007 [0.003,0.022] |
+| c1_hmm_cs | 0.005 [0.001,0.018] | 0.003 [0.000,0.014] |
+| online_fwer_spending | 0.005 [0.001,0.018] | 0.000 [0.000,0.010] |
+
+**V4 (descriptive)**: Spearman correlation across the dependence grid between null false-promotion rate and rho^(T/B).
+
+| method | Spearman | e-process baseline |
+|---|---|---|
+| episode_geo | 0.863 | yes |
+| episode_equal | 0.913 | yes |
+| episode_front | 0.877 | yes |
+| allonset_edetector | 0.900 | yes |
+| online_fwer_spending | 0.863 | yes |
+| c2_rho0.75 | 0.854 | yes |
+| c1_hmm_cs | 0.782 | no |
+| R_valid | 0.878 | no |
+| straddle | 0.878 | no |
+| straddle_abl | 0.863 | no |
+
+Positive for 6/6 e-process baselines (most: True).
+
+Interpretation-rule verdict:
+
+RETAINED: V1 holds and the V4 Spearman correlation is positive for most e-process baselines; the sampling-density explanation is retained.
+
+### 5. Prior-art audit summary (R2, `docs/failure_atlas_dependence_prior_art_v1.md`, 2026-11-01)
+
+- Candidate (i), false-promotion inflation scales with rho^(query spacing): NOT NOVEL as a mechanism. R2 KILLED as a headline
+  contribution; retained as a diagnostic result with contract-violation framing. The upper-bound direction follows from known
+  blocking and TV bounds (Oliveira et al. Prop 10); no lower-bound or exact-scaling statement for gates was found.
+- Candidate (ii), spacing-by-mixing-time acquisition or blocked betting restores level alpha: NOT NOVEL as an idea (blocking
+  with a beta-mixing penalty, Yu 1994, Oliveira et al.). R2 WEAK-SURVIVE; not a paper by itself. The anytime-valid,
+  label-budgeted version is a small corollary with a loose correction, and the audit's own arithmetic suggests it is
+  vacuous in several grid cells at T = 1000 (own derivation, unchecked).
+- Contract point: every e-process / betting baseline states its null as a conditional null on a filtration,
+  E[X_t | F_(t-1)] = mu, while the cycle-6 null fixes only the stationary mean with a Markov benefit indicator. The
+  cycle-6 null is therefore outside the gates' conditional-null contract whenever rho > 0, and a V1-positive result shows
+  the gates were run outside their contract rather than refuting a published guarantee.
+- Strongest baselines named: (1) hedged capital betting CS (Waudby-Smith and Ramdas Thm 3) on queries thinned by a
+  conservative fixed gap, with the Oliveira et al. Prop 10 blocking correction; (2) a correctly specified Markov-likelihood
+  e-process on the skeleton chain (Ramdas-Ruf-Larsson-Koolen Thm 6; Saha-Ramdas Prop A.1; Nguyen Prop 3), where `c1_hmm_cs`
+  differs because its emissions are assumed iid within regime; (3) the existing uniform calendar with the best-safe gate.
+- Most promising non-killed angle: joint design of validity-driven spacing under a finite label budget with unknown
+  correlation time. It overlaps the Lane-A joint acquisition + switching result and should be tested against the calendar
+  baseline first.
+- Evidence caveat: several sources are ABSTRACT or secondary only; absence findings mean not found in this search.
+
+### Cycle 6 reviewer assessment (2026-11-01)
+
+**Sampling-density explanation: RETAINED.** The registered predictions came out as follows:
+
+- V1 PASS: at rho = 0.8 and B/T = 0.5, all six e-process baselines exceed 0.15, with rates of 0.405 to 0.970.
+- V2 PASS: straddle minus its ablation is +0.111 [+0.081, +0.141].
+- V4: the Spearman correlation with rho^(T/B) is positive for 6 of 6 baselines (0.854 to 0.913).
+- V3 FAIL: favourable-first release at 10g did not inflate false promotion at rho = 0.
+- The rho = 0 control holds at every budget. Every method stays at or below alpha, with a maximum of 0.100, so the inflation comes from dependence combined with sampling density, not from dense budgets alone.
+- The identical columns for `straddle_abl`, `episode_geo` and `online_fwer_spending` are expected. On a null stream, every false promotion happens in episode 0, and all three spend alpha/2 there with the same calendar and the same e-process.
+
+**Status of the finding: a diagnostic, not a discovery (R2).** The published gates were run outside their contract. Their guarantee is for a conditional null, E[X_t | F_{t-1}] ≤ 0, while this null fixes only the stationary mean. Blocking arguments already explain why sparse, thinned sampling restores approximate validity.
+
+The practical lesson for this contract is concrete:
+
+- Gate validity depends on how closely the actually queried labels are spaced, relative to the correlation time.
+- That spacing is set jointly by the budget, the acquisition rule and the release delay.
+
+**Consequence for the mechanism library: straddle is UNSAFE in the regime where it helps.**
+
+- At d = 1, straddle queries consecutive rounds. Its null false-promotion rate is 0.130 at rho = 0.5 and B/T = 0.05, and 0.475 at rho = 0.8 and B/T = 0.05, against 0.005 and 0.000 for its uniform ablation.
+- Its validated cost gain was also largest at d = 1.
+- Straddle therefore stays in the library only with a hard restriction: it is valid only when outcomes are conditionally independent given the regime, and it must not be used where within-regime dependence is plausible.
+- `c1_hmm_cs` fails the same way: 0.960 at rho = 0.5 and B/T = 0.25 with d = 1.
+
+**Programme-level assessment after six cycles: CONSOLIDATE.**
+
+Under the delayed, budgeted switching contract, the engine has produced:
+
+- (1) one reproducible family of cost failures. Against the implemented valid references it is mostly labelled cost of validity. Whether it is truly unavoidable at T = 1000 remains open; neither a scalable constrained solver nor a lower bound is available;
+- (2) two mechanisms that were explained and stopped as contributions, straddle and triggered_kelly;
+- (3) a validity map showing that density-induced inflation makes the only surviving cost mechanism unsafe under plausible dependence.
+
+No candidate method has survived as a contribution. This agrees with the Lane-A conclusion recorded elsewhere in the repository, a benchmark/negative-result pivot.
+
+Recommended next step, chosen by the user:
+
+- **(a) Consolidate.** Write the Failure Atlas up as a benchmark and diagnostic artefact: a failure-class map, cost-of-validity accounting, the mechanism ledger and the validity-density map. That is the defensible output.
+- **(b) One final method test.** Build the strongest dependence-robust baseline named by the audit, a correctly specified Markov-likelihood e-process gate on the skeleton chain, together with a spacing-thinned hedged-betting gate. Test validity across the cycle-6 grid and power on family 3. That would show whether dependence-robust validity is cheap or costly in this contract.
+
+Nothing here is confirmatory. The confirmation seeds remain untouched.
+
+## 2026-11-01 continuation: practical acceptance and dependence pilot (Amendment 9)
+
+This dated entry supersedes the earlier consolidation recommendation as a future-work
+direction. It leaves all six-cycle verdicts intact. Governing review:
+`docs/failure_atlas_review_2026_11_01.md`; native claim review:
+`docs/failure_atlas_native_claim_review_2026_11_01.md`.
+
+**Acceptance correction:** pursue a useful, modestly novel repair against strong matched
+competitors on a declared shared-failure region. New-theorem novelty, universal dominance
+and 50% closure to a Bayes reference are not required. Retain honest absolute safety limits,
+ablation evidence and a precise difference from prior rules. Amendment 8's registered
+cycle-7 criteria are retained for that evaluation, not silently revised after results.
+
+**Run:** `.venv/Scripts/python scripts/run_atlas_dependence_pilot_v1.py`.
+Starting HEAD `e61a3b0`, dirty tree with pilot and documentation changes. T=1000,
+development seeds [170000,170020), 32 boundary-null configurations plus 11 reproduced
+family-3 alternative cells; five methods, 4300 unique method runs. Raw records and
+post-run analysis manifest: `outputs/failure_atlas_v1_cycle7/dependence_pilot/`.
+Full tracked tables: `docs/failure_atlas_dependence_pilot_2026_11_01.md`.
+Alternative streams were replayed on identical seeds to add explicit promotion metrics;
+original records remain in the append-only file. Replays add no independent evidence.
+
+**Observed cost result:** frozen DSS gap 4 has lower mean per-round cost than the best
+of episode_front, Markov LR and gap-10 betting in 9/11 alternative cells. The unweighted
+mean of the 11 paired cell differences is -0.03908 per round. Seven cells have an
+unadjusted paired 95% CI upper bound below -0.01. Two cells have worse mean cost.
+This is a promising scoped repair, not A1 acceptance: the full comparator registry,
+family-1 cells and neighbours were not evaluated, and these are only 20 development seeds.
+The comparison chooses the best pilot baseline per cell on those same seeds.
+
+**Dependence result:** maximum observed null false-promotion frequency over each rho's
+eight budget/delay configurations (each frequency based on 20 streams):
+
+| rho | episode_front | Markov LR | gap-10 betting | DSS gap 4 | uniform ablation |
+|---|---|---|---|---|---|
+| 0 | .15 | .00 | .10 | .00 | .10 |
+| .5 | .35 | .10 | .05 | .25 | .25 |
+| .8 | 1.00 | .05 | .15 | 1.00 | 1.00 |
+| .95 | 1.00 | .05 | .70 | 1.00 | 1.00 |
+
+These maxima are descriptive, not pooled error probabilities or simultaneous confidence
+bounds. Full tables carry exact per-cell binomial intervals; even 0/20 has upper bound
+about .168. Markov LR is empirically the strongest null comparator here, subject to its
+homogeneous-skeleton approximation. Fixed gap 10 is also inadequate at high persistence.
+DSS is not dependence-safe across this grid; its cost gain does not erase that failure.
+
+**Promotion/power diagnostic:** Markov LR made no promotion in 10/11 alternative cells
+(0/20 streams in each), and promoted correctly in 14/20 streams in the remaining cell.
+Its favourable null performance therefore comes with substantial conservatism on this
+particular late/transient-change family. DSS correctly promoted in 17–20 of 20 streams
+per alternative cell. None of the five methods made a false promotion on these alternative
+streams, which does not negate the separate boundary-null failures. This answers the
+practical cost-of-robustness question within the pilot, without establishing a theorem or
+a general power ordering. The separate T=300 late-onset test and this T=1000 family use
+different streams, budgets and change structures and must not be conflated.
+
+**Decision: CONTINUE, NARROW.** The practical acquisition repair has measurable promise;
+the evidence does not justify abandoning it merely for lacking a new theorem. Retain
+its operating limits and test against the full applicable registry before any SOTA-win
+claim. For stronger dependence, investigate gap-aware Markov evidence as a separate,
+prospectively registered repair. Do not retune gap 4 on this pilot and call the same seeds
+fresh. Validation [290000,290200) and confirmation seeds remain untouched.
+
+**Checks:** 53 tests passed in 392.16 s:
+`.venv/Scripts/python -m pytest tests/test_atlas_dependence_baselines.py tests/test_atlas_components.py -q`.
+Baseline tests additionally observed 1/100 false promotions for each dependence baseline
+at rho=.8, B/T=.25, d=1, T=300; in a separate late-onset T=300 test, Markov LR promoted
+11/20 times with mean total-cost gain 18.10 against no_switch; gap-10 betting promoted
+17/20 with gain 29.67. These are test settings, not the T=1000 pilot or SOTA comparisons.
+Ruff and script compilation checks pass. External cross-family integrity audit unavailable;
+the saved native review is provisional and did not review the completed pilot outputs.
+
+## 2026-11-01: future method proposal after cycle 7
+
+Cycle 7 and its bounded fallback diagnostic are complete; neither is retrospectively accepted. See [the next-method proposal](failure_atlas_next_method_proposal_v1.md) for the synthesis across cycles, primary literature comparison, restricted gap-aware evidence construction, deadline-aware acquisition design, target audit, and staged stopping rules. This is prospective method development, not new experimental evidence. First test correct gap-aware evidence on uniform acquisition, then test the incremental value of scheduling. No confirmation seeds were consumed. The local HKUSTDial/ARIS idea evaluation is a self-critique, not an independent novelty review.

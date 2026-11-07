@@ -1,0 +1,64 @@
+{
+  "windows": {
+    "n15": 42721,
+    "n30": 85442,
+    "n60": 170884,
+    "n": 284807
+  },
+  "binarisation": {
+    "rule": "majority_vs_rest",
+    "target_class": 0,
+    "classes": [
+      0,
+      1
+    ],
+    "class0_rate_train": 0.9976124154397135,
+    "target_rate_train": 0.9976124154397135,
+    "n_classes_train": 2
+  },
+  "positive_rate_dev_window": 0.9981742000421339,
+  "featurizer": "dense",
+  "options_tried_in_order": [
+    {
+      "name": "A",
+      "challenger": "HGB",
+      "train": "0-30%",
+      "dev": {
+        "dev_rows": 85442,
+        "disagree": 0.0016502422696097938,
+        "inc_err_dev": 0.0014161653519346458,
+        "chal_err_dev": 0.001193792280143255,
+        "adv_per_event": 0.00022237307179139064,
+        "adv_times_T": 0.4447461435827813,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": false,
+        "cond_challenger_better": true,
+        "cond_adv_T_gt_cs": false,
+        "passes": false
+      }
+    },
+    {
+      "name": "B",
+      "challenger": "LR",
+      "train": "15-30%",
+      "dev": {
+        "dev_rows": 85442,
+        "disagree": 0.0016502422696097938,
+        "inc_err_dev": 0.0014161653519346458,
+        "chal_err_dev": 0.001076753821305681,
+        "adv_per_event": 0.0003394115306289648,
+        "adv_times_T": 0.6788230612579296,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": false,
+        "cond_challenger_better": true,
+        "cond_adv_T_gt_cs": false,
+        "passes": false
+      }
+    }
+  ],
+  "chosen": null,
+  "inc_err_dev": 0.0014161653519346458,
+  "selection_inputs": "rows [0, 60%) only"
+}

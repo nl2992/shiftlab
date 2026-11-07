@@ -1,0 +1,146 @@
+{
+ "name": "outdoor",
+ "n": 4000,
+ "n_features": 21,
+ "bounds": {
+  "train": [
+   0,
+   1200
+  ],
+  "dev": [
+   1200,
+   2400
+  ],
+  "locked": [
+   2400,
+   4000
+  ]
+ },
+ "time_index": "approach order",
+ "binary_rule": "class 23 (train-block majority) vs rest",
+ "dev_pos_rate": 0.016666666666666666,
+ "pairs": {
+  "LR15|LR15-30": {
+   "inc_err": 0.035833333333333335,
+   "chal_err": 0.019166666666666665,
+   "disagree": 0.041666666666666664,
+   "mean_adv": 0.016666666666666666,
+   "adv_profile": [
+    0.0667,
+    -0.0167,
+    0.0,
+    -0.025,
+    0.0,
+    0.05,
+    0.0583,
+    0.0083,
+    0.025,
+    0.0
+   ],
+   "headroom_cs5": 0.0125,
+   "switches_cs5": 1,
+   "breakeven_label_frac_cs5": 0.25,
+   "headroom_cs20": 0.0,
+   "switches_cs20": 0,
+   "breakeven_label_frac_cs20": 0.0
+  },
+  "LR15|HGB15-30": {
+   "inc_err": 0.035833333333333335,
+   "chal_err": 0.015833333333333335,
+   "disagree": 0.04833333333333333,
+   "mean_adv": 0.02,
+   "adv_profile": [
+    0.0667,
+    -0.0667,
+    -0.0083,
+    -0.0333,
+    0.0333,
+    0.0417,
+    0.0583,
+    0.0833,
+    0.025,
+    0.0
+   ],
+   "headroom_cs5": 0.02,
+   "switches_cs5": 1,
+   "breakeven_label_frac_cs5": 0.39999999999999997,
+   "headroom_cs20": 0.0075,
+   "switches_cs20": 1,
+   "breakeven_label_frac_cs20": 0.15
+  },
+  "LR0-30|HGB0-30": {
+   "inc_err": 0.02,
+   "chal_err": 0.010833333333333334,
+   "disagree": 0.019166666666666665,
+   "mean_adv": 0.009166666666666667,
+   "adv_profile": [
+    -0.0333,
+    0.0,
+    0.0,
+    0.025,
+    0.0083,
+    0.025,
+    0.0,
+    0.0833,
+    -0.0167,
+    0.0
+   ],
+   "headroom_cs5": 0.008333333333333333,
+   "switches_cs5": 1,
+   "breakeven_label_frac_cs5": 0.16666666666666666,
+   "headroom_cs20": 0.0,
+   "switches_cs20": 0,
+   "breakeven_label_frac_cs20": 0.0
+  },
+  "LR15|HGB0-30": {
+   "inc_err": 0.035833333333333335,
+   "chal_err": 0.010833333333333334,
+   "disagree": 0.028333333333333332,
+   "mean_adv": 0.025,
+   "adv_profile": [
+    0.0083,
+    0.0,
+    0.0,
+    0.0,
+    0.025,
+    0.075,
+    0.05,
+    0.0833,
+    0.0083,
+    0.0
+   ],
+   "headroom_cs5": 0.020833333333333332,
+   "switches_cs5": 1,
+   "breakeven_label_frac_cs5": 0.41666666666666663,
+   "headroom_cs20": 0.008333333333333333,
+   "switches_cs20": 1,
+   "breakeven_label_frac_cs20": 0.16666666666666666
+  },
+  "HGB15|HGB15-30": {
+   "inc_err": 0.019166666666666665,
+   "chal_err": 0.015833333333333335,
+   "disagree": 0.03166666666666667,
+   "mean_adv": 0.0033333333333333335,
+   "adv_profile": [
+    0.0667,
+    -0.0583,
+    -0.0083,
+    -0.0333,
+    0.0,
+    -0.0333,
+    0.0833,
+    0.0,
+    0.0167,
+    0.0
+   ],
+   "headroom_cs5": 0.005833333333333334,
+   "switches_cs5": 1,
+   "breakeven_label_frac_cs5": 0.11666666666666667,
+   "headroom_cs20": 0.0,
+   "switches_cs20": 0,
+   "breakeven_label_frac_cs20": 0.0
+  }
+ },
+ "selected_pair": null,
+ "locked_note": "labels/losses in [n60,n) never read"
+}

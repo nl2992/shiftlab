@@ -1,0 +1,57 @@
+1/5 6 0.004999257917050091 1.357841899851337
+1/5 7 0.00799133370056175 6.572326299967244
+1/5 8 0.011782801718918295 16.757624099962413
+1/5 9 0.02885105457396983 43.86254770006053
+1/5 10 0.03889270425670157 137.93834959995002
+1/5 11 0.04640775040218315 384.2908532000147
+Traceback (most recent call last):
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-promising-directions-2026-10-30\scripts\promising_directions\a1b_growing_family.py", line 47, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-promising-directions-2026-10-30\scripts\promising_directions\a1b_growing_family.py", line 38, in main
+    row = a1.solve_cell(p)
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-promising-directions-2026-10-30\scripts\promising_directions\a1_exact_separation.py", line 117, in solve_cell
+    rep = _SOLVER["Calendar"](cfg, model, cal).solve()[0]
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 331, in solve
+    self.build()
+    ~~~~~~~~~~^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 166, in build
+    self._alternative((), (), 0, F(1), self.model.prior1, F(0))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 119, in _alternative
+    self._alternative(
+    ~~~~~~~~~~~~~~~~~^
+        next_history,
+        ^^^^^^^^^^^^^
+    ...<4 lines>...
+        total_cost + cost,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 119, in _alternative
+    self._alternative(
+    ~~~~~~~~~~~~~~~~~^
+        next_history,
+        ^^^^^^^^^^^^^
+    ...<4 lines>...
+        total_cost + cost,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 128, in _alternative
+    self._alternative(next_history, outcomes, child, weight, state1, total_cost + cost)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 128, in _alternative
+    self._alternative(next_history, outcomes, child, weight, state1, total_cost + cost)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 128, in _alternative
+    self._alternative(next_history, outcomes, child, weight, state1, total_cost + cost)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 6 more times]
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 101, in _alternative
+    self._node()
+    ~~~~~~~~~~^^
+  File "C:\Users\nigel\OneDrive\\u684c\u9762\ICML\shiftlab-risk-approx-2026-10-29\src\shiftlab\dive\causal_switching_game.py", line 98, in _node
+    raise RuntimeError("registered tree node limit exceeded")
+RuntimeError: registered tree node limit exceeded

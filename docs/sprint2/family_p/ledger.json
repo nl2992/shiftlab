@@ -1,0 +1,241 @@
+[
+ {
+  "id": "P1",
+  "status": "SCREENED_NEGATIVE",
+  "implementation": "scripts/sota_sprint/fam_p.py:FamP1 + RenewalEvidence/UnionEvidence/CapMixture",
+  "run_config": [
+   "uv run python scripts/sota_sprint/fam_p.py p1diag --reps 100 --out outputs/sprint2/P/p1diag/p1diag.json",
+   "./outputs/sprint2/P/run_dev.sh",
+   "./outputs/sprint2/P/run_after.sh",
+   "./outputs/sprint2/P/run_trackR.sh"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/P/dev_syn/manifest.json",
+    "outputs/sprint2/P/dev_real/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110701_a0.005/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110701_a0.01/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110701_a0.02/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110701_a0.05/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110701_a0.1/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110701_a0.2/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110701_a0.3/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110701_a0.5/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110711_a0.005/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110711_a0.01/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110711_a0.02/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110711_a0.05/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110711_a0.1/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110711_a0.2/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110711_a0.3/manifest.json",
+    "outputs/sprint2/P/trackR/b2026110711_a0.5/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701",
+    "2026110711"
+   ],
+   "note": "The p1diag side analysis has no original run manifest; the sidecar records its output hash, stored seed metadata, retained command, and missing run-time source hash.",
+   "provenance_status": "partial",
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json"
+  },
+  "results_artifact": [
+   "outputs/sprint2/P/p1diag/p1diag.json",
+   "outputs/sprint2/P/dev_syn",
+   "outputs/sprint2/P/dev_real",
+   "docs/sprint2/family_p/P1_power.md",
+   "docs/sprint2/family_p/dev_syn_P1.json"
+  ],
+  "track_E": "vs A5b: P1_renew F5_dep_better_r8 -14[-26,-1], S_reversal_400 -31; but F0_better +27, F9_bursty +47, P_hmm/piecerho +38/+39; real +97/+139 on bike/metro, -9/-16 beijing/household. c_corr spacing: ~0 everywhere.",
+  "track_R": "P1_renew: R5 at alpha .3 risk .025 cost 397.1; R10-R30 cost 388.0; not on frontier (A5b 384.0)",
+  "track_V": "V2 (renewal: proved for first-order chain with i.i.d. gaps; union by Bonferroni). 0/20 on all 10 dev nulls incl. 5 misspecified; twin P1_renew 0/200, P1_union <=.05. P1_cap95 V2 only rho<=.95 (.20 at rho .98). P1_capmix INVALID (.90 at r95, 1.00 at r98).",
+  "ablation": "P1_sui_fixedgap (no renewal) -7 vs renewal -14 on F5_r8 (overlapping CI): gain mostly from fixed spacing + no discard; P1_A5b_c10/_c05 no effect",
+  "disposition": "Diagnosis: free-rho absorption is 1.2-1.5 nats and Fisher efficiency loss <=4%; the dominant losses are persistence itself and alt-mixture misfit. The sprint-1 figure (18.5 of 20.5 nats) was not reproduced; the oracle at p=.65, rho=.8, 100 queries is 2.4-4.0 nats. No construction recovers net power.",
+  "next_action": "Do not advance. If revisited: alt-mixture prior with mass on persistent alternatives (alt misfit 1-3 nats)."
+ },
+ {
+  "id": "P2",
+  "status": "SCREENED_PROMISING",
+  "implementation": "scripts/sota_sprint/fam_p.py:p2p3 (analysis)",
+  "run_config": [
+   "./outputs/sprint2/P/run_after.sh (p2p3 step)"
+  ],
+  "seed_manifest": {
+   "manifests": [],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "No original per-process manifest exists for the p2p3 analysis; retained command source, log, output, and deterministic seed rule are summarized in the explicitly retrospective sidecar.",
+   "provenance_status": "partial"
+  },
+  "results_artifact": [
+   "outputs/sprint2/P/p2p3/p2p3.json",
+   "outputs/sprint2/P/final_summary.txt",
+   "docs/sprint2/family_p/P2P3_objectives_harm.md"
+  ],
+  "track_E": "n/a (analysis)",
+  "track_R": "n/a",
+  "track_V": "V1 vs V2 error rates reported separately: D2 V2 .308 / V1 .142; QSG .358/.183; RMM .308/.125; GAR+front .175/.067; A5b 0/0",
+  "ablation": "targets compared: marginal, oracle-state conditional, policy-filtration conditional",
+  "disposition": "Analysis result: in tested delay-100 synthetic episodes, M and Cpol correlations with realized A500 were .86/.74/.52 at rho 0/.8/.95; at rho=.95, Cstate=.53 while M=Cpol=.52. Similar correlations do not make conditional and marginal hypotheses equivalent. At short delay/high rho, mean A500 was +8.6 on p=.5 null episodes (rho=.95, delay=1). On reused twins, selected promotions had positive mean realized A500 for four displayed certified methods (+6 to +19), which does not estimate persistence duration or transfer. Status means 'analysis complete'; this is not a candidate.",
+  "next_action": "Use V2 as the safety target under the frozen contract; report V1 separately"
+ },
+ {
+  "id": "P3",
+  "status": "SCREENED_NEGATIVE",
+  "implementation": "scripts/sota_sprint/fam_p.py:FollowLeader (P3_follow) + p2p3 harm tables",
+  "run_config": [
+   "./outputs/sprint2/P/run_after.sh",
+   "./outputs/sprint2/P/run_dev.sh"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/P/dev_syn/manifest.json",
+    "outputs/sprint2/P/dev_real/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701"
+   ],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "The p2p3 analysis output contains P3 path-cost rows, but its original run lacked a per-process manifest; see the retrospective sidecar.",
+   "provenance_status": "partial"
+  },
+  "results_artifact": [
+   "outputs/sprint2/P/p2p3/p2p3.json",
+   "outputs/sprint2/P/final_summary.txt",
+   "docs/sprint2/family_p/P3_cost_sweep.json",
+   "outputs/sprint2/P/dev_syn",
+   "docs/sprint2/family_p/P2P3_objectives_harm.md"
+  ],
+  "track_E": "P3_follow beats the best other policy at rho=.95, delay 1, cs<=2 (margins -79.5 to -11.6 for tested p), plus one low-cost cell p=.5, rho=.8, delay 1, cs=.5 (margin -1.8). At delay 100 it loses across all tested p/rho settings, by +14.0 to +669.5 over reweighted switch costs cs=.5,2,5,20; the full-grid maximum loss is +738.4 at p=.50, rho=0, delay=1, cs=20. In the 23-regime, 20-seed dev screen, paired mean J is +37.2 to +163.0 vs A5b.",
+  "track_R": "not run (uncertified, null promotion 1.0)",
+  "track_V": "none (uncertified); null promotion 1.00 on all nulls, twins .875-1.0",
+  "ablation": "cs sweep {0.5,2,5,20} x delay {1,100} x rho {0,.8,.95} x p {.45,.5,.65}",
+  "disposition": "In displayed promoted cells, certified-method \u0394J at delay 100 ranges +14.9 to +83.4; at rho=.95 and delay=1 it ranges -12.6 to +21.0 by method/p. Aggressive switching is never better under the frozen contract (delay 100, cs=5). The cs sweep is reproducibly reweighted from saved fixed-cs trajectories; policies were not rerun at each cost.",
+  "next_action": "Record as scoping evidence; no advance"
+ },
+ {
+  "id": "P4",
+  "status": "SCREENED_PROMISING",
+  "implementation": "scripts/sota_sprint/fam_p.py:PRegime (P_REGIMES registered into bench.SPRINT_REGIMES)",
+  "run_config": [
+   "./outputs/sprint2/P/run_dev.sh"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/P/dev_syn/manifest.json",
+    "outputs/sprint2/round5/P4_hmm_null1000/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701"
+   ],
+   "note": "P4 is a generator/misspecification family; the listed development and 1,000-seed out-of-class HMM manifests cover its executed screens.",
+   "provenance_status": "complete"
+  },
+  "results_artifact": [
+   "outputs/sprint2/P/dev_syn",
+   "docs/sprint2/family_p/P4_misspecification.md",
+   "outputs/sprint2/round5/P4_hmm_null1000",
+   "docs/sprint2/family_p/P4_hmm_round5.json"
+  ],
+  "track_E": "on misspecified alternatives A5b ~ never-switch on order2/Markov (410/417 vs 405/421) and better on HMM/piece-rho (364/375 vs 421/423); D2 346-356",
+  "track_R": "n/a (environment family)",
+  "track_V": "Development screen: A5b 0/20 on all tested nulls except HMM 3/20. Round-5 HMM stress replay: A5b 176/1000 [Wilson .154,.201], P1_renew 54/1000 [.042,.070], P1_union 44/1000 [.033,.059], D2 256/1000 [.230,.284], RMM 250/1000 [.224,.278]. The HMM is outside A5b/P1's declared first-order Markov null; this does not test their in-class guarantees.",
+  "ablation": "5 dependence classes x null/alt",
+  "disposition": "The 1,000-seed HMM replay confirms elevated A5b promotions under this specific out-of-class generator. It quantifies a limitation; it is not an in-class guarantee failure or evidence that other misspecified classes are safe.",
+  "next_action": null
+ },
+ {
+  "id": "P5",
+  "status": "SCREENED_PROMISING",
+  "implementation": "scripts/sota_sprint/fam_p.py:KGate (K_D2) + KRegime + kbuild",
+  "run_config": [
+   "uv run python scripts/sota_sprint/fam_p.py kbuild --out outputs/sprint2/P/kstreams/stats.json",
+   "uv run python scripts/sota_sprint/fam_p.py kscreen --seeds 20 --workers 1 --real --out outputs/sprint2/P/kscreen/kscreen.json",
+   "uv run python scripts/sota_sprint/p5_trackr.py --seeds 20 --workers 2 --out outputs/sprint2/P/trackR_K"
+  ],
+  "seed_manifest": {
+   "manifests": [],
+   "provenance_record": "docs/sprint2/legacy_seed_provenance.json",
+   "note": "The custom K-stream build/screen and P5 Track-R jobs did not emit original run manifests; retained outputs, command history, and deterministic seed rules are summarized in the explicitly retrospective sidecar.",
+   "provenance_status": "partial"
+  },
+  "results_artifact": [
+   "outputs/sprint2/P/kscreen/kscreen.json",
+   "outputs/sprint2/P/kstreams/stats.json",
+   "docs/sprint2/family_p/P5_multimodel.md",
+   "scripts/sota_sprint/p5_trackr.py",
+   "outputs/sprint2/P/trackR_K/records.json",
+   "outputs/sprint2/P/trackR_K/risk_curves.json"
+  ],
+  "track_E": "K_D2 vs native CAMS(K): nulls -48/-68, K3_near -22, K4_late -21, real -16 to -30 (household -23+-17, metro -19+-14); vs Model Picker(K) within noise except metro +22.7; vs never real -80 to -578",
+  "track_R": "Separate K3/K4 Track R in outputs/sprint2/P/trackR_K/risk_curves.json. Development-only calibration/selection, 20 seeds per regime, separate 20-seed evaluation blocks. Pooled K3/K4 null ever-nonbetter deployment risk: R5 alpha .2, eval .025 [.000,.074], alt net J 565.2 [560.4,570.0]; R10 alpha .3, eval .050 [.000,.117], J 563.5 [556.2,570.8]; R15-R30 alpha .5, eval .150 [.047,.253], J 556.5 [550.2,562.7]. Cost selected on development alternatives. Empirical K-model panel, not comparable to pooled two-model families or a guarantee.",
+  "track_V": "V1 (pairwise Bonferroni, conditional only if each pairwise sign null holds under the full pre-label query selection, including host preference and cross-pair shared-label triggers; not merely its own queried-disagreement null). K3/K4 null .05 (native CAMS/MP .95-1.00); real proxy .00-.21. Empirical rates do not verify the selection-conditional assumption.",
+  "ablation": "K_D2-host_only: +26 to +34 worse on synthetic alternatives that have a winner; K_D1 (Model Picker host) similar to K_D2",
+  "disposition": "Development evidence in tested K=3-4 settings; no general transfer claim. No certified published K-model comparator exists; misses late improvement.",
+  "next_action": "No further Track-R gap for the tested K=3/4 simulator; any confirmatory K-model claim needs preregistered regimes, larger independent seed blocks and independent review of the cross-pair selection null."
+ },
+ {
+  "id": "P6",
+  "status": "SCREENED_PROMISING",
+  "implementation": "scripts/sota_sprint/fam_p.py:UniformStartSUI + ReservedRestartMonitor (P6_LRMD_U promising; P6_RRD negative)",
+  "run_config": [
+   "./outputs/sprint2/P/run_p6fix.sh",
+   "uv run python scripts/sota_sprint/screen.py --kind real --regimes metro,beijing_pm25,bike_hour,appliances,household_power --policies P6_LRMD_U,M_LRMD_SUI,CONTROL_never_switch --seeds 1 --seed-base 2026110701 --workers 2 --out outputs/sprint2/P/dev_real_p6",
+   "Track R: trackR (P6_RRD) and trackR2 (P6_LRMD_U, M_LRMD_SUI), same loop as run_trackR.sh",
+   "uv run python scripts/sota_sprint/screen.py --kind real --regimes rialto,spam,weather,openml_ldpa,uci_occupancy,airlines,bank,elec2,criteo,metro,beijing_pm25,bike_hour,appliances,household_power --policies P6_LRMD_U,M_LRMD_SUI,A5b,D2,rmm:gated_deployment+RMM,gated_adaptive_range+front,CONTROL_never_switch --seeds 20 --seed-base 2026110902 --workers 6 --alpha 0.05 --out outputs/sprint2/round5/p6_all14_real20"
+  ],
+  "seed_manifest": {
+   "manifests": [
+    "outputs/sprint2/P/dev_syn/manifest.json",
+    "outputs/sprint2/P/dev_p6/manifest.json",
+    "outputs/sprint2/P/dev_real_p6/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110701_a0.005/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110701_a0.01/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110701_a0.02/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110701_a0.05/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110701_a0.1/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110701_a0.2/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110701_a0.3/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110701_a0.5/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110711_a0.005/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110711_a0.01/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110711_a0.02/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110711_a0.05/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110711_a0.1/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110711_a0.2/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110711_a0.3/manifest.json",
+    "outputs/sprint2/P/trackR2/b2026110711_a0.5/manifest.json",
+    "outputs/sprint2/round5/P6_LRMD_U_eval/manifest.json",
+    "outputs/sprint2/round5/P6_LRMD_U_null1000/manifest.json",
+    "outputs/sprint2/round5/P6_LRMD_U_twinbike240/manifest.json",
+    "outputs/sprint2/round5/P6_corrected_comparators_100/manifest.json",
+    "outputs/sprint2/round5/p6_twin_bike_1000/manifest.json",
+    "outputs/sprint2/round5/p6_all14_real20/manifest.json"
+   ],
+   "seed_bases": [
+    "2026110701",
+    "2026110711",
+    "P6 follow-up-specific values in each manifest argv",
+    "2026110902"
+   ],
+   "note": "P6 results span the listed development, Track-R, null, twin-bike and corrected-comparator follow-ups; check each manifest argv for its exact seed count and base.",
+   "provenance_status": "complete"
+  },
+  "results_artifact": [
+   "outputs/sprint2/P/dev_p6",
+   "outputs/sprint2/P/dev_real",
+   "outputs/sprint2/P/dev_real_p6",
+   "outputs/sprint2/P/trackR2",
+   "docs/sprint2/family_p/P6_late_reversal.md",
+   "docs/sprint2/family_p/trackR.json",
+   "outputs/sprint2/round5/p6_twin_bike_1000/manifest.json",
+   "docs/sprint2/family_p/p6_twin_bike_1000.json",
+   "docs/sprint2/family_p/P6_all14_real_results.json",
+   "docs/sprint2/family_p/P6_all14_real_results.md"
+  ],
+  "track_E": "20-seed development screen: P6_LRMD_U vs M_LRMD_SUI: F1_late_800 -9.0[-14.3,-3.7], F1_late_1200 -11.8, W_late_1000 -10.1, S_reversal_400 -25.9; vs xu_acquisition_only (Xu acquisition + ShiftLab paired V1 certificate; not Xu et al.'s published certificate) -17.5/-15.9/-12.1; costs F0_better +7.7, F5_better_r8 +13.2; real +6 to +78 vs M_LRMD_SUI. P6_RRD ~ A5b (no late gain). Post-development 20-seed-per-episode all-14-source replay (seed base 2026110902) gives equal-source mean P6_LRMD_U cost 525.24 versus 500.83 for M_LRMD_SUI, 495.69 A5b, 404.92 D2, 423.47 RMM, and 414.14 gated adaptive-range; P6 costs 24.41 more than its parent on equal-source paired means (higher on 11 sources, lower on 2, tied on 1). It is 72.65 cheaper than never-switch on equal-source means. This is a post-development replay of exposed sources, not late-change or independent-transfer evidence.",
+  "track_R": "20-seed development screen: P6_LRMD_U R5-R30 at alpha .5, risk .050 [.014,.165], cost 390.8 (not on frontier); P6_RRD R5 risk .050, cost 383.8 (on frontier); A5b R5 risk .025, cost 384.0 (on frontier). P6_RRD and A5b have near-equal point costs at different observed risk.",
+  "track_V": "V2 (UniformStartSUI weights sum to 1; fam_a Markov-SUI argument). Dev nulls 0/20 except HMM .05 (LRMD_U) / .20 (RRD); prior twin screen P6_LRMD_U .000-.100; 1,000-seed bike-hour follow-up .076 (split-cluster 95% CI [.036,.122]), upper bound exceeds .0936, P6_RRD .000-.025",
+  "ablation": "start prior (uniform vs fam_a._B): -9 to -12 on late; reserve (P6_RRD vs -nores): retained fractions are similar but not identical (-.45 vs -.51 on F1_late_800; -1.99 vs -2.15 on F1_late_1200); no meaningful late recovery observed. Renewal detector variant uncertified",
+  "disposition": "In the tested no-host synthetic paired ablation, the uniform start prior lowered late-regime costs relative to M_LRMD_SUI; this does not establish it as the dominant cause of all Amendment-6 loss. Host integration still fails. The all-14-source post-development replay shows no average cost gain over the parent or named deployment comparators; retain P6 only as a scoped synthetic mechanism result.",
+  "next_action": "Do not claim real transfer or advance P6 as a real-data winner. Any continued method claim requires a changed mechanism and a frozen independent-source evaluation; the present all-14 replay is retrospective and economically unfavorable to P6 against its parent and deployment comparators."
+ }
+]

@@ -1,0 +1,37 @@
+RESULT-TO-CLAIM EVALUATION (re-run for claim C2/P2 after a supplementary registered experiment)
+
+Repository root is the current directory; read files and run read-only python on raw records
+(outputs/sota_sprint/twin_null/records.jsonl, data/sprint_twin_losses/*.npz). Begin with
+"Reviewer-Model: <exact-model-id>".
+
+Intended claim (C2 revised, after your earlier "partial" verdict asked for known-null real streams):
+"In the tested stationary Markov marginal-null family (synthetic), most powered certified ports violate
+the registered false-promotion bound somewhere between rho=.8 and .95, whereas A5b remains below it.
+On real persistent streams with a known (exchangeable-twin) null, every one of 9 powered certified
+published ports also exceeds the bound on at least one dataset (up to .43), and an attachable restart
+monitor (RMM) reaches .14-.62; A5b stays at .000-.058 point estimate but its upper bound exceeds the
+bound on the smallest dataset. These excess promotions mostly follow the twin that realised lower loss
+within the episode, so they violate the marginal guarantee with small decision harm. A5b's robustness
+costs substantial power on real streams with a genuinely better challenger. Together these show an
+empirical validity-power trade-off for certified deployment under real serial dependence, not a theorem."
+
+Experiments: registered protocol docs/sota_sprint/p2_known_null_protocol.md (commit 36d9796, before any
+build); builder scripts/sota_sprint/twin_null.py; analysis scripts/sota_sprint/analyze_twin_null.py;
+results docs/sota_sprint/validation/twin_null_results.{md,json}; earlier synthetic and real-power results
+docs/sota_sprint/validation/{validation_results.md,real_results.md,real_persistence.json}.
+
+Known caveats: comparators are ports; twins are exchangeable only over the split randomisation (per-
+split realised advantages are small but nonzero); episodes are consecutive windows (clustered by split);
+harm per false promotion ~ one switch; K2 failed narrowly on the smallest dataset.
+
+Please evaluate:
+1. claim_supported: yes | partial | no
+2. what_results_support
+3. what_results_dont_support
+4. missing_evidence
+5. suggested_claim_revision
+6. next_experiments_needed
+7. confidence: high | medium | low
+
+Be honest. Do not inflate claims beyond what the data supports.
+A single positive result on one dataset does not support a general claim.

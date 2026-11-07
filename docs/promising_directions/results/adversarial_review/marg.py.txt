@@ -1,0 +1,12 @@
+import numpy as np
+from bl import B
+p=B.Params(); n=6000
+rng=np.random.default_rng(5)
+pos=rng.random(n)<0.2
+reg=np.where(pos[None,:],1,3).astype(np.int8)*np.ones((p.T,1),dtype=np.int8)
+l0,l1=B.draw_losses(reg,np.random.default_rng(6)); u=np.random.default_rng(7).random((p.T,n)); dis=l0!=l1
+for k in ('P3','P3b'):
+    c=B.Cert(n,200,0,k,p); nd=np.zeros(n)
+    for t in range(p.T):
+        c.step(t,l0[t],l1[t],dis[t],u[t],nd); nd+=dis[t]
+    fp=(~np.isnan(c.t_prom)); print(k,'promo rate',fp.mean(),'promo among negative-regime paths',fp[~pos].mean(),'positive-regime paths',fp[pos].mean(), 'marginal E[D]=',0.2*0.18-0.8*0.2)

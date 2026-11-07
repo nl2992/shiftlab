@@ -1,0 +1,68 @@
+{
+  "windows": {
+    "n15": 11997,
+    "n30": 23995,
+    "n60": 47991,
+    "n": 79986
+  },
+  "binarisation": {
+    "rule": "class0_vs_rest",
+    "target_class": 2,
+    "classes": [
+      2,
+      3,
+      4,
+      5,
+      11,
+      12
+    ],
+    "class0_rate_train": 0.18453844550948115,
+    "target_rate_train": 0.18453844550948115,
+    "n_classes_train": 6
+  },
+  "positive_rate_dev_window": 0.18611435239206534,
+  "featurizer": "dense",
+  "options_tried_in_order": [
+    {
+      "name": "A",
+      "challenger": "HGB",
+      "train": "0-30%",
+      "dev": {
+        "dev_rows": 23996,
+        "disagree": 0.06721953658943157,
+        "inc_err_dev": 0.22149524920820138,
+        "chal_err_dev": 0.2262877146191032,
+        "adv_per_event": -0.004792465410901808,
+        "adv_times_T": -9.584930822,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": true,
+        "cond_challenger_better": false,
+        "cond_adv_T_gt_cs": false,
+        "passes": false
+      }
+    },
+    {
+      "name": "B",
+      "challenger": "LR",
+      "train": "15-30%",
+      "dev": {
+        "dev_rows": 23996,
+        "disagree": 0.04646607767961327,
+        "inc_err_dev": 0.22149524920820138,
+        "chal_err_dev": 0.22953825637606268,
+        "adv_per_event": -0.008043007167861299,
+        "adv_times_T": -16.086014336,
+        "cs": 5.0,
+        "T": 2000,
+        "cond_disagree_ge_0.02": true,
+        "cond_challenger_better": false,
+        "cond_adv_T_gt_cs": false,
+        "passes": false
+      }
+    }
+  ],
+  "chosen": null,
+  "inc_err_dev": 0.22149524920820138,
+  "selection_inputs": "rows [0, 60%) only"
+}

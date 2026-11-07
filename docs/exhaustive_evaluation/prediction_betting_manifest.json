@@ -1,0 +1,11 @@
+{
+  "python": "3.13.1",
+  "author_commit": "f99e196b0087128d7ffe0291df9e68042255eae8",
+  "source_hashes_verified": true,
+  "sha256": {
+    "scripts/exhaustive_evaluation/check_prediction_betting.py": "382a8590661ca7a46c87209dd70654484465e08cc30cac953b1223a705143d14",
+    "docs/exhaustive_evaluation/prediction_betting_exact_check.json": "bb77aeb579bd50a9630cf2728a70c773bce0ecdd177ece116380b95368de6774",
+    "docs/exhaustive_evaluation/PREDICTION_BETTING_APPLICABILITY.md": "4c89670c3520a89fd493881b7d430dd7fbd5130f2df830608c9003e267bf6f6d",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "71f82a177c3d17f897a88ba9faad6f5ec1fb9797c8923a04738cde26e587e5af"
+  }
+}

@@ -1,0 +1,79 @@
+"""Verify sha256 of raw files against manifests/receipts (read-only, no fetch)."""
+
+import hashlib
+import json
+import glob
+import os
+import sys
+
+ROOT = r"C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter"
+OUT = sys.argv[1]
+
+
+def sha(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        for b in iter(lambda: f.read(1 << 22), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+cache, res = {}, []
+for m in sorted(glob.glob(f"{ROOT}/data/manifests/*.json")):
+    n = os.path.basename(m)
+    if not n.startswith(("noaa", "criteo_attribution", "gas_sensor", "folktables", "wilds")):
+        continue
+    j = json.load(open(m))
+    for k, v in (j.get("raw_checksums") or {}).items():
+        p = f"{ROOT}/{k.replace(chr(92), '/')}"
+        if not os.path.exists(p):
+            res.append((n, k, "MISSING", v, None))
+            continue
+        if p not in cache:
+            cache[p] = sha(p)
+        res.append((n, k, "OK" if cache[p] == v else "MISMATCH", v, cache[p]))
+elec = f"{ROOT}/data/raw/elec2/electricity-normalized.arff"
+e = sha(elec)
+res.append(
+    (
+        "(no manifest; audit doc)",
+        "elec2 arff",
+        "OK"
+        if e == "2d86fbc74c69a5c04bcde0119bce280dd6d8efa0115987edc75b77ccf024d7f2"
+        else "MISMATCH",
+        "2d86fbc74c69a5c04bcde0119bce280dd6d8efa0115987edc75b77ccf024d7f2",
+        e,
+    )
+)
+# receipts
+for r in glob.glob(
+    f"{ROOT}/data/raw/{{noaa,criteo_attribution,gas_sensor,folktables}}/**/*.receipt.json".replace(
+        "{noaa,criteo_attribution,gas_sensor,folktables}", "*"
+    ),
+    recursive=True,
+):
+    p = r[: -len(".receipt.json")]
+    d = p.replace(chr(92), "/").split("/raw/")[1].split("/")[0]
+    if d not in ("noaa", "criteo_attribution", "gas_sensor", "folktables") or not os.path.exists(p):
+        continue
+    rj = json.load(open(r))
+    if p not in cache:
+        cache[p] = sha(p)
+    res.append(
+        (
+            "receipt",
+            os.path.relpath(p, ROOT).replace(chr(92), "/"),
+            "OK" if cache[p] == rj["sha256"] else "MISMATCH",
+            rj["sha256"],
+            cache[p],
+        )
+    )
+json.dump(
+    [dict(src=a, file=b, status=c, expected=d, actual=e) for a, b, c, d, e in res],
+    open(OUT, "w"),
+    indent=1,
+)
+from collections import Counter
+
+print(Counter(r[2] for r in res))
+print([r for r in res if r[2] != "OK"])

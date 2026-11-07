@@ -1,0 +1,1903 @@
+{
+  "protocol": "H2 Round-5 post-development follow-up",
+  "synthetic": {
+    "seed_base": 2026110801,
+    "records": 7200,
+    "by_regime": {
+      "F0_better": {
+        "policy_means": {
+          "A5b": {
+            "net": 367.44300000000004,
+            "promotion": 0.82,
+            "labels": 199.86,
+            "delay_positive": 677.5,
+            "nondetection": 0.18,
+            "runtime_max": 0.2851
+          },
+          "CONTROL_never_switch": {
+            "net": 419.1,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.0213
+          },
+          "D2": {
+            "net": 353.62799999999993,
+            "promotion": 0.91,
+            "labels": 115.56,
+            "delay_positive": 609.0,
+            "nondetection": 0.09,
+            "runtime_max": 0.2802
+          },
+          "H1": {
+            "net": 361.26000000000005,
+            "promotion": 0.86,
+            "labels": 128.2,
+            "delay_positive": 640.5,
+            "nondetection": 0.14,
+            "runtime_max": 0.45830000000000004
+          },
+          "H2": {
+            "net": 361.19900000000007,
+            "promotion": 0.86,
+            "labels": 127.98,
+            "delay_positive": 640.5,
+            "nondetection": 0.14,
+            "runtime_max": 0.47590000000000005
+          },
+          "H2-gateonly": {
+            "net": 361.0150000000001,
+            "promotion": 0.86,
+            "labels": 128.1,
+            "delay_positive": 640.5,
+            "nondetection": 0.14,
+            "runtime_max": 0.4166
+          },
+          "H2-iid_space": {
+            "net": 346.106,
+            "promotion": 0.94,
+            "labels": 99.72,
+            "delay_positive": 515.0,
+            "nondetection": 0.06,
+            "runtime_max": 0.22130000000000002
+          },
+          "gated_adaptive_range+front": {
+            "net": 366.1410000000001,
+            "promotion": 0.79,
+            "labels": 142.82,
+            "delay_positive": 630.0,
+            "nondetection": 0.21,
+            "runtime_max": 0.2376
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": 7.570999999999999,
+            "ci95": [
+              4.002387839398676,
+              11.139612160601322
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": -6.244000000000002,
+            "ci95": [
+              -9.161790749600993,
+              -3.326209250399012
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": -0.06100000000000023,
+            "ci95": [
+              -0.2191008550034904,
+              0.09710085500348997
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": 15.093,
+            "ci95": [
+              10.704102407673734,
+              19.481897592326266
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": 0.18400000000000033,
+            "ci95": [
+              -1.2475129565202523,
+              1.615512956520253
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": -4.942000000000002,
+            "ci95": [
+              -9.760102911431254,
+              -0.12389708856874915
+            ]
+          }
+        }
+      },
+      "F0_null": {
+        "policy_means": {
+          "A5b": {
+            "net": 371.44,
+            "promotion": 0.0,
+            "labels": 200.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.5527000000000001
+          },
+          "CONTROL_never_switch": {
+            "net": 361.44,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.0077
+          },
+          "D2": {
+            "net": 371.18050000000005,
+            "promotion": 0.02,
+            "labels": 195.61,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.2033
+          },
+          "H1": {
+            "net": 371.395,
+            "promotion": 0.0,
+            "labels": 199.1,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.4549
+          },
+          "H2": {
+            "net": 371.3525,
+            "promotion": 0.0,
+            "labels": 198.25,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.7108
+          },
+          "H2-gateonly": {
+            "net": 371.395,
+            "promotion": 0.0,
+            "labels": 199.1,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.4399
+          },
+          "H2-iid_space": {
+            "net": 370.832,
+            "promotion": 0.03,
+            "labels": 193.04,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.1915
+          },
+          "gated_adaptive_range+front": {
+            "net": 371.44,
+            "promotion": 0.0,
+            "labels": 200.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.29510000000000003
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": 0.17199999999999988,
+            "ci95": [
+              -0.26945887118904094,
+              0.6134588711890407
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": -0.0875,
+            "ci95": [
+              -0.17958401666327395,
+              0.00458401666327396
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": -0.0425,
+            "ci95": [
+              -0.12583299597484432,
+              0.040832995974844306
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": 0.5205000000000001,
+            "ci95": [
+              -0.20453852128368,
+              1.24553852128368
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": -0.0425,
+            "ci95": [
+              -0.12583299597484432,
+              0.040832995974844306
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": -0.0875,
+            "ci95": [
+              -0.17958401666327395,
+              0.00458401666327396
+            ]
+          }
+        }
+      },
+      "F1_late_800": {
+        "policy_means": {
+          "A5b": {
+            "net": 399.87699999999995,
+            "promotion": 0.05,
+            "labels": 199.94,
+            "delay_positive": 898.0,
+            "nondetection": 0.95,
+            "runtime_max": 0.3961
+          },
+          "CONTROL_never_switch": {
+            "net": 391.04,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.009300000000000001
+          },
+          "D2": {
+            "net": 391.7615,
+            "promotion": 0.34,
+            "labels": 194.83,
+            "delay_positive": 877.5,
+            "nondetection": 0.66,
+            "runtime_max": 0.2096
+          },
+          "H1": {
+            "net": 388.4805,
+            "promotion": 0.45,
+            "labels": 192.81,
+            "delay_positive": 837.0,
+            "nondetection": 0.55,
+            "runtime_max": 0.6384000000000001
+          },
+          "H2": {
+            "net": 388.07899999999995,
+            "promotion": 0.45,
+            "labels": 192.18,
+            "delay_positive": 837.0,
+            "nondetection": 0.55,
+            "runtime_max": 0.7295
+          },
+          "H2-gateonly": {
+            "net": 388.41399999999993,
+            "promotion": 0.45,
+            "labels": 192.48,
+            "delay_positive": 845.0,
+            "nondetection": 0.55,
+            "runtime_max": 0.6357
+          },
+          "H2-iid_space": {
+            "net": 388.116,
+            "promotion": 0.45,
+            "labels": 191.32,
+            "delay_positive": 862.0,
+            "nondetection": 0.55,
+            "runtime_max": 0.2126
+          },
+          "gated_adaptive_range+front": {
+            "net": 400.164,
+            "promotion": 0.0,
+            "labels": 182.48,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.3286
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": -3.682499999999999,
+            "ci95": [
+              -5.974712547276329,
+              -1.390287452723669
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": -11.798,
+            "ci95": [
+              -15.477350654765797,
+              -8.118649345234203
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": -0.40149999999999975,
+            "ci95": [
+              -0.9893134661430247,
+              0.18631346614302524
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": -0.03699999999999989,
+            "ci95": [
+              -1.9036876261355795,
+              1.8296876261355797
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": -0.335,
+            "ci95": [
+              -0.9314055857368342,
+              0.2614055857368342
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": -12.085000000000003,
+            "ci95": [
+              -15.687085551191574,
+              -8.482914448808431
+            ]
+          }
+        }
+      },
+      "F3_reversal_800": {
+        "policy_means": {
+          "A5b": {
+            "net": 417.5895,
+            "promotion": 0.97,
+            "labels": 199.79,
+            "delay_positive": 383.0,
+            "nondetection": 0.03,
+            "runtime_max": 0.23770000000000002
+          },
+          "CONTROL_never_switch": {
+            "net": 344.61,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.0095
+          },
+          "D2": {
+            "net": 418.2075,
+            "promotion": 1.0,
+            "labels": 70.55,
+            "delay_positive": 380.0,
+            "nondetection": 0.0,
+            "runtime_max": 0.1893
+          },
+          "H1": {
+            "net": 419.634,
+            "promotion": 0.98,
+            "labels": 79.68,
+            "delay_positive": 428.0,
+            "nondetection": 0.02,
+            "runtime_max": 0.3336
+          },
+          "H2": {
+            "net": 418.22700000000003,
+            "promotion": 0.96,
+            "labels": 80.54,
+            "delay_positive": 426.5,
+            "nondetection": 0.04,
+            "runtime_max": 0.3659
+          },
+          "H2-gateonly": {
+            "net": 419.786,
+            "promotion": 0.98,
+            "labels": 79.52,
+            "delay_positive": 428.0,
+            "nondetection": 0.02,
+            "runtime_max": 0.38680000000000003
+          },
+          "H2-iid_space": {
+            "net": 415.28299999999996,
+            "promotion": 1.0,
+            "labels": 60.86,
+            "delay_positive": 327.5,
+            "nondetection": 0.0,
+            "runtime_max": 0.1623
+          },
+          "gated_adaptive_range+front": {
+            "net": 419.07300000000004,
+            "promotion": 0.98,
+            "labels": 88.66,
+            "delay_positive": 391.5,
+            "nondetection": 0.02,
+            "runtime_max": 0.20750000000000002
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": 0.019500000000002727,
+            "ci95": [
+              -3.6547370293203665,
+              3.6937370293203715
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": 0.6375000000000023,
+            "ci95": [
+              -3.858629139168175,
+              5.133629139168179
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": -1.4069999999999994,
+            "ci95": [
+              -3.647893961362497,
+              0.833893961362498
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": 2.944000000000002,
+            "ci95": [
+              -0.7957267943893793,
+              6.683726794389384
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": -1.5589999999999993,
+            "ci95": [
+              -3.778896139778016,
+              0.6608961397780173
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": -0.8459999999999985,
+            "ci95": [
+              -4.550615563713262,
+              2.8586155637132658
+            ]
+          }
+        }
+      },
+      "F5_dep_better_r8": {
+        "policy_means": {
+          "A5b": {
+            "net": 418.0895,
+            "promotion": 0.25,
+            "labels": 188.19,
+            "delay_positive": 1212.0,
+            "nondetection": 0.75,
+            "runtime_max": 0.2776
+          },
+          "CONTROL_never_switch": {
+            "net": 420.03,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.012400000000000001
+          },
+          "D2": {
+            "net": 346.3425,
+            "promotion": 0.89,
+            "labels": 98.25,
+            "delay_positive": 395.0,
+            "nondetection": 0.11,
+            "runtime_max": 0.3249
+          },
+          "H1": {
+            "net": 417.9385,
+            "promotion": 0.13,
+            "labels": 187.77,
+            "delay_positive": 643.0,
+            "nondetection": 0.87,
+            "runtime_max": 0.5476
+          },
+          "H2": {
+            "net": 413.68,
+            "promotion": 0.29,
+            "labels": 163.4,
+            "delay_positive": 1257.0,
+            "nondetection": 0.71,
+            "runtime_max": 0.6111
+          },
+          "H2-gateonly": {
+            "net": 414.009,
+            "promotion": 0.25,
+            "labels": 183.38,
+            "delay_positive": 1037.0,
+            "nondetection": 0.75,
+            "runtime_max": 0.5684
+          },
+          "H2-iid_space": {
+            "net": 349.815,
+            "promotion": 0.93,
+            "labels": 82.3,
+            "delay_positive": 380.0,
+            "nondetection": 0.07,
+            "runtime_max": 0.1842
+          },
+          "gated_adaptive_range+front": {
+            "net": 362.617,
+            "promotion": 0.76,
+            "labels": 130.14,
+            "delay_positive": 439.0,
+            "nondetection": 0.24,
+            "runtime_max": 0.2565
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": 67.3375,
+            "ci95": [
+              58.71400715516149,
+              75.96099284483851
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": -4.409499999999998,
+            "ci95": [
+              -9.378485691705578,
+              0.559485691705583
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": -4.258500000000001,
+            "ci95": [
+              -8.514401141661054,
+              -0.00259885833894824
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": 63.86499999999999,
+            "ci95": [
+              54.81033792297323,
+              72.91966207702674
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": -0.3289999999999998,
+            "ci95": [
+              -4.8788005456483425,
+              4.220800545648343
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": 51.063,
+            "ci95": [
+              42.37502249668735,
+              59.750977503312654
+            ]
+          }
+        }
+      },
+      "F5_dep_null_r8": {
+        "policy_means": {
+          "A5b": {
+            "net": 370.45300000000003,
+            "promotion": 0.0,
+            "labels": 188.06,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.3199
+          },
+          "CONTROL_never_switch": {
+            "net": 361.05,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.0097
+          },
+          "D2": {
+            "net": 369.0999999999999,
+            "promotion": 0.26,
+            "labels": 163.2,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.2672
+          },
+          "H1": {
+            "net": 371.0125,
+            "promotion": 0.0,
+            "labels": 199.25,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.5787
+          },
+          "H2": {
+            "net": 369.43549999999993,
+            "promotion": 0.0,
+            "labels": 167.71,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.5822
+          },
+          "H2-gateonly": {
+            "net": 371.0075,
+            "promotion": 0.0,
+            "labels": 199.15,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.6076
+          },
+          "H2-iid_space": {
+            "net": 366.5295,
+            "promotion": 0.23,
+            "labels": 131.79,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.263
+          },
+          "gated_adaptive_range+front": {
+            "net": 371.0535,
+            "promotion": 0.09,
+            "labels": 183.67,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.4055
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": 0.33550000000000013,
+            "ci95": [
+              -2.9567462591541323,
+              3.6277462591541325
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": -1.0175000000000012,
+            "ci95": [
+              -1.3714668512832544,
+              -0.6635331487167478
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": -1.5770000000000004,
+            "ci95": [
+              -1.9176149199239816,
+              -1.2363850800760192
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": 2.9059999999999984,
+            "ci95": [
+              0.13861625991064042,
+              5.673383740089356
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": -1.5720000000000005,
+            "ci95": [
+              -1.9116266054590398,
+              -1.2323733945409612
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": -1.6180000000000012,
+            "ci95": [
+              -3.46066664621597,
+              0.22466664621596744
+            ]
+          }
+        }
+      },
+      "F5_dep_null_r95": {
+        "policy_means": {
+          "A5b": {
+            "net": 366.3284999999999,
+            "promotion": 0.0,
+            "labels": 99.17,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 1.7377
+          },
+          "CONTROL_never_switch": {
+            "net": 361.37,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.031400000000000004
+          },
+          "D2": {
+            "net": 373.7880000000001,
+            "promotion": 0.7,
+            "labels": 105.96,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 1.096
+          },
+          "H1": {
+            "net": 371.2715,
+            "promotion": 0.0,
+            "labels": 198.03,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 3.1986
+          },
+          "H2": {
+            "net": 365.6935,
+            "promotion": 0.0,
+            "labels": 86.47,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 2.1134
+          },
+          "H2-gateonly": {
+            "net": 371.1840000000001,
+            "promotion": 0.0,
+            "labels": 196.28,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 3.2596
+          },
+          "H2-iid_space": {
+            "net": 370.7680000000001,
+            "promotion": 0.43,
+            "labels": 58.76,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 1.5398
+          },
+          "gated_adaptive_range+front": {
+            "net": 371.51050000000004,
+            "promotion": 0.31,
+            "labels": 114.61,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 1.5126
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": -8.094499999999998,
+            "ci95": [
+              -17.72587609855686,
+              1.5368760985568635
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": -0.6350000000000006,
+            "ci95": [
+              -0.8300993795817552,
+              -0.43990062041824596
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": -5.577999999999999,
+            "ci95": [
+              -5.79961943855299,
+              -5.356380561447009
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": -5.0745,
+            "ci95": [
+              -13.758227766952686,
+              3.609227766952686
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": -5.490500000000001,
+            "ci95": [
+              -5.7071347674791655,
+              -5.273865232520836
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": -5.817,
+            "ci95": [
+              -12.637621410377038,
+              1.003621410377038
+            ]
+          }
+        }
+      },
+      "F9_bursty_better": {
+        "policy_means": {
+          "A5b": {
+            "net": 375.865,
+            "promotion": 0.66,
+            "labels": 197.7,
+            "delay_positive": 745.0,
+            "nondetection": 0.34,
+            "runtime_max": 0.6999000000000001
+          },
+          "CONTROL_never_switch": {
+            "net": 413.69,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.0234
+          },
+          "D2": {
+            "net": 355.44900000000007,
+            "promotion": 0.9,
+            "labels": 125.78,
+            "delay_positive": 705.5,
+            "nondetection": 0.1,
+            "runtime_max": 0.4898
+          },
+          "H1": {
+            "net": 367.2925000000001,
+            "promotion": 0.77,
+            "labels": 146.85,
+            "delay_positive": 731.0,
+            "nondetection": 0.23,
+            "runtime_max": 0.8277
+          },
+          "H2": {
+            "net": 367.30250000000007,
+            "promotion": 0.77,
+            "labels": 146.85,
+            "delay_positive": 731.0,
+            "nondetection": 0.23,
+            "runtime_max": 0.8036000000000001
+          },
+          "H2-gateonly": {
+            "net": 367.30250000000007,
+            "promotion": 0.77,
+            "labels": 146.85,
+            "delay_positive": 731.0,
+            "nondetection": 0.23,
+            "runtime_max": 0.76
+          },
+          "H2-iid_space": {
+            "net": 347.70599999999996,
+            "promotion": 0.94,
+            "labels": 110.52,
+            "delay_positive": 648.0,
+            "nondetection": 0.06,
+            "runtime_max": 0.2073
+          },
+          "gated_adaptive_range+front": {
+            "net": 372.668,
+            "promotion": 0.65,
+            "labels": 158.96,
+            "delay_positive": 652.0,
+            "nondetection": 0.35,
+            "runtime_max": 0.5419
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": 11.853499999999999,
+            "ci95": [
+              7.326671415497944,
+              16.380328584502053
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": -8.562499999999998,
+            "ci95": [
+              -14.861476402853535,
+              -2.2635235971464613
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": 0.01,
+            "ci95": [
+              -0.00984216951586417,
+              0.029842169515864173
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": 19.596500000000002,
+            "ci95": [
+              13.77457241317244,
+              25.418427586827566
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": -5.3655,
+            "ci95": [
+              -12.489876179685137,
+              1.758876179685136
+            ]
+          }
+        }
+      },
+      "S_dep_better_r95": {
+        "policy_means": {
+          "A5b": {
+            "net": 422.59649999999993,
+            "promotion": 0.01,
+            "labels": 98.73,
+            "delay_positive": 1748.0,
+            "nondetection": 0.99,
+            "runtime_max": 0.18810000000000002
+          },
+          "CONTROL_never_switch": {
+            "net": 417.67,
+            "promotion": 0.0,
+            "labels": 0.0,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.0081
+          },
+          "D2": {
+            "net": 336.84700000000004,
+            "promotion": 0.97,
+            "labels": 56.14,
+            "delay_positive": 258.0,
+            "nondetection": 0.03,
+            "runtime_max": 0.1565
+          },
+          "H1": {
+            "net": 427.6655,
+            "promotion": 0.0,
+            "labels": 199.91,
+            "delay_positive": null,
+            "nondetection": 1.0,
+            "runtime_max": 0.43510000000000004
+          },
+          "H2": {
+            "net": 420.79599999999994,
+            "promotion": 0.04,
+            "labels": 89.72,
+            "delay_positive": 1544.5,
+            "nondetection": 0.96,
+            "runtime_max": 0.2943
+          },
+          "H2-gateonly": {
+            "net": 426.5945,
+            "promotion": 0.03,
+            "labels": 195.29,
+            "delay_positive": 1464.0,
+            "nondetection": 0.97,
+            "runtime_max": 0.4383
+          },
+          "H2-iid_space": {
+            "net": 347.62749999999994,
+            "promotion": 0.78,
+            "labels": 41.55,
+            "delay_positive": 216.5,
+            "nondetection": 0.22,
+            "runtime_max": 0.19920000000000002
+          },
+          "gated_adaptive_range+front": {
+            "net": 353.4550000000001,
+            "promotion": 0.84,
+            "labels": 84.3,
+            "delay_positive": 300.0,
+            "nondetection": 0.16,
+            "runtime_max": 0.2431
+          }
+        },
+        "paired_H2_minus": {
+          "D2": {
+            "n": 100,
+            "mean": 83.949,
+            "ci95": [
+              72.79007663329214,
+              95.10792336670785
+            ]
+          },
+          "A5b": {
+            "n": 100,
+            "mean": -1.8005000000000007,
+            "ci95": [
+              -3.777583241790821,
+              0.17658324179081952
+            ]
+          },
+          "H1": {
+            "n": 100,
+            "mean": -6.869500000000001,
+            "ci95": [
+              -8.846608586418935,
+              -4.892391413581069
+            ]
+          },
+          "H2-iid_space": {
+            "n": 100,
+            "mean": 73.1685,
+            "ci95": [
+              60.63707740277186,
+              85.69992259722814
+            ]
+          },
+          "H2-gateonly": {
+            "n": 100,
+            "mean": -5.7985000000000015,
+            "ci95": [
+              -6.99716925198487,
+              -4.599830748015133
+            ]
+          },
+          "gated_adaptive_range+front": {
+            "n": 100,
+            "mean": 67.34100000000001,
+            "ci95": [
+              55.43400319340006,
+              79.24799680659996
+            ]
+          }
+        }
+      }
+    }
+  },
+  "markov_null": {
+    "seed_base": 2026110802,
+    "records": 20000,
+    "by_regime": {
+      "F0_null": {
+        "A5b": {
+          "promotions": 1,
+          "n": 1000,
+          "rate": 0.001,
+          "wilson95": [
+            0.00017654637062607809,
+            0.0056425585979579355
+          ],
+          "mean_net": 370.17569999999995,
+          "mean_labels": 199.994
+        },
+        "D2": {
+          "promotions": 17,
+          "n": 1000,
+          "rate": 0.017,
+          "wilson95": [
+            0.010640689856816328,
+            0.027055958840229925
+          ],
+          "mean_net": 370.17904999999996,
+          "mean_labels": 196.601
+        },
+        "H2": {
+          "promotions": 6,
+          "n": 1000,
+          "rate": 0.006,
+          "wilson95": [
+            0.0027526691418763745,
+            0.01302816824185209
+          ],
+          "mean_net": 370.12519999999995,
+          "mean_labels": 198.064
+        },
+        "H2-gateonly": {
+          "promotions": 6,
+          "n": 1000,
+          "rate": 0.006,
+          "wilson95": [
+            0.0027526691418763745,
+            0.01302816824185209
+          ],
+          "mean_net": 370.1475,
+          "mean_labels": 198.51
+        },
+        "H2-iid_space": {
+          "promotions": 38,
+          "n": 1000,
+          "rate": 0.038,
+          "wilson95": [
+            0.02780900450930263,
+            0.05172692033135032
+          ],
+          "mean_net": 370.14145,
+          "mean_labels": 192.849
+        }
+      },
+      "F5_dep_null_r8": {
+        "A5b": {
+          "promotions": 2,
+          "n": 1000,
+          "rate": 0.002,
+          "wilson95": [
+            0.000548643588120728,
+            0.007262807863492177
+          ],
+          "mean_net": 369.58955,
+          "mean_labels": 189.031
+        },
+        "D2": {
+          "promotions": 192,
+          "n": 1000,
+          "rate": 0.192,
+          "wilson95": [
+            0.16878484731114135,
+            0.21757243591596065
+          ],
+          "mean_net": 369.7976,
+          "mean_labels": 174.732
+        },
+        "H2": {
+          "promotions": 7,
+          "n": 1000,
+          "rate": 0.007,
+          "wilson95": [
+            0.0033948684009907646,
+            0.014378315465766588
+          ],
+          "mean_net": 368.3793,
+          "mean_labels": 165.526
+        },
+        "H2-gateonly": {
+          "promotions": 5,
+          "n": 1000,
+          "rate": 0.005,
+          "wilson95": [
+            0.0021375355273244596,
+            0.011650955373375113
+          ],
+          "mean_net": 370.0522,
+          "mean_labels": 198.204
+        },
+        "H2-iid_space": {
+          "promotions": 182,
+          "n": 1000,
+          "rate": 0.182,
+          "wilson95": [
+            0.15931725722829052,
+            0.2071165611685226
+          ],
+          "mean_net": 368.19044999999994,
+          "mean_labels": 141.069
+        }
+      },
+      "F5_dep_null_r95": {
+        "A5b": {
+          "promotions": 3,
+          "n": 1000,
+          "rate": 0.003,
+          "wilson95": [
+            0.0010207838811386186,
+            0.008783014053503173
+          ],
+          "mean_net": 365.6783,
+          "mean_labels": 96.866
+        },
+        "D2": {
+          "promotions": 660,
+          "n": 1000,
+          "rate": 0.66,
+          "wilson95": [
+            0.6300773195897643,
+            0.6886981176948582
+          ],
+          "mean_net": 370.14694999999995,
+          "mean_labels": 107.419
+        },
+        "H2": {
+          "promotions": 8,
+          "n": 1000,
+          "rate": 0.008,
+          "wilson95": [
+            0.004059195818806103,
+            0.015706334530980144
+          ],
+          "mean_net": 365.1848,
+          "mean_labels": 83.996
+        },
+        "H2-gateonly": {
+          "promotions": 9,
+          "n": 1000,
+          "rate": 0.009,
+          "wilson95": [
+            0.004742060667477063,
+            0.01701581616533807
+          ],
+          "mean_net": 370.71075,
+          "mean_labels": 195.335
+        },
+        "H2-iid_space": {
+          "promotions": 431,
+          "n": 1000,
+          "rate": 0.431,
+          "wilson95": [
+            0.40062844376747236,
+            0.46189964890353424
+          ],
+          "mean_net": 366.745,
+          "mean_labels": 58.54
+        }
+      },
+      "P_markov_null_r98": {
+        "A5b": {
+          "promotions": 1,
+          "n": 1000,
+          "rate": 0.001,
+          "wilson95": [
+            0.00017654637062607809,
+            0.0056425585979579355
+          ],
+          "mean_net": 363.93190000000004,
+          "mean_labels": 77.158
+        },
+        "D2": {
+          "promotions": 815,
+          "n": 1000,
+          "rate": 0.815,
+          "wilson95": [
+            0.7897439459386497,
+            0.8378451962154505
+          ],
+          "mean_net": 367.15465,
+          "mean_labels": 80.073
+        },
+        "H2": {
+          "promotions": 1,
+          "n": 1000,
+          "rate": 0.001,
+          "wilson95": [
+            0.00017654637062607809,
+            0.0056425585979579355
+          ],
+          "mean_net": 363.21695,
+          "mean_labels": 62.919
+        },
+        "H2-gateonly": {
+          "promotions": 1,
+          "n": 1000,
+          "rate": 0.001,
+          "wilson95": [
+            0.00017654637062607809,
+            0.0056425585979579355
+          ],
+          "mean_net": 369.74139999999994,
+          "mean_labels": 193.468
+        },
+        "H2-iid_space": {
+          "promotions": 516,
+          "n": 1000,
+          "rate": 0.516,
+          "wilson95": [
+            0.48502415202019794,
+            0.5468533917082643
+          ],
+          "mean_net": 365.268,
+          "mean_labels": 42.42
+        }
+      }
+    }
+  },
+  "real": {
+    "seed_base": 2026110803,
+    "records": 3450,
+    "n_sources": 14,
+    "per_source": [
+      {
+        "regime": "airlines",
+        "policy": "A5b",
+        "net": 784.0033333333333,
+        "promotion": 0.06,
+        "labels": 190.06666666666666
+      },
+      {
+        "regime": "airlines",
+        "policy": "CONTROL_never_switch",
+        "net": 776.8,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "airlines",
+        "policy": "D2",
+        "net": 781.1646666666667,
+        "promotion": 0.12,
+        "labels": 161.29333333333332
+      },
+      {
+        "regime": "airlines",
+        "policy": "H2",
+        "net": 781.903,
+        "promotion": 0.11333333333333333,
+        "labels": 160.06
+      },
+      {
+        "regime": "airlines",
+        "policy": "gated_adaptive_range+front",
+        "net": 781.126,
+        "promotion": 0.1,
+        "labels": 150.12
+      },
+      {
+        "regime": "appliances",
+        "policy": "A5b",
+        "net": 831.3666666666667,
+        "promotion": 0.0,
+        "labels": 190.66666666666666
+      },
+      {
+        "regime": "appliances",
+        "policy": "CONTROL_never_switch",
+        "net": 821.8333333333334,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "appliances",
+        "policy": "D2",
+        "net": 575.1416666666667,
+        "promotion": 1.0,
+        "labels": 53.94444444444444
+      },
+      {
+        "regime": "appliances",
+        "policy": "H2",
+        "net": 769.9138888888889,
+        "promotion": 0.16666666666666666,
+        "labels": 174.94444444444446
+      },
+      {
+        "regime": "appliances",
+        "policy": "gated_adaptive_range+front",
+        "net": 574.8,
+        "promotion": 1.0,
+        "labels": 86.0
+      },
+      {
+        "regime": "bank",
+        "policy": "A5b",
+        "net": 428.125,
+        "promotion": 0.0,
+        "labels": 175.0
+      },
+      {
+        "regime": "bank",
+        "policy": "CONTROL_never_switch",
+        "net": 419.375,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "bank",
+        "policy": "D2",
+        "net": 426.0020833333333,
+        "promotion": 0.041666666666666664,
+        "labels": 172.54166666666666
+      },
+      {
+        "regime": "bank",
+        "policy": "H2",
+        "net": 426.08958333333334,
+        "promotion": 0.041666666666666664,
+        "labels": 172.625
+      },
+      {
+        "regime": "bank",
+        "policy": "gated_adaptive_range+front",
+        "net": 420.43125000000003,
+        "promotion": 0.125,
+        "labels": 126.125
+      },
+      {
+        "regime": "beijing_pm25",
+        "policy": "A5b",
+        "net": 656.7642857142857,
+        "promotion": 0.21428571428571427,
+        "labels": 125.28571428571429
+      },
+      {
+        "regime": "beijing_pm25",
+        "policy": "CONTROL_never_switch",
+        "net": 664.5714285714286,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "beijing_pm25",
+        "policy": "D2",
+        "net": 547.4988095238095,
+        "promotion": 0.9523809523809523,
+        "labels": 47.595238095238095
+      },
+      {
+        "regime": "beijing_pm25",
+        "policy": "H2",
+        "net": 651.4297619047619,
+        "promotion": 0.30952380952380953,
+        "labels": 95.26190476190476
+      },
+      {
+        "regime": "beijing_pm25",
+        "policy": "gated_adaptive_range+front",
+        "net": 598.8571428571429,
+        "promotion": 0.5714285714285714,
+        "labels": 102.85714285714286
+      },
+      {
+        "regime": "bike_hour",
+        "policy": "A5b",
+        "net": 344.7944444444445,
+        "promotion": 1.0,
+        "labels": 199.22222222222223
+      },
+      {
+        "regime": "bike_hour",
+        "policy": "CONTROL_never_switch",
+        "net": 552.8333333333334,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "bike_hour",
+        "policy": "D2",
+        "net": 254.43055555555554,
+        "promotion": 1.0,
+        "labels": 24.166666666666668
+      },
+      {
+        "regime": "bike_hour",
+        "policy": "H2",
+        "net": 342.7111111111111,
+        "promotion": 0.8333333333333334,
+        "labels": 116.44444444444444
+      },
+      {
+        "regime": "bike_hour",
+        "policy": "gated_adaptive_range+front",
+        "net": 265.625,
+        "promotion": 1.0,
+        "labels": 52.5
+      },
+      {
+        "regime": "criteo",
+        "policy": "A5b",
+        "net": 699.393,
+        "promotion": 0.22,
+        "labels": 130.66
+      },
+      {
+        "regime": "criteo",
+        "policy": "CONTROL_never_switch",
+        "net": 693.92,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "criteo",
+        "policy": "D2",
+        "net": 696.5759999999999,
+        "promotion": 0.3,
+        "labels": 104.45333333333333
+      },
+      {
+        "regime": "criteo",
+        "policy": "H2",
+        "net": 697.0173333333333,
+        "promotion": 0.29333333333333333,
+        "labels": 105.14666666666666
+      },
+      {
+        "regime": "criteo",
+        "policy": "gated_adaptive_range+front",
+        "net": 699.111,
+        "promotion": 0.22,
+        "labels": 123.02
+      },
+      {
+        "regime": "elec2",
+        "policy": "A5b",
+        "net": 392.53749999999997,
+        "promotion": 0.0,
+        "labels": 60.75
+      },
+      {
+        "regime": "elec2",
+        "policy": "CONTROL_never_switch",
+        "net": 389.5,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "elec2",
+        "policy": "D2",
+        "net": 384.5541666666666,
+        "promotion": 0.5,
+        "labels": 57.75
+      },
+      {
+        "regime": "elec2",
+        "policy": "H2",
+        "net": 393.26666666666665,
+        "promotion": 0.25,
+        "labels": 52.0
+      },
+      {
+        "regime": "elec2",
+        "policy": "gated_adaptive_range+front",
+        "net": 396.65000000000003,
+        "promotion": 0.5,
+        "labels": 103.0
+      },
+      {
+        "regime": "household_power",
+        "policy": "A5b",
+        "net": 603.8441666666666,
+        "promotion": 0.25,
+        "labels": 151.88333333333333
+      },
+      {
+        "regime": "household_power",
+        "policy": "CONTROL_never_switch",
+        "net": 632.45,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "household_power",
+        "policy": "D2",
+        "net": 533.1,
+        "promotion": 0.8666666666666667,
+        "labels": 84.33333333333333
+      },
+      {
+        "regime": "household_power",
+        "policy": "H2",
+        "net": 606.1658333333332,
+        "promotion": 0.21666666666666667,
+        "labels": 120.65
+      },
+      {
+        "regime": "household_power",
+        "policy": "gated_adaptive_range+front",
+        "net": 543.6325,
+        "promotion": 0.7,
+        "labels": 120.65
+      },
+      {
+        "regime": "metro",
+        "policy": "A5b",
+        "net": 221.4333333333333,
+        "promotion": 0.9375,
+        "labels": 199.91666666666666
+      },
+      {
+        "regime": "metro",
+        "policy": "CONTROL_never_switch",
+        "net": 719.875,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "metro",
+        "policy": "D2",
+        "net": 120.08854166666667,
+        "promotion": 1.0,
+        "labels": 18.4375
+      },
+      {
+        "regime": "metro",
+        "policy": "H2",
+        "net": 180.00520833333334,
+        "promotion": 1.0,
+        "labels": 66.77083333333333
+      },
+      {
+        "regime": "metro",
+        "policy": "gated_adaptive_range+front",
+        "net": 126.171875,
+        "promotion": 1.0,
+        "labels": 29.6875
+      },
+      {
+        "regime": "openml_ldpa",
+        "policy": "A5b",
+        "net": 540.834375,
+        "promotion": 0.7395833333333334,
+        "labels": 166.89583333333334
+      },
+      {
+        "regime": "openml_ldpa",
+        "policy": "CONTROL_never_switch",
+        "net": 663.0,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "openml_ldpa",
+        "policy": "D2",
+        "net": 444.7609375,
+        "promotion": 0.9791666666666666,
+        "labels": 56.677083333333336
+      },
+      {
+        "regime": "openml_ldpa",
+        "policy": "H2",
+        "net": 562.4489583333333,
+        "promotion": 0.6041666666666666,
+        "labels": 104.60416666666667
+      },
+      {
+        "regime": "openml_ldpa",
+        "policy": "gated_adaptive_range+front",
+        "net": 461.06874999999997,
+        "promotion": 0.875,
+        "labels": 68.25
+      },
+      {
+        "regime": "rialto",
+        "policy": "A5b",
+        "net": 185.96666666666667,
+        "promotion": 0.4375,
+        "labels": 143.08333333333334
+      },
+      {
+        "regime": "rialto",
+        "policy": "CONTROL_never_switch",
+        "net": 202.0625,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "rialto",
+        "policy": "D2",
+        "net": 84.23229166666667,
+        "promotion": 1.0,
+        "labels": 17.979166666666668
+      },
+      {
+        "regime": "rialto",
+        "policy": "H2",
+        "net": 180.68437500000002,
+        "promotion": 0.5,
+        "labels": 99.9375
+      },
+      {
+        "regime": "rialto",
+        "policy": "gated_adaptive_range+front",
+        "net": 90.94687499999999,
+        "promotion": 1.0,
+        "labels": 30.1875
+      },
+      {
+        "regime": "spam",
+        "policy": "A5b",
+        "net": 299.0,
+        "promotion": 1.0,
+        "labels": 200.0
+      },
+      {
+        "regime": "spam",
+        "policy": "CONTROL_never_switch",
+        "net": 849.0,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "spam",
+        "policy": "D2",
+        "net": 224.98333333333335,
+        "promotion": 1.0,
+        "labels": 33.0
+      },
+      {
+        "regime": "spam",
+        "policy": "H2",
+        "net": 264.1666666666667,
+        "promotion": 1.0,
+        "labels": 56.666666666666664
+      },
+      {
+        "regime": "spam",
+        "policy": "gated_adaptive_range+front",
+        "net": 233.6,
+        "promotion": 1.0,
+        "labels": 52.0
+      },
+      {
+        "regime": "uci_occupancy",
+        "policy": "A5b",
+        "net": 486.16249999999997,
+        "promotion": 0.0,
+        "labels": 98.25
+      },
+      {
+        "regime": "uci_occupancy",
+        "policy": "CONTROL_never_switch",
+        "net": 481.25,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "uci_occupancy",
+        "policy": "D2",
+        "net": 133.48749999999998,
+        "promotion": 0.75,
+        "labels": 44.75
+      },
+      {
+        "regime": "uci_occupancy",
+        "policy": "H2",
+        "net": 484.9375,
+        "promotion": 0.0,
+        "labels": 73.75
+      },
+      {
+        "regime": "uci_occupancy",
+        "policy": "gated_adaptive_range+front",
+        "net": 137.1375,
+        "promotion": 0.25,
+        "labels": 52.75
+      },
+      {
+        "regime": "weather",
+        "policy": "A5b",
+        "net": 465.9777777777778,
+        "promotion": 0.6666666666666666,
+        "labels": 179.55555555555554
+      },
+      {
+        "regime": "weather",
+        "policy": "CONTROL_never_switch",
+        "net": 504.0,
+        "promotion": 0.0,
+        "labels": 0.0
+      },
+      {
+        "regime": "weather",
+        "policy": "D2",
+        "net": 459.1777777777778,
+        "promotion": 0.8888888888888888,
+        "labels": 68.0
+      },
+      {
+        "regime": "weather",
+        "policy": "H2",
+        "net": 461.2944444444444,
+        "promotion": 0.7777777777777778,
+        "labels": 74.77777777777777
+      },
+      {
+        "regime": "weather",
+        "policy": "gated_adaptive_range+front",
+        "net": 468.76666666666665,
+        "promotion": 0.6666666666666666,
+        "labels": 108.66666666666667
+      }
+    ],
+    "equal_dataset_paired_H2_minus": {
+      "D2": {
+        "equal_dataset_mean": 81.2025714994331,
+        "cluster_bootstrap95": [
+          38.10996892538266,
+          136.05296884034863
+        ],
+        "per_dataset": {
+          "airlines": 0.7383333333333439,
+          "appliances": 194.77222222222224,
+          "bank": 0.0875000000000341,
+          "beijing_pm25": 103.93095238095236,
+          "bike_hour": 88.28055555555557,
+          "criteo": 0.44133333333343217,
+          "elec2": 8.712500000000034,
+          "household_power": 73.06583333333322,
+          "metro": 59.91666666666667,
+          "openml_ldpa": 117.68802083333327,
+          "rialto": 96.45208333333335,
+          "spam": 39.18333333333334,
+          "uci_occupancy": 351.45000000000005,
+          "weather": 2.1166666666666174
+        }
+      },
+      "A5b": {
+        "equal_dataset_mean": -9.869194160997742,
+        "cluster_bootstrap95": [
+          -21.53677291666665,
+          -0.003329198554448269
+        ],
+        "per_dataset": {
+          "airlines": -2.1003333333333103,
+          "appliances": -61.45277777777778,
+          "bank": -2.035416666666663,
+          "beijing_pm25": -5.33452380952383,
+          "bike_hour": -2.0833333333333712,
+          "criteo": -2.375666666666689,
+          "elec2": 0.7291666666666856,
+          "household_power": 2.3216666666666015,
+          "metro": -41.428124999999966,
+          "openml_ldpa": 21.614583333333258,
+          "rialto": -5.2822916666666515,
+          "spam": -34.833333333333314,
+          "uci_occupancy": -1.224999999999966,
+          "weather": -4.683333333333394
+        }
+      },
+      "gated_adaptive_range+front": {
+        "equal_dataset_mean": 71.72212655895692,
+        "cluster_bootstrap95": [
+          30.07156540532878,
+          126.42732095379812
+        ],
+        "per_dataset": {
+          "airlines": 0.7770000000000437,
+          "appliances": 195.11388888888894,
+          "bank": 5.658333333333303,
+          "beijing_pm25": 52.572619047619014,
+          "bike_hour": 77.08611111111111,
+          "criteo": -2.0936666666666497,
+          "elec2": -3.3833333333333826,
+          "household_power": 62.53333333333319,
+          "metro": 53.83333333333334,
+          "openml_ldpa": 101.38020833333331,
+          "rialto": 89.73750000000003,
+          "spam": 30.56666666666669,
+          "uci_occupancy": 347.8,
+          "weather": -7.4722222222222285
+        }
+      },
+      "CONTROL_never_switch": {
+        "equal_dataset_mean": -112.03116170634921,
+        "cluster_bootstrap95": [
+          -223.03069960317458,
+          -23.852715500992108
+        ],
+        "per_dataset": {
+          "airlines": 5.1030000000000655,
+          "appliances": -51.91944444444448,
+          "bank": 6.714583333333337,
+          "beijing_pm25": -13.141666666666652,
+          "bike_hour": -210.12222222222226,
+          "criteo": 3.0973333333333812,
+          "elec2": 3.7666666666666515,
+          "household_power": -26.284166666666806,
+          "metro": -539.8697916666666,
+          "openml_ldpa": -100.55104166666672,
+          "rialto": -21.378124999999983,
+          "spam": -584.8333333333333,
+          "uci_occupancy": 3.6875,
+          "weather": -42.70555555555558
+        }
+      }
+    },
+    "bootstrap_reps": 20000,
+    "bootstrap_seed": 2026110414
+  },
+  "limitations": [
+    "Post-development, fixed simulator regimes and previously exposed sources; not independent confirmation.",
+    "Real loss-stream results are descriptive and do not assign causal change labels.",
+    "Wilson intervals quantify Monte Carlo uncertainty conditional on each fixed simulated regime."
+  ]
+}

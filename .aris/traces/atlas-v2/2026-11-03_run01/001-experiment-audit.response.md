@@ -1,0 +1,6 @@
+Compact transcription of the returned experiment-audit review (full text in parent session).
+VERDICT: PASS WITH ISSUES. No leakage, pairing, or arithmetic errors; every primary number reproduced from raw records (116,500 rows; cost identity exact; max labels 200).
+MAJOR 1: primary family fixed in 1ee1060 after dev showed adverse-family harm; validation confirms +8 to +36 there.
+MAJOR 2: Wilson UB<=.10 at n=100 needs k<=4; nominal .05 method fails w.p. ~.56; fresh scratch seeds (base 777, n=600): LRMD .032, Gated+RMM .012 on V_null.
+MAJOR 3: dependence: V_dep_null_r8 promotion Gated+RMM .24, DISCERN+RMM .23, SMCS+RMM .23, LRMD .33, Gated front-load .16, Gated 0.
+MINOR 4: run count 116,500 not 107,450. 5: comparator class wider than protocol (conservative); restricted margins -3.84/-4.17/-4.71, LRMD -6.40. 6: gated_frontload_ipw keeps CS range 20; gated_LCE_front scratch check: Gated+RMM -2.65 [-4.31,-1.00], LRMD -7.19 [-8.72,-5.72]. 7: dev table omitted cams+RMM 377.86 and gong+RMM 379.73. 8: alpha after first promotion not fully controlled. 9: real-data units are correlated consecutive windows, exposed. 10: refused base requests can stall detector at episode end; manifest hashes only atlas scripts.

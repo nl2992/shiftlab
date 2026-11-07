@@ -1,0 +1,10 @@
+{
+  "frozen_sources_match": true,
+  "sha256": {
+    "scripts/exhaustive_evaluation/pilot_markov_testing.py": "7271f3d20fb352b94c08b2ecfba04bc2a8ba250bc0c4b1a17ff26970977e0826",
+    "docs/exhaustive_evaluation/markov_native_pilot_registration.json": "530119f4c50ebf8d789fb4a686a5d8e7ad7e886e8cfda3a27090d589072ee925",
+    "docs/exhaustive_evaluation/markov_native_pilot_results.json": "dac6d19cdaa57f517bc0060d716003ce2cc70451dc8aff295cb5495915c86ec3",
+    "docs/exhaustive_evaluation/MARKOV_TESTING_APPLICABILITY.md": "d211f6cb465622ec2ad1d8f0b65daba991f76cf1284f6a474d13525c842cbc62",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "d9da9b0b7a983f33e18ebde4fb14ea3c2a988250f58e4a967351a3d5e4f3aea6"
+  }
+}

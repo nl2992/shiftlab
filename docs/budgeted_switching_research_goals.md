@@ -1,5 +1,11 @@
 # Budget-aware, anytime-valid switching: research goals
 
+> **Atlas-specific precedence update (2026-11-01):** the current user-directed objective is
+> a workable, modestly novel repair of a reproduced shared failure that beats strong matched
+> competitors. Earlier theorem and Bayes-gap hurdles are not prerequisites for this search.
+> [The evidence review](failure_atlas_review_2026_11_01.md) and Atlas Amendments 8–9 govern
+> this continuation; earlier dated decisions remain the historical trail.
+
 **Decision date:** 2026-10-28. **Status:** active research objective; no new algorithm,
 novelty, theorem, or advantage has been validated. ICML is the methodological standard sought,
 not a publication prediction. Starting revision: `7ea6923fbc784aab81e4821a03268fa683b04238`.
@@ -42,8 +48,8 @@ unchanged. The charter's scientific and data safeguards continue to apply.
 | Goal | Concrete deliverable | Acceptance / exit rule | Initial state |
 |---|---|---|---|
 | G0 Preserve platform | Platform manifest with code revision, relevant protocol/output hashes, verifier commands, reusable components and known failures | Preserve results and oracle boundary; separate new development artifacts and seeds from historical confirmation | Complete for selected ShiftGuard integrated confirmation anchors; not a full artifact archive |
-| G1 Fix one information structure | Mathematical problem and source-level novelty delta | Explicit feedback, risk event, comparator and nontrivial feasible assumptions; published methods do not already provide the claimed result | Next |
-| G2 Derive one mechanism | Acquisition/action pseudocode, derivation, proof or counterexample, and equivalence audit | One substantive acquisition-switching coupling and a proved new result or separation; a standard combination or heuristic alone fails | Blocked on G1 |
+| G1 Fix one information structure | Mathematical problem and source-level novelty delta | Explicit feedback, risk event, comparator and nontrivial feasible assumptions; published methods do not already provide the claimed result. Revised 2026-10-30: see “Acceptance-criteria revision” (R1–R6) | Reopened |
+| G2 Derive one mechanism | Acquisition/action pseudocode, derivation, proof or counterexample, and equivalence audit | One substantive acquisition-switching coupling and a proved new result or separation. Revised 2026-10-30: established ingredients are allowed when the stated result is not already a source theorem or direct corollary (R2) | Blocked on G1 |
 | G3 Build falsifiable prototype | Runnable simulator slice, matched baselines, registered development protocol and results | Hard budget and chronology verified; useful gain over strongest equally equipped baseline under a declared test family | Blocked on G2 |
 | G4 Independently confirm | Frozen code/config/seeds, powered synthetic comparison and real-data timing audit/evaluation | Primary practical gain with uncertainty, safety calibration and ablations; eligible real task supports scoped relevance | Blocked on G3 |
 | G5 Paper decision | Claim-to-proof/artifact map and continue/pivot/stop record | New algorithm + defensible theory + meaningful empirical evidence all pass before full manuscript effort | Blocked on G4 |
@@ -3161,3 +3167,110 @@ the finite benchmark. Source limitation: RAO* full text/proof not inspected in t
   release, request-time total-cap, reversible deployment-value, and anytime conditional-null risk
   contract against each applicable source method and the exact two-law oracle. The mismatch itself
   is not a novelty result; no candidate or experiment is authorized by this source refresh.
+
+### Acceptance-criteria revision 2026-10-30 (user-approved)
+
+The user reviewed G1 and approved revising its acceptance criteria. The audit found that the bar
+had become unpassable:
+
+- Entries from 2026-10-29 (e.g. delayed-HMM gate, Candidate D closure) and the 2026-10-30 source
+  refresh required candidates to show an advantage over the exact two-law oracle "in value, risk
+  and computational scaling". This contradicts the 2026-10-28 acceptance-criterion correction,
+  which established that the exact planner is an oracle and cannot be beaten on value under the
+  same contract.
+- Candidates were closed because their *ingredients* were established, e.g. "reduces to generic
+  belief planning / one-sided POSG". Every finite-horizon instance reduces to such a model, so
+  this test alone rejects every possible candidate.
+- Novelty was required on the joint interaction of all five contract conditions. G1 also banned
+  any prototype, so no empirical signal reached the search.
+
+Prior negative evidence, recorded prior art and historical protocols stay unchanged. The
+criteria below replace the oracle-advantage and "established ingredients" wording in later
+entries. They do not reinstate any closed result automatically: each candidate must be
+re-screened against them.
+
+- **R1 Oracle is a reference.** The exact two-law/sequence-form planner is evaluated only on cells
+  where it can be solved, and only as an upper bound on utility. A candidate meets the value
+  criterion with (a) scalable computation (polynomial in `T` for the declared budget/state class,
+  or anytime with a reported gap), (b) a proved bound, or a certified per-cell gap, to the oracle,
+  and (c) a theoretical or registered empirical improvement over the strongest scalable composition
+  with matched access.
+- **R2 Kill rule.** A candidate is closed on prior art only if a cited source theorem states the
+  candidate's result, or directly implies it, under the same feedback, budget, delay and risk
+  contract. Established ingredients, or a model-class reduction to POMDP/POSG, are not a kill by
+  themselves. A setting contribution is allowed: an algorithm for this contract whose guarantee
+  needs a stated nontrivial analysis step, plus a lower bound or separation showing that the
+  contract matters.
+- **R3 Partial contracts.** A candidate may drop one of the five conditions (selective paired
+  labels, release delay, request-time hard budget, reversible deployment value, anytime
+  false-promotion control). This is allowed when the remaining subset is not covered by prior art
+  under R2 and the dropped condition is reported as a limitation.
+- **R4 Exploratory prototyping.** Runnable prototypes may run alongside G1/G2 on synthetic cells
+  and on local real data. They are development-only, labelled exploratory, and use declared
+  imposed timing and costs. Untouched chronological holdout windows remain locked, and no
+  confirmatory or novelty claim follows from them. The real-data timing rules still apply in full:
+  never infer release time from event delay alone, and CRSP remains a retrospective stress test.
+- **R5 Unchanged safeguards.** Oracle truth stays evaluator-only. Historical promotion evidence is
+  not current-regime value. Chronological, train-only preprocessing and checksum rules apply.
+- **R6 Strong baselines remain mandatory.** These are optimized episode alpha spending /
+  fixed-cohort tests, the Gong–Zhang, Qiu et al. and Ryabchenko et al. methods with delayed
+  wrappers, DAL-style restart, and the online FWER and hard-budget pacing comparators already
+  recorded.
+
+Next steps: inventory the local real datasets, re-screen the closed candidate ledger under R1–R3,
+and register exploratory prototypes for any survivors.
+
+### G1 re-screen under R1–R6 2026-10-30
+
+- A ledger re-screen classified every closure by kill basis. About 25 closures rested only on
+  "ingredients are established" and/or oracle-advantage wording, and are invalid under R1/R2.
+  Theorem-based and exact-counterexample kills stand: one-step VOI, static null mixtures,
+  posterior-only compression, slack alone, distribution-free current-value risk, and
+  positive-prefix futility (group-sequential prior art). The log also contains contradictions:
+  Li et al. and DAL are cited both as covering the contract and as not transferring to it, and the
+  R3 four-condition subsets were never screened.
+- Reopened shortlist, ranked:
+  - **C1 (medium):** delayed-HMM predictive confidence-set gate with a new query rule. The killed
+    sign-ambiguity VOI score stays killed.
+  - **C2 (medium-low):** promotion-versus-reversal-monitor budget frontier.
+  - **C3 (theory):** first-promotion XP solver with a computational separation.
+  - **C4 (low-medium):** risk-slack finite-memory abstraction.
+
+  The episode-wise/fixed-cohort composition is an R6 baseline, not a candidate.
+- Plan:
+  - **Exploratory prototypes (R4)** for C1 and C2 against R6 baselines. These run on registered
+    recurrent synthetic cells and on development windows of local paired-loss streams with
+    imposed timing: CRSP, EIA and ELEC2, with two frozen forecasters each. Chronological final
+    windows stay locked.
+  - **Theory track:** the C1 promotion power/sample-complexity target, the C2 matching
+    upper/lower frontier, and the R3 subset screen.
+
+  No novelty, theorem or efficacy claim follows from this entry.
+
+### Re-screen outcome 2026-10-30: C1/C2 exploratory stop; one theory route left
+
+- **Theory:**
+  - C1 survives R2 on a theorem-level source read (`switching_c1_source_theorem_audit_v1.md`).
+  - Lemma 0, forgetting under sparse/delayed observation, burst-class per-query information,
+    1/κ LLR concentration and Theorem C1-B (modulo Ville) are proved in
+    `switching_c1_upper_bound_proofs_v1.md`. The constants are 13–38x the Monte Carlo values, so
+    no tightness is claimed.
+  - C2 is demoted to a supporting frontier, and C3 is stopped as standalone
+    (`switching_theory_targets_c1_c2_v1.md`).
+  - No audited theorem covers any R3 4-of-5 subset (`switching_r3_subset_screen_v1.md`).
+- **Exploratory prototype (R4)**, reported in `switching_c1_c2_exploratory_results_v1.md`:
+  - Neither C1 nor C2 beats the strongest matched baseline: 0 of 64 synthetic cells better for
+    either. Their largest losses are on late-onset and reversal cells.
+  - The started-mixture episode composition is the hard gated baseline.
+  - On EIA, C1 beats the strongest gated baseline in 3 of 8 imposed-timing settings, but never
+    the strongest baseline overall. CRSP and ELEC2 supply no exploitable benefit.
+  - Both C1 and C2 stop as methods; C1 is kept as a model-conditional safety baseline.
+  - R6 coverage is incomplete: the Gong–Zhang, Qiu and Ryabchenko delayed wrappers and online
+    FWER were not implemented.
+- **Remaining live route:** C1-E. Under HMM dynamics, information from spaced single queries
+  decays geometrically in spacing (L2 counterexample 2), whereas burst queries keep a positive
+  block rate. A burst-versus-calendar query separation theorem, plus an exploratory test of a
+  burst-query variant of the strong episode composition, is the next screen. This is a
+  hypothesis, not a result.
+- The revised bar reopened candidates, but empirical evidence closed C1 and C2. The earlier
+  blockage was partly the bar and partly genuinely weak candidates.

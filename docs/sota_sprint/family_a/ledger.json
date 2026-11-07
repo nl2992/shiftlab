@@ -1,0 +1,450 @@
+[
+ {
+  "id": "A1",
+  "implementation": "scripts/sota_sprint/fam_a.py:FamA(evidence='sui') + MarkovSUI; tuned dev variant A1b (rho' prior .7 on 0, first-start weight .75)",
+  "run_config": {
+   "screen": [
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1,A1-nogap,A1-rho8,A1-nostart,A2,A2-fixedgap6,A3,A3-noinflight,A4,A5,A5-fixedgap6,A6,A6-noinflight,QSG,QSG-env8,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,discern_design_floor,SMCS+retain-incumbent,CONTROL_never_switch,model_picker_adapter --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen1",
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1b,A5b,A6b,A2b --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen2"
+   ],
+   "null300": "uv run python scripts/sota_sprint/screen.py --regimes F5_dep_null_r8,F5_dep_null_r95,F0_null --policies A1,A1b,A5b,A6b,QSG,CONTROL_never_switch --seeds 300 --seed-base 2026110511 --workers 3 --out outputs/sota_sprint/A/null300",
+   "analyze": [
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 --candidates A1,A2,A3,A4,A5,A6 --hosts A1=QSG,A2=QSG,A3=QSG,A4=QSG,A5=QSG,A6=QSG --out docs/sota_sprint/family_a/screen1.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1b,A5b,A6b,A2b --hosts A1b=QSG,A5b=QSG,A6b=QSG,A2b=QSG --out docs/sota_sprint/family_a/screen2.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1-nogap,A1-rho8,A1-nostart,A2-fixedgap6,A3-noinflight,A5-fixedgap6,A6-noinflight --hosts A1-nogap=A1,A1-rho8=A1,A1-nostart=A1,A2-fixedgap6=A2,A3-noinflight=A3,A5-fixedgap6=A5,A6-noinflight=A6 --out docs/sota_sprint/family_a/ablations.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/null300 --candidates A1,A1b,A5b,A6b --hosts A1=QSG,A1b=QSG,A5b=QSG,A6b=QSG --out docs/sota_sprint/family_a/null300.json"
+   ]
+  },
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds_per_regime": 20,
+    "regimes": [
+     "F0_better",
+     "F5_dep_better_r8",
+     "S_dep_better_r95",
+     "F9_bursty_better",
+     "F6_delay400_better",
+     "S_delay800_better",
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null",
+     "F1_late_800",
+     "F3_reversal_800"
+    ]
+   },
+   "null": {
+    "seed_base": 2026110511,
+    "seeds_per_regime": 300,
+    "regimes": [
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/A/screen1/records.jsonl",
+   "outputs/sota_sprint/A/screen2/records.jsonl",
+   "docs/sota_sprint/family_a/screen1.md",
+   "docs/sota_sprint/family_a/screen2.md",
+   "docs/sota_sprint/family_a/ablations.md",
+   "outputs/sota_sprint/A/null300/records.jsonl",
+   "docs/sota_sprint/family_a/null300.md"
+  ],
+  "key_numbers": {
+   "F0_better_net": {
+    "A1": 381.2,
+    "A1b": 375.8,
+    "QSG": 366.6,
+    "xu_acquisition_only": 379.5,
+    "gated_adaptive_range+front": 380.9,
+    "SMCS": 383.9
+   },
+   "A1b_vs_best_certified": {
+    "F0_better": "-3.6 [-18.6,+11.4] vs xu",
+    "F6_delay400_better": "-1.0 [-6.0,+3.9] vs gated+front",
+    "S_delay800_better": "+0.5 [-3.5,+4.4]",
+    "F9_bursty_better": "+17.6 [+5.4,+29.8]",
+    "F5_dep_better_r8": "+87.8 [+69.6,+106.0]",
+    "S_dep_better_r95": "+85.1 [+57.0,+113.2]"
+   },
+   "null_promotion_dev20": {
+    "F5_dep_null_r8": 0.0,
+    "F5_dep_null_r95": 0.0,
+    "F0_null": 0.0
+   },
+   "null_promotion_300": {
+    "A1": {
+     "r8": "0/300",
+     "r95": "1/300",
+     "iid": "1/300"
+    },
+    "A1b": {
+     "r8": "0/300",
+     "r95": "0/300",
+     "iid": "2/300"
+    },
+    "QSG": {
+     "r8": "78/300",
+     "r95": "195/300",
+     "iid": "6/300"
+    }
+   },
+   "runtime_s_per_episode": 0.43
+  },
+  "status": "SCREENED_PROMISING",
+  "disposition": "Valid with NO declared rho bound (SUI; rigorous corner upper bound on the null sup). Nulls safe (0-2/300). Ties best certified on stationary F0_better/F6/S_delay800 (CIs straddle 0), loses on bursty (+18) and loses heavily on dependent alternatives (promotes 0/20): information-limited once rho is free (null absorbs most of the apparent evidence; measured: 18.5 of 20.5 oracle nats at rho=.8).",
+  "ablation": {
+   "A1-nogap (constant transition a, no gap)": "INVALID: null promotion .40 (r8) / .60 (r95) on 20 seeds -> gap indexing is essential",
+   "A1-rho8 (declared rho<=.8)": "null r95 promotion 1.00 -> declared bound fails exactly as predicted; same power on iid",
+   "A1-nostart": "F0_better +1.9, F6 -1.2: starts matter little on these regimes; both fail F1_late_800"
+  },
+  "next_action": "Advance A1b/A5b to 100-seed validation vs xu_acquisition_only and gated_adaptive_range+front; report dependent-alternative loss as the price of rho-free validity.",
+  "code_rev": "git 39d25ce (+uncommitted fam_a.py); fam_a.py sha256[:16] e17dd2c07b15bf99 for screen2/null300, 3c9f6de5c68a438e for screen1 (round-2 options added after screen1 with defaults that leave A1-A6 unchanged)",
+  "contract": "T=2000, B=200, c_q=.05, c_s=5, alpha=.05; bound .0936"
+ },
+ {
+  "id": "A2",
+  "implementation": "scripts/sota_sprint/fam_a.py:FamA(evidence='iid', density='adaptive'); A2b adds 2-nat significance shrinkage on rho_hat",
+  "run_config": {
+   "screen": [
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1,A1-nogap,A1-rho8,A1-nostart,A2,A2-fixedgap6,A3,A3-noinflight,A4,A5,A5-fixedgap6,A6,A6-noinflight,QSG,QSG-env8,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,discern_design_floor,SMCS+retain-incumbent,CONTROL_never_switch,model_picker_adapter --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen1",
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1b,A5b,A6b,A2b --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen2"
+   ],
+   "analyze": [
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 --candidates A1,A2,A3,A4,A5,A6 --hosts A1=QSG,A2=QSG,A3=QSG,A4=QSG,A5=QSG,A6=QSG --out docs/sota_sprint/family_a/screen1.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1b,A5b,A6b,A2b --hosts A1b=QSG,A5b=QSG,A6b=QSG,A2b=QSG --out docs/sota_sprint/family_a/screen2.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1-nogap,A1-rho8,A1-nostart,A2-fixedgap6,A3-noinflight,A5-fixedgap6,A6-noinflight --hosts A1-nogap=A1,A1-rho8=A1,A1-nostart=A1,A2-fixedgap6=A2,A3-noinflight=A3,A5-fixedgap6=A5,A6-noinflight=A6 --out docs/sota_sprint/family_a/ablations.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/null300 --candidates A1,A1b,A5b,A6b --hosts A1=QSG,A1b=QSG,A5b=QSG,A6b=QSG --out docs/sota_sprint/family_a/null300.json"
+   ]
+  },
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds_per_regime": 20,
+    "regimes": [
+     "F0_better",
+     "F5_dep_better_r8",
+     "S_dep_better_r95",
+     "F9_bursty_better",
+     "F6_delay400_better",
+     "S_delay800_better",
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null",
+     "F1_late_800",
+     "F3_reversal_800"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/A/screen1/records.jsonl",
+   "outputs/sota_sprint/A/screen2/records.jsonl",
+   "docs/sota_sprint/family_a/screen1.md",
+   "docs/sota_sprint/family_a/screen2.md",
+   "docs/sota_sprint/family_a/ablations.md"
+  ],
+  "key_numbers": {
+   "F0_better_net": 364.2,
+   "F5_dep_better_r8_net": 350.2,
+   "vs_best_certified_F0_better": "-15.2 [-27.8,-2.7]",
+   "null_promotion_dev20": {
+    "r8": 0.2,
+    "r95": 0.6,
+    "iid": 0.0
+   }
+  },
+  "status": "SCREENED_NEGATIVE",
+  "disposition": "Fast (beats best certified on F0_better) but NOT safe: adaptive density alone leaves QSG's iid evidence invalid (r8 .20, r95 .60, 20 seeds). Kept only as the density component of A5.",
+  "ablation": {
+   "A2-fixedgap6": "F0_better +19.7, bursty +50.8 vs A2, r8 .10 / r95 .60: adaptive density dominates fixed thinning on cost, neither is safe"
+  },
+  "next_action": "Do not advance standalone; use inside A5.",
+  "code_rev": "git 39d25ce (+uncommitted fam_a.py); fam_a.py sha256[:16] e17dd2c07b15bf99 for screen2/null300, 3c9f6de5c68a438e for screen1 (round-2 options added after screen1 with defaults that leave A1-A6 unchanged)",
+  "contract": "T=2000, B=200, c_q=.05, c_s=5, alpha=.05; bound .0936"
+ },
+ {
+  "id": "A3",
+  "implementation": "scripts/sota_sprint/fam_a.py:FamA(evidence='iid', dualclock=True, inflight=True)",
+  "run_config": {
+   "screen": [
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1,A1-nogap,A1-rho8,A1-nostart,A2,A2-fixedgap6,A3,A3-noinflight,A4,A5,A5-fixedgap6,A6,A6-noinflight,QSG,QSG-env8,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,discern_design_floor,SMCS+retain-incumbent,CONTROL_never_switch,model_picker_adapter --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen1"
+   ],
+   "analyze": [
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 --candidates A1,A2,A3,A4,A5,A6 --hosts A1=QSG,A2=QSG,A3=QSG,A4=QSG,A5=QSG,A6=QSG --out docs/sota_sprint/family_a/screen1.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1b,A5b,A6b,A2b --hosts A1b=QSG,A5b=QSG,A6b=QSG,A2b=QSG --out docs/sota_sprint/family_a/screen2.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1-nogap,A1-rho8,A1-nostart,A2-fixedgap6,A3-noinflight,A5-fixedgap6,A6-noinflight --hosts A1-nogap=A1,A1-rho8=A1,A1-nostart=A1,A2-fixedgap6=A2,A3-noinflight=A3,A5-fixedgap6=A5,A6-noinflight=A6 --out docs/sota_sprint/family_a/ablations.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/null300 --candidates A1,A1b,A5b,A6b --hosts A1=QSG,A1b=QSG,A5b=QSG,A6b=QSG --out docs/sota_sprint/family_a/null300.json"
+   ]
+  },
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds_per_regime": 20,
+    "regimes": [
+     "F0_better",
+     "F5_dep_better_r8",
+     "S_dep_better_r95",
+     "F9_bursty_better",
+     "F6_delay400_better",
+     "S_delay800_better",
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null",
+     "F1_late_800",
+     "F3_reversal_800"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/A/screen1/records.jsonl",
+   "outputs/sota_sprint/A/screen2/records.jsonl",
+   "docs/sota_sprint/family_a/screen1.md",
+   "docs/sota_sprint/family_a/screen2.md",
+   "docs/sota_sprint/family_a/ablations.md"
+  ],
+  "key_numbers": {
+   "F0_better_net": 366.6,
+   "F6_delay400_better_net": 373.7,
+   "S_delay800_better_net": 393.9,
+   "vs_QSG_F6": "+1.9",
+   "vs_QSG_S_delay800": "-0.1",
+   "null_promotion_dev20": {
+    "r8": 0.2,
+    "r95": 0.75,
+    "iid": 0.0
+   }
+  },
+  "status": "SCREENED_NEGATIVE",
+  "disposition": "Ordering semantics verified (release order == issue order with constant delay; tests check release-request == delay). Using in-flight outcomes after a verdict and in-flight-aware front-loading change nothing material vs QSG (|diff| <= 2 on long-delay regimes) and inherit QSG's dependence failure.",
+  "ablation": {
+   "A3-noinflight": "F6 -1.9 vs A3 (in-flight pausing slightly hurts), otherwise identical"
+  },
+  "next_action": "Stop as a standalone mechanism.",
+  "code_rev": "git 39d25ce (+uncommitted fam_a.py); fam_a.py sha256[:16] e17dd2c07b15bf99 for screen2/null300, 3c9f6de5c68a438e for screen1 (round-2 options added after screen1 with defaults that leave A1-A6 unchanged)",
+  "contract": "T=2000, B=200, c_q=.05, c_s=5, alpha=.05; bound .0936"
+ },
+ {
+  "id": "A4",
+  "implementation": "scripts/sota_sprint/fam_a.py:FamA(evidence='post0') + PostZeroMixture",
+  "run_config": {
+   "screen": [
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1,A1-nogap,A1-rho8,A1-nostart,A2,A2-fixedgap6,A3,A3-noinflight,A4,A5,A5-fixedgap6,A6,A6-noinflight,QSG,QSG-env8,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,discern_design_floor,SMCS+retain-incumbent,CONTROL_never_switch,model_picker_adapter --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen1"
+   ],
+   "analyze": [
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 --candidates A1,A2,A3,A4,A5,A6 --hosts A1=QSG,A2=QSG,A3=QSG,A4=QSG,A5=QSG,A6=QSG --out docs/sota_sprint/family_a/screen1.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1b,A5b,A6b,A2b --hosts A1b=QSG,A5b=QSG,A6b=QSG,A2b=QSG --out docs/sota_sprint/family_a/screen2.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1-nogap,A1-rho8,A1-nostart,A2-fixedgap6,A3-noinflight,A5-fixedgap6,A6-noinflight --hosts A1-nogap=A1,A1-rho8=A1,A1-nostart=A1,A2-fixedgap6=A2,A3-noinflight=A3,A5-fixedgap6=A5,A6-noinflight=A6 --out docs/sota_sprint/family_a/ablations.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/null300 --candidates A1,A1b,A5b,A6b --hosts A1=QSG,A1b=QSG,A5b=QSG,A6b=QSG --out docs/sota_sprint/family_a/null300.json"
+   ]
+  },
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds_per_regime": 20,
+    "regimes": [
+     "F0_better",
+     "F5_dep_better_r8",
+     "S_dep_better_r95",
+     "F9_bursty_better",
+     "F6_delay400_better",
+     "S_delay800_better",
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null",
+     "F1_late_800",
+     "F3_reversal_800"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/A/screen1/records.jsonl",
+   "outputs/sota_sprint/A/screen2/records.jsonl",
+   "docs/sota_sprint/family_a/screen1.md",
+   "docs/sota_sprint/family_a/screen2.md",
+   "docs/sota_sprint/family_a/ablations.md"
+  ],
+  "key_numbers": {
+   "F0_better_net": 416.2,
+   "vs_best_certified_F0_better": "+36.7 [+18.7,+54.7]",
+   "null_promotion_dev20": {
+    "r8": 0.0,
+    "r95": 0.0,
+    "iid": 0.05
+   }
+  },
+  "status": "SCREENED_NEGATIVE",
+  "disposition": "Valid for any rho (conditional mean bound proven and unit-tested) but bets on only ~35% of outcomes; far too slow.",
+  "ablation": {
+   "unconditioned betting (= QSG)": "fast but unsafe (r8 .20, r95 .75)"
+  },
+  "next_action": "Stop.",
+  "code_rev": "git 39d25ce (+uncommitted fam_a.py); fam_a.py sha256[:16] e17dd2c07b15bf99 for screen2/null300, 3c9f6de5c68a438e for screen1 (round-2 options added after screen1 with defaults that leave A1-A6 unchanged)",
+  "contract": "T=2000, B=200, c_q=.05, c_s=5, alpha=.05; bound .0936"
+ },
+ {
+  "id": "A5",
+  "implementation": "scripts/sota_sprint/fam_a.py:FamA(evidence='sui', density='adaptive'); dev variant A5b (A1b evidence + rho_hat shrinkage)",
+  "run_config": {
+   "screen": [
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1,A1-nogap,A1-rho8,A1-nostart,A2,A2-fixedgap6,A3,A3-noinflight,A4,A5,A5-fixedgap6,A6,A6-noinflight,QSG,QSG-env8,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,discern_design_floor,SMCS+retain-incumbent,CONTROL_never_switch,model_picker_adapter --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen1",
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1b,A5b,A6b,A2b --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen2"
+   ],
+   "null300": "uv run python scripts/sota_sprint/screen.py --regimes F5_dep_null_r8,F5_dep_null_r95,F0_null --policies A1,A1b,A5b,A6b,QSG,CONTROL_never_switch --seeds 300 --seed-base 2026110511 --workers 3 --out outputs/sota_sprint/A/null300",
+   "analyze": [
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 --candidates A1,A2,A3,A4,A5,A6 --hosts A1=QSG,A2=QSG,A3=QSG,A4=QSG,A5=QSG,A6=QSG --out docs/sota_sprint/family_a/screen1.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1b,A5b,A6b,A2b --hosts A1b=QSG,A5b=QSG,A6b=QSG,A2b=QSG --out docs/sota_sprint/family_a/screen2.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1-nogap,A1-rho8,A1-nostart,A2-fixedgap6,A3-noinflight,A5-fixedgap6,A6-noinflight --hosts A1-nogap=A1,A1-rho8=A1,A1-nostart=A1,A2-fixedgap6=A2,A3-noinflight=A3,A5-fixedgap6=A5,A6-noinflight=A6 --out docs/sota_sprint/family_a/ablations.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/null300 --candidates A1,A1b,A5b,A6b --hosts A1=QSG,A1b=QSG,A5b=QSG,A6b=QSG --out docs/sota_sprint/family_a/null300.json"
+   ]
+  },
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds_per_regime": 20,
+    "regimes": [
+     "F0_better",
+     "F5_dep_better_r8",
+     "S_dep_better_r95",
+     "F9_bursty_better",
+     "F6_delay400_better",
+     "S_delay800_better",
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null",
+     "F1_late_800",
+     "F3_reversal_800"
+    ]
+   },
+   "null": {
+    "seed_base": 2026110511,
+    "seeds_per_regime": 300,
+    "regimes": [
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/A/screen1/records.jsonl",
+   "outputs/sota_sprint/A/screen2/records.jsonl",
+   "docs/sota_sprint/family_a/screen1.md",
+   "docs/sota_sprint/family_a/screen2.md",
+   "docs/sota_sprint/family_a/ablations.md",
+   "outputs/sota_sprint/A/null300/records.jsonl",
+   "docs/sota_sprint/family_a/null300.md"
+  ],
+  "key_numbers": {
+   "F0_better_net": {
+    "A5": 376.6,
+    "A5b": 373.8
+   },
+   "A5b_vs_best_certified": {
+    "F0_better": "-5.7 [-20.2,+8.8] vs xu",
+    "F6_delay400_better": "-1.0 [-6.0,+3.9]",
+    "S_delay800_better": "+0.5 [-3.5,+4.4]",
+    "F9_bursty_better": "+22.4 [+8.1,+36.7]",
+    "F5_dep_better_r8": "+84.1 [+67.9,+100.4]"
+   },
+   "null_promotion_dev20": {
+    "r8": 0.0,
+    "r95": 0.0,
+    "iid": 0.0
+   },
+   "null_promotion_300_A5b": {
+    "r8": "0/300",
+    "r95": "0/300",
+    "iid": "3/300"
+   },
+   "labels_on_r95_null": 98
+  },
+  "status": "SCREENED_PROMISING",
+  "disposition": "Best family-A point estimate on F0_better (373.8, -5.7 vs best certified, CI includes 0). Adaptive density saves labels under persistence (98 vs 200 on r95 null, net 366 vs 371) but costs on bursty (+4.8 vs A1b) and does not rescue dependent alternatives (promotes 2/20 at r8).",
+  "ablation": {
+   "A5-fixedgap6": "F0_better +25.9, bursty +38.8 vs A5: fixed thinning much worse",
+   "A5 vs A1 (density off)": "F0_better -4.6, r95 null net -5.4, bursty +8.3"
+  },
+  "next_action": "Advance (with A1b) to 100-seed validation.",
+  "code_rev": "git 39d25ce (+uncommitted fam_a.py); fam_a.py sha256[:16] e17dd2c07b15bf99 for screen2/null300, 3c9f6de5c68a438e for screen1 (round-2 options added after screen1 with defaults that leave A1-A6 unchanged)",
+  "contract": "T=2000, B=200, c_q=.05, c_s=5, alpha=.05; bound .0936"
+ },
+ {
+  "id": "A6",
+  "implementation": "scripts/sota_sprint/fam_a.py:FamA(evidence='sui', density='adaptive', dualclock=True, inflight=True); A6b",
+  "run_config": {
+   "screen": [
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1,A1-nogap,A1-rho8,A1-nostart,A2,A2-fixedgap6,A3,A3-noinflight,A4,A5,A5-fixedgap6,A6,A6-noinflight,QSG,QSG-env8,xu_acquisition_only,gated_adaptive_range+front,gated_adaptive_range,discern_design_floor,SMCS+retain-incumbent,CONTROL_never_switch,model_picker_adapter --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen1",
+    "uv run python scripts/sota_sprint/screen.py --regimes F0_better,F5_dep_better_r8,S_dep_better_r95,F9_bursty_better,F6_delay400_better,S_delay800_better,F5_dep_null_r8,F5_dep_null_r95,F0_null,F1_late_800,F3_reversal_800 --policies A1b,A5b,A6b,A2b --seeds 20 --workers 3 --out outputs/sota_sprint/A/screen2"
+   ],
+   "null300": "uv run python scripts/sota_sprint/screen.py --regimes F5_dep_null_r8,F5_dep_null_r95,F0_null --policies A1,A1b,A5b,A6b,QSG,CONTROL_never_switch --seeds 300 --seed-base 2026110511 --workers 3 --out outputs/sota_sprint/A/null300",
+   "analyze": [
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 --candidates A1,A2,A3,A4,A5,A6 --hosts A1=QSG,A2=QSG,A3=QSG,A4=QSG,A5=QSG,A6=QSG --out docs/sota_sprint/family_a/screen1.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1b,A5b,A6b,A2b --hosts A1b=QSG,A5b=QSG,A6b=QSG,A2b=QSG --out docs/sota_sprint/family_a/screen2.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/screen1 outputs/sota_sprint/A/screen2 --candidates A1-nogap,A1-rho8,A1-nostart,A2-fixedgap6,A3-noinflight,A5-fixedgap6,A6-noinflight --hosts A1-nogap=A1,A1-rho8=A1,A1-nostart=A1,A2-fixedgap6=A2,A3-noinflight=A3,A5-fixedgap6=A5,A6-noinflight=A6 --out docs/sota_sprint/family_a/ablations.json",
+    "uv run python scripts/sota_sprint/analyze.py outputs/sota_sprint/A/null300 --candidates A1,A1b,A5b,A6b --hosts A1=QSG,A1b=QSG,A5b=QSG,A6b=QSG --out docs/sota_sprint/family_a/null300.json"
+   ]
+  },
+  "seed_manifest": {
+   "dev": {
+    "seed_base": 2026110501,
+    "seeds_per_regime": 20,
+    "regimes": [
+     "F0_better",
+     "F5_dep_better_r8",
+     "S_dep_better_r95",
+     "F9_bursty_better",
+     "F6_delay400_better",
+     "S_delay800_better",
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null",
+     "F1_late_800",
+     "F3_reversal_800"
+    ]
+   },
+   "null": {
+    "seed_base": 2026110511,
+    "seeds_per_regime": 300,
+    "regimes": [
+     "F5_dep_null_r8",
+     "F5_dep_null_r95",
+     "F0_null"
+    ]
+   }
+  },
+  "results_artifact": [
+   "outputs/sota_sprint/A/screen1/records.jsonl",
+   "outputs/sota_sprint/A/screen2/records.jsonl",
+   "docs/sota_sprint/family_a/screen1.md",
+   "docs/sota_sprint/family_a/screen2.md",
+   "docs/sota_sprint/family_a/ablations.md",
+   "outputs/sota_sprint/A/null300/records.jsonl"
+  ],
+  "key_numbers": {
+   "F0_better_net": {
+    "A6": 376.4,
+    "A6b": 374.0
+   },
+   "F6_delay400_better": {
+    "A6": 388.4,
+    "A6b": 376.4
+   },
+   "S_delay800_better": 397.6,
+   "null_promotion_300_A6b": {
+    "r8": "0/300",
+    "r95": "0/300",
+    "iid": "3/300"
+   }
+  },
+  "status": "SCREENED_NEGATIVE",
+  "disposition": "Indistinguishable from A5/A5b (dual-clock adds nothing; in-flight pausing costs +2.5 on F6 for A6 vs A6-noinflight).",
+  "ablation": {
+   "A6-noinflight": "F6 -2.5 vs A6; else identical"
+  },
+  "next_action": "Fold into A5; do not validate separately.",
+  "code_rev": "git 39d25ce (+uncommitted fam_a.py); fam_a.py sha256[:16] e17dd2c07b15bf99 for screen2/null300, 3c9f6de5c68a438e for screen1 (round-2 options added after screen1 with defaults that leave A1-A6 unchanged)",
+  "contract": "T=2000, B=200, c_q=.05, c_s=5, alpha=.05; bound .0936"
+ }
+]

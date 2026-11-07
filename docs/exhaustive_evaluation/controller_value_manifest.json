@@ -1,0 +1,17 @@
+{
+  "executed_source_hashes_verified": true,
+  "current_script_has_only_closure_binding_and_unused_name_cleanup": "see executed snapshot",
+  "sha256": {
+    "scripts/exhaustive_evaluation/compare_controller_value.py": "77a0437e2988f5d37aaea719e648fa06f13fdf862b5fc1bf5660cb17bbed2f59",
+    "scripts/exhaustive_evaluation/pilot_controller_synthesis.py": "6f6ae426eab8e3be232d13d9da35f4d2c6668e4eb969102f69e0c6a816e5ef5a",
+    "src/shiftlab/dive/causal_switching_game.py": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+    "src/shiftlab/dive/delayed_regime_information.py": "28a921215b0c58e1682b01e0da2df46b1100c9fc2618b74d7d137ad9fce8047e",
+    "src/shiftlab/dive/risk_preserving_approx/controller_risk_verifier.py": "65847d92b1283dfdb4b7d9420f95cd69fba2fc28a9b8bedacab4e9438a7f1e73",
+    "docs/exhaustive_evaluation/controller_value_comparison_registration.json": "d396ecd7734646ee65f2d3d00e2f2475fb371ad21fb7b74d9cf202a2189d1365",
+    "docs/exhaustive_evaluation/controller_value_comparison_status.json": "223430040e888e4769037b5a837e8cf46d594349531bf558a3bffd5773d155ed",
+    "docs/exhaustive_evaluation/controller_value_comparison_results.json": "9a273b7a633be30f2c9bbcea4a0d62216f3f79b216d1e79b39ee312897e65999",
+    "docs/exhaustive_evaluation/CONTROLLER_VALUE_COMPARISON_REPORT.md": "c23ce3bddaabba59d3e3048b0b4aee9a89c012cef9253d9497b3ecb8c88f0aca",
+    "docs/exhaustive_evaluation/BASELINE_COVERAGE.md": "ffb728295ff5d663dddd5a6194f1178ab91fd3d8a62ce7359792ad4232132afd",
+    "docs/exhaustive_evaluation/value_executed_compare_controller_value.py.txt": "9c363077dd9f62895d18aee2451ed86d06ff238457de1992ea325b1f8456537d"
+  }
+}

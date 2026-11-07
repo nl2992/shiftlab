@@ -1,0 +1,348 @@
+"""Real-data admissibility audit: dev-window headroom for frozen model pairs.
+
+LOCKED-WINDOW RULE: events are ordered chronologically; the final 40% is locked.
+Every loader below slices to the first 60% BEFORE parsing any label/outcome column
+(elec2/gas: by raw text line; noaa: by DATE column only, then rows with DATE < locked start;
+criteo: nrows).  Only feature-free counts/timestamps of the locked tail are recorded.
+
+PRE-STATED SELECTION RULE (written before any number was computed):
+  split early 60% -> train (first 30% of all events), dev (next 30%).
+  candidate pairs: A LR_old/LR_new, B LR_old/HGB_new, C LR_all/HGB_all, D HGB_old/HGB_new,
+  E LR_all/HGB_new  (old = first half of train, new = second half of train).
+  eligible: dev disagreement rate >= 5%.
+  rank by H_net = H_oracle(switch=5) - 0.05 * (#disagreement events) on dev (query cost 0.05
+  per label, every disagreement labelled = pessimistic query burden); keep top 2.
+  H_oracle(s) = min(sum l0, s + sum l1) - DP_opt(s), 0/1 loss, start in incumbent.
+"""
+
+import sys
+import json
+import io
+import zipfile
+import re
+import time
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import make_pipeline
+
+ROOT = "C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/data"
+OUT = "C:/Users/nigel/OneDrive/桌面/ICML/shiftlab-promising-directions-2026-10-30/docs/promising_directions/results/realdata_audit"
+rng = np.random.default_rng(0)
+
+
+def dp_cost(l0, l1, s):
+    """min total loss + s*switches, free choice each step, start in state 0."""
+    c0, c1 = 0.0, s
+    # state before step 1 is 0; first step may switch
+    c0, c1 = l0[0], s + l1[0]
+    for a, b in zip(l0[1:], l1[1:]):
+        n0 = min(c0, c1 + s) + a
+        n1 = min(c1, c0 + s) + b
+        c0, c1 = n0, n1
+    return min(c0, c1)
+
+
+def dp_fast(l0, l1, s):
+    # numba-free but loop in python is ok for ~14k..300k? use vectorised-free loop with floats
+    c0, c1 = float(l0[0]), s + float(l1[0])
+    for a, b in zip(l0[1:].tolist(), l1[1:].tolist()):
+        n0 = (c0 if c0 <= c1 + s else c1 + s) + a
+        n1 = (c1 if c1 <= c0 + s else c0 + s) + b
+        c0, c1 = n0, n1
+    return min(c0, c1)
+
+
+def headroom(l0, l1, s):
+    static = min(l0.sum(), s + l1.sum())
+    return float(static - dp_fast(l0, l1, s)), float(static)
+
+
+def mk_lr():
+    return make_pipeline(
+        SimpleImputer(strategy="median"), StandardScaler(), LogisticRegression(C=1.0, max_iter=300)
+    )
+
+
+def mk_hgb():
+    return HistGradientBoostingClassifier(
+        max_iter=100, learning_rate=0.1, max_leaf_nodes=15, random_state=0
+    )
+
+
+def evaluate(Xtr, ytr, Xdev, ydev, name, nperm=20, maxfit=300000):
+    h = len(Xtr) // 2
+    sl = {"old": slice(0, h), "new": slice(h, len(Xtr)), "all": slice(0, len(Xtr))}
+    models, preds = {}, {}
+
+    def get(kind, w):
+        key = (kind, w)
+        if key not in preds:
+            idx = np.arange(len(Xtr))[sl[w]]
+            if len(idx) > maxfit:
+                idx = np.sort(rng.choice(idx, maxfit, replace=False))
+            m = mk_lr() if kind == "LR" else mk_hgb()
+            m.fit(Xtr[idx], ytr[idx])
+            preds[key] = m.predict(Xdev)
+        return preds[key]
+
+    pairs = {
+        "A": (("LR", "old"), ("LR", "new")),
+        "B": (("LR", "old"), ("HGB", "new")),
+        "C": (("LR", "all"), ("HGB", "all")),
+        "D": (("HGB", "old"), ("HGB", "new")),
+        "E": (("LR", "all"), ("HGB", "new")),
+    }
+    rows = []
+    T = len(ydev)
+    for pn, (m0, m1) in pairs.items():
+        p0, p1 = get(*m0), get(*m1)
+        l0, l1 = (p0 != ydev).astype(float), (p1 != ydev).astype(float)
+        dis = p0 != p1
+        d = l0 - l1
+        ch = [float(x.mean()) for x in np.array_split(d, 10)]
+        r = dict(
+            dataset=name,
+            pair=pn,
+            incumbent="%s_%s" % m0,
+            challenger="%s_%s" % m1,
+            T=T,
+            err0=float(l0.mean()),
+            err1=float(l1.mean()),
+            disagree=float(dis.mean()),
+            n_dis=int(dis.sum()),
+            adv_mean=float(d.mean()),
+            adv_chunks=ch,
+        )
+        for s in (5, 20):
+            H, st = headroom(l0, l1, s)
+            r[f"H{s}"] = H
+            r[f"H{s}_net_q.05_all"] = H - 0.05 * dis.sum()
+            r[f"H{s}_net_q.05_25pct"] = H - 0.05 * 0.25 * dis.sum()
+            r[f"static{s}"] = st
+            # time-shuffled null: permute event order of the (l0,l1) pairs
+            nulls = []
+            for _ in range(nperm):
+                pi = rng.permutation(T)
+                nulls.append(headroom(l0[pi], l1[pi], s)[0])
+            r[f"H{s}_shuf_p95"] = float(np.percentile(nulls, 95))
+        rows.append(r)
+    return rows
+
+
+def pick(rows):
+    el = [r for r in rows if r["disagree"] >= 0.05]
+    el.sort(key=lambda r: -r["H5_net_q.05_all"])
+    return [r["pair"] for r in el[:2]]
+
+
+# ---------------- loaders (each slices to first 60% BEFORE parsing outcomes) ----------------
+def load_elec2():
+    p = f"{ROOT}/raw/elec2/electricity-normalized.arff"
+    lines = open(p, encoding="utf8").read().splitlines()
+    k = next(i for i, l in enumerate(lines) if l.strip().lower() == "@data") + 1
+    data = [l for l in lines[k:] if l.strip()]
+    N = len(data)
+    ne = int(0.6 * N)
+    early = data[:ne]
+    meta = dict(N=N, n_early=ne, locked_start_row=ne, n_locked=N - ne)
+    del data, lines
+    df = pd.read_csv(
+        io.StringIO("\n".join(early)),
+        header=None,
+        names=[
+            "date",
+            "day",
+            "period",
+            "nswprice",
+            "nswdemand",
+            "vicprice",
+            "vicdemand",
+            "transfer",
+            "cls",
+        ],
+    )
+    y = (df.pop("cls").str.strip() == "UP").astype(int).values
+    X = df[["period", "nswprice", "nswdemand", "vicprice", "vicdemand", "transfer"]].values.astype(
+        float
+    )
+    return X, y, meta
+
+
+def load_gas():
+    z = zipfile.ZipFile(f"{ROOT}/raw/gas_sensor/uci-224.zip")
+    names = sorted(
+        [n for n in z.namelist() if re.search(r"batch\d+\.dat$", n)],
+        key=lambda n: int(re.search(r"batch(\d+)", n).group(1)),
+    )
+    lines = []
+    for n in names:
+        lines += [l for l in z.read(n).decode().splitlines() if l.strip()]
+    N = len(lines)
+    ne = int(0.6 * N)
+    early = lines[:ne]
+    X = np.zeros((ne, 128))
+    y = np.zeros(ne, int)
+    for i, l in enumerate(early):
+        t = l.split()
+        y[i] = int(t[0].split(";")[0])
+        for kv in t[1:]:
+            a, b = kv.split(":")
+            X[i, int(a) - 1] = float(b)
+    return X, y, dict(N=N, n_early=ne, locked_start_row=ne, n_locked=N - ne, batch_names=names)
+
+
+def parse_noaa_frame(df):
+    def num(col, idx, scale=1.0, miss=None):
+        v = df[col].fillna("").str.split(",").str[idx]
+        v = pd.to_numeric(v, errors="coerce")
+        if miss is not None:
+            v = v.where(v.abs() != miss)
+        return v * scale
+
+    o = pd.DataFrame({"station": df["STATION"], "t": pd.to_datetime(df["DATE"])})
+    o["tmp"] = num("TMP", 0, 0.1, 9999)
+    o["dew"] = num("DEW", 0, 0.1, 9999)
+    o["slp"] = num("SLP", 0, 0.1, 99999)
+    o["wdir"] = num("WND", 0, 1, 999)
+    o["wspd"] = num("WND", 3, 0.1, 9999)
+    o["vis"] = num("VIS", 0, 1, 999999)
+    o["cig"] = num("CIG", 0, 1, 99999)
+    pr = pd.Series(0, index=df.index)
+    aa = df["AA1"].fillna("").str.split(",")
+    per = pd.to_numeric(aa.str[0], errors="coerce")
+    dep = pd.to_numeric(aa.str[1], errors="coerce")
+    pr = pr | ((per == 1) & (dep > 0) & (dep < 9999)).astype(int)
+    for col in ("MW1", "AW1"):
+        c = pd.to_numeric(df[col].fillna("").str.split(",").str[0], errors="coerce")
+        lo = 50 if col == "MW1" else 40
+        pr = pr | ((c >= lo) & (c <= 99)).astype(int)
+    o["precip"] = pr.values
+    o["hour"] = o["t"].dt.floor("h")
+    return o
+
+
+def load_noaa():
+    import glob
+
+    files = sorted(glob.glob(f"{ROOT}/raw/noaa/2023-*-s3.csv"))
+    # step 1: feature-free: station + DATE only
+    keys = pd.concat([pd.read_csv(f, usecols=["STATION", "DATE"], dtype=str) for f in files])
+    keys["hour"] = pd.to_datetime(keys["DATE"]).dt.floor("h")
+    hs = keys.drop_duplicates(["STATION", "hour"])
+    have = set(zip(hs["STATION"], hs["hour"]))
+    ev = [(s, h) for (s, h) in have if (s, h + pd.Timedelta("1h")) in have]
+    ev.sort(key=lambda x: (x[1], x[0]))
+    N = len(ev)
+    ne = int(0.6 * N)
+    locked_start = ev[ne][1]
+    meta = dict(
+        N_events=N,
+        n_early=ne,
+        locked_start_hour=str(locked_start),
+        n_locked=N - ne,
+        first_event_hour=str(ev[0][1]),
+        last_early_hour=str(ev[ne - 1][1]),
+        last_event_hour=str(ev[-1][1]),
+    )
+    # step 2: read measurement columns only for rows with DATE < locked_start
+    cols = ["STATION", "DATE", "TMP", "DEW", "SLP", "WND", "VIS", "CIG", "AA1", "MW1", "AW1"]
+    frames = []
+    for f in files:
+        d = pd.read_csv(f, usecols=cols, dtype=str)
+        d = d[pd.to_datetime(d["DATE"]) < locked_start]
+        frames.append(parse_noaa_frame(d))
+    o = pd.concat(frames)
+    # hourly aggregation: last report features, any-precip flag in hour
+    g = o.sort_values("t").groupby(["station", "hour"])
+    f = g[["tmp", "dew", "slp", "wdir", "wspd", "vis", "cig"]].last()
+    f["precip"] = g["precip"].max()
+    f = f.reset_index()
+    nxt = f[["station", "hour", "precip"]].copy()
+    nxt["hour"] -= pd.Timedelta("1h")
+    nxt = nxt.rename(columns={"precip": "y"})
+    f = f.merge(nxt, on=["station", "hour"], how="inner")
+    f = f[
+        f["hour"] < locked_start - pd.Timedelta("1h")
+    ]  # purge: label hour must lie before locked start
+    f = f.sort_values(["hour", "station"]).reset_index(drop=True)
+    hr = f["hour"].dt.hour
+    X = np.c_[
+        f[["tmp", "dew", "slp", "wspd", "vis", "cig", "precip"]].values,
+        np.sin(np.deg2rad(f["wdir"].where(f["wdir"] < 361))),
+        np.cos(np.deg2rad(f["wdir"].where(f["wdir"] < 361))),
+        np.sin(2 * np.pi * hr / 24),
+        np.cos(2 * np.pi * hr / 24),
+        pd.get_dummies(f["station"]).values.astype(float),
+    ]
+    meta["n_early_after_purge"] = len(f)
+    meta["early_hour_range"] = [str(f["hour"].min()), str(f["hour"].max())]
+    meta["stations"] = sorted(f["station"].unique().tolist())
+    return X, f["y"].values.astype(int), meta, f["hour"].values
+
+
+def split(X, y, n_all_for_frac):
+    """train = first 30% of ALL events (by absolute count), dev = from there to end of early window."""
+    ntr = int(0.3 * n_all_for_frac)
+    return X[:ntr], y[:ntr], X[ntr:], y[ntr:], ntr
+
+
+def run(name):
+    t0 = time.time()
+    if name == "elec2":
+        X, y, meta = load_elec2()
+        Ntot = meta["N"]
+    elif name == "gas":
+        X, y, meta = load_gas()
+        Ntot = meta["N"]
+    elif name == "noaa":
+        X, y, meta, hours = load_noaa()
+        Ntot = int(len(X) / 0.6)
+        # train = first half of the early window (== first 30% of all events)
+        Ntot = len(X) * 2 if False else int(round(len(X) / 0.6))
+    Xtr, ytr, Xd, yd, ntr = split(X, y, Ntot)
+    meta.update(
+        n_train=int(ntr),
+        n_dev=int(len(yd)),
+        train_rows=[0, int(ntr)],
+        dev_rows=[int(ntr), int(len(X))],
+        base_rate_train=float(ytr.mean()),
+        base_rate_dev=float(yd.mean()),
+    )
+    if name == "noaa":
+        meta["train_hours"] = [str(hours[0]), str(hours[ntr - 1])]
+        meta["dev_hours"] = [str(hours[ntr]), str(hours[-1])]
+    rows = evaluate(Xtr, ytr, Xd, yd, name)
+    meta["selected_pairs"] = pick(rows)
+    meta["runtime_s"] = round(time.time() - t0, 1)
+    json.dump(
+        dict(meta=meta, pairs=rows), open(f"{OUT}/{name}_dev.json", "w"), indent=1, default=str
+    )
+    print(name, json.dumps(meta, default=str)[:600])
+    for r in rows:
+        print(
+            r["pair"],
+            r["incumbent"],
+            r["challenger"],
+            "e0=%.3f e1=%.3f dis=%.3f adv=%.4f H5=%.0f(p95 %.0f) H5net=%.0f H20=%.0f(p95 %.0f) H20net=%.0f"
+            % (
+                r["err0"],
+                r["err1"],
+                r["disagree"],
+                r["adv_mean"],
+                r["H5"],
+                r["H5_shuf_p95"],
+                r["H5_net_q.05_all"],
+                r["H20"],
+                r["H20_shuf_p95"],
+                r["H20_net_q.05_all"],
+            ),
+        )
+    print("selected", meta["selected_pairs"])
+
+
+if __name__ == "__main__":
+    run(sys.argv[1])

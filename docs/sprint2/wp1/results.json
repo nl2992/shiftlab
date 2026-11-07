@@ -1,0 +1,4361 @@
+{
+ "class_counts": {
+  "cached": {
+   "stationary_better": 100,
+   "late_improvement": 5,
+   "null": 61,
+   "reversal": 2
+  },
+  "fresh": {
+   "stationary_better": 52,
+   "null": 5,
+   "reversal": 3,
+   "late_improvement": 2
+  },
+  "late_win": {
+   "null": 24,
+   "stationary_better": 27,
+   "reversal": 6,
+   "late_improvement": 2
+  },
+  "late_exp": {
+   "null": 46,
+   "reversal": 5,
+   "late_improvement": 1,
+   "stationary_better": 7
+  },
+  "twin": {
+   "null": 96,
+   "stationary_better": 25,
+   "late_improvement": 1,
+   "reversal": 2
+  }
+ },
+ "class_clusters": {
+  "late_improvement": {
+   "openml_ldpa": 4,
+   "uci_occupancy": 1,
+   "beijing_pm25": 2,
+   "bike_hour": 2,
+   "household_power": 1
+  },
+  "reversal": {
+   "airlines": 1,
+   "uci_occupancy": 1,
+   "metro": 1,
+   "beijing_pm25": 5,
+   "bike_hour": 1,
+   "appliances": 1,
+   "household_power": 6
+  }
+ },
+ "primary": {
+  "late_improvement": {
+   "n_ep": 10,
+   "n_cl": 5,
+   "best_certified": "gated_adaptive_range+front",
+   "mean_J": {
+    "A5b": 500.44,
+    "CONTROL_never_switch": 525.3,
+    "E_glr:gated_adaptive_range": 446.06,
+    "E_glr:gated_deployment": 427.03,
+    "E_rb:SMCS+retain-incumbent": 431.17,
+    "E_rb:discern_style": 423.67,
+    "E_rb:gated_adaptive_range": 425.9,
+    "E_rb:gated_deployment": 424.17,
+    "E_srr:SMCS+retain-incumbent": 413.64,
+    "E_srr:discern_style": 412.23,
+    "E_srr:gated_adaptive_range": 414.1,
+    "E_srr:gated_deployment": 411.13,
+    "E_srrSR:gated_deployment": 416.43,
+    "E_srr_noacq:gated_adaptive_range": 458.68,
+    "E_srr_noacq:gated_deployment": 451.6,
+    "E_swcert": 439.18,
+    "SMCS+retain-incumbent": 475.8,
+    "choe_ramdas_eb+front": 456.16,
+    "discern_style": 535.26,
+    "gated_adaptive_range": 487.86,
+    "gated_adaptive_range+front": 455.38,
+    "gated_deployment": 510.58,
+    "qiu_delayed_movement": 428.45,
+    "rmm:LRMD": 420.45,
+    "rmm:SMCS+retain-incumbent+RMM": 420.74,
+    "rmm:SMCS+retain-incumbent+RMM_single": 468.84,
+    "rmm:discern_style+RMM": 416.6,
+    "rmm:discern_style+RMM_noacq": 422.36,
+    "rmm:discern_style+RMM_single": 457.37,
+    "rmm:gated_adaptive_range+RMM": 423.43,
+    "rmm:gated_deployment+RMM": 417.47,
+    "rmm:gated_deployment+RMM_noacq": 451.98,
+    "rmm:gated_deployment+RMM_single": 462.92,
+    "xu_acquisition_only": 462.34
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - gated_adaptive_range+front": {
+     "mean": -37.92,
+     "lo": -68.02,
+     "hi": 11.36,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": -93.11,
+     "lo": -142.95,
+     "hi": -22.52,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": -107.83,
+     "lo": -156.96,
+     "hi": -18.14,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - gated_adaptive_range+front": {
+     "mean": -38.79,
+     "lo": -69.1,
+     "hi": 2.84,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": -118.67,
+     "lo": -173.89,
+     "hi": -21.01,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": -108.7,
+     "lo": -163.77,
+     "hi": -11.53,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - gated_adaptive_range+front": {
+     "mean": -34.65,
+     "lo": -68.23,
+     "hi": 17.66,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": -55.06,
+     "lo": -75.24,
+     "hi": -19.85,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": -104.56,
+     "lo": -154.9,
+     "hi": -15.3,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range+front": {
+     "mean": -31.95,
+     "lo": -59.3,
+     "hi": 8.06,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": -64.43,
+     "lo": -90.88,
+     "hi": -16.69,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": -101.87,
+     "lo": -154.86,
+     "hi": -12.76,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+     "mean": 6.7,
+     "lo": 0.0,
+     "hi": 22.33,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "E_rb:discern_style - rmm:discern_style+RMM": {
+     "mean": 7.07,
+     "lo": 0.0,
+     "hi": 23.56,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "E_rb:SMCS+retain-incumbent - rmm:SMCS+retain-incumbent+RMM": {
+     "mean": 10.43,
+     "lo": 0.0,
+     "hi": 33.44,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "E_rb:gated_adaptive_range - rmm:gated_adaptive_range+RMM": {
+     "mean": 2.47,
+     "lo": 0.0,
+     "hi": 8.22,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - E_srr:gated_deployment": {
+     "mean": 6.33,
+     "lo": -4.48,
+     "hi": 13.06,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - E_srr:discern_style": {
+     "mean": 4.37,
+     "lo": -20.38,
+     "hi": 23.33,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - E_srr:SMCS+retain-incumbent": {
+     "mean": 7.1,
+     "lo": -0.14,
+     "hi": 11.2,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - E_srr:gated_adaptive_range": {
+     "mean": 9.33,
+     "lo": -11.87,
+     "hi": 23.67,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_single": {
+     "mean": -45.46,
+     "lo": -57.19,
+     "hi": -23.67,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_noacq": {
+     "mean": -34.51,
+     "lo": -61.99,
+     "hi": 1.18,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_single": {
+     "mean": -40.77,
+     "lo": -53.18,
+     "hi": -17.06,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_noacq": {
+     "mean": -5.76,
+     "lo": -12.82,
+     "hi": 1.2,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - rmm:SMCS+retain-incumbent+RMM_single": {
+     "mean": -48.1,
+     "lo": -73.29,
+     "hi": -20.83,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "E_srr:gated_deployment - E_srr_noacq:gated_deployment": {
+     "mean": -40.46,
+     "lo": -69.43,
+     "hi": -6.28,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - E_glr:gated_deployment": {
+     "mean": -9.57,
+     "lo": -64.81,
+     "hi": 21.8,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - xu_acquisition_only": {
+     "mean": -44.87,
+     "lo": -56.64,
+     "hi": -19.43,
+     "n_ep": 10,
+     "n_cl": 5
+    },
+    "E_swcert - xu_acquisition_only": {
+     "mean": -23.16,
+     "lo": -37.82,
+     "hi": 0.47,
+     "n_ep": 10,
+     "n_cl": 5
+    }
+   }
+  },
+  "early_improvement": {
+   "n_ep": 0
+  },
+  "reversal": {
+   "n_ep": 16,
+   "n_cl": 7,
+   "best_certified": "discern_style",
+   "mean_J": {
+    "A5b": 628.25,
+    "CONTROL_never_switch": 621.62,
+    "E_glr:gated_adaptive_range": 588.6,
+    "E_glr:gated_deployment": 585.34,
+    "E_rb:SMCS+retain-incumbent": 580.05,
+    "E_rb:discern_style": 588.64,
+    "E_rb:gated_adaptive_range": 576.14,
+    "E_rb:gated_deployment": 581.23,
+    "E_srr:SMCS+retain-incumbent": 562.88,
+    "E_srr:discern_style": 569.62,
+    "E_srr:gated_adaptive_range": 560.07,
+    "E_srr:gated_deployment": 567.76,
+    "E_srrSR:gated_deployment": 555.83,
+    "E_srr_noacq:gated_adaptive_range": 564.57,
+    "E_srr_noacq:gated_deployment": 564.48,
+    "E_swcert": 601.57,
+    "SMCS+retain-incumbent": 630.67,
+    "choe_ramdas_eb+front": 599.6,
+    "discern_style": 563.93,
+    "gated_adaptive_range": 565.75,
+    "gated_adaptive_range+front": 600.64,
+    "gated_deployment": 568.14,
+    "qiu_delayed_movement": 567.09,
+    "rmm:LRMD": 601.99,
+    "rmm:SMCS+retain-incumbent+RMM": 599.65,
+    "rmm:SMCS+retain-incumbent+RMM_single": 600.8,
+    "rmm:discern_style+RMM": 601.08,
+    "rmm:discern_style+RMM_noacq": 582.63,
+    "rmm:discern_style+RMM_single": 592.6,
+    "rmm:gated_adaptive_range+RMM": 593.24,
+    "rmm:gated_deployment+RMM": 594.25,
+    "rmm:gated_deployment+RMM_noacq": 587.88,
+    "rmm:gated_deployment+RMM_single": 613.49,
+    "xu_acquisition_only": 583.45
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - discern_style": {
+     "mean": 30.32,
+     "lo": -60.28,
+     "hi": 56.88,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": 26.11,
+     "lo": -45.76,
+     "hi": 50.15,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": -27.38,
+     "lo": -358.48,
+     "hi": 66.76,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": 37.15,
+     "lo": -61.8,
+     "hi": 69.82,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": -20.54,
+     "lo": -360.42,
+     "hi": 79.33,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:SMCS+retain-incumbent+RMM - discern_style": {
+     "mean": 35.72,
+     "lo": -60.45,
+     "hi": 72.05,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": -31.02,
+     "lo": -47.72,
+     "hi": 10.58,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": -21.98,
+     "lo": -358.65,
+     "hi": 81.32,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_adaptive_range+RMM - discern_style": {
+     "mean": 29.31,
+     "lo": -77.12,
+     "hi": 59.6,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": 27.49,
+     "lo": -37.0,
+     "hi": 51.01,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": -28.38,
+     "lo": -375.33,
+     "hi": 69.13,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+     "mean": -13.02,
+     "lo": -18.08,
+     "hi": 2.67,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "E_rb:discern_style - rmm:discern_style+RMM": {
+     "mean": -12.44,
+     "lo": -24.0,
+     "hi": -2.09,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "E_rb:SMCS+retain-incumbent - rmm:SMCS+retain-incumbent+RMM": {
+     "mean": -19.6,
+     "lo": -30.98,
+     "hi": -0.71,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "E_rb:gated_adaptive_range - rmm:gated_adaptive_range+RMM": {
+     "mean": -17.1,
+     "lo": -23.85,
+     "hi": 1.76,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_deployment+RMM - E_srr:gated_deployment": {
+     "mean": 26.49,
+     "lo": 0.73,
+     "hi": 34.9,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:discern_style+RMM - E_srr:discern_style": {
+     "mean": 31.46,
+     "lo": 3.32,
+     "hi": 46.28,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:SMCS+retain-incumbent+RMM - E_srr:SMCS+retain-incumbent": {
+     "mean": 36.77,
+     "lo": 18.8,
+     "hi": 49.96,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_adaptive_range+RMM - E_srr:gated_adaptive_range": {
+     "mean": 33.17,
+     "lo": -2.74,
+     "hi": 46.43,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_single": {
+     "mean": -19.24,
+     "lo": -30.63,
+     "hi": 7.7,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_noacq": {
+     "mean": 6.37,
+     "lo": -25.08,
+     "hi": 19.85,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_single": {
+     "mean": 8.48,
+     "lo": -2.23,
+     "hi": 17.84,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_noacq": {
+     "mean": 18.45,
+     "lo": -23.44,
+     "hi": 35.45,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:SMCS+retain-incumbent+RMM - rmm:SMCS+retain-incumbent+RMM_single": {
+     "mean": -1.15,
+     "lo": -5.76,
+     "hi": 11.59,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "E_srr:gated_deployment - E_srr_noacq:gated_deployment": {
+     "mean": 3.27,
+     "lo": -12.28,
+     "hi": 14.94,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_deployment+RMM - E_glr:gated_deployment": {
+     "mean": 8.91,
+     "lo": -49.89,
+     "hi": 28.61,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "rmm:gated_deployment+RMM - xu_acquisition_only": {
+     "mean": 10.8,
+     "lo": -36.01,
+     "hi": 33.09,
+     "n_ep": 16,
+     "n_cl": 7
+    },
+    "E_swcert - xu_acquisition_only": {
+     "mean": 18.12,
+     "lo": -6.04,
+     "hi": 46.62,
+     "n_ep": 16,
+     "n_cl": 7
+    }
+   }
+  },
+  "stationary_better": {
+   "n_ep": 186,
+   "n_cl": 13,
+   "best_certified": "choe_ramdas_eb+front",
+   "mean_J": {
+    "A5b": 540.07,
+    "CONTROL_never_switch": 618.16,
+    "E_glr:gated_adaptive_range": 519.24,
+    "E_glr:gated_deployment": 553.5,
+    "E_rb:SMCS+retain-incumbent": 481.21,
+    "E_rb:discern_style": 486.27,
+    "E_rb:gated_adaptive_range": 487.18,
+    "E_rb:gated_deployment": 487.58,
+    "E_srr:SMCS+retain-incumbent": 480.82,
+    "E_srr:discern_style": 482.97,
+    "E_srr:gated_adaptive_range": 481.88,
+    "E_srr:gated_deployment": 482.27,
+    "E_srrSR:gated_deployment": 494.06,
+    "E_srr_noacq:gated_adaptive_range": 485.18,
+    "E_srr_noacq:gated_deployment": 486.59,
+    "E_swcert": 488.18,
+    "SMCS+retain-incumbent": 479.71,
+    "choe_ramdas_eb+front": 473.63,
+    "discern_style": 588.59,
+    "gated_adaptive_range": 498.91,
+    "gated_adaptive_range+front": 476.46,
+    "gated_deployment": 534.75,
+    "qiu_delayed_movement": 469.26,
+    "rmm:LRMD": 481.13,
+    "rmm:SMCS+retain-incumbent+RMM": 480.03,
+    "rmm:SMCS+retain-incumbent+RMM_single": 479.2,
+    "rmm:discern_style+RMM": 484.78,
+    "rmm:discern_style+RMM_noacq": 495.13,
+    "rmm:discern_style+RMM_single": 478.91,
+    "rmm:gated_adaptive_range+RMM": 485.75,
+    "rmm:gated_deployment+RMM": 486.11,
+    "rmm:gated_deployment+RMM_noacq": 494.47,
+    "rmm:gated_deployment+RMM_single": 479.87,
+    "xu_acquisition_only": 492.46
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - choe_ramdas_eb+front": {
+     "mean": 12.47,
+     "lo": 4.8,
+     "hi": 22.82,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": -48.64,
+     "lo": -74.83,
+     "hi": -22.35,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": -132.05,
+     "lo": -235.17,
+     "hi": -56.33,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:discern_style+RMM - choe_ramdas_eb+front": {
+     "mean": 11.15,
+     "lo": 4.19,
+     "hi": 20.13,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": -103.8,
+     "lo": -155.32,
+     "hi": -53.75,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": -133.38,
+     "lo": -235.77,
+     "hi": -58.07,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:SMCS+retain-incumbent+RMM - choe_ramdas_eb+front": {
+     "mean": 6.39,
+     "lo": 0.29,
+     "hi": 13.8,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": 0.32,
+     "lo": -3.25,
+     "hi": 2.69,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": -138.14,
+     "lo": -242.98,
+     "hi": -60.63,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_adaptive_range+RMM - choe_ramdas_eb+front": {
+     "mean": 12.11,
+     "lo": 5.14,
+     "hi": 20.75,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": -13.16,
+     "lo": -22.58,
+     "hi": -6.05,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": -132.41,
+     "lo": -235.32,
+     "hi": -56.83,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+     "mean": 1.47,
+     "lo": 0.21,
+     "hi": 3.15,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "E_rb:discern_style - rmm:discern_style+RMM": {
+     "mean": 1.49,
+     "lo": -0.03,
+     "hi": 3.3,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "E_rb:SMCS+retain-incumbent - rmm:SMCS+retain-incumbent+RMM": {
+     "mean": 1.18,
+     "lo": 0.13,
+     "hi": 2.54,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "E_rb:gated_adaptive_range - rmm:gated_adaptive_range+RMM": {
+     "mean": 1.43,
+     "lo": 0.0,
+     "hi": 2.84,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_deployment+RMM - E_srr:gated_deployment": {
+     "mean": 3.84,
+     "lo": -0.62,
+     "hi": 9.02,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:discern_style+RMM - E_srr:discern_style": {
+     "mean": 1.81,
+     "lo": -3.97,
+     "hi": 8.39,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:SMCS+retain-incumbent+RMM - E_srr:SMCS+retain-incumbent": {
+     "mean": -0.79,
+     "lo": -6.23,
+     "hi": 4.68,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_adaptive_range+RMM - E_srr:gated_adaptive_range": {
+     "mean": 3.87,
+     "lo": -1.44,
+     "hi": 10.07,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_single": {
+     "mean": 6.24,
+     "lo": 3.06,
+     "hi": 9.72,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_noacq": {
+     "mean": -8.36,
+     "lo": -13.08,
+     "hi": -3.35,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_single": {
+     "mean": 5.87,
+     "lo": 2.57,
+     "hi": 9.96,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_noacq": {
+     "mean": -10.35,
+     "lo": -15.97,
+     "hi": -4.43,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:SMCS+retain-incumbent+RMM - rmm:SMCS+retain-incumbent+RMM_single": {
+     "mean": 0.83,
+     "lo": -1.16,
+     "hi": 3.21,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "E_srr:gated_deployment - E_srr_noacq:gated_deployment": {
+     "mean": -4.32,
+     "lo": -7.11,
+     "hi": -1.28,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_deployment+RMM - E_glr:gated_deployment": {
+     "mean": -67.39,
+     "lo": -113.93,
+     "hi": -30.36,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "rmm:gated_deployment+RMM - xu_acquisition_only": {
+     "mean": -6.35,
+     "lo": -11.71,
+     "hi": -1.41,
+     "n_ep": 186,
+     "n_cl": 13
+    },
+    "E_swcert - xu_acquisition_only": {
+     "mean": -4.28,
+     "lo": -9.13,
+     "hi": 0.32,
+     "n_ep": 186,
+     "n_cl": 13
+    }
+   }
+  },
+  "null": {
+   "n_ep": 136,
+   "n_cl": 10,
+   "best_certified": "gated_deployment",
+   "mean_J": {
+    "A5b": 501.0,
+    "CONTROL_never_switch": 493.16,
+    "E_glr:gated_adaptive_range": 522.86,
+    "E_glr:gated_deployment": 526.04,
+    "E_rb:SMCS+retain-incumbent": 505.57,
+    "E_rb:discern_style": 504.67,
+    "E_rb:gated_adaptive_range": 504.21,
+    "E_rb:gated_deployment": 504.48,
+    "E_srr:SMCS+retain-incumbent": 510.41,
+    "E_srr:discern_style": 510.82,
+    "E_srr:gated_adaptive_range": 509.92,
+    "E_srr:gated_deployment": 510.05,
+    "E_srrSR:gated_deployment": 519.37,
+    "E_srr_noacq:gated_adaptive_range": 508.0,
+    "E_srr_noacq:gated_deployment": 508.47,
+    "E_swcert": 506.96,
+    "SMCS+retain-incumbent": 515.98,
+    "choe_ramdas_eb+front": 527.23,
+    "discern_style": 500.48,
+    "gated_adaptive_range": 501.63,
+    "gated_adaptive_range+front": 517.62,
+    "gated_deployment": 499.94,
+    "qiu_delayed_movement": 523.36,
+    "rmm:LRMD": 508.3,
+    "rmm:SMCS+retain-incumbent+RMM": 505.92,
+    "rmm:SMCS+retain-incumbent+RMM_single": 507.22,
+    "rmm:discern_style+RMM": 504.91,
+    "rmm:discern_style+RMM_noacq": 502.77,
+    "rmm:discern_style+RMM_single": 506.31,
+    "rmm:gated_adaptive_range+RMM": 504.58,
+    "rmm:gated_deployment+RMM": 504.85,
+    "rmm:gated_deployment+RMM_noacq": 503.25,
+    "rmm:gated_deployment+RMM_single": 507.22,
+    "xu_acquisition_only": 502.34
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": 4.91,
+     "lo": 1.54,
+     "hi": 9.63,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": 11.69,
+     "lo": 6.57,
+     "hi": 17.49,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:discern_style+RMM - gated_deployment": {
+     "mean": 4.97,
+     "lo": 1.63,
+     "hi": 10.25,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": 4.43,
+     "lo": 1.09,
+     "hi": 9.75,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": 11.75,
+     "lo": 6.7,
+     "hi": 18.02,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:SMCS+retain-incumbent+RMM - gated_deployment": {
+     "mean": 5.97,
+     "lo": 1.69,
+     "hi": 12.09,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": -10.06,
+     "lo": -28.34,
+     "hi": 0.38,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": 12.76,
+     "lo": 6.78,
+     "hi": 19.95,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_adaptive_range+RMM - gated_deployment": {
+     "mean": 4.64,
+     "lo": 1.57,
+     "hi": 9.29,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": 2.95,
+     "lo": 1.29,
+     "hi": 5.78,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": 11.42,
+     "lo": 6.69,
+     "hi": 17.04,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+     "mean": -0.37,
+     "lo": -1.01,
+     "hi": 0.0,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "E_rb:discern_style - rmm:discern_style+RMM": {
+     "mean": -0.24,
+     "lo": -0.61,
+     "hi": 0.01,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "E_rb:SMCS+retain-incumbent - rmm:SMCS+retain-incumbent+RMM": {
+     "mean": -0.35,
+     "lo": -0.81,
+     "hi": 0.01,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "E_rb:gated_adaptive_range - rmm:gated_adaptive_range+RMM": {
+     "mean": -0.37,
+     "lo": -0.87,
+     "hi": 0.0,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_deployment+RMM - E_srr:gated_deployment": {
+     "mean": -5.2,
+     "lo": -11.41,
+     "hi": -0.5,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:discern_style+RMM - E_srr:discern_style": {
+     "mean": -5.91,
+     "lo": -13.72,
+     "hi": -0.27,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:SMCS+retain-incumbent+RMM - E_srr:SMCS+retain-incumbent": {
+     "mean": -4.49,
+     "lo": -10.38,
+     "hi": 0.46,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_adaptive_range+RMM - E_srr:gated_adaptive_range": {
+     "mean": -5.34,
+     "lo": -12.29,
+     "hi": -0.26,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_single": {
+     "mean": -2.36,
+     "lo": -6.0,
+     "hi": 0.68,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_noacq": {
+     "mean": 1.61,
+     "lo": 0.46,
+     "hi": 3.47,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_single": {
+     "mean": -1.4,
+     "lo": -4.15,
+     "hi": 0.93,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_noacq": {
+     "mean": 2.14,
+     "lo": 0.4,
+     "hi": 5.74,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:SMCS+retain-incumbent+RMM - rmm:SMCS+retain-incumbent+RMM_single": {
+     "mean": -1.31,
+     "lo": -4.05,
+     "hi": 1.01,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "E_srr:gated_deployment - E_srr_noacq:gated_deployment": {
+     "mean": 1.59,
+     "lo": -0.9,
+     "hi": 3.98,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_deployment+RMM - E_glr:gated_deployment": {
+     "mean": -21.19,
+     "lo": -57.77,
+     "hi": -1.39,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "rmm:gated_deployment+RMM - xu_acquisition_only": {
+     "mean": 2.51,
+     "lo": 0.37,
+     "hi": 6.43,
+     "n_ep": 136,
+     "n_cl": 10
+    },
+    "E_swcert - xu_acquisition_only": {
+     "mean": 4.62,
+     "lo": 0.36,
+     "hi": 11.15,
+     "n_ep": 136,
+     "n_cl": 10
+    }
+   }
+  },
+  "all": {
+   "n_ep": 348,
+   "n_cl": 14,
+   "best_certified": "gated_adaptive_range+front",
+   "mean_J": {
+    "A5b": 527.72,
+    "CONTROL_never_switch": 566.8,
+    "E_glr:gated_adaptive_range": 521.74,
+    "E_glr:gated_deployment": 540.6,
+    "E_rb:SMCS+retain-incumbent": 493.84,
+    "E_rb:discern_style": 496.37,
+    "E_rb:gated_adaptive_range": 496.17,
+    "E_rb:gated_deployment": 496.67,
+    "E_srr:SMCS+retain-incumbent": 494.22,
+    "E_srr:discern_style": 495.81,
+    "E_srr:gated_adaptive_range": 494.48,
+    "E_srr:gated_deployment": 495.01,
+    "E_srrSR:gated_deployment": 504.56,
+    "E_srr_noacq:gated_adaptive_range": 496.99,
+    "E_srr_noacq:gated_deployment": 497.72,
+    "E_swcert": 499.32,
+    "SMCS+retain-incumbent": 500.71,
+    "choe_ramdas_eb+front": 499.87,
+    "discern_style": 551.49,
+    "gated_adaptive_range": 502.73,
+    "gated_adaptive_range+front": 497.65,
+    "gated_deployment": 521.99,
+    "qiu_delayed_movement": 493.73,
+    "rmm:LRMD": 495.56,
+    "rmm:SMCS+retain-incumbent+RMM": 493.94,
+    "rmm:SMCS+retain-incumbent+RMM_single": 495.44,
+    "rmm:discern_style+RMM": 496.04,
+    "rmm:discern_style+RMM_noacq": 500.05,
+    "rmm:discern_style+RMM_single": 494.23,
+    "rmm:gated_adaptive_range+RMM": 496.26,
+    "rmm:gated_deployment+RMM": 496.43,
+    "rmm:gated_deployment+RMM_noacq": 500.97,
+    "rmm:gated_deployment+RMM_single": 496.21,
+    "xu_acquisition_only": 499.64
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - gated_adaptive_range+front": {
+     "mean": -1.21,
+     "lo": -16.76,
+     "hi": 10.37,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": -25.56,
+     "lo": -43.65,
+     "hi": -11.26,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": -70.37,
+     "lo": -131.5,
+     "hi": -23.96,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:discern_style+RMM - gated_adaptive_range+front": {
+     "mean": -1.61,
+     "lo": -17.11,
+     "hi": 9.27,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": -55.45,
+     "lo": -97.53,
+     "hi": -24.54,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": -70.76,
+     "lo": -131.58,
+     "hi": -24.53,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:SMCS+retain-incumbent+RMM - gated_adaptive_range+front": {
+     "mean": -3.71,
+     "lo": -17.4,
+     "hi": 6.14,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": -6.77,
+     "lo": -18.25,
+     "hi": 0.35,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": -72.86,
+     "lo": -135.93,
+     "hi": -25.19,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range+front": {
+     "mean": -1.39,
+     "lo": -16.57,
+     "hi": 9.33,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": -6.47,
+     "lo": -12.0,
+     "hi": -2.69,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": -70.54,
+     "lo": -131.47,
+     "hi": -24.34,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+     "mean": 0.24,
+     "lo": -0.55,
+     "hi": 1.1,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "E_rb:discern_style - rmm:discern_style+RMM": {
+     "mean": 0.33,
+     "lo": -0.47,
+     "hi": 1.19,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "E_rb:SMCS+retain-incumbent - rmm:SMCS+retain-incumbent+RMM": {
+     "mean": -0.11,
+     "lo": -1.49,
+     "hi": 1.21,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "E_rb:gated_adaptive_range - rmm:gated_adaptive_range+RMM": {
+     "mean": -0.1,
+     "lo": -1.3,
+     "hi": 1.27,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_deployment+RMM - E_srr:gated_deployment": {
+     "mean": 1.42,
+     "lo": -1.06,
+     "hi": 4.2,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:discern_style+RMM - E_srr:discern_style": {
+     "mean": 0.23,
+     "lo": -3.01,
+     "hi": 3.55,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:SMCS+retain-incumbent+RMM - E_srr:SMCS+retain-incumbent": {
+     "mean": -0.28,
+     "lo": -3.29,
+     "hi": 2.66,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_adaptive_range+RMM - E_srr:gated_adaptive_range": {
+     "mean": 1.78,
+     "lo": -1.06,
+     "hi": 4.4,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_single": {
+     "mean": 0.22,
+     "lo": -4.17,
+     "hi": 3.98,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_deployment+RMM - rmm:gated_deployment+RMM_noacq": {
+     "mean": -4.54,
+     "lo": -9.77,
+     "hi": -1.1,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_single": {
+     "mean": 1.81,
+     "lo": -0.59,
+     "hi": 4.25,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:discern_style+RMM - rmm:discern_style+RMM_noacq": {
+     "mean": -4.01,
+     "lo": -8.1,
+     "hi": -0.58,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:SMCS+retain-incumbent+RMM - rmm:SMCS+retain-incumbent+RMM_single": {
+     "mean": -1.5,
+     "lo": -4.37,
+     "hi": 0.83,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "E_srr:gated_deployment - E_srr_noacq:gated_deployment": {
+     "mean": -2.7,
+     "lo": -7.14,
+     "hi": 0.32,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_deployment+RMM - E_glr:gated_deployment": {
+     "mean": -44.17,
+     "lo": -69.1,
+     "hi": -21.92,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "rmm:gated_deployment+RMM - xu_acquisition_only": {
+     "mean": -3.2,
+     "lo": -8.69,
+     "hi": -0.42,
+     "n_ep": 348,
+     "n_cl": 14
+    },
+    "E_swcert - xu_acquisition_only": {
+     "mean": -0.31,
+     "lo": -5.06,
+     "hi": 2.61,
+     "n_ep": 348,
+     "n_cl": 14
+    }
+   }
+  }
+ },
+ "late_constructions_only": {
+  "late_improvement": {
+   "n_ep": 3,
+   "n_cl": 2,
+   "best_certified": "choe_ramdas_eb+front",
+   "mean_J": {
+    "A5b": 580.99,
+    "CONTROL_never_switch": 593.67,
+    "E_glr:gated_adaptive_range": 554.67,
+    "E_glr:gated_deployment": 502.56,
+    "E_rb:SMCS+retain-incumbent": 476.44,
+    "E_rb:discern_style": 456.56,
+    "E_rb:gated_adaptive_range": 447.22,
+    "E_rb:gated_deployment": 453.0,
+    "E_srr:SMCS+retain-incumbent": 442.78,
+    "E_srr:discern_style": 440.56,
+    "E_srr:gated_adaptive_range": 437.89,
+    "E_srr:gated_deployment": 434.44,
+    "E_srrSR:gated_deployment": 427.22,
+    "E_srr_noacq:gated_adaptive_range": 450.62,
+    "E_srr_noacq:gated_deployment": 450.48,
+    "E_swcert": 471.87,
+    "SMCS+retain-incumbent": 499.89,
+    "choe_ramdas_eb+front": 443.57,
+    "discern_style": 603.64,
+    "gated_adaptive_range": 534.39,
+    "gated_adaptive_range+front": 443.65,
+    "gated_deployment": 590.76,
+    "qiu_delayed_movement": 426.53,
+    "rmm:LRMD": 442.44,
+    "rmm:SMCS+retain-incumbent+RMM": 443.0,
+    "rmm:SMCS+retain-incumbent+RMM_single": 531.78,
+    "rmm:discern_style+RMM": 433.0,
+    "rmm:discern_style+RMM_noacq": 443.06,
+    "rmm:discern_style+RMM_single": 494.89,
+    "rmm:gated_adaptive_range+RMM": 439.0,
+    "rmm:gated_deployment+RMM": 430.67,
+    "rmm:gated_deployment+RMM_noacq": 445.39,
+    "rmm:gated_deployment+RMM_single": 506.33,
+    "xu_acquisition_only": 492.43
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - choe_ramdas_eb+front": {
+     "mean": -12.9,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": -160.09,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": -163.0,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:discern_style+RMM - choe_ramdas_eb+front": {
+     "mean": -10.57,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": -170.64,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": -160.67,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:SMCS+retain-incumbent+RMM - choe_ramdas_eb+front": {
+     "mean": -0.57,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": -56.89,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": -150.67,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:gated_adaptive_range+RMM - choe_ramdas_eb+front": {
+     "mean": -4.57,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": -95.39,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": -154.67,
+     "lo": null,
+     "hi": null,
+     "n_ep": 3,
+     "n_cl": 2
+    }
+   }
+  },
+  "early_improvement": {
+   "n_ep": 0
+  },
+  "reversal": {
+   "n_ep": 11,
+   "n_cl": 5,
+   "best_certified": "discern_style",
+   "mean_J": {
+    "A5b": 494.38,
+    "CONTROL_never_switch": 488.09,
+    "E_glr:gated_adaptive_range": 532.88,
+    "E_glr:gated_deployment": 516.34,
+    "E_rb:SMCS+retain-incumbent": 545.94,
+    "E_rb:discern_style": 552.05,
+    "E_rb:gated_adaptive_range": 534.42,
+    "E_rb:gated_deployment": 542.03,
+    "E_srr:SMCS+retain-incumbent": 525.88,
+    "E_srr:discern_style": 530.86,
+    "E_srr:gated_adaptive_range": 521.33,
+    "E_srr:gated_deployment": 531.4,
+    "E_srrSR:gated_deployment": 517.47,
+    "E_srr_noacq:gated_adaptive_range": 520.8,
+    "E_srr_noacq:gated_deployment": 518.74,
+    "E_swcert": 551.72,
+    "SMCS+retain-incumbent": 598.65,
+    "choe_ramdas_eb+front": 550.93,
+    "discern_style": 497.34,
+    "gated_adaptive_range": 506.27,
+    "gated_adaptive_range+front": 550.97,
+    "gated_deployment": 497.69,
+    "qiu_delayed_movement": 525.09,
+    "rmm:LRMD": 566.91,
+    "rmm:SMCS+retain-incumbent+RMM": 566.37,
+    "rmm:SMCS+retain-incumbent+RMM_single": 568.46,
+    "rmm:discern_style+RMM": 562.08,
+    "rmm:discern_style+RMM_noacq": 528.72,
+    "rmm:discern_style+RMM_single": 555.71,
+    "rmm:gated_adaptive_range+RMM": 553.36,
+    "rmm:gated_deployment+RMM": 557.27,
+    "rmm:gated_deployment+RMM_noacq": 538.73,
+    "rmm:gated_deployment+RMM_single": 574.94,
+    "xu_acquisition_only": 530.38
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - discern_style": {
+     "mean": 59.93,
+     "lo": 10.56,
+     "hi": 74.45,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": 59.58,
+     "lo": 9.15,
+     "hi": 74.41,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": 69.18,
+     "lo": 17.39,
+     "hi": 84.41,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": 64.74,
+     "lo": 16.84,
+     "hi": 80.15,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": 73.98,
+     "lo": 23.67,
+     "hi": 90.12,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - discern_style": {
+     "mean": 69.03,
+     "lo": 13.26,
+     "hi": 109.33,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": -32.29,
+     "lo": -57.9,
+     "hi": 17.29,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": 78.27,
+     "lo": 17.98,
+     "hi": 118.71,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - discern_style": {
+     "mean": 56.02,
+     "lo": 4.49,
+     "hi": 77.82,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": 47.09,
+     "lo": -18.56,
+     "hi": 74.3,
+     "n_ep": 11,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": 65.27,
+     "lo": 11.38,
+     "hi": 87.75,
+     "n_ep": 11,
+     "n_cl": 5
+    }
+   }
+  },
+  "stationary_better": {
+   "n_ep": 34,
+   "n_cl": 4,
+   "best_certified": "choe_ramdas_eb+front",
+   "mean_J": {
+    "A5b": 488.84,
+    "CONTROL_never_switch": 494.97,
+    "E_glr:gated_adaptive_range": 469.25,
+    "E_glr:gated_deployment": 486.16,
+    "E_rb:SMCS+retain-incumbent": 450.7,
+    "E_rb:discern_style": 454.01,
+    "E_rb:gated_adaptive_range": 453.1,
+    "E_rb:gated_deployment": 456.53,
+    "E_srr:SMCS+retain-incumbent": 450.39,
+    "E_srr:discern_style": 451.49,
+    "E_srr:gated_adaptive_range": 447.85,
+    "E_srr:gated_deployment": 448.43,
+    "E_srrSR:gated_deployment": 460.12,
+    "E_srr_noacq:gated_adaptive_range": 452.53,
+    "E_srr_noacq:gated_deployment": 452.91,
+    "E_swcert": 449.69,
+    "SMCS+retain-incumbent": 443.48,
+    "choe_ramdas_eb+front": 437.78,
+    "discern_style": 495.71,
+    "gated_adaptive_range": 454.16,
+    "gated_adaptive_range+front": 438.84,
+    "gated_deployment": 480.62,
+    "qiu_delayed_movement": 439.15,
+    "rmm:LRMD": 449.0,
+    "rmm:SMCS+retain-incumbent+RMM": 446.76,
+    "rmm:SMCS+retain-incumbent+RMM_single": 446.14,
+    "rmm:discern_style+RMM": 448.21,
+    "rmm:discern_style+RMM_noacq": 456.08,
+    "rmm:discern_style+RMM_single": 446.91,
+    "rmm:gated_adaptive_range+RMM": 449.6,
+    "rmm:gated_deployment+RMM": 451.65,
+    "rmm:gated_deployment+RMM_noacq": 453.37,
+    "rmm:gated_deployment+RMM_single": 446.38,
+    "xu_acquisition_only": 449.69
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - choe_ramdas_eb+front": {
+     "mean": 13.87,
+     "lo": 4.09,
+     "hi": 28.2,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": -28.98,
+     "lo": -43.77,
+     "hi": 7.95,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": -43.32,
+     "lo": -60.71,
+     "hi": -1.11,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:discern_style+RMM - choe_ramdas_eb+front": {
+     "mean": 10.43,
+     "lo": 3.97,
+     "hi": 33.3,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": -47.5,
+     "lo": -65.21,
+     "hi": -3.83,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": -46.77,
+     "lo": -66.67,
+     "hi": 1.72,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:SMCS+retain-incumbent+RMM - choe_ramdas_eb+front": {
+     "mean": 8.98,
+     "lo": -4.24,
+     "hi": 29.27,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": 3.28,
+     "lo": 0.78,
+     "hi": 17.94,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": -48.21,
+     "lo": -65.45,
+     "hi": -4.08,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:gated_adaptive_range+RMM - choe_ramdas_eb+front": {
+     "mean": 11.82,
+     "lo": 3.83,
+     "hi": 23.08,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": -4.56,
+     "lo": -7.93,
+     "hi": 8.96,
+     "n_ep": 34,
+     "n_cl": 4
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": -45.37,
+     "lo": -62.6,
+     "hi": -1.82,
+     "n_ep": 34,
+     "n_cl": 4
+    }
+   }
+  },
+  "null": {
+   "n_ep": 70,
+   "n_cl": 5,
+   "best_certified": "gated_deployment",
+   "mean_J": {
+    "A5b": 355.47,
+    "CONTROL_never_switch": 348.07,
+    "E_glr:gated_adaptive_range": 395.15,
+    "E_glr:gated_deployment": 401.72,
+    "E_rb:SMCS+retain-incumbent": 362.48,
+    "E_rb:discern_style": 361.61,
+    "E_rb:gated_adaptive_range": 360.9,
+    "E_rb:gated_deployment": 361.13,
+    "E_srr:SMCS+retain-incumbent": 371.23,
+    "E_srr:discern_style": 372.49,
+    "E_srr:gated_adaptive_range": 370.46,
+    "E_srr:gated_deployment": 370.36,
+    "E_srrSR:gated_deployment": 377.37,
+    "E_srr_noacq:gated_adaptive_range": 367.22,
+    "E_srr_noacq:gated_deployment": 367.48,
+    "E_swcert": 365.86,
+    "SMCS+retain-incumbent": 382.9,
+    "choe_ramdas_eb+front": 406.57,
+    "discern_style": 354.95,
+    "gated_adaptive_range": 358.32,
+    "gated_adaptive_range+front": 388.45,
+    "gated_deployment": 354.21,
+    "qiu_delayed_movement": 384.27,
+    "rmm:LRMD": 367.67,
+    "rmm:SMCS+retain-incumbent+RMM": 363.13,
+    "rmm:SMCS+retain-incumbent+RMM_single": 365.65,
+    "rmm:discern_style+RMM": 362.08,
+    "rmm:discern_style+RMM_noacq": 358.93,
+    "rmm:discern_style+RMM_single": 364.1,
+    "rmm:gated_adaptive_range+RMM": 361.66,
+    "rmm:gated_deployment+RMM": 361.81,
+    "rmm:gated_deployment+RMM_noacq": 360.23,
+    "rmm:gated_deployment+RMM_single": 365.97,
+    "xu_acquisition_only": 358.21
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": 7.6,
+     "lo": 2.31,
+     "hi": 13.73,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": 13.74,
+     "lo": 5.56,
+     "hi": 22.39,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - gated_deployment": {
+     "mean": 7.87,
+     "lo": 2.47,
+     "hi": 16.4,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": 7.13,
+     "lo": 1.63,
+     "hi": 15.62,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": 14.01,
+     "lo": 5.62,
+     "hi": 25.27,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - gated_deployment": {
+     "mean": 8.92,
+     "lo": 2.84,
+     "hi": 16.66,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": -19.77,
+     "lo": -46.42,
+     "hi": 0.99,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": 15.06,
+     "lo": 6.19,
+     "hi": 25.53,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - gated_deployment": {
+     "mean": 7.45,
+     "lo": 2.59,
+     "hi": 15.41,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": 3.35,
+     "lo": 0.9,
+     "hi": 9.23,
+     "n_ep": 70,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": 13.59,
+     "lo": 5.49,
+     "hi": 24.07,
+     "n_ep": 70,
+     "n_cl": 5
+    }
+   }
+  },
+  "all": {
+   "n_ep": 118,
+   "n_cl": 5,
+   "best_certified": "xu_acquisition_only",
+   "mean_J": {
+    "A5b": 412.58,
+    "CONTROL_never_switch": 409.69,
+    "E_glr:gated_adaptive_range": 433.4,
+    "E_glr:gated_deployment": 439.3,
+    "E_rb:SMCS+retain-incumbent": 407.9,
+    "E_rb:discern_style": 408.4,
+    "E_rb:gated_adaptive_range": 405.84,
+    "E_rb:gated_deployment": 407.82,
+    "E_srr:SMCS+retain-incumbent": 410.27,
+    "E_srr:discern_style": 411.75,
+    "E_srr:gated_adaptive_range": 408.54,
+    "E_srr:gated_deployment": 409.5,
+    "E_srrSR:gated_deployment": 415.54,
+    "E_srr_noacq:gated_adaptive_range": 408.24,
+    "E_srr_noacq:gated_deployment": 408.3,
+    "E_swcert": 410.03,
+    "SMCS+retain-incumbent": 423.44,
+    "choe_ramdas_eb+front": 429.96,
+    "discern_style": 415.1,
+    "gated_adaptive_range": 404.2,
+    "gated_adaptive_range+front": 419.52,
+    "gated_deployment": 410.03,
+    "qiu_delayed_movement": 414.28,
+    "rmm:LRMD": 411.58,
+    "rmm:SMCS+retain-incumbent+RMM": 408.2,
+    "rmm:SMCS+retain-incumbent+RMM_single": 411.97,
+    "rmm:discern_style+RMM": 407.34,
+    "rmm:discern_style+RMM_noacq": 404.89,
+    "rmm:discern_style+RMM_single": 409.15,
+    "rmm:gated_adaptive_range+RMM": 406.84,
+    "rmm:gated_deployment+RMM": 407.67,
+    "rmm:gated_deployment+RMM_noacq": 405.87,
+    "rmm:gated_deployment+RMM_single": 412.19,
+    "xu_acquisition_only": 404.03
+   },
+   "contrasts": {
+    "rmm:gated_deployment+RMM - xu_acquisition_only": {
+     "mean": 3.64,
+     "lo": -0.65,
+     "hi": 5.95,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - gated_deployment": {
+     "mean": -2.36,
+     "lo": -18.91,
+     "hi": 13.15,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+     "mean": -2.03,
+     "lo": -22.16,
+     "hi": 18.15,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - xu_acquisition_only": {
+     "mean": 3.31,
+     "lo": -1.32,
+     "hi": 5.86,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - discern_style": {
+     "mean": -7.76,
+     "lo": -27.89,
+     "hi": 11.56,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:discern_style+RMM - CONTROL_never_switch": {
+     "mean": -2.35,
+     "lo": -23.71,
+     "hi": 18.93,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+     "mean": 4.17,
+     "lo": -1.85,
+     "hi": 9.98,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+     "mean": -15.24,
+     "lo": -39.96,
+     "hi": 2.51,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+     "mean": -1.49,
+     "lo": -24.95,
+     "hi": 23.18,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+     "mean": 2.81,
+     "lo": -1.75,
+     "hi": 5.6,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - gated_adaptive_range": {
+     "mean": 2.64,
+     "lo": -7.92,
+     "hi": 8.62,
+     "n_ep": 118,
+     "n_cl": 5
+    },
+    "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+     "mean": -2.86,
+     "lo": -24.5,
+     "hi": 18.44,
+     "n_ep": 118,
+     "n_cl": 5
+    }
+   }
+  }
+ },
+ "H_late": {
+  "hosts_supporting": 0,
+  "enough_episodes": true,
+  "verdict": "NOT_SUPPORTED"
+ },
+ "diagnostics": {
+  "late_improvement": {
+   "A5b": {
+    "promote": 0.267,
+    "rollbacks": 0.033,
+    "switches": 0.3,
+    "harm_on1": -41.956,
+    "labels": 141.433
+   },
+   "CONTROL_never_switch": {
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "switches": 0.0,
+    "harm_on1": 0.0,
+    "labels": 0.0
+   },
+   "E_glr:gated_adaptive_range": {
+    "promote": 0.833,
+    "rollbacks": 0.167,
+    "switches": 1.0,
+    "harm_on1": -99.493,
+    "labels": 196.633
+   },
+   "E_glr:gated_deployment": {
+    "promote": 0.967,
+    "rollbacks": 0.1,
+    "switches": 1.067,
+    "harm_on1": -123.65,
+    "labels": 196.633
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "promote": 0.9,
+    "rollbacks": 0.267,
+    "switches": 1.4,
+    "harm_on1": -126.802,
+    "labels": 196.733
+   },
+   "E_rb:discern_style": {
+    "promote": 0.867,
+    "rollbacks": 0.167,
+    "switches": 1.2,
+    "harm_on1": -133.318,
+    "labels": 196.633
+   },
+   "E_rb:gated_adaptive_range": {
+    "promote": 0.9,
+    "rollbacks": 0.167,
+    "switches": 1.233,
+    "harm_on1": -132.195,
+    "labels": 196.633
+   },
+   "E_rb:gated_deployment": {
+    "promote": 0.9,
+    "rollbacks": 0.233,
+    "switches": 1.367,
+    "harm_on1": -133.853,
+    "labels": 196.633
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "promote": 0.933,
+    "rollbacks": 0.4,
+    "switches": 1.633,
+    "harm_on1": -141.461,
+    "labels": 196.733
+   },
+   "E_srr:discern_style": {
+    "promote": 0.9,
+    "rollbacks": 0.3,
+    "switches": 1.5,
+    "harm_on1": -142.518,
+    "labels": 196.633
+   },
+   "E_srr:gated_adaptive_range": {
+    "promote": 0.967,
+    "rollbacks": 0.333,
+    "switches": 1.6,
+    "harm_on1": -142.18,
+    "labels": 196.633
+   },
+   "E_srr:gated_deployment": {
+    "promote": 1.0,
+    "rollbacks": 0.333,
+    "switches": 1.633,
+    "harm_on1": -145.984,
+    "labels": 196.633
+   },
+   "E_srrSR:gated_deployment": {
+    "promote": 1.0,
+    "rollbacks": 1.033,
+    "switches": 2.733,
+    "harm_on1": -135.847,
+    "labels": 196.633
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "promote": 0.467,
+    "rollbacks": 0.233,
+    "switches": 0.933,
+    "harm_on1": -83.361,
+    "labels": 121.6
+   },
+   "E_srr_noacq:gated_deployment": {
+    "promote": 0.567,
+    "rollbacks": 0.333,
+    "switches": 1.233,
+    "harm_on1": -95.213,
+    "labels": 138.567
+   },
+   "E_swcert": {
+    "promote": 0.9,
+    "rollbacks": 0.1,
+    "switches": 1.1,
+    "harm_on1": -119.058,
+    "labels": 194.3
+   },
+   "SMCS+retain-incumbent": {
+    "promote": 0.367,
+    "rollbacks": 0.0,
+    "switches": 0.367,
+    "harm_on1": -68.806,
+    "labels": 194.033
+   },
+   "choe_ramdas_eb+front": {
+    "promote": 0.3,
+    "rollbacks": 0.0,
+    "switches": 0.3,
+    "harm_on1": -82.254,
+    "labels": 71.2
+   },
+   "discern_style": {
+    "promote": 0.033,
+    "rollbacks": 0.0,
+    "switches": 0.033,
+    "harm_on1": -0.854,
+    "labels": 193.933
+   },
+   "gated_adaptive_range": {
+    "promote": 0.333,
+    "rollbacks": 0.0,
+    "switches": 0.333,
+    "harm_on1": -46.468,
+    "labels": 104.6
+   },
+   "gated_adaptive_range+front": {
+    "promote": 0.4,
+    "rollbacks": 0.0,
+    "switches": 0.4,
+    "harm_on1": -83.875,
+    "labels": 69.7
+   },
+   "gated_deployment": {
+    "promote": 0.2,
+    "rollbacks": 0.0,
+    "switches": 0.2,
+    "harm_on1": -22.842,
+    "labels": 130.933
+   },
+   "qiu_delayed_movement": {
+    "promote": 0.9,
+    "rollbacks": 0.833,
+    "switches": 2.567,
+    "harm_on1": -134.177,
+    "labels": 194.267
+   },
+   "rmm:LRMD": {
+    "promote": 0.9,
+    "rollbacks": 0.2,
+    "switches": 1.3,
+    "harm_on1": -135.877,
+    "labels": 197.0
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "promote": 0.9,
+    "rollbacks": 0.133,
+    "switches": 1.167,
+    "harm_on1": -135.678,
+    "labels": 196.733
+   },
+   "rmm:SMCS+retain-incumbent+RMM_single": {
+    "promote": 0.5,
+    "rollbacks": 0.2,
+    "switches": 0.9,
+    "harm_on1": -81.179,
+    "labels": 196.733
+   },
+   "rmm:discern_style+RMM": {
+    "promote": 0.867,
+    "rollbacks": 0.067,
+    "switches": 1.0,
+    "harm_on1": -138.537,
+    "labels": 196.633
+   },
+   "rmm:discern_style+RMM_noacq": {
+    "promote": 0.933,
+    "rollbacks": 0.0,
+    "switches": 0.933,
+    "harm_on1": -132.467,
+    "labels": 193.833
+   },
+   "rmm:discern_style+RMM_single": {
+    "promote": 0.5,
+    "rollbacks": 0.233,
+    "switches": 0.967,
+    "harm_on1": -92.612,
+    "labels": 196.633
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "promote": 0.9,
+    "rollbacks": 0.133,
+    "switches": 1.167,
+    "harm_on1": -134.198,
+    "labels": 196.633
+   },
+   "rmm:gated_deployment+RMM": {
+    "promote": 0.9,
+    "rollbacks": 0.133,
+    "switches": 1.167,
+    "harm_on1": -138.747,
+    "labels": 196.633
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "promote": 0.533,
+    "rollbacks": 0.0,
+    "switches": 0.533,
+    "harm_on1": -90.888,
+    "labels": 138.267
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "promote": 0.5,
+    "rollbacks": 0.267,
+    "switches": 1.033,
+    "harm_on1": -88.929,
+    "labels": 196.467
+   },
+   "xu_acquisition_only": {
+    "promote": 0.567,
+    "rollbacks": 0.0,
+    "switches": 0.567,
+    "harm_on1": -85.646,
+    "labels": 180.067
+   }
+  },
+  "null": {
+   "A5b": {
+    "promote": 0.007,
+    "rollbacks": 0.005,
+    "switches": 0.012,
+    "harm_on1": 0.589,
+    "labels": 135.718
+   },
+   "CONTROL_never_switch": {
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "switches": 0.0,
+    "harm_on1": 0.0,
+    "labels": 0.0
+   },
+   "E_glr:gated_adaptive_range": {
+    "promote": 0.174,
+    "rollbacks": 0.039,
+    "switches": 0.216,
+    "harm_on1": 18.744,
+    "labels": 158.13
+   },
+   "E_glr:gated_deployment": {
+    "promote": 0.174,
+    "rollbacks": 0.037,
+    "switches": 0.216,
+    "harm_on1": 21.327,
+    "labels": 158.123
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "promote": 0.123,
+    "rollbacks": 0.076,
+    "switches": 0.206,
+    "harm_on1": 0.764,
+    "labels": 158.328
+   },
+   "E_rb:discern_style": {
+    "promote": 0.093,
+    "rollbacks": 0.066,
+    "switches": 0.164,
+    "harm_on1": 0.481,
+    "labels": 158.39
+   },
+   "E_rb:gated_adaptive_range": {
+    "promote": 0.096,
+    "rollbacks": 0.056,
+    "switches": 0.157,
+    "harm_on1": -0.013,
+    "labels": 158.115
+   },
+   "E_rb:gated_deployment": {
+    "promote": 0.091,
+    "rollbacks": 0.061,
+    "switches": 0.152,
+    "harm_on1": 0.498,
+    "labels": 158.118
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "promote": 0.331,
+    "rollbacks": 0.272,
+    "switches": 0.667,
+    "harm_on1": 1.368,
+    "labels": 158.284
+   },
+   "E_srr:discern_style": {
+    "promote": 0.331,
+    "rollbacks": 0.257,
+    "switches": 0.64,
+    "harm_on1": 2.111,
+    "labels": 158.36
+   },
+   "E_srr:gated_adaptive_range": {
+    "promote": 0.314,
+    "rollbacks": 0.24,
+    "switches": 0.605,
+    "harm_on1": 2.085,
+    "labels": 158.118
+   },
+   "E_srr:gated_deployment": {
+    "promote": 0.341,
+    "rollbacks": 0.252,
+    "switches": 0.637,
+    "harm_on1": 1.63,
+    "labels": 158.096
+   },
+   "E_srrSR:gated_deployment": {
+    "promote": 0.706,
+    "rollbacks": 0.949,
+    "switches": 2.032,
+    "harm_on1": 3.103,
+    "labels": 158.135
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "promote": 0.27,
+    "rollbacks": 0.196,
+    "switches": 0.51,
+    "harm_on1": 2.223,
+    "labels": 124.551
+   },
+   "E_srr_noacq:gated_deployment": {
+    "promote": 0.272,
+    "rollbacks": 0.199,
+    "switches": 0.517,
+    "harm_on1": 2.174,
+    "labels": 139.127
+   },
+   "E_swcert": {
+    "promote": 0.1,
+    "rollbacks": 0.066,
+    "switches": 0.169,
+    "harm_on1": 3.315,
+    "labels": 155.904
+   },
+   "SMCS+retain-incumbent": {
+    "promote": 0.1,
+    "rollbacks": 0.0,
+    "switches": 0.1,
+    "harm_on1": 13.378,
+    "labels": 155.873
+   },
+   "choe_ramdas_eb+front": {
+    "promote": 0.11,
+    "rollbacks": 0.0,
+    "switches": 0.11,
+    "harm_on1": 26.728,
+    "labels": 100.706
+   },
+   "discern_style": {
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "switches": 0.0,
+    "harm_on1": 0.0,
+    "labels": 146.446
+   },
+   "gated_adaptive_range": {
+    "promote": 0.01,
+    "rollbacks": 0.0,
+    "switches": 0.01,
+    "harm_on1": 2.483,
+    "labels": 118.12
+   },
+   "gated_adaptive_range+front": {
+    "promote": 0.088,
+    "rollbacks": 0.0,
+    "switches": 0.088,
+    "harm_on1": 17.56,
+    "labels": 105.154
+   },
+   "gated_deployment": {
+    "promote": 0.002,
+    "rollbacks": 0.0,
+    "switches": 0.002,
+    "harm_on1": 0.029,
+    "labels": 135.11
+   },
+   "qiu_delayed_movement": {
+    "promote": 0.721,
+    "rollbacks": 1.103,
+    "switches": 2.446,
+    "harm_on1": 3.603,
+    "labels": 155.826
+   },
+   "rmm:LRMD": {
+    "promote": 0.152,
+    "rollbacks": 0.12,
+    "switches": 0.287,
+    "harm_on1": 1.858,
+    "labels": 159.01
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "promote": 0.123,
+    "rollbacks": 0.071,
+    "switches": 0.201,
+    "harm_on1": 1.016,
+    "labels": 158.328
+   },
+   "rmm:SMCS+retain-incumbent+RMM_single": {
+    "promote": 0.113,
+    "rollbacks": 0.093,
+    "switches": 0.216,
+    "harm_on1": 2.309,
+    "labels": 158.304
+   },
+   "rmm:discern_style+RMM": {
+    "promote": 0.093,
+    "rollbacks": 0.054,
+    "switches": 0.152,
+    "harm_on1": 0.68,
+    "labels": 158.39
+   },
+   "rmm:discern_style+RMM_noacq": {
+    "promote": 0.061,
+    "rollbacks": 0.029,
+    "switches": 0.091,
+    "harm_on1": 0.935,
+    "labels": 148.745
+   },
+   "rmm:discern_style+RMM_single": {
+    "promote": 0.096,
+    "rollbacks": 0.081,
+    "switches": 0.186,
+    "harm_on1": 1.437,
+    "labels": 158.365
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "promote": 0.096,
+    "rollbacks": 0.047,
+    "switches": 0.147,
+    "harm_on1": 0.404,
+    "labels": 158.115
+   },
+   "rmm:gated_deployment+RMM": {
+    "promote": 0.091,
+    "rollbacks": 0.049,
+    "switches": 0.14,
+    "harm_on1": 0.877,
+    "labels": 158.12
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "promote": 0.074,
+    "rollbacks": 0.042,
+    "switches": 0.115,
+    "harm_on1": 1.399,
+    "labels": 139.314
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "promote": 0.103,
+    "rollbacks": 0.083,
+    "switches": 0.196,
+    "harm_on1": 2.83,
+    "labels": 158.098
+   },
+   "xu_acquisition_only": {
+    "promote": 0.017,
+    "rollbacks": 0.015,
+    "switches": 0.034,
+    "harm_on1": 0.459,
+    "labels": 154.326
+   }
+  },
+  "reversal": {
+   "A5b": {
+    "promote": 0.062,
+    "rollbacks": 0.0,
+    "switches": 0.062,
+    "harm_on1": -1.618,
+    "labels": 148.729
+   },
+   "CONTROL_never_switch": {
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "switches": 0.0,
+    "harm_on1": 0.0,
+    "labels": 0.0
+   },
+   "E_glr:gated_adaptive_range": {
+    "promote": 0.396,
+    "rollbacks": 0.188,
+    "switches": 0.604,
+    "harm_on1": -48.061,
+    "labels": 188.25
+   },
+   "E_glr:gated_deployment": {
+    "promote": 0.396,
+    "rollbacks": 0.229,
+    "switches": 0.646,
+    "harm_on1": -54.037,
+    "labels": 188.479
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "promote": 0.833,
+    "rollbacks": 0.542,
+    "switches": 1.396,
+    "harm_on1": -68.536,
+    "labels": 189.667
+   },
+   "E_rb:discern_style": {
+    "promote": 0.792,
+    "rollbacks": 0.562,
+    "switches": 1.396,
+    "harm_on1": -63.76,
+    "labels": 189.938
+   },
+   "E_rb:gated_adaptive_range": {
+    "promote": 0.771,
+    "rollbacks": 0.542,
+    "switches": 1.312,
+    "harm_on1": -73.201,
+    "labels": 189.417
+   },
+   "E_rb:gated_deployment": {
+    "promote": 0.833,
+    "rollbacks": 0.562,
+    "switches": 1.417,
+    "harm_on1": -69.55,
+    "labels": 189.562
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "promote": 0.979,
+    "rollbacks": 1.167,
+    "switches": 2.438,
+    "harm_on1": -99.143,
+    "labels": 189.729
+   },
+   "E_srr:discern_style": {
+    "promote": 0.979,
+    "rollbacks": 1.125,
+    "switches": 2.438,
+    "harm_on1": -97.308,
+    "labels": 189.917
+   },
+   "E_srr:gated_adaptive_range": {
+    "promote": 1.0,
+    "rollbacks": 1.208,
+    "switches": 2.521,
+    "harm_on1": -105.445,
+    "labels": 189.667
+   },
+   "E_srr:gated_deployment": {
+    "promote": 1.0,
+    "rollbacks": 1.146,
+    "switches": 2.479,
+    "harm_on1": -100.781,
+    "labels": 189.729
+   },
+   "E_srrSR:gated_deployment": {
+    "promote": 1.0,
+    "rollbacks": 1.938,
+    "switches": 3.938,
+    "harm_on1": -111.824,
+    "labels": 189.479
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "promote": 0.958,
+    "rollbacks": 0.979,
+    "switches": 2.021,
+    "harm_on1": -92.803,
+    "labels": 185.583
+   },
+   "E_srr_noacq:gated_deployment": {
+    "promote": 0.979,
+    "rollbacks": 1.021,
+    "switches": 2.125,
+    "harm_on1": -92.975,
+    "labels": 185.5
+   },
+   "E_swcert": {
+    "promote": 0.688,
+    "rollbacks": 0.438,
+    "switches": 1.167,
+    "harm_on1": -49.758,
+    "labels": 185.562
+   },
+   "SMCS+retain-incumbent": {
+    "promote": 0.792,
+    "rollbacks": 0.0,
+    "switches": 0.792,
+    "harm_on1": -8.974,
+    "labels": 185.5
+   },
+   "choe_ramdas_eb+front": {
+    "promote": 0.688,
+    "rollbacks": 0.0,
+    "switches": 0.688,
+    "harm_on1": -35.907,
+    "labels": 108.25
+   },
+   "discern_style": {
+    "promote": 0.062,
+    "rollbacks": 0.0,
+    "switches": 0.062,
+    "harm_on1": -67.925,
+    "labels": 176.896
+   },
+   "gated_adaptive_range": {
+    "promote": 0.312,
+    "rollbacks": 0.0,
+    "switches": 0.312,
+    "harm_on1": -67.312,
+    "labels": 139.229
+   },
+   "gated_adaptive_range+front": {
+    "promote": 0.688,
+    "rollbacks": 0.0,
+    "switches": 0.688,
+    "harm_on1": -35.508,
+    "labels": 109.125
+   },
+   "gated_deployment": {
+    "promote": 0.208,
+    "rollbacks": 0.0,
+    "switches": 0.208,
+    "harm_on1": -64.699,
+    "labels": 154.021
+   },
+   "qiu_delayed_movement": {
+    "promote": 1.0,
+    "rollbacks": 1.521,
+    "switches": 3.125,
+    "harm_on1": -93.61,
+    "labels": 186.042
+   },
+   "rmm:LRMD": {
+    "promote": 0.875,
+    "rollbacks": 0.438,
+    "switches": 1.333,
+    "harm_on1": -48.6,
+    "labels": 191.104
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "promote": 0.833,
+    "rollbacks": 0.479,
+    "switches": 1.333,
+    "harm_on1": -48.84,
+    "labels": 189.667
+   },
+   "rmm:SMCS+retain-incumbent+RMM_single": {
+    "promote": 0.771,
+    "rollbacks": 0.208,
+    "switches": 0.979,
+    "harm_on1": -40.57,
+    "labels": 189.812
+   },
+   "rmm:discern_style+RMM": {
+    "promote": 0.792,
+    "rollbacks": 0.479,
+    "switches": 1.292,
+    "harm_on1": -51.807,
+    "labels": 189.938
+   },
+   "rmm:discern_style+RMM_noacq": {
+    "promote": 0.646,
+    "rollbacks": 0.417,
+    "switches": 1.062,
+    "harm_on1": -63.628,
+    "labels": 186.771
+   },
+   "rmm:discern_style+RMM_single": {
+    "promote": 0.729,
+    "rollbacks": 0.167,
+    "switches": 0.917,
+    "harm_on1": -48.729,
+    "labels": 189.938
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "promote": 0.771,
+    "rollbacks": 0.438,
+    "switches": 1.208,
+    "harm_on1": -53.696,
+    "labels": 189.417
+   },
+   "rmm:gated_deployment+RMM": {
+    "promote": 0.833,
+    "rollbacks": 0.479,
+    "switches": 1.312,
+    "harm_on1": -51.766,
+    "labels": 189.562
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "promote": 0.646,
+    "rollbacks": 0.438,
+    "switches": 1.083,
+    "harm_on1": -54.431,
+    "labels": 185.958
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "promote": 0.833,
+    "rollbacks": 0.188,
+    "switches": 1.042,
+    "harm_on1": -29.799,
+    "labels": 189.708
+   },
+   "xu_acquisition_only": {
+    "promote": 0.458,
+    "rollbacks": 0.167,
+    "switches": 0.625,
+    "harm_on1": -59.613,
+    "labels": 185.604
+   }
+  },
+  "stationary_better": {
+   "A5b": {
+    "promote": 0.441,
+    "rollbacks": 0.004,
+    "switches": 0.444,
+    "harm_on1": -89.983,
+    "labels": 153.337
+   },
+   "CONTROL_never_switch": {
+    "promote": 0.0,
+    "rollbacks": 0.0,
+    "switches": 0.0,
+    "harm_on1": 0.0,
+    "labels": 0.0
+   },
+   "E_glr:gated_adaptive_range": {
+    "promote": 0.659,
+    "rollbacks": 0.152,
+    "switches": 0.839,
+    "harm_on1": -113.422,
+    "labels": 173.344
+   },
+   "E_glr:gated_deployment": {
+    "promote": 0.572,
+    "rollbacks": 0.124,
+    "switches": 0.717,
+    "harm_on1": -78.583,
+    "labels": 173.505
+   },
+   "E_rb:SMCS+retain-incumbent": {
+    "promote": 0.826,
+    "rollbacks": 0.068,
+    "switches": 0.934,
+    "harm_on1": -153.319,
+    "labels": 174.113
+   },
+   "E_rb:discern_style": {
+    "promote": 0.801,
+    "rollbacks": 0.063,
+    "switches": 0.896,
+    "harm_on1": -147.861,
+    "labels": 174.134
+   },
+   "E_rb:gated_adaptive_range": {
+    "promote": 0.799,
+    "rollbacks": 0.075,
+    "switches": 0.914,
+    "harm_on1": -147.367,
+    "labels": 174.151
+   },
+   "E_rb:gated_deployment": {
+    "promote": 0.81,
+    "rollbacks": 0.081,
+    "switches": 0.93,
+    "harm_on1": -147.202,
+    "labels": 174.106
+   },
+   "E_srr:SMCS+retain-incumbent": {
+    "promote": 0.941,
+    "rollbacks": 0.256,
+    "switches": 1.392,
+    "harm_on1": -158.144,
+    "labels": 174.054
+   },
+   "E_srr:discern_style": {
+    "promote": 0.937,
+    "rollbacks": 0.262,
+    "switches": 1.401,
+    "harm_on1": -156.616,
+    "labels": 174.194
+   },
+   "E_srr:gated_adaptive_range": {
+    "promote": 0.937,
+    "rollbacks": 0.256,
+    "switches": 1.392,
+    "harm_on1": -157.4,
+    "labels": 174.113
+   },
+   "E_srr:gated_deployment": {
+    "promote": 0.939,
+    "rollbacks": 0.258,
+    "switches": 1.389,
+    "harm_on1": -156.713,
+    "labels": 174.124
+   },
+   "E_srrSR:gated_deployment": {
+    "promote": 1.0,
+    "rollbacks": 1.097,
+    "switches": 2.91,
+    "harm_on1": -152.184,
+    "labels": 174.215
+   },
+   "E_srr_noacq:gated_adaptive_range": {
+    "promote": 0.932,
+    "rollbacks": 0.238,
+    "switches": 1.328,
+    "harm_on1": -152.551,
+    "labels": 169.821
+   },
+   "E_srr_noacq:gated_deployment": {
+    "promote": 0.937,
+    "rollbacks": 0.24,
+    "switches": 1.337,
+    "harm_on1": -151.927,
+    "labels": 169.661
+   },
+   "E_swcert": {
+    "promote": 0.737,
+    "rollbacks": 0.025,
+    "switches": 0.78,
+    "harm_on1": -144.766,
+    "labels": 170.629
+   },
+   "SMCS+retain-incumbent": {
+    "promote": 0.747,
+    "rollbacks": 0.0,
+    "switches": 0.747,
+    "harm_on1": -152.63,
+    "labels": 170.762
+   },
+   "choe_ramdas_eb+front": {
+    "promote": 0.737,
+    "rollbacks": 0.0,
+    "switches": 0.737,
+    "harm_on1": -155.057,
+    "labels": 85.274
+   },
+   "discern_style": {
+    "promote": 0.215,
+    "rollbacks": 0.0,
+    "switches": 0.215,
+    "harm_on1": -39.18,
+    "labels": 158.081
+   },
+   "gated_adaptive_range": {
+    "promote": 0.629,
+    "rollbacks": 0.0,
+    "switches": 0.629,
+    "harm_on1": -129.069,
+    "labels": 97.152
+   },
+   "gated_adaptive_range+front": {
+    "promote": 0.715,
+    "rollbacks": 0.0,
+    "switches": 0.715,
+    "harm_on1": -152.279,
+    "labels": 89.253
+   },
+   "gated_deployment": {
+    "promote": 0.541,
+    "rollbacks": 0.0,
+    "switches": 0.541,
+    "harm_on1": -93.454,
+    "labels": 118.403
+   },
+   "qiu_delayed_movement": {
+    "promote": 1.0,
+    "rollbacks": 0.432,
+    "switches": 1.823,
+    "harm_on1": -170.069,
+    "labels": 170.828
+   },
+   "rmm:LRMD": {
+    "promote": 0.823,
+    "rollbacks": 0.061,
+    "switches": 0.919,
+    "harm_on1": -153.646,
+    "labels": 174.934
+   },
+   "rmm:SMCS+retain-incumbent+RMM": {
+    "promote": 0.826,
+    "rollbacks": 0.047,
+    "switches": 0.907,
+    "harm_on1": -154.199,
+    "labels": 174.095
+   },
+   "rmm:SMCS+retain-incumbent+RMM_single": {
+    "promote": 0.821,
+    "rollbacks": 0.047,
+    "switches": 0.894,
+    "harm_on1": -154.803,
+    "labels": 174.045
+   },
+   "rmm:discern_style+RMM": {
+    "promote": 0.801,
+    "rollbacks": 0.043,
+    "switches": 0.871,
+    "harm_on1": -149.199,
+    "labels": 174.133
+   },
+   "rmm:discern_style+RMM_noacq": {
+    "promote": 0.783,
+    "rollbacks": 0.041,
+    "switches": 0.844,
+    "harm_on1": -138.592,
+    "labels": 169.923
+   },
+   "rmm:discern_style+RMM_single": {
+    "promote": 0.817,
+    "rollbacks": 0.045,
+    "switches": 0.889,
+    "harm_on1": -154.824,
+    "labels": 174.159
+   },
+   "rmm:gated_adaptive_range+RMM": {
+    "promote": 0.799,
+    "rollbacks": 0.05,
+    "switches": 0.876,
+    "harm_on1": -148.403,
+    "labels": 174.124
+   },
+   "rmm:gated_deployment+RMM": {
+    "promote": 0.81,
+    "rollbacks": 0.054,
+    "switches": 0.894,
+    "harm_on1": -148.174,
+    "labels": 174.106
+   },
+   "rmm:gated_deployment+RMM_noacq": {
+    "promote": 0.78,
+    "rollbacks": 0.043,
+    "switches": 0.848,
+    "harm_on1": -139.648,
+    "labels": 169.505
+   },
+   "rmm:gated_deployment+RMM_single": {
+    "promote": 0.817,
+    "rollbacks": 0.041,
+    "switches": 0.878,
+    "harm_on1": -153.971,
+    "labels": 174.106
+   },
+   "xu_acquisition_only": {
+    "promote": 0.735,
+    "rollbacks": 0.007,
+    "switches": 0.747,
+    "harm_on1": -138.904,
+    "labels": 168.722
+   }
+  }
+ },
+ "twin_promotion": {
+  "A5b": {
+   "rate": 0.032,
+   "ci": [
+    0.019,
+    0.056
+   ],
+   "n": 372
+  },
+  "CONTROL_never_switch": {
+   "rate": 0.0,
+   "ci": [
+    0.0,
+    0.01
+   ],
+   "n": 372
+  },
+  "E_rb:SMCS+retain-incumbent": {
+   "rate": 0.272,
+   "ci": [
+    0.229,
+    0.319
+   ],
+   "n": 372
+  },
+  "E_rb:discern_style": {
+   "rate": 0.218,
+   "ci": [
+    0.179,
+    0.262
+   ],
+   "n": 372
+  },
+  "E_rb:gated_adaptive_range": {
+   "rate": 0.223,
+   "ci": [
+    0.184,
+    0.268
+   ],
+   "n": 372
+  },
+  "E_rb:gated_deployment": {
+   "rate": 0.22,
+   "ci": [
+    0.181,
+    0.265
+   ],
+   "n": 372
+  },
+  "E_srr:gated_adaptive_range": {
+   "rate": 0.406,
+   "ci": [
+    0.357,
+    0.457
+   ],
+   "n": 372
+  },
+  "E_srr:gated_deployment": {
+   "rate": 0.409,
+   "ci": [
+    0.36,
+    0.459
+   ],
+   "n": 372
+  },
+  "E_swcert": {
+   "rate": 0.228,
+   "ci": [
+    0.189,
+    0.274
+   ],
+   "n": 372
+  },
+  "rmm:SMCS+retain-incumbent+RMM": {
+   "rate": 0.272,
+   "ci": [
+    0.229,
+    0.319
+   ],
+   "n": 372
+  },
+  "rmm:discern_style+RMM": {
+   "rate": 0.218,
+   "ci": [
+    0.179,
+    0.262
+   ],
+   "n": 372
+  },
+  "rmm:gated_adaptive_range+RMM": {
+   "rate": 0.223,
+   "ci": [
+    0.184,
+    0.268
+   ],
+   "n": 372
+  },
+  "rmm:gated_deployment+RMM": {
+   "rate": 0.22,
+   "ci": [
+    0.181,
+    0.265
+   ],
+   "n": 372
+  },
+  "xu_acquisition_only": {
+   "rate": 0.134,
+   "ci": [
+    0.103,
+    0.173
+   ],
+   "n": 372
+  }
+ },
+ "sensitivity": {
+  "sens_delay1": {
+   "late_improvement": {
+    "n_ep": 10,
+    "best_certified": "gated_adaptive_range+front",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - gated_adaptive_range+front": {
+      "mean": -37.92,
+      "lo": -68.02,
+      "hi": 11.36,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -107.83,
+      "lo": -156.96,
+      "hi": -18.14,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - gated_adaptive_range+front": {
+      "mean": -34.65,
+      "lo": -68.23,
+      "hi": 17.66,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -55.06,
+      "lo": -75.24,
+      "hi": -19.85,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -104.56,
+      "lo": -154.9,
+      "hi": -15.3,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - gated_adaptive_range+front": {
+      "mean": -31.95,
+      "lo": -59.3,
+      "hi": 8.06,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -101.87,
+      "lo": -154.86,
+      "hi": -12.76,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": 6.7,
+      "lo": 0.0,
+      "hi": 22.33,
+      "n_ep": 10,
+      "n_cl": 5
+     }
+    }
+   },
+   "reversal": {
+    "n_ep": 16,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": 10.8,
+      "lo": -36.01,
+      "hi": 33.09,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -27.38,
+      "lo": -358.48,
+      "hi": 66.76,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": 16.2,
+      "lo": -35.78,
+      "hi": 55.31,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -31.02,
+      "lo": -47.72,
+      "hi": 10.58,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -21.98,
+      "lo": -358.65,
+      "hi": 81.32,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": 9.79,
+      "lo": -53.57,
+      "hi": 37.33,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -28.38,
+      "lo": -375.33,
+      "hi": 69.13,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -13.02,
+      "lo": -18.08,
+      "hi": 2.67,
+      "n_ep": 16,
+      "n_cl": 7
+     }
+    }
+   },
+   "stationary_better": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "null": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "all": {
+    "n_ep": 26,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -10.61,
+      "lo": -45.12,
+      "hi": 10.29,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -58.32,
+      "lo": -232.4,
+      "hi": 34.18,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": -6.03,
+      "lo": -45.38,
+      "hi": 23.61,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -40.27,
+      "lo": -58.23,
+      "hi": -15.12,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -53.74,
+      "lo": -232.24,
+      "hi": 42.35,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": -8.94,
+      "lo": -49.67,
+      "hi": 14.84,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -56.65,
+      "lo": -239.11,
+      "hi": 36.95,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -5.44,
+      "lo": -12.79,
+      "hi": 8.94,
+      "n_ep": 26,
+      "n_cl": 8
+     }
+    }
+   }
+  },
+  "sens_delay0.5": {
+   "late_improvement": {
+    "n_ep": 10,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -41.57,
+      "lo": -53.78,
+      "hi": -26.86,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -114.5,
+      "lo": -157.06,
+      "hi": -35.25,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": -42.53,
+      "lo": -52.26,
+      "hi": -26.25,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -65.83,
+      "lo": -89.0,
+      "hi": -28.11,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -115.46,
+      "lo": -162.61,
+      "hi": -31.35,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": -38.91,
+      "lo": -50.82,
+      "hi": -25.03,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -111.83,
+      "lo": -160.64,
+      "hi": -28.45,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": 5.13,
+      "lo": -0.47,
+      "hi": 17.89,
+      "n_ep": 10,
+      "n_cl": 5
+     }
+    }
+   },
+   "reversal": {
+    "n_ep": 16,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": 12.26,
+      "lo": -25.21,
+      "hi": 28.14,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -38.29,
+      "lo": -378.04,
+      "hi": 58.0,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": 15.81,
+      "lo": -22.18,
+      "hi": 47.28,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -38.56,
+      "lo": -55.27,
+      "hi": 14.02,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -34.75,
+      "lo": -376.08,
+      "hi": 72.9,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": 8.73,
+      "lo": -24.53,
+      "hi": 30.25,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -41.82,
+      "lo": -380.4,
+      "hi": 58.05,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -15.23,
+      "lo": -27.53,
+      "hi": -2.24,
+      "n_ep": 16,
+      "n_cl": 7
+     }
+    }
+   },
+   "stationary_better": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "null": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "all": {
+    "n_ep": 26,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -8.44,
+      "lo": -37.32,
+      "hi": 7.89,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -67.6,
+      "lo": -249.29,
+      "hi": 28.12,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": -6.63,
+      "lo": -38.75,
+      "hi": 16.9,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -49.05,
+      "lo": -67.5,
+      "hi": -23.25,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -65.79,
+      "lo": -251.26,
+      "hi": 33.42,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": -9.59,
+      "lo": -37.82,
+      "hi": 8.5,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -68.75,
+      "lo": -251.68,
+      "hi": 27.69,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -7.4,
+      "lo": -16.76,
+      "hi": 5.35,
+      "n_ep": 26,
+      "n_cl": 8
+     }
+    }
+   }
+  },
+  "sens_delay2": {
+   "late_improvement": {
+    "n_ep": 10,
+    "best_certified": "gated_adaptive_range+front",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - gated_adaptive_range+front": {
+      "mean": -28.24,
+      "lo": -59.5,
+      "hi": 25.82,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -97.2,
+      "lo": -143.46,
+      "hi": -11.41,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - gated_adaptive_range+front": {
+      "mean": -24.6,
+      "lo": -52.19,
+      "hi": 22.38,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -44.63,
+      "lo": -57.53,
+      "hi": -15.77,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -93.56,
+      "lo": -142.43,
+      "hi": -8.47,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - gated_adaptive_range+front": {
+      "mean": -16.47,
+      "lo": -43.44,
+      "hi": 31.14,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -85.44,
+      "lo": -130.54,
+      "hi": -6.76,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": 9.33,
+      "lo": 0.0,
+      "hi": 16.61,
+      "n_ep": 10,
+      "n_cl": 5
+     }
+    }
+   },
+   "reversal": {
+    "n_ep": 16,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": 30.26,
+      "lo": -36.76,
+      "hi": 51.78,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -7.42,
+      "lo": -326.38,
+      "hi": 88.43,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": 37.52,
+      "lo": -35.65,
+      "hi": 72.98,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -20.54,
+      "lo": -42.01,
+      "hi": 5.27,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -0.16,
+      "lo": -325.27,
+      "hi": 94.98,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": 31.75,
+      "lo": -40.57,
+      "hi": 57.87,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -5.92,
+      "lo": -332.88,
+      "hi": 88.97,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -11.31,
+      "lo": -22.93,
+      "hi": 2.57,
+      "n_ep": 16,
+      "n_cl": 7
+     }
+    }
+   },
+   "stationary_better": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "null": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "all": {
+    "n_ep": 26,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -3.84,
+      "lo": -58.76,
+      "hi": 31.63,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -41.95,
+      "lo": -209.2,
+      "hi": 49.13,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": 2.02,
+      "lo": -56.08,
+      "hi": 39.34,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -29.81,
+      "lo": -47.79,
+      "hi": -6.71,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -36.09,
+      "lo": -208.17,
+      "hi": 56.13,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": 1.6,
+      "lo": -52.35,
+      "hi": 34.8,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -36.51,
+      "lo": -204.78,
+      "hi": 53.76,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -3.37,
+      "lo": -13.13,
+      "hi": 10.17,
+      "n_ep": 26,
+      "n_cl": 8
+     }
+    }
+   }
+  },
+  "sens_B100": {
+   "late_improvement": {
+    "n_ep": 10,
+    "best_certified": "choe_ramdas_eb+front",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - choe_ramdas_eb+front": {
+      "mean": -11.63,
+      "lo": -62.69,
+      "hi": 75.61,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -81.53,
+      "lo": -122.57,
+      "hi": -11.5,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - choe_ramdas_eb+front": {
+      "mean": -12.37,
+      "lo": -63.38,
+      "hi": 75.17,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -56.89,
+      "lo": -101.79,
+      "hi": -2.89,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -82.27,
+      "lo": -122.55,
+      "hi": -12.78,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - choe_ramdas_eb+front": {
+      "mean": -7.1,
+      "lo": -62.87,
+      "hi": 89.24,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -77.0,
+      "lo": -122.84,
+      "hi": -8.83,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -0.23,
+      "lo": -0.47,
+      "hi": 0.0,
+      "n_ep": 10,
+      "n_cl": 5
+     }
+    }
+   },
+   "reversal": {
+    "n_ep": 16,
+    "best_certified": "SMCS+retain-incumbent",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - SMCS+retain-incumbent": {
+      "mean": 3.27,
+      "lo": -12.97,
+      "hi": 22.81,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -39.91,
+      "lo": -327.8,
+      "hi": 51.21,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": 3.32,
+      "lo": -7.66,
+      "hi": 15.83,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -39.87,
+      "lo": -325.88,
+      "hi": 55.85,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - SMCS+retain-incumbent": {
+      "mean": 0.63,
+      "lo": -21.54,
+      "hi": 9.55,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -42.56,
+      "lo": -350.8,
+      "hi": 54.42,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -1.35,
+      "lo": -1.79,
+      "hi": -0.43,
+      "n_ep": 16,
+      "n_cl": 7
+     }
+    }
+   },
+   "stationary_better": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "null": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "all": {
+    "n_ep": 26,
+    "best_certified": "choe_ramdas_eb+front",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - choe_ramdas_eb+front": {
+      "mean": -11.98,
+      "lo": -43.21,
+      "hi": 41.99,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -55.92,
+      "lo": -208.74,
+      "hi": 26.7,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - choe_ramdas_eb+front": {
+      "mean": -12.23,
+      "lo": -51.31,
+      "hi": 46.63,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -19.84,
+      "lo": -62.77,
+      "hi": 7.13,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -56.17,
+      "lo": -209.06,
+      "hi": 25.98,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - choe_ramdas_eb+front": {
+      "mean": -11.86,
+      "lo": -47.99,
+      "hi": 39.92,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -55.8,
+      "lo": -218.75,
+      "hi": 29.32,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -0.92,
+      "lo": -1.3,
+      "hi": -0.26,
+      "n_ep": 26,
+      "n_cl": 8
+     }
+    }
+   }
+  },
+  "sens_B400": {
+   "late_improvement": {
+    "n_ep": 10,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -33.42,
+      "lo": -52.13,
+      "hi": -8.41,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -108.6,
+      "lo": -159.48,
+      "hi": -27.32,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": -32.79,
+      "lo": -52.56,
+      "hi": -4.65,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -48.69,
+      "lo": -76.57,
+      "hi": -1.0,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -107.97,
+      "lo": -154.3,
+      "hi": -29.11,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": -32.36,
+      "lo": -51.99,
+      "hi": -7.12,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -107.54,
+      "lo": -158.35,
+      "hi": -24.32,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": 7.2,
+      "lo": -0.6,
+      "hi": 25.01,
+      "n_ep": 10,
+      "n_cl": 5
+     }
+    }
+   },
+   "reversal": {
+    "n_ep": 16,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -25.08,
+      "lo": -45.59,
+      "hi": -11.88,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -54.88,
+      "lo": -378.13,
+      "hi": 37.8,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": -24.23,
+      "lo": -54.91,
+      "hi": -7.15,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -69.58,
+      "lo": -103.84,
+      "hi": -12.64,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -54.04,
+      "lo": -380.4,
+      "hi": 39.07,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": -29.47,
+      "lo": -46.42,
+      "hi": -12.83,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -59.28,
+      "lo": -376.77,
+      "hi": 34.11,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -2.79,
+      "lo": -6.24,
+      "hi": -0.12,
+      "n_ep": 16,
+      "n_cl": 7
+     }
+    }
+   },
+   "stationary_better": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "null": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "all": {
+    "n_ep": 26,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -28.29,
+      "lo": -40.02,
+      "hi": -14.98,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -75.54,
+      "lo": -239.88,
+      "hi": 13.04,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": -27.53,
+      "lo": -42.73,
+      "hi": -11.73,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -61.55,
+      "lo": -88.55,
+      "hi": -20.24,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -74.78,
+      "lo": -239.77,
+      "hi": 12.8,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": -30.59,
+      "lo": -42.32,
+      "hi": -15.83,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -77.84,
+      "lo": -239.99,
+      "hi": 9.52,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": 1.05,
+      "lo": -3.79,
+      "hi": 9.29,
+      "n_ep": 26,
+      "n_cl": 8
+     }
+    }
+   }
+  },
+  "sens_cs2": {
+   "late_improvement": {
+    "n_ep": 10,
+    "best_certified": "gated_adaptive_range+front",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - gated_adaptive_range+front": {
+      "mean": -40.22,
+      "lo": -71.2,
+      "hi": 9.93,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -111.33,
+      "lo": -160.96,
+      "hi": -20.14,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - gated_adaptive_range+front": {
+      "mean": -36.95,
+      "lo": -71.43,
+      "hi": 16.56,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -57.46,
+      "lo": -78.68,
+      "hi": -21.01,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -108.06,
+      "lo": -159.27,
+      "hi": -17.3,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - gated_adaptive_range+front": {
+      "mean": -34.25,
+      "lo": -62.5,
+      "hi": 7.71,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -105.37,
+      "lo": -158.23,
+      "hi": -14.76,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": 6.13,
+      "lo": 0.0,
+      "hi": 20.33,
+      "n_ep": 10,
+      "n_cl": 5
+     }
+    }
+   },
+   "reversal": {
+    "n_ep": 16,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": 8.74,
+      "lo": -37.59,
+      "hi": 30.82,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -31.31,
+      "lo": -362.04,
+      "hi": 62.61,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": 14.08,
+      "lo": -37.37,
+      "hi": 53.04,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -32.65,
+      "lo": -49.07,
+      "hi": 9.27,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -25.98,
+      "lo": -362.08,
+      "hi": 77.65,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": 8.04,
+      "lo": -53.94,
+      "hi": 34.95,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -32.01,
+      "lo": -378.22,
+      "hi": 65.4,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -13.25,
+      "lo": -18.45,
+      "hi": 2.53,
+      "n_ep": 16,
+      "n_cl": 7
+     }
+    }
+   },
+   "stationary_better": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "null": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "all": {
+    "n_ep": 26,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -12.57,
+      "lo": -47.11,
+      "hi": 8.32,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -62.09,
+      "lo": -235.79,
+      "hi": 31.01,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": -8.03,
+      "lo": -47.49,
+      "hi": 21.61,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -42.19,
+      "lo": -60.63,
+      "hi": -16.78,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -57.55,
+      "lo": -236.01,
+      "hi": 38.27,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": -10.71,
+      "lo": -51.53,
+      "hi": 13.02,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -60.22,
+      "lo": -242.7,
+      "hi": 33.41,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -5.79,
+      "lo": -13.12,
+      "hi": 8.11,
+      "n_ep": 26,
+      "n_cl": 8
+     }
+    }
+   }
+  },
+  "sens_cs10": {
+   "late_improvement": {
+    "n_ep": 10,
+    "best_certified": "gated_adaptive_range+front",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - gated_adaptive_range+front": {
+      "mean": -34.09,
+      "lo": -63.38,
+      "hi": 13.74,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -102.0,
+      "lo": -150.3,
+      "hi": -14.8,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - gated_adaptive_range+front": {
+      "mean": -30.81,
+      "lo": -62.28,
+      "hi": 19.5,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -51.06,
+      "lo": -69.81,
+      "hi": -17.9,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -98.73,
+      "lo": -147.6,
+      "hi": -11.97,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - gated_adaptive_range+front": {
+      "mean": -28.12,
+      "lo": -53.9,
+      "hi": 10.39,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -96.03,
+      "lo": -149.23,
+      "hi": -9.42,
+      "n_ep": 10,
+      "n_cl": 5
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": 7.7,
+      "lo": 0.0,
+      "hi": 25.67,
+      "n_ep": 10,
+      "n_cl": 5
+     }
+    }
+   },
+   "reversal": {
+    "n_ep": 16,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": 14.24,
+      "lo": -33.41,
+      "hi": 37.03,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -20.81,
+      "lo": -353.0,
+      "hi": 73.7,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": 19.74,
+      "lo": -33.14,
+      "hi": 59.11,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -28.31,
+      "lo": -45.56,
+      "hi": 12.97,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -15.31,
+      "lo": -352.94,
+      "hi": 87.43,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": 12.71,
+      "lo": -50.71,
+      "hi": 41.06,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -22.34,
+      "lo": -369.25,
+      "hi": 75.46,
+      "n_ep": 16,
+      "n_cl": 7
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -12.5,
+      "lo": -17.48,
+      "hi": 3.15,
+      "n_ep": 16,
+      "n_cl": 7
+     }
+    }
+   },
+   "stationary_better": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "null": {
+    "n_ep": 0,
+    "best_certified": null,
+    "contrasts": {}
+   },
+   "all": {
+    "n_ep": 26,
+    "best_certified": "xu_acquisition_only",
+    "contrasts": {
+     "rmm:gated_deployment+RMM - xu_acquisition_only": {
+      "mean": -7.34,
+      "lo": -42.0,
+      "hi": 13.67,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_deployment+RMM - CONTROL_never_switch": {
+      "mean": -52.04,
+      "lo": -226.76,
+      "hi": 39.8,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - xu_acquisition_only": {
+      "mean": -2.7,
+      "lo": -41.75,
+      "hi": 26.94,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - SMCS+retain-incumbent": {
+      "mean": -37.06,
+      "lo": -54.16,
+      "hi": -12.45,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:SMCS+retain-incumbent+RMM - CONTROL_never_switch": {
+      "mean": -47.39,
+      "lo": -225.95,
+      "hi": 49.15,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - xu_acquisition_only": {
+      "mean": -5.99,
+      "lo": -46.55,
+      "hi": 17.85,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "rmm:gated_adaptive_range+RMM - CONTROL_never_switch": {
+      "mean": -50.69,
+      "lo": -233.12,
+      "hi": 42.85,
+      "n_ep": 26,
+      "n_cl": 8
+     },
+     "E_rb:gated_deployment - rmm:gated_deployment+RMM": {
+      "mean": -4.73,
+      "lo": -12.25,
+      "hi": 10.34,
+      "n_ep": 26,
+      "n_cl": 8
+     }
+    }
+   }
+  }
+ }
+}

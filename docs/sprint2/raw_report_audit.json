@@ -1,0 +1,469 @@
+{
+  "audit": "PASS",
+  "checks": [
+    {
+      "name": "amended validation JSON",
+      "status": "PASS",
+      "generated": "<temporary>/validation/validation_results.json",
+      "committed": "docs/sprint2/validation_amendment_20261104/validation_results.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "amended validation Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/validation/validation_results.md",
+      "committed": "docs/sprint2/validation_amendment_20261104/validation_results.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "strict published-pool validation JSON",
+      "status": "PASS",
+      "generated": "<temporary>/validation_strict_published/validation_results.json",
+      "committed": "docs/sprint2/validation_strict_published_20261104/validation_results.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "strict published-pool validation Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/validation_strict_published/validation_results.md",
+      "committed": "docs/sprint2/validation_strict_published_20261104/validation_results.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H corrected 20-seed real JSON",
+      "status": "PASS",
+      "generated": "<temporary>/H_corrected_real_20.json",
+      "committed": "docs/sprint2/family_h/corrected_real_20.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H corrected 20-seed real Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/H_corrected_real_20.md",
+      "committed": "docs/sprint2/family_h/corrected_real_20.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 complete strict published-pool JSON",
+      "status": "PASS",
+      "generated": "<temporary>/wp1_strict_published_subset.json",
+      "committed": "docs/sprint2/wp1/strict_published_subset_20261104.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "amended WP1 JSON",
+      "status": "PASS",
+      "generated": "<temporary>/wp1.json",
+      "committed": "docs/sprint2/wp1/results_amended_no_xu.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "amended WP2 JSON",
+      "status": "PASS",
+      "generated": "<temporary>/wp2/results.json",
+      "committed": "docs/sprint2/wp2/amended_no_xu/results.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "amended WP2 tables",
+      "status": "PASS",
+      "generated": "<temporary>/wp2/tables.md",
+      "committed": "docs/sprint2/wp2/amended_no_xu/tables.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP2 no-Xu pooled sensitivity JSON",
+      "status": "PASS",
+      "generated": "<temporary>/wp2_no_xu_pool/results.json",
+      "committed": "docs/sprint2/wp2/amended_no_xu_pool/results.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP2 no-Xu pooled sensitivity tables",
+      "status": "PASS",
+      "generated": "<temporary>/wp2_no_xu_pool/tables.md",
+      "committed": "docs/sprint2/wp2/amended_no_xu_pool/tables.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP2 strict published-pool JSON",
+      "status": "PASS",
+      "generated": "<temporary>/wp2_strict_published/results.json",
+      "committed": "docs/sprint2/wp2/strict_published_20261104/results.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP2 strict published-pool tables",
+      "status": "PASS",
+      "generated": "<temporary>/wp2_strict_published/tables.md",
+      "committed": "docs/sprint2/wp2/strict_published_20261104/tables.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 false-rollback trace audit",
+      "status": "PASS",
+      "generated": "<temporary>/wp1_false_rollback.json",
+      "committed": "docs/sprint2/wp1/false_rollback_audit.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 Giacomini-Rossi JSON",
+      "status": "PASS",
+      "generated": "<temporary>/wp1_gr.json",
+      "committed": "docs/sprint2/wp1/gr_one_time_reversal.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 Giacomini-Rossi Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/wp1_gr.md",
+      "committed": "docs/sprint2/wp1/gr_one_time_reversal.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 label/timestamp-clock ablation JSON",
+      "status": "PASS",
+      "generated": "<temporary>/wp1_clock.json",
+      "committed": "docs/sprint2/wp1/clock_ablation_posthoc3.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 label/timestamp-clock ablation Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/wp1_clock.md",
+      "committed": "docs/sprint2/wp1/clock_ablation_posthoc3.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H2 Round-5 follow-up JSON",
+      "status": "PASS",
+      "generated": "<temporary>/H2_round5.json",
+      "committed": "docs/sprint2/family_h/round5_h2.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H2 Round-5 follow-up Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/H2_round5.md",
+      "committed": "docs/sprint2/family_h/round5_h2.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "P4 HMM Round-5 JSON",
+      "status": "PASS",
+      "generated": "<temporary>/P4_hmm.json",
+      "committed": "docs/sprint2/family_p/P4_hmm_round5.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "P4 HMM Round-5 Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/P4_hmm.md",
+      "committed": "docs/sprint2/family_p/P4_hmm_round5.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 E_rb follow-up JSON",
+      "status": "PASS",
+      "generated": "<temporary>/wp1_erb.json",
+      "committed": "docs/sprint2/wp1/erb_reversal_postdev100.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "P6 twin-bike JSON",
+      "status": "PASS",
+      "generated": "<temporary>/p6_twin.json",
+      "committed": "docs/sprint2/family_p/p6_twin_bike_1000.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "P6 selection-adjusted sensitivity JSON",
+      "status": "PASS",
+      "generated": "<temporary>/p6_selection.json",
+      "committed": "docs/sprint2/family_p/P6_selection_adjusted.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R5 all-14-source real replay JSON",
+      "status": "PASS",
+      "generated": "<temporary>/R5_all14_real.json",
+      "committed": "docs/sprint2/family_r/R5_all14_real_results.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R5 all-14-source real replay Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/R5_all14_real.md",
+      "committed": "docs/sprint2/family_r/R5_all14_real_results.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H development screen JSON",
+      "status": "PASS",
+      "generated": "<temporary>/H_dev.json",
+      "committed": "outputs/sprint2/H/sum_screen1_all.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T development screen JSON",
+      "status": "PASS",
+      "generated": "<temporary>/T_dev.json",
+      "committed": "outputs/sprint2/T/dev_summary.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T development screen Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/T_dev.md",
+      "committed": "outputs/sprint2/T/dev_summary.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R Track E/V dev/eval numeric cells",
+      "status": "PASS",
+      "generated": "outputs/sprint2/R/dev_screen_a05/records.jsonl + outputs/sprint2/R/trackR/eval_a0.05/records.jsonl",
+      "committed": "outputs/sprint2/R/analysis/trackE_V_a05.json",
+      "differences": [],
+      "difference_count": 0,
+      "cell_count": 315
+    },
+    {
+      "name": "P1 power diagnostic JSON",
+      "status": "PASS",
+      "generated": "<temporary>/P1_diag.json",
+      "committed": "outputs/sprint2/P/p1diag/p1diag.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "P2 episode-level V1/V2 error table",
+      "status": "PASS",
+      "generated": "outputs/sprint2/P/p2p3/p2p3.json",
+      "committed": "docs/sprint2/family_p/P2P3_objectives_harm.md",
+      "differences": [],
+      "difference_count": 0,
+      "cell_count": 12,
+      "definition": "Per-episode any-promotion V2; per-episode any promotion with Cpol500<=0 V1, among p<=.5 episodes."
+    },
+    {
+      "name": "H Track R JSON",
+      "status": "PASS",
+      "generated": "<temporary>/H_risk.json",
+      "committed": "docs/sprint2/family_h/track_R.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H Track R Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/H_risk.md",
+      "committed": "docs/sprint2/family_h/track_R.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R Track R JSON",
+      "status": "PASS",
+      "generated": "<temporary>/R_risk.json",
+      "committed": "outputs/sprint2/R/analysis/risk_curves.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R Track R Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/R_risk.md",
+      "committed": "outputs/sprint2/R/analysis/risk_curves.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T Track R JSON",
+      "status": "PASS",
+      "generated": "<temporary>/T_risk.json",
+      "committed": "outputs/sprint2/T/trackR.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T Track R Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/T_risk.md",
+      "committed": "outputs/sprint2/T/trackR.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "P Track R JSON",
+      "status": "PASS",
+      "generated": "<temporary>/P_risk.json",
+      "committed": "docs/sprint2/family_p/trackR.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "P Track R Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/P_risk.md",
+      "committed": "docs/sprint2/family_p/trackR.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T3 matched-host Track-R follow-up JSON",
+      "status": "PASS",
+      "generated": "<temporary>/T3_trackR_followup.json",
+      "committed": "docs/sprint2/family_t/T3_trackR_followup.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T3 matched-host Track-R follow-up Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/T3_trackR_followup.md",
+      "committed": "docs/sprint2/family_t/T3_trackR_followup.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T1/T2/T5 held-out Track-R follow-up JSON",
+      "status": "PASS",
+      "generated": "<temporary>/T125_trackR_followup.json",
+      "committed": "docs/sprint2/family_t/T1_T2_T5_trackR_followup.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "T1/T2/T5 held-out Track-R follow-up Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/T125_trackR_followup.md",
+      "committed": "docs/sprint2/family_t/T1_T2_T5_trackR_followup.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R held-out coverage follow-up JSON",
+      "status": "PASS",
+      "generated": "<temporary>/R_trackR_coverage_followup.json",
+      "committed": "docs/sprint2/family_r/R_trackR_coverage_followup.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R held-out coverage follow-up Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/R_trackR_coverage_followup.md",
+      "committed": "docs/sprint2/family_r/R_trackR_coverage_followup.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "R held-out coverage follow-up interpretation",
+      "status": "PASS",
+      "generated": "<temporary>/R_trackR_coverage_followup_report.md",
+      "committed": "docs/sprint2/family_r/R_trackR_coverage_followup_report.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H1/H3 Track-R completion JSON",
+      "status": "PASS",
+      "generated": "<temporary>/H_remaining_risk.json",
+      "committed": "docs/sprint2/family_h/track_R_remaining.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H1/H3 Track-R completion Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/H_remaining_risk.md",
+      "committed": "docs/sprint2/family_h/track_R_remaining.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H5/H6 Track-R completion JSON",
+      "status": "PASS",
+      "generated": "<temporary>/H_rollback_risk.json",
+      "committed": "docs/sprint2/family_h/track_R_rollback.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "H5/H6 Track-R completion Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/H_rollback_risk.md",
+      "committed": "docs/sprint2/family_h/track_R_rollback.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "Merged Family-H Track-R JSON",
+      "status": "PASS",
+      "generated": "<temporary>/H_all_risk.json",
+      "committed": "docs/sprint2/family_h/track_R_all.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "Merged Family-H Track-R Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/H_all_risk.md",
+      "committed": "docs/sprint2/family_h/track_R_all.md",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 E_swcert Track R JSON",
+      "status": "PASS",
+      "generated": "<temporary>/WP1_E_swcert_risk.json",
+      "committed": "docs/sprint2/wp1/trackR_E_swcert.json",
+      "differences": [],
+      "difference_count": 0
+    },
+    {
+      "name": "WP1 E_swcert Track R Markdown",
+      "status": "PASS",
+      "generated": "<temporary>/WP1_E_swcert_risk.md",
+      "committed": "docs/sprint2/wp1/trackR_E_swcert.md",
+      "differences": [],
+      "difference_count": 0
+    }
+  ],
+  "scope_limitations": [
+    "This re-executes derived corrected analyses, strict comparator-pool sensitivities for validation/WP1/WP2, the corrected Family-H replay report, H/T development summaries, P6 and R5 real-stream summaries, selected R Track-E/V cells, P1/P2 checks, H/R/T/P Track-R reports, and the T3 and T1/T2/T5 held-out Track-R follow-ups from saved raw records.",
+    "It does not reconcile every numeric claim in the P-family development summaries or every narrative claim in the 24-candidate registry.",
+    "It does not test theorem assumptions, data provenance beyond recorded manifests, or independent validity."
+  ]
+}

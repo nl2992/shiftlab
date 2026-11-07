@@ -1,0 +1,3466 @@
+{
+ "C1": {
+  "pooled": {
+   "host": [
+    -0.05,
+    -0.09,
+    -0.02,
+    200
+   ],
+   "uniform_host": [
+    -12.51,
+    -18.14,
+    -6.88,
+    200
+   ],
+   "tuned_pacing": [
+    0.11,
+    -2.46,
+    2.68,
+    200
+   ],
+   "QSG": [
+    6.11,
+    3.02,
+    9.2,
+    200
+   ]
+  },
+  "by_regime": {
+   "F0_better": {
+    "host": [
+     -0.03,
+     -0.07,
+     0.01,
+     20
+    ],
+    "uniform_host": [
+     -43.54,
+     -62.91,
+     -24.17,
+     20
+    ],
+    "tuned_pacing": [
+     -2.69,
+     -8.1,
+     2.72,
+     20
+    ],
+    "QSG": [
+     14.27,
+     2.34,
+     26.2,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     1.43,
+     -15.94,
+     18.79,
+     20
+    ]
+   },
+   "F0_better@B100": {
+    "host": [
+     -0.02,
+     -0.06,
+     0.01,
+     20
+    ],
+    "uniform_host": [
+     -23.72,
+     -41.65,
+     -5.78,
+     20
+    ],
+    "tuned_pacing": [
+     3.88,
+     -4.1,
+     11.86,
+     20
+    ],
+    "QSG": [
+     10.42,
+     -1.74,
+     22.58,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     11.82,
+     -14.35,
+     38.0,
+     20
+    ]
+   },
+   "F0_null": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "uniform_host": [
+     0.01,
+     0.0,
+     0.02,
+     20
+    ],
+    "tuned_pacing": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "QSG": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     0.33,
+     0.16,
+     0.51,
+     20
+    ]
+   },
+   "F1_late_800": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "uniform_host": [
+     -1.09,
+     -2.06,
+     -0.13,
+     20
+    ],
+    "tuned_pacing": [
+     0.01,
+     -0.01,
+     0.03,
+     20
+    ],
+    "QSG": [
+     3.3,
+     -3.35,
+     9.95,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     0.0,
+     0.0,
+     0.0,
+     20
+    ]
+   },
+   "F3_reversal_800": {
+    "host": [
+     -0.03,
+     -0.08,
+     0.01,
+     20
+    ],
+    "uniform_host": [
+     18.43,
+     -5.04,
+     41.9,
+     20
+    ],
+    "tuned_pacing": [
+     -0.03,
+     -0.08,
+     0.01,
+     20
+    ],
+    "QSG": [
+     4.09,
+     -8.21,
+     16.4,
+     20
+    ],
+    "best_certified_published": [
+     "discern_style",
+     57.15,
+     44.46,
+     69.84,
+     20
+    ]
+   },
+   "F5_dep_null_r8": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "uniform_host": [
+     -4.28,
+     -10.06,
+     1.49,
+     20
+    ],
+    "tuned_pacing": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "QSG": [
+     -1.06,
+     -5.91,
+     3.78,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     0.0,
+     0.0,
+     0.0,
+     20
+    ]
+   },
+   "F6_delay400_better": {
+    "host": [
+     -0.18,
+     -0.46,
+     0.09,
+     20
+    ],
+    "uniform_host": [
+     -37.98,
+     -51.81,
+     -24.15,
+     20
+    ],
+    "tuned_pacing": [
+     -0.01,
+     -0.34,
+     0.33,
+     20
+    ],
+    "QSG": [
+     5.9,
+     1.48,
+     10.32,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -0.18,
+     -0.46,
+     0.09,
+     20
+    ]
+   },
+   "F7_near_better": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "uniform_host": [
+     -4.13,
+     -14.78,
+     6.51,
+     20
+    ],
+    "tuned_pacing": [
+     2.38,
+     -2.27,
+     7.03,
+     20
+    ],
+    "QSG": [
+     7.32,
+     -0.52,
+     15.16,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     0.49,
+     -12.34,
+     13.32,
+     20
+    ]
+   },
+   "F9_highdis_better": {
+    "host": [
+     -0.0,
+     -0.01,
+     0.0,
+     20
+    ],
+    "uniform_host": [
+     -5.55,
+     -36.83,
+     25.74,
+     20
+    ],
+    "tuned_pacing": [
+     -2.26,
+     -26.13,
+     21.61,
+     20
+    ],
+    "QSG": [
+     13.89,
+     -4.87,
+     32.65,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     6.4,
+     -3.79,
+     16.6,
+     20
+    ]
+   },
+   "S_delay800_better": {
+    "host": [
+     -0.27,
+     -0.5,
+     -0.04,
+     20
+    ],
+    "uniform_host": [
+     -23.23,
+     -32.73,
+     -13.73,
+     20
+    ],
+    "tuned_pacing": [
+     -0.16,
+     -0.37,
+     0.05,
+     20
+    ],
+    "QSG": [
+     2.98,
+     1.03,
+     4.92,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -0.27,
+     -0.5,
+     -0.04,
+     20
+    ]
+   }
+  },
+  "diagnostics": {
+   "F0_better": {
+    "net": 380.92,
+    "promote": 0.7,
+    "labels": 148.3,
+    "labels_by_500": 90.8,
+    "labels_after_1000": 1.6,
+    "exhaust_t": 1644.0,
+    "max_pending": 29.8,
+    "first_deploy_median": 632.0
+   },
+   "F0_better@B100": {
+    "net": 403.57,
+    "promote": 0.3,
+    "labels": 90.3,
+    "labels_by_500": 87.9,
+    "labels_after_1000": 0.0,
+    "exhaust_t": 874.0,
+    "max_pending": 28.6,
+    "first_deploy_median": 307.5
+   },
+   "F0_null": {
+    "net": 370.5,
+    "promote": 0.0,
+    "labels": 200.0,
+    "labels_by_500": 101.8,
+    "labels_after_1000": 2.8,
+    "exhaust_t": 979.0,
+    "max_pending": 29.6,
+    "first_deploy_median": -1
+   },
+   "F1_late_800": {
+    "net": 396.35,
+    "promote": 0.0,
+    "labels": 177.9,
+    "labels_by_500": 94.9,
+    "labels_after_1000": 3.2,
+    "exhaust_t": 1304.0,
+    "max_pending": 28.1,
+    "first_deploy_median": -1
+   },
+   "F3_reversal_800": {
+    "net": 416.13,
+    "promote": 0.95,
+    "labels": 90.7,
+    "labels_by_500": 79.3,
+    "labels_after_1000": 0.0,
+    "exhaust_t": 1949.0,
+    "max_pending": 26.8,
+    "first_deploy_median": 397.0
+   },
+   "F5_dep_null_r8": {
+    "net": 366.88,
+    "promote": 0.1,
+    "labels": 183.6,
+    "labels_by_500": 96.7,
+    "labels_after_1000": 4.3,
+    "exhaust_t": 1158.0,
+    "max_pending": 29.6,
+    "first_deploy_median": 460.0
+   },
+   "F6_delay400_better": {
+    "net": 377.7,
+    "promote": 0.9,
+    "labels": 164.0,
+    "labels_by_500": 101.8,
+    "labels_after_1000": 1.4,
+    "exhaust_t": 1596.0,
+    "max_pending": 89.0,
+    "first_deploy_median": 773.0
+   },
+   "F7_near_better": {
+    "net": 399.12,
+    "promote": 0.1,
+    "labels": 191.3,
+    "labels_by_500": 97.5,
+    "labels_after_1000": 4.3,
+    "exhaust_t": 1099.0,
+    "max_pending": 29.1,
+    "first_deploy_median": 551.0
+   },
+   "F9_highdis_better": {
+    "net": 670.74,
+    "promote": 0.1,
+    "labels": 193.8,
+    "labels_by_500": 193.8,
+    "labels_after_1000": 0.0,
+    "exhaust_t": 557.0,
+    "max_pending": 58.8,
+    "first_deploy_median": 253.0
+   },
+   "S_delay800_better": {
+    "net": 396.93,
+    "promote": 0.65,
+    "labels": 193.6,
+    "labels_by_500": 98.6,
+    "labels_after_1000": 5.0,
+    "exhaust_t": 1317.0,
+    "max_pending": 161.6,
+    "first_deploy_median": 1181.0
+   }
+  },
+  "ablations": {
+   "C1-k1": [
+    -2.44,
+    -4.66,
+    -0.22,
+    200
+   ],
+   "C1-k1.5": [
+    -0.37,
+    -0.95,
+    0.22,
+    200
+   ],
+   "C1-k2": [
+    0.0,
+    0.0,
+    0.0,
+    200
+   ],
+   "C1-uniformbase": [
+    -12.52,
+    -18.16,
+    -6.88,
+    200
+   ]
+  }
+ },
+ "C2": {
+  "pooled": {
+   "host": [
+    -15.84,
+    -21.49,
+    -10.19,
+    200
+   ],
+   "front": [
+    -3.39,
+    -5.19,
+    -1.59,
+    200
+   ],
+   "tuned_pacing": [
+    -3.22,
+    -6.39,
+    -0.05,
+    200
+   ],
+   "QSG": [
+    2.78,
+    -0.88,
+    6.44,
+    200
+   ]
+  },
+  "by_regime": {
+   "F0_better": {
+    "host": [
+     -45.7,
+     -64.83,
+     -26.56,
+     20
+    ],
+    "front": [
+     -2.18,
+     -6.65,
+     2.28,
+     20
+    ],
+    "tuned_pacing": [
+     -4.84,
+     -12.34,
+     2.65,
+     20
+    ],
+    "QSG": [
+     12.12,
+     -0.31,
+     24.54,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -0.73,
+     -17.02,
+     15.57,
+     20
+    ]
+   },
+   "F0_better@B100": {
+    "host": [
+     -25.53,
+     -42.68,
+     -8.37,
+     20
+    ],
+    "front": [
+     -1.83,
+     -14.47,
+     10.8,
+     20
+    ],
+    "tuned_pacing": [
+     2.07,
+     -12.62,
+     16.77,
+     20
+    ],
+    "QSG": [
+     8.61,
+     -9.19,
+     26.4,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     10.01,
+     -14.15,
+     34.18,
+     20
+    ]
+   },
+   "F0_null": {
+    "host": [
+     -6.61,
+     -7.57,
+     -5.65,
+     20
+    ],
+    "front": [
+     -6.62,
+     -7.58,
+     -5.67,
+     20
+    ],
+    "tuned_pacing": [
+     -6.62,
+     -7.58,
+     -5.67,
+     20
+    ],
+    "QSG": [
+     -6.62,
+     -7.58,
+     -5.67,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -6.29,
+     -7.25,
+     -5.33,
+     20
+    ]
+   },
+   "F1_late_800": {
+    "host": [
+     -7.94,
+     -8.28,
+     -7.6,
+     20
+    ],
+    "front": [
+     -6.85,
+     -7.76,
+     -5.94,
+     20
+    ],
+    "tuned_pacing": [
+     -6.84,
+     -7.75,
+     -5.93,
+     20
+    ],
+    "QSG": [
+     -3.55,
+     -10.1,
+     3.01,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -6.85,
+     -7.76,
+     -5.94,
+     20
+    ]
+   },
+   "F3_reversal_800": {
+    "host": [
+     18.44,
+     -5.0,
+     41.88,
+     20
+    ],
+    "front": [
+     -0.03,
+     -0.18,
+     0.12,
+     20
+    ],
+    "tuned_pacing": [
+     -0.03,
+     -0.18,
+     0.12,
+     20
+    ],
+    "QSG": [
+     4.1,
+     -8.23,
+     16.43,
+     20
+    ],
+    "best_certified_published": [
+     "discern_style",
+     57.16,
+     44.49,
+     69.83,
+     20
+    ]
+   },
+   "F5_dep_null_r8": {
+    "host": [
+     -10.28,
+     -15.25,
+     -5.31,
+     20
+    ],
+    "front": [
+     -5.99,
+     -7.2,
+     -4.79,
+     20
+    ],
+    "tuned_pacing": [
+     -5.99,
+     -7.2,
+     -4.79,
+     20
+    ],
+    "QSG": [
+     -7.05,
+     -12.34,
+     -1.77,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -5.99,
+     -7.2,
+     -4.79,
+     20
+    ]
+   },
+   "F6_delay400_better": {
+    "host": [
+     -35.78,
+     -50.39,
+     -21.16,
+     20
+    ],
+    "front": [
+     2.02,
+     -0.67,
+     4.71,
+     20
+    ],
+    "tuned_pacing": [
+     2.2,
+     -0.52,
+     4.92,
+     20
+    ],
+    "QSG": [
+     8.11,
+     2.4,
+     13.81,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     2.02,
+     -0.67,
+     4.71,
+     20
+    ]
+   },
+   "F7_near_better": {
+    "host": [
+     -6.92,
+     -17.73,
+     3.89,
+     20
+    ],
+    "front": [
+     -2.79,
+     -4.05,
+     -1.52,
+     20
+    ],
+    "tuned_pacing": [
+     -0.41,
+     -5.49,
+     4.67,
+     20
+    ],
+    "QSG": [
+     4.54,
+     -3.83,
+     12.9,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     -2.29,
+     -15.43,
+     10.84,
+     20
+    ]
+   },
+   "F9_highdis_better": {
+    "host": [
+     -14.63,
+     -47.89,
+     18.62,
+     20
+    ],
+    "front": [
+     -9.09,
+     -20.25,
+     2.07,
+     20
+    ],
+    "tuned_pacing": [
+     -11.34,
+     -37.96,
+     15.27,
+     20
+    ],
+    "QSG": [
+     4.8,
+     -18.12,
+     27.73,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -2.68,
+     -18.17,
+     12.8,
+     20
+    ]
+   },
+   "S_delay800_better": {
+    "host": [
+     -23.45,
+     -32.85,
+     -14.04,
+     20
+    ],
+    "front": [
+     -0.49,
+     -0.61,
+     -0.36,
+     20
+    ],
+    "tuned_pacing": [
+     -0.37,
+     -0.49,
+     -0.25,
+     20
+    ],
+    "QSG": [
+     2.76,
+     0.86,
+     4.67,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -0.49,
+     -0.61,
+     -0.36,
+     20
+    ]
+   }
+  },
+  "diagnostics": {
+   "F0_better": {
+    "net": 378.76,
+    "promote": 0.8,
+    "labels": 124.2,
+    "labels_by_500": 78.0,
+    "labels_after_1000": 6.5,
+    "exhaust_t": 2000.0,
+    "max_pending": 28.6,
+    "first_deploy_median": 705.5
+   },
+   "F0_better@B100": {
+    "net": 401.76,
+    "promote": 0.35,
+    "labels": 81.2,
+    "labels_by_500": 50.3,
+    "labels_after_1000": 10.2,
+    "exhaust_t": 2000.0,
+    "max_pending": 26.3,
+    "first_deploy_median": 347.0
+   },
+   "F0_null": {
+    "net": 363.88,
+    "promote": 0.0,
+    "labels": 67.5,
+    "labels_by_500": 52.3,
+    "labels_after_1000": 3.5,
+    "exhaust_t": 2000.0,
+    "max_pending": 25.1,
+    "first_deploy_median": -1
+   },
+   "F1_late_800": {
+    "net": 389.5,
+    "promote": 0.0,
+    "labels": 40.9,
+    "labels_by_500": 39.5,
+    "labels_after_1000": 0.0,
+    "exhaust_t": 2000.0,
+    "max_pending": 23.6,
+    "first_deploy_median": -1
+   },
+   "F3_reversal_800": {
+    "net": 416.14,
+    "promote": 0.95,
+    "labels": 90.8,
+    "labels_by_500": 79.6,
+    "labels_after_1000": 0.7,
+    "exhaust_t": 2000.0,
+    "max_pending": 27.1,
+    "first_deploy_median": 397.0
+   },
+   "F5_dep_null_r8": {
+    "net": 360.89,
+    "promote": 0.1,
+    "labels": 63.8,
+    "labels_by_500": 55.6,
+    "labels_after_1000": 2.3,
+    "exhaust_t": 2000.0,
+    "max_pending": 23.6,
+    "first_deploy_median": 460.0
+   },
+   "F6_delay400_better": {
+    "net": 379.91,
+    "promote": 0.9,
+    "labels": 163.1,
+    "labels_by_500": 101.0,
+    "labels_after_1000": 11.6,
+    "exhaust_t": 2000.0,
+    "max_pending": 89.9,
+    "first_deploy_median": 773.0
+   },
+   "F7_near_better": {
+    "net": 396.33,
+    "promote": 0.1,
+    "labels": 138.6,
+    "labels_by_500": 78.8,
+    "labels_after_1000": 17.8,
+    "exhaust_t": 2000.0,
+    "max_pending": 27.4,
+    "first_deploy_median": 526.0
+   },
+   "F9_highdis_better": {
+    "net": 661.65,
+    "promote": 0.2,
+    "labels": 168.1,
+    "labels_by_500": 110.2,
+    "labels_after_1000": 18.2,
+    "exhaust_t": 2000.0,
+    "max_pending": 53.7,
+    "first_deploy_median": 621.5
+   },
+   "S_delay800_better": {
+    "net": 396.71,
+    "promote": 0.65,
+    "labels": 189.2,
+    "labels_by_500": 98.6,
+    "labels_after_1000": 15.9,
+    "exhaust_t": 2000.0,
+    "max_pending": 160.9,
+    "first_deploy_median": 1181.0
+   }
+  },
+  "ablations": {
+   "C2-noadapt": [
+    -1.59,
+    -3.53,
+    0.35,
+    200
+   ],
+   "C2-floorskip": [
+    -5.84,
+    -8.72,
+    -2.96,
+    200
+   ],
+   "C2-g0z0.1": [
+    -1.1,
+    -2.83,
+    0.64,
+    200
+   ],
+   "C2-g1z0.5": [
+    -2.1,
+    -3.88,
+    -0.33,
+    200
+   ],
+   "C2-g3z1": [
+    -2.93,
+    -4.66,
+    -1.19,
+    200
+   ]
+  }
+ },
+ "C3": {
+  "pooled": {
+   "host": [
+    0.0,
+    0.0,
+    0.0,
+    200
+   ],
+   "tuned_pacing": [
+    -3.43,
+    -5.91,
+    -0.96,
+    200
+   ],
+   "front": [
+    -6.17,
+    -9.25,
+    -3.08,
+    200
+   ]
+  },
+  "by_regime": {
+   "F0_better": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     -6.1,
+     -13.63,
+     1.44,
+     20
+    ],
+    "front": [
+     -14.3,
+     -26.23,
+     -2.37,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -12.84,
+     -26.15,
+     0.47,
+     20
+    ]
+   },
+   "F0_better@B100": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     -9.6,
+     -22.56,
+     3.36,
+     20
+    ],
+    "front": [
+     -10.44,
+     -22.61,
+     1.72,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     1.41,
+     -24.4,
+     27.21,
+     20
+    ]
+   },
+   "F0_null": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     0.01,
+     -0.0,
+     0.01,
+     20
+    ],
+    "front": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     0.33,
+     0.16,
+     0.51,
+     20
+    ]
+   },
+   "F1_late_800": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     -3.29,
+     -9.76,
+     3.17,
+     20
+    ],
+    "front": [
+     -3.3,
+     -9.95,
+     3.35,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -3.3,
+     -9.95,
+     3.35,
+     20
+    ]
+   },
+   "F3_reversal_800": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "front": [
+     -4.13,
+     -16.44,
+     8.19,
+     20
+    ],
+    "best_certified_published": [
+     "discern_style",
+     53.06,
+     41.45,
+     64.67,
+     20
+    ]
+   },
+   "F5_dep_null_r8": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "front": [
+     1.06,
+     -3.78,
+     5.91,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     1.06,
+     -3.78,
+     5.91,
+     20
+    ]
+   },
+   "F6_delay400_better": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     -1.8,
+     -5.33,
+     1.73,
+     20
+    ],
+    "front": [
+     -6.08,
+     -10.52,
+     -1.65,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -6.08,
+     -10.52,
+     -1.65,
+     20
+    ]
+   },
+   "F7_near_better": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "front": [
+     -7.32,
+     -15.16,
+     0.52,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     -6.83,
+     -16.7,
+     3.04,
+     20
+    ]
+   },
+   "F9_highdis_better": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     -13.2,
+     -31.15,
+     4.75,
+     20
+    ],
+    "front": [
+     -13.89,
+     -32.65,
+     4.87,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -7.49,
+     -29.62,
+     14.65,
+     20
+    ]
+   },
+   "S_delay800_better": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     -0.34,
+     -1.13,
+     0.46,
+     20
+    ],
+    "front": [
+     -3.25,
+     -5.15,
+     -1.35,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -3.25,
+     -5.15,
+     -1.35,
+     20
+    ]
+   }
+  },
+  "diagnostics": {
+   "F0_better": {
+    "net": 366.64,
+    "promote": 0.85,
+    "labels": 199.9,
+    "labels_by_500": 93.0,
+    "labels_after_1000": 46.6,
+    "exhaust_t": 1795.0,
+    "max_pending": 29.2,
+    "first_deploy_median": 572.0
+   },
+   "F0_better@B100": {
+    "net": 393.15,
+    "promote": 0.4,
+    "labels": 100.0,
+    "labels_by_500": 86.0,
+    "labels_after_1000": 8.1,
+    "exhaust_t": 936.0,
+    "max_pending": 28.2,
+    "first_deploy_median": 261.5
+   },
+   "F0_null": {
+    "net": 370.5,
+    "promote": 0.0,
+    "labels": 200.0,
+    "labels_by_500": 101.8,
+    "labels_after_1000": 2.8,
+    "exhaust_t": 1214.0,
+    "max_pending": 29.6,
+    "first_deploy_median": -1
+   },
+   "F1_late_800": {
+    "net": 393.04,
+    "promote": 0.3,
+    "labels": 199.8,
+    "labels_by_500": 88.8,
+    "labels_after_1000": 41.1,
+    "exhaust_t": 1670.0,
+    "max_pending": 27.5,
+    "first_deploy_median": 1866.0
+   },
+   "F3_reversal_800": {
+    "net": 412.04,
+    "promote": 1.0,
+    "labels": 199.8,
+    "labels_by_500": 79.2,
+    "labels_after_1000": 78.7,
+    "exhaust_t": 1982.0,
+    "max_pending": 26.1,
+    "first_deploy_median": 311.0
+   },
+   "F5_dep_null_r8": {
+    "net": 367.94,
+    "promote": 0.2,
+    "labels": 199.8,
+    "labels_by_500": 84.4,
+    "labels_after_1000": 44.1,
+    "exhaust_t": 1641.0,
+    "max_pending": 27.4,
+    "first_deploy_median": 220.5
+   },
+   "F6_delay400_better": {
+    "net": 371.8,
+    "promote": 0.95,
+    "labels": 200.0,
+    "labels_by_500": 101.9,
+    "labels_after_1000": 32.5,
+    "exhaust_t": 1701.0,
+    "max_pending": 89.2,
+    "first_deploy_median": 710.0
+   },
+   "F7_near_better": {
+    "net": 391.79,
+    "promote": 0.3,
+    "labels": 199.9,
+    "labels_by_500": 95.1,
+    "labels_after_1000": 23.9,
+    "exhaust_t": 1566.0,
+    "max_pending": 28.4,
+    "first_deploy_median": 393.5
+   },
+   "F9_highdis_better": {
+    "net": 656.85,
+    "promote": 0.2,
+    "labels": 200.0,
+    "labels_by_500": 191.9,
+    "labels_after_1000": 5.2,
+    "exhaust_t": 555.0,
+    "max_pending": 58.6,
+    "first_deploy_median": 295.5
+   },
+   "S_delay800_better": {
+    "net": 393.95,
+    "promote": 0.7,
+    "labels": 200.0,
+    "labels_by_500": 98.6,
+    "labels_after_1000": 6.8,
+    "exhaust_t": 1347.0,
+    "max_pending": 163.3,
+    "first_deploy_median": 1182.0
+   }
+  },
+  "ablations": {
+   "C3-f0.4t0.3": [
+    -5.85,
+    -8.89,
+    -2.81,
+    200
+   ],
+   "C3-f0.6t0.5": [
+    -3.92,
+    -6.63,
+    -1.22,
+    200
+   ],
+   "C3-f0.75t1": [
+    -3.43,
+    -5.91,
+    -0.96,
+    200
+   ],
+   "C3-f1t0.3": [
+    -2.27,
+    -4.07,
+    -0.46,
+    200
+   ],
+   "QSG-r25": [
+    -3.43,
+    -5.91,
+    -0.96,
+    200
+   ]
+  }
+ },
+ "C4": {
+  "pooled": {
+   "host": [
+    -0.08,
+    -1.1,
+    0.95,
+    200
+   ],
+   "front": [
+    -6.19,
+    -9.37,
+    -3.01,
+    200
+   ],
+   "tuned_pacing": [
+    0.17,
+    -2.25,
+    2.59,
+    200
+   ],
+   "style": [
+    -4.78,
+    -7.45,
+    -2.1,
+    200
+   ]
+  },
+  "by_regime": {
+   "F0_better": {
+    "host": [
+     -1.22,
+     -4.39,
+     1.95,
+     20
+    ],
+    "front": [
+     -13.13,
+     -25.79,
+     -0.47,
+     20
+    ],
+    "tuned_pacing": [
+     4.28,
+     -3.33,
+     11.89,
+     20
+    ],
+    "style": [
+     -24.29,
+     -35.68,
+     -12.89,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     32.95,
+     15.42,
+     50.49,
+     20
+    ]
+   },
+   "F0_better@B100": {
+    "host": [
+     -3.74,
+     -8.09,
+     0.61,
+     20
+    ],
+    "front": [
+     -11.51,
+     -20.85,
+     -2.17,
+     20
+    ],
+    "tuned_pacing": [
+     -1.08,
+     -7.1,
+     4.94,
+     20
+    ],
+    "style": [
+     -11.51,
+     -20.85,
+     -2.17,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     28.49,
+     11.48,
+     45.5,
+     20
+    ]
+   },
+   "F0_null": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "front": [
+     -0.02,
+     -0.04,
+     -0.0,
+     20
+    ],
+    "tuned_pacing": [
+     -0.02,
+     -0.04,
+     -0.0,
+     20
+    ],
+    "style": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     0.31,
+     0.14,
+     0.48,
+     20
+    ]
+   },
+   "F1_late_800": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "front": [
+     -0.02,
+     -0.03,
+     -0.0,
+     20
+    ],
+    "tuned_pacing": [
+     0.24,
+     -0.27,
+     0.76,
+     20
+    ],
+    "style": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     1.09,
+     0.12,
+     2.05,
+     20
+    ]
+   },
+   "F3_reversal_800": {
+    "host": [
+     4.36,
+     -4.21,
+     12.94,
+     20
+    ],
+    "front": [
+     -34.43,
+     -55.43,
+     -13.44,
+     20
+    ],
+    "tuned_pacing": [
+     -14.74,
+     -30.15,
+     0.68,
+     20
+    ],
+    "style": [
+     15.16,
+     1.19,
+     29.14,
+     20
+    ],
+    "best_certified_published": [
+     "discern_style",
+     15.16,
+     1.19,
+     29.14,
+     20
+    ]
+   },
+   "F5_dep_null_r8": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "front": [
+     -0.03,
+     -0.05,
+     -0.0,
+     20
+    ],
+    "tuned_pacing": [
+     -0.03,
+     -0.05,
+     -0.0,
+     20
+    ],
+    "style": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     4.29,
+     -1.49,
+     10.08,
+     20
+    ]
+   },
+   "F6_delay400_better": {
+    "host": [
+     -0.18,
+     -0.58,
+     0.21,
+     20
+    ],
+    "front": [
+     1.93,
+     -8.82,
+     12.67,
+     20
+    ],
+    "tuned_pacing": [
+     5.8,
+     -2.8,
+     14.4,
+     20
+    ],
+    "style": [
+     -15.91,
+     -24.79,
+     -7.03,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     39.09,
+     27.11,
+     51.07,
+     20
+    ]
+   },
+   "F7_near_better": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "front": [
+     -1.22,
+     -2.82,
+     0.39,
+     20
+    ],
+    "tuned_pacing": [
+     -0.01,
+     -1.78,
+     1.77,
+     20
+    ],
+    "style": [
+     -1.19,
+     -2.8,
+     0.42,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     5.96,
+     -1.48,
+     13.4,
+     20
+    ]
+   },
+   "F9_highdis_better": {
+    "host": [
+     0.01,
+     -0.01,
+     0.02,
+     20
+    ],
+    "front": [
+     -2.3,
+     -6.81,
+     2.21,
+     20
+    ],
+    "tuned_pacing": [
+     8.53,
+     -2.59,
+     19.65,
+     20
+    ],
+    "style": [
+     -2.29,
+     -6.79,
+     2.21,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     22.01,
+     -1.67,
+     45.69,
+     20
+    ]
+   },
+   "S_delay800_better": {
+    "host": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "front": [
+     -1.18,
+     -3.23,
+     0.87,
+     20
+    ],
+    "tuned_pacing": [
+     -1.3,
+     -4.31,
+     1.7,
+     20
+    ],
+    "style": [
+     -7.75,
+     -12.61,
+     -2.88,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     19.02,
+     11.45,
+     26.6,
+     20
+    ]
+   }
+  },
+  "diagnostics": {
+   "F0_better": {
+    "net": 412.44,
+    "promote": 0.65,
+    "labels": 165.8,
+    "labels_by_500": 48.1,
+    "labels_after_1000": 64.5,
+    "exhaust_t": 1998.0,
+    "max_pending": 20.8,
+    "first_deploy_median": 1340.0
+   },
+   "F0_better@B100": {
+    "net": 420.24,
+    "promote": 0.45,
+    "labels": 93.8,
+    "labels_by_500": 26.2,
+    "labels_after_1000": 41.1,
+    "exhaust_t": 1869.0,
+    "max_pending": 13.8,
+    "first_deploy_median": 1436.0
+   },
+   "F0_null": {
+    "net": 370.48,
+    "promote": 0.0,
+    "labels": 199.6,
+    "labels_by_500": 49.1,
+    "labels_after_1000": 100.3,
+    "exhaust_t": 1990.0,
+    "max_pending": 18.1,
+    "first_deploy_median": -1
+   },
+   "F1_late_800": {
+    "net": 397.43,
+    "promote": 0.0,
+    "labels": 199.7,
+    "labels_by_500": 48.4,
+    "labels_after_1000": 96.8,
+    "exhaust_t": 1992.0,
+    "max_pending": 18.2,
+    "first_deploy_median": -1
+   },
+   "F3_reversal_800": {
+    "net": 374.15,
+    "promote": 0.2,
+    "labels": 178.9,
+    "labels_by_500": 49.6,
+    "labels_after_1000": 74.9,
+    "exhaust_t": 1986.0,
+    "max_pending": 20.4,
+    "first_deploy_median": 796.0
+   },
+   "F5_dep_null_r8": {
+    "net": 371.17,
+    "promote": 0.0,
+    "labels": 199.4,
+    "labels_by_500": 47.7,
+    "labels_after_1000": 100.5,
+    "exhaust_t": 1981.0,
+    "max_pending": 18.1,
+    "first_deploy_median": -1
+   },
+   "F6_delay400_better": {
+    "net": 416.98,
+    "promote": 0.75,
+    "labels": 166.5,
+    "labels_by_500": 51.5,
+    "labels_after_1000": 66.0,
+    "exhaust_t": 2000.0,
+    "max_pending": 50.4,
+    "first_deploy_median": 1622.0
+   },
+   "F7_near_better": {
+    "net": 404.59,
+    "promote": 0.1,
+    "labels": 196.7,
+    "labels_by_500": 50.1,
+    "labels_after_1000": 94.8,
+    "exhaust_t": 1992.0,
+    "max_pending": 17.9,
+    "first_deploy_median": 1645.5
+   },
+   "F9_highdis_better": {
+    "net": 686.35,
+    "promote": 0.05,
+    "labels": 200.0,
+    "labels_by_500": 64.5,
+    "labels_after_1000": 72.1,
+    "exhaust_t": 1583.0,
+    "max_pending": 21.4,
+    "first_deploy_median": 1591.0
+   },
+   "S_delay800_better": {
+    "net": 416.22,
+    "promote": 0.5,
+    "labels": 183.4,
+    "labels_by_500": 49.2,
+    "labels_after_1000": 84.0,
+    "exhaust_t": 1993.0,
+    "max_pending": 91.5,
+    "first_deploy_median": 1701.0
+   }
+  },
+  "ablations": {
+   "C4-k0.5": [
+    -0.95,
+    -3.75,
+    1.86,
+    200
+   ],
+   "C4-k1": [
+    -1.26,
+    -4.01,
+    1.48,
+    200
+   ],
+   "C4-k2": [
+    -1.03,
+    -3.55,
+    1.5,
+    200
+   ],
+   "C4-b0.5k0.5": [
+    -0.12,
+    -2.79,
+    2.54,
+    200
+   ],
+   "C4-style": [
+    -4.78,
+    -7.45,
+    -2.1,
+    200
+   ]
+  }
+ },
+ "C5": {
+  "pooled": {
+   "host": [
+    -15.35,
+    -20.93,
+    -9.78,
+    200
+   ],
+   "front": [
+    -2.9,
+    -4.59,
+    -1.21,
+    200
+   ],
+   "tuned_pacing": [
+    -2.73,
+    -5.87,
+    0.41,
+    200
+   ],
+   "C2": [
+    0.49,
+    -1.06,
+    2.03,
+    200
+   ],
+   "QSG": [
+    3.27,
+    -0.17,
+    6.7,
+    200
+   ]
+  },
+  "by_regime": {
+   "F0_better": {
+    "host": [
+     -48.44,
+     -67.05,
+     -29.83,
+     20
+    ],
+    "front": [
+     -4.93,
+     -9.62,
+     -0.23,
+     20
+    ],
+    "tuned_pacing": [
+     -7.59,
+     -15.35,
+     0.18,
+     20
+    ],
+    "C2": [
+     -2.74,
+     -6.36,
+     0.87,
+     20
+    ],
+    "QSG": [
+     9.37,
+     -3.54,
+     22.29,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -3.47,
+     -20.09,
+     13.15,
+     20
+    ]
+   },
+   "F0_better@B100": {
+    "host": [
+     -28.7,
+     -45.74,
+     -11.67,
+     20
+    ],
+    "front": [
+     -5.01,
+     -18.74,
+     8.72,
+     20
+    ],
+    "tuned_pacing": [
+     -1.1,
+     -16.95,
+     14.75,
+     20
+    ],
+    "C2": [
+     -3.17,
+     -8.66,
+     2.31,
+     20
+    ],
+    "QSG": [
+     5.43,
+     -10.34,
+     21.2,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     6.84,
+     -15.44,
+     29.11,
+     20
+    ]
+   },
+   "F0_null": {
+    "host": [
+     -6.54,
+     -7.53,
+     -5.55,
+     20
+    ],
+    "front": [
+     -6.55,
+     -7.54,
+     -5.56,
+     20
+    ],
+    "tuned_pacing": [
+     -6.55,
+     -7.54,
+     -5.56,
+     20
+    ],
+    "C2": [
+     0.07,
+     -0.13,
+     0.27,
+     20
+    ],
+    "QSG": [
+     -6.55,
+     -7.54,
+     -5.56,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -6.22,
+     -7.21,
+     -5.23,
+     20
+    ]
+   },
+   "F1_late_800": {
+    "host": [
+     -8.0,
+     -8.24,
+     -7.76,
+     20
+    ],
+    "front": [
+     -6.91,
+     -7.8,
+     -6.02,
+     20
+    ],
+    "tuned_pacing": [
+     -6.89,
+     -7.79,
+     -6.0,
+     20
+    ],
+    "C2": [
+     -0.06,
+     -0.19,
+     0.08,
+     20
+    ],
+    "QSG": [
+     -3.6,
+     -10.16,
+     2.95,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -6.91,
+     -7.8,
+     -6.02,
+     20
+    ]
+   },
+   "F3_reversal_800": {
+    "host": [
+     18.4,
+     -5.05,
+     41.85,
+     20
+    ],
+    "front": [
+     -0.06,
+     -0.22,
+     0.1,
+     20
+    ],
+    "tuned_pacing": [
+     -0.06,
+     -0.22,
+     0.1,
+     20
+    ],
+    "C2": [
+     -0.03,
+     -0.08,
+     0.01,
+     20
+    ],
+    "QSG": [
+     4.07,
+     -8.26,
+     16.39,
+     20
+    ],
+    "best_certified_published": [
+     "discern_style",
+     57.12,
+     44.46,
+     69.78,
+     20
+    ]
+   },
+   "F5_dep_null_r8": {
+    "host": [
+     -10.24,
+     -15.22,
+     -5.26,
+     20
+    ],
+    "front": [
+     -5.96,
+     -7.18,
+     -4.73,
+     20
+    ],
+    "tuned_pacing": [
+     -5.96,
+     -7.18,
+     -4.73,
+     20
+    ],
+    "C2": [
+     0.03,
+     -0.1,
+     0.17,
+     20
+    ],
+    "QSG": [
+     -7.02,
+     -12.36,
+     -1.68,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -5.96,
+     -7.18,
+     -4.73,
+     20
+    ]
+   },
+   "F6_delay400_better": {
+    "host": [
+     -36.8,
+     -51.18,
+     -22.42,
+     20
+    ],
+    "front": [
+     1.0,
+     -1.87,
+     3.87,
+     20
+    ],
+    "tuned_pacing": [
+     1.18,
+     -1.69,
+     4.05,
+     20
+    ],
+    "C2": [
+     -1.02,
+     -2.18,
+     0.14,
+     20
+    ],
+    "QSG": [
+     7.09,
+     1.22,
+     12.95,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     1.0,
+     -1.87,
+     3.87,
+     20
+    ]
+   },
+   "F7_near_better": {
+    "host": [
+     -2.55,
+     -10.48,
+     5.38,
+     20
+    ],
+    "front": [
+     1.59,
+     -5.92,
+     9.09,
+     20
+    ],
+    "tuned_pacing": [
+     3.97,
+     -4.78,
+     12.71,
+     20
+    ],
+    "C2": [
+     4.37,
+     -3.31,
+     12.05,
+     20
+    ],
+    "QSG": [
+     8.91,
+     -1.8,
+     19.61,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     2.08,
+     -8.53,
+     12.68,
+     20
+    ]
+   },
+   "F9_highdis_better": {
+    "host": [
+     -7.14,
+     -38.93,
+     24.64,
+     20
+    ],
+    "front": [
+     -1.6,
+     -2.76,
+     -0.44,
+     20
+    ],
+    "tuned_pacing": [
+     -3.86,
+     -28.44,
+     20.73,
+     20
+    ],
+    "C2": [
+     7.49,
+     -3.83,
+     18.81,
+     20
+    ],
+    "QSG": [
+     12.29,
+     -6.71,
+     31.29,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     4.8,
+     -5.21,
+     14.82,
+     20
+    ]
+   },
+   "S_delay800_better": {
+    "host": [
+     -23.52,
+     -33.03,
+     -14.02,
+     20
+    ],
+    "front": [
+     -0.56,
+     -0.75,
+     -0.38,
+     20
+    ],
+    "tuned_pacing": [
+     -0.45,
+     -0.6,
+     -0.3,
+     20
+    ],
+    "C2": [
+     -0.08,
+     -0.29,
+     0.13,
+     20
+    ],
+    "QSG": [
+     2.68,
+     0.76,
+     4.6,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -0.56,
+     -0.75,
+     -0.38,
+     20
+    ]
+   }
+  },
+  "diagnostics": {
+   "F0_better": {
+    "net": 376.02,
+    "promote": 0.8,
+    "labels": 122.3,
+    "labels_by_500": 78.0,
+    "labels_after_1000": 4.0,
+    "exhaust_t": 2000.0,
+    "max_pending": 28.6,
+    "first_deploy_median": 723.5
+   },
+   "F0_better@B100": {
+    "net": 398.58,
+    "promote": 0.45,
+    "labels": 79.7,
+    "labels_by_500": 53.0,
+    "labels_after_1000": 7.7,
+    "exhaust_t": 2000.0,
+    "max_pending": 26.7,
+    "first_deploy_median": 408.0
+   },
+   "F0_null": {
+    "net": 363.95,
+    "promote": 0.0,
+    "labels": 69.0,
+    "labels_by_500": 53.5,
+    "labels_after_1000": 3.4,
+    "exhaust_t": 2000.0,
+    "max_pending": 25.2,
+    "first_deploy_median": -1
+   },
+   "F1_late_800": {
+    "net": 389.44,
+    "promote": 0.0,
+    "labels": 39.8,
+    "labels_by_500": 39.8,
+    "labels_after_1000": 0.0,
+    "exhaust_t": 2000.0,
+    "max_pending": 23.6,
+    "first_deploy_median": -1
+   },
+   "F3_reversal_800": {
+    "net": 416.11,
+    "promote": 0.95,
+    "labels": 90.2,
+    "labels_by_500": 79.0,
+    "labels_after_1000": 0.7,
+    "exhaust_t": 2000.0,
+    "max_pending": 26.6,
+    "first_deploy_median": 397.0
+   },
+   "F5_dep_null_r8": {
+    "net": 360.92,
+    "promote": 0.1,
+    "labels": 64.5,
+    "labels_by_500": 56.1,
+    "labels_after_1000": 2.4,
+    "exhaust_t": 2000.0,
+    "max_pending": 23.7,
+    "first_deploy_median": 460.0
+   },
+   "F6_delay400_better": {
+    "net": 378.89,
+    "promote": 0.9,
+    "labels": 158.7,
+    "labels_by_500": 101.7,
+    "labels_after_1000": 4.0,
+    "exhaust_t": 2000.0,
+    "max_pending": 88.5,
+    "first_deploy_median": 773.0
+   },
+   "F7_near_better": {
+    "net": 400.7,
+    "promote": 0.05,
+    "labels": 151.1,
+    "labels_by_500": 79.1,
+    "labels_after_1000": 29.4,
+    "exhaust_t": 2000.0,
+    "max_pending": 27.4,
+    "first_deploy_median": 353.0
+   },
+   "F9_highdis_better": {
+    "net": 669.14,
+    "promote": 0.1,
+    "labels": 168.8,
+    "labels_by_500": 116.2,
+    "labels_after_1000": 27.9,
+    "exhaust_t": 2000.0,
+    "max_pending": 54.6,
+    "first_deploy_median": 225.5
+   },
+   "S_delay800_better": {
+    "net": 396.63,
+    "promote": 0.65,
+    "labels": 187.7,
+    "labels_by_500": 98.6,
+    "labels_after_1000": 8.9,
+    "exhaust_t": 2000.0,
+    "max_pending": 160.8,
+    "first_deploy_median": 1181.0
+   }
+  },
+  "ablations": {
+   "C1": [
+    -2.85,
+    -4.54,
+    -1.15,
+    200
+   ],
+   "C2": [
+    0.49,
+    -1.06,
+    2.03,
+    200
+   ]
+  }
+ },
+ "C6": {
+  "pooled": {
+   "host": [
+    -14.2,
+    -19.56,
+    -8.85,
+    200
+   ],
+   "front": [
+    -1.75,
+    -3.66,
+    0.16,
+    200
+   ],
+   "tuned_pacing": [
+    -1.58,
+    -4.7,
+    1.53,
+    200
+   ],
+   "C2": [
+    1.63,
+    -0.38,
+    3.65,
+    200
+   ],
+   "QSG": [
+    4.42,
+    0.87,
+    7.96,
+    200
+   ]
+  },
+  "by_regime": {
+   "F0_better": {
+    "host": [
+     -38.47,
+     -55.59,
+     -21.34,
+     20
+    ],
+    "front": [
+     5.05,
+     -7.81,
+     17.9,
+     20
+    ],
+    "tuned_pacing": [
+     2.39,
+     -9.84,
+     14.61,
+     20
+    ],
+    "C2": [
+     7.23,
+     -6.01,
+     20.47,
+     20
+    ],
+    "QSG": [
+     19.35,
+     6.59,
+     32.1,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     6.5,
+     -9.5,
+     22.5,
+     20
+    ]
+   },
+   "F0_better@B100": {
+    "host": [
+     -22.61,
+     -38.93,
+     -6.29,
+     20
+    ],
+    "front": [
+     1.08,
+     -8.91,
+     11.08,
+     20
+    ],
+    "tuned_pacing": [
+     4.99,
+     -7.31,
+     17.29,
+     20
+    ],
+    "C2": [
+     2.92,
+     -3.86,
+     9.7,
+     20
+    ],
+    "QSG": [
+     11.53,
+     -4.1,
+     27.15,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     12.93,
+     -11.45,
+     37.31,
+     20
+    ]
+   },
+   "F0_null": {
+    "host": [
+     -7.53,
+     -8.17,
+     -6.88,
+     20
+    ],
+    "front": [
+     -7.54,
+     -8.18,
+     -6.9,
+     20
+    ],
+    "tuned_pacing": [
+     -7.54,
+     -8.18,
+     -6.9,
+     20
+    ],
+    "C2": [
+     -0.92,
+     -1.47,
+     -0.36,
+     20
+    ],
+    "QSG": [
+     -7.54,
+     -8.18,
+     -6.9,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -7.21,
+     -7.88,
+     -6.54,
+     20
+    ]
+   },
+   "F1_late_800": {
+    "host": [
+     -8.29,
+     -8.46,
+     -8.13,
+     20
+    ],
+    "front": [
+     -7.2,
+     -8.13,
+     -6.27,
+     20
+    ],
+    "tuned_pacing": [
+     -7.19,
+     -8.12,
+     -6.25,
+     20
+    ],
+    "C2": [
+     -0.35,
+     -0.6,
+     -0.1,
+     20
+    ],
+    "QSG": [
+     -3.9,
+     -10.41,
+     2.61,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -7.2,
+     -8.13,
+     -6.27,
+     20
+    ]
+   },
+   "F3_reversal_800": {
+    "host": [
+     18.48,
+     -4.91,
+     41.88,
+     20
+    ],
+    "front": [
+     0.02,
+     -0.25,
+     0.29,
+     20
+    ],
+    "tuned_pacing": [
+     0.02,
+     -0.25,
+     0.29,
+     20
+    ],
+    "C2": [
+     0.05,
+     -0.16,
+     0.25,
+     20
+    ],
+    "QSG": [
+     4.15,
+     -8.27,
+     16.56,
+     20
+    ],
+    "best_certified_published": [
+     "discern_style",
+     57.2,
+     44.51,
+     69.9,
+     20
+    ]
+   },
+   "F5_dep_null_r8": {
+    "host": [
+     -10.94,
+     -15.79,
+     -6.09,
+     20
+    ],
+    "front": [
+     -6.66,
+     -7.86,
+     -5.45,
+     20
+    ],
+    "tuned_pacing": [
+     -6.66,
+     -7.86,
+     -5.45,
+     20
+    ],
+    "C2": [
+     -0.66,
+     -1.01,
+     -0.31,
+     20
+    ],
+    "QSG": [
+     -7.72,
+     -12.9,
+     -2.53,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -6.66,
+     -7.86,
+     -5.45,
+     20
+    ]
+   },
+   "F6_delay400_better": {
+    "host": [
+     -30.5,
+     -46.14,
+     -14.86,
+     20
+    ],
+    "front": [
+     7.3,
+     -0.69,
+     15.28,
+     20
+    ],
+    "tuned_pacing": [
+     7.47,
+     -0.55,
+     15.5,
+     20
+    ],
+    "C2": [
+     5.27,
+     -2.01,
+     12.56,
+     20
+    ],
+    "QSG": [
+     13.38,
+     3.43,
+     23.33,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     7.3,
+     -0.69,
+     15.28,
+     20
+    ]
+   },
+   "F7_near_better": {
+    "host": [
+     -8.29,
+     -18.82,
+     2.24,
+     20
+    ],
+    "front": [
+     -4.16,
+     -5.54,
+     -2.77,
+     20
+    ],
+    "tuned_pacing": [
+     -1.78,
+     -6.98,
+     3.43,
+     20
+    ],
+    "C2": [
+     -1.37,
+     -2.3,
+     -0.43,
+     20
+    ],
+    "QSG": [
+     3.17,
+     -5.26,
+     11.59,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     -3.66,
+     -16.57,
+     9.25,
+     20
+    ]
+   },
+   "F9_highdis_better": {
+    "host": [
+     -8.76,
+     -39.97,
+     22.44,
+     20
+    ],
+    "front": [
+     -3.22,
+     -4.11,
+     -2.34,
+     20
+    ],
+    "tuned_pacing": [
+     -5.48,
+     -29.33,
+     18.38,
+     20
+    ],
+    "C2": [
+     5.87,
+     -5.43,
+     17.16,
+     20
+    ],
+    "QSG": [
+     10.67,
+     -8.21,
+     29.55,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     3.18,
+     -6.67,
+     13.04,
+     20
+    ]
+   },
+   "S_delay800_better": {
+    "host": [
+     -25.14,
+     -34.46,
+     -15.82,
+     20
+    ],
+    "front": [
+     -2.18,
+     -2.3,
+     -2.05,
+     20
+    ],
+    "tuned_pacing": [
+     -2.06,
+     -2.22,
+     -1.91,
+     20
+    ],
+    "C2": [
+     -1.69,
+     -1.85,
+     -1.53,
+     20
+    ],
+    "QSG": [
+     1.07,
+     -0.84,
+     2.98,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -2.18,
+     -2.3,
+     -2.05,
+     20
+    ]
+   }
+  },
+  "diagnostics": {
+   "F0_better": {
+    "net": 385.99,
+    "promote": 0.6,
+    "labels": 99.8,
+    "labels_by_500": 70.3,
+    "labels_after_1000": 5.4,
+    "exhaust_t": 2000.0,
+    "max_pending": 27.4,
+    "first_deploy_median": 585.0
+   },
+   "F0_better@B100": {
+    "net": 404.68,
+    "promote": 0.3,
+    "labels": 61.5,
+    "labels_by_500": 47.6,
+    "labels_after_1000": 3.1,
+    "exhaust_t": 2000.0,
+    "max_pending": 26.3,
+    "first_deploy_median": 320.0
+   },
+   "F0_null": {
+    "net": 362.96,
+    "promote": 0.0,
+    "labels": 49.2,
+    "labels_by_500": 46.2,
+    "labels_after_1000": 0.8,
+    "exhaust_t": 2000.0,
+    "max_pending": 24.9,
+    "first_deploy_median": -1
+   },
+   "F1_late_800": {
+    "net": 389.15,
+    "promote": 0.0,
+    "labels": 33.9,
+    "labels_by_500": 33.9,
+    "labels_after_1000": 0.0,
+    "exhaust_t": 2000.0,
+    "max_pending": 23.4,
+    "first_deploy_median": -1
+   },
+   "F3_reversal_800": {
+    "net": 416.19,
+    "promote": 0.95,
+    "labels": 89.8,
+    "labels_by_500": 78.8,
+    "labels_after_1000": 1.2,
+    "exhaust_t": 2000.0,
+    "max_pending": 27.1,
+    "first_deploy_median": 397.0
+   },
+   "F5_dep_null_r8": {
+    "net": 360.23,
+    "promote": 0.1,
+    "labels": 50.5,
+    "labels_by_500": 49.5,
+    "labels_after_1000": 0.0,
+    "exhaust_t": 2000.0,
+    "max_pending": 23.1,
+    "first_deploy_median": 460.0
+   },
+   "F6_delay400_better": {
+    "net": 385.18,
+    "promote": 0.75,
+    "labels": 150.6,
+    "labels_by_500": 100.0,
+    "labels_after_1000": 8.8,
+    "exhaust_t": 2000.0,
+    "max_pending": 89.3,
+    "first_deploy_median": 747.0
+   },
+   "F7_near_better": {
+    "net": 394.96,
+    "promote": 0.1,
+    "labels": 109.2,
+    "labels_by_500": 69.8,
+    "labels_after_1000": 10.5,
+    "exhaust_t": 2000.0,
+    "max_pending": 26.2,
+    "first_deploy_median": 547.5
+   },
+   "F9_highdis_better": {
+    "net": 667.52,
+    "promote": 0.1,
+    "labels": 130.4,
+    "labels_by_500": 100.5,
+    "labels_after_1000": 6.6,
+    "exhaust_t": 2000.0,
+    "max_pending": 53.5,
+    "first_deploy_median": 250.5
+   },
+   "S_delay800_better": {
+    "net": 395.02,
+    "promote": 0.65,
+    "labels": 155.4,
+    "labels_by_500": 98.6,
+    "labels_after_1000": 1.3,
+    "exhaust_t": 2000.0,
+    "max_pending": 151.0,
+    "first_deploy_median": 1181.0
+   }
+  },
+  "ablations": {
+   "C6-no_deadline": [
+    0.78,
+    -0.88,
+    2.45,
+    200
+   ],
+   "C6-no_shadow": [
+    0.1,
+    -1.32,
+    1.52,
+    200
+   ],
+   "C6-no_two_stage": [
+    0.32,
+    -0.37,
+    1.0,
+    200
+   ]
+  }
+ },
+ "C6@discern": {
+  "pooled": {
+   "host": [
+    1.94,
+    -1.19,
+    5.06,
+    200
+   ],
+   "front": [
+    -4.18,
+    -6.33,
+    -2.02,
+    200
+   ],
+   "tuned_pacing": [
+    2.18,
+    -0.56,
+    4.93,
+    200
+   ],
+   "C4": [
+    2.01,
+    -0.96,
+    4.99,
+    200
+   ]
+  },
+  "by_regime": {
+   "F0_better": {
+    "host": [
+     -0.12,
+     -11.52,
+     11.28,
+     20
+    ],
+    "front": [
+     -12.02,
+     -21.17,
+     -2.88,
+     20
+    ],
+    "tuned_pacing": [
+     5.39,
+     -6.06,
+     16.83,
+     20
+    ],
+    "C4": [
+     1.1,
+     -10.95,
+     13.15,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     34.05,
+     17.98,
+     50.13,
+     20
+    ]
+   },
+   "F0_better@B100": {
+    "host": [
+     -5.64,
+     -14.57,
+     3.29,
+     20
+    ],
+    "front": [
+     -13.41,
+     -23.17,
+     -3.65,
+     20
+    ],
+    "tuned_pacing": [
+     -2.97,
+     -11.91,
+     5.96,
+     20
+    ],
+    "C4": [
+     -1.9,
+     -9.52,
+     5.72,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     26.6,
+     6.92,
+     46.27,
+     20
+    ]
+   },
+   "F0_null": {
+    "host": [
+     -3.53,
+     -3.91,
+     -3.15,
+     20
+    ],
+    "front": [
+     -3.55,
+     -3.93,
+     -3.17,
+     20
+    ],
+    "tuned_pacing": [
+     -3.55,
+     -3.93,
+     -3.17,
+     20
+    ],
+    "C4": [
+     -3.53,
+     -3.91,
+     -3.15,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     -3.22,
+     -3.66,
+     -2.78,
+     20
+    ]
+   },
+   "F1_late_800": {
+    "host": [
+     -3.58,
+     -3.93,
+     -3.23,
+     20
+    ],
+    "front": [
+     -3.6,
+     -3.95,
+     -3.24,
+     20
+    ],
+    "tuned_pacing": [
+     -3.33,
+     -3.98,
+     -2.69,
+     20
+    ],
+    "C4": [
+     -3.58,
+     -3.93,
+     -3.23,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     -2.49,
+     -3.5,
+     -1.48,
+     20
+    ]
+   },
+   "F3_reversal_800": {
+    "host": [
+     33.84,
+     12.71,
+     54.98,
+     20
+    ],
+    "front": [
+     -4.95,
+     -18.0,
+     8.1,
+     20
+    ],
+    "tuned_pacing": [
+     14.75,
+     -1.69,
+     31.18,
+     20
+    ],
+    "C4": [
+     29.48,
+     9.13,
+     49.83,
+     20
+    ],
+    "best_certified_published": [
+     "discern_style",
+     44.64,
+     23.49,
+     65.8,
+     20
+    ]
+   },
+   "F5_dep_null_r8": {
+    "host": [
+     -3.25,
+     -3.7,
+     -2.81,
+     20
+    ],
+    "front": [
+     -3.28,
+     -3.73,
+     -2.83,
+     20
+    ],
+    "tuned_pacing": [
+     -3.28,
+     -3.73,
+     -2.83,
+     20
+    ],
+    "C4": [
+     -3.25,
+     -3.7,
+     -2.81,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     1.04,
+     -5.13,
+     7.21,
+     20
+    ]
+   },
+   "F6_delay400_better": {
+    "host": [
+     -0.35,
+     -10.25,
+     9.56,
+     20
+    ],
+    "front": [
+     1.76,
+     -7.7,
+     11.22,
+     20
+    ],
+    "tuned_pacing": [
+     5.64,
+     -2.6,
+     13.88,
+     20
+    ],
+    "C4": [
+     -0.16,
+     -10.1,
+     9.78,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     38.93,
+     28.02,
+     49.84,
+     20
+    ]
+   },
+   "F7_near_better": {
+    "host": [
+     -0.78,
+     -2.7,
+     1.14,
+     20
+    ],
+    "front": [
+     -1.99,
+     -2.5,
+     -1.48,
+     20
+    ],
+    "tuned_pacing": [
+     -0.78,
+     -2.76,
+     1.19,
+     20
+    ],
+    "C4": [
+     -0.78,
+     -2.7,
+     1.14,
+     20
+    ],
+    "best_certified_published": [
+     "SMCS+retain-incumbent",
+     5.18,
+     -3.15,
+     13.51,
+     20
+    ]
+   },
+   "F9_highdis_better": {
+    "host": [
+     2.31,
+     -2.22,
+     6.83,
+     20
+    ],
+    "front": [
+     0.0,
+     0.0,
+     0.0,
+     20
+    ],
+    "tuned_pacing": [
+     10.83,
+     -1.07,
+     22.74,
+     20
+    ],
+    "C4": [
+     2.3,
+     -2.21,
+     6.81,
+     20
+    ],
+    "best_certified_published": [
+     "xu_acquisition_only",
+     24.31,
+     1.56,
+     47.07,
+     20
+    ]
+   },
+   "S_delay800_better": {
+    "host": [
+     0.47,
+     -2.1,
+     3.03,
+     20
+    ],
+    "front": [
+     -0.71,
+     -2.03,
+     0.6,
+     20
+    ],
+    "tuned_pacing": [
+     -0.84,
+     -4.93,
+     3.25,
+     20
+    ],
+    "C4": [
+     0.47,
+     -2.1,
+     3.03,
+     20
+    ],
+    "best_certified_published": [
+     "gated_adaptive_range+front",
+     19.49,
+     11.79,
+     27.19,
+     20
+    ]
+   }
+  },
+  "diagnostics": {
+   "F0_better": {
+    "net": 413.54,
+    "promote": 0.55,
+    "labels": 170.8,
+    "labels_by_500": 76.5,
+    "labels_after_1000": 36.4,
+    "exhaust_t": 1993.0,
+    "max_pending": 28.6,
+    "first_deploy_median": 1154.0
+   },
+   "F0_better@B100": {
+    "net": 418.34,
+    "promote": 0.3,
+    "labels": 97.8,
+    "labels_by_500": 53.6,
+    "labels_after_1000": 14.5,
+    "exhaust_t": 1472.0,
+    "max_pending": 25.9,
+    "first_deploy_median": 1076.0
+   },
+   "F0_null": {
+    "net": 366.95,
+    "promote": 0.0,
+    "labels": 128.9,
+    "labels_by_500": 55.0,
+    "labels_after_1000": 48.0,
+    "exhaust_t": 2000.0,
+    "max_pending": 24.8,
+    "first_deploy_median": -1
+   },
+   "F1_late_800": {
+    "net": 393.86,
+    "promote": 0.0,
+    "labels": 128.1,
+    "labels_by_500": 51.8,
+    "labels_after_1000": 49.9,
+    "exhaust_t": 2000.0,
+    "max_pending": 23.9,
+    "first_deploy_median": -1
+   },
+   "F3_reversal_800": {
+    "net": 403.63,
+    "promote": 0.5,
+    "labels": 173.6,
+    "labels_by_500": 94.5,
+    "labels_after_1000": 23.1,
+    "exhaust_t": 1931.0,
+    "max_pending": 28.1,
+    "first_deploy_median": 751.0
+   },
+   "F5_dep_null_r8": {
+    "net": 367.92,
+    "promote": 0.0,
+    "labels": 134.4,
+    "labels_by_500": 57.5,
+    "labels_after_1000": 50.6,
+    "exhaust_t": 2000.0,
+    "max_pending": 23.7,
+    "first_deploy_median": -1
+   },
+   "F6_delay400_better": {
+    "net": 416.81,
+    "promote": 0.5,
+    "labels": 175.2,
+    "labels_by_500": 98.1,
+    "labels_after_1000": 36.9,
+    "exhaust_t": 1993.0,
+    "max_pending": 85.4,
+    "first_deploy_median": 1398.0
+   },
+   "F7_near_better": {
+    "net": 403.81,
+    "promote": 0.0,
+    "labels": 160.2,
+    "labels_by_500": 65.4,
+    "labels_after_1000": 54.6,
+    "exhaust_t": 1999.0,
+    "max_pending": 26.4,
+    "first_deploy_median": -1
+   },
+   "F9_highdis_better": {
+    "net": 688.65,
+    "promote": 0.0,
+    "labels": 200.0,
+    "labels_by_500": 115.6,
+    "labels_after_1000": 20.1,
+    "exhaust_t": 1176.0,
+    "max_pending": 52.8,
+    "first_deploy_median": -1
+   },
+   "S_delay800_better": {
+    "net": 416.69,
+    "promote": 0.5,
+    "labels": 195.8,
+    "labels_by_500": 98.6,
+    "labels_after_1000": 34.5,
+    "exhaust_t": 1865.0,
+    "max_pending": 151.3,
+    "first_deploy_median": 1687.5
+   }
+  },
+  "ablations": {
+   "C6@discern-unrecorded": [
+    0.33,
+    -1.52,
+    2.17,
+    200
+   ]
+  }
+ }
+}

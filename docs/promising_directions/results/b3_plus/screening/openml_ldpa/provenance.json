@@ -1,0 +1,44 @@
+{
+  "git_head": "fa65bf516903280dc78e1a8323f4f7ddbb45adaf",
+  "git_dirty": true,
+  "frozen_sha256": {
+    "b1_certified_switching.py": "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd",
+    "b3_real_data.py": "2550728b4738d6afad4739d8880ca91838f54c8fe57930009fb4fabb83af7a69",
+    "b3_plus_policy.py": "1d0569f38126edf46c9c497fada488ce24c09c61cf815562bbbb845fdb4bbb9f",
+    "b3_plus_baselines.py": "794051b75770aa35d1ead89e506c652c1e97e70d53e2a959bc892769eb16aec5",
+    "b3_plus_experiments.py": "49b034696a2f401d6fcbaa1a44cfe3c59c1c28a7f99b2a68cbcb59b663e12558",
+    "b3_plus_analysis.py": "050cab5cd12788a0abef410aa82251961bacfe6cdb8bedf88791624f96e87ebf"
+  },
+  "screening_protocol_sha256": "b73cbc99b30bf2df9210265dfc14d346eb90180987ac7f718d9ec33bed4f4a5c",
+  "raw_files": {
+    "openml/openml.org/api/v1/json/data/1483.gz": {
+      "bytes": 1550,
+      "sha256": "d635d00b4df6cba95d86cfdcbb731caff42c8d9082837eb55198d68e07680e27"
+    },
+    "openml/openml.org/api/v1/json/data/features/1483.gz": {
+      "bytes": 254,
+      "sha256": "8c0b843cfce8333a50fc8dd2d43fa8b19641a9c620eb1e06e37de4d8dfcce513"
+    },
+    "openml/openml.org/api/v1/json/data/qualities/1483.gz": {
+      "bytes": 1418,
+      "sha256": "f7a7ad79447f5c9cf671e4274f7451c3d4a2b7328e38814f5ff63915a5eaf25d"
+    },
+    "openml/openml.org/data/v1/download/1590940/ldpa.arff.gz": {
+      "bytes": 2337456,
+      "sha256": "034e6087517b23c02bb75bcee93f45934a247d7bfa3fb176b3d9ef85a6837fe0"
+    }
+  },
+  "python": "3.12.2 | packaged by conda-forge | (main, Feb 16 2024, 20:54:21) [Clang 16.0.6 ]",
+  "platform": "macOS-15.5-arm64-arm-64bit",
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "river": "0.26.1"
+  },
+  "argv": [
+    "research/b3_plus/dataset_discovery/run_screening_queue.py"
+  ],
+  "utc": "2026-11-02T23:39:02.809228+00:00"
+}

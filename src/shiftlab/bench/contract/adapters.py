@@ -46,5 +46,14 @@ class _StubAdapter:
         raise NotImplementedError(f"{self.name}: COMMON_CONTRACT_PORT pending (WP1a/WP1b agents)")
 
 
-Drift2ActAdapter = _StubAdapter("drift2act")
-RARAdapter = _StubAdapter("rar")
+# Ported adapters (WP1a/WP1b, 2026-11-07); the stub class is kept for future hosts.
+from .adapters_drift2act import Drift2ActAdapter
+from .adapters_rar import BinaryAdapter, CostAwareBinaryAdapter, RARAdapter
+
+__all__ = [
+    "BinaryAdapter",
+    "CostAwareBinaryAdapter",
+    "Drift2ActAdapter",
+    "NativeAdapter",
+    "RARAdapter",
+]

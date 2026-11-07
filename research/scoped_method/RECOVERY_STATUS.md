@@ -252,3 +252,41 @@ source receipt, parser/runtime notes, and the stop decision are in
 This closes only the UCI/F8 source lane. The thread's broader research goal remains active; the next
 step must target a different prospectively justified Failure Atlas mechanism/source, not relax this
 client-support gate or inspect the reserved years for a favorable subset.
+
+## Phase 9 — User-requested recovery and headroom decision (2026-11-07)
+
+The attached recovery brief was reconciled against the existing phase records rather than restarting
+the earlier research programme. The original CI failure is reproducible from run `42179919497` at
+`e7f4dca60c3a39c5a97ceb21efb4b311d2d96e8b`: `uv run ruff check .` reported 506 findings. The
+existing repair is ancestor commit `82e1c48e`; no new code repair was needed on current HEAD
+`fc05ff00eea697982c3f983e7cf70a154e4e5aac`.
+
+Current-checkout commands:
+
+```sh
+uv run ruff check .             # passed: All checks passed!
+uv run ruff format --check .    # passed: 2143 files already formatted
+uv run mypy                    # passed: no issues found in 2 source files
+gh run view 42360796367 --json conclusion,jobs
+```
+
+Actions run `42360796367` passed dependency setup, Ruff lint, Ruff format, and mypy; its full
+`uv run pytest -q` suite was still in progress at this checkpoint. Do not report full CI as passed
+until that run finishes. The exact original Ruff diagnostics and the prior ancestor repair remain
+reproducible; this checkpoint adds no unrelated source changes.
+
+The requested prior-result reconciliation and prospective economic matrix are documented above and
+in `pilots/economic_headroom_matrix_20261106/`. The matrix did not identify safety-qualified
+headroom; the calibrated CUSUM, bounded restart-prior, and shared-horizon F8 pilots also failed their
+registered practical gates. The UCI 2012 development profile screen was not confirmation: one of 158
+eligible clients matched the frozen profile, below the minimum support of 20, and 2013–14 remained
+unopened. The exploratory Elexon protocol in `pilots/elexon_f8_profile_20261107/` has not been run;
+no Elexon observations or 2026 outcomes were opened. Since no candidate has passed the synthetic
+and novelty gates, do not execute that profile or open another source under this brief.
+
+**Current bounded decision:** `NO_ECONOMIC_HEADROOM` in the tested, prespecified synthetic regions;
+overall manuscript status remains `BENCHMARK_OR_CASE_STUDY_ONLY` because existing descriptive
+trade-offs and the single-provider EIA replay remain case-study evidence. This is not an assertion
+that the entire field or all operating regions have been exhausted. Smallest next action: finish the
+already-running CI check, then stop candidate/source expansion and assemble the benchmark/case-study
+package from preserved results, including all negative gates.

@@ -58,7 +58,7 @@ utilities. No new theorem and no universal SOTA claim.
 | F4 | Uncertified selectors fail badly on nulls | bike_hour twins: CAMS adapter promotes .908, ModelPicker .875, with excess cost 10.7 and 8.4 vs −0.9 to 5.6 for certified and internal rows. Atlas v2 V_null: uncertified rows .63–.99 | **Confirmed (H4):** per-dataset 99% LB .66–.92 ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
 | F5 | Robustness to dependence costs a lot | A5b − QSG on real realised-better episodes: ΔJ +118.5 [+89.3, +150.1], first promotion +972 events later (H5) | **Confirmed on synthetic dependent alternatives (H5):** +50.3 [+47.0, +53.5] ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
 | F6 | Pacing, not the certificate, explains most certified-method cost gaps | Front-loaded vs unmodified gated: −24.55 [−42.81, −6.29] over 14 source clusters; front vs tuned pace −0.30 [−1.05, +0.45]; front vs C2 +0.60, vs C6 +0.03 (corrected replay, **unmerged** branch `codex/scoped-method-research-results-2026-11-06`) | Exposed, constructed streams; imposed delays |
-| F8 | The validity gate reorders the leaderboard | Registered re-test: front-loading passes the two-tier rule, with dependent-null cost ≤ its host's despite 2–4× more promotions. Re-admitting SMCS under the same rule blocks front-loading's wins ([results](results/FLQ_TWO_TIER_RESULTS.md)) | Fresh seeds, synthetic. **H7 (twin v3 / fresh real):** the all-null gate admits only `discern_style`, the costliest; the Tier A-only gate admits all 16, so restate F8 as "all-null gate is degenerate" until a Tier B gate is registered ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
+| F8 | Tier A alone admits every certified method; adding a Tier B decision-harm gate rejects 4 of 16 and admits methods 37–73 cheaper than the all-null gate's only admittee | W4 H7: all-null gate admits only `discern_style`. **H8 (registered, fresh seeds + twin v4):** Tier B rejects D2, QSG, QCE+front, RMM; gated_adaptive_range − discern_style = −37.5 [−41.3, −33.9] (H8c supported). H8b not supported (SMCS harm did not replicate). Real twins never bind Tier B ([results](results/TIER_B_RESULTS.md)) | Confirmed on fresh synthetic seeds and new twin splits; Tier B admission depends on seed count |
 | F7 | Even a marginal-null method fails on one real dataset | A5b's upper bound on bike_hour .192 > .0936 (H1b fails) | **Confirmed (H6b, 120 splits):** bike_hour .089, 99% LB .067 > .05, 95% UB .105; other four datasets meet .0936 ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
 
 ## 5. Section skeleton
@@ -100,7 +100,7 @@ evidence exists only on exposed sources (W4 done; untouched-source confirmation 
 released, runnable package (W7). Resolved: a verified first-pass comparison table exists (W2), and the test suite is green (W1).
 
 **Major (6):** method coverage is ~25 policies, ports only, with author parity for SMCS, CAMS, Model Picker and gated bets (W3); real data is 5
-exposed UCI-derived sources (W5); F8 needs a registered Tier B gate before the reordering claim stands; the decision-harm
+exposed UCI-derived sources (W5); Tier B admission is seed-count dependent and binds only on synthetic ρ = .95 nulls (H8); the decision-harm
 framing must be cut back to prediction-loss economics everywhere; no data card or maintenance plan
 (W7); EI is a proxy that excludes label cost (report all-in cost as primary).
 

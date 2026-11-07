@@ -1,5 +1,7 @@
 # P2 Tier B validity gate: registration (H8, 2026-11-07)
 
+**Result (2026-11-07):** H8c supported; H8b not supported (SMCS); Tier B admits 12 of 16 and rejects 4. See [results/TIER_B_RESULTS.md](results/TIER_B_RESULTS.md).
+
 **Status:** registered before any H8 cohort exists. The fresh synthetic seeds and twin v4 splits
 (160–279) below have not been built or run. The registration record is the commit adding this file
 together with `scripts/p2_benchmark/analyze_tier_b.py` and `scripts/p2_benchmark/build_twin_v4.py`.

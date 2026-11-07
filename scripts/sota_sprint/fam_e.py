@@ -289,5 +289,10 @@ EXTRA.update(
     }
 )
 
+# Scoped budget-allocation ablation: keep total alpha and the detector fixed, but move 90% of
+# the promotion budget to the faster restart detector. This is a configuration screen, not a
+# new detector or a claim of anytime validity for SRR.
+EXTRA["E_srrSR:split90:gated_deployment"] = _swap("gated_deployment", "sr", alpha_split=0.90)
+
 # Track V: which null each candidate's promotion guarantee concerns (bench2.NULL_TESTED convention).
 NULL_TESTED = {k: ("none" if k.startswith(("E_srr", "E_glr")) else "V1") for k in EXTRA}

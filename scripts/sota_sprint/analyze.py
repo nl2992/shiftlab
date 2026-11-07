@@ -22,12 +22,13 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from bench import CERTIFIED_PUBLISHED, NULL_PROMOTION_BOUND, UNCERTIFIED_PUBLISHED, parse_regime  # noqa: E402
+from bench import CERTIFIED_PUBLISHED, NULL_PROMOTION_BOUND, UNCERTIFIED_PUBLISHED, parse_regime
 
 
 def load(dirs) -> pd.DataFrame:
-    return pd.concat([pd.read_json(Path(d) / "records.jsonl", lines=True) for d in dirs],
-                     ignore_index=True)
+    return pd.concat(
+        [pd.read_json(Path(d) / "records.jsonl", lines=True) for d in dirs], ignore_index=True
+    )
 
 
 def paired(df: pd.DataFrame, a: str, b: str) -> dict | None:
@@ -38,9 +39,14 @@ def paired(df: pd.DataFrame, a: str, b: str) -> dict | None:
     if len(d) < 2:
         return None
     se = d.std(ddof=1) / np.sqrt(len(d))
-    return {"vs": b, "mean": round(float(d.mean()), 2), "lo": round(float(d.mean() - 1.96 * se), 2),
-            "hi": round(float(d.mean() + 1.96 * se), 2), "n": int(len(d)),
-            "frac_better": round(float((d < 0).mean()), 3)}
+    return {
+        "vs": b,
+        "mean": round(float(d.mean()), 2),
+        "lo": round(float(d.mean() - 1.96 * se), 2),
+        "hi": round(float(d.mean() + 1.96 * se), 2),
+        "n": len(d),
+        "frac_better": round(float((d < 0).mean()), 3),
+    }
 
 
 def summarise(df: pd.DataFrame, candidates, hosts) -> dict:
@@ -51,31 +57,44 @@ def summarise(df: pd.DataFrame, candidates, hosts) -> dict:
         except KeyError:
             tags = ("real",)
         means = g.groupby("policy")["net"].mean()
-        pol = g.groupby("policy").agg(net=("net", "mean"), promote=("ever_promote", "mean"),
-                                      rollbacks=("n_rollbacks", "mean"),
-                                      labels=("labels", "mean"), switches=("switches", "mean"),
-                                      first=("first_deploy", lambda s: float(np.median(s[s >= 0]))
-                                             if (s >= 0).any() else -1),
-                                      delay=("detect_delay", lambda s: float(np.median(s[s >= 0]))
-                                             if (s >= 0).any() else -1),
-                                      regret=("regret_expected_oracle", "mean"),
-                                      pending=("max_pending", "mean"),
-                                      runtime=("runtime_s", "mean"))
+        pol = g.groupby("policy").agg(
+            net=("net", "mean"),
+            promote=("ever_promote", "mean"),
+            rollbacks=("n_rollbacks", "mean"),
+            labels=("labels", "mean"),
+            switches=("switches", "mean"),
+            first=("first_deploy", lambda s: float(np.median(s[s >= 0])) if (s >= 0).any() else -1),
+            delay=("detect_delay", lambda s: float(np.median(s[s >= 0])) if (s >= 0).any() else -1),
+            regret=("regret_expected_oracle", "mean"),
+            pending=("max_pending", "mean"),
+            runtime=("runtime_s", "mean"),
+        )
         cert = [p for p in CERTIFIED_PUBLISHED if p in means]
         unc = [p for p in UNCERTIFIED_PUBLISHED if p in means]
         best_cert = means[cert].idxmin() if cert else None
         best_unc = means[unc].idxmin() if unc else None
-        cell = {"tags": list(tags), "policies": pol.round(3).to_dict(orient="index"),
-                "best_certified": best_cert, "best_uncertified": best_unc, "contrasts": {}}
+        cell = {
+            "tags": list(tags),
+            "policies": pol.round(3).to_dict(orient="index"),
+            "best_certified": best_cert,
+            "best_uncertified": best_unc,
+            "contrasts": {},
+        }
         for c in candidates:
             if c not in means:
                 continue
             others = means.drop(c)
             best_any = others.idxmin()
-            cc = {k: paired(g, c, v) for k, v in (("host", hosts.get(c)),
-                                                 ("best_certified", best_cert),
-                                                 ("best_uncertified", best_unc),
-                                                 ("best_any", best_any)) if v}
+            cc = {
+                k: paired(g, c, v)
+                for k, v in (
+                    ("host", hosts.get(c)),
+                    ("best_certified", best_cert),
+                    ("best_uncertified", best_unc),
+                    ("best_any", best_any),
+                )
+                if v
+            }
             if "null" in tags:
                 cc["null_promotion"] = round(float(pol.loc[c, "promote"]), 3)
                 cc["null_bound_ok"] = bool(pol.loc[c, "promote"] <= NULL_PROMOTION_BOUND)
@@ -85,8 +104,10 @@ def summarise(df: pd.DataFrame, candidates, hosts) -> dict:
 
 
 def to_markdown(summary: dict, candidates) -> str:
-    lines = ["| candidate | regime | net | promote | first | labels | rb | vs host | vs best cert | vs best uncert |",
-             "|---|---|---|---|---|---|---|---|---|---|"]
+    lines = [
+        "| candidate | regime | net | promote | first | labels | rb | vs host | vs best cert | vs best uncert |",
+        "|---|---|---|---|---|---|---|---|---|---|",
+    ]
 
     def f(x):
         return "" if not x else f"{x['mean']:+.1f} [{x['lo']:+.1f},{x['hi']:+.1f}] ({x['vs']})"
@@ -97,9 +118,11 @@ def to_markdown(summary: dict, candidates) -> str:
                 continue
             p = cell["policies"][c]
             k = cell["contrasts"][c]
-            lines.append(f"| {c} | {reg} | {p['net']:.1f} | {p['promote']:.2f} | {p['first']:.0f} | "
-                         f"{p['labels']:.0f} | {p['rollbacks']:.2f} | {f(k.get('host'))} | "
-                         f"{f(k.get('best_certified'))} | {f(k.get('best_uncertified'))} |")
+            lines.append(
+                f"| {c} | {reg} | {p['net']:.1f} | {p['promote']:.2f} | {p['first']:.0f} | "
+                f"{p['labels']:.0f} | {p['rollbacks']:.2f} | {f(k.get('host'))} | "
+                f"{f(k.get('best_certified'))} | {f(k.get('best_uncertified'))} |"
+            )
     return "\n".join(lines) + "\n"
 
 

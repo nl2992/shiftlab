@@ -19,14 +19,37 @@ from scipy import stats
 ROOT = Path(__file__).resolve().parents[2]
 VAL = ROOT / "outputs/sota_sprint/validation"
 DOC = ROOT / "docs/sota_sprint/validation"
-CERT = ["gated_deployment", "gated_adaptive_range", "gated_adaptive_range+front", "discern_style",
-        "discern_design_floor", "SMCS+retain-incumbent", "xu_acquisition_only", "choe_ramdas_eb",
-        "choe_ramdas_eb+front"]
-UNC = ["model_picker_adapter", "model_selector_causal", "online_llm_picker", "cams_adapter",
-       "variance_min_ipw", "gong_zhang_paid_obs", "qiu_delayed_movement", "ryabchenko_capacity"]
-CANDS = {"A5b": None, "X_A5C": None, "D1": "model_picker_adapter", "D2": "cams_adapter",
-         "C2": "gated_adaptive_range+front", "C6": "gated_adaptive_range+front",
-         "B2": "rmm:gated_deployment+RMM", "B5": "rmm:gated_deployment+RMM"}
+CERT = [
+    "gated_deployment",
+    "gated_adaptive_range",
+    "gated_adaptive_range+front",
+    "discern_style",
+    "discern_design_floor",
+    "SMCS+retain-incumbent",
+    "xu_acquisition_only",
+    "choe_ramdas_eb",
+    "choe_ramdas_eb+front",
+]
+UNC = [
+    "model_picker_adapter",
+    "model_selector_causal",
+    "online_llm_picker",
+    "cams_adapter",
+    "variance_min_ipw",
+    "gong_zhang_paid_obs",
+    "qiu_delayed_movement",
+    "ryabchenko_capacity",
+]
+CANDS = {
+    "A5b": None,
+    "X_A5C": None,
+    "D1": "model_picker_adapter",
+    "D2": "cams_adapter",
+    "C2": "gated_adaptive_range+front",
+    "C6": "gated_adaptive_range+front",
+    "B2": "rmm:gated_deployment+RMM",
+    "B5": "rmm:gated_deployment+RMM",
+}
 
 
 def contrast(E, a, b):
@@ -34,9 +57,15 @@ def contrast(E, a, b):
     se = d.std(ddof=1) / np.sqrt(len(d)) if len(d) > 1 else float("nan")
     k = int((d < 0).sum())
     nz = int((d != 0).sum())
-    return {"vs": b, "mean": round(float(d.mean()), 2), "lo": round(float(d.mean() - 1.96 * se), 2),
-            "hi": round(float(d.mean() + 1.96 * se), 2), "K": len(d), "improved": k,
-            "sign_p": float(stats.binomtest(k, nz, 0.5).pvalue) if nz else 1.0}
+    return {
+        "vs": b,
+        "mean": round(float(d.mean()), 2),
+        "lo": round(float(d.mean() - 1.96 * se), 2),
+        "hi": round(float(d.mean() + 1.96 * se), 2),
+        "K": len(d),
+        "improved": k,
+        "sign_p": float(stats.binomtest(k, nz, 0.5).pvalue) if nz else 1.0,
+    }
 
 
 def analyse(run: str) -> dict:
@@ -50,14 +79,22 @@ def analyse(run: str) -> dict:
         best_c = E[CERT].mean().idxmin()
         best_u = E[UNC].mean().idxmin()
         prom = g.groupby("policy").ever_promote.mean()
-        cell = {"K": int(E.shape[0]), "best_certified": best_c, "best_uncertified": best_u,
-                "mean": E.mean().round(2).to_dict(), "promote": prom.round(3).to_dict(),
-                "contrasts": {}}
+        cell = {
+            "K": int(E.shape[0]),
+            "best_certified": best_c,
+            "best_uncertified": best_u,
+            "mean": E.mean().round(2).to_dict(),
+            "promote": prom.round(3).to_dict(),
+            "contrasts": {},
+        }
         for c, host in CANDS.items():
             if c not in E:
                 continue
-            cc = {"best_certified": contrast(E, c, best_c), "best_uncertified": contrast(E, c, best_u),
-                  "never_switch": contrast(E, c, "CONTROL_never_switch")}
+            cc = {
+                "best_certified": contrast(E, c, best_c),
+                "best_uncertified": contrast(E, c, best_u),
+                "never_switch": contrast(E, c, "CONTROL_never_switch"),
+            }
             if host and host in E:
                 cc["host"] = contrast(E, c, host)
             cell["contrasts"][c] = cc
@@ -66,27 +103,42 @@ def analyse(run: str) -> dict:
 
 
 def md(res: dict, title: str) -> list[str]:
-    L = [f"## {title}", "", "| dataset | K | candidate | vs best certified | vs host | vs best uncertified | improved/K (sign p) |",
-         "|---|---|---|---|---|---|---|"]
+    L = [
+        f"## {title}",
+        "",
+        "| dataset | K | candidate | vs best certified | vs host | vs best uncertified | improved/K (sign p) |",
+        "|---|---|---|---|---|---|---|",
+    ]
     for ds, cell in res.items():
         for c, cc in cell["contrasts"].items():
             b = cc["best_certified"]
             h = cc.get("host")
             u = cc["best_uncertified"]
-            L.append(f"| {ds} | {cell['K']} | {c} | {b['mean']:+.1f} [{b['lo']:+.1f},{b['hi']:+.1f}] ({b['vs']}) | "
-                     + (f"{h['mean']:+.1f} [{h['lo']:+.1f},{h['hi']:+.1f}]" if h else "") + " | "
-                     f"{u['mean']:+.1f} ({u['vs']}) | {b['improved']}/{b['K']} (p={b['sign_p']:.3g}) |")
+            L.append(
+                f"| {ds} | {cell['K']} | {c} | {b['mean']:+.1f} [{b['lo']:+.1f},{b['hi']:+.1f}] ({b['vs']}) | "
+                + (f"{h['mean']:+.1f} [{h['lo']:+.1f},{h['hi']:+.1f}]" if h else "")
+                + " | "
+                f"{u['mean']:+.1f} ({u['vs']}) | {b['improved']}/{b['K']} (p={b['sign_p']:.3g}) |"
+            )
     return L + [""]
 
 
 def main():
     fresh, exposed = analyse("real_fresh"), analyse("real_exposed")
     DOC.mkdir(parents=True, exist_ok=True)
-    (DOC / "real_results.json").write_text(json.dumps({"fresh": fresh, "exposed": exposed}, indent=1,
-                                                      default=float) + "\n")
-    L = ["# Real-data validation", "", "Fresh streams registered in aeb2d4f before any policy run (20 policy seeds, "
-         "base 2026110604). Exposed streams are descriptive (10 seeds, base 2026110603). Unit = episode; "
-         "consecutive windows, so CIs are optimistic.", ""]
+    (DOC / "real_results.json").write_text(
+        json.dumps({"fresh": fresh, "exposed": exposed}, indent=1, default=float) + "\n"
+    )
+    L = [
+        "# Real-data validation",
+        "",
+        (
+            "Fresh streams registered in aeb2d4f before any policy run (20 policy seeds, "
+            "base 2026110604). Exposed streams are descriptive (10 seeds, base 2026110603). Unit = episode; "
+            "consecutive windows, so CIs are optimistic."
+        ),
+        "",
+    ]
     L += md(fresh, "Fresh, never-used streams (external validation)")
     L += md(exposed, "Previously exposed streams (descriptive only)")
     (DOC / "real_results.md").write_text("\n".join(L) + "\n")

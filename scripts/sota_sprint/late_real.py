@@ -46,8 +46,17 @@ MAX_EPS = 20
 D_LAG, H_WIN, W_RECENT = 4000, 4000, 2000
 CONSTRUCTIONS = ("win", "exp")
 UCI = ("metro", "beijing_pm25", "bike_hour", "appliances", "household_power")
-CACHED = ("rialto", "openml_ldpa", "airlines", "criteo", "bank", "elec2", "weather", "spam",
-          "uci_occupancy")
+CACHED = (
+    "rialto",
+    "openml_ldpa",
+    "airlines",
+    "criteo",
+    "bank",
+    "elec2",
+    "weather",
+    "spam",
+    "uci_occupancy",
+)
 TWIN_SPLITS = (0, 1)
 
 # classifier constants (protocol section 4)
@@ -59,7 +68,11 @@ CLASSES = ("late_improvement", "early_improvement", "reversal", "stationary_bett
 def episode_starts(n: int) -> np.ndarray:
     e_min = max(int(0.30 * n), D_LAG + H_WIN)
     K = (n - e_min) // T_EP
-    idx = np.arange(K) if K <= MAX_EPS else np.unique(np.round(np.linspace(0, K - 1, MAX_EPS)).astype(int))
+    idx = (
+        np.arange(K)
+        if K <= MAX_EPS
+        else np.unique(np.round(np.linspace(0, K - 1, MAX_EPS)).astype(int))
+    )
     return (e_min + T_EP * idx).astype(np.int64)
 
 
@@ -74,8 +87,9 @@ def train_ranges(constr: str, e: int) -> tuple[tuple[int, int], tuple[int, int]]
 def _hgb():
     from sklearn.ensemble import HistGradientBoostingClassifier
 
-    return HistGradientBoostingClassifier(max_iter=100, max_depth=4, learning_rate=0.1,
-                                          random_state=0)
+    return HistGradientBoostingClassifier(
+        max_iter=100, max_depth=4, learning_rate=0.1, random_state=0
+    )
 
 
 def build_dataset(name: str) -> list[dict]:
@@ -94,10 +108,10 @@ def build_dataset(name: str) -> list[dict]:
         L0, L1 = [], []
         for e in starts:
             (a0, b0), (a1, b1) = train_ranges(constr, int(e))
-            f = fr.prep(x.iloc[min(a0, a1):e], cat)
+            f = fr.prep(x.iloc[min(a0, a1) : e], cat)
             m0 = _hgb().fit(f(x.iloc[a0:b0]), y[a0:b0])
             m1 = _hgb().fit(f(x.iloc[a1:b1]), y[a1:b1])
-            xe, ye = f(x.iloc[e:e + T_EP]), y[e:e + T_EP]
+            xe, ye = f(x.iloc[e : e + T_EP]), y[e : e + T_EP]
             L0.append((m0.predict(xe) != ye).astype(np.int8))
             L1.append((m1.predict(xe) != ye).astype(np.int8))
         l0, l1 = np.stack(L0), np.stack(L1)
@@ -105,19 +119,33 @@ def build_dataset(name: str) -> list[dict]:
         p = OUT / f"late_{name}_{constr}.npz"
         np.savez(p, l0=l0, l1=l1, starts=starts)
         adv = (l0.astype(float) - l1).mean(axis=1)
-        stats.append({
-            "stream": p.stem, "dataset": name, "construction": constr, "n_rows": n, "K": len(starts),
-            "starts": starts.tolist(),
-            "episode_time_start": [str(ts.iloc[int(e)]) for e in starts],
-            "label_threshold": thr, "D": D_LAG, "H": H_WIN, "W": W_RECENT,
-            "raw_sha256": fr.sha256(fr.raw_zip(name)),
-            "array_content_sha256": hashlib.sha256(l0.tobytes() + l1.tobytes() + starts.tobytes()).hexdigest(),
-            "incumbent_err": float(l0.mean()), "challenger_err": float(l1.mean()),
-            "disagreement": float((l0 != l1).mean()),
-            "mean_adv_per_episode": [round(float(a), 4) for a in adv],
-        })
-        print(f"{p.stem:32s} K={len(starts):2d} err0={l0.mean():.3f} err1={l1.mean():.3f} "
-              f"dis={(l0 != l1).mean():.3f}")
+        stats.append(
+            {
+                "stream": p.stem,
+                "dataset": name,
+                "construction": constr,
+                "n_rows": n,
+                "K": len(starts),
+                "starts": starts.tolist(),
+                "episode_time_start": [str(ts.iloc[int(e)]) for e in starts],
+                "label_threshold": thr,
+                "D": D_LAG,
+                "H": H_WIN,
+                "W": W_RECENT,
+                "raw_sha256": fr.sha256(fr.raw_zip(name)),
+                "array_content_sha256": hashlib.sha256(
+                    l0.tobytes() + l1.tobytes() + starts.tobytes()
+                ).hexdigest(),
+                "incumbent_err": float(l0.mean()),
+                "challenger_err": float(l1.mean()),
+                "disagreement": float((l0 != l1).mean()),
+                "mean_adv_per_episode": [round(float(a), 4) for a in adv],
+            }
+        )
+        print(
+            f"{p.stem:32s} K={len(starts):2d} err0={l0.mean():.3f} err1={l1.mean():.3f} "
+            f"dis={(l0 != l1).mean():.3f}"
+        )
     return stats
 
 
@@ -134,32 +162,54 @@ def streams() -> dict[str, dict]:
     out = {}
     for nm in CACHED:
         p = ROOT / f"data/atlas_v2_losses/{nm}.npz"
-        out[nm] = {"file": p, "rows": list(range(np.load(p)["l0"].shape[0])), "delay": _delay_native(nm),
-                   "cluster": nm, "family": "cached"}
+        out[nm] = {
+            "file": p,
+            "rows": list(range(np.load(p)["l0"].shape[0])),
+            "delay": _delay_native(nm),
+            "cluster": nm,
+            "family": "cached",
+        }
     for nm in UCI:
         p = ROOT / f"data/sprint_fresh_losses/{nm}.npz"
-        out[nm] = {"file": p, "rows": list(range(np.load(p)["l0"].shape[0])), "delay": _delay_native(nm),
-                   "cluster": nm, "family": "fresh"}
+        out[nm] = {
+            "file": p,
+            "rows": list(range(np.load(p)["l0"].shape[0])),
+            "delay": _delay_native(nm),
+            "cluster": nm,
+            "family": "fresh",
+        }
         for c in CONSTRUCTIONS:
             q = OUT / f"late_{nm}_{c}.npz"
             if q.exists():
-                out[q.stem] = {"file": q, "rows": list(range(np.load(q)["l0"].shape[0])),
-                               "delay": _delay_native(nm), "cluster": nm, "family": f"late_{c}"}
+                out[q.stem] = {
+                    "file": q,
+                    "rows": list(range(np.load(q)["l0"].shape[0])),
+                    "delay": _delay_native(nm),
+                    "cluster": nm,
+                    "family": f"late_{c}",
+                }
         t = ROOT / f"data/sprint_twin_losses/twin_{nm}.npz"
         if t.exists():
             z = np.load(t)
             rows = np.flatnonzero(np.isin(z["split"], TWIN_SPLITS)).tolist()
-            out[f"twin_{nm}"] = {"file": t, "rows": rows, "delay": _delay_native(nm), "cluster": nm,
-                                 "family": "twin"}
+            out[f"twin_{nm}"] = {
+                "file": t,
+                "rows": rows,
+                "delay": _delay_native(nm),
+                "cluster": nm,
+                "family": "twin",
+            }
     return out
 
 
 def select(spec: str) -> list[str]:
     st = streams()
-    groups = {"all": [k for k, v in st.items() if v["family"] != "twin"],
-              "twin": [k for k, v in st.items() if v["family"] == "twin"],
-              "late": [k for k, v in st.items() if v["family"].startswith("late")],
-              "fixed": [k for k, v in st.items() if v["family"] in ("cached", "fresh")]}
+    groups = {
+        "all": [k for k, v in st.items() if v["family"] != "twin"],
+        "twin": [k for k, v in st.items() if v["family"] == "twin"],
+        "late": [k for k, v in st.items() if v["family"].startswith("late")],
+        "fixed": [k for k, v in st.items() if v["family"] in ("cached", "fresh")],
+    }
     names = []
     for s in spec.split(","):
         names += groups.get(s, [s])
@@ -212,8 +262,17 @@ def classify(l0, l1, delta: float = DELTA) -> dict:
     else:
         cls = "null"
         sub += (["worse"] if sb == -1 else []) + (["changed"] if change else [])
-    return {"class": cls, "sub": sub, "tau": tau, "p": p, "stat": round(stat, 4), "m1": round(m1, 5),
-            "m2": round(m2, 5), "mbar": round(mb, 5), "dis": round(float((d != 0).mean()), 4)}
+    return {
+        "class": cls,
+        "sub": sub,
+        "tau": tau,
+        "p": p,
+        "stat": round(stat, 4),
+        "m1": round(m1, 5),
+        "m2": round(m2, 5),
+        "mbar": round(mb, 5),
+        "dis": round(float((d != 0).mean()), 4),
+    }
 
 
 def _classify_stream(name):
@@ -223,7 +282,9 @@ def _classify_stream(name):
     for r in st["rows"]:
         c = classify(z["l0"][r], z["l1"][r])
         c["sens"] = {str(dl): classify(z["l0"][r], z["l1"][r], dl)["class"] for dl in (0.005, 0.02)}
-        out.append({"stream": name, "ep": int(r), "cluster": st["cluster"], "family": st["family"], **c})
+        out.append(
+            {"stream": name, "ep": int(r), "cluster": st["cluster"], "family": st["family"], **c}
+        )
     return out
 
 
@@ -244,60 +305,132 @@ def _job(args):
     losses = np.stack([z["l0"][ep], z["l1"][ep]], axis=1).astype(np.int8)
     c = classify(losses[:, 0], losses[:, 1])
     gain = np.where(np.arange(losses.shape[0]) < c["tau"], c["m1"], c["m2"])
-    delay = max(1, int(round(st["delay"] * delay_mult)))
+    delay = max(1, round(st["delay"] * delay_mult))
     cq = screen.CONTRACT["cq"]
     rows = []
     run_ep = ep * 100_000 + seed
-    for pol in build_suite(losses.shape[0], budget, cs, cq, alpha, delay, run_ep,
-                           seed_base + screen._h(name) % 1000, names=names, extra=EXTRA):
+    for pol in build_suite(
+        losses.shape[0],
+        budget,
+        cs,
+        cq,
+        alpha,
+        delay,
+        run_ep,
+        seed_base + screen._h(name) % 1000,
+        names=names,
+        extra=EXTRA,
+    ):
         stream_rng = np.random.default_rng([seed_base, screen._h(name), ep, seed, 7])
-        m = screen.metrics(pol, losses, gain, delay=delay, budget=budget, cq=cq, cs=cs,
-                           stream_rng=stream_rng)
-        rows.append({"kind": "real", "gain_is_proxy": True, "regime": name, "ep": ep, "seed": seed,
-                     "policy": pol.name, "alpha": alpha, "delay": delay, "budget": budget, "cs": cs,
-                     "delay_mult": delay_mult, **m})
+        m = screen.metrics(
+            pol, losses, gain, delay=delay, budget=budget, cq=cq, cs=cs, stream_rng=stream_rng
+        )
+        rows.append(
+            {
+                "kind": "real",
+                "gain_is_proxy": True,
+                "regime": name,
+                "ep": ep,
+                "seed": seed,
+                "policy": pol.name,
+                "alpha": alpha,
+                "delay": delay,
+                "budget": budget,
+                "cs": cs,
+                "delay_mult": delay_mult,
+                **m,
+            }
+        )
     return rows
 
 
-def run(names, policies, seeds, out, *, seed_base=2026110803, workers=2, delay_mult=1.0,
-        budget=200, cs=5.0, alpha=0.05, only_classes=None, classes_path=None):
+def run(
+    names,
+    policies,
+    seeds,
+    out,
+    *,
+    seed_base=2026110803,
+    workers=2,
+    delay_mult=1.0,
+    budget=200,
+    cs=5.0,
+    alpha=0.05,
+    only_classes=None,
+    classes_path=None,
+):
     st = streams()
     keep = None
     if only_classes:  # classifier output is outcome-blind (protocol A3)
-        keep = {(r["stream"], r["ep"]) for r in json.loads(Path(classes_path).read_text())
-                if r["class"] in only_classes}
-    jobs = [(n, r, s, seed_base, policies, delay_mult, budget, cs, alpha)
-            for n in names for r in st[n]["rows"] for s in range(seeds)
-            if keep is None or (n, r) in keep]
+        keep = {
+            (r["stream"], r["ep"])
+            for r in json.loads(Path(classes_path).read_text())
+            if r["class"] in only_classes
+        }
+    jobs = [
+        (n, r, s, seed_base, policies, delay_mult, budget, cs, alpha)
+        for n in names
+        for r in st[n]["rows"]
+        for s in range(seeds)
+        if keep is None or (n, r) in keep
+    ]
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     with open(out / "records.jsonl", "w") as f, mp.Pool(workers) as pool:
         for rows in pool.imap_unordered(_job, jobs, chunksize=2):
-            for row in rows:
-                f.write(json.dumps(row) + "\n")
+            f.writelines(json.dumps(row) + "\n" for row in rows)
     import screen
 
-    srcs = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()[:16]
-            for p in sorted(HERE.glob("*.py"))}
-    srcs.update({str(st[n]["file"].relative_to(ROOT)): hashlib.sha256(st[n]["file"].read_bytes()).hexdigest()[:16]
-                 for n in names})
-    man = {"argv": sys.argv, "streams": names, "policies": policies, "seeds": seeds,
-           "seed_base": seed_base, "delay_mult": delay_mult, "budget": budget, "cs": cs,
-           "alpha": alpha, "git": screen._git_rev(), "sources": srcs, "n_jobs": len(jobs),
-           "seconds": round(time.time() - t0, 1)}
+    srcs = {
+        str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()[:16]
+        for p in sorted(HERE.glob("*.py"))
+    }
+    srcs.update(
+        {
+            str(st[n]["file"].relative_to(ROOT)): hashlib.sha256(
+                st[n]["file"].read_bytes()
+            ).hexdigest()[:16]
+            for n in names
+        }
+    )
+    man = {
+        "argv": sys.argv,
+        "streams": names,
+        "policies": policies,
+        "seeds": seeds,
+        "seed_base": seed_base,
+        "delay_mult": delay_mult,
+        "budget": budget,
+        "cs": cs,
+        "alpha": alpha,
+        "git": screen._git_rev(),
+        "sources": srcs,
+        "n_jobs": len(jobs),
+        "seconds": round(time.time() - t0, 1),
+    }
     (out / "manifest.json").write_text(json.dumps(man, indent=2) + "\n")
     print(f"done {len(jobs)} jobs in {time.time() - t0:.0f}s -> {out}")
 
 
 # ----------------------------------------------------------------------------- analysis
-CERTIFIED = ["xu_acquisition_only", "SMCS+retain-incumbent", "gated_adaptive_range+front",
-             "choe_ramdas_eb+front", "gated_deployment", "discern_style", "gated_adaptive_range"]
+CERTIFIED = [
+    "xu_acquisition_only",
+    "SMCS+retain-incumbent",
+    "gated_adaptive_range+front",
+    "choe_ramdas_eb+front",
+    "gated_deployment",
+    "discern_style",
+    "gated_adaptive_range",
+]
 from bench import CERTIFIED_PUBLISHED
-RMM_HOSTS = {"rmm:gated_deployment+RMM": "gated_deployment",
-             "rmm:discern_style+RMM": "discern_style",
-             "rmm:SMCS+retain-incumbent+RMM": "SMCS+retain-incumbent",
-             "rmm:gated_adaptive_range+RMM": "gated_adaptive_range"}
+
+RMM_HOSTS = {
+    "rmm:gated_deployment+RMM": "gated_deployment",
+    "rmm:discern_style+RMM": "discern_style",
+    "rmm:SMCS+retain-incumbent+RMM": "SMCS+retain-incumbent",
+    "rmm:gated_adaptive_range+RMM": "gated_adaptive_range",
+}
 
 
 def cluster_boot(df, col, n_boot=2000, seed=20261104):
@@ -306,7 +439,7 @@ def cluster_boot(df, col, n_boot=2000, seed=20261104):
     keys = list(g)
     mean = float(df[col].mean())
     if len(keys) < 3:
-        return {"mean": round(mean, 2), "lo": None, "hi": None, "n_ep": int(len(df)), "n_cl": len(keys)}
+        return {"mean": round(mean, 2), "lo": None, "hi": None, "n_ep": len(df), "n_cl": len(keys)}
     rng = np.random.default_rng(seed)
     bs = []
     for _ in range(n_boot):
@@ -314,15 +447,21 @@ def cluster_boot(df, col, n_boot=2000, seed=20261104):
         v = np.concatenate([g[keys[i]] for i in pick])
         bs.append(v.mean())
     lo, hi = np.percentile(bs, [2.5, 97.5])
-    return {"mean": round(mean, 2), "lo": round(float(lo), 2), "hi": round(float(hi), 2),
-            "n_ep": int(len(df)), "n_cl": len(keys)}
+    return {
+        "mean": round(mean, 2),
+        "lo": round(float(lo), 2),
+        "hi": round(float(hi), 2),
+        "n_ep": len(df),
+        "n_cl": len(keys),
+    }
 
 
 def episode_table(dirs, classes_path):
     import pandas as pd
 
-    df = pd.concat([pd.read_json(Path(d) / "records.jsonl", lines=True) for d in dirs],
-                   ignore_index=True)
+    df = pd.concat(
+        [pd.read_json(Path(d) / "records.jsonl", lines=True) for d in dirs], ignore_index=True
+    )
     cl = pd.DataFrame(json.loads(Path(classes_path).read_text()))
     J = df.groupby(["regime", "ep", "policy"]).net.mean().unstack("policy")
     J.index = J.index.set_names(["stream", "ep"])
@@ -339,8 +478,13 @@ def contrasts(E, pols, classes=CLASSES, extra_pairs=()):
             continue
         certs = [p for p in CERTIFIED if p in g]
         best = min(certs, key=lambda p: g[p].mean()) if certs else None
-        r = {"n_ep": int(len(g)), "n_cl": int(g.cluster.nunique()), "best_certified": best,
-             "mean_J": {p: round(float(g[p].mean()), 2) for p in pols if p in g}, "contrasts": {}}
+        r = {
+            "n_ep": len(g),
+            "n_cl": int(g.cluster.nunique()),
+            "best_certified": best,
+            "mean_J": {p: round(float(g[p].mean()), 2) for p in pols if p in g},
+            "contrasts": {},
+        }
         pairs = []
         for rm, host in RMM_HOSTS.items():
             if rm in g:
@@ -354,17 +498,21 @@ def contrasts(E, pols, classes=CLASSES, extra_pairs=()):
     return res
 
 
-PAIRS = ([(f"E_rb:{h}", rm) for rm, h in RMM_HOSTS.items()]
-         + [(rm, f"E_srr:{h}") for rm, h in RMM_HOSTS.items()]
-         + [("rmm:gated_deployment+RMM", "rmm:gated_deployment+RMM_single"),
-            ("rmm:gated_deployment+RMM", "rmm:gated_deployment+RMM_noacq"),
-            ("rmm:discern_style+RMM", "rmm:discern_style+RMM_single"),
-            ("rmm:discern_style+RMM", "rmm:discern_style+RMM_noacq"),
-            ("rmm:SMCS+retain-incumbent+RMM", "rmm:SMCS+retain-incumbent+RMM_single"),
-            ("E_srr:gated_deployment", "E_srr_noacq:gated_deployment"),
-            ("rmm:gated_deployment+RMM", "E_glr:gated_deployment"),
-            ("rmm:gated_deployment+RMM", "xu_acquisition_only"),
-            ("E_swcert", "xu_acquisition_only")])
+PAIRS = (
+    [(f"E_rb:{h}", rm) for rm, h in RMM_HOSTS.items()]
+    + [(rm, f"E_srr:{h}") for rm, h in RMM_HOSTS.items()]
+    + [
+        ("rmm:gated_deployment+RMM", "rmm:gated_deployment+RMM_single"),
+        ("rmm:gated_deployment+RMM", "rmm:gated_deployment+RMM_noacq"),
+        ("rmm:discern_style+RMM", "rmm:discern_style+RMM_single"),
+        ("rmm:discern_style+RMM", "rmm:discern_style+RMM_noacq"),
+        ("rmm:SMCS+retain-incumbent+RMM", "rmm:SMCS+retain-incumbent+RMM_single"),
+        ("E_srr:gated_deployment", "E_srr_noacq:gated_deployment"),
+        ("rmm:gated_deployment+RMM", "E_glr:gated_deployment"),
+        ("rmm:gated_deployment+RMM", "xu_acquisition_only"),
+        ("E_swcert", "xu_acquisition_only"),
+    ]
+)
 
 
 def report(primary, twin, sens, classes_path, supplemental=()) -> dict:
@@ -391,24 +539,40 @@ def report(primary, twin, sens, classes_path, supplemental=()) -> dict:
         c = late.get("contrasts", {}).get(f"{rm} - {late.get('best_certified')}")
         ok += int(bool(c) and c["hi"] is not None and c["mean"] < 0 and c["hi"] < 0)
     enough = late.get("n_ep", 0) >= 10 and late.get("n_cl", 0) >= 3
-    out["H_late"] = {"hosts_supporting": ok, "enough_episodes": enough,
-                     "verdict": ("INSUFFICIENT_REAL_LATE_EPISODES" if not enough else
-                                 "SUPPORTED" if ok >= 3 else "NOT_SUPPORTED")}
+    out["H_late"] = {
+        "hosts_supporting": ok,
+        "enough_episodes": enough,
+        "verdict": (
+            "INSUFFICIENT_REAL_LATE_EPISODES"
+            if not enough
+            else "SUPPORTED"
+            if ok >= 3
+            else "NOT_SUPPORTED"
+        ),
+    }
     d = df.merge(pd_classes(cl), left_on=["regime", "ep"], right_on=["stream", "ep"])
     d = d[d.family != "twin"]
-    diag = d.groupby(["class", "policy"]).agg(promote=("ever_promote", "mean"),
-                                              rollbacks=("n_rollbacks", "mean"),
-                                              switches=("switches", "mean"),
-                                              harm_on1=("excess_vs_expected_G", "mean"),
-                                              labels=("labels", "mean"))
-    out["diagnostics"] = {c: g.droplevel(0).round(3).to_dict("index") for c, g in diag.groupby(level=0)}
+    diag = d.groupby(["class", "policy"]).agg(
+        promote=("ever_promote", "mean"),
+        rollbacks=("n_rollbacks", "mean"),
+        switches=("switches", "mean"),
+        harm_on1=("excess_vs_expected_G", "mean"),
+        labels=("labels", "mean"),
+    )
+    out["diagnostics"] = {
+        c: g.droplevel(0).round(3).to_dict("index") for c, g in diag.groupby(level=0)
+    }
     if twin:
         t = pd_read(twin)
         out["twin_promotion"] = {}
         for p, g in t.groupby("policy"):
             k, n = int(g.ever_promote.sum()), len(g)
             lo, hi = wilson(k, n)
-            out["twin_promotion"][p] = {"rate": round(k / n, 3), "ci": [round(lo, 3), round(hi, 3)], "n": n}
+            out["twin_promotion"][p] = {
+                "rate": round(k / n, 3),
+                "ci": [round(lo, 3), round(hi, 3)],
+                "n": n,
+            }
     out["sensitivity"] = {}
     for sd in sens:
         if not (Path(sd) / "records.jsonl").exists():
@@ -416,12 +580,20 @@ def report(primary, twin, sens, classes_path, supplemental=()) -> dict:
         Es, _ = episode_table([sd], classes_path)
         Es = Es[Es.family != "twin"]
         ps = [p for p in Es.columns if p not in ("class", "cluster", "family", "tau", "m1", "m2")]
-        res = contrasts(Es, ps, classes=("late_improvement", "reversal", "stationary_better", "null"),
-                        extra_pairs=[("E_rb:gated_deployment", "rmm:gated_deployment+RMM")])
+        res = contrasts(
+            Es,
+            ps,
+            classes=("late_improvement", "reversal", "stationary_better", "null"),
+            extra_pairs=[("E_rb:gated_deployment", "rmm:gated_deployment+RMM")],
+        )
         out["sensitivity"][Path(sd).name] = {
-            c: {"n_ep": v.get("n_ep"), "best_certified": v.get("best_certified"),
-                "contrasts": v.get("contrasts", {})}
-            for c, v in res.items()}
+            c: {
+                "n_ep": v.get("n_ep"),
+                "best_certified": v.get("best_certified"),
+                "contrasts": v.get("contrasts", {}),
+            }
+            for c, v in res.items()
+        }
     return out
 
 
@@ -467,13 +639,23 @@ def main(argv=None):
     rp.add_argument("--primary", required=True)
     rp.add_argument("--twin", default="")
     rp.add_argument("--sens", nargs="*", default=[])
-    rp.add_argument("--supplemental", nargs="*", default=[],
-                    help="additional policy records to join to primary episodes for a scoped sensitivity")
+    rp.add_argument(
+        "--supplemental",
+        nargs="*",
+        default=[],
+        help="additional policy records to join to primary episodes for a scoped sensitivity",
+    )
     rp.add_argument("--classes", required=True)
-    rp.add_argument("--amended-no-xu", action="store_true",
-                    help="Exclude Xu acquisition adapter from published-certificate ranking; preserve historical output separately.")
-    rp.add_argument("--strict-published-subset", action="store_true",
-                    help="Rank only evaluated members of bench.CERTIFIED_PUBLISHED; report omitted ports.")
+    rp.add_argument(
+        "--amended-no-xu",
+        action="store_true",
+        help="Exclude Xu acquisition adapter from published-certificate ranking; preserve historical output separately.",
+    )
+    rp.add_argument(
+        "--strict-published-subset",
+        action="store_true",
+        help="Rank only evaluated members of bench.CERTIFIED_PUBLISHED; report omitted ports.",
+    )
     rp.add_argument("--out", required=True)
     x = ap.parse_args(argv)
     if x.cmd == "report":
@@ -491,18 +673,27 @@ def main(argv=None):
                 policy_set.update(pd_read(policy_dir).policy.unique())
             available = [p for p in CERTIFIED_PUBLISHED if p in policy_set]
             missing = [p for p in CERTIFIED_PUBLISHED if p not in policy_set]
-            res["comparator_panel"] = {"source": "bench.CERTIFIED_PUBLISHED", "available": available,
-                                       "missing": missing,
-                                       "coverage": f"{len(available)}/{len(CERTIFIED_PUBLISHED)}"}
+            res["comparator_panel"] = {
+                "source": "bench.CERTIFIED_PUBLISHED",
+                "available": available,
+                "missing": missing,
+                "coverage": f"{len(available)}/{len(CERTIFIED_PUBLISHED)}",
+            }
             if missing:
-                res["analysis_status"] = ("strict published-pool subset sensitivity; rankings use only evaluated members of bench.CERTIFIED_PUBLISHED; "
-                                           "one or more registered ports are absent; same-episode comparator selection remains unadjusted")
+                res["analysis_status"] = (
+                    "strict published-pool subset sensitivity; rankings use only evaluated members of bench.CERTIFIED_PUBLISHED; "
+                    "one or more registered ports are absent; same-episode comparator selection remains unadjusted"
+                )
             else:
-                res["analysis_status"] = ("strict published-pool analysis; all six bench.CERTIFIED_PUBLISHED ports are evaluated; "
-                                           "same-episode comparator selection remains unadjusted")
+                res["analysis_status"] = (
+                    "strict published-pool analysis; all six bench.CERTIFIED_PUBLISHED ports are evaluated; "
+                    "same-episode comparator selection remains unadjusted"
+                )
         elif x.amended_no_xu:
-            res["analysis_status"] = ("amended adapter-panel sensitivity; Xu acquisition adapter excluded; Choe-Ramdas adapter retained; "
-                                       "not a complete published-certificate ranking; same-episode comparator selection remains unadjusted")
+            res["analysis_status"] = (
+                "amended adapter-panel sensitivity; Xu acquisition adapter excluded; Choe-Ramdas adapter retained; "
+                "not a complete published-certificate ranking; same-episode comparator selection remains unadjusted"
+            )
         else:
             res["analysis_status"] = "registered historical analysis"
         Path(x.out).parent.mkdir(parents=True, exist_ok=True)
@@ -522,19 +713,33 @@ def main(argv=None):
         for k in sorted(cnt):
             print(k, cnt[k])
     elif x.cmd == "run":
-        run(select(x.streams), [p for p in x.policies.split(",") if p], x.seeds, x.out,
-            seed_base=x.seed_base, workers=x.workers, delay_mult=x.delay_mult, budget=x.budget,
-            cs=x.cs, alpha=x.alpha, only_classes=[c for c in x.only_classes.split(",") if c],
-            classes_path=x.classes)
+        run(
+            select(x.streams),
+            [p for p in x.policies.split(",") if p],
+            x.seeds,
+            x.out,
+            seed_base=x.seed_base,
+            workers=x.workers,
+            delay_mult=x.delay_mult,
+            budget=x.budget,
+            cs=x.cs,
+            alpha=x.alpha,
+            only_classes=[c for c in x.only_classes.split(",") if c],
+            classes_path=x.classes,
+        )
     else:
         E, _ = episode_table(x.dirs, x.classes)
         pols = [p for p in E.columns if p not in ("class", "cluster", "family", "tau", "m1", "m2")]
         pairs = [tuple(s.split(":", 1)[0].split("|")) for s in x.extra_pairs.split(",") if s]
-        res = {"real_nontwin": contrasts(E[E.family != "twin"], pols, extra_pairs=pairs),
-               "late_constructions": contrasts(E[E.family.str.startswith("late")], pols,
-                                               extra_pairs=pairs),
-               "fixed_pairs": contrasts(E[E.family.isin(["cached", "fresh"])], pols,
-                                        extra_pairs=pairs)}
+        res = {
+            "real_nontwin": contrasts(E[E.family != "twin"], pols, extra_pairs=pairs),
+            "late_constructions": contrasts(
+                E[E.family.str.startswith("late")], pols, extra_pairs=pairs
+            ),
+            "fixed_pairs": contrasts(
+                E[E.family.isin(["cached", "fresh"])], pols, extra_pairs=pairs
+            ),
+        }
         Path(x.out).parent.mkdir(parents=True, exist_ok=True)
         Path(x.out).write_text(json.dumps(res, indent=1) + "\n")
         print(json.dumps(res["real_nontwin"], indent=1)[:4000])

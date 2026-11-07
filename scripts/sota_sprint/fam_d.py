@@ -47,12 +47,12 @@ for _p in (SOTA, SOTA / "competitors", ROOT / "scripts/failure_atlas_v2_flq"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from cams import CAMSDeploymentAdapter, stack_advice  # noqa: E402
-from controls import PacedDisagreementAcquisition  # noqa: E402
-from model_picker import ModelPickerDeploymentAdapter  # noqa: E402
-from model_selector import ModelSelectorCausalAdapter  # noqa: E402
-from qsg import EnvelopeMixture, StartedMixture  # noqa: E402
-from simulator import QueryRequest, ReleasedFeedback  # noqa: E402
+from cams import CAMSDeploymentAdapter, stack_advice
+from controls import PacedDisagreementAcquisition
+from model_picker import ModelPickerDeploymentAdapter
+from model_selector import ModelSelectorCausalAdapter
+from qsg import EnvelopeMixture, StartedMixture
+from simulator import QueryRequest, ReleasedFeedback
 
 
 # ------------------------------------------------------------------------------------------------
@@ -109,11 +109,11 @@ def _a1_or_standin(rho_bar=0.8):
     Returns (factory, label). The label is recorded in the ledger.
     """
     try:
-        import fam_a  # noqa: PLC0415
+        import fam_a
 
         sui = fam_a.MarkovSUI
         return (lambda side: _A1Cert(side, sui)), "fam_a.MarkovSUI (A1 evidence, default kwargs)"
-    except Exception:  # pragma: no cover - fam_a absent or broken: stand-in
+    except Exception:  # pragma: no cover - fam_a absent or broken: stand-in  # noqa: BLE001, S110
         pass
     return envelope(rho_bar), f"A1 stand-in: qsg.EnvelopeMixture(rho_bar={rho_bar})"
 
@@ -149,8 +149,9 @@ def make_host(kind: str, r):
     if kind == "mp":
         return ModelPickerDeploymentAdapter(2, 2, r("model_picker"))
     if kind == "cams":
-        return CAMSDeploymentAdapter(n_models=2, n_classes=2, advice_fn=stack_advice(2, []),
-                                     rng=r("cams"))
+        return CAMSDeploymentAdapter(
+            n_models=2, n_classes=2, advice_fn=stack_advice(2, []), rng=r("cams")
+        )
     if kind == "ms":
         return ModelSelectorCausalAdapter(2, 2, r("model_selector"))
     raise ValueError(kind)
@@ -177,15 +178,31 @@ class DeployGate:
     stop_when_final : once promoted with no rollback, deployment is absorbing, so all queries stop.
     """
 
-    def __init__(self, host, T, B, alpha, *, rng, cert=started_mixture, acq="host_pref",
-                 and_host=True, rollback=False, reserve=0.0, alpha_r=0.05, share=True,
-                 stop_when_final=True, monitor=True, name="DeployGate"):
+    def __init__(
+        self,
+        host,
+        T,
+        B,
+        alpha,
+        *,
+        rng,
+        cert=started_mixture,
+        acq="host_pref",
+        and_host=True,
+        rollback=False,
+        reserve=0.0,
+        alpha_r=0.05,
+        share=True,
+        stop_when_final=True,
+        monitor=True,
+        name="DeployGate",
+    ):
         self.host, self.name = host, name
         self.T, self.B, self.alpha, self.alpha_r = T, B, alpha, alpha_r
         self.rng, self.cert, self.acq = rng, cert, acq
         self.and_host, self.rollback, self.share = and_host, rollback, share
         self.stop_when_final, self.monitor = stop_when_final, monitor
-        self.reserve = int(round(reserve * B))
+        self.reserve = round(reserve * B)
         self.pacer = PacedDisagreementAcquisition(T, B)
         self.deployed, self.cycle, self.decided, self.cert_ok = 0, 1, False, False
         self.seg = 0
@@ -224,8 +241,11 @@ class DeployGate:
         if pre and remaining_budget <= self.reserve:
             return QueryRequest(requested=False)  # reserve is for post-promotion monitoring only
         u = _host_u(self.host, event, hreq)
-        if pre and not self.decided and (
-                self.acq == "always" or (self.acq == "host_pref" and self.host_pref == 1)):
+        if (
+            pre
+            and not self.decided
+            and (self.acq == "always" or (self.acq == "host_pref" and self.host_pref == 1))
+        ):
             q_g = 1.0
         elif self.deployed == 1 and self.rollback and self.monitor:
             q_g = q_pace  # paced rollback monitoring from the remaining (reserved) budget
@@ -245,12 +265,22 @@ class DeployGate:
         fbs = sorted(feedback, key=lambda f: f.event_id)
         host_fb = []
         for fb in fbs:
-            drew, u, q_comb = self._req.pop(fb.event_id, (True, fb.query_probability,
-                                                          fb.query_probability))
+            drew, u, q_comb = self._req.pop(
+                fb.event_id, (True, fb.query_probability, fb.query_probability)
+            )
             if self.share or drew:
                 p = q_comb if self.share else u
-                host_fb.append(ReleasedFeedback(fb.event_id, fb.t_requested, fb.t_released,
-                                                fb.label, fb.model_losses, float(p), fb.extra))
+                host_fb.append(
+                    ReleasedFeedback(
+                        fb.event_id,
+                        fb.t_requested,
+                        fb.t_released,
+                        fb.label,
+                        fb.model_losses,
+                        float(p),
+                        fb.extra,
+                    )
+                )
         if host_fb:
             self.host.observe(host_fb)
         for fb in fbs:
@@ -264,7 +294,7 @@ class DeployGate:
             if self.deployed == 0:
                 up = self.e_up.update(z, fb.event_id, last)
                 dn = self.e_dn.update(z, fb.event_id, last)
-                if up >= 2.0 ** self.cycle / self.alpha:
+                if up >= 2.0**self.cycle / self.alpha:
                     # latched: Ville bounds the event "ever crossed"; stop front-loading and
                     # wait for the host to rank the challenger first
                     self.cert_ok, self.decided = True, True
@@ -277,7 +307,9 @@ class DeployGate:
                     self._new_tests()
 
     def decision_state(self):
-        return f"dep={self.deployed};cycle={self.cycle};cert={int(self.cert_ok)};pref={self.host_pref}"
+        return (
+            f"dep={self.deployed};cycle={self.cycle};cert={int(self.cert_ok)};pref={self.host_pref}"
+        )
 
     def state_dict(self):
         return {}
@@ -303,8 +335,20 @@ class SelectThenMonitor:
     holds the incumbent at selection time unless the phase-1 evidence certifies the challenger.
     """
 
-    def __init__(self, T, B, alpha, *, r, rng, n_select=100, alpha_r=0.05, cert=started_mixture,
-                 gate_initial=False, name="D3"):
+    def __init__(
+        self,
+        T,
+        B,
+        alpha,
+        *,
+        r,
+        rng,
+        n_select=100,
+        alpha_r=0.05,
+        cert=started_mixture,
+        gate_initial=False,
+        name="D3",
+    ):
         self.host = make_host("ms", r)
         self.name, self.T, self.B, self.alpha, self.alpha_r = name, T, B, alpha, alpha_r
         self.rng, self.cert, self.n_select, self.gate_initial = rng, cert, n_select, gate_initial
@@ -343,7 +387,7 @@ class SelectThenMonitor:
             if self.phase == 1:
                 self.host.observe([fb])
                 self.n_obs += 1
-                if d != 0 and self.gate_initial and not self.pre_ok:
+                if d != 0 and self.gate_initial and not self.pre_ok:  # noqa: SIM102
                     if self.pre_up.update(int(d > 0), fb.event_id) >= 2.0 / self.alpha:
                         self.pre_ok = True
                 if self.n_obs >= self.n_select:
@@ -358,7 +402,7 @@ class SelectThenMonitor:
             if d == 0 or fb.event_id < self.seg:
                 continue
             e = self.mon.update(int(d > 0), fb.event_id)
-            thr = (2.0 ** self.cycle / self.alpha) if self.deployed == 0 else 1.0 / self.alpha_r
+            thr = (2.0**self.cycle / self.alpha) if self.deployed == 0 else 1.0 / self.alpha_r
             if e >= thr:
                 self.deployed = 1 - self.deployed
                 if self.deployed == 0:
@@ -379,14 +423,22 @@ class SelectThenMonitor:
 # Registry entries.
 # ------------------------------------------------------------------------------------------------
 # D6 frozen parameter set (one module, one setting, every host). Fixed a priori, not tuned.
-D6_PARAMS = dict(cert=started_mixture, acq="host_pref", and_host=True, rollback=True,
-                 reserve=0.25, alpha_r=0.05, share=True)
+D6_PARAMS = {
+    "cert": started_mixture,
+    "acq": "host_pref",
+    "and_host": True,
+    "rollback": True,
+    "reserve": 0.25,
+    "alpha_r": 0.05,
+    "share": True,
+}
 A1_FACTORY, A1_SOURCE = _a1_or_standin(0.8)
 
 
 def _gate(kind, name, **kw):
     def f(T, B, cs, cq, a, d, r):
         return DeployGate(make_host(kind, r), T, B, a, rng=r("D_gate"), name=name, **kw)
+
     return f
 
 
@@ -403,15 +455,19 @@ EXTRA = {
     # under the same context-free constant-policy advice as cams_adapter. Prediction deployment,
     # hard cap, delayed feedback and switching costs remain benchmark adapters.
     "cams_max_adapter": lambda T, B, cs, cq, a, d, r: CAMSDeploymentAdapter(
-        n_models=2, n_classes=2, advice_fn=stack_advice(2, []), rng=r("cams"),
-        variant="CAMS-MAX", name="cams_max_adapter"),
+        n_models=2,
+        n_classes=2,
+        advice_fn=stack_advice(2, []),
+        rng=r("cams"),
+        variant="CAMS-MAX",
+        name="cams_max_adapter",
+    ),
     "D2-host_only": _gate("cams", "D2-host_only", acq="host_only"),
     # D3: Model Selector + post-decision monitoring
-    "D3": lambda T, B, cs, cq, a, d, r: SelectThenMonitor(T, B, a, r=r, rng=r("D_gate"),
-                                                          name="D3"),
-    "D3-gated": lambda T, B, cs, cq, a, d, r: SelectThenMonitor(T, B, a, r=r, rng=r("D_gate"),
-                                                                gate_initial=True,
-                                                                name="D3-gated"),
+    "D3": lambda T, B, cs, cq, a, d, r: SelectThenMonitor(T, B, a, r=r, rng=r("D_gate"), name="D3"),
+    "D3-gated": lambda T, B, cs, cq, a, d, r: SelectThenMonitor(
+        T, B, a, r=r, rng=r("D_gate"), gate_initial=True, name="D3-gated"
+    ),
     # D4: D1 + rollback reserve + rollback rule
     "D4": _gate("mp", "D4", rollback=True, reserve=0.25),
     "D4-no_reserve": _gate("mp", "D4-no_reserve", rollback=True, reserve=0.0),

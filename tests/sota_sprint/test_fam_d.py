@@ -11,11 +11,11 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import fam_d  # noqa: E402
-from fam_d import EXTRA, DeployGate, make_host  # noqa: E402
-from regimes import REGIMES  # noqa: E402
-from simulator import policy_rng, run_episode  # noqa: E402
-from suite import stream_from_losses  # noqa: E402
+import fam_d
+from fam_d import EXTRA, DeployGate, make_host
+from regimes import REGIMES
+from simulator import policy_rng, run_episode
+from suite import stream_from_losses
 
 CANDIDATES = ["D1", "D2", "D3", "D4", "D5", "D6:mp", "D6:cams", "D6:ms"]
 
@@ -26,8 +26,16 @@ def _run(name, regime="F0_null", seed=0, T=2000, B=200, delay=None):
     preds, labels = stream_from_losses(losses, np.random.default_rng(seed + 1))
     d = R.delay if delay is None else delay
     pol = EXTRA[name](T, B, 5.0, 0.05, 0.05, d, lambda n: policy_rng(11, seed, n))
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=d, budget=B,
-                      label_price=0.05, switch_cost=5.0, trace=True)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=d,
+        budget=B,
+        label_price=0.05,
+        switch_cost=5.0,
+        trace=True,
+    )
     return pol, res
 
 
@@ -59,10 +67,16 @@ def test_native_hosts_do_promote_on_short_null():
         R = REGIMES["F0_null"]
         losses = R.sample(np.random.default_rng(seed), 300)
         preds, labels = stream_from_losses(losses, np.random.default_rng(seed + 1))
-        pol = build_suite(300, 60, 5.0, 0.05, 0.05, 10, seed, 11,
-                          names=["model_picker_adapter"])[0]
-        res = run_episode(pol, model_predictions=preds, labels=labels, delay=10, budget=60,
-                          label_price=0.05, switch_cost=5.0)
+        pol = build_suite(300, 60, 5.0, 0.05, 0.05, 10, seed, 11, names=["model_picker_adapter"])[0]
+        res = run_episode(
+            pol,
+            model_predictions=preds,
+            labels=labels,
+            delay=10,
+            budget=60,
+            label_price=0.05,
+            switch_cost=5.0,
+        )
         n += res.deployment_switches > 0
     assert n >= 3
 
@@ -75,10 +89,17 @@ def test_wrapper_runs_on_every_host_and_promotes_on_clear_advantage(kind):
     for seed in range(4):
         losses = R.sample(np.random.default_rng(seed), T)
         preds, labels = stream_from_losses(losses, np.random.default_rng(seed + 1))
-        r = lambda n, s=seed: policy_rng(5, s, n)  # noqa: E731
+        r = lambda n, s=seed: policy_rng(5, s, n)
         pol = DeployGate(make_host(kind, r), T, B, 0.05, rng=r("D_gate"), **fam_d.D6_PARAMS)
-        res = run_episode(pol, model_predictions=preds, labels=labels, delay=R.delay, budget=B,
-                          label_price=0.05, switch_cost=5.0)
+        res = run_episode(
+            pol,
+            model_predictions=preds,
+            labels=labels,
+            delay=R.delay,
+            budget=B,
+            label_price=0.05,
+            switch_cost=5.0,
+        )
         assert res.requested_labels <= B
         wins += res.records[-1]["deployed_model"] == 1
     assert wins >= 2

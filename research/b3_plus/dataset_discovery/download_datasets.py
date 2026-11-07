@@ -14,8 +14,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-import dataset_sources as ds  # noqa: E402
-import registry as reg  # noqa: E402
+import dataset_sources as ds
+import registry as reg
 
 
 def ensure_gitignore() -> None:
@@ -25,8 +25,13 @@ def ensure_gitignore() -> None:
         g.write_text("*\n!.gitignore\n", encoding="utf-8")
 
 
-def download_one(dataset_id: str, registry: dict | None = None, reg_path=reg.REGISTRY_PATH,
-                 max_mb: int = 1500, allow_large: bool = False) -> dict:
+def download_one(
+    dataset_id: str,
+    registry: dict | None = None,
+    reg_path=reg.REGISTRY_PATH,
+    max_mb: int = 1500,
+    allow_large: bool = False,
+) -> dict:
     ensure_gitignore()
     registry = registry if registry is not None else reg.load(reg_path)
     entry = reg.get(registry, dataset_id)
@@ -48,8 +53,12 @@ def download_one(dataset_id: str, registry: dict | None = None, reg_path=reg.REG
     entry["files"] = ds.hash_dir(d)
     if not entry["files"]:  # file ships inside the river package (e.g. Phishing)
         pth = ds.download_river(dataset_id)
-        entry["files"] = {f"river-package:{pth.name}": {"bytes": pth.stat().st_size,
-                                                        "sha256": ds.sha256_file(pth)}}
+        entry["files"] = {
+            f"river-package:{pth.name}": {
+                "bytes": pth.stat().st_size,
+                "sha256": ds.sha256_file(pth),
+            }
+        }
     reg.stamp(entry, "downloaded_at_utc")
     if reg_path is not None:
         reg.save(registry, reg_path)

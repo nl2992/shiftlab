@@ -26,8 +26,8 @@ for _p in (SOTA, SOTA / "competitors"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from controls import PacedDisagreementAcquisition  # noqa: E402
-from simulator import QueryRequest  # noqa: E402
+from controls import PacedDisagreementAcquisition
+from simulator import QueryRequest
 
 
 def _sigmoid(z):
@@ -129,7 +129,9 @@ class RyabchenkoCapacityPolicy(_Paced):
         self.b = max(1, math.ceil(T / max(budget, 1)))
         n_blocks = math.ceil(T / self.b)
         self.u = float(rng.random())
-        self.eta = math.sqrt(8.0 * math.log(2.0) / n_blocks) / math.sqrt(1.0 + math.ceil(delay / self.b))
+        self.eta = math.sqrt(8.0 * math.log(2.0) / n_blocks) / math.sqrt(
+            1.0 + math.ceil(delay / self.b)
+        )
         self.score, self.ready = 0.0, 0.0
         self.target, self.done = -1, True
 
@@ -154,7 +156,9 @@ class RyabchenkoCapacityPolicy(_Paced):
 
 
 def _mk(cls):
-    return lambda T, budget, cs, cq, alpha, delay, r, _c=cls: _c(T, budget, delay, cs, r(_c.__name__))
+    return lambda T, budget, cs, cq, alpha, delay, r, _c=cls: _c(
+        T, budget, delay, cs, r(_c.__name__)
+    )
 
 
 EXTRA = {

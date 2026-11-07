@@ -89,9 +89,7 @@ def test_policy_weight_update_matches_hand_computation():
     assert req.requested and req.probability == 1.0
     from simulator import ReleasedFeedback
 
-    pol.observe(
-        [ReleasedFeedback(0, 0, 1, 0, np.array([0, 1]), req.probability, dict(req.extra))]
-    )
+    pol.observe([ReleasedFeedback(0, 0, 1, 0, np.array([0, 1]), req.probability, dict(req.extra))])
     np.testing.assert_allclose(pol.core.loss_tilde, [0.25, 0.75, 0.5])
     ev1 = Event(1, 1, 10, preds, None)
     w2 = pol.core.recommendation(ev1)
@@ -101,7 +99,10 @@ def test_policy_weight_update_matches_hand_computation():
 def test_cams_max_uses_best_policy_row_only():
     raw = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
     pol = CAMSNative(
-        n_models=2, n_classes=2, advice_fn=lambda ev: raw, rng=np.random.default_rng(0),
+        n_models=2,
+        n_classes=2,
+        advice_fn=lambda ev: raw,
+        rng=np.random.default_rng(0),
         variant="CAMS-MAX",
     )
     pol.core.loss_tilde = np.array([5.0, 0.0, 5.0])  # policy 1 is best
@@ -144,12 +145,21 @@ def test_budget_feasible_pathwise_through_simulator(variant):
     preds, y, ctx = synth()
     M = preds.shape[1]
     pol = CAMSDeploymentAdapter(
-        n_models=M, n_classes=3, advice_fn=toy_advice(M), rng=policy_rng(0, 0, "cams"),
+        n_models=M,
+        n_classes=3,
+        advice_fn=toy_advice(M),
+        rng=policy_rng(0, 0, "cams"),
         variant=variant,
     )
     res = run_episode(
-        pol, model_predictions=preds, labels=y, contexts=ctx, delay=4, budget=7,
-        label_price=0.05, switch_cost=1.0,
+        pol,
+        model_predictions=preds,
+        labels=y,
+        contexts=ctx,
+        delay=4,
+        budget=7,
+        label_price=0.05,
+        switch_cost=1.0,
     )
     assert check_budget_feasible(res, 7) == []
     assert check_no_future_access(res, 4) == []
@@ -165,8 +175,15 @@ def test_no_update_before_release():
         n_models=M, n_classes=3, advice_fn=toy_advice(M), rng=policy_rng(2, 0, "cams")
     )
     res = run_episode(
-        pol, model_predictions=preds, labels=y, contexts=ctx, delay=delay, budget=60,
-        label_price=0.0, switch_cost=0.0, trace=True,
+        pol,
+        model_predictions=preds,
+        labels=y,
+        contexts=ctx,
+        delay=delay,
+        budget=60,
+        label_price=0.0,
+        switch_cost=0.0,
+        trace=True,
     )
     first_req = min(r["event_id"] for r in res.records if r["requested"])
     # replay with a recording observe to see when the first update lands
@@ -182,8 +199,14 @@ def test_no_update_before_release():
 
     pol2.observe = spy  # type: ignore[method-assign]
     run_episode(
-        pol2, model_predictions=preds, labels=y, contexts=ctx, delay=delay, budget=60,
-        label_price=0.0, switch_cost=0.0,
+        pol2,
+        model_predictions=preds,
+        labels=y,
+        contexts=ctx,
+        delay=delay,
+        budget=60,
+        label_price=0.0,
+        switch_cost=0.0,
     )
     assert seen_at, "expected at least one label to be released"
     assert all(rel - req == delay for _, rel, req in seen_at)
@@ -209,8 +232,15 @@ def test_determinism_and_state_roundtrip():
             n_models=M, n_classes=3, advice_fn=toy_advice(M), rng=policy_rng(7, 1, "cams")
         )
 
-    kw = {"model_predictions": preds, "labels": y, "contexts": ctx, "delay": 3, "budget": 20,
-              "label_price": 0.05, "switch_cost": 0.5}
+    kw = {
+        "model_predictions": preds,
+        "labels": y,
+        "contexts": ctx,
+        "delay": 3,
+        "budget": 20,
+        "label_price": 0.05,
+        "switch_cost": 0.5,
+    }
     a = run_episode(make(), **kw)
     b = run_episode(make(), **kw)
     assert a.records == b.records and a.net_cost == b.net_cost
@@ -240,11 +270,21 @@ def test_constant_policies_are_present_and_one_hot():
 def test_adapter_with_sampling_matches_native_at_delay_one_with_ample_budget():
     preds, y, ctx = synth(T=100, seed=5)
     M = preds.shape[1]
-    kw = {"model_predictions": preds, "labels": y, "contexts": ctx, "delay": 1, "budget": 10_000,
-              "label_price": 0.0, "switch_cost": 0.0}
+    kw = {
+        "model_predictions": preds,
+        "labels": y,
+        "contexts": ctx,
+        "delay": 1,
+        "budget": 10_000,
+        "label_price": 0.0,
+        "switch_cost": 0.0,
+    }
     nat = CAMSNative(n_models=M, n_classes=3, advice_fn=toy_advice(M), rng=np.random.default_rng(9))
     ada = CAMSDeploymentAdapter(
-        n_models=M, n_classes=3, advice_fn=toy_advice(M), rng=np.random.default_rng(9),
+        n_models=M,
+        n_classes=3,
+        advice_fn=toy_advice(M),
+        rng=np.random.default_rng(9),
         deploy="sample",
     )
     a, b = run_episode(nat, **kw), run_episode(ada, **kw)
@@ -267,19 +307,20 @@ class _AuthorData:
 
 
 @pytest.mark.skipif(not (VENDOR / "src/methods/CAMS_identity.py").exists(), reason="no vendor_sota")
-@pytest.mark.parametrize("variant,fname,fn", [
-    ("CAMS", "CAMS_identity.py", "CAMS_identity"),
-    ("CAMS-MAX", "CAMS_test.py", "CAMS_test"),
-])
+@pytest.mark.parametrize(
+    "variant,fname,fn",
+    [
+        ("CAMS", "CAMS_identity.py", "CAMS_identity"),
+        ("CAMS-MAX", "CAMS_test.py", "CAMS_test"),
+    ],
+)
 @pytest.mark.parametrize("seed,budget", [(0, 12), (1, 30), (2, 1000)])
 def test_port_matches_author_code_numerically(variant, fname, fn, seed, budget, monkeypatch):
     # The author code stores ``binomial(size=1, ...)`` (a 1-element array) into a scalar slot,
     # which the installed NumPy rejects. Shim: the same draw returned as a scalar. The stream is
     # identical (a size-1 draw and a scalar draw consume the same bits).
     orig_binomial = np.random.binomial
-    monkeypatch.setattr(
-        np.random, "binomial", lambda size=None, n=1, p=0.5: orig_binomial(n, p)
-    )
+    monkeypatch.setattr(np.random, "binomial", lambda size=None, n=1, p=0.5: orig_binomial(n, p))
     d = VENDOR / "resources/contextual_data/VERTEBRAL"
     advice = np.load(d / "advice_matrix_identity.npz")["advice_matrix"][:, :12, :]
     preds = np.loadtxt(d / "predictions.out")
@@ -313,12 +354,20 @@ def test_port_matches_author_code_numerically(variant, fname, fn, seed, budget, 
     author_budgeted, author_hidden, author_w = out[2], out[3], out[4]
 
     pol = CAMSNative(
-        n_models=data._num_models, n_classes=data._num_classes,
-        advice_fn=lambda ev: advice[ev.t], rng=np.random.RandomState(seed), variant=variant,
+        n_models=data._num_models,
+        n_classes=data._num_classes,
+        advice_fn=lambda ev: advice[ev.t],
+        rng=np.random.RandomState(seed),
+        variant=variant,
     )
     res = run_episode(
-        pol, model_predictions=preds.astype(int), labels=oracle.astype(int), delay=1,
-        budget=budget, label_price=0.0, switch_cost=0.0,
+        pol,
+        model_predictions=preds.astype(int),
+        labels=oracle.astype(int),
+        delay=1,
+        budget=budget,
+        label_price=0.0,
+        switch_cost=0.0,
     )
     mine_w = np.vstack([tr["w"] for tr in pol.core.trace])
     np.testing.assert_allclose(mine_w, author_w, atol=1e-12, rtol=0)

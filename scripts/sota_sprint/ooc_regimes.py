@@ -13,7 +13,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
-
 from bench import SPRINT_REGIMES
 
 
@@ -37,19 +36,23 @@ class OOCNull:
             t = 0
             while t < horizon:
                 run = int(np.floor(rng.pareto(1.5) + 1.0))
-                sign[t:t + run] = rng.random() < 0.5
+                sign[t : t + run] = rng.random() < 0.5
                 t += run
         else:
             sign[:2] = rng.random(2) < 0.5
             for t in range(2, horizon):
                 u = rng.random()
-                sign[t] = sign[t - 1] if u < 0.45 else (sign[t - 2] if u < 0.85 else rng.random() < 0.5)
+                sign[t] = (
+                    sign[t - 1] if u < 0.45 else (sign[t - 2] if u < 0.85 else rng.random() < 0.5)
+                )
         both_wrong = rng.random(horizon) < self.err_agree
         l0 = np.where(on, sign, both_wrong).astype(np.int8)
         l1 = np.where(on, ~sign, both_wrong).astype(np.int8)
         return np.stack([l0, l1], axis=1)
 
 
-OOC = {r.name: r for r in [OOCNull("O_null_semimarkov", "semimarkov"),
-                           OOCNull("O_null_order2", "order2")]}
+OOC = {
+    r.name: r
+    for r in [OOCNull("O_null_semimarkov", "semimarkov"), OOCNull("O_null_order2", "order2")]
+}
 SPRINT_REGIMES.update(OOC)

@@ -26,9 +26,9 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import twin_null  # noqa: E402
-from fam_a import rho_mle  # noqa: E402
-from fresh_real import CATEGORICAL, DELAYS, LOADERS, MAX_EPS, T_EP, prep  # noqa: E402
+import twin_null
+from fam_a import rho_mle
+from fresh_real import CATEGORICAL, DELAYS, LOADERS, MAX_EPS, T_EP, prep
 
 ROOT = HERE.parents[1]
 REG = ROOT / "data/sprint_twin_losses"
@@ -60,8 +60,9 @@ def build_splits(name: str, splits) -> dict:
         half = twin_null._seed(name, s, 0).random(n30) < 0.5
         preds = []
         for m in (half, ~half):
-            clf = HistGradientBoostingClassifier(max_iter=100, max_depth=4, learning_rate=0.1,
-                                                 random_state=0).fit(xtr[m], y[:n30][m])
+            clf = HistGradientBoostingClassifier(
+                max_iter=100, max_depth=4, learning_rate=0.1, random_state=0
+            ).fit(xtr[m], y[:n30][m])
             preds.append((clf.predict(xe) != y[n30:end]).astype(np.int8).reshape(k, T_EP))
         if twin_null._seed(name, s, 1).random() < 0.5:
             preds = preds[::-1]
@@ -78,14 +79,22 @@ def build_splits(name: str, splits) -> dict:
     l0, l1 = np.concatenate(L0), np.concatenate(L1)
     adv = np.array(adv)
     per_split = adv.reshape(len(list(splits)), k).mean(axis=1)
-    stats = {"dataset": name, "splits": [int(s) for s in splits], "K": int(k),
-             "episodes": int(l0.shape[0]), "delay": DELAYS[name], "err0": float(l0.mean()),
-             "err1": float(l1.mean()), "disagreement": float((l0 != l1).mean()),
-             "mean_adv_over_splits": float(per_split.mean()),
-             "sd_adv_over_splits": float(per_split.std(ddof=1)),
-             "abs_adv_episode_median": float(np.median(np.abs(adv))),
-             "median_rho_hat": float(np.median(rhos)) if rhos else None, "n_rho": len(rhos),
-             "array_content_sha256": content_hash(l0, l1)}
+    stats = {
+        "dataset": name,
+        "splits": [int(s) for s in splits],
+        "K": int(k),
+        "episodes": int(l0.shape[0]),
+        "delay": DELAYS[name],
+        "err0": float(l0.mean()),
+        "err1": float(l1.mean()),
+        "disagreement": float((l0 != l1).mean()),
+        "mean_adv_over_splits": float(per_split.mean()),
+        "sd_adv_over_splits": float(per_split.std(ddof=1)),
+        "abs_adv_episode_median": float(np.median(np.abs(adv))),
+        "median_rho_hat": float(np.median(rhos)) if rhos else None,
+        "n_rho": len(rhos),
+        "array_content_sha256": content_hash(l0, l1),
+    }
     return {"l0": l0, "l1": l1, "split": np.array(split), "ep": np.array(ep), "stats": stats}
 
 
@@ -99,9 +108,13 @@ def reproduce(scratch: Path) -> dict:
         copy = build_splits(nm, range(20))["stats"]["array_content_sha256"]
         z = np.load(REG / f"twin_{nm}.npz")
         on_disk = content_hash(z["l0"], z["l1"])
-        out[nm] = {"registered": reg[nm]["array_content_sha256"], "frozen_rebuild": frozen,
-                   "wp2_copy_rebuild": copy, "registered_file": on_disk,
-                   "match": frozen == copy == on_disk == reg[nm]["array_content_sha256"]}
+        out[nm] = {
+            "registered": reg[nm]["array_content_sha256"],
+            "frozen_rebuild": frozen,
+            "wp2_copy_rebuild": copy,
+            "registered_file": on_disk,
+            "match": frozen == copy == on_disk == reg[nm]["array_content_sha256"],
+        }
         print(nm, out[nm]["match"])
     return out
 
@@ -113,8 +126,14 @@ def build_v2() -> dict:
         b = build_splits(nm, V2_SPLITS)
         np.savez(V2 / f"twin2_{nm}.npz", l0=b["l0"], l1=b["l1"], split=b["split"], ep=b["ep"])
         stats[nm] = b["stats"]
-        print(nm, {k: (round(v, 4) if isinstance(v, float) else v) for k, v in b["stats"].items()
-                   if k not in ("splits", "array_content_sha256")})
+        print(
+            nm,
+            {
+                k: (round(v, 4) if isinstance(v, float) else v)
+                for k, v in b["stats"].items()
+                if k not in ("splits", "array_content_sha256")
+            },
+        )
     (V2 / "stats.json").write_text(json.dumps(stats, indent=1) + "\n")
     return stats
 
@@ -126,11 +145,16 @@ def rewindow(z, T: int) -> dict:
     for s in np.unique(split):
         a0, a1 = l0[split == s].reshape(-1), l1[split == s].reshape(-1)
         k = len(a0) // T
-        L0.append(a0[:k * T].reshape(k, T))
-        L1.append(a1[:k * T].reshape(k, T))
+        L0.append(a0[: k * T].reshape(k, T))
+        L1.append(a1[: k * T].reshape(k, T))
         S += [int(s)] * k
         E += list(range(k))
-    return {"l0": np.concatenate(L0), "l1": np.concatenate(L1), "split": np.array(S), "ep": np.array(E)}
+    return {
+        "l0": np.concatenate(L0),
+        "l1": np.concatenate(L1),
+        "split": np.array(S),
+        "ep": np.array(E),
+    }
 
 
 def build_variants() -> dict:
@@ -140,8 +164,10 @@ def build_variants() -> dict:
         for T in (1000, 4000):
             v = rewindow(z, T)
             np.savez(V2 / f"twin2_{nm}_T{T}.npz", **v)
-            out[f"{nm}_T{T}"] = {"episodes": int(v["l0"].shape[0]),
-                                 "array_content_sha256": content_hash(v["l0"], v["l1"])}
+            out[f"{nm}_T{T}"] = {
+                "episodes": int(v["l0"].shape[0]),
+                "array_content_sha256": content_hash(v["l0"], v["l1"]),
+            }
     (V2 / "variants.json").write_text(json.dumps(out, indent=1) + "\n")
     print(out)
     return out

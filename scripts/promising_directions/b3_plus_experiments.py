@@ -31,10 +31,10 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-import b3_plus_baselines as base  # noqa: E402
+import b3_plus_baselines as base
 
 try:  # P7 variants arrive from a separately written module; never stubbed here.
-    from b3_plus_policy import PlusParams, run_plus_policies  # noqa: E402
+    from b3_plus_policy import PlusParams, run_plus_policies
 
     PLUS_AVAILABLE = True
 except ImportError:  # pragma: no cover - depends on file presence
@@ -57,10 +57,23 @@ def _plus_params(v):
             variant=v, acq_shape="settled", r_max=1.0, r_floor=0.25, settled_floor=0.0
         )
     return PlusParams(variant=v)
+
+
 PLUS_VARIANTS = ("P4ref", "P7a", "P7b", "P7", "P7c", "P7s", "P7sp")
 ALL_VARIANTS = (
-    "P0", "P1", "P2", "P3b", "P6", "PCT",
-    "P4ref", "P7a", "P7b", "P7", "P7c", "P7s", "P7sp",
+    "P0",
+    "P1",
+    "P2",
+    "P3b",
+    "P6",
+    "PCT",
+    "P4ref",
+    "P7a",
+    "P7b",
+    "P7",
+    "P7c",
+    "P7s",
+    "P7sp",
 )
 STREAMS_ALL = ("spam", "rialto", "weather", "airlines", "bank", "elec2", "criteo")
 # Phase 3.1 table: budget at T=2000, cs, cq, delay multiplier (None = protocol delay), alt pair.
@@ -192,9 +205,7 @@ def run_variants(l0, l1, u, budget, cs, cq, p, variants) -> dict:
     if plus_names:
         a0 = np.repeat(np.asarray(l0, dtype=np.int8)[:, None], u.shape[1], axis=1)
         a1 = np.repeat(np.asarray(l1, dtype=np.int8)[:, None], u.shape[1], axis=1)
-        res = run_plus_policies(
-            a0, a1, u, budget, cs, cq, p, [_plus_params(v) for v in plus_names]
-        )
+        res = run_plus_policies(a0, a1, u, budget, cs, cq, p, [_plus_params(v) for v in plus_names])
         missing = [v for v in plus_names if v not in res]
         if missing:
             raise SystemExit(f"b3_plus_policy.run_plus_policies returned no result for {missing}")

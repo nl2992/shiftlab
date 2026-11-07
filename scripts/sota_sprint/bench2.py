@@ -25,8 +25,14 @@ ALPHA_GRID = [0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5]
 # Development environments for Track R calibration: the null mix a risk target refers to. The mix is
 # fixed here so that "risk" means the same thing for every method: iid, moderate and strong persistence.
 RISK_NULLS = ["F0_null", "F0_worse", "F5_dep_null_r8", "F5_dep_null_r95"]
-RISK_ALTS = ["F0_better", "F7_near_better", "F9_bursty_better", "F1_late_800", "F5_dep_better_r8",
-             "S_dep_better_r95"]
+RISK_ALTS = [
+    "F0_better",
+    "F7_near_better",
+    "F9_bursty_better",
+    "F1_late_800",
+    "F5_dep_better_r8",
+    "S_dep_better_r95",
+]
 
 # Track V: which null each method's guarantee actually concerns (sprint-1 code; new families add theirs).
 #   V1 = conditional advantage: E[challenger advantage | F_{t-1}] <= 0 on the evidence it uses
@@ -35,23 +41,48 @@ RISK_ALTS = ["F0_better", "F7_near_better", "F9_bursty_better", "F1_late_800", "
 #   V3 = economic non-improvement (expected value of switching <= 0 after costs); no anytime guarantee
 #   none = no false-promotion guarantee
 NULL_TESTED = {
-    "gated_deployment": "V1", "gated_adaptive_range": "V1", "gated_adaptive_range+front": "V1",
-    "discern_style": "V1", "discern_design_floor": "V1", "SMCS+retain-incumbent": "V1",
+    "gated_deployment": "V1",
+    "gated_adaptive_range": "V1",
+    "gated_adaptive_range+front": "V1",
+    "discern_style": "V1",
+    "discern_design_floor": "V1",
+    "SMCS+retain-incumbent": "V1",
     # Xu supplies acquisition only here; the paired V1 test is ShiftLab's B3+ certificate, not
     # Xu's prediction-set risk guarantee. Keep V1 for the composite policy while excluding it from
     # the published-certificate comparator class.
     "xu_acquisition_only": "V1 (ShiftLab certificate; Xu acquisition adapter)",
-    "choe_ramdas_eb": "V1", "choe_ramdas_eb+front": "V1",
-    "gated_deployment+QCE": "V1", "gated_deployment+QCE+front": "V1", "QSG": "V1",
-    "D1": "V1", "D2": "V1", "rmm:gated_deployment+RMM": "V1", "rmm:LRMD": "V1",
-    "A5b": "V2", "A1b": "V2", "D5": "V2", "M_LRMD_SUI": "V2", "M_RMMSUI_A5b": "V2",
-    "economic_replacement": "V3", "P7s_settled": "V1",
-    "model_picker_adapter": "none", "cams_adapter": "none", "cams_max_adapter": "none",
+    "choe_ramdas_eb": "V1",
+    "choe_ramdas_eb+front": "V1",
+    "gated_deployment+QCE": "V1",
+    "gated_deployment+QCE+front": "V1",
+    "QSG": "V1",
+    "D1": "V1",
+    "D2": "V1",
+    "rmm:gated_deployment+RMM": "V1",
+    "rmm:LRMD": "V1",
+    "A5b": "V2",
+    "A1b": "V2",
+    "D5": "V2",
+    "M_LRMD_SUI": "V2",
+    "M_RMMSUI_A5b": "V2",
+    "economic_replacement": "V3",
+    "P7s_settled": "V1",
+    "model_picker_adapter": "none",
+    "cams_adapter": "none",
+    "cams_max_adapter": "none",
     "model_selector_causal": "none",
-    "online_llm_picker": "none", "variance_min_ipw": "none", "gong_zhang_paid_obs": "none",
-    "qiu_delayed_movement": "none", "ryabchenko_capacity": "none", "CONTROL_never_switch": "none",
+    "online_llm_picker": "none",
+    "variance_min_ipw": "none",
+    "gong_zhang_paid_obs": "none",
+    "qiu_delayed_movement": "none",
+    "ryabchenko_capacity": "none",
+    "CONTROL_never_switch": "none",
 }
 
 # The 24 mandatory sprint-2 configurations (status tracked in docs/sprint2/candidates.json).
-MANDATORY = [f"H{i}" for i in range(1, 7)] + [f"R{i}" for i in range(1, 7)] + \
-            [f"T{i}" for i in range(1, 7)] + [f"P{i}" for i in range(1, 7)]
+MANDATORY = (
+    [f"H{i}" for i in range(1, 7)]
+    + [f"R{i}" for i in range(1, 7)]
+    + [f"T{i}" for i in range(1, 7)]
+    + [f"P{i}" for i in range(1, 7)]
+)

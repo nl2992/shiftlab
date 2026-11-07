@@ -112,9 +112,7 @@ def learning_rate(n_policies: int, t: int) -> float:
     return math.sqrt(n_policies / t)
 
 
-def weighted_entropy_query(
-    n_classes: int, w: np.ndarray, predictions: np.ndarray
-) -> float:
+def weighted_entropy_query(n_classes: int, w: np.ndarray, predictions: np.ndarray) -> float:
     """CAMS's query score ``v_t`` (the "weighted entropy" rule).
 
     Source: vendor_sota/cams/utils.py:35-58 (``_compute_weighted_entropy_t``). Returns 0 inside the
@@ -135,9 +133,7 @@ def weighted_entropy_query(
     return float(np.sum(u_t_list) / n_classes)  # :56
 
 
-def query_probability(
-    n_classes: int, w: np.ndarray, predictions: np.ndarray, t: int
-) -> float:
+def query_probability(n_classes: int, w: np.ndarray, predictions: np.ndarray, t: int) -> float:
     """Query probability ``u_t`` (0 means: do not query and do not draw a random number).
 
     Source: vendor_sota/cams/src/methods/CAMS_identity.py:87-143 (identical in CAMS_test.py):
@@ -233,9 +229,7 @@ class _CAMSCore:
     def decide(self, event: Event, *, draw: bool) -> tuple[float, bool, dict]:
         """Return (u_t, U_t, frozen extras). ``draw=False`` skips the Bernoulli draw."""
         c = self._prepare(event)
-        u_t = query_probability(
-            self.n_classes, c["w"], np.asarray(event.model_predictions), c["t"]
-        )
+        u_t = query_probability(self.n_classes, c["w"], np.asarray(event.model_predictions), c["t"])
         if u_t == 0.0:
             return 0.0, False, {}
         if not draw:

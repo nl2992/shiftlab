@@ -19,7 +19,7 @@ Front-loaded variants (q = 1 while undecided) are the attachable repair on these
 
 from __future__ import annotations
 
-from qce import DiscernFrontOnly, GatedDeploymentStop, DiscernStyleStop  # noqa: F401
+from qce import DiscernFrontOnly, DiscernStyleStop, GatedDeploymentStop  # noqa: F401
 
 
 class GatedAdaptiveRange(GatedDeploymentStop):
@@ -31,7 +31,8 @@ class GatedAdaptiveRange(GatedDeploymentStop):
         if front:
             base = self.acq.propensity
             self.acq.propensity = lambda t, rem, dis, _b=base: (
-                1.0 if (dis and rem > 0) else _b(t, rem, dis))
+                1.0 if (dis and rem > 0) else _b(t, rem, dis)
+            )
 
     def request_labels(self, event, remaining_budget):
         req = super().request_labels(event, remaining_budget)
@@ -57,16 +58,21 @@ class DiscernDesignFloor(DiscernStyleStop):
         if front:
             base = self.acq.propensity
             self.acq.propensity = lambda t, rem, dis, _b=base: (
-                1.0 if (dis and rem > 0) else _b(t, rem, dis))
+                1.0 if (dis and rem > 0) else _b(t, rem, dis)
+            )
 
 
 EXTRA = {
     "gated_adaptive_range": lambda T, B, cs, cq, a, d, r: GatedAdaptiveRange(
-        T, B, a, rng=r("gated_deployment")),
+        T, B, a, rng=r("gated_deployment")
+    ),
     "gated_adaptive_range+front": lambda T, B, cs, cq, a, d, r: GatedAdaptiveRange(
-        T, B, a, rng=r("gated_deployment"), front=True, name="gated_adaptive_range+front"),
+        T, B, a, rng=r("gated_deployment"), front=True, name="gated_adaptive_range+front"
+    ),
     "discern_design_floor": lambda T, B, cs, cq, a, d, r: DiscernDesignFloor(
-        T, B, a, rng=r("discern_style")),
+        T, B, a, rng=r("discern_style")
+    ),
     "discern_design_floor+front": lambda T, B, cs, cq, a, d, r: DiscernDesignFloor(
-        T, B, a, rng=r("discern_style"), front=True, name="discern_design_floor+front"),
+        T, B, a, rng=r("discern_style"), front=True, name="discern_design_floor+front"
+    ),
 }

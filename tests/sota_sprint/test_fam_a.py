@@ -11,9 +11,9 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import fam_a  # noqa: E402
-from fam_a import EXTRA, MarkovSUI, PostZeroMixture  # noqa: E402
-from simulator import check_budget_feasible, check_no_future_access, policy_rng, run_episode  # noqa: E402
+import fam_a
+from fam_a import EXTRA, MarkovSUI, PostZeroMixture
+from simulator import check_budget_feasible, check_no_future_access, policy_rng, run_episode
 
 
 def markov_stream(rng, n_events, p, rho, dis=0.2):
@@ -63,10 +63,16 @@ def test_budget_never_exceeded_and_no_future_access(name):
     labels = rng.integers(0, 2, 600)
     preds = labels[:, None] ^ losses.astype(int)
     for budget in (5, 30):
-        pol = EXTRA[name](600, budget, 5.0, 0.05, 0.05, 20,
-                          lambda n: policy_rng(0, 0, n))
-        res = run_episode(pol, model_predictions=preds, labels=labels, delay=20, budget=budget,
-                          label_price=0.05, switch_cost=5.0)
+        pol = EXTRA[name](600, budget, 5.0, 0.05, 0.05, 20, lambda n: policy_rng(0, 0, n))
+        res = run_episode(
+            pol,
+            model_predictions=preds,
+            labels=labels,
+            delay=20,
+            budget=budget,
+            label_price=0.05,
+            switch_cost=5.0,
+        )
         assert res.requested_labels <= budget
         assert not check_budget_feasible(res, budget)
         assert not check_no_future_access(res, 20)

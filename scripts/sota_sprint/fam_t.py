@@ -50,17 +50,21 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-for _p in (ROOT / "scripts/failure_atlas_v2_flq", ROOT / "scripts/promising_directions/sota",
-           ROOT / "scripts/promising_directions/sota/competitors", HERE):
+for _p in (
+    ROOT / "scripts/failure_atlas_v2_flq",
+    ROOT / "scripts/promising_directions/sota",
+    ROOT / "scripts/promising_directions/sota/competitors",
+    HERE,
+):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-import fam_a  # noqa: E402
-import fam_c  # noqa: E402
-import fam_d  # noqa: E402
-from fam_d import DeployGate, _host_extra, _host_u, make_host  # noqa: E402
-from simulator import QueryRequest  # noqa: E402
-from strong_hosts import DiscernDesignFloor, GatedAdaptiveRange  # noqa: E402
+import fam_a
+import fam_c
+import fam_d
+from fam_d import DeployGate, _host_extra, _host_u, make_host
+from simulator import QueryRequest
+from strong_hosts import DiscernDesignFloor, GatedAdaptiveRange
 
 
 # =============================================================================== evidence
@@ -76,8 +80,9 @@ class CondMeanEB:
     component keeps its own plug-ins from j. Ville applies to E_k + sum_{j>k} w_j.
     """
 
-    def __init__(self, side: int = 1, *, started: bool = False, n0: float = 4.0,
-                 lam_max: float = 0.75):
+    def __init__(
+        self, side: int = 1, *, started: bool = False, n0: float = 4.0, lam_max: float = 0.75
+    ):
         self.side, self.started, self.n0, self.lam_max = side, started, n0, lam_max
         # per-start state columns: [log_e, sum_w, sum_sq, n]
         self.st = np.zeros((0, 4))
@@ -128,18 +133,23 @@ EVIDENCE = {
     "cmean": _cmean,
     "cmean_s": _cmean_s,
 }
-EVIDENCE_NULL = {"qsg": "V1", "a5b": "V2", "env8": "V2(rho<=.8 declared)",
-                 "env95": "V2(rho<=.95 declared)", "cmean": "V1-avg (contains V1)",
-                 "cmean_s": "V1"}
+EVIDENCE_NULL = {
+    "qsg": "V1",
+    "a5b": "V2",
+    "env8": "V2(rho<=.8 declared)",
+    "env95": "V2(rho<=.95 declared)",
+    "cmean": "V1-avg (contains V1)",
+    "cmean_s": "V1",
+}
 
 
 def fam_r_evidence() -> dict:
     """Evidence factories exposed by fam_r (``fam_r.EVIDENCE: {name: cert(side)}``), if any."""
     try:
-        import fam_r  # noqa: PLC0415
+        import fam_r
 
         return {f"fam_r:{k}": v for k, v in getattr(fam_r, "EVIDENCE", {}).items()}
-    except Exception:
+    except Exception:  # noqa: BLE001
         return {}
 
 
@@ -162,13 +172,31 @@ class TGate(DeployGate):
     Predictable: reads only released labels and issue times. Host queries are untouched.
     """
 
-    def __init__(self, host, T, B, alpha, *, rng, density="front", c_corr=0.25, min_pairs=8,
-                 rho_sig=2.0, single_cycle=False, **kw):
-        self.density, self.c_corr, self.min_pairs, self.rho_sig = density, c_corr, min_pairs, rho_sig
+    def __init__(
+        self,
+        host,
+        T,
+        B,
+        alpha,
+        *,
+        rng,
+        density="front",
+        c_corr=0.25,
+        min_pairs=8,
+        rho_sig=2.0,
+        single_cycle=False,
+        **kw,
+    ):
+        self.density, self.c_corr, self.min_pairs, self.rho_sig = (
+            density,
+            c_corr,
+            min_pairs,
+            rho_sig,
+        )
         self.rel_z: list[int] = []
         self.rel_t: list[int] = []
         self.rho_hat = None
-        self.last_gate_issue = -10**9
+        self.last_gate_issue = -(10**9)
         self.n_gap_skips = 0
         super().__init__(host, T, B, alpha, rng=rng, **kw)
         # Family H's threshold correction: with no rollback, promotion is absorbing, so only one
@@ -182,7 +210,7 @@ class TGate(DeployGate):
             return 0
         if self.rho_hat >= 1:
             return 10**9
-        return int(math.ceil(math.log(self.c_corr) / math.log(self.rho_hat)))
+        return math.ceil(math.log(self.c_corr) / math.log(self.rho_hat))
 
     def request_labels(self, event, remaining_budget):
         # identical to DeployGate.request_labels except for the gap rule on the gate's own draw
@@ -197,8 +225,11 @@ class TGate(DeployGate):
         if pre and remaining_budget <= self.reserve:
             return QueryRequest(requested=False)
         u = _host_u(self.host, event, hreq)
-        if pre and not self.decided and (
-                self.acq == "always" or (self.acq == "host_pref" and self.host_pref == 1)):
+        if (
+            pre
+            and not self.decided
+            and (self.acq == "always" or (self.acq == "host_pref" and self.host_pref == 1))
+        ):
             q_g = 1.0
             if event.t - self.last_gate_issue < self._gmin():
                 q_g = 0.0
@@ -225,14 +256,17 @@ class TGate(DeployGate):
                 self.rel_t.append(fb.event_id)
         super().observe(feedback)
         if self.density == "adaptive" and len(self.rel_z) >= self.min_pairs + 1:
-            self.rho_hat = fam_a.rho_mle(np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]),
-                                         sig=self.rho_sig)
+            self.rho_hat = fam_a.rho_mle(
+                np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]), sig=self.rho_sig
+            )
 
 
 def _tg(kind, name, ev="qsg", **kw):
     def f(T, B, cs, cq, a, d, r):
-        return TGate(make_host(kind, r), T, B, a, rng=r("D_gate"), name=name,
-                     cert=get_evidence(ev), **kw)
+        return TGate(
+            make_host(kind, r), T, B, a, rng=r("D_gate"), name=name, cert=get_evidence(ev), **kw
+        )
+
     return f
 
 
@@ -308,25 +342,35 @@ class GatedCDep(_DepMixin, fam_c.GatedC):
 
 
 def _gd(name, ev, mode="replace", front=False):
-    return lambda T, B, cs, cq, a, d, r: GatedDep(T, B, a, rng=r("gated_deployment"),
-                                                  ev=get_evidence(ev), mode=mode, front=front,
-                                                  name=name)
+    return lambda T, B, cs, cq, a, d, r: GatedDep(
+        T, B, a, rng=r("gated_deployment"), ev=get_evidence(ev), mode=mode, front=front, name=name
+    )
 
 
 def _dd(name, ev, mode="replace", front=False):
-    return lambda T, B, cs, cq, a, d, r: DiscernDep(T, B, a, rng=r("discern_style"),
-                                                    ev=get_evidence(ev), mode=mode, front=front,
-                                                    name=name)
+    return lambda T, B, cs, cq, a, d, r: DiscernDep(
+        T, B, a, rng=r("discern_style"), ev=get_evidence(ev), mode=mode, front=front, name=name
+    )
 
 
-_C2 = dict(base="front", shadow=True, gamma=fam_c._gam, zeta=fam_c._zet)
+_C2 = {"base": "front", "shadow": True, "gamma": fam_c._gam, "zeta": fam_c._zet}
 _C6 = dict(fam_c._c6)
 
 
 def _gc(name, ev, ctl_kw, mode="replace"):
-    return lambda T, B, cs, cq, a, d, r: GatedCDep(T, B, a, cs, cq, d, fam_c.Controller(**ctl_kw),
-                                                   rng=r("gated_deployment"), ev=get_evidence(ev),
-                                                   mode=mode, name=name)
+    return lambda T, B, cs, cq, a, d, r: GatedCDep(
+        T,
+        B,
+        a,
+        cs,
+        cq,
+        d,
+        fam_c.Controller(**ctl_kw),
+        rng=r("gated_deployment"),
+        ev=get_evidence(ev),
+        mode=mode,
+        name=name,
+    )
 
 
 # =============================================================================== registry
@@ -340,8 +384,9 @@ for _h in ("mp", "cams", "ms"):
 EXTRA["T:cams/env95"] = _tg("cams", "T:cams/env95", "env95")
 EXTRA["T:cams/cmean_s"] = _tg("cams", "T:cams/cmean_s", "cmean_s")
 EXTRA["T:cams/a5b-host_only"] = _tg("cams", "T:cams/a5b-host_only", "a5b", acq="host_only")
-EXTRA["T:mp/a5b+ad+rb"] = _tg("mp", "T:mp/a5b+ad+rb", "a5b", density="adaptive",
-                              rollback=True, reserve=0.10, alpha_r=0.05)
+EXTRA["T:mp/a5b+ad+rb"] = _tg(
+    "mp", "T:mp/a5b+ad+rb", "a5b", density="adaptive", rollback=True, reserve=0.10, alpha_r=0.05
+)
 # Family H threshold correction (1/alpha when promotion is absorbing) on every fast-selector host
 for _h in ("mp", "cams", "ms"):
     for _e in ("qsg", "a5b"):
@@ -352,23 +397,29 @@ def _hg(kind, name, **kw):
     """fam_h.HGate (H2 = SUI + 1/alpha + A5b spacing; H4 = H2 + dual clock; H3 = H2 + C2 shadow
     price) on another published host. ADAPTATION: fam_h was built on CAMS; the same gate is
     wrapped around Model Picker / Model Selector with their native generator names."""
+
     def f(T, B, cs, cq, a, d, r):
-        import fam_h  # noqa: PLC0415
-        return fam_h.HGate(make_host(kind, r), T, B, a, rng=r("D_gate"), delay=d, cs=cs, cq=cq,
-                           name=name, **kw)
+        import fam_h
+
+        return fam_h.HGate(
+            make_host(kind, r), T, B, a, rng=r("D_gate"), delay=d, cs=cs, cq=cq, name=name, **kw
+        )
+
     return f
 
 
-_H2 = dict(evidence="sui", single_cycle=True, spacing=True)
+_H2 = {"evidence": "sui", "single_cycle": True, "spacing": True}
 for _h in ("mp", "ms"):
     EXTRA[f"T:{_h}/H2"] = _hg(_h, f"T:{_h}/H2", **_H2)
     EXTRA[f"T:{_h}/H4"] = _hg(_h, f"T:{_h}/H4", **_H2, dualclock=True)
 # T6 on CAMS (fam_h host): evidence {iid, sui} x acquisition {front, spacing, C2 shadow}; the
 # fam_h registry supplies H1-iid1, H2-iid_space, H1, H2, H3; this is the missing (iid, shadow) cell
-EXTRA["T6:iidxshadow"] = _hg("cams", "T6:iidxshadow", evidence="iid", single_cycle=True,
-                             spacing=True, shadow=True)
-EXTRA["T6:iidxshadow_nospace"] = _hg("cams", "T6:iidxshadow_nospace", evidence="iid",
-                                     single_cycle=True, shadow=True)
+EXTRA["T6:iidxshadow"] = _hg(
+    "cams", "T6:iidxshadow", evidence="iid", single_cycle=True, spacing=True, shadow=True
+)
+EXTRA["T6:iidxshadow_nospace"] = _hg(
+    "cams", "T6:iidxshadow_nospace", evidence="iid", single_cycle=True, shadow=True
+)
 
 # T2 (Gated Deployment, strong adaptive-range re-port) and T3 (corrected DISCERN, design floor)
 for _e in ("a5b", "env8"):
@@ -389,7 +440,7 @@ NULL_TESTED = {}
 for _k in EXTRA:
     _e = next((e for e in ("cmean_s", "cmean", "env95", "env8", "a5b", "qsg") if e in _k), None)
     _n = EVIDENCE_NULL[_e] if _e else ("V1" if "iid" in _k else "V2")
-    NULL_TESTED[_k] = (f"union(V1-host-CS, {_n})" if "AND/" in _k else _n)
+    NULL_TESTED[_k] = f"union(V1-host-CS, {_n})" if "AND/" in _k else _n
 
 
 # =============================================================================== analysis CLI
@@ -402,11 +453,13 @@ def host_of(name: str) -> list[str]:
     if name.startswith("T:ms/"):
         return ["model_selector_causal", "D6-D1params:ms", "D6:ms"]
     if name.startswith("T2:"):
-        return (["gated_adaptive_range+front"] if name.endswith("+front") else
-                ["gated_adaptive_range"]) + ["gated_deployment"]
+        return (
+            ["gated_adaptive_range+front"] if name.endswith("+front") else ["gated_adaptive_range"]
+        ) + ["gated_deployment"]
     if name.startswith("T3:"):
-        return (["discern_design_floor+front"] if name.endswith("+front") else
-                ["discern_design_floor"]) + ["discern_style"]
+        return (
+            ["discern_design_floor+front"] if name.endswith("+front") else ["discern_design_floor"]
+        ) + ["discern_style"]
     if name.startswith("T6:"):
         return ["C2" if name.endswith("C2") else "C6", "gated_adaptive_range+front"]
     return []
@@ -414,20 +467,22 @@ def host_of(name: str) -> list[str]:
 
 def summarise(dirs, nulls=None, alts=None, extra_regimes=()):
     """Null promotion (RISK_NULLS), alternative mean J (RISK_ALTS) and paired contrasts."""
-    import pandas as pd  # noqa: PLC0415
-
-    from bench import CERTIFIED_PUBLISHED, UNCERTIFIED_PUBLISHED  # noqa: PLC0415
-    from bench2 import RISK_ALTS, RISK_NULLS  # noqa: PLC0415
+    import pandas as pd
+    from bench import CERTIFIED_PUBLISHED, UNCERTIFIED_PUBLISHED
+    from bench2 import RISK_ALTS, RISK_NULLS
 
     nulls, alts = nulls or RISK_NULLS, alts or RISK_ALTS
     df = pd.concat([pd.read_json(Path(d) / "records.jsonl", lines=True) for d in dirs])
     pols = sorted(df.policy.unique())
-    prom = df[df.regime.isin(nulls)].pivot_table(index="policy", columns="regime",
-                                                 values="ever_promote", aggfunc="mean")
+    prom = df[df.regime.isin(nulls)].pivot_table(
+        index="policy", columns="regime", values="ever_promote", aggfunc="mean"
+    )
     piv = df.pivot_table(index=["regime", "ep", "seed"], columns="policy", values="net")
     alt = piv.loc[piv.index.get_level_values(0).isin(alts)]
     alt_seed = alt.groupby(level=["seed", "ep"]).mean()  # per-seed mean over alternatives
-    cert = [p for p in CERTIFIED_PUBLISHED + ["choe_ramdas_eb", "choe_ramdas_eb+front"] if p in pols]
+    cert = [
+        p for p in CERTIFIED_PUBLISHED + ["choe_ramdas_eb", "choe_ramdas_eb+front"] if p in pols
+    ]
     unc = [p for p in UNCERTIFIED_PUBLISHED if p in pols]
     best_cert = alt_seed[cert].mean().idxmin() if cert else None
     best_unc = alt_seed[unc].mean().idxmin() if unc else None
@@ -435,17 +490,24 @@ def summarise(dirs, nulls=None, alts=None, extra_regimes=()):
     def pd_(a, b, frame):
         d = (frame[a] - frame[b]).dropna().to_numpy()
         se = d.std(ddof=1) / np.sqrt(len(d))
-        return {"vs": b, "mean": round(float(d.mean()), 2), "lo": round(float(d.mean() - 1.96 * se), 2),
-                "hi": round(float(d.mean() + 1.96 * se), 2), "n": int(len(d))}
+        return {
+            "vs": b,
+            "mean": round(float(d.mean()), 2),
+            "lo": round(float(d.mean() - 1.96 * se), 2),
+            "hi": round(float(d.mean() + 1.96 * se), 2),
+            "n": len(d),
+        }
 
     out = {"best_certified_alt": best_cert, "best_uncertified_alt": best_unc, "policies": {}}
     for p in pols:
-        rec = {"null_promotion": {k: round(float(v), 3) for k, v in prom.loc[p].items()}
-               if p in prom.index else {},
-               "alt_J": round(float(alt_seed[p].mean()), 2),
-               "per_regime_J": {r: round(float(g[p].mean()), 2)
-                                for r, g in piv.groupby(level=0)},
-               "contrasts_alt": {}}
+        rec = {
+            "null_promotion": {k: round(float(v), 3) for k, v in prom.loc[p].items()}
+            if p in prom.index
+            else {},
+            "alt_J": round(float(alt_seed[p].mean()), 2),
+            "per_regime_J": {r: round(float(g[p].mean()), 2) for r, g in piv.groupby(level=0)},
+            "contrasts_alt": {},
+        }
         for h in host_of(p) + [best_cert, best_unc]:
             if h and h in alt_seed and h != p:
                 rec["contrasts_alt"][h] = pd_(p, h, alt_seed)
@@ -454,12 +516,17 @@ def summarise(dirs, nulls=None, alts=None, extra_regimes=()):
 
 
 def _md(s, cands):
-    from bench2 import RISK_NULLS  # noqa: PLC0415
+    from bench2 import RISK_NULLS
 
-    L = [f"best certified (alt mean): {s['best_certified_alt']}; best uncertified: "
-         f"{s['best_uncertified_alt']}", "",
-         "| policy | null V | " + " | ".join(RISK_NULLS) + " | alt J | vs host | vs best cert |",
-         "|---|---|" + "---|" * len(RISK_NULLS) + "---|---|---|"]
+    L = [
+        (
+            f"best certified (alt mean): {s['best_certified_alt']}; best uncertified: "
+            f"{s['best_uncertified_alt']}"
+        ),
+        "",
+        "| policy | null V | " + " | ".join(RISK_NULLS) + " | alt J | vs host | vs best cert |",
+        "|---|---|" + "---|" * len(RISK_NULLS) + "---|---|---|",
+    ]
     for p in cands:
         if p not in s["policies"]:
             continue
@@ -469,10 +536,14 @@ def _md(s, cands):
         c = r["contrasts_alt"]
 
         def f(k):
-            x = c.get(k)
+            x = c.get(k)  # noqa: B023
             return "" if not x else f"{x['mean']:+.1f} [{x['lo']:+.1f},{x['hi']:+.1f}] ({k})"
-        L.append(f"| {p} | {NULL_TESTED.get(p, '')} | " + " | ".join(np_) +
-                 f" | {r['alt_J']:.1f} | {f(hs[0]) if hs else ''} | {f(s['best_certified_alt'])} |")
+
+        L.append(
+            f"| {p} | {NULL_TESTED.get(p, '')} | "
+            + " | ".join(np_)
+            + f" | {r['alt_J']:.1f} | {f(hs[0]) if hs else ''} | {f(s['best_certified_alt'])} |"
+        )
     return "\n".join(L) + "\n"
 
 

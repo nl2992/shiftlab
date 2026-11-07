@@ -24,11 +24,20 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from regimes import REGIMES, VALIDATION_REGIMES, expected_oracle_path, hindsight_oracle_cost  # noqa: E402
-from suite import ROOT, build_suite, run_metrics  # noqa: E402
+from regimes import REGIMES, VALIDATION_REGIMES, expected_oracle_path, hindsight_oracle_cost
+from suite import ROOT, build_suite, run_metrics
 
-REAL_DELAYS = {"rialto": 100, "spam": 50, "weather": 1, "openml_ldpa": 100,
-               "uci_occupancy": 100, "airlines": 100, "bank": 100, "elec2": 48, "criteo": 100}
+REAL_DELAYS = {
+    "rialto": 100,
+    "spam": 50,
+    "weather": 1,
+    "openml_ldpa": 100,
+    "uci_occupancy": 100,
+    "airlines": 100,
+    "bank": 100,
+    "elec2": 48,
+    "criteo": 100,
+}
 LOSS_ROOT = ROOT / "data/atlas_v2_losses"
 EXTRA_FACTORIES: dict = {}  # name -> factory(T, B, cs, cq, alpha, delay, rng_fn); set by importers
 
@@ -38,12 +47,15 @@ def _job(args):
     extra = None
     if extra_mod:
         import importlib
+
         extra = importlib.import_module(extra_mod).FACTORIES
     rows = []
     for s in seeds:
         if kind == "syn":
             R = {**REGIMES, **VALIDATION_REGIMES}[src]
-            rng = np.random.default_rng([cfg["seed_base"], s, int(hashlib.sha256(src.encode()).hexdigest()[:8], 16)])
+            rng = np.random.default_rng(
+                [cfg["seed_base"], s, int(hashlib.sha256(src.encode()).hexdigest()[:8], 16)]
+            )
             losses = R.sample(rng)
             gain = R.truth_gain()
             delay = cfg.get("delay_override") or R.delay
@@ -59,13 +71,41 @@ def _job(args):
         oc = hindsight_oracle_cost(losses, cfg["cs"])
         ep_path = expected_oracle_path(gain, cfg["cs"])
         T = losses.shape[0]
-        for pol in build_suite(T, cfg["budget"], cfg["cs"], cfg["cq"], cfg["alpha"], delay, ekey,
-                               cfg["seed_base"], names=names, extra=extra):
-            m = run_metrics(pol, losses, gain, delay=delay, budget=cfg["budget"], cq=cfg["cq"],
-                            cs=cfg["cs"], stream_rng=np.random.default_rng([cfg["seed_base"], ekey, 7]),
-                            oracle_cost=oc, exp_path=ep_path)
-            rows.append({"source": src, "kind": kind, "episode": ep, "seed": s,
-                         "policy": pol.name, "delay": delay, **m})
+        for pol in build_suite(
+            T,
+            cfg["budget"],
+            cfg["cs"],
+            cfg["cq"],
+            cfg["alpha"],
+            delay,
+            ekey,
+            cfg["seed_base"],
+            names=names,
+            extra=extra,
+        ):
+            m = run_metrics(
+                pol,
+                losses,
+                gain,
+                delay=delay,
+                budget=cfg["budget"],
+                cq=cfg["cq"],
+                cs=cfg["cs"],
+                stream_rng=np.random.default_rng([cfg["seed_base"], ekey, 7]),
+                oracle_cost=oc,
+                exp_path=ep_path,
+            )
+            rows.append(
+                {
+                    "source": src,
+                    "kind": kind,
+                    "episode": ep,
+                    "seed": s,
+                    "policy": pol.name,
+                    "delay": delay,
+                    **m,
+                }
+            )
     return rows
 
 
@@ -104,20 +144,28 @@ def main(argv=None):
         for ep in range(K):
             jobs.append(("real", src, ep, rs, cfg, names, a.extra_module))
 
-    code = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in sorted(HERE.glob("*.py"))}
-    data = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(LOSS_ROOT.glob("*.npz"))}
-    manifest = {"config": cfg, "seeds": [seeds[0], seeds[-1]], "regimes": regs, "real": a.real,
-                "real_seeds": a.real_seeds, "policies": names, "extra_module": a.extra_module,
-                "code_sha256": code, "data_sha256": data,
-                "started": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    code = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(HERE.glob("*.py"))}
+    data = {
+        p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(LOSS_ROOT.glob("*.npz"))
+    }
+    manifest = {
+        "config": cfg,
+        "seeds": [seeds[0], seeds[-1]],
+        "regimes": regs,
+        "real": a.real,
+        "real_seeds": a.real_seeds,
+        "policies": names,
+        "extra_module": a.extra_module,
+        "code_sha256": code,
+        "data_sha256": data,
+        "started": time.strftime("%Y-%m-%dT%H:%M:%S"),
+    }
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
     t0 = time.time()
     n = 0
     with open(out / "records.jsonl", "w") as fh, ProcessPoolExecutor(a.workers) as ex:
         for rows in ex.map(_job, jobs, chunksize=1):
-            for row in rows:
-                fh.write(json.dumps(row) + "\n")
+            fh.writelines(json.dumps(row) + "\n" for row in rows)
             n += 1
             if n % 20 == 0:
                 print(f"{n}/{len(jobs)} jobs, {time.time() - t0:.0f}s", flush=True)

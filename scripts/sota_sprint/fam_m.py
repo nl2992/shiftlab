@@ -40,11 +40,12 @@ class SUIDetector:
 class RMMSUI(_RMM.RestartMixtureMonitor):
     def __init__(self, make_base, horizon, budget, alpha, *, rng, name="", **kw):
         self.last = None  # (z, event id) of the most recent observed disagreement, any segment
-        super().__init__(make_base, horizon, budget, alpha, rng=rng, name=name, restart_base=False,
-                         **kw)
+        super().__init__(
+            make_base, horizon, budget, alpha, rng=rng, name=name, restart_base=False, **kw
+        )
 
     def _new_detector(self):
-        a = self.alpha_det / (2.0 ** self.n_promotions) if self.deployed == 0 else self.alpha_rb
+        a = self.alpha_det / (2.0**self.n_promotions) if self.deployed == 0 else self.alpha_rb
         return SUIDetector(a)
 
     def predict(self, event):
@@ -93,8 +94,17 @@ class RMMSUI(_RMM.RestartMixtureMonitor):
 
 
 def _a5b(T, B, a, r):
-    return fam_a.FamA(T, B, a, rng=r, name="A5b-host", evidence="sui", density="adaptive",
-                      rho_sig=2.0, sui_kw=fam_a._B)
+    return fam_a.FamA(
+        T,
+        B,
+        a,
+        rng=r,
+        name="A5b-host",
+        evidence="sui",
+        density="adaptive",
+        rho_sig=2.0,
+        sui_kw=fam_a._B,
+    )
 
 
 def _gar(T, B, a, r):
@@ -107,8 +117,11 @@ EXTRA = {
     # merged method: dependence-robust host + dependence-robust restart detector
     "M_RMMSUI_A5b": lambda T, B, cs, cq, a, d, r: RMMSUI(_a5b, T, B, a, rng=r("QSG")),
     # ablation: iid-valid host (strong gated re-port) with the SUI detector (isolates the host leak)
-    "M_RMMSUI_gar": lambda T, B, cs, cq, a, d, r: RMMSUI(_gar, T, B, a, rng=r("gated_adaptive_range")),
+    "M_RMMSUI_gar": lambda T, B, cs, cq, a, d, r: RMMSUI(
+        _gar, T, B, a, rng=r("gated_adaptive_range")
+    ),
     # standalone: detector only on a fixed incumbent, all alpha to the detector (LRMD analogue)
-    "M_LRMD_SUI": lambda T, B, cs, cq, a, d, r: RMMSUI(lambda T_, B_, a_, r_: FixedModel(0, name="fixed"),
-                                                       T, B, a, rng=r("lrmd"), alpha_split=1.0),
+    "M_LRMD_SUI": lambda T, B, cs, cq, a, d, r: RMMSUI(
+        lambda T_, B_, a_, r_: FixedModel(0, name="fixed"), T, B, a, rng=r("lrmd"), alpha_split=1.0
+    ),
 }

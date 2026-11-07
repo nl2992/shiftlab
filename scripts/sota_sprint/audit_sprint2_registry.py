@@ -4,6 +4,7 @@
 This checks structural lineage, shared registry/ledger claims, and cited evidence-file existence.
 It does not re-compute metrics, validate a theorem, or provide an independent scientific review.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,7 +38,7 @@ def family_entries(letter: str) -> list[dict[str, Any]]:
         return ledger
     entries = ledger.get("candidates", [])
     if not isinstance(entries, list):
-        raise ValueError(f"{letter} ledger candidates is not a list")
+        raise ValueError(f"{letter} ledger candidates is not a list")  # noqa: TRY004
     return entries
 
 
@@ -46,7 +47,9 @@ def audit() -> dict[str, Any]:
     expected = {f"{family}{i}" for family in FAMILIES for i in range(1, 7)}
     failures: list[str] = []
     if set(registry) != expected:
-        failures.append(f"candidate ids differ: missing={sorted(expected-set(registry))}, extra={sorted(set(registry)-expected)}")
+        failures.append(
+            f"candidate ids differ: missing={sorted(expected - set(registry))}, extra={sorted(set(registry) - expected)}"
+        )
     missing_tracks: list[str] = []
     blank_status: list[str] = []
     missing_artifacts: list[dict[str, str]] = []
@@ -68,7 +71,10 @@ def audit() -> dict[str, Any]:
             artifact = str(artifact).strip().strip("`")
             if not artifact or any(char in artifact for char in "*{}"):
                 continue
-            if artifact.startswith(("outputs/", "docs/", "scripts/", "tests/")) and not (ROOT / artifact).exists():
+            if (
+                artifact.startswith(("outputs/", "docs/", "scripts/", "tests/"))
+                and not (ROOT / artifact).exists()
+            ):
                 missing_artifacts.append({"candidate": cid, "path": artifact})
 
     ledger_ids: dict[str, list[str]] = {}
@@ -80,7 +86,9 @@ def audit() -> dict[str, Any]:
         ledger_ids[family] = ids
         expected_family = {f"{family}{i}" for i in range(1, 7)}
         if set(ids) != expected_family:
-            failures.append(f"{family} ledger ids differ: missing={sorted(expected_family-set(ids))}, extra={sorted(set(ids)-expected_family)}")
+            failures.append(
+                f"{family} ledger ids differ: missing={sorted(expected_family - set(ids))}, extra={sorted(set(ids) - expected_family)}"
+            )
         for entry in entries:
             cid = str(entry.get("id"))
             if cid not in registry:
@@ -98,7 +106,9 @@ def audit() -> dict[str, Any]:
                     missing_ledger_fields.append({"candidate": cid, "field": field})
             seed_manifest = entry.get("seed_manifest")
             if not isinstance(seed_manifest, dict):
-                missing_ledger_fields.append({"candidate": cid, "field": "seed_manifest (must be structured)"})
+                missing_ledger_fields.append(
+                    {"candidate": cid, "field": "seed_manifest (must be structured)"}
+                )
                 manifest_paths = []
             else:
                 manifest_paths = seed_manifest.get("manifests", [])
@@ -108,14 +118,28 @@ def audit() -> dict[str, Any]:
                     if not (ROOT / p).exists():
                         missing_provenance_records.append({"candidate": cid, "path": p})
                 elif not manifest_paths:
-                    missing_ledger_fields.append({"candidate": cid, "field": "seed_manifest.manifests or provenance_record"})
+                    missing_ledger_fields.append(
+                        {"candidate": cid, "field": "seed_manifest.manifests or provenance_record"}
+                    )
                 provenance_status = seed_manifest.get("provenance_status")
                 if provenance_status not in {"complete", "partial"}:
-                    missing_ledger_fields.append({"candidate": cid, "field": "seed_manifest.provenance_status (complete|partial)"})
+                    missing_ledger_fields.append(
+                        {
+                            "candidate": cid,
+                            "field": "seed_manifest.provenance_status (complete|partial)",
+                        }
+                    )
                 if provenance_status == "partial":
                     if not provenance_record:
-                        missing_ledger_fields.append({"candidate": cid, "field": "partial seed provenance requires provenance_record"})
-                    declared_provenance_gaps.append({"candidate": cid, "note": str(seed_manifest.get("note", ""))})
+                        missing_ledger_fields.append(
+                            {
+                                "candidate": cid,
+                                "field": "partial seed provenance requires provenance_record",
+                            }
+                        )
+                    declared_provenance_gaps.append(
+                        {"candidate": cid, "note": str(seed_manifest.get("note", ""))}
+                    )
             for manifest in manifest_paths:
                 path = str(manifest).strip().strip("`")
                 if path and not (ROOT / path).exists():
@@ -129,12 +153,14 @@ def audit() -> dict[str, Any]:
                 if field == "run_config":
                     continue
                 if field in registry[cid] and entry[field] != registry[cid][field]:
-                    registry_ledger_mismatches.append({
-                        "candidate": cid,
-                        "field": field,
-                        "ledger": repr(entry[field])[:300],
-                        "registry": repr(registry[cid][field])[:300],
-                    })
+                    registry_ledger_mismatches.append(
+                        {
+                            "candidate": cid,
+                            "field": field,
+                            "ledger": repr(entry[field])[:300],
+                            "registry": repr(registry[cid][field])[:300],
+                        }
+                    )
                     if field in TRACKS:
                         registry_cells_without_family_source.append(f"{cid}.{field}")
 
@@ -151,7 +177,9 @@ def audit() -> dict[str, Any]:
     if missing_provenance_records:
         failures.append(f"missing provenance sidecar paths: {missing_provenance_records}")
     if registry_cells_without_family_source:
-        failures.append(f"family/registry Track-cell mismatches: {registry_cells_without_family_source}")
+        failures.append(
+            f"family/registry Track-cell mismatches: {registry_cells_without_family_source}"
+        )
     if registry_ledger_mismatches:
         failures.append(f"family/registry shared-field mismatches: {registry_ledger_mismatches}")
 
@@ -167,7 +195,9 @@ def audit() -> dict[str, Any]:
         "missing_seed_manifests": missing_manifests,
         "missing_provenance_records": missing_provenance_records,
         "declared_provenance_gaps": declared_provenance_gaps,
-        "provenance_audit": "PARTIAL" if declared_provenance_gaps else ("PASS" if not missing_manifests else "FAIL"),
+        "provenance_audit": "PARTIAL"
+        if declared_provenance_gaps
+        else ("PASS" if not missing_manifests else "FAIL"),
         "track_cell_mismatches": registry_cells_without_family_source,
         "registry_ledger_mismatches": registry_ledger_mismatches,
         "limitations": [

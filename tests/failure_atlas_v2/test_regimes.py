@@ -1,11 +1,12 @@
 """Regression tests for the Atlas v2 regime generator (a sign inversion was caught on 2026-11-03)."""
+
 import sys
 from pathlib import Path
 
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts/failure_atlas_v2"))
-from regimes import REGIMES, expected_oracle_path, hindsight_oracle_cost  # noqa: E402
+from regimes import REGIMES, expected_oracle_path, hindsight_oracle_cost
 
 
 def test_empirical_gain_matches_truth_sign_and_size():

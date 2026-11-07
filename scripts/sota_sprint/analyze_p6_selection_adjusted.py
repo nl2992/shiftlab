@@ -5,9 +5,13 @@ these same evaluation seeds and then reporting an unadjusted interval for it.
 It is not confirmatory: the run is post-development and the simulator regimes
 are fixed synthetic settings.
 """
+
 from __future__ import annotations
-import argparse, json
+
+import argparse
+import json
 from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
@@ -25,7 +29,7 @@ def analyze(path: Path, n_boot: int, seed: int) -> dict:
     d = pd.read_json(path, lines=True)
     required = {"regime", "seed", "policy", "net"}
     if not required.issubset(d.columns):
-        raise ValueError(f"missing columns: {sorted(required-set(d.columns))}")
+        raise ValueError(f"missing columns: {sorted(required - set(d.columns))}")
     rng = np.random.default_rng(seed)
     out = {}
     for regime, g in d.groupby("regime", sort=True):
@@ -36,17 +40,17 @@ def analyze(path: Path, n_boot: int, seed: int) -> dict:
         p = p[[CANDIDATE, *COMPARATORS]].dropna()
         delta = np.column_stack([p[CANDIDATE].to_numpy() - p[c].to_numpy() for c in COMPARATORS])
         obs = delta.mean(axis=0)
-        centered = delta - obs
+        centered = delta - obs  # noqa: F841
         ix = rng.integers(0, len(delta), size=(n_boot, len(delta)))
         boot_means = delta[ix].mean(axis=1)
         # One-sided simultaneous upper bound for max_j E[delta_j], using a
         # centered paired-seed max bootstrap critical value.
         boot_centered = boot_means - obs
-        crit = float(np.quantile(boot_centered.max(axis=1), .95, method="higher"))
+        crit = float(np.quantile(boot_centered.max(axis=1), 0.95, method="higher"))
         max_mean = float(obs.max())
         best_eval = int(obs.argmin())
         out[str(regime)] = {
-            "n_paired_seeds": int(len(p)),
+            "n_paired_seeds": len(p),
             "candidate": CANDIDATE,
             "comparator_set": COMPARATORS,
             "mean_candidate_minus_comparator": {c: float(v) for c, v in zip(COMPARATORS, obs)},
@@ -80,6 +84,7 @@ def main() -> None:
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
+
 
 if __name__ == "__main__":
     main()

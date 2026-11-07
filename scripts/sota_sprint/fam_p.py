@@ -47,11 +47,11 @@ for _p in (ROOT / "scripts/failure_atlas_v2_flq", HERE, _SOTA, _SOTA / "competit
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from bench import SPRINT_REGIMES, _r  # noqa: E402
-import fam_a  # noqa: E402
-from controls import FixedModel, PacedDisagreementAcquisition  # noqa: E402
-from qsg import StartedMixture  # noqa: E402
-from simulator import QueryRequest, ReleasedFeedback  # noqa: E402
+import fam_a
+from bench import SPRINT_REGIMES, _r
+from controls import FixedModel, PacedDisagreementAcquisition
+from qsg import StartedMixture
+from simulator import QueryRequest, ReleasedFeedback
 
 LOG0 = -1e9
 
@@ -107,7 +107,7 @@ class PRegime:
             t = 0
             while t < horizon:
                 run = int(np.floor(rng.pareto(1.5) + 1.0))
-                s[t:t + run] = rng.random() < self.p
+                s[t : t + run] = rng.random() < self.p
                 t += run
         elif self.kind == "hmm":
             h = int(rng.random() < 0.5)
@@ -143,21 +143,26 @@ class PRegime:
 
 
 _ALT = ("alt", "dep", "misspec")
-P_REGIMES: dict = {r.name: r for r in [
-    PRegime("P_order2_null", "order2"),
-    PRegime("P_order2_better", "order2", p=0.65, tags=_ALT),
-    PRegime("P_semimarkov_better", "semimarkov", p=0.65, tags=_ALT),
-    PRegime("P_hmm_null", "hmm", hmm_p=(0.3, 0.7)),
-    PRegime("P_hmm_better", "hmm", hmm_p=(0.45, 0.85), tags=_ALT),
-    PRegime("P_piecerho_null", "piecerho"),
-    PRegime("P_piecerho_better", "piecerho", p=0.65, tags=_ALT),
-]}
+P_REGIMES: dict = {
+    r.name: r
+    for r in [
+        PRegime("P_order2_null", "order2"),
+        PRegime("P_order2_better", "order2", p=0.65, tags=_ALT),
+        PRegime("P_semimarkov_better", "semimarkov", p=0.65, tags=_ALT),
+        PRegime("P_hmm_null", "hmm", hmm_p=(0.3, 0.7)),
+        PRegime("P_hmm_better", "hmm", hmm_p=(0.45, 0.85), tags=_ALT),
+        PRegime("P_piecerho_null", "piecerho"),
+        PRegime("P_piecerho_better", "piecerho", p=0.65, tags=_ALT),
+    ]
+}
 # first-order Markov null with bursty (non-i.i.d.) disagreements: breaks RenewalEvidence's i.i.d.-gap
 # premise while staying inside A5b's class (FLQ Regime object)
-P_REGIMES["P_bursty_null_r8"] = _r("P_bursty_null_r8", "dependence", [(0, 0.5)], rho=0.8,
-                                   burst=0.9, tags=("null", "dep"))
-P_REGIMES["P_markov_null_r98"] = _r("P_markov_null_r98", "dependence", [(0, 0.5)], rho=0.98,
-                                    tags=("null", "dep"))
+P_REGIMES["P_bursty_null_r8"] = _r(
+    "P_bursty_null_r8", "dependence", [(0, 0.5)], rho=0.8, burst=0.9, tags=("null", "dep")
+)
+P_REGIMES["P_markov_null_r98"] = _r(
+    "P_markov_null_r98", "dependence", [(0, 0.5)], rho=0.98, tags=("null", "dep")
+)
 for _k, _v in P_REGIMES.items():  # idempotent: harmless when imported twice
     SPRINT_REGIMES.setdefault(_k, _v)
 
@@ -295,7 +300,7 @@ class FamP1(fam_a.FamA):
                 self.seg_k += 1
                 self.seg_hits += z
                 if self.deployed == 0:
-                    if self._upd(self.e_up, +1, z, e) >= 2.0 ** self.cycle / self.alpha:
+                    if self._upd(self.e_up, +1, z, e) >= 2.0**self.cycle / self.alpha:
                         self.deployed, self.decided, self.seg = 1, True, t
                         self.last = (z, e)
                         self._new_tests()
@@ -308,15 +313,18 @@ class FamP1(fam_a.FamA):
                     continue
             self.last = (z, e)
         if self.density == "adaptive" and len(self.rel_z) >= self.min_pairs + 1:
-            self.rho_hat = fam_a.rho_mle(np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]),
-                                         sig=self.rho_sig)
+            self.rho_hat = fam_a.rho_mle(
+                np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]), sig=self.rho_sig
+            )
 
 
 def _p1(name, **kw):
     return lambda T, B, cs, cq, a, d, r: FamP1(T, B, a, rng=r("QSG"), name=name, **kw)
 
 
-RENEW_GAP = 7  # fixed spacing for renewal evidence: chosen from the P1 diagnostic (not screen seeds)
+RENEW_GAP = (
+    7  # fixed spacing for renewal evidence: chosen from the P1 diagnostic (not screen seeds)
+)
 
 
 # ================================================================================================
@@ -349,7 +357,7 @@ class FollowLeader:
             d = int(fb.model_losses[0]) - int(fb.model_losses[1])
             if d == 0:
                 continue
-            self.recent = (self.recent + [int(d > 0)])[-self.k:]
+            self.recent = (self.recent + [int(d > 0)])[-self.k :]
             if len(self.recent) == self.k and len(set(self.recent)) == 1:
                 self.deployed = self.recent[0]
 
@@ -384,9 +392,13 @@ class KGate:
 
         self.K, self.T, self.B, self.alpha, self.rng = K, T, B, alpha, rng
         self.name, self.acq, self.kind = name, acq, host
-        self.host = (CAMSDeploymentAdapter(n_models=K, n_classes=2, advice_fn=stack_advice(K, []),
-                                           rng=host_rng) if host == "cams"
-                     else ModelPickerDeploymentAdapter(K, 2, host_rng))
+        self.host = (
+            CAMSDeploymentAdapter(
+                n_models=K, n_classes=2, advice_fn=stack_advice(K, []), rng=host_rng
+            )
+            if host == "cams"
+            else ModelPickerDeploymentAdapter(K, 2, host_rng)
+        )
         self.inc, self.cycle, self.seg, self.pref = 0, 1, 0, 0
         self._req: dict[int, tuple[bool, float, float]] = {}
         self._new_tests()
@@ -413,8 +425,12 @@ class KGate:
             return QueryRequest(requested=False)
         mp = event.model_predictions
         q_g = 0.0
-        if (self.acq == "host_pref" and self.pref != self.inc and self.pref not in self.cert
-                and mp[self.pref] != mp[self.inc]):
+        if (
+            self.acq == "host_pref"
+            and self.pref != self.inc
+            and self.pref not in self.cert
+            and mp[self.pref] != mp[self.inc]
+        ):
             q_g = 1.0
         u = self._host_u(event, hreq)
         take = bool(hreq.requested) or (q_g > 0 and bool(self.rng.random() < q_g))
@@ -434,13 +450,23 @@ class KGate:
         fbs = sorted(feedback, key=lambda f: f.event_id)
         host_fb = []
         for fb in fbs:
-            _, _, q_comb = self._req.pop(fb.event_id, (True, fb.query_probability,
-                                                       fb.query_probability))
-            host_fb.append(ReleasedFeedback(fb.event_id, fb.t_requested, fb.t_released, fb.label,
-                                            fb.model_losses, float(q_comb), fb.extra))
+            _, _, q_comb = self._req.pop(
+                fb.event_id, (True, fb.query_probability, fb.query_probability)
+            )
+            host_fb.append(
+                ReleasedFeedback(
+                    fb.event_id,
+                    fb.t_requested,
+                    fb.t_released,
+                    fb.label,
+                    fb.model_losses,
+                    float(q_comb),
+                    fb.extra,
+                )
+            )
         if host_fb:
             self.host.observe(host_fb)
-        thr = (self.K - 1) * 2.0 ** self.cycle / self.alpha
+        thr = (self.K - 1) * 2.0**self.cycle / self.alpha
         for fb in fbs:
             if fb.event_id < self.seg:
                 continue
@@ -503,14 +529,19 @@ class KRegime:
         return np.stack(cols, axis=1).astype(np.int8)
 
 
-K_REGIMES = {r.name: r for r in [
-    KRegime("K3_best1", (((0, 0.65),), ((0, 0.5),)), tags=("alt",)),
-    KRegime("K4_mixed", (((0, 0.6),), ((0, 0.45),), ((0, 0.68),)), tags=("alt",)),
-    KRegime("K3_null", (((0, 0.5),), ((0, 0.4),)), tags=("null",)),
-    KRegime("K4_null", (((0, 0.5),), ((0, 0.45),), ((0, 0.5),)), tags=("null",)),
-    KRegime("K4_late", (((0, 0.45),), ((0, 0.55),), ((0, 0.4), (800, 0.72))), tags=("alt", "change")),
-    KRegime("K3_near", (((0, 0.57),), ((0, 0.55),)), tags=("alt",)),
-]}
+K_REGIMES = {
+    r.name: r
+    for r in [
+        KRegime("K3_best1", (((0, 0.65),), ((0, 0.5),)), tags=("alt",)),
+        KRegime("K4_mixed", (((0, 0.6),), ((0, 0.45),), ((0, 0.68),)), tags=("alt",)),
+        KRegime("K3_null", (((0, 0.5),), ((0, 0.4),)), tags=("null",)),
+        KRegime("K4_null", (((0, 0.5),), ((0, 0.45),), ((0, 0.5),)), tags=("null",)),
+        KRegime(
+            "K4_late", (((0, 0.45),), ((0, 0.55),), ((0, 0.4), (800, 0.72))), tags=("alt", "change")
+        ),
+        KRegime("K3_near", (((0, 0.57),), ((0, 0.55),)), tags=("alt",)),
+    ]
+}
 
 
 def k_policies(K, T, B, alpha, r):
@@ -520,12 +551,22 @@ def k_policies(K, T, B, alpha, r):
 
     return {
         "K_D2": KGate(K, T, B, alpha, rng=r("D_gate"), host_rng=r("cams"), name="K_D2"),
-        "K_D2-host_only": KGate(K, T, B, alpha, rng=r("D_gate"), host_rng=r("cams"),
-                                acq="host_only", name="K_D2-host_only"),
-        "K_D1": KGate(K, T, B, alpha, rng=r("D_gate"), host_rng=r("model_picker"), host="mp",
-                      name="K_D1"),
-        "K_cams": CAMSDeploymentAdapter(n_models=K, n_classes=2, advice_fn=stack_advice(K, []),
-                                        rng=r("cams")),
+        "K_D2-host_only": KGate(
+            K,
+            T,
+            B,
+            alpha,
+            rng=r("D_gate"),
+            host_rng=r("cams"),
+            acq="host_only",
+            name="K_D2-host_only",
+        ),
+        "K_D1": KGate(
+            K, T, B, alpha, rng=r("D_gate"), host_rng=r("model_picker"), host="mp", name="K_D1"
+        ),
+        "K_cams": CAMSDeploymentAdapter(
+            n_models=K, n_classes=2, advice_fn=stack_advice(K, []), rng=r("cams")
+        ),
         "K_model_picker": ModelPickerDeploymentAdapter(K, 2, r("model_picker")),
         "K_never": FixedModel(0, name="K_never"),
     }
@@ -565,8 +606,10 @@ class UniformStartSUI(fam_a.MarkovSUI):
         self.cum = np.maximum(self.cum + self._null_factor(hit, gap, prev), LOG0)
         self.acum = np.maximum(self.acum + self._alt_factor(hit, gap, prev), LOG0)
         w = math.log(1.0 / self.n_starts)
-        terms = [w + _lse(self.alogpi + self.acum - a0) - float(np.max(self.cum - c0))
-                 for c0, a0 in self.starts]
+        terms = [
+            w + _lse(self.alogpi + self.acum - a0) - float(np.max(self.cum - c0))
+            for c0, a0 in self.starts
+        ]
         self.log_value = _lse(np.array(terms))
         self.value = float(math.exp(min(self.log_value, 700.0)))
         return self.value
@@ -588,18 +631,33 @@ def _make_p6():
         reserve: fraction of B only the detector may spend (host sees remaining - unspent reserve);
         det: 'uniform' (UniformStartSUI) | 'b' (fam_a._B prior, = fam_m) | 'renewal'."""
 
-        def __init__(self, make_base, T, B, alpha, *, rng, reserve=0.25, det="uniform",
-                     stride=10, name="", **kw):
-            self.res_B = int(round(reserve * B))
+        def __init__(
+            self,
+            make_base,
+            T,
+            B,
+            alpha,
+            *,
+            rng,
+            reserve=0.25,
+            det="uniform",
+            stride=10,
+            name="",
+            **kw,
+        ):
+            self.res_B = round(reserve * B)
             self.n_own = 0
             self.det_kind, self.stride_d = det, stride
             super().__init__(make_base, T, B, alpha, rng=rng, name=name, **kw)
 
         def _new_detector(self):
-            a = self.alpha_det / (2.0 ** self.n_promotions) if self.deployed == 0 else self.alpha_rb
+            a = self.alpha_det / (2.0**self.n_promotions) if self.deployed == 0 else self.alpha_rb
             if self.det_kind == "uniform":
-                ev = UniformStartSUI(n_starts=math.ceil(self.B / self.stride_d), stride=self.stride_d,
-                                     rho_prior=fam_a._B["rho_prior"])
+                ev = UniformStartSUI(
+                    n_starts=math.ceil(self.B / self.stride_d),
+                    stride=self.stride_d,
+                    rho_prior=fam_a._B["rho_prior"],
+                )
             elif self.det_kind == "renewal":
                 ev = RenewalEvidence()
             else:
@@ -634,8 +692,17 @@ def _make_p6():
 
 
 def _a5b_host(T, B, a, r):
-    return fam_a.FamA(T, B, a, rng=r, name="A5b-host", evidence="sui", density="adaptive",
-                      rho_sig=2.0, sui_kw=fam_a._B)
+    return fam_a.FamA(
+        T,
+        B,
+        a,
+        rng=r,
+        name="A5b-host",
+        evidence="sui",
+        density="adaptive",
+        rho_sig=2.0,
+        sui_kw=fam_a._B,
+    )
 
 
 def _p6(name, **kw):
@@ -643,6 +710,7 @@ def _p6(name, **kw):
         _rmm_module()
         cls = _make_p6()
         return cls(_a5b_host, T, B, a, rng=r("QSG"), name=name, **kw)
+
     return f
 
 
@@ -650,8 +718,17 @@ def _p6_lrmd(name, **kw):
     def f(T, B, cs, cq, a, d, r):
         _rmm_module()
         cls = _make_p6()
-        return cls(lambda T_, B_, a_, r_: FixedModel(0, name="fixed"), T, B, a, rng=r("lrmd"),
-                   name=name, alpha_split=1.0, **kw)
+        return cls(
+            lambda T_, B_, a_, r_: FixedModel(0, name="fixed"),
+            T,
+            B,
+            a,
+            rng=r("lrmd"),
+            name=name,
+            alpha_split=1.0,
+            **kw,
+        )
+
     return f
 
 
@@ -660,20 +737,41 @@ def _p6_lrmd(name, **kw):
 # ================================================================================================
 EXTRA = {
     # P1: A5b power repairs
-    "P1_A5b_c10": _p1("P1_A5b_c10", evidence="sui", density="adaptive", rho_sig=2.0,
-                      sui_kw=fam_a._B, c_corr=0.10),
-    "P1_A5b_c05": _p1("P1_A5b_c05", evidence="sui", density="adaptive", rho_sig=2.0,
-                      sui_kw=fam_a._B, c_corr=0.05),
-    "P1_renew": _p1("P1_renew", evidence="renewal", density="fixedgap", fixed_gap=RENEW_GAP,
-                    discard=False),
-    "P1_union": _p1("P1_union", evidence="union", density="fixedgap", fixed_gap=RENEW_GAP,
-                    sui_kw=fam_a._B, discard=False),
-    "P1_sui_fixedgap": _p1("P1_sui_fixedgap", evidence="sui", density="fixedgap",
-                           fixed_gap=RENEW_GAP, sui_kw=fam_a._B, discard=False),  # union ablation
-    "P1_cap95": _p1("P1_cap95", evidence="sui", density="adaptive", rho_sig=2.0,
-                    sui_kw=dict(fam_a._B, rho_max=0.95)),
-    "P1_capmix": _p1("P1_capmix", evidence="capmix", density="adaptive", rho_sig=2.0,
-                     sui_kw=dict(fam_a._B)),
+    "P1_A5b_c10": _p1(
+        "P1_A5b_c10", evidence="sui", density="adaptive", rho_sig=2.0, sui_kw=fam_a._B, c_corr=0.10
+    ),
+    "P1_A5b_c05": _p1(
+        "P1_A5b_c05", evidence="sui", density="adaptive", rho_sig=2.0, sui_kw=fam_a._B, c_corr=0.05
+    ),
+    "P1_renew": _p1(
+        "P1_renew", evidence="renewal", density="fixedgap", fixed_gap=RENEW_GAP, discard=False
+    ),
+    "P1_union": _p1(
+        "P1_union",
+        evidence="union",
+        density="fixedgap",
+        fixed_gap=RENEW_GAP,
+        sui_kw=fam_a._B,
+        discard=False,
+    ),
+    "P1_sui_fixedgap": _p1(
+        "P1_sui_fixedgap",
+        evidence="sui",
+        density="fixedgap",
+        fixed_gap=RENEW_GAP,
+        sui_kw=fam_a._B,
+        discard=False,
+    ),  # union ablation
+    "P1_cap95": _p1(
+        "P1_cap95",
+        evidence="sui",
+        density="adaptive",
+        rho_sig=2.0,
+        sui_kw=dict(fam_a._B, rho_max=0.95),
+    ),
+    "P1_capmix": _p1(
+        "P1_capmix", evidence="capmix", density="adaptive", rho_sig=2.0, sui_kw=dict(fam_a._B)
+    ),
     # P3: aggressive uncertified switching control
     "P3_follow": lambda T, B, cs, cq, a, d, r: FollowLeader(T, B, rng=r("p3_follow")),
     # P6: reserved-label restart monitor on A5b, uniform-start SUI detector
@@ -695,6 +793,7 @@ def _trans(p, a):
 
 def fisher_efficiency(p, a, eps=1e-5):
     """Per-step Fisher information for p with a known vs a unknown (efficient information)."""
+
     def ll_grad(pp, aa):
         P = _trans(pp, aa)
         return np.log(P)
@@ -702,12 +801,17 @@ def fisher_efficiency(p, a, eps=1e-5):
     L = ll_grad(p, a)
     dp = (ll_grad(p + eps, a) - ll_grad(p - eps, a)) / (2 * eps)
     da = (ll_grad(p, min(a + eps, 1 - 1e-9)) - ll_grad(p, max(a - eps, 0.0))) / (
-        min(a + eps, 1 - 1e-9) - max(a - eps, 0.0))
+        min(a + eps, 1 - 1e-9) - max(a - eps, 0.0)
+    )
     P = np.exp(L)
     pi = np.array([1 - p, p])
     w = pi[:, None] * P
-    Ipp, Iaa, Ipa = float(np.sum(w * dp * dp)), float(np.sum(w * da * da)), float(np.sum(w * dp * da))
-    eff = Ipp - Ipa ** 2 / Iaa if Iaa > 0 else Ipp
+    Ipp, Iaa, Ipa = (
+        float(np.sum(w * dp * dp)),
+        float(np.sum(w * da * da)),
+        float(np.sum(w * dp * da)),
+    )
+    eff = Ipp - Ipa**2 / Iaa if Iaa > 0 else Ipp
     return Ipp, eff
 
 
@@ -716,7 +820,7 @@ def _chain_queries(rng, p, rho, dis, gap_min, n_q, horizon=200000):
     disagreement at least gap_min events after the last query'."""
     out_z, out_t = [], []
     s = rng.random() < p
-    last = -10 ** 9
+    last = -(10**9)
     for t in range(horizon):
         if t > 0:
             s = s if rng.random() < rho else (rng.random() < p)
@@ -731,7 +835,7 @@ def _chain_queries(rng, p, rho, dis, gap_min, n_q, horizon=200000):
 
 def _cond_ll(z, t, p, rho):
     g = np.diff(t)
-    a = rho ** g
+    a = rho**g
     m = a * z[:-1] + (1 - a) * p
     ll = math.log(p if z[0] else 1 - p)
     return ll + float(np.sum(np.log(np.where(z[1:] == 1, m, 1 - m))))
@@ -740,7 +844,7 @@ def _cond_ll(z, t, p, rho):
 def p1_diag(reps=200, n_q=100, seed=2026110790):
     rng = np.random.default_rng(seed)
     rows = []
-    for (p, rho) in [(0.65, 0.8), (0.65, 0.95), (0.65, 0.5), (0.65, 0.0), (0.6, 0.8)]:
+    for p, rho in [(0.65, 0.8), (0.65, 0.95), (0.65, 0.5), (0.65, 0.0), (0.6, 0.8)]:
         for G in (1, 4, 7, 12):
             acc = []
             for _ in range(reps):
@@ -755,18 +859,31 @@ def p1_diag(reps=200, n_q=100, seed=2026110790):
                 logQ = _lse(sui.alogpi + sui.acum)
                 logU = float(np.max(sui.cum))
                 la, l0 = _cond_ll(z, t, p, rho), _cond_ll(z, t, 0.5, rho)
-                acc.append(dict(oracle=la - l0, sui=logQ - logU, absorbed=logU - l0,
-                                alt_loss=la - logQ, renewal=math.log(max(ren.value, 1e-300)),
-                                cycles=ren.k, events=int(t[-1] - t[0])))
+                acc.append(
+                    {
+                        "oracle": la - l0,
+                        "sui": logQ - logU,
+                        "absorbed": logU - l0,
+                        "alt_loss": la - logQ,
+                        "renewal": math.log(max(ren.value, 1e-300)),
+                        "cycles": ren.k,
+                        "events": int(t[-1] - t[0]),
+                    }
+                )
             m = {k: float(np.mean([a[k] for a in acc])) for k in acc[0]}
-            m.update(p=p, rho=rho, G=G, a_mean=float(np.mean(rho ** np.maximum(np.diff(t), 1))),
-                     sui_cross_20=float(np.mean([a["sui"] >= math.log(40) for a in acc])),
-                     ren_cross_20=float(np.mean([a["renewal"] >= math.log(40) for a in acc])))
+            m.update(
+                p=p,
+                rho=rho,
+                G=G,
+                a_mean=float(np.mean(rho ** np.maximum(np.diff(t), 1))),
+                sui_cross_20=float(np.mean([a["sui"] >= math.log(40) for a in acc])),
+                ren_cross_20=float(np.mean([a["renewal"] >= math.log(40) for a in acc])),
+            )
             rows.append(m)
     fish = []
     for a in (0.0, 0.1, 0.25, 0.5, 0.8, 0.9, 0.95):
         Ipp, eff = fisher_efficiency(0.6, a)
-        fish.append(dict(a=a, I_known=Ipp, I_free=eff, ratio=eff / Ipp))
+        fish.append({"a": a, "I_known": Ipp, "I_free": eff, "ratio": eff / Ipp})
     return {"sim": rows, "fisher_p0.6": fish, "reps": reps, "n_q": n_q, "seed": seed}
 
 
@@ -793,10 +910,23 @@ ANALYSES: dict = {}
 
 
 # ---------------------------------------------------------------- P2 / P3: path-level analysis
-P23_POLICIES = ["A5b", "D2", "QSG", "rmm:gated_deployment+RMM", "gated_adaptive_range+front",
-                "P3_follow", "CONTROL_never_switch"]
-TWIN_POLICIES = P23_POLICIES + ["P1_renew", "P1_union", "P1_A5b_c10", "P6_RRD", "P6_LRMD_U",
-                                "M_LRMD_SUI"]
+P23_POLICIES = [
+    "A5b",
+    "D2",
+    "QSG",
+    "rmm:gated_deployment+RMM",
+    "gated_adaptive_range+front",
+    "P3_follow",
+    "CONTROL_never_switch",
+]
+TWIN_POLICIES = P23_POLICIES + [
+    "P1_renew",
+    "P1_union",
+    "P1_A5b_c10",
+    "P6_RRD",
+    "P6_LRMD_U",
+    "M_LRMD_SUI",
+]
 
 
 def _paths_job(args):
@@ -807,53 +937,90 @@ def _paths_job(args):
     reg = PRegime("tmp", "piecerho", p=p, rho_sched=((0, rho),), delay=delay)
     rng = np.random.default_rng([2026110701, int(p * 1000), int(rho * 1000), delay, seed])
     losses, sign = reg.sample_state(rng)
-    return _paths_eval(losses, delay, seed, dict(p=p, rho=rho, delay=delay, seed=seed,
-                                                 dis=reg.dis, sign=sign))
+    return _paths_eval(
+        losses,
+        delay,
+        seed,
+        {"p": p, "rho": rho, "delay": delay, "seed": seed, "dis": reg.dis, "sign": sign},
+    )
 
 
 def _paths_eval(losses, delay, seed, meta, names=None):
     import registry
-    from suite import build_suite, stream_from_losses
     from simulator import run_episode
+    from suite import build_suite, stream_from_losses
 
     T = losses.shape[0]
     d = losses[:, 0].astype(int) - losses[:, 1]
     out = []
-    for pol in build_suite(T, 200, 5.0, 0.05, 0.05, delay, seed, 2026110701,
-                           names=names or P23_POLICIES, extra=registry.EXTRA):
+    for pol in build_suite(
+        T,
+        200,
+        5.0,
+        0.05,
+        0.05,
+        delay,
+        seed,
+        2026110701,
+        names=names or P23_POLICIES,
+        extra=registry.EXTRA,
+    ):
         preds, labels = stream_from_losses(losses, np.random.default_rng([seed, 7]))
-        res = run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=200,
-                          label_price=0.05, switch_cost=5.0, trace=True)
+        res = run_episode(
+            pol,
+            model_predictions=preds,
+            labels=labels,
+            delay=delay,
+            budget=200,
+            label_price=0.05,
+            switch_cost=5.0,
+            trace=True,
+        )
         dep = np.array([r["deployed_model"] for r in res.records])
         req = np.array([r["requested"] for r in res.records])
         tr = np.diff(np.r_[0, dep])
         proms = []
         for tau in np.flatnonzero(tr == 1):
-            nxt = np.flatnonzero(tr[tau + 1:] != 0)
+            nxt = np.flatnonzero(tr[tau + 1 :] != 0)
             end = tau + 1 + nxt[0] if len(nxt) else T
-            q = np.flatnonzero(req[:max(tau - delay + 1, 0)] & (d[:max(tau - delay + 1, 0)] != 0))
-            rec = dict(tau=int(tau), spell=int(end - tau), A_spell=int(d[tau:end].sum()),
-                       rolled_back=bool(len(nxt)))
+            q = np.flatnonzero(req[: max(tau - delay + 1, 0)] & (d[: max(tau - delay + 1, 0)] != 0))
+            rec = {
+                "tau": int(tau),
+                "spell": int(end - tau),
+                "A_spell": int(d[tau:end].sum()),
+                "rolled_back": bool(len(nxt)),
+            }
             for H in (100, 500):
-                rec[f"A{H}"] = int(d[tau:tau + H].sum())
+                rec[f"A{H}"] = int(d[tau : tau + H].sum())
                 h = np.arange(min(H, T - tau))
                 if "rho" in meta:
                     p, rho, dis = meta["p"], meta["rho"], meta["dis"]
                     s0 = float(meta["sign"][tau])
                     rec[f"M{H}"] = float(dis * (2 * p - 1) * len(h))
-                    rec[f"Cstate{H}"] = float(dis * np.sum(2 * (rho ** h * s0 + (1 - rho ** h) * p) - 1))
+                    rec[f"Cstate{H}"] = float(
+                        dis * np.sum(2 * (rho**h * s0 + (1 - rho**h) * p) - 1)
+                    )
                     if len(q):
                         zl, gl = float(d[q[-1]] > 0), tau - q[-1]
-                        rec[f"Cpol{H}"] = float(dis * np.sum(
-                            2 * (rho ** (h + gl) * zl + (1 - rho ** (h + gl)) * p) - 1))
+                        rec[f"Cpol{H}"] = float(
+                            dis * np.sum(2 * (rho ** (h + gl) * zl + (1 - rho ** (h + gl)) * p) - 1)
+                        )
                     else:
                         rec[f"Cpol{H}"] = rec[f"M{H}"]
                 lo = max(tau - delay - 200, 0)  # realised advantage on the last 200 released events
-                rec["recent200"] = float(d[lo:max(tau - delay, lo + 1)].mean())
+                rec["recent200"] = float(d[lo : max(tau - delay, lo + 1)].mean())
             proms.append(rec)
-        out.append(dict({k: v for k, v in meta.items() if k != "sign"}, policy=pol.name,
-                        net=res.net_cost, loss=res.prediction_loss, labels=res.requested_labels,
-                        switches=res.deployment_switches, promotions=proms))
+        out.append(
+            dict(
+                {k: v for k, v in meta.items() if k != "sign"},
+                policy=pol.name,
+                net=res.net_cost,
+                loss=res.prediction_loss,
+                labels=res.requested_labels,
+                switches=res.deployment_switches,
+                promotions=proms,
+            )
+        )
     return out
 
 
@@ -862,7 +1029,8 @@ def _twin_job(args):
     z = np.load(ROOT / f"data/sprint_twin_losses/{name}.npz")
     losses = np.stack([z["l0"][ep], z["l1"][ep]], axis=1).astype(np.int8)
     import screen
-    return _paths_eval(losses, screen._delay(name), ep, dict(twin=name, ep=ep), TWIN_POLICIES)
+
+    return _paths_eval(losses, screen._delay(name), ep, {"twin": name, "ep": ep}, TWIN_POLICIES)
 
 
 def p2p3(argv):
@@ -905,7 +1073,7 @@ def kbuild(argv):
     outdir.mkdir(parents=True, exist_ok=True)
     stats = []
     for name in fr.LOADERS:
-        x, yraw, ts = fr.LOADERS[name]()
+        x, yraw, _ts = fr.LOADERS[name]()
         cat = fr.CATEGORICAL.get(name, [])
         for c in cat:
             x[c] = x[c].astype(str)
@@ -914,23 +1082,36 @@ def kbuild(argv):
         y = (yraw.to_numpy() > float(np.median(yraw.to_numpy()[:n30]))).astype(int)
         f = fr.prep(x.iloc[:n30], cat)
         X30, X15 = f(x.iloc[:n30]), f(x.iloc[:n15])
-        ms = [LogisticRegression(max_iter=300, C=1.0).fit(X15, y[:n15]),
-              HistGradientBoostingClassifier(max_iter=100, max_depth=4, learning_rate=0.1,
-                                             random_state=0).fit(X30, y[:n30]),
-              LogisticRegression(max_iter=300, C=1.0).fit(X30, y[:n30]),
-              HistGradientBoostingClassifier(max_iter=50, max_depth=2, learning_rate=0.1,
-                                             random_state=0).fit(X30[n15:], y[n15:n30])]
+        ms = [
+            LogisticRegression(max_iter=300, C=1.0).fit(X15, y[:n15]),
+            HistGradientBoostingClassifier(
+                max_iter=100, max_depth=4, learning_rate=0.1, random_state=0
+            ).fit(X30, y[:n30]),
+            LogisticRegression(max_iter=300, C=1.0).fit(X30, y[:n30]),
+            HistGradientBoostingClassifier(
+                max_iter=50, max_depth=2, learning_rate=0.1, random_state=0
+            ).fit(X30[n15:], y[n15:n30]),
+        ]
         k = min(fr.MAX_EPS, (n - n30) // fr.T_EP)
         end = n30 + k * fr.T_EP
         xe = f(x.iloc[n30:end])
-        L = np.stack([(m.predict(xe) != y[n30:end]).astype(np.int8).reshape(k, fr.T_EP)
-                      for m in ms], axis=2)
+        L = np.stack(
+            [(m.predict(xe) != y[n30:end]).astype(np.int8).reshape(k, fr.T_EP) for m in ms], axis=2
+        )
         ref = np.load(ROOT / f"data/sprint_fresh_losses/{name}.npz")
         same = bool(np.array_equal(L[:, :, 0], ref["l0"]) and np.array_equal(L[:, :, 1], ref["l1"]))
         np.savez(outdir / f"{name}.npz", L=L)
-        stats.append(dict(dataset=name, K=4, episodes=int(k), err=[float(L[..., j].mean()) for j in range(4)],
-                          matches_2model_cache=same, delay=fr.DELAYS[name],
-                          sha=hashlib.sha256(L.tobytes()).hexdigest()[:16]))
+        stats.append(
+            {
+                "dataset": name,
+                "K": 4,
+                "episodes": int(k),
+                "err": [float(L[..., j].mean()) for j in range(4)],
+                "matches_2model_cache": same,
+                "delay": fr.DELAYS[name],
+                "sha": hashlib.sha256(L.tobytes()).hexdigest()[:16],
+            }
+        )
     return {"streams": stats}
 
 
@@ -945,31 +1126,52 @@ def _k_job(args):
         gain, delay = reg.truth_gain(), reg.delay
     else:
         import fresh_real as fr
+
         L = np.load(ROOT / f"outputs/sprint2/P/kstreams/{name}.npz")["L"]
         losses = L[ep]
         gain = np.tile(losses[:, [0]].mean() - losses.mean(axis=0), (losses.shape[0], 1))
         delay = fr.DELAYS[name]
     T, K = losses.shape
-    r = lambda nm: policy_rng(2026110701 + _h(name) % 1000, ep * 100_000 + seed, nm)  # noqa: E731
+    r = lambda nm: policy_rng(2026110701 + _h(name) % 1000, ep * 100_000 + seed, nm)
     rows = []
     for pname, pol in k_policies(K, T, 200, 0.05, r).items():
         preds, labels = stream_from_losses(losses, np.random.default_rng([seed, ep, 7]))
-        res = run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=200,
-                          label_price=0.05, switch_cost=5.0, trace=True)
+        res = run_episode(
+            pol,
+            model_predictions=preds,
+            labels=labels,
+            delay=delay,
+            budget=200,
+            label_price=0.05,
+            switch_cost=5.0,
+            trace=True,
+        )
         assert res.requested_labels <= 200
         dep = np.array([x["deployed_model"] for x in res.records])
         g = gain[np.arange(T), dep]
-        rows.append(dict(kind=kind, regime=name, ep=ep, seed=seed, policy=pname, net=res.net_cost,
-                         labels=res.requested_labels, switches=res.deployment_switches,
-                         ever_switch=int((dep != 0).any()), final=int(dep[-1]),
-                         frac_on_harmful=float((g < 0).mean()),
-                         ever_harmful=int((g < 0).any()),
-                         ever_nonbetter=int((g <= 0)[dep != 0].any()) if (dep != 0).any() else 0))
+        rows.append(
+            {
+                "kind": kind,
+                "regime": name,
+                "ep": ep,
+                "seed": seed,
+                "policy": pname,
+                "net": res.net_cost,
+                "labels": res.requested_labels,
+                "switches": res.deployment_switches,
+                "ever_switch": int((dep != 0).any()),
+                "final": int(dep[-1]),
+                "frac_on_harmful": float((g < 0).mean()),
+                "ever_harmful": int((g < 0).any()),
+                "ever_nonbetter": int((g <= 0)[dep != 0].any()) if (dep != 0).any() else 0,
+            }
+        )
     return rows
 
 
 def _h(s):
     import hashlib
+
     return int.from_bytes(hashlib.sha256(s.encode()).digest()[:4], "big")
 
 

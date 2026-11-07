@@ -67,15 +67,19 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-for _p in (ROOT / "scripts/failure_atlas_v2_flq", ROOT / "scripts/promising_directions/sota",
-           ROOT / "scripts/promising_directions/sota/competitors", HERE):
+for _p in (
+    ROOT / "scripts/failure_atlas_v2_flq",
+    ROOT / "scripts/promising_directions/sota",
+    ROOT / "scripts/promising_directions/sota/competitors",
+    HERE,
+):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-import fam_a  # noqa: E402
-import fam_d  # noqa: E402
-from qsg import GRID, StartedMixture  # noqa: E402
-from simulator import QueryRequest, ReleasedFeedback  # noqa: E402
+import fam_a
+import fam_d
+from qsg import GRID, StartedMixture  # noqa: F401  (re-exported: tests use fam_r.StartedMixture)
+from simulator import QueryRequest, ReleasedFeedback
 
 LAMS = np.array([0.02, 0.05, 0.1, 0.2, 0.35, 0.5, 0.7, 1.0, 1.3, 1.6])  # fixed (not predictable)
 
@@ -182,8 +186,9 @@ class MarkovSUIPlus(fam_a.MarkovSUI):
                 w = self.w_first
             else:
                 w = 2.0 * (1.0 - self.w_first) / (m * (m + 1))
-            num = fam_a._lse(np.array([l1b + fam_a._lse(self.alogpi + self.acum - a0),
-                                       lb + self.pcum - p0]))
+            num = fam_a._lse(
+                np.array([l1b + fam_a._lse(self.alogpi + self.acum - a0), lb + self.pcum - p0])
+            )
             den = float(np.max(self.cum - c0))
             terms.append(math.log(w) + num - den)
         self.log_value = fam_a._lse(np.array(terms))
@@ -220,24 +225,57 @@ class RGate(fam_d.DeployGate):
 
     Z_COMPS = ("sm", "cmq", "mk")
 
-    def __init__(self, host, T, B, alpha, *, rng, evidence="sm", mk_kw=None, lams=LAMS,
-                 q_floor=0.0, acq="host_pref", kappa=None, var_adj=True, min_obs=10,
-                 cs=5.0, name="RGate"):
+    def __init__(
+        self,
+        host,
+        T,
+        B,
+        alpha,
+        *,
+        rng,
+        evidence="sm",
+        mk_kw=None,
+        lams=LAMS,
+        q_floor=0.0,
+        acq="host_pref",
+        kappa=None,
+        var_adj=True,
+        min_obs=10,
+        cs=5.0,
+        name="RGate",
+    ):
         self.evidence, self.mk_kw, self.lams = evidence, dict(mk_kw or {}), lams
         self.q_floor = float(q_floor)
-        self.comps = {"sm": ("sm",), "cmi": ("cmi",), "cmq": ("cmq",), "mk": ("mk",),
-                      "both": ("cmi", "mk"), "comb": ("cmi", "mk"), "econ": ()}[evidence]
+        self.comps = {
+            "sm": ("sm",),
+            "cmi": ("cmi",),
+            "cmq": ("cmq",),
+            "mk": ("mk",),
+            "both": ("cmi", "mk"),
+            "comb": ("cmi", "mk"),
+            "econ": (),
+        }[evidence]
         self.latched: dict[str, bool] = {}
         self.ipw_q: list[list] = []  # ordered queue of undecided-phase disagreements
-        self.kappa = (_norm_ppf(1.0 - alpha) if kappa is None else float(kappa))
+        self.kappa = _norm_ppf(1.0 - alpha) if kappa is None else float(kappa)
         self.var_adj, self.min_obs, self.cs = var_adj, int(min_obs), float(cs)
         self.n_dis = 0
         self.t_now = 0
         self.ez: list[int] = []
         self.et: list[int] = []
         self.rho_hat = 0.0
-        super().__init__(host, T, B, alpha, rng=rng, cert=fam_d.started_mixture, acq=acq,
-                         and_host=True, rollback=False, name=name)
+        super().__init__(
+            host,
+            T,
+            B,
+            alpha,
+            rng=rng,
+            cert=fam_d.started_mixture,
+            acq=acq,
+            and_host=True,
+            rollback=False,
+            name=name,
+        )
 
     # -- evidence objects ---------------------------------------------------------------------
     def _mk(self, kind, side):
@@ -287,8 +325,11 @@ class RGate(fam_d.DeployGate):
                 self.ipw_q.append([event.t, 0.0, False, None])  # unidentifiable: freezes cmi
             return QueryRequest(requested=False)
         u = fam_d._host_u(self.host, event, hreq)
-        if pre and not self.decided and (
-                self.acq == "always" or (self.acq == "host_pref" and self.host_pref == 1)):
+        if (
+            pre
+            and not self.decided
+            and (self.acq == "always" or (self.acq == "host_pref" and self.host_pref == 1))
+        ):
             q_g = 1.0
         elif pre and not self.decided:
             q_g = self.q_floor
@@ -309,10 +350,20 @@ class RGate(fam_d.DeployGate):
         fbs = sorted(feedback, key=lambda f: f.event_id)
         host_fb = []
         for fb in fbs:
-            drew, u, q_comb = self._req.pop(fb.event_id, (True, fb.query_probability,
-                                                          fb.query_probability))
-            host_fb.append(ReleasedFeedback(fb.event_id, fb.t_requested, fb.t_released,
-                                            fb.label, fb.model_losses, float(q_comb), fb.extra))
+            _drew, _u, q_comb = self._req.pop(
+                fb.event_id, (True, fb.query_probability, fb.query_probability)
+            )
+            host_fb.append(
+                ReleasedFeedback(
+                    fb.event_id,
+                    fb.t_requested,
+                    fb.t_released,
+                    fb.label,
+                    fb.model_losses,
+                    float(q_comb),
+                    fb.extra,
+                )
+            )
         if host_fb:
             self.host.observe(host_fb)
         res = {}
@@ -346,7 +397,7 @@ class RGate(fam_d.DeployGate):
         up, dn = self.ev["cmi"]
         i = 0
         while i < len(self.ipw_q):
-            t, q, taken, r = self.ipw_q[i]
+            _t, q, taken, r = self.ipw_q[i]
             if q <= 0.0:
                 up.frozen = dn.frozen = True
                 i = len(self.ipw_q)
@@ -365,7 +416,7 @@ class RGate(fam_d.DeployGate):
             self.ipw_q.clear()
 
     def _decide(self):
-        thr = 2.0 ** self.cycle / self.alpha
+        thr = 2.0**self.cycle / self.alpha
         for c in self.comps:
             if self.ev_value(c, +1) >= thr:
                 self.latched[c] = True  # Ville bounds "ever crossed" for each e-process
@@ -376,8 +427,7 @@ class RGate(fam_d.DeployGate):
             ok = all(self.latched[c] for c in self.comps)
         if ok:
             self.cert_ok, self.decided = True, True
-        elif not self.cert_ok and any(self.ev_value(c, -1) >= 1.0 / self.alpha
-                                      for c in self.comps):
+        elif not self.cert_ok and any(self.ev_value(c, -1) >= 1.0 / self.alpha for c in self.comps):
             self.decided = True  # discard: stop gate front-loading, host continues
 
     # -- R5 economic value -----------------------------------------------------------------------
@@ -405,6 +455,7 @@ class RGate(fam_d.DeployGate):
 
 def _norm_ppf(p):
     from statistics import NormalDist
+
     return NormalDist().inv_cdf(min(max(p, 1e-9), 1 - 1e-9))
 
 
@@ -412,20 +463,23 @@ def _norm_ppf(p):
 # Comparators that need an alpha-aware or not-yet-registered factory
 # ------------------------------------------------------------------------------------------------
 def _xu(T, B, cs, cq, a, d, r):
-    from xu_acquisition import XuAcquisitionPolicy  # noqa: PLC0415
+    from xu_acquisition import XuAcquisitionPolicy
+
     pol = XuAcquisitionPolicy("acquisition_only", r("xu"), delay=d, alpha=a)
     pol.name = "R:xu_acquisition_only@alpha"
     return pol
 
 
 def _econ_stop(T, B, cs, cq, a, d, r):
-    from economic_stop import EconomicStop  # noqa: PLC0415
+    from economic_stop import EconomicStop
+
     return EconomicStop(T, B, a, cs, rng=r("economic_stop"), name="R:economic_stop")
 
 
 def _g(name, **kw):
     def f(T, B, cs, cq, a, d, r):
         return RGate(fam_d.make_host("cams", r), T, B, a, rng=r("D_gate"), cs=cs, name=name, **kw)
+
     return f
 
 
@@ -441,10 +495,10 @@ EXTRA = {
     "R2-floor25": _g("R2-floor25", evidence="cmi", q_floor=0.25),
     # R3: Markov evidence variants (A1b numerator/denominator baseline = R3-base)
     "R3-base": _g("R3-base", evidence="mk"),
-    "R3-plugin": _g("R3-plugin", evidence="mk", mk_kw=dict(beta=0.5)),
-    "R3-near": _g("R3-near", evidence="mk", mk_kw=dict(p_tilt=1.0)),
-    "R3-alloc": _g("R3-alloc", evidence="mk", mk_kw=dict(w_first=0.9, stride=20)),
-    "R3-plugnear": _g("R3-plugnear", evidence="mk", mk_kw=dict(beta=0.5, p_tilt=1.0)),
+    "R3-plugin": _g("R3-plugin", evidence="mk", mk_kw={"beta": 0.5}),
+    "R3-near": _g("R3-near", evidence="mk", mk_kw={"p_tilt": 1.0}),
+    "R3-alloc": _g("R3-alloc", evidence="mk", mk_kw={"w_first": 0.9, "stride": 20}),
+    "R3-plugnear": _g("R3-plugnear", evidence="mk", mk_kw={"beta": 0.5, "p_tilt": 1.0}),
     # R4: dual evidence (cmi = R2, mk = R3-base)
     "R4-both": _g("R4-both", evidence="both"),
     "R4-comb": _g("R4-comb", evidence="comb"),
@@ -466,8 +520,8 @@ R6_CONFIGS = ("D2", "R6:D2-floor25", "R6:D2-always")
 
 
 def r6_joint(dev, ev, configs=R6_CONFIGS):
-    from bench2 import RISK_ALTS, RISK_NULLS, RISK_TARGETS  # noqa: PLC0415
-    from risk_curves import wilson  # noqa: PLC0415
+    from bench2 import RISK_ALTS, RISK_NULLS, RISK_TARGETS
+    from risk_curves import wilson
 
     def table(df):
         df = df[df.policy.isin(configs)]
@@ -486,9 +540,15 @@ def r6_joint(dev, ev, configs=R6_CONFIGS):
         g = ev[(ev.policy == p) & np.isclose(ev.alpha, a)]
         gn, ga = g[g.regime.isin(RISK_NULLS)], g[g.regime.isin(RISK_ALTS)]
         k, n = int(gn.ever_promote.sum()), len(gn)
-        out[t] = {"config": p, "alpha": float(a), "dev_risk": float(rd[(p, a)]),
-                  "dev_cost": float(cd[(p, a)]), "eval_risk": k / max(n, 1),
-                  "eval_risk_ci": wilson(k, n), "eval_cost": float(ga.net.mean())}
+        out[t] = {
+            "config": p,
+            "alpha": float(a),
+            "dev_risk": float(rd[(p, a)]),
+            "dev_cost": float(cd[(p, a)]),
+            "eval_risk": k / max(n, 1),
+            "eval_risk_ci": wilson(k, n),
+            "eval_cost": float(ga.net.mean()),
+        }
     return out
 
 

@@ -11,16 +11,26 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import fam_d  # noqa: E402
-import fam_t  # noqa: E402
-from fam_t import EXTRA, CondMeanEB  # noqa: E402
-from regimes import REGIMES  # noqa: E402
-from simulator import policy_rng, run_episode  # noqa: E402
-from suite import stream_from_losses  # noqa: E402
+import fam_d
+import fam_t
+from fam_t import EXTRA, CondMeanEB
+from regimes import REGIMES
+from simulator import policy_rng, run_episode
+from suite import stream_from_losses
 
-REP = ["T:mp/a5b+ad", "T:cams/a5b", "T:cams/cmean", "T:ms/env8", "T:mp/a5b+ad+rb",
-       "T2:gated/a5b", "T2:gatedAND/a5b+front", "T3:discern/a5b+front", "T3:discernAND/env8",
-       "T6:a5bxC2", "T6:env8xC6"]
+REP = [
+    "T:mp/a5b+ad",
+    "T:cams/a5b",
+    "T:cams/cmean",
+    "T:ms/env8",
+    "T:mp/a5b+ad+rb",
+    "T2:gated/a5b",
+    "T2:gatedAND/a5b+front",
+    "T3:discern/a5b+front",
+    "T3:discernAND/env8",
+    "T6:a5bxC2",
+    "T6:env8xC6",
+]
 
 
 def _run(name, regime="F0_null", seed=0, T=2000, B=200, delay=None, extra=EXTRA):
@@ -29,8 +39,16 @@ def _run(name, regime="F0_null", seed=0, T=2000, B=200, delay=None, extra=EXTRA)
     preds, labels = stream_from_losses(losses, np.random.default_rng(seed + 1))
     d = R.delay if delay is None else delay
     pol = extra[name](T, B, 5.0, 0.05, 0.05, d, lambda n: policy_rng(11, seed, n))
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=d, budget=B,
-                      label_price=0.05, switch_cost=5.0, trace=True)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=d,
+        budget=B,
+        label_price=0.05,
+        switch_cost=5.0,
+        trace=True,
+    )
     return pol, res
 
 
@@ -72,17 +90,24 @@ def test_and_mode_promotes_no_earlier_than_either_component():
     for seed in range(4):
         _, r_and = _run("T2:gatedAND/a5b+front", "F0_better", seed=seed, T=1500, delay=20)
         _, r_rep = _run("T2:gated/a5b+front", "F0_better", seed=seed, T=1500, delay=20)
-        _, r_host = _run("gated_adaptive_range+front", "F0_better", seed=seed, T=1500, delay=20,
-                         extra=__import__("strong_hosts").EXTRA)
+        _, r_host = _run(
+            "gated_adaptive_range+front",
+            "F0_better",
+            seed=seed,
+            T=1500,
+            delay=20,
+            extra=__import__("strong_hosts").EXTRA,
+        )
 
         def first(res):
             dep = [r["deployed_model"] for r in res.records]
             return dep.index(1) if 1 in dep else 10**9
+
         assert first(r_and) >= max(first(r_rep), first(r_host)) or first(r_and) == 10**9
 
 
 def test_adaptive_density_spaces_gate_queries_under_persistence():
-    pol, res = _run("T:cams/a5b+ad", "F5_dep_better_r8", seed=1, T=2000, delay=20)
+    pol, _res = _run("T:cams/a5b+ad", "F5_dep_better_r8", seed=1, T=2000, delay=20)
     assert pol.rho_hat is not None and pol.rho_hat > 0
     assert pol.n_gap_skips > 0
     pol0, _ = _run("T:cams/a5b", "F5_dep_better_r8", seed=1, T=2000, delay=20)
@@ -138,7 +163,9 @@ def test_single_cycle_threshold_is_one_over_alpha_and_never_later():
         for seed in range(3):
             _, r1 = _run(name, "F0_better", seed=seed, T=1000, delay=20)
             _, r2 = _run(name.replace("1", ""), "F0_better", seed=seed, T=1000, delay=20)
-            f = lambda res: next((i for i, r in enumerate(res.records) if r["deployed_model"]), 10**9)  # noqa: E731
+            f = lambda res: next(
+                (i for i, r in enumerate(res.records) if r["deployed_model"]), 10**9
+            )
             assert f(r1) <= f(r2)
 
 

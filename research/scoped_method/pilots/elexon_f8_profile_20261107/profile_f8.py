@@ -189,12 +189,20 @@ def make_features(
     targets: list[datetime],
     forecast_versions: dict[datetime, tuple[list[float], list[float], list[str]]],
     actual_versions: dict[datetime, tuple[list[float], list[float], list[str]]],
+    target_labels: dict[datetime, float],
 ) -> tuple[list[datetime], np.ndarray, dict[str, int]]:
     actual_times = sorted(actual_versions)
     eligible_targets: list[datetime] = []
     feature_rows: list[list[float]] = []
-    excluded = {"missing_asof_forecast": 0, "missing_mature_actual_history": 0}
+    excluded = {
+        "missing_target_label": 0,
+        "missing_asof_forecast": 0,
+        "missing_mature_actual_history": 0,
+    }
     for target in targets:
+        if target not in target_labels:
+            excluded["missing_target_label"] += 1
+            continue
         cutoff = target - timedelta(hours=12)
         cutoff_epoch = cutoff.timestamp()
         forecast = value_as_of(forecast_versions, target, cutoff_epoch)
@@ -264,9 +272,11 @@ def main() -> None:
     train_grid = event_grid(train_start, train_end)
     dev_grid = event_grid(dev_start, dev_end)
     train_targets, x_train, train_excluded = make_features(
-        train_grid, forecast_versions, actual_versions
+        train_grid, forecast_versions, actual_versions, labels
     )
-    dev_targets, x_dev, dev_excluded = make_features(dev_grid, forecast_versions, actual_versions)
+    dev_targets, x_dev, dev_excluded = make_features(
+        dev_grid, forecast_versions, actual_versions, labels
+    )
     train_labels = np.asarray([labels[t] for t in train_targets], dtype=np.float64)
     threshold = float(np.quantile(train_labels, 0.90))
     y_train = (train_labels > threshold).astype(np.int8)

@@ -43,7 +43,8 @@ study screen, not a new-method experiment.
   the freshest mature actuals; and fixed UTC calendar encodings.
   Fit only on 2024 targets; no 2025 labels may enter preprocessing or fitting.
 - Use the first ATL publication for each valid time as the policy-visible label and release time.
-  Report duplicates/revisions. Policy evaluation, if later authorized by the gates, must release
+  Require this first-published label for a train/development row and count missing target labels as
+  excluded events; report duplicates/revisions. Policy evaluation, if later authorized by the gates, must release
   each queried label at its recorded first `publishTime`, mapped to the first subsequent issue event
   at or after publication. No fixed-delay approximation is used when the authentic release exists.
 
@@ -84,3 +85,8 @@ API, vintage, timestamp, missingness, or model-fit failure. Do not overwrite a c
   period already published by issue time, as specified above. The run used only the registered
   2023-12 through 2025-12-30 publication windows; no model fit, profile metric, or 2026 outcome was
   produced. The corrected runner must be committed before any rerun.
+- **Run 2 halted before model fitting (2026-11-07):** one feature-eligible target had no ATL outcome
+  record (`2024-01-11T02:00Z`), so label lookup raised `KeyError`. The protocol now explicitly
+  requires an available first-published target label and counts missing-target exclusions. No model
+  fit or profile metric was produced. The next runner revision must implement this eligibility rule
+  and be committed before rerunning.

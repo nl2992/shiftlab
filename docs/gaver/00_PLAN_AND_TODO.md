@@ -49,12 +49,12 @@ Status keys: `[ ]` open, `[~]` in progress, `[x]` done (verdict recorded), `[-]`
 
 ### WP0. Contract and harness map (prerequisite, light)
 
-- [ ] 0.1 Map the Atlas cycle-7 harness: where DSS/straddle, Markov LR comparator, E_rb,
+- [x] 0.1 Map the Atlas cycle-7 harness: where DSS/straddle, Markov LR comparator, E_rb,
       promotion/rollback, pending queue, cost accounting and the regression cells live; how to run
       one cell at smoke scale. Output `docs/gaver/01_HARNESS_MAP.md`.
-- [ ] 0.2 Write the observation contract: filtration, predictable requests, fixed delay, pending
+- [x] 0.2 Write the observation contract: filtration, predictable requests, fixed delay, pending
       labels never used as evidence, hard pathwise budget. One page, in the same file.
-- [ ] 0.3 Allocate and register a fresh GAVE-R development seed block.
+- [x] 0.3 Allocate and register a fresh GAVE-R development seed block.
 
 ### WP1. Gap-Mix: actual-gap evidence (report priority 1 of the modules)
 
@@ -133,3 +133,4 @@ WP0 first (short). Then WP1, WP2, WP3 and WP4 in parallel, each in its own files
 
 - 2026-11-06: branch and plan created.
 - 2026-11-06: WP4 done (abstract/snippet level). Closest threats: Gap-Mix–Sethi et al.; PAVE–Gong & Zhang; FreshCheck–The Challenger/Drift2Act. PPRM venue and Sethi e-process framing unverified.
+- 2026-11-06: WP0 done (a458a21d). Seeds 101000000–101199999 registered. Findings that change the plan: no `E_rb` exists in code (rollback = Page-CUSUM kappa=2 + per-episode alpha spending), so WP3 compares against that; DSS with `delay_switch` reduces to uniform when d >= 2T/(B+2), so the d50/b0.05 regression cell is a uniform-acquisition cell for WP2. WP2 seeds start at 101080010 (first ten used by the smoke run).

@@ -20,6 +20,7 @@ Mechanisms that cannot be expressed faithfully on the available hook are NOT imp
 from __future__ import annotations
 
 import math
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -32,6 +33,29 @@ from shiftlab.bench.contract.adapters_controls import (
 from shiftlab.bench.contract.adapters_drift2act import Drift2ActContractPolicy
 from shiftlab.bench.contract.adapters_rar import BinaryPolicy, RARPolicy, canary_clocks
 from shiftlab.bench.contract.types import INCUMBENT, ClockSpec, EnvSpec
+
+# ------------------------------------------------------------------------------------------ host profile
+_HOST_PROFILE = "native_v0"
+
+
+@contextmanager
+def host_profile(profile: str):
+    """Set the host-port profile for every Feed*/Gated* host built inside the block (Amendment A1 uses ``calibrated_v1``).
+
+    ``native_v0`` (the default) injects nothing, so suite-v1 behaviour is bit-identical. Single-threaded by design
+    (one experiment per worker process)."""
+    global _HOST_PROFILE
+    prev, _HOST_PROFILE = _HOST_PROFILE, profile
+    try:
+        yield
+    finally:
+        _HOST_PROFILE = prev
+
+
+def _with_profile(kw: dict) -> dict:
+    if _HOST_PROFILE != "native_v0":
+        kw.setdefault("profile", _HOST_PROFILE)
+    return kw
 
 
 # ------------------------------------------------------------------------------------------ observation feed
@@ -263,7 +287,7 @@ class _D2AHook:
 
 class FeedDrift2Act(Drift2ActContractPolicy):
     def __init__(self, rule: Rule | None = None, **kw) -> None:
-        super().__init__(**kw)
+        super().__init__(**_with_profile(kw))
         self.rule = rule
 
     def reset(self, env: EnvSpec) -> None:
@@ -288,7 +312,7 @@ class _RARRequest:
 
 class FeedRAR(RARPolicy):
     def __init__(self, rule: Rule | None = None, **kw) -> None:
-        super().__init__(**kw)
+        super().__init__(**_with_profile(kw))
         self.rule = rule
 
     def reset(self, env: EnvSpec) -> None:
@@ -391,7 +415,7 @@ class GatedBinary(BinaryPolicy):
     default reproduces ``BinaryPolicy._evaluate_flag`` exactly (tested)."""
 
     def __init__(self, cost_test=None, **kw) -> None:
-        super().__init__(cost_aware=True, **kw)
+        super().__init__(cost_aware=True, **_with_profile(kw))
         self.cost_test = cost_test
 
     def _evaluate_flag(self, state, acts) -> None:
@@ -816,6 +840,7 @@ __all__ = [
     "Impl",
     "ObsFeed",
     "host_policy",
+    "host_profile",
     "make_clocks",
     "resolve",
 ]

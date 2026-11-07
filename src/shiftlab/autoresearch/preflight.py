@@ -187,6 +187,7 @@ def preflight(
     hook_probe: Callable[[str], str | None] = default_hook_probe,
     winners: Iterable[str] = (),
     smoke: bool = False,
+    suite: str = "v1",
 ) -> Verdict:
     v = Verdict(ELIGIBLE, c.get("candidate_id", "?"))
     fails: dict[str, list[str]] = {}
@@ -221,11 +222,13 @@ def preflight(
     if c.get("blocked_until") and not set(c.get("parent_ids", [])) <= set(winners):
         fail(BLOCKED_UNTIL_WINNERS, f"blocked_until: {c['blocked_until']}")
 
-    # 3. duplicate against the ledger (same candidate + stage already decided, other than CRASH)
+    # 3. duplicate against the ledger (same candidate + stage + dev-suite version already decided, other than CRASH;
+    #    records without a ``suite`` field are suite v1)
     try:
         prior = [
             r for r in read_all(ledger_path)
             if r.get("candidate_id") == c.get("candidate_id") and r.get("stage") == stage and r.get("decision") != "CRASH"
+            and r.get("suite", "v1") == suite
         ]  # fmt: skip
         if prior:
             fail(

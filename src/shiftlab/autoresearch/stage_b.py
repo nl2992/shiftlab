@@ -42,6 +42,7 @@ from shiftlab.bench.contract.adapters_inrepo import ADAPTERS
 from shiftlab.bench.contract.adapters_rar import BinaryPolicy, RARPolicy
 from shiftlab.bench.contract.audit import AuditViolation
 from shiftlab.bench.contract.guards import LeakError
+from shiftlab.bench.contract.policies import AlwaysContinue
 from shiftlab.bench.contract.types import CANDIDATE, ActionNotAllowed, BudgetExceeded
 
 from . import grammar as g
@@ -94,6 +95,12 @@ for _n in (
     "erb",
 ):
     COMPARATORS[_n] = (lambda env, _n=_n: ADAPTERS[_n].build(env), ADAPTERS[_n].claimed_null)
+# Amendment A1 additions (suite v2 only; not referenced by BASELINE_IMPL, so suite-v1 runs are unchanged)
+COMPARATORS["never_switch"] = (lambda env: AlwaysContinue(), "none")
+COMPARATORS["gapmix_exact08_s4"] = (
+    lambda env: ADAPTERS["gapmix:exact0.8_s4"].build(env),
+    ADAPTERS["gapmix:exact0.8_s4"].claimed_null,
+)
 
 # required-baseline id -> comparator (APPROX = documented non-identical stand-in; recorded in the ledger)
 BASELINE_IMPL = {
@@ -160,7 +167,9 @@ _CODE_HASH: str | None = None
 def _code_hash() -> str:
     global _CODE_HASH
     if _CODE_HASH is None:
-        _CODE_HASH = code_hash()
+        # a tranche launcher pins the hash (cache keys) so that concurrent edits elsewhere in the worktree cannot
+        # invalidate reference caches mid-run; unset => computed from the sources (suite-v1 behaviour)
+        _CODE_HASH = os.environ.get("SHIFTLAB_STAGE_B_CODE_HASH") or code_hash()
     return _CODE_HASH
 
 
@@ -358,6 +367,11 @@ def effect_label(rel: float, ci_hi: float) -> str:
     return "small"
 
 
+def cell_label(c: dict) -> str:
+    """``role:family`` (suite v1, unchanged) or ``id:role:family`` (suite v2 cells carry an ``id``; families repeat there)."""
+    return f"{c['id']}:{c['role']}:{c['family']}" if "id" in c else f"{c['role']}:{c['family']}"
+
+
 def validity_of(cells: list[dict], method: str, null: str, rollback_family: bool) -> dict:
     """Validity under the claimed null ONLY (never a cond method on a marg-null rate)."""
     if null in ("cond", "marg"):
@@ -392,7 +406,7 @@ def validity_of(cells: list[dict], method: str, null: str, rollback_family: bool
         "claimed": True,
         "null": null,
         "metric": metric,
-        "validity_cells": [f"{c['role']}:{c['family']}" for c in vc],
+        "validity_cells": [cell_label(c) for c in vc],
         "k": int(k),
         "n": int(n),
         "rate": (k / n) if n else 0.0,
@@ -411,15 +425,20 @@ def analyse(
     rollback_family: bool = False,
     candidate_key: str = "cand",
     host_key: str = "host",
+    suite: str = "v1",
+    extra_reasons: list[str] | None = None,
 ) -> dict:
     """Pure KEEP/DISCARD/UNVERIFIED logic over per-cell per-method per-seed summaries (testable on synthetic data).
 
     ``cells`` items: {role, family, cost_vector, null_expected, runs: {method: [summary...]}}; ``comp_meta`` maps each
-    comparator method key to {claimed_null, is_control, baseline_ids}. The host key is always an eligible comparator.
+    comparator method key to {claimed_null, is_control, baseline_ids}. The host key is always an eligible comparator
+    (suite v1). ``suite="v2"`` applies Amendment A1: a comparator is eligible iff it is valid for the candidate's claimed
+    null on the candidate's validity cells (promotion rate there <= FP_TOL; the host is subject to the same filter), and
+    the strongest applicable comparator is chosen PER CELL (lowest mean J on that cell among the eligible ones).
+    ``extra_reasons`` are additional DISCARD reasons decided outside (e.g. regression on a v1 cell).
     """
     claim = cand_null in VALIDITY_NULLS
     target = [c for c in cells if c["role"] in TARGET_ROLES]
-    controls = [c for c in cells if c["role"] in CONTROL_ROLES]
     nullcells = [c for c in cells if c["null_expected"]["cond"] and c["null_expected"]["marg"]]
     cval = validity_of(cells, candidate_key, cand_null, rollback_family)
     hval = validity_of(cells, host_key, cand_null, rollback_family)
@@ -434,20 +453,36 @@ def analyse(
         runs = [r for c in nullcells for r in c["runs"][method]]
         return _rate(runs, "promoted")
 
+    v2 = suite == "v2"
     elig, excluded = [], []
-    for m in comp_meta:
-        if m not in cells[0]["runs"]:
-            continue
-        ok = (not claim) or m == host_key or fp(m) <= FP_TOL
-        (elig if ok else excluded).append(m)
-    pool = [host_key, *[m for m in elig if m != host_key]]
+    if v2:
+        nk = {"absolute_risk": "abs_risk"}.get(cand_null, cand_null)
+        vcells = [c for c in cells if c["null_expected"].get(nk)] if claim else []
+
+        def _valid(m):
+            runs = [r for c in vcells for r in c["runs"][m]]
+            return (not runs) or _rate(runs, "promoted") <= FP_TOL
+
+        for m in [host_key, *comp_meta]:
+            if m in elig or m in excluded or m not in cells[0]["runs"]:
+                continue
+            (elig if _valid(m) else excluded).append(m)
+        pool = elig or [host_key]
+    else:
+        for m in comp_meta:
+            if m not in cells[0]["runs"]:
+                continue
+            ok = (not claim) or m == host_key or fp(m) <= FP_TOL
+            (elig if ok else excluded).append(m)
+        pool = [host_key, *[m for m in elig if m != host_key]]
     strongest = min(pool, key=lambda m: pj(m, target))
+    strong_cell = [min(pool, key=lambda m, c=c: pj(m, [c])) for c in cells] if v2 else None
 
     def per_cell(c, comp):
         d = _a(c["runs"][candidate_key]) - _a(c["runs"][comp])
         mean, lo, hi = _ci(d)
         ref = float(np.mean(_a(c["runs"][comp])))
-        return {
+        out = {
             "family": c["family"],
             "role": c["role"],
             "dJ_mean": mean,
@@ -455,9 +490,13 @@ def analyse(
             "J_comp": ref,
             "rel_improvement": -mean / ref if ref else 0.0,
         }
+        if v2:
+            out["id"] = c["id"]
+            out["comparator"] = comp
+        return out
 
     vs_host = [per_cell(c, host_key) for c in cells]
-    vs_strong = [per_cell(c, strongest) for c in cells]
+    vs_strong = [per_cell(c, strong_cell[i] if v2 else strongest) for i, c in enumerate(cells)]
     tgt = [x for x in vs_strong if x["role"] in TARGET_ROLES]
     best = max(tgt, key=lambda x: x["rel_improvement"]) if tgt else None
     label = effect_label(best["rel_improvement"], best["dJ_ci95"][1]) if best else "none"
@@ -469,8 +508,10 @@ def analyse(
         return float(np.mean(_a(c["runs"][method], "cost_N_q"))) if c["runs"][method] else 0.0
 
     ctl_ok, ctl_notes = True, []
-    for c in controls:
-        x = per_cell(c, strongest)
+    for ci, c in enumerate(cells):
+        if c["role"] not in CONTROL_ROLES:
+            continue
+        x = per_cell(c, strong_cell[ci] if v2 else strongest)
         worse = x["dJ_mean"] > REL_SMALL * x["J_comp"]
         extra_prom = (
             _rate(c["runs"][candidate_key], "promoted") - _rate(c["runs"][host_key], "promoted")
@@ -481,14 +522,14 @@ def analyse(
             ctl_ok = False
             ctl_notes.append(
                 {
-                    "cell": f"{c['role']}:{c['family']}",
+                    "cell": cell_label(c),
                     "worse_J": bool(worse),
                     "extra_promotion": bool(extra_prom),
                     "extra_spend": bool(extra_spend),
                 }
             )
 
-    applicable_ctrl = [m for m in elig if comp_meta[m].get("is_control")]
+    applicable_ctrl = [m for m in elig if comp_meta.get(m, {}).get("is_control")]
     beats_ctrl = True
     if applicable_ctrl and tgt:
         beats_ctrl = any(
@@ -525,6 +566,7 @@ def analyse(
         reasons.append(
             "NEGATIVE: does not beat the pending-cap/uniform/fixed-schedule controls on any target cell (Mandate Q2: stop that line, do not tune)"
         )
+    reasons.extend(extra_reasons or [])
     would_keep = not reasons
     n_impl_baselines = len(
         [
@@ -558,9 +600,20 @@ def analyse(
         "decision": decision,
         "why": why,
         "would_keep": would_keep,
+        "valid_ok": valid_ok,
+        "invalid_aggressive": invalid_aggr,
         "discard_reasons": reasons,
         "validity": {"candidate": cval, "host": hval},
         "strongest_comparator": strongest,
+        **(
+            {
+                "strongest_comparator_per_cell": {
+                    c["id"]: strong_cell[i] for i, c in enumerate(cells)
+                }
+            }
+            if v2
+            else {}
+        ),
         "excluded_comparators_invalid_aggressive": excluded,
         "eligible_comparators": elig,
         "effect_vs_strongest": {"label": label, "best_target_cell": best},
@@ -586,7 +639,7 @@ def power_delay(cells: list[dict], method: str) -> dict:
             for r in prom
             if r["onset"] is not None and r["t_promo"] is not None
         ]
-        out[f"{c['role']}:{c['family']}"] = {
+        out[cell_label(c)] = {
             "promotion_rate": _rate(runs, "promoted"),
             "retrain_deployed_rate": _rate(runs, "retrain_deployed"),
             "mean_delay_after_onset": float(np.mean(delays)) if delays else None,
@@ -602,7 +655,7 @@ def components(cells: list[dict], method: str) -> dict:
         keys = ["loss", "cost_N_q", "cost_N_s", "cost_N_r", "cost_N_b", "cost_N_a", "cost_N_h", "J"]
         d = {k: float(np.mean(_a(runs, k))) for k in keys}
         d["labels_used_N_q"] = float(np.mean([r["counts"]["N_q"] for r in runs]))
-        out[f"{c['role']}:{c['family']}"] = d
+        out[cell_label(c)] = d
     return out
 
 

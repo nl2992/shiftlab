@@ -3,7 +3,7 @@
   "inspection_scope": "source integrity and raw coverage only; no model fitting, predictions, or outcome metrics",
   "test_window": [
     "2026-01-01T00:00:00+00:00",
-    "2026-10-20T00:00:00+00:00"
+    "2026-10-19T18:00:00+00:00"
   ],
   "registered_bas": [
     "AZPS",
@@ -76,79 +76,79 @@
   },
   "coverage_by_ba": {
     "AZPS": {
-      "eligible_raw_test_rows": 6993,
+      "eligible_raw_test_rows": 6987,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 2,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "BANC": {
-      "eligible_raw_test_rows": 6949,
+      "eligible_raw_test_rows": 6943,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 16,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "EPE": {
-      "eligible_raw_test_rows": 6908,
+      "eligible_raw_test_rows": 6902,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 6,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "ERCO": {
-      "eligible_raw_test_rows": 7008,
+      "eligible_raw_test_rows": 7002,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 0,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "FMPP": {
-      "eligible_raw_test_rows": 6998,
+      "eligible_raw_test_rows": 6992,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 3,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "FPC": {
-      "eligible_raw_test_rows": 6984,
+      "eligible_raw_test_rows": 6978,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 1,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "MISO": {
-      "eligible_raw_test_rows": 6970,
+      "eligible_raw_test_rows": 6964,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 4,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "NEVP": {
-      "eligible_raw_test_rows": 6995,
+      "eligible_raw_test_rows": 6989,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 9,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "NYIS": {
-      "eligible_raw_test_rows": 6979,
+      "eligible_raw_test_rows": 6973,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 2,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "SWPP": {
-      "eligible_raw_test_rows": 6504,
+      "eligible_raw_test_rows": 6498,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 5,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     },
     "TIDC": {
-      "eligible_raw_test_rows": 6991,
+      "eligible_raw_test_rows": 6985,
       "first_event_utc": "2026-01-01T00:00:00+00:00",
-      "last_event_utc": "2026-10-19T23:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
       "nonhourly_gaps_in_eligible_rows": 12,
       "complete_nonoverlap_2000_row_episode_upper_bound": 3
     }

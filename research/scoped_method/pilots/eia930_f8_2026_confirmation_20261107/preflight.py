@@ -15,7 +15,7 @@ DEV = ROOT / "data/raw/eia930_f8_development_20261107"
 DEV_MANIFEST = ROOT / "research/scoped_method/pilots/eia930_f8_development_20261107/source_manifest.json"
 BAS = ["AZPS", "BANC", "EPE", "ERCO", "FMPP", "FPC", "MISO", "NEVP", "NYIS", "SWPP", "TIDC"]
 TEST_START = pd.Timestamp("2026-01-01T00:00:00Z")
-TEST_END = pd.Timestamp("2026-10-20T00:00:00Z")
+TEST_END = pd.Timestamp("2026-10-19T18:00:00Z")
 COLUMNS = [
     "Balancing Authority",
     "UTC Time at End of Hour",

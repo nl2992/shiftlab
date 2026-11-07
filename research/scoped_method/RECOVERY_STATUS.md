@@ -151,3 +151,22 @@ does not create a distinct novelty claim, and does not clear the primary economi
 dataset was opened. The four-contribution assessment and analysis limitation are recorded in the
 pilot `DECISION.md`; the overall disposition remains `BENCHMARK_OR_CASE_STUDY_ONLY`. Stop candidate
 expansion and prepare the case-study manuscript package from registered results.
+
+## Phase 5 — CI completion and repository checkpoint (2026-11-07)
+
+The GitHub Actions run previously noted as in progress has completed successfully:
+<https://github.com/nl2992/shiftlab/actions/runs/42307382928>. Locked dependency setup, Ruff lint,
+Ruff format check, mypy, the full `uv run pytest -q` suite, and environment validation all passed.
+The run tested commit `28e21f2cc3762d7d7e069531128e38deabc96676`. The current research branch is
+`codex/scoped-method-research-results-2026-11-06`, at `f4800aac4243c16f03ebec41d440722b1fd75bfc`,
+and matches its upstream branch. No merge to `main` was performed.
+
+**Exit decision:** `NO_ECONOMIC_HEADROOM` for the tested, prespecified operating regions. The
+five-cell economic screen failed its registered safety-qualified improvement gate; the calibrated
+CUSUM follow-up failed its practical/adverse-regime gate; and the bounded Beta(2,1) restart-prior
+ablation failed its paired improvement gate and is a conventional prior change. These are
+candidate- and region-bounded findings, not evidence that no economic opportunity exists anywhere.
+No distinct repair or independent real-data transfer is established. Do not enter another
+candidate-development lane or open a confirmation source under the current evidence. The smallest
+next action is to prepare the bounded benchmark/case-study package from the preserved reports,
+including negative results, or stop if that package is not useful.

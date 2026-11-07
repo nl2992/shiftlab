@@ -297,21 +297,28 @@ because none of these methods is doing instance selection here.
 
 # Round 4 (Failure Atlas v2, 2026-11-03): gated deployment and DISCERN-style
 
-Neither has author code available; both are ports from the printed constructions
-(`competitors/certificate_stops.py` docstring cites the sections). Their earlier absence from this
-record was flagged by the Atlas v2 independent review.
+Both methods are currently adapters from their printed constructions, but their source-code status
+differs. The ICML 2021 MOPE paper links a public author repository; it was cloned at
+`n17s/mope@a4b8584b622f3a8296932568c520c1bb3e1957f0` on 2026-11-05. The local gated adapter has
+not yet been numerically checked against native `K^gd`. DISCERN remains a printed-construction port;
+no author implementation was located during this audit.
 
 - **DISCERN-style PrPl-EB fidelity bug, fixed.** Waudby-Smith and Ramdas (arXiv:2010.09686, eq. 14)
-  define `psi_E(l) = (-log(1-l) - l)/4` together with `v_i = 4 (X_i - mu_hat)^2`. The port kept the
-  factor 4 in `v_i` but dropped the `/4`, inflating the variance penalty fourfold. Verified against
-  the extracted paper text; hand-computed test updated. After the fix: ever-miss 0.013 over 1000
-  Bernoulli(.5) streams of length 1000 at delta .05.
+  define `psi_E(l) = (-log(1-l) - l)/4` together with `v_i = 4 (X_i - mu_hat)^2`. Their product equals
+  `residual^2 * (-log(1-l) - l)`, matching DISCERN Appendix A. The earlier local port omitted `/4`
+  while retaining the factor 4 in `v_i`, inflating its penalty fourfold. This was a local bug, not a
+  discrepancy in DISCERN. The formula regression check remains in place.
 - **Worst-case range is an adapter choice, not the papers'.** Both ports fixed the HT range at
   `1/p_min = 20` (gated `wmax`, DISCERN `c`). The issue-time propensity is predictable, so tighter
-  ranges are legitimate. Two stronger readings were added (`scripts/failure_atlas_v2/strong_hosts.py`):
-  `GatedAdaptiveRange` (MOPE bet set at `wmax_t = 1/q_t`, bet recomputed before each ingestion) and
+  ranges are legitimate. Two stronger readings were added (`scripts/failure_atlas_v2_flq/strong_hosts.py`):
+  `GatedAdaptiveRange` (MOPE bet set at `wmax_t = 1/q_t`, bet recomputed before each ingestion). A
+  2026-11-05 audit found the range was assigned after a synchronous flush, allowing the missed-query
+  branch to use the fallback range. The hook now records it before the query draw; corrected validation
+  and reused-real replays are in progress. The checked-in results below are superseded pending those
+  replays. The gated author source exists, but native parity remains open. Also:
   `DiscernDesignFloor` (declared `pi_min = .25`). In Atlas v2 validation both keep null promotion
   at <= .01 on all four nulls and are materially cheaper than the original ports on stationary
   alternatives. Any Atlas v2 SOTA comparison uses the stronger readings.
-- **Not verified:** no numerical comparison against author code exists for either method; gated's
-  appendix C-E constraint set and scalar betting variant were not ported (unchanged from before).
+- **Not verified:** no numerical comparison against the MOPE author code exists; the local adapter's
+  Appendix C-E gated constraint set and scalar betting variant remain unported. The native source
+  repository is pinned above for follow-up.

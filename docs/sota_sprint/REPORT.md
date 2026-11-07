@@ -176,6 +176,21 @@ its `manifest.json`. Raw records stay local.
 
 ## 7. Limitations
 
+### Shared adaptive-range correction (2026-11-05)
+
+A source-level audit found a predictable-betting range-ordering defect in the shared adaptive-range
+host. The fix is in `strong_hosts.py` and its certificate-stop hook; corrected failure-atlas
+validation replays are complete for synthetic and cached-real suites. A same-seed replay of the
+1,000-seed, seven-regime null suite is now running at
+`outputs/sota_sprint/validation/null1000_wmaxfix_20261105/`. The semantic manifest audit identifies
+130 affected execution runs across this report and Sprint 2, plus six aggregate manifests; it
+includes aliases for M_RMMSUI_gar, T2/T6 transfers, and Family-C gated controllers. Record-only
+directories without manifests are listed separately for provenance recovery. Therefore the original null, B5, fresh
+and exposed real, QCE/betting, and out-of-class runs are completed historically, but any comparison
+depending on these adaptive-range entries remains provisional until the corrected replays and
+downstream analyses finish. See `docs/sprint2/adaptive_gate_impact.md` and the commands in
+`docs/sprint2/REPRODUCIBILITY.md`.
+
 * Every comparator is a common-contract port, not author code.
 * Development used 20 seeds.
 * Real episodes are consecutive windows, so their CIs are optimistic.

@@ -18,7 +18,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from analyze_atlas_v2 import boot_ci  # noqa: E402
 
-OUT = HERE.parents[1] / "outputs/failure_atlas_v2"
+OUT = HERE.parents[1] / "outputs/failure_atlas_v2/validation_real_wmaxfix_20261105"
 POWERED = ["openml_ldpa", "airlines", "criteo", "rialto", "bank"]
 DESCRIPTIVE = ["spam", "uci_occupancy", "weather", "elec2"]
 PUB = ["gated_deployment", "gated_adaptive_range", "discern_style", "discern_design_floor",
@@ -32,7 +32,7 @@ PAIRS = [("gated_deployment", "gated_deployment+QCE+front"), ("discern_style", "
 
 
 def main():
-    d = pd.read_json(OUT / "validation_real/records.jsonl", lines=True)
+    d = pd.read_json(OUT / "records.jsonl", lines=True)
     u = d.groupby(["regime", "ep", "policy"], as_index=False)[
         ["net", "switches", "labels", "ever_promote"]].mean()
     W = u.pivot_table(index=["regime", "ep"], columns="policy", values="net")

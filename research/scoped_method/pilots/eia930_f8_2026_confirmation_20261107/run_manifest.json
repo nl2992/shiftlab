@@ -1,0 +1,137 @@
+{
+  "protocol": "eia930_f8_2026_confirmation_20261107/PROTOCOL_V2.md",
+  "test_opening_sha256": "78cd8e4488731a2bc6c3c3acba4e0356c48fee63650f016c895deec27fb6421f",
+  "source_sha256": {
+    "EIA930_BALANCE_2024_Jan_Jun.csv": "26768c495c3ba987e29d79df2e40d4e741f9dbcff086f53c12ff774465756a10",
+    "EIA930_BALANCE_2024_Jul_Dec.csv": "a602a8e577cfdd2fa3083413eaa4dd8ba7f0d2b26a2986f8f6d22917465ea49f",
+    "EIA930_BALANCE_2025_Jan_Jun.csv": "fac4bb991dfa1dab3b4b35300ccab54ac99be13a40ce91954db8ddafb2816242",
+    "EIA930_BALANCE_2025_Jul_Dec.csv": "1146158b972439db7c7f4cc7d0491e07644ddbf244d03b8ecb44cb2c833d10f1",
+    "EIA930_BALANCE_2026_Jan_Jun.csv": "1b3eaf7b0af08393f4d1593125b0c0f502f93e036d961b7dd6d50fc8e618582f",
+    "EIA930_BALANCE_2026_Jul_Dec.csv": "350140cb6b3023a566607fe0de8743dc26ee65ff782e95acf1ffc9447a5bf85e"
+  },
+  "model_freeze_sha256": "cf570070755dc535a010fc166b8aad8a63e02527d7645052ed1022a57535fc85",
+  "git_commit_at_open": "ba7bc4e6f5365a9b72b3b7c31cd46e58d132ea8a",
+  "current_git_commit": "ba7bc4e6f5365a9b72b3b7c31cd46e58d132ea8a",
+  "test_window": [
+    "2026-01-01T00:00:00+00:00",
+    "2026-10-19T17:00:00+00:00"
+  ],
+  "ba_registry": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "n_episodes": 17,
+  "policy_count": 25,
+  "policy_seeds": 5,
+  "coverage_by_ba": {
+    "AZPS": {
+      "eligible_test_events": 6935,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 2
+    },
+    "BANC": {
+      "eligible_test_events": 6918,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 1
+    },
+    "EPE": {
+      "eligible_test_events": 6725,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 1
+    },
+    "ERCO": {
+      "eligible_test_events": 7002,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 3
+    },
+    "FMPP": {
+      "eligible_test_events": 6983,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 2
+    },
+    "FPC": {
+      "eligible_test_events": 6978,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 2
+    },
+    "MISO": {
+      "eligible_test_events": 6864,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 1
+    },
+    "NEVP": {
+      "eligible_test_events": 6979,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 1
+    },
+    "NYIS": {
+      "eligible_test_events": 6967,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 2
+    },
+    "SWPP": {
+      "eligible_test_events": 6450,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 1
+    },
+    "TIDC": {
+      "eligible_test_events": 6968,
+      "first_event_utc": "2026-01-01T00:00:00+00:00",
+      "last_event_utc": "2026-10-19T17:00:00+00:00",
+      "usable_episodes": 1
+    }
+  },
+  "policy_registry": [
+    "PFA-SR:gated_deployment",
+    "PFA-SR:gated_adaptive_range",
+    "rmm:gated_deployment+RMM",
+    "rmm:gated_adaptive_range+RMM",
+    "E_srr:gated_deployment",
+    "E_srrSR:gated_deployment",
+    "SMCS+retain-incumbent",
+    "xu_acquisition_only",
+    "gated_deployment",
+    "gated_adaptive_range",
+    "gated_adaptive_range+front",
+    "E_rb:gated_deployment",
+    "E_rb:gated_adaptive_range",
+    "E_rb:gated_adaptive_range+front",
+    "cams_adapter",
+    "model_selector_causal",
+    "model_picker_adapter",
+    "online_llm_picker",
+    "gong_zhang_paid_obs",
+    "qiu_delayed_movement",
+    "variance_min_ipw",
+    "economic_replacement",
+    "CONTROL_never_switch",
+    "fixed_incumbent",
+    "fixed_challenger"
+  ],
+  "records_sha256": "737fbc404636868771f18a49dcea305694e6a7817a0a3f10ff3a6c2e6b1553fe",
+  "raw_rows_or_predictions_written": false,
+  "assumptions": [
+    "historical EIA values are revised snapshots",
+    "one-hour label release is simulated",
+    "cost units are hypothetical"
+  ]
+}

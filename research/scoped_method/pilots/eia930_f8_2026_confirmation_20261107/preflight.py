@@ -12,7 +12,9 @@ ROOT = Path(__file__).resolve().parents[4]
 PILOT = Path(__file__).resolve().parent
 RAW = ROOT / "data/raw/eia930_f8_2026_confirmation_20261107"
 DEV = ROOT / "data/raw/eia930_f8_development_20261107"
-DEV_MANIFEST = ROOT / "research/scoped_method/pilots/eia930_f8_development_20261107/source_manifest.json"
+DEV_MANIFEST = (
+    ROOT / "research/scoped_method/pilots/eia930_f8_development_20261107/source_manifest.json"
+)
 BAS = ["AZPS", "BANC", "EPE", "ERCO", "FMPP", "FPC", "MISO", "NEVP", "NYIS", "SWPP", "TIDC"]
 TEST_START = pd.Timestamp("2026-01-01T00:00:00Z")
 TEST_END = pd.Timestamp("2026-10-19T18:00:00Z")
@@ -42,7 +44,11 @@ def main() -> None:
     receipt = json.loads((RAW / "source_receipt.json").read_text())
     for item in receipt["files"]:
         path = RAW / item["file"]
-        if not path.exists() or path.stat().st_size != item["bytes"] or sha256(path) != item["sha256"]:
+        if (
+            not path.exists()
+            or path.stat().st_size != item["bytes"]
+            or sha256(path) != item["sha256"]
+        ):
             raise RuntimeError(f"new source checksum mismatch: {item['file']}")
     rows: dict[str, list[pd.DataFrame]] = {ba: [] for ba in BAS}
     input_files = [ROOT / rel for rel in dev_manifest["raw_file_sha256"]]
@@ -80,7 +86,7 @@ def main() -> None:
             raise RuntimeError(f"no complete raw test rows for {ba}")
         gaps = test.time.diff().dropna().dt.total_seconds().div(3600)
         summary[ba] = {
-            "eligible_raw_test_rows": int(len(test)),
+            "eligible_raw_test_rows": len(test),
             "first_event_utc": test.time.iloc[0].isoformat(),
             "last_event_utc": test.time.iloc[-1].isoformat(),
             "nonhourly_gaps_in_eligible_rows": int((gaps != 1).sum()),
@@ -98,7 +104,16 @@ def main() -> None:
         "no_2026_policy_outcomes_opened": True,
     }
     (PILOT / "PREFLIGHT.json").write_text(json.dumps(result, indent=2) + "\n")
-    print(json.dumps({"bas": len(summary), "rows": {k: v["eligible_raw_test_rows"] for k, v in summary.items()}, "test_outcomes_scored": False}, indent=2))
+    print(
+        json.dumps(
+            {
+                "bas": len(summary),
+                "rows": {k: v["eligible_raw_test_rows"] for k, v in summary.items()},
+                "test_outcomes_scored": False,
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

@@ -44,7 +44,9 @@ def contrasts(frame: pd.DataFrame, candidate: str) -> dict:
         "equal_ba_mean_candidate_minus_cams": float(np.mean([v.mean() for v in values.values()])),
         "hierarchical_ci95": [float(lo), float(hi)],
         "ba_wins": int(sum(v.mean() < 0 for v in values.values())),
-        "ba_practical_wins": int(sum(v["saves_at_least_5_with_ci_below_zero"] for v in by_ba.values())),
+        "ba_practical_wins": int(
+            sum(v["saves_at_least_5_with_ci_below_zero"] for v in by_ba.values())
+        ),
         "by_ba": by_ba,
     }
 

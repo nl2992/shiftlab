@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import subprocess
 import sys
@@ -19,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[3]
 PILOT = ROOT / "research/scoped_method/pilots/eia930_f8_2026_confirmation_20261107"
 DATA_DIR = ROOT / "data/raw/eia930_f8_2026_confirmation_20261107/models"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from profile_all_balancing_authorities import FEATURES, TRAIN_START, load_all, sha256  # noqa: E402
+from profile_all_balancing_authorities import FEATURES, TRAIN_START, load_all, sha256
 
 BA_LIST = ["AZPS", "BANC", "EPE", "ERCO", "FMPP", "FPC", "MISO", "NEVP", "NYIS", "SWPP", "TIDC"]
 DEV_START = pd.Timestamp("2022-01-01T00:00:00Z")
@@ -38,8 +37,14 @@ def fit_one(ba: str, series: dict[str, pd.Series]):
     frame["mean24"], frame["max24"] = prior.mean(), prior.max()
     h, wd, doy = idx.hour.to_numpy(), idx.dayofweek.to_numpy(), idx.dayofyear.to_numpy()
     frame["hour_sin"], frame["hour_cos"] = np.sin(2 * np.pi * h / 24), np.cos(2 * np.pi * h / 24)
-    frame["weekday_sin"], frame["weekday_cos"] = np.sin(2 * np.pi * wd / 7), np.cos(2 * np.pi * wd / 7)
-    frame["year_sin"], frame["year_cos"] = np.sin(2 * np.pi * doy / 365.25), np.cos(2 * np.pi * doy / 365.25)
+    frame["weekday_sin"], frame["weekday_cos"] = (
+        np.sin(2 * np.pi * wd / 7),
+        np.cos(2 * np.pi * wd / 7),
+    )
+    frame["year_sin"], frame["year_cos"] = (
+        np.sin(2 * np.pi * doy / 365.25),
+        np.cos(2 * np.pi * doy / 365.25),
+    )
     train_time = (frame.index >= TRAIN_START) & (frame.index < DEV_START)
     cutoff = float(frame.loc[train_time, "actual"].dropna().quantile(0.90))
     frame["label"] = (frame.actual >= cutoff).astype(float)
@@ -83,12 +88,21 @@ def main() -> None:
             "train_events": ntrain,
             "threshold_mw": cutoff,
         }
-    src_manifest = json.loads((ROOT / "research/scoped_method/pilots/eia930_f8_development_20261107/source_manifest.json").read_text())
+    src_manifest = json.loads(
+        (
+            ROOT
+            / "research/scoped_method/pilots/eia930_f8_development_20261107/source_manifest.json"
+        ).read_text()
+    )
     result = {
         "protocol": "eia930_f8_2026_confirmation_20261107/PROTOCOL_V2.md",
-        "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "git_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+        ).strip(),
         "model_code_sha256": sha256(Path(__file__)),
-        "feature_code_sha256": sha256(Path(__file__).resolve().parent / "profile_all_balancing_authorities.py"),
+        "feature_code_sha256": sha256(
+            Path(__file__).resolve().parent / "profile_all_balancing_authorities.py"
+        ),
         "training_source_sha256": src_manifest["raw_file_sha256"],
         "training_year": 2021,
         "validation_period_metrics_not_recomputed": True,
@@ -96,7 +110,12 @@ def main() -> None:
         "models": models,
     }
     freeze_path.write_text(json.dumps(result, indent=2) + "\n")
-    print(json.dumps({"models_frozen": len(models), "period": 2021, "validation_or_test_metrics": False}, indent=2))
+    print(
+        json.dumps(
+            {"models_frozen": len(models), "period": 2021, "validation_or_test_metrics": False},
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

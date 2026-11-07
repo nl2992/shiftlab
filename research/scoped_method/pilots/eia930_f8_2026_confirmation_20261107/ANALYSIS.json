@@ -1,0 +1,574 @@
+{
+  "all_policy_seed_pairs_complete": true,
+  "analysis_code_sha256": "062c1eaf54d283871d69c439ed4caf23726bad88785b54f9226eddce0307f749",
+  "ba_count": 11,
+  "beats_best_registered_comparator_gate": true,
+  "best_registered_comparator_by_point_mean": "online_llm_picker",
+  "bootstrap_seed": 2026110719,
+  "candidate_minus_best_comparator_mean": -9.191212121212132,
+  "candidate_minus_best_comparator_selection_aware_hierarchical_95_ci": [
+    -13.957829545454542,
+    -4.555125
+  ],
+  "episode_count": 17,
+  "equal_ba_method_means": {
+    "CONTROL_never_switch": {
+      "label_cost": 0.0,
+      "labels": 0.0,
+      "net_cost": 135.65151515151513,
+      "prediction_loss": 135.65151515151513,
+      "promotions": 0.0,
+      "rollbacks": 0.0,
+      "switch_cost": 0.0,
+      "switches": 0.0
+    },
+    "E_rb:gated_adaptive_range": {
+      "label_cost": 6.541666666666668,
+      "labels": 130.83333333333337,
+      "net_cost": 78.35075757575758,
+      "prediction_loss": 67.62727272727273,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.018181818181818184,
+      "switch_cost": 4.181818181818182,
+      "switches": 0.8363636363636363
+    },
+    "E_rb:gated_adaptive_range+front": {
+      "label_cost": 6.63560606060606,
+      "labels": 132.71212121212122,
+      "net_cost": 77.57499999999999,
+      "prediction_loss": 66.84848484848484,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "E_rb:gated_deployment": {
+      "label_cost": 6.548484848484848,
+      "labels": 130.96969696969697,
+      "net_cost": 77.93636363636362,
+      "prediction_loss": 67.29696969696971,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "E_srr:gated_deployment": {
+      "label_cost": 6.550757575757576,
+      "labels": 131.0151515151515,
+      "net_cost": 76.30227272727274,
+      "prediction_loss": 65.66060606060607,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "E_srrSR:gated_deployment": {
+      "label_cost": 6.547424242424243,
+      "labels": 130.94848484848484,
+      "net_cost": 78.45348484848485,
+      "prediction_loss": 67.81515151515151,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "PFA-SR:gated_adaptive_range": {
+      "label_cost": 6.539545454545455,
+      "labels": 130.79090909090908,
+      "net_cost": 72.04257575757575,
+      "prediction_loss": 61.41212121212121,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "PFA-SR:gated_deployment": {
+      "label_cost": 6.544393939393941,
+      "labels": 130.88787878787878,
+      "net_cost": 72.07772727272726,
+      "prediction_loss": 61.442424242424245,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "SMCS+retain-incumbent": {
+      "label_cost": 6.375151515151516,
+      "labels": 127.5030303030303,
+      "net_cost": 69.72969696969697,
+      "prediction_loss": 59.26363636363637,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "cams_adapter": {
+      "label_cost": 3.2904545454545455,
+      "labels": 65.80909090909091,
+      "net_cost": 64.84500000000001,
+      "prediction_loss": 49.97878787878788,
+      "promotions": 1.603030303030303,
+      "rollbacks": 0.7121212121212122,
+      "switch_cost": 11.575757575757576,
+      "switches": 2.3151515151515154
+    },
+    "economic_replacement": {
+      "label_cost": 6.372272727272729,
+      "labels": 127.44545454545455,
+      "net_cost": 69.845,
+      "prediction_loss": 59.01818181818181,
+      "promotions": 0.890909090909091,
+      "rollbacks": 0.0,
+      "switch_cost": 4.454545454545454,
+      "switches": 0.890909090909091
+    },
+    "fixed_challenger": {
+      "label_cost": 0.0,
+      "labels": 0.0,
+      "net_cost": 52.6060606060606,
+      "prediction_loss": 47.6060606060606,
+      "promotions": 1.0,
+      "rollbacks": 0.0,
+      "switch_cost": 5.0,
+      "switches": 1.0
+    },
+    "fixed_incumbent": {
+      "label_cost": 0.0,
+      "labels": 0.0,
+      "net_cost": 135.65151515151513,
+      "prediction_loss": 135.65151515151513,
+      "promotions": 0.0,
+      "rollbacks": 0.0,
+      "switch_cost": 0.0,
+      "switches": 0.0
+    },
+    "gated_adaptive_range": {
+      "label_cost": 2.1595454545454547,
+      "labels": 43.190909090909095,
+      "net_cost": 76.29893939393939,
+      "prediction_loss": 70.04848484848486,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "gated_adaptive_range+front": {
+      "label_cost": 2.0946969696969693,
+      "labels": 41.8939393939394,
+      "net_cost": 72.35227272727273,
+      "prediction_loss": 66.16666666666666,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "gated_deployment": {
+      "label_cost": 2.1930303030303033,
+      "labels": 43.86060606060607,
+      "net_cost": 77.45060606060606,
+      "prediction_loss": 71.16666666666667,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "gong_zhang_paid_obs": {
+      "label_cost": 6.387575757575758,
+      "labels": 127.75151515151516,
+      "net_cost": 63.026969696969694,
+      "prediction_loss": 50.57878787878788,
+      "promotions": 1.106060606060606,
+      "rollbacks": 0.10606060606060606,
+      "switch_cost": 6.060606060606061,
+      "switches": 1.212121212121212
+    },
+    "model_picker_adapter": {
+      "label_cost": 1.3565151515151515,
+      "labels": 27.13030303030303,
+      "net_cost": 62.04439393939395,
+      "prediction_loss": 51.945454545454545,
+      "promotions": 1.3424242424242425,
+      "rollbacks": 0.40606060606060607,
+      "switch_cost": 8.742424242424242,
+      "switches": 1.7484848484848483
+    },
+    "model_selector_causal": {
+      "label_cost": 6.368181818181818,
+      "labels": 127.36363636363636,
+      "net_cost": 66.01969696969697,
+      "prediction_loss": 50.560606060606055,
+      "promotions": 1.3636363636363635,
+      "rollbacks": 0.45454545454545453,
+      "switch_cost": 9.090909090909092,
+      "switches": 1.8181818181818181
+    },
+    "online_llm_picker": {
+      "label_cost": 2.921515151515152,
+      "labels": 58.43030303030302,
+      "net_cost": 61.797272727272734,
+      "prediction_loss": 49.83030303030304,
+      "promotions": 1.3727272727272728,
+      "rollbacks": 0.43636363636363634,
+      "switch_cost": 9.045454545454545,
+      "switches": 1.8090909090909089
+    },
+    "qiu_delayed_movement": {
+      "label_cost": 6.361969696969697,
+      "labels": 127.23939393939393,
+      "net_cost": 68.42863636363637,
+      "prediction_loss": 54.47575757575758,
+      "promotions": 1.190909090909091,
+      "rollbacks": 0.32727272727272727,
+      "switch_cost": 7.590909090909091,
+      "switches": 1.518181818181818
+    },
+    "rmm:gated_adaptive_range+RMM": {
+      "label_cost": 6.545303030303031,
+      "labels": 130.90606060606063,
+      "net_cost": 78.0089393939394,
+      "prediction_loss": 67.37272727272727,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "rmm:gated_deployment+RMM": {
+      "label_cost": 6.548484848484848,
+      "labels": 130.96969696969697,
+      "net_cost": 77.93636363636362,
+      "prediction_loss": 67.29696969696971,
+      "promotions": 0.8181818181818182,
+      "rollbacks": 0.0,
+      "switch_cost": 4.090909090909091,
+      "switches": 0.8181818181818182
+    },
+    "variance_min_ipw": {
+      "label_cost": 8.532121212121213,
+      "labels": 170.64242424242423,
+      "net_cost": 66.0109090909091,
+      "prediction_loss": 49.25151515151515,
+      "promotions": 1.2545454545454546,
+      "rollbacks": 0.3909090909090909,
+      "switch_cost": 8.227272727272727,
+      "switches": 1.6454545454545455
+    },
+    "xu_acquisition_only": {
+      "label_cost": 6.163636363636363,
+      "labels": 123.27272727272727,
+      "net_cost": 73.49090909090908,
+      "prediction_loss": 63.190909090909095,
+      "promotions": 0.8272727272727273,
+      "rollbacks": 0.0,
+      "switch_cost": 4.136363636363637,
+      "switches": 0.8272727272727273
+    }
+  },
+  "limitations": [
+    "all 11 BAs are clusters within one EIA provider",
+    "only 17 complete 2,000-event episodes were available across 11 BAs due to eligibility gaps",
+    "current EIA revisions and one-hour feedback maturity are retrospective/simulated",
+    "cost prices are hypothetical Failure Atlas units",
+    "test stream was partially exposed through four episode-level fixed-challenger progress rows while the run was executing; no policy or protocol was changed afterward"
+  ],
+  "max_cost_identity_residual": 0.0,
+  "n_bootstrap": 10000,
+  "per_ba_candidate_primary_best": {
+    "AZPS": {
+      "cams_adapter": {
+        "label_cost": 3.195,
+        "labels": 63.9,
+        "net_cost": 89.395,
+        "prediction_loss": 73.19999999999999,
+        "switch_cost": 13.0,
+        "switches": 2.6
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 75.0,
+        "prediction_loss": 70.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 1.9950000000000003,
+        "labels": 39.9,
+        "net_cost": 97.29499999999999,
+        "prediction_loss": 77.8,
+        "switch_cost": 17.5,
+        "switches": 3.5
+      }
+    },
+    "BANC": {
+      "cams_adapter": {
+        "label_cost": 3.6399999999999997,
+        "labels": 72.8,
+        "net_cost": 53.839999999999996,
+        "prediction_loss": 43.2,
+        "switch_cost": 7.0,
+        "switches": 1.4
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 46.0,
+        "prediction_loss": 41.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 4.01,
+        "labels": 80.2,
+        "net_cost": 53.21,
+        "prediction_loss": 42.2,
+        "switch_cost": 7.0,
+        "switches": 1.4
+      }
+    },
+    "EPE": {
+      "cams_adapter": {
+        "label_cost": 2.6399999999999997,
+        "labels": 52.8,
+        "net_cost": 39.04,
+        "prediction_loss": 29.4,
+        "switch_cost": 7.0,
+        "switches": 1.4
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 32.0,
+        "prediction_loss": 27.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 1.25,
+        "labels": 25.0,
+        "net_cost": 34.25,
+        "prediction_loss": 28.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      }
+    },
+    "ERCO": {
+      "cams_adapter": {
+        "label_cost": 3.91,
+        "labels": 78.2,
+        "net_cost": 75.11,
+        "prediction_loss": 58.86666666666667,
+        "switch_cost": 12.333333333333334,
+        "switches": 2.466666666666667
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 61.666666666666664,
+        "prediction_loss": 56.666666666666664,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 2.9066666666666667,
+        "labels": 58.13333333333333,
+        "net_cost": 70.24,
+        "prediction_loss": 58.333333333333336,
+        "switch_cost": 9.0,
+        "switches": 1.8
+      }
+    },
+    "FMPP": {
+      "cams_adapter": {
+        "label_cost": 4.375000000000001,
+        "labels": 87.5,
+        "net_cost": 178.075,
+        "prediction_loss": 136.7,
+        "switch_cost": 37.0,
+        "switches": 7.4
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 134.5,
+        "prediction_loss": 129.5,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 3.48,
+        "labels": 69.6,
+        "net_cost": 162.88,
+        "prediction_loss": 134.39999999999998,
+        "switch_cost": 25.0,
+        "switches": 5.0
+      }
+    },
+    "FPC": {
+      "cams_adapter": {
+        "label_cost": 2.265,
+        "labels": 45.300000000000004,
+        "net_cost": 34.165000000000006,
+        "prediction_loss": 25.900000000000002,
+        "switch_cost": 6.0,
+        "switches": 1.2
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 29.5,
+        "prediction_loss": 24.5,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 2.87,
+        "labels": 57.4,
+        "net_cost": 34.67,
+        "prediction_loss": 25.8,
+        "switch_cost": 6.0,
+        "switches": 1.2
+      }
+    },
+    "MISO": {
+      "cams_adapter": {
+        "label_cost": 3.47,
+        "labels": 69.4,
+        "net_cost": 51.46999999999999,
+        "prediction_loss": 43.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 47.0,
+        "prediction_loss": 42.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 3.6100000000000003,
+        "labels": 72.2,
+        "net_cost": 51.61,
+        "prediction_loss": 43.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      }
+    },
+    "NEVP": {
+      "cams_adapter": {
+        "label_cost": 3.04,
+        "labels": 60.8,
+        "net_cost": 74.24,
+        "prediction_loss": 60.2,
+        "switch_cost": 11.0,
+        "switches": 2.2
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 63.0,
+        "prediction_loss": 58.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 2.75,
+        "labels": 55.0,
+        "net_cost": 75.15,
+        "prediction_loss": 63.4,
+        "switch_cost": 9.0,
+        "switches": 1.8
+      }
+    },
+    "NYIS": {
+      "cams_adapter": {
+        "label_cost": 4.47,
+        "labels": 89.4,
+        "net_cost": 44.97,
+        "prediction_loss": 35.5,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 39.0,
+        "prediction_loss": 34.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 2.335,
+        "labels": 46.7,
+        "net_cost": 42.335,
+        "prediction_loss": 35.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      }
+    },
+    "SWPP": {
+      "cams_adapter": {
+        "label_cost": 1.02,
+        "labels": 20.4,
+        "net_cost": 42.42,
+        "prediction_loss": 22.4,
+        "switch_cost": 19.0,
+        "switches": 3.8
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 27.0,
+        "prediction_loss": 22.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 3.3,
+        "labels": 66.0,
+        "net_cost": 29.5,
+        "prediction_loss": 20.2,
+        "switch_cost": 6.0,
+        "switches": 1.2
+      }
+    },
+    "TIDC": {
+      "cams_adapter": {
+        "label_cost": 4.17,
+        "labels": 83.4,
+        "net_cost": 30.57,
+        "prediction_loss": 21.4,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "fixed_challenger": {
+        "label_cost": 0.0,
+        "labels": 0.0,
+        "net_cost": 24.0,
+        "prediction_loss": 19.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      },
+      "online_llm_picker": {
+        "label_cost": 3.63,
+        "labels": 72.6,
+        "net_cost": 28.630000000000003,
+        "prediction_loss": 20.0,
+        "switch_cost": 5.0,
+        "switches": 1.0
+      }
+    }
+  },
+  "primary_candidate_minus_comparator_hierarchical_95_ci": [
+    -21.231060606060595,
+    -7.217613636363632
+  ],
+  "primary_candidate_minus_comparator_mean": -12.238939393939411,
+  "primary_comparator": "cams_adapter",
+  "primary_gate_pass": true,
+  "protocol": "eia930_f8_2026_confirmation_20261107/PROTOCOL_V2.md",
+  "raw_records_sha256": "737fbc404636868771f18a49dcea305694e6a7817a0a3f10ff3a6c2e6b1553fe",
+  "record_count": 2125,
+  "weighting": "equal BA; mean over complete episodes per BA; average five policy seeds within episode"
+}

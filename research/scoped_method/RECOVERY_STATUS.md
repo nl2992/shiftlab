@@ -170,3 +170,36 @@ No distinct repair or independent real-data transfer is established. Do not ente
 candidate-development lane or open a confirmation source under the current evidence. The smallest
 next action is to prepare the bounded benchmark/case-study package from the preserved reports,
 including negative results, or stop if that package is not useful.
+
+## Phase 6 — Current-checkout CI repair and replay reconciliation (2026-11-07)
+
+The original failed Actions run is still the 506-finding failure described above; its baseline repair
+is already in ancestor commit `82e1c48e`. On this checkout, the exact CI command initially reported
+13 remaining findings in the then-current uncommitted EIA/restart scripts. Fixed those Ruff findings
+and applied Ruff's required formatting to seven files. This includes a latent analyzer loop bug
+caught by lint (`dict.items()` iteration now appends through the bound list value); the existing
+analysis output was regenerated and still passes all completeness and cost checks.
+
+Commands and results on `codex/scoped-method-research-results-2026-11-06` at starting commit
+`ba7bc4e6f5365a9b72b3b7c31cd46e58d132ea8a`:
+
+```sh
+uv run ruff check .                         # pass
+uv run ruff format .                        # 7 reformatted, 2121 unchanged
+uv run ruff format --check .                # pass, 2128 already formatted
+uv run mypy                                # pass, 2 source files
+uv run pytest -q                           # 3346 passed, 46 skipped in 1730.44s
+git diff --check                            # pass
+```
+
+The phase is a lint/format repair only; no test code or scientific method was changed. The full
+local test command completed successfully. `RUN_STATUS.md` for the separate frozen EIA 2026 replay
+records its positive temporal result and four-row progress exposure. This replay is evidence for a
+known static challenger control in one provider, not evidence for the rollback/acquisition repair
+question or a novel method. It does, however, make the broad phrase “no economic opportunity” too
+strong: retain `BENCHMARK_OR_CASE_STUDY_ONLY` as the overall scientific disposition, and describe
+the prior `NO_ECONOMIC_HEADROOM` finding as scoped to the synthetic candidate regions and safety
+contract that were actually tested.
+
+The current local test/lint checkpoint has not yet been pushed as of this note; the separately
+preserved earlier CI run remains green. No merge to `main` was performed.

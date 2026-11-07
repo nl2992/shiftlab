@@ -1,15 +1,14 @@
 from __future__ import annotations
 
 import math
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT / "scripts" / "sota_sprint"))
-import fam_p  # noqa: E402
-
+import fam_p
 
 N_STREAMS = 5_000
 N_EVENTS = 200
@@ -61,7 +60,6 @@ def evaluate(z: np.ndarray, *, carry_dormant: bool) -> tuple[float, bool]:
 
 
 def main() -> None:
-    rows: list[dict[str, float | int | str]] = []
     for null_i, kind in enumerate(("iid", "markov_rho_08")):
         rng = np.random.default_rng(SEED_BASE + null_i)
         mx_original: list[float] = []

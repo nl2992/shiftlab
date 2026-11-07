@@ -66,7 +66,9 @@ def main() -> None:
     )
     actual_episodes = len({(row["ba"], row["episode"]) for row in rows})
     if actual_episodes != expected_episodes:
-        raise RuntimeError(f"recorded episode count {actual_episodes} != profile blocks {expected_episodes}")
+        raise RuntimeError(
+            f"recorded episode count {actual_episodes} != profile blocks {expected_episodes}"
+        )
     residual = max(
         abs(row["net_cost"] - row["prediction_loss"] - row["label_cost"] - row["switch_cost"])
         for row in rows

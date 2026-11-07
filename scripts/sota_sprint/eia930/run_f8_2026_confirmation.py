@@ -19,7 +19,9 @@ RAW = ROOT / "data/raw/eia930_f8_2026_confirmation_20261107"
 DEV_RAW = ROOT / "data/raw/eia930_f8_development_20261107"
 MODEL_FREEZE = PILOT / "MODEL_FREEZE.json"
 PREFLIGHT = PILOT / "PREFLIGHT.json"
-SOURCE_MANIFEST = ROOT / "research/scoped_method/pilots/eia930_f8_development_20261107/source_manifest.json"
+SOURCE_MANIFEST = (
+    ROOT / "research/scoped_method/pilots/eia930_f8_development_20261107/source_manifest.json"
+)
 PROTOCOL = PILOT / "PROTOCOL_V2.md"
 T, BUDGET, CQ, CS, ALPHA, DELAY = 2000, 200, 0.05, 5.0, 0.05, 1
 SEED_BASE, SEEDS = 2026110720, 5
@@ -27,12 +29,26 @@ TEST_START = pd.Timestamp("2026-01-01T00:00:00Z")
 TEST_END = pd.Timestamp("2026-10-19T18:00:00Z")
 BAS = ["AZPS", "BANC", "EPE", "ERCO", "FMPP", "FPC", "MISO", "NEVP", "NYIS", "SWPP", "TIDC"]
 FEATURES = [
-    "forecast", "lag1", "lag24", "lag168", "lag336", "mean24", "max24",
-    "hour_sin", "hour_cos", "weekday_sin", "weekday_cos", "year_sin", "year_cos",
+    "forecast",
+    "lag1",
+    "lag24",
+    "lag168",
+    "lag336",
+    "mean24",
+    "max24",
+    "hour_sin",
+    "hour_cos",
+    "weekday_sin",
+    "weekday_cos",
+    "year_sin",
+    "year_cos",
 ]
 USECOLS = [
-    "Balancing Authority", "UTC Time at End of Hour", "Demand Forecast (MW)",
-    "Demand (MW)", "Demand (MW) (Imputed)",
+    "Balancing Authority",
+    "UTC Time at End of Hour",
+    "Demand Forecast (MW)",
+    "Demand (MW)",
+    "Demand (MW) (Imputed)",
 ]
 POLICIES = (
     "PFA-SR:gated_deployment",
@@ -62,13 +78,18 @@ POLICIES = (
     "fixed_challenger",
 )
 
-for p in (ROOT / "scripts/sota_sprint", ROOT / "scripts/failure_atlas_v2_flq", ROOT / "scripts/promising_directions/sota"):
+for p in (
+    ROOT / "scripts/sota_sprint",
+    ROOT / "scripts/failure_atlas_v2_flq",
+    ROOT / "scripts/promising_directions/sota",
+):
     sys.path.insert(0, str(p))
 
-from registry import EXTRA as REGISTRY_EXTRA, IMPORT_ERRORS  # noqa: E402
-from simulator import run_episode  # noqa: E402
-from suite import build_suite  # noqa: E402
-from controls import FixedModel  # noqa: E402
+from controls import FixedModel
+from registry import EXTRA as REGISTRY_EXTRA
+from registry import IMPORT_ERRORS
+from simulator import run_episode
+from suite import build_suite
 
 
 def sha256(path: Path) -> str:
@@ -91,8 +112,12 @@ def policy_factories():
         raise RuntimeError("registered calibrated CUSUM/SR methods are unavailable")
     extra["E_srr:gated_deployment"] = pinned_alpha(extra["E_srr:gated_deployment"], 0.005)
     extra["E_srrSR:gated_deployment"] = pinned_alpha(extra["E_srrSR:gated_deployment"], 0.0005)
-    extra["fixed_incumbent"] = lambda T_, B_, cs_, cq_, a_, d_, r_: FixedModel(0, name="fixed_incumbent")
-    extra["fixed_challenger"] = lambda T_, B_, cs_, cq_, a_, d_, r_: FixedModel(1, name="fixed_challenger")
+    extra["fixed_incumbent"] = lambda T_, B_, cs_, cq_, a_, d_, r_: FixedModel(
+        0, name="fixed_incumbent"
+    )
+    extra["fixed_challenger"] = lambda T_, B_, cs_, cq_, a_, d_, r_: FixedModel(
+        1, name="fixed_challenger"
+    )
     return extra
 
 
@@ -100,12 +125,18 @@ def check_registry(extra):
     if IMPORT_ERRORS:
         raise RuntimeError(f"published-method registry import errors: {IMPORT_ERRORS}")
     for seed in range(SEEDS):
-        build_suite(T, BUDGET, CS, CQ, ALPHA, DELAY, 0, SEED_BASE + seed, names=list(POLICIES), extra=extra)
+        build_suite(
+            T, BUDGET, CS, CQ, ALPHA, DELAY, 0, SEED_BASE + seed, names=list(POLICIES), extra=extra
+        )
 
 
 def write_opening_marker(extra):
     marker = PILOT / "TEST_OPENING.json"
-    if marker.exists() or (PILOT / "episode_policy_records.jsonl").exists() or (PILOT / "run_manifest.json").exists():
+    if (
+        marker.exists()
+        or (PILOT / "episode_policy_records.jsonl").exists()
+        or (PILOT / "run_manifest.json").exists()
+    ):
         raise RuntimeError("test opening or result artifacts already exist; refusing to overwrite")
     model_freeze = json.loads(MODEL_FREEZE.read_text())
     preflight = json.loads(PREFLIGHT.read_text())
@@ -122,7 +153,11 @@ def write_opening_marker(extra):
             raise RuntimeError(f"registered training/development source changed: {rel}")
     for item in receipt["files"]:
         path = RAW / item["file"]
-        if not path.exists() or path.stat().st_size != item["bytes"] or sha256(path) != item["sha256"]:
+        if (
+            not path.exists()
+            or path.stat().st_size != item["bytes"]
+            or sha256(path) != item["sha256"]
+        ):
             raise RuntimeError(f"registered test source changed: {item['file']}")
     new_source = {item["file"]: item["sha256"] for item in receipt["files"]}
     code_paths = [
@@ -136,11 +171,15 @@ def write_opening_marker(extra):
         ROOT / "scripts/promising_directions/sota/simulator.py",
     ]
     code_paths.extend(sorted((ROOT / "scripts/promising_directions/sota/competitors").glob("*.py")))
-    method_code_hashes = {str(path.relative_to(ROOT)): sha256(path) for path in code_paths if path.exists()}
+    method_code_hashes = {
+        str(path.relative_to(ROOT)): sha256(path) for path in code_paths if path.exists()
+    }
     marker_obj = {
         "protocol": str(PROTOCOL.relative_to(ROOT)),
         "protocol_sha256": sha256(PROTOCOL),
-        "git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "git_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+        ).strip(),
         "runner_sha256": sha256(Path(__file__)),
         "source_manifest_sha256": sha256(SOURCE_MANIFEST),
         "old_source_sha256": old_sources,
@@ -157,7 +196,14 @@ def write_opening_marker(extra):
         "policy_seeds": SEEDS,
         "ba_registry": BAS,
         "test_window": [TEST_START.isoformat(), (TEST_END - pd.Timedelta(hours=1)).isoformat()],
-        "contract": {"T": T, "B": BUDGET, "label_cost": CQ, "switch_cost": CS, "alpha": ALPHA, "delay_hours": DELAY},
+        "contract": {
+            "T": T,
+            "B": BUDGET,
+            "label_cost": CQ,
+            "switch_cost": CS,
+            "alpha": ALPHA,
+            "delay_hours": DELAY,
+        },
         "policy_registry": list(POLICIES),
         "opened_before_test_row_parsing_or_prediction": True,
     }
@@ -187,12 +233,19 @@ def load_series():
             chunk = chunk[chunk["Balancing Authority"].isin(BAS)].copy()
             if chunk.empty:
                 continue
-            chunk["time"] = pd.to_datetime(chunk["UTC Time at End of Hour"], format="%m/%d/%Y %I:%M:%S %p", utc=True, errors="coerce")
+            chunk["time"] = pd.to_datetime(
+                chunk["UTC Time at End of Hour"],
+                format="%m/%d/%Y %I:%M:%S %p",
+                utc=True,
+                errors="coerce",
+            )
             for col in mapping:
                 chunk[col] = pd.to_numeric(chunk[col], errors="coerce")
             for ba, group in chunk.dropna(subset=["time"]).groupby("Balancing Authority"):
                 for source_col, key in mapping.items():
-                    by_ba[str(ba)][key].append(group[["time", source_col]].rename(columns={source_col: key}))
+                    by_ba[str(ba)][key].append(
+                        group[["time", source_col]].rename(columns={source_col: key})
+                    )
     out = {}
     for ba in BAS:
         out[ba] = {}
@@ -218,8 +271,14 @@ def features_for(series, cutoff):
     frame["mean24"], frame["max24"] = prior.mean(), prior.max()
     h, wd, doy = idx.hour.to_numpy(), idx.dayofweek.to_numpy(), idx.dayofyear.to_numpy()
     frame["hour_sin"], frame["hour_cos"] = np.sin(2 * np.pi * h / 24), np.cos(2 * np.pi * h / 24)
-    frame["weekday_sin"], frame["weekday_cos"] = np.sin(2 * np.pi * wd / 7), np.cos(2 * np.pi * wd / 7)
-    frame["year_sin"], frame["year_cos"] = np.sin(2 * np.pi * doy / 365.25), np.cos(2 * np.pi * doy / 365.25)
+    frame["weekday_sin"], frame["weekday_cos"] = (
+        np.sin(2 * np.pi * wd / 7),
+        np.cos(2 * np.pi * wd / 7),
+    )
+    frame["year_sin"], frame["year_cos"] = (
+        np.sin(2 * np.pi * doy / 365.25),
+        np.cos(2 * np.pi * doy / 365.25),
+    )
     eligible = frame[FEATURES + ["actual", "lag24"]].notna().all(axis=1)
     eligible &= frame.imputed.isna() & (frame.actual > 0) & (frame.forecast > 0) & (frame.lag24 > 0)
     test_mask = (frame.index >= TEST_START) & (frame.index < TEST_END)
@@ -266,32 +325,84 @@ def main():
                 "last_event_utc": time_index[-1].isoformat(),
                 "usable_episodes": 0,
             }
-            for run_id, local_episode, start_time, p_ep, y_ep in event_episodes(time_index, preds, y):
+            for run_id, local_episode, start_time, p_ep, y_ep in event_episodes(
+                time_index, preds, y
+            ):
                 coverage[ba]["usable_episodes"] += 1
                 for seed_id in range(SEEDS):
                     policy_seed = SEED_BASE + seed_id
-                    policies = build_suite(T, BUDGET, CS, CQ, ALPHA, DELAY, episode_id, policy_seed, names=list(POLICIES), extra=extra)
+                    policies = build_suite(
+                        T,
+                        BUDGET,
+                        CS,
+                        CQ,
+                        ALPHA,
+                        DELAY,
+                        episode_id,
+                        policy_seed,
+                        names=list(POLICIES),
+                        extra=extra,
+                    )
                     for policy in policies:
-                        result = run_episode(policy, model_predictions=p_ep, labels=y_ep, delay=DELAY, budget=BUDGET, label_price=CQ, switch_cost=CS, trace=True)
+                        result = run_episode(
+                            policy,
+                            model_predictions=p_ep,
+                            labels=y_ep,
+                            delay=DELAY,
+                            budget=BUDGET,
+                            label_price=CQ,
+                            switch_cost=CS,
+                            trace=True,
+                        )
                         trace = result.records
-                        promotions = sum(trace[i]["deployed_model"] == 1 and (i == 0 or trace[i - 1]["deployed_model"] == 0) for i in range(len(trace)))
-                        rollbacks = sum(trace[i]["deployed_model"] == 0 and i > 0 and trace[i - 1]["deployed_model"] == 1 for i in range(len(trace)))
+                        promotions = sum(
+                            trace[i]["deployed_model"] == 1
+                            and (i == 0 or trace[i - 1]["deployed_model"] == 0)
+                            for i in range(len(trace))
+                        )
+                        rollbacks = sum(
+                            trace[i]["deployed_model"] == 0
+                            and i > 0
+                            and trace[i - 1]["deployed_model"] == 1
+                            for i in range(len(trace))
+                        )
                         label_cost = CQ * result.requested_labels
                         switch_cost = CS * result.deployment_switches
-                        residual = result.net_cost - (result.prediction_loss + label_cost + switch_cost)
+                        residual = result.net_cost - (
+                            result.prediction_loss + label_cost + switch_cost
+                        )
                         if result.requested_labels > BUDGET or abs(residual) > 1e-8:
-                            raise RuntimeError(f"cost or budget invariant failed for {ba}/{episode_id}/{policy.name}")
-                        first_promote = next((i for i, row in enumerate(trace) if row["deployed_model"] == 1), None)
-                        f.write(json.dumps({
-                            "ba": ba, "episode_id": episode_id, "local_episode": local_episode,
-                            "run_id": run_id, "start_time_utc": start_time.isoformat(),
-                            "policy_seed": seed_id, "policy": policy.name,
-                            "net_cost": result.net_cost, "prediction_loss": result.prediction_loss,
-                            "labels": result.requested_labels, "label_cost": label_cost,
-                            "switches": result.deployment_switches, "switch_cost": switch_cost,
-                            "promotions": promotions, "rollbacks": rollbacks,
-                            "first_promotion": first_promote, "cost_residual": residual,
-                        }, separators=(",", ":")) + "\n")
+                            raise RuntimeError(
+                                f"cost or budget invariant failed for {ba}/{episode_id}/{policy.name}"
+                            )
+                        first_promote = next(
+                            (i for i, row in enumerate(trace) if row["deployed_model"] == 1), None
+                        )
+                        f.write(
+                            json.dumps(
+                                {
+                                    "ba": ba,
+                                    "episode_id": episode_id,
+                                    "local_episode": local_episode,
+                                    "run_id": run_id,
+                                    "start_time_utc": start_time.isoformat(),
+                                    "policy_seed": seed_id,
+                                    "policy": policy.name,
+                                    "net_cost": result.net_cost,
+                                    "prediction_loss": result.prediction_loss,
+                                    "labels": result.requested_labels,
+                                    "label_cost": label_cost,
+                                    "switches": result.deployment_switches,
+                                    "switch_cost": switch_cost,
+                                    "promotions": promotions,
+                                    "rollbacks": rollbacks,
+                                    "first_promotion": first_promote,
+                                    "cost_residual": residual,
+                                },
+                                separators=(",", ":"),
+                            )
+                            + "\n"
+                        )
                     f.flush()
                 episode_id += 1
         f.flush()
@@ -303,16 +414,37 @@ def main():
         "source_sha256": opening["new_source_sha256"],
         "model_freeze_sha256": opening["model_freeze_sha256"],
         "git_commit_at_open": opening["git_commit"],
-        "current_git_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
-        "test_window": opening["test_window"], "ba_registry": BAS,
-        "n_episodes": episode_id, "policy_count": len(POLICIES), "policy_seeds": SEEDS,
-        "coverage_by_ba": coverage, "policy_registry": list(POLICIES),
+        "current_git_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+        ).strip(),
+        "test_window": opening["test_window"],
+        "ba_registry": BAS,
+        "n_episodes": episode_id,
+        "policy_count": len(POLICIES),
+        "policy_seeds": SEEDS,
+        "coverage_by_ba": coverage,
+        "policy_registry": list(POLICIES),
         "records_sha256": sha256(records_path),
         "raw_rows_or_predictions_written": False,
-        "assumptions": ["historical EIA values are revised snapshots", "one-hour label release is simulated", "cost units are hypothetical"],
+        "assumptions": [
+            "historical EIA values are revised snapshots",
+            "one-hour label release is simulated",
+            "cost units are hypothetical",
+        ],
     }
     (PILOT / "run_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(json.dumps({"episodes": episode_id, "policies": len(POLICIES), "seeds": SEEDS, "records": sum(1 for _ in records_path.open()), "output": str(records_path)}, indent=2))
+    print(
+        json.dumps(
+            {
+                "episodes": episode_id,
+                "policies": len(POLICIES),
+                "seeds": SEEDS,
+                "records": sum(1 for _ in records_path.open()),
+                "output": str(records_path),
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

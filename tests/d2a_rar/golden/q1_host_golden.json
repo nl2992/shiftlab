@@ -1,0 +1,130 @@
+[
+ {
+  "profile": "native_v0",
+  "delay": "fixed",
+  "runs": [
+   {
+    "seed": 110900000,
+    "J": "202.4000000000001",
+    "counts": {
+     "N_q": 60,
+     "N_s": 0,
+     "N_r": 1,
+     "N_b": 1,
+     "N_a": 1,
+     "N_h": 257
+    },
+    "audit_sha256": "a00311e08002ef6a5535f5ba1a3b59857446cc6a10c3ce4508e4c1458bf28836"
+   },
+   {
+    "seed": 110900001,
+    "J": "218.00000000000017",
+    "counts": {
+     "N_q": 60,
+     "N_s": 0,
+     "N_r": 1,
+     "N_b": 1,
+     "N_a": 0,
+     "N_h": 300
+    },
+    "audit_sha256": "25b83d27e78e1dda27f0a7e52d4021c3ed2ec76de0185138a20d6a566c573388"
+   }
+  ]
+ },
+ {
+  "profile": "native_v0",
+  "delay": "uniform",
+  "runs": [
+   {
+    "seed": 110900000,
+    "J": "174.6000000000001",
+    "counts": {
+     "N_q": 60,
+     "N_s": 0,
+     "N_r": 0,
+     "N_b": 0,
+     "N_a": 0,
+     "N_h": 276
+    },
+    "audit_sha256": "3f4a91dab5cd9bac0ce7f047ad1a876c90b7b681444c6a1e482c8dcbd5685f7c"
+   },
+   {
+    "seed": 110900001,
+    "J": "218.00000000000017",
+    "counts": {
+     "N_q": 60,
+     "N_s": 0,
+     "N_r": 1,
+     "N_b": 1,
+     "N_a": 0,
+     "N_h": 300
+    },
+    "audit_sha256": "a19ff51b11d30fa2512304e1b08063ebf6de842cd0f4fc6802e3b484bf314f29"
+   }
+  ]
+ },
+ {
+  "profile": "calibrated_v1",
+  "delay": "fixed",
+  "runs": [
+   {
+    "seed": 110900000,
+    "J": "234.0000000000001",
+    "counts": {
+     "N_q": 60,
+     "N_s": 0,
+     "N_r": 2,
+     "N_b": 1,
+     "N_a": 1,
+     "N_h": 263
+    },
+    "audit_sha256": "dadcec9596afba41bd7545b71a636601fed67968922ca357e08c819c9e8ac2d5"
+   },
+   {
+    "seed": 110900001,
+    "J": "253.00000000000017",
+    "counts": {
+     "N_q": 60,
+     "N_s": 0,
+     "N_r": 2,
+     "N_b": 2,
+     "N_a": 0,
+     "N_h": 300
+    },
+    "audit_sha256": "9d74dcf043e00c238428395ca769a9b11f5d180b5dd2193259067026024069ff"
+   }
+  ]
+ },
+ {
+  "profile": "calibrated_v1",
+  "delay": "uniform",
+  "runs": [
+   {
+    "seed": 110900000,
+    "J": "210.20000000000013",
+    "counts": {
+     "N_q": 60,
+     "N_s": 0,
+     "N_r": 1,
+     "N_b": 1,
+     "N_a": 1,
+     "N_h": 280
+    },
+    "audit_sha256": "803e31ea54777d3e65e6094f4b82d355eced5e68072150f3abf4dca71ec1c862"
+   },
+   {
+    "seed": 110900001,
+    "J": "253.00000000000017",
+    "counts": {
+     "N_q": 60,
+     "N_s": 0,
+     "N_r": 2,
+     "N_b": 2,
+     "N_a": 0,
+     "N_h": 300
+    },
+    "audit_sha256": "b30d7a238ea24d22bda51d5d911323c9aeaa57a59c61e1bedda596b80c6148e6"
+   }
+  ]
+ }
+]

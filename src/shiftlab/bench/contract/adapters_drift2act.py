@@ -27,6 +27,12 @@ Deviations from the native controller (each is a closest-observable proxy or a c
 * certificate pools all released labels in the window (``pool='window'``, ``delta_mode='mandate'``): exact only for
   stationary within-window risk (heuristic otherwise, see docs/d2a_rar/baselines/DRIFT2ACT.md section 2).
 
+Q1 outcome-evidence seam (opt-in): if ``evidence`` has ``bind_env``/``outcome_sink`` (``evidence_seam.OutcomeAugmentedEvidence``) the
+host feeds it the RELEASED labelled outcomes each round before the belief update; the default ``ProxyEvidence`` has neither, so the
+default path is byte-for-byte the pre-seam behaviour (golden test tests/d2a_rar/test_q1_evidence.py). The host's own label selection
+(request size from belief/certificate state, which uses the current monitor x_t) is NOT predictable in the outcome filtration, and its
+queries carry no declared propensity, so Q1 evidence run on this host is out-of-contract for validity claims (descriptive only).
+
 Profiles: ``native_v0`` (default, unchanged since cc867f40) and ``calibrated_v1`` (WP6 host audit, docs/d2a_rar/status/wp6_host_audit.md):
 C1 audit pacing ``audit_every = ceil(T/label_cap)`` with k_low=1 so that k_low/audit_every <= B/T (native_v0 rounds k_low up => 5x over budget at B/T=0.05);
 C2 paper round constants (N, retrain/rollback cooldowns; L=1500) scaled by T/1500. Nothing else differs.
@@ -154,6 +160,11 @@ class Drift2ActContractPolicy(BasePolicy):
         self.W = self.warmup or max(20, env.T // 10)
         self.ref: tuple[float, float] | None = None  # (mean, sd) of x on warm-up rounds
         self.belief = BeliefFilter(_hand_T(), self.evidence)
+        bind_env = getattr(
+            self.evidence, "bind_env", None
+        )  # Q1 outcome-evidence seam (opt-in; absent on ProxyEvidence)
+        if bind_env is not None:
+            bind_env(env)
         self.requested: set[int] = set()
         self.prev = {"U": math.inf, "risk": float("nan"), "rad": float("nan")}
         self.boost = 0
@@ -192,6 +203,11 @@ class Drift2ActContractPolicy(BasePolicy):
     def act(self, state: ObservableState):
         t, env = state.t, self.env
         pairs = self._loss_pairs(state)
+        outcome_sink = getattr(
+            self.evidence, "outcome_sink", None
+        )  # Q1 seam: released outcomes only, opt-in
+        if outcome_sink is not None:
+            outcome_sink(state)
         z = self._sense(state, pairs)
         b = self.belief.update(z)
         # certificate of the model in force on released labels inside the window

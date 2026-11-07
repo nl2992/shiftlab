@@ -286,3 +286,27 @@ under informative delay/missingness, serial dependence or non-uniform round choi
 choice stays uniform inside the host (tested: non-query actions before the first label release are identical, N_q and c_q differ).
 Smoke (not a performance claim): on `iid_shift_d10`, balanced costs, label_cap 300, max_lookback 200, 3 seeds, the adapter abstained
 on 774-859 of 1000 rounds because the gate at tau=0.5 is mostly closed, mirroring 5.4.
+
+## 6. Q1 label-outcome evidence seam (added 2026-11-07)
+
+The legacy Q1 hook `EvidenceModel.log_lik(z, gap)` sees only the three monitor proxies, never the label chain, so kernel / envelope /
+restart / hazard evidence was NOT_IMPLEMENTED. The seam (`src/shiftlab/bench/contract/evidence_seam.py`) delivers RELEASED labelled
+observations only, as `ReleasedOutcome(label_id, request_round, label_round, release_round, losses, d, gap, order, selection)`:
+`d = loss(candidate) - loss(incumbent)` (None if not identifiable, e.g. `obs_mode='deployed'`), `gap = t_i - t_{i-1}` in event rounds
+against the previous in-order outcome, `order in {first, in_order, out_of_order, unidentified}`, `selection = (declared propensity,
+serving model, delay)`. Out-of-order outcomes keep their own `label_round` but get `gap=None`; the Q1 processes drop and count them.
+
+* (a) Drift2Act host: `Drift2ActContractPolicy(evidence=OutcomeAugmentedEvidence(ProxyEvidence(), outcome_evidence))`. The host calls
+  `bind_env(env)` at reset and `outcome_sink(state)` each round before the belief update; belief gets `base.log_lik + beta*[0,d,d,d]`
+  with `d` the increment of the outcome process' log e-value (a modelling choice, not a validity claim). Objects without those
+  attributes (the default `ProxyEvidence`) are never touched: default behaviour is bit-identical (golden `tests/d2a_rar/golden/`).
+* (b) Contract-native shell: `adapters_evidence.EvidencePromoterPolicy` / `promoter_adapter(identity)` queries on a declared schedule
+  (`calendar`, `cyclic_gaps`: regime `predictable`; `bernoulli`: `exogenous`, propensity declared), feeds the seam, switches on alarm.
+* Identities: `evidence_q1.build_evidence(registry_identity)`; implementation registry `docs/d2a_rar/registry/Q1_EVIDENCE_IMPLS.json`
+  (filtration, transition model, stopping, parameter uncertainty, target null, selection requirement, validity class per entry).
+
+Validity scope: P^{g_i} (and the conditional bets) hold only if the choice of `t_i` is G_{i-1}-measurable or exogenously randomised
+with a declared propensity. **The Drift2Act host does not satisfy this**: its request size depends on belief/certificate state using the
+current monitor x_t and its queries carry no propensity, so the augmented evidence declares `monitor_adaptive` and
+`contract_status()` returns OUT_OF_CONTRACT there; Q1 validity is scored on the promoter shell only, and host runs are descriptive.
+Informative delay/missingness and `rho > declared_rho_bar` cells are flagged out-of-contract by `contract_status(stream_spec)` (harness side).

@@ -190,6 +190,7 @@ def make_features(
     forecast_versions: dict[datetime, tuple[list[float], list[float], list[str]]],
     actual_versions: dict[datetime, tuple[list[float], list[float], list[str]]],
 ) -> tuple[list[datetime], np.ndarray, dict[str, int]]:
+    actual_times = sorted(actual_versions)
     eligible_targets: list[datetime] = []
     feature_rows: list[list[float]] = []
     excluded = {"missing_asof_forecast": 0, "missing_mature_actual_history": 0}
@@ -200,25 +201,34 @@ def make_features(
         if forecast is None:
             excluded["missing_asof_forecast"] += 1
             continue
-        past_values: list[float] = []
-        missing = False
-        for lag in range(1, 337):
-            valid = target - HALF_HOUR * lag
-            value = value_as_of(actual_versions, valid, cutoff_epoch)
-            if lag in (1, 48, 336) and value is None:
-                missing = True
-            if lag <= 48:
-                if value is None:
-                    missing = True
-                else:
-                    past_values.append(value)
-        if missing or len(past_values) != 48:
+        actual_index = bisect_right(actual_times, cutoff) - 1
+        while (
+            actual_index >= 0
+            and value_as_of(actual_versions, actual_times[actual_index], cutoff_epoch) is None
+        ):
+            actual_index -= 1
+        if actual_index < 335:
             excluded["missing_mature_actual_history"] += 1
             continue
-        one = value_as_of(actual_versions, target - HALF_HOUR, cutoff_epoch)
-        day = value_as_of(actual_versions, target - HALF_HOUR * 48, cutoff_epoch)
-        week = value_as_of(actual_versions, target - HALF_HOUR * 336, cutoff_epoch)
-        assert one is not None and day is not None and week is not None
+        latest_actual_time = actual_times[actual_index]
+        needed_offsets = sorted(set(range(48)) | {335})
+        history_by_offset: dict[int, float] = {}
+        for offset in needed_offsets:
+            value = value_as_of(
+                actual_versions,
+                latest_actual_time - HALF_HOUR * offset,
+                cutoff_epoch,
+            )
+            if value is None:
+                break
+            history_by_offset[offset] = value
+        if len(history_by_offset) != len(needed_offsets):
+            excluded["missing_mature_actual_history"] += 1
+            continue
+        past_values = [history_by_offset[offset] for offset in range(48)]
+        one = history_by_offset[0]
+        day = history_by_offset[47]
+        week = history_by_offset[335]
         feature_rows.append(
             [forecast, one, day, week, float(np.mean(past_values)), max(past_values)]
             + calendar_features(target)

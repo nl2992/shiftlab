@@ -38,8 +38,9 @@ study screen, not a new-method experiment.
 - Challenger: a per-source `HistGradientBoostingClassifier` with the EIA F8 registered parameters
   (`max_iter=150`, `learning_rate=0.05`, `max_leaf_nodes=15`, `l2_regularization=1.0`,
   `random_state=1729`) and balanced class weights. Features are the as-of DATL forecast, the most
-  recent ATL values whose `publishTime` is no later than issue time (lags 1, 48, 336 valid periods),
-  a 48-period rolling mean and maximum over mature actuals, and fixed UTC calendar encodings.
+  ATL lags 1, 48, and 336 anchored at the latest valid period whose ATL publication is no later
+  than issue time (lag 1 is the freshest mature actual); a 48-period rolling mean and maximum over
+  the freshest mature actuals; and fixed UTC calendar encodings.
   Fit only on 2024 targets; no 2025 labels may enter preprocessing or fitting.
 - Use the first ATL publication for each valid time as the policy-visible label and release time.
   Report duplicates/revisions. Policy evaluation, if later authorized by the gates, must release
@@ -74,3 +75,12 @@ Record exact API publication windows, request/response hashes, code and dependen
 counts, first-published ATL policy, as-of DATL vintage rule, DST handling, client/source cluster
 count, and full half-year profile metrics in `RUN_STATUS.md` and `DATASET_PROFILE.json`. Preserve any
 API, vintage, timestamp, missingness, or model-fit failure. Do not overwrite a completed profile.
+
+## Implementation correction log
+
+- **Run 1 halted before model fitting (2026-11-07):** the initial runner interpreted lag 1 as target
+  period `t-1`, which is in the future relative to issue time `t-12h`; this correctly yielded zero
+  eligible training rows. The frozen information contract is lags relative to the latest ATL valid
+  period already published by issue time, as specified above. The run used only the registered
+  2023-12 through 2025-12-30 publication windows; no model fit, profile metric, or 2026 outcome was
+  produced. The corrected runner must be committed before any rerun.

@@ -82,6 +82,13 @@ class StreamSpec:
     delay: DelaySpec = field(default_factory=DelaySpec)
     missing: MissingSpec = field(default_factory=MissingSpec)
     x_signal: float = 0.8  # shift of monitor signal mean during the 'during' regime
+    # Optional regime process (v2 families only; the default 'single' path is bit-identical to cc867f40):
+    # 'semi_markov' alternates regime 0 (before) / 1 (during) with Weibull(shape=hazard_shape, scale) sojourn times in rounds;
+    # shape>1 = increasing hazard (regimes end the longer they last), shape<1 = decreasing hazard. No regime 2.
+    regime_process: str = "single"  # single | semi_markov
+    hazard_shape: float = 1.0
+    dur_before: float = 300.0  # Weibull scale of regime-0 sojourns
+    dur_during: float = 150.0  # Weibull scale of regime-1 sojourns
 
     @property
     def spec_id(self) -> str:
@@ -181,6 +188,20 @@ def make_stream(spec: StreamSpec, seed: int) -> Stream:
     regime = np.zeros(T, dtype=np.int8)
     regime[on - 1 : off] = 1
     regime[off:] = 2
+    if spec.regime_process == "semi_markov":
+        rng_h = np.random.default_rng(
+            [int(seed), STREAM_TAG + 1, zlib.crc32(spec.spec_id.encode())]
+        )
+        regime = np.zeros(T, dtype=np.int8)
+        pos, state_ = 0, 0
+        while pos < T:
+            scale = spec.dur_before if state_ == 0 else spec.dur_during
+            dur = max(1, int(np.ceil(scale * rng_h.weibull(spec.hazard_shape))))
+            regime[pos : pos + dur] = state_
+            pos += dur
+            state_ = 1 - state_
+    elif spec.regime_process != "single":
+        raise ValueError(f"unknown regime_process {spec.regime_process!r}")
     p_after = spec.p_before if spec.p_after is None else spec.p_after
     p = np.select([regime == 0, regime == 1], [spec.p_before, spec.p_during], p_after).astype(float)
 

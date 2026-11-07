@@ -27,6 +27,10 @@ Deviations from the native controller (each is a closest-observable proxy or a c
 * certificate pools all released labels in the window (``pool='window'``, ``delta_mode='mandate'``): exact only for
   stationary within-window risk (heuristic otherwise, see docs/d2a_rar/baselines/DRIFT2ACT.md section 2).
 
+Profiles: ``native_v0`` (default, unchanged since cc867f40) and ``calibrated_v1`` (WP6 host audit, docs/d2a_rar/status/wp6_host_audit.md):
+C1 audit pacing ``audit_every = ceil(T/label_cap)`` with k_low=1 so that k_low/audit_every <= B/T (native_v0 rounds k_low up => 5x over budget at B/T=0.05);
+C2 paper round constants (N, retrain/rollback cooldowns; L=1500) scaled by T/1500. Nothing else differs.
+
 Claimed null: ``abs_risk`` (gate ``U_t <= tau`` bounds the windowed risk of the model in force under UNIFORM sampling from the
 window). It is NOT valid under informative delay/missingness (released labels are then a loss-dependent subset), serial
 dependence, or a request-size policy that selects *which* rounds to label non-uniformly. The Q2 hook
@@ -46,6 +50,9 @@ from shiftlab.sota.drift2act.certificate import rad
 
 from .policies import BasePolicy
 from .types import CANDIDATE, INCUMBENT, Action, EnvSpec, ObservableState
+
+PAPER_L = 1500  # Drift2Act App. E episode length L; round-valued paper constants are scaled by T / PAPER_L in calibrated_v1
+PROFILES = ("native_v0", "calibrated_v1")
 
 # native action indices used in GAIN columns
 A0, A2, A3, A4, A5, A6 = 0, 2, 3, 4, 5, 6
@@ -97,7 +104,17 @@ class Drift2ActContractPolicy(BasePolicy):
         recent: int = 50,
         alert_spacing: int = 50,
         seed: int = 0,
+        profile: str = "native_v0",
     ) -> None:
+        if profile not in PROFILES:
+            raise ValueError(f"profile must be one of {PROFILES}")
+        self.profile = profile
+        self._raw = {
+            "N": N,
+            "audit_every": audit_every,
+            "cd_rt": cooldown_retrain,
+            "cd_rb": cooldown_rollback,
+        }
         self.tau, self.delta, self.N, self.audit_every = tau, delta, N, audit_every
         self.request_policy = request_policy
         self.evidence = evidence or ProxyEvidence()
@@ -115,9 +132,21 @@ class Drift2ActContractPolicy(BasePolicy):
         self.price = {A2: prices["switch"], A4: prices["retrain"], A5: prices["rollback"]}
         self.price[A6], self.price[A0], self.price[A3] = prices["abstain"], 0.0, 0.0
         cap = env.budget.label_cap
-        k_low = max(
-            1, round(cap / env.T * self.audit_every)
-        )  # native pacing: k_low/audit_every = B/L
+        raw = self._raw
+        self.N, self.audit_every = raw["N"], raw["audit_every"]
+        self.cd_rt, self.cd_rb = raw["cd_rt"], raw["cd_rb"]
+        if self.profile == "calibrated_v1":
+            # C1: honour the stated pacing rule k_low/audit_every <= B/T (native_v0 rounds k_low UP to 1 => 5x over budget at B/T=0.05)
+            self.audit_every = max(1, math.ceil(env.T / max(1, cap)))
+            k_low = 1
+            # C2: round-valued paper constants (L=1500) scaled to the contract horizon
+            sc = env.T / PAPER_L
+            self.N = max(1, round(raw["N"] * sc))
+            self.cd_rt, self.cd_rb = round(raw["cd_rt"] * sc), round(raw["cd_rb"] * sc)
+        else:
+            k_low = max(
+                1, round(cap / env.T * self.audit_every)
+            )  # native pacing: k_low/audit_every = B/L
         self.policy = self.request_policy or HeuristicQueryPolicy(
             8 * k_low, 4 * k_low, k_low, 0.02, self.audit_every
         )
@@ -311,3 +340,4 @@ class _Drift2ActAdapter:
 
 
 Drift2ActAdapter = _Drift2ActAdapter()
+Drift2ActCalibratedAdapter = _Drift2ActAdapter(profile="calibrated_v1")

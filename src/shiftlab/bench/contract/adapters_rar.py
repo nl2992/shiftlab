@@ -98,6 +98,20 @@ CONTRACT_DEFAULTS: dict[str, Any] = {
     "soft_thr": 0.10,  # native 0.03; contract windows of ~40 labels have s.e. ~0.07
 }
 
+PROFILES = ("native_v0", "calibrated_v1")
+
+
+class PacedLabelPolicy:
+    """calibrated_v1 label rule (WP6 host audit, C3): request iff ``t % ceil(T / label_cap) == 0`` (equal spacing; the whole
+    cap is spent uniformly over the horizon instead of in the first ``label_cap`` rounds)."""
+
+    def __init__(self, T: int, label_cap: int) -> None:
+        self.every = max(1, math.ceil(T / max(1, label_cap)))
+
+    def request(self, ctx: HookContext) -> bool:
+        return ctx.t % self.every == 0
+
+
 SERVING, RETRAINING, CANARY1, SWITCHING, CANARY2, HOLD = (
     "SERVING",
     "RETRAINING",
@@ -123,7 +137,12 @@ class _MonitorBase(BasePolicy):
         detector_factory=ADWINDetector,
         cfg_overrides: dict[str, Any] | None = None,
         min_window_labels: int = 5,
+        profile: str = "native_v0",
     ) -> None:
+        if profile not in PROFILES:
+            raise ValueError(f"profile must be one of {PROFILES}")
+        self.profile = profile
+        self._label_policy_given = label_policy is not None
         self.label_policy = label_policy or AllLabelsPolicy()
         self.detector_factory = detector_factory
         self.cfg_overrides = dict(cfg_overrides or {})
@@ -132,6 +151,8 @@ class _MonitorBase(BasePolicy):
     # ------------------------------------------------------------------ setup
     def reset(self, env: EnvSpec) -> None:
         super().reset(env)
+        if self.profile == "calibrated_v1" and not self._label_policy_given:
+            self.label_policy = PacedLabelPolicy(env.T, env.budget.label_cap)
         base = dict(CONTRACT_DEFAULTS)
         base.update(W_train=env.clocks.w_train, rho=float(env.costs.c_r))
         base.update(self.cfg_overrides)
@@ -691,6 +712,12 @@ class _BinaryAdapter:
 RARAdapter = _RARAdapter()
 CostAwareBinaryAdapter = _BinaryAdapter("cost_aware_binary", True)
 BinaryAdapter = _BinaryAdapter("binary", False)
+
+RARCalibratedAdapter = _RARAdapter(profile="calibrated_v1")
+CostAwareBinaryCalibratedAdapter = _BinaryAdapter(
+    "cost_aware_binary", True, profile="calibrated_v1"
+)
+BinaryCalibratedAdapter = _BinaryAdapter("binary", False, profile="calibrated_v1")
 
 __all__ = [
     "CONTRACT_DEFAULTS",

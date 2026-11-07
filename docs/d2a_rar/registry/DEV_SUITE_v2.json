@@ -1,0 +1,315 @@
+{
+ "cells": [
+  {
+   "T": 400,
+   "cost_vector": "label_dear",
+   "family": "td_shift_lognormal_T400",
+   "family_source": "v2",
+   "hook_target": "d2a/rar request-feasibility, deadline-priority, pending inventory",
+   "id": "S1a",
+   "index": 0,
+   "label_cap": 50,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": false,
+    "marg": false
+   },
+   "purpose": "T=400, lognormal delay (median 80, sigma 1): P(delay > remaining horizon) is large for requests after t~200",
+   "retrain_duration": 20,
+   "role": "alternative",
+   "scenario": "tight_deadline"
+  },
+  {
+   "T": 400,
+   "cost_vector": "label_dear",
+   "family": "td_null_lognormal_T400",
+   "family_source": "v2",
+   "hook_target": "same",
+   "id": "S1b",
+   "index": 1,
+   "label_cap": 50,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "boundary null with the same delay tail: tight-deadline mechanisms must not promote or over-spend",
+   "retrain_duration": 20,
+   "role": "correct_null",
+   "scenario": "tight_deadline"
+  },
+  {
+   "T": 400,
+   "cost_vector": "label_dear",
+   "family": "td_null_fixed10_T400",
+   "family_source": "v2",
+   "hook_target": "same",
+   "id": "S1c",
+   "index": 2,
+   "label_cap": 50,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "boundary null with a SHORT delay tail: the feasibility/deadline predicate should (almost) never bind",
+   "retrain_duration": 20,
+   "role": "neighbouring_negative_control",
+   "scenario": "tight_deadline"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "intervention_dear",
+   "family": "iid_shift_d10",
+   "family_source": "v1",
+   "hook_target": "rar.gate2/gate3, cab.gate (cap = T: labels as in RAR's native 'every label arrives')",
+   "id": "S2a",
+   "index": 3,
+   "label_cap": 1000,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": false,
+    "marg": false
+   },
+   "purpose": "persistent shift, cap=T so Gate 2 (70% labelled in W_train) is reachable",
+   "retrain_duration": 20,
+   "role": "alternative",
+   "scenario": "rar_gate2_label_rich"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "intervention_dear",
+   "family": "iid_null_boundary",
+   "family_source": "v1",
+   "hook_target": "same",
+   "id": "S2b",
+   "index": 4,
+   "label_cap": 1000,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "boundary null with cap=T: gates must not fire retrains on noise",
+   "retrain_duration": 20,
+   "role": "correct_null",
+   "scenario": "rar_gate2_label_rich"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "intervention_dear",
+   "family": "iid_null_lognormal_delay",
+   "family_source": "v1",
+   "hook_target": "same",
+   "id": "S2c",
+   "index": 5,
+   "label_cap": 1000,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "neighbouring null with a heavy-tailed delay law (labels lag the detector)",
+   "retrain_duration": 20,
+   "role": "neighbouring_negative_control",
+   "scenario": "rar_gate2_label_rich"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "label_dear",
+   "family": "iid_shift_d10",
+   "family_source": "v1",
+   "hook_target": "d2a certificate gate / request size / abstain economics",
+   "id": "S2d",
+   "index": 6,
+   "label_cap": 300,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": false,
+    "marg": false
+   },
+   "purpose": "persistent shift, cap=300: certificate opens (n >~ 100 at pre-shift risk 0.25) before/near onset",
+   "retrain_duration": 20,
+   "role": "alternative",
+   "scenario": "d2a_certifiable"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "label_dear",
+   "family": "cert_null_p030",
+   "family_source": "v2",
+   "hook_target": "same",
+   "id": "S2e",
+   "index": 7,
+   "label_cap": 300,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": true,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "all of cond/marg/abs-risk nulls hold (risk 0.30 <= tau 0.5): a certificate-gated host should stay open and quiet",
+   "retrain_duration": 20,
+   "role": "correct_null",
+   "scenario": "d2a_certifiable"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "label_dear",
+   "family": "cert_null_p030_lognormal",
+   "family_source": "v2",
+   "hook_target": "same",
+   "id": "S2f",
+   "index": 8,
+   "label_cap": 300,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": true,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "same null with heavy-tailed delay",
+   "retrain_duration": 20,
+   "role": "neighbouring_negative_control",
+   "scenario": "d2a_certifiable"
+  },
+  {
+   "T": 1200,
+   "cost_vector": "balanced",
+   "family": "reversal_1200",
+   "family_source": "v2",
+   "hook_target": "rollback / promote-then-revert economics (FL-043 F3_reversal_1200)",
+   "id": "S3a",
+   "index": 9,
+   "label_cap": 60,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": false,
+    "marg": false
+   },
+   "purpose": "T=1200: candidate better on [~300,~720), worse again after (p_after=0.25)",
+   "retrain_duration": 20,
+   "role": "alternative",
+   "scenario": "reversal"
+  },
+  {
+   "T": 1200,
+   "cost_vector": "balanced",
+   "family": "reversal_null_1200",
+   "family_source": "v2",
+   "hook_target": "same",
+   "id": "S3b",
+   "index": 10,
+   "label_cap": 60,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "boundary null at T=1200: nothing to roll back",
+   "retrain_duration": 20,
+   "role": "correct_null",
+   "scenario": "reversal"
+  },
+  {
+   "T": 1200,
+   "cost_vector": "balanced",
+   "family": "reversal_persistent_1200",
+   "family_source": "v2",
+   "hook_target": "same",
+   "id": "S3c",
+   "index": 11,
+   "label_cap": 60,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": false,
+    "marg": false
+   },
+   "purpose": "persistent-shift twin (no reversal): a rollback mechanism must not hurt here",
+   "retrain_duration": 20,
+   "role": "neighbouring_negative_control",
+   "scenario": "reversal"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "balanced",
+   "family": "hazard_shift_k25",
+   "family_source": "v2",
+   "hook_target": "hazard-aware gating / regime-duration priors",
+   "id": "S4a",
+   "index": 12,
+   "label_cap": 50,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": false,
+    "marg": false
+   },
+   "purpose": "alternating regimes with increasing-hazard Weibull(2.5) sojourns",
+   "retrain_duration": 20,
+   "role": "alternative",
+   "scenario": "hazard"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "balanced",
+   "family": "hazard_null_k25",
+   "family_source": "v2",
+   "hook_target": "same",
+   "id": "S4b",
+   "index": 13,
+   "label_cap": 50,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "boundary null with the same regime clock (regimes are irrelevant to the gain)",
+   "retrain_duration": 20,
+   "role": "correct_null",
+   "scenario": "hazard"
+  },
+  {
+   "T": 1000,
+   "cost_vector": "balanced",
+   "family": "hazard_shift_k10",
+   "family_source": "v2",
+   "hook_target": "same",
+   "id": "S4c",
+   "index": 14,
+   "label_cap": 50,
+   "max_lookback": 0,
+   "null_truth_expected": {
+    "abs_risk": false,
+    "cond": false,
+    "marg": false
+   },
+   "purpose": "same means but flat hazard (shape 1): a hazard prior should not gain here",
+   "retrain_duration": 20,
+   "role": "neighbouring_negative_control",
+   "scenario": "hazard"
+  }
+ ],
+ "host_cost_vector_override": {},
+ "note": "per-cell cost_vector/label_cap/T are authoritative (no host override in v2: every method on the cell vector)",
+ "parent": {
+  "file": "DEV_SUITE.json",
+  "note": "frozen cells are NOT modified; v2 adds cells",
+  "sha256": "7efc13ea9ce5055e1214f95760c65847470cdc08d468f25a3262f93ed9656f31"
+ },
+ "seed_block": "d2a_rar_dev (sub-block v2)",
+ "seed_rule": "seed = 110050000 + cell_index*1000 + replicate, replicate in [0, 20); paired across methods",
+ "seeds_per_cell": 20,
+ "version": 2
+}

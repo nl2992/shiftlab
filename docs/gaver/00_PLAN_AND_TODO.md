@@ -89,10 +89,10 @@ Status keys: `[ ]` open, `[~]` in progress, `[x]` done (verdict recorded), `[-]`
 
 - [x] 3.1 Implement: retire promotion wealth at switch; start a fresh post-switch evidence process
       for keep/rollback, with a small label reserve.
-- [x] 3.2 Compare with promotion-only, E_rb, two-phase persistence and simple hysteresis on
+- [~] 3.2 Compare with promotion-only, E_rb, two-phase persistence and simple hysteresis on
       reversal, transient and persistent alternatives (60 dev seeds/cell).
 - [x] 3.3 Ablations: reuse old wealth vs fresh; reserve vs none.
-- [x] 3.4 Verdict: `docs/gaver/30_FRESHCHECK_RESULTS.md`. Pass if post-reversal harm drops without
+- [~] 3.4 Verdict: `docs/gaver/30_FRESHCHECK_RESULTS.md`. Pass if post-reversal harm drops without
       losing more than a *small* amount of persistent-case value.
 
 ### WP4. Prior-art spot check (parallel, light)
@@ -135,3 +135,4 @@ WP0 first (short). Then WP1, WP2, WP3 and WP4 in parallel, each in its own files
 - 2026-11-06: WP4 done (abstract/snippet level). Closest threats: Gap-Mix–Sethi et al.; PAVE–Gong & Zhang; FreshCheck–The Challenger/Drift2Act. PPRM venue and Sethi e-process framing unverified.
 - 2026-11-06: WP0 done (a458a21d). Seeds 101000000–101199999 registered. Findings that change the plan: no `E_rb` exists in code (rollback = Page-CUSUM kappa=2 + per-episode alpha spending), so WP3 compares against that; DSS with `delay_switch` reduces to uniform when d >= 2T/(B+2), so the d50/b0.05 regression cell is a uniform-acquisition cell for WP2. WP2 seeds start at 101080010 (first ten used by the smoke run).
 - 2026-11-06: WP3 done (2a8b695b, bd8316ba). Screening verdict: FAIL on value, PASS on null safety (boundary-null FP UCB 0.017). FreshCheck cut reversal harm 79% vs promotion-only but is 15% worse J/T than the existing CUSUM rollback on reversals, and loses 17.7% persistent value with the reserve (~5% without). Real side-finding: on keep-null streams (benefit exactly h) CUSUM/hysteresis/cost-threshold roll back in 91–100% of promoted streams vs 2/584 for FreshCheck; reused wealth has no level control (47–62%). Planner grading: drop FreshCheck as a value component for WP5; keep it as an optional certified-rollback wrapper and report the uncontrolled-rollback finding. Two-phase persistence comparator absent in repo; transient cells uninformative.
+- 2026-11-06: Cross-branch search found both missing WP3 comparators: two-phase persistence in `src/shiftlab/dive/persistence_promotion.py` (on main), and E_rb in `origin/codex/sprint2-leaderboards@297a706e:scripts/sota_sprint/fam_e.py::_rb` wrapping `fam_b.py::RecoveryMonitor`. WP3 3.2/3.4 reopened to add them. Standing rule for all WPs: search other branches (`git grep <pat> <ref>`) before declaring a component missing; port with a source-commit citation.

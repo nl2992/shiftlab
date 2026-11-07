@@ -1676,6 +1676,30 @@ studies:
   used_by: [lane_b D2 split-clock small Monte Carlo]
   derivation: allocated
   note: 'seed id = start + cell_index*1000 + replicate (12 cells x 1000 used); development only, never confirmatory'
+- id: d2a_rar_contract_smoke
+  start: 110900000
+  end: 110900999
+  source: configs/d2a_rar/stream_families.yaml
+  status: smoke
+  used_by: [d2a_rar_contract]
+  derivation: explicit
+  note: contract smoke/integrity runs
+- id: d2a_rar_dev
+  start: 110000000
+  end: 110099999
+  source: configs/d2a_rar/stream_families.yaml
+  status: development
+  used_by: [d2a_rar_contract]
+  derivation: explicit
+  note: D2A/RAR autoresearch dev screens, no confirmation use
+- id: d2a_rar_confirmation_reserved
+  start: 120000000
+  end: 120099999
+  source: configs/d2a_rar/stream_families.yaml
+  status: confirmation
+  used_by: [d2a_rar_contract]
+  derivation: explicit
+  note: held out; read-only until WP7 preregistration
 excluded_scalar_seeds:
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}

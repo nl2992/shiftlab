@@ -1,0 +1,43 @@
+# FROZEN preregistered cost vectors for Suite B (docs/d2a_rar/BENCHMARK_CONTRACT.md section 4).
+# Units: loss units of J = sum_t l_t + c_q N_q + c_s N_s + c_r N_r + c_b N_b + c_a N_a + c_h N_h,
+# per-round loss in [0,1], horizon T = 1000 unless a family says otherwise. N_h counts abstained rounds.
+# Frozen 2026-11-07 BEFORE any method is screened. Do not edit: the loader verifies content_sha256
+# over the canonical JSON of `vectors`. A new vector needs a new name and a new checksum entry
+# recorded in docs/d2a_rar/BENCHMARK_CONTRACT.md (changelog); existing vectors never change.
+frozen: true
+frozen_on: 2026-11-07
+content_sha256: 764bc86178bb43d8c614a01b66c22cc1408a0ff52c0fc96da3b3a14088078ddc
+rationale:
+  label_cheap: labels nearly free relative to interventions; stresses switch/retrain economics (GAVE-R used c=0.01).
+  balanced: mid-range everywhere; default for headline comparisons.
+  label_dear: labels expensive (a 50-label budget costs 12.5 = ~1.25% of a 1000-round worst-case loss); stresses acquisition.
+  intervention_dear: retrain/rollback expensive; stresses canary-style caution and rollback economics.
+vectors:
+  label_cheap:
+    c_q: 0.01
+    c_s: 0.5
+    c_r: 10.0
+    c_b: 1.0
+    c_a: 0.1
+    c_h: 0.05
+  balanced:
+    c_q: 0.05
+    c_s: 2.0
+    c_r: 30.0
+    c_b: 5.0
+    c_a: 0.2
+    c_h: 0.1
+  label_dear:
+    c_q: 0.25
+    c_s: 2.0
+    c_r: 30.0
+    c_b: 5.0
+    c_a: 0.2
+    c_h: 0.1
+  intervention_dear:
+    c_q: 0.05
+    c_s: 10.0
+    c_r: 100.0
+    c_b: 25.0
+    c_a: 0.5
+    c_h: 0.2

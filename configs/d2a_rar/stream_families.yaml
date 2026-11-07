@@ -1,0 +1,48 @@
+# Development stream families for Suite B. Confirmation families are NOT here: they are held out,
+# registered at WP7 in configs/d2a_rar/confirmation_families.yaml and readable only through
+# load_family(..., split='confirmation') with D2A_CONFIRMATION_UNLOCK=1 (access is logged).
+# Seed blocks (proposed; coordinator registers in configs/seed_registry.yaml):
+#   smoke 110900000-110900999 | dev 110000000-110099999 | confirmation 120000000-120099999
+# gain g_t = l_inc - l_cand; hurdle h = 0.1; p = P(Y=1) = incumbent loss rate = P(candidate better).
+version: 1
+families:
+  iid_shift_d10:
+    dependence: iid
+    delay: {kind: fixed, d: 10}
+  markov05_shift_d10:
+    dependence: markov
+    rho: 0.5
+    delay: {kind: fixed, d: 10}
+  markov08_shift_d10:
+    dependence: markov
+    rho: 0.8
+    delay: {kind: fixed, d: 10}
+  iid_shift_geo20:
+    dependence: iid
+    delay: {kind: geometric, mean: 20.0}
+  iid_shift_informative_delay:
+    dependence: iid
+    delay: {kind: informative, d: 5, d_unfav: 50}
+  iid_shift_informative_missing:
+    dependence: iid
+    delay: {kind: fixed, d: 10}
+    missing: {kind: informative, p_fav: 0.5, p_unfav: 0.0}
+  iid_null_boundary:
+    dependence: iid
+    p_before: 0.55
+    p_during: 0.55
+    p_after: 0.55
+    delay: {kind: fixed, d: 10}
+  iid_null_lognormal_delay:
+    dependence: iid
+    p_before: 0.55
+    p_during: 0.55
+    p_after: 0.55
+    delay: {kind: lognormal, median: 15.0, sigma: 1.0}
+  markov08_marg_null_only:
+    dependence: markov
+    rho: 0.8
+    p_before: 0.55
+    p_during: 0.55
+    p_after: 0.55
+    delay: {kind: fixed, d: 10}

@@ -165,7 +165,7 @@ class CertPlus:
         return np.where(self.queries > 0, self.q_sum / np.maximum(self.queries, 1), np.nan)
 
     # --------------------------------------------------------------------- step
-    def step(self, t, l0t, l1t, dis, u, ndis):
+    def step(self, t, l0t, l1t, dis, u, ndis, q_adjust=None):
         p, pl, cs, cq = self.p, self.plus, self.cs, self.cq
         self.loss += np.where(self.dep == 0, l0t, l1t)
         dep_t = self.dep.copy()
@@ -244,6 +244,14 @@ class CertPlus:
             pace = r * pace
         q = np.clip(pace, p.pmin, 1.0)
         q = np.where(self.rem > 0, q, 0.0)
+        # Optional predictable acquisition overlay. When absent, preserve the registered P7s
+        # arithmetic exactly. The callback sees the issue-time P7s propensity and may only adjust
+        # it before both sampling and the frozen inverse-propensity increment are formed.
+        if q_adjust is not None:
+            q = np.asarray(q_adjust(t, q.copy()), dtype=float)
+            if q.shape != (self.n,) or np.any(~np.isfinite(q)) or np.any((q < 0) | (q > 1)):
+                raise ValueError("q_adjust must return a finite propensity vector in [0, 1]")
+            q = np.where(self.rem > 0, q, 0.0)
         ask = dis & (u < q)
         x = np.where(ask, (l0t - l1t) / np.where(q > 0, q, 1.0), 0.0)
         self.rem = self.rem - ask

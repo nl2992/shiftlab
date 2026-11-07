@@ -1,0 +1,45 @@
+{
+  "alpha": 0.05,
+  "analysis_sha256": "e04cf7da9aa0fd14df5fcb8d5a782450df6370f81b8bcdc41c807b4d8715bd82",
+  "budget": 200,
+  "cells": [
+    "F1_late_800",
+    "F0_better",
+    "F3_reversal_800",
+    "F0_null"
+  ],
+  "command": "PYTHONPATH=scripts/promising_directions/sota uv run python research/scoped_method/pilots/p7s_model_picker_overlay_20261107/run_pilot.py",
+  "delay": 100,
+  "horizon": 2000,
+  "label_price": 0.05,
+  "methods": [
+    "P7s_MP_overlay",
+    "P7s_MP_no_settled_throttle",
+    "P7s_settled",
+    "model_picker_adapter",
+    "D1",
+    "gated_adaptive_range+front",
+    "CONTROL_never_switch"
+  ],
+  "numpy": "2.5.4",
+  "python": "3.12.15",
+  "raw_artifacts": {
+    "raw_episode_rows.jsonl": "d2b64ac6bbc3347daf0ecde6ef7da0a6a05e61fb0334d533955fac46c7bc5321",
+    "raw_event_records.jsonl.gz": "7cfc1bc4ced6f8dc18a0e95bd5858cc88ef52c9418b3d15189ce106a10c7fba2"
+  },
+  "results_sha256": "b4c06351acf80c5b88d5fe7d11bf62a2c4fe3a1a0b99224c32225a542742dfb8",
+  "seed_base": 7110601701,
+  "seeds_per_cell": 50,
+  "source_commit": "99a3046c813226ccd1fcaf9fc47d8adb82d5e3e5",
+  "source_sha256": {
+    "research/scoped_method/pilots/p7s_model_picker_overlay_20261107/PROTOCOL.md": "65da623e7b4e16d9539248842199ba8af0e39074c7cd7164a9348c1fa56a3e37",
+    "research/scoped_method/pilots/p7s_model_picker_overlay_20261107/analyze.py": "e04cf7da9aa0fd14df5fcb8d5a782450df6370f81b8bcdc41c807b4d8715bd82",
+    "research/scoped_method/pilots/p7s_model_picker_overlay_20261107/run_pilot.py": "5d64026110f7ace57193809c82b71e8274dab510625e15270f3d05606dea6a58",
+    "scripts/promising_directions/b3_plus_policy.py": "c90e7501b778d9d9554aea910752e814cdbef99c95ec637881d1b0855023c24a",
+    "scripts/promising_directions/sota/competitors/b3_plus_policy_adapter.py": "35712dbfb93d83dddca510ef569ba12fac8697bbb202c6d5ba1eeddc5168a5c7",
+    "scripts/promising_directions/sota/competitors/p7s_model_picker_overlay.py": "91e1d990097200e27ff890b165df9152b032bc2970bcf9a12833f071ced58029",
+    "tests/promising_directions/test_p7s_model_picker_overlay.py": "7f3435e2915fc0dc393a44086856d8130e5cc9bdc1591d211055e2098726bac3"
+  },
+  "source_worktree_dirty": true,
+  "switch_cost": 5.0
+}

@@ -54,6 +54,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import Callable
 
 import numpy as np
 
@@ -107,12 +108,14 @@ class P7sPolicy:
         rng: np.random.Generator,
         params: b1.Params | None = None,
         name: str = "P7s_settled",
+        q_adjust: Callable[[int, float], float] | None = None,
     ):
         if delay < 1:
             raise ValueError("delay must be >= 1")
         self.name = name
         self.horizon, self.budget, self.delay = int(horizon), int(budget), int(delay)
         self.rng = rng
+        self.q_adjust = q_adjust
         self.p = params or b1.Params(T=self.horizon, delay=self.delay, cq=label_price)
         if self.p.T != self.horizon or self.p.delay != self.delay or self.p.cq != label_price:
             raise ValueError("params.T / delay / cq must match horizon / delay / label_price")
@@ -151,7 +154,13 @@ class P7sPolicy:
         dis = bool(event.model_predictions[0] != event.model_predictions[1])
         u = float(self.rng.random())
         # Dummy (zero) losses: nothing about event t's label or losses reaches CertPlus now.
-        cp.step(t, np.zeros(1), np.zeros(1), np.array([dis]), np.array([u]), np.array([self._ndis]))
+        adjust = None
+        if self.q_adjust is not None:
+            adjust = lambda step_t, q: np.array([self.q_adjust(step_t, float(q[0]))])
+        cp.step(
+            t, np.zeros(1), np.zeros(1), np.array([dis]), np.array([u]),
+            np.array([self._ndis]), q_adjust=adjust,
+        )
         self._ndis += int(dis)
         self._next_t = t + 1
         q = float(cp.tr["q"][t, 0])

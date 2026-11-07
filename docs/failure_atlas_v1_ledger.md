@@ -1770,3 +1770,8 @@ the saved native review is provisional and did not review the completed pilot ou
 ## 2026-11-01: future method proposal after cycle 7
 
 Cycle 7 and its bounded fallback diagnostic are complete; neither is retrospectively accepted. See [the next-method proposal](failure_atlas_next_method_proposal_v1.md) for the synthesis across cycles, primary literature comparison, restricted gap-aware evidence construction, deadline-aware acquisition design, target audit, and staged stopping rules. This is prospective method development, not new experimental evidence. First test correct gap-aware evidence on uniform acquisition, then test the incremental value of scheduling. No confirmation seeds were consumed. The local HKUSTDial/ARIS idea evaluation is a self-critique, not an independent novelty review.
+
+## Pointer: GAVE-R development investigation (2026-11-06/07)
+
+Branch `research/gave-r-2026-11-06`; summary [docs/gaver/90_SUMMARY.md](gaver/90_SUMMARY.md). Development/screening only; no confirmation seeds used, earlier outcomes unchanged.
+Outcome: the integrated GAVE-R controller (gap-aware evidence × delay-gated value-of-label acquisition) fails screening on value and its components are sub-additive. Two scoped fragments survive. Gap-Mix with declared rho_bar = 0.8 stays valid under adaptive acquisition and is substantially more powerful than the existing valid Markov LR. Delay-gated PAVE gives a meaningful ~4.4% gain in d = 50 cells and is safer than DSS under dependence. FreshCheck and the rho-robust Gap-Mix extension were eliminated. Recommendation: feed the fragments into the benchmark paper.

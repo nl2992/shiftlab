@@ -113,9 +113,9 @@ Status keys: `[ ]` open, `[~]` in progress, `[x]` done (verdict recorded), `[-]`
 
 ### WP6. Wrap-up
 
-- [ ] 6.1 Fair grading of every finding, continue/pivot/stop assessment, reproducible commands and
+- [x] 6.1 Fair grading of every finding, continue/pivot/stop assessment, reproducible commands and
       commit hashes: `docs/gaver/90_SUMMARY.md`.
-- [ ] 6.2 Update the Atlas ledger with a pointer (no rewriting of earlier outcomes).
+- [x] 6.2 Update the Atlas ledger with a pointer (no rewriting of earlier outcomes).
 
 ### Deferred (not in this branch unless WP1–5 justify it)
 
@@ -147,3 +147,4 @@ WP0 first (short). Then WP1, WP2, WP3 and WP4 in parallel, each in its own files
 - 2026-11-06: WP1b done (a924a0a0, 6d9e71b2, 23dc2248, 5eb85631): ELIMINATED. Every construction valid to rho=0.99 passes the null (UCB <= 0.041) but none keeps power: best valid (exact0.99) detection .370 vs Markov LR .429 vs exact0.8_s4 .794. Plain rho_bar mixture is invalid (negative control). A rho CS cannot certify rho below ~0.8–0.95 with 100–250 labels, so data-driven variants collapse to rho_bar ≈ 0.95–0.99. Gap-Mix stays at declared rho_bar = 0.8. Eliminated extensions are kept out of the paper narrative but stay in this log.
 - 2026-11-06: WP5 done (a52a52ae, 8fe567a7, dfdb7cb8, d722c059). Full GAVE-R FAILS screening on value; components are sub-additive. Validity: Gap-Mix stays valid under adaptive acquisition (worst null UCB 0.051 with DSS acquisition, 0.055 with delay-gated PAVE, rho<=0.8; frozen DSS evidence 0.395); PAVE null completed to 500/cell, worst UCB 0.039 (DSS 0.196). Value (31 cells × 60 seeds): Gap-Mix vs DSS evidence +5.1% J/T (worse; DSS evidence is invalid under dependence), vs valid Markov-LR evidence −14.7% (*substantial*, post-hoc arm); PAVE gate-on (9 d=50 cells) −4.4% (*meaningful*); interaction +0.0064 [+.0026,+.0106] adverse. episode_front still beats DSS and the joint method; f3_rho0 d1 regression cell unrepaired. Decision-tree outcome: not full GAVE-R. Gap-Mix = best *valid* evidence under declared rho<=0.8; PAVE = niche long-delay rule. Recommend feeding both into the benchmark paper as baselines/findings.
 - 2026-11-06: WP5 done (a52a52ae pre-decl, 8fe567a7 post-hoc MLR arm, dfdb7cb8, d722c059, 692caef5). Full GAVE-R FAILS screening: gate-on interaction −0.0064 [−0.0106, −0.0026] (sub-additive; joint 2.8% worse than PAVE alone). Components: (i) Gap-Mix stays valid under adaptive acquisition (worst null UCB at rho<=0.8: .051 with DSS acq, .055 with PAVE; DSS evidence .395; fails at rho=.95, out of class) and beats valid Markov-LR evidence in the same shell by 14.7% J/T (*substantial*, post-hoc arm), while being 5.1% costlier than invalid DSS evidence (price of validity); (ii) delay-gated PAVE +4.4% J/T in the 9 gate-on (d=50) cells (*meaningful*, pre-declared), raw PAVE null UCB .039 vs DSS .196. f3_rho0 d1 regression cell not repaired. Decision tree: "Gap-Mix safe + powerful, PAVE neutral (niche)". Note: a second session also edited this worktree during WP5; the WP5 agent cross-checked its numbers against tables.md.
+- 2026-11-07: WP6 done (summary 2abbea03; Atlas ledger pointer added). Programme assessment: stop the joint method; pivot to reporting Gap-Mix and delay-gated PAVE as scoped findings/baselines.

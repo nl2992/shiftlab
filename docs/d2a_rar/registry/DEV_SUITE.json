@@ -1,0 +1,112 @@
+{
+ "TODO_for_coordinator": [
+  "No reversal stream family (F9 rollback / FL-043 F3_reversal_1200 not in stream_families.yaml).",
+  "No hazard / semi-Markov regime-duration family (hazard_regime_duration, reversal_hazard_rollback).",
+  "No subgroup-shift family (subgroup_safety).",
+  "No proxy/side-information stream or ObservableState proxy predictions (surrogate families; WP2c open).",
+  "No tight-deadline family with a hard promotion window shorter than the delay tail (deadline_aware_querying uses iid_shift_geo20 as the nearest proxy).",
+  "No RAR-native persistent-drift family with label-frontier semantics (Suite A is separate); canary candidates run on the contract route() split only.",
+  "Informative gap choice (observation mechanism carrying information) is only approximated by iid_shift_informative_missing."
+ ],
+ "cells": {
+  "Q1": [
+   {
+    "cost_vector": "balanced",
+    "family": "iid_null_boundary",
+    "null_truth_expected": {
+     "cond": true,
+     "marg": true
+    },
+    "purpose": "cond and marg nulls both hold: false-promotion cell",
+    "role": "correct_null"
+   },
+   {
+    "cost_vector": "balanced",
+    "family": "markov08_marg_null_only",
+    "null_truth_expected": {
+     "cond": false,
+     "marg": true
+    },
+    "purpose": "marg null holds, cond fails: validity cell for marg methods; out-of-contract stress for cond methods",
+    "role": "adverse_dependence_stress"
+   },
+   {
+    "cost_vector": "balanced",
+    "family": "markov05_shift_d10",
+    "null_truth_expected": {
+     "cond": false,
+     "marg": false
+    },
+    "purpose": "persistent shift with serial dependence: power/delay",
+    "role": "alternative"
+   },
+   {
+    "cost_vector": "balanced",
+    "family": "iid_null_lognormal_delay",
+    "null_truth_expected": {
+     "cond": true,
+     "marg": true
+    },
+    "purpose": "neighbouring null with a different delay law: must not promote",
+    "role": "neighbouring_negative_control"
+   }
+  ],
+  "Q2": [
+   {
+    "cost_vector": "label_dear",
+    "family": "iid_null_boundary",
+    "null_truth_expected": {
+     "cond": true,
+     "marg": true
+    },
+    "purpose": "false-promotion cell with expensive labels",
+    "role": "correct_null"
+   },
+   {
+    "cost_vector": "label_dear",
+    "family": "iid_shift_informative_missing",
+    "null_truth_expected": {
+     "cond": false,
+     "marg": false
+    },
+    "purpose": "informative missingness: selective feedback stress on acquisition",
+    "role": "adverse_sampling_stress"
+   },
+   {
+    "cost_vector": "label_dear",
+    "family": "iid_shift_geo20",
+    "null_truth_expected": {
+     "cond": false,
+     "marg": false
+    },
+    "purpose": "long right-tailed delay: pending/deadline value",
+    "role": "alternative"
+   },
+   {
+    "cost_vector": "label_dear",
+    "family": "iid_null_lognormal_delay",
+    "null_truth_expected": {
+     "cond": true,
+     "marg": true
+    },
+    "purpose": "neighbouring null with heavy-tailed delay: must not promote or over-spend",
+    "role": "neighbouring_negative_control"
+   }
+  ]
+ },
+ "host_cost_vector_override": {
+  "cost_aware_binary": "intervention_dear",
+  "rar": "intervention_dear"
+ },
+ "seed_block": "d2a_rar_dev",
+ "seed_rule": "seed = block.start + cell_index*1000 + replicate, cell_index = position in the question's cell list, replicate in [0, seeds_per_cell); paired across all methods in the batch",
+ "seeds_per_cell": 20,
+ "timeout_s_per_experiment": 300,
+ "version": 1,
+ "workload": {
+  "T": "family default (1000)",
+  "label_cap": 50,
+  "pairing": "run_paired",
+  "retrain_duration": 20
+ }
+}

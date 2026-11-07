@@ -1,0 +1,99 @@
+{
+ "batch": 200,
+ "batch_by_family": {
+  "action_specific_risk_thresholds": 9,
+  "actual_gap_evidence": 9,
+  "adaptive_query_propensities": 12,
+  "canary_exposure_verification": 12,
+  "conditional_marginal_objective_selection": 9,
+  "cooldown_hold_release": 9,
+  "cost_aware_rar_gate": 12,
+  "deadline_aware_querying": 6,
+  "drift2act_certification_scheduling": 8,
+  "fresh_post_switch_evidence": 9,
+  "hazard_regime_duration": 12,
+  "markov_transition_envelopes": 12,
+  "pending_aware_budgets": 9,
+  "predictable_stake_sizing": 6,
+  "predictive_surrogates_control_variates": 7,
+  "replacement_economic_thresholds": 9,
+  "restart_mixture_allocation": 6,
+  "reversal_aware_rollback": 9,
+  "risk_cost_aware_promotion": 9,
+  "state_dependent_intervention_pricing": 9,
+  "subgroup_safety": 6,
+  "voi_acquisition": 11
+ },
+ "by_family": {
+  "action_specific_risk_thresholds": 84,
+  "actual_gap_evidence": 68,
+  "adaptive_query_propensities": 110,
+  "canary_exposure_verification": 160,
+  "conditional_marginal_objective_selection": 32,
+  "cooldown_hold_release": 63,
+  "cost_aware_rar_gate": 72,
+  "coupled_info_intervention_budgets": 32,
+  "deadline_aware_querying": 70,
+  "drift2act_certification_scheduling": 52,
+  "fresh_post_switch_evidence": 102,
+  "hazard_regime_duration": 60,
+  "learned_analytic_meta_controllers": 33,
+  "markov_transition_envelopes": 80,
+  "pending_aware_budgets": 99,
+  "predictable_stake_sizing": 18,
+  "predictive_surrogates_control_variates": 44,
+  "q3_factorial_stack": 336,
+  "replacement_economic_thresholds": 48,
+  "restart_mixture_allocation": 72,
+  "reversal_aware_rollback": 72,
+  "risk_cost_aware_promotion": 48,
+  "state_dependent_intervention_pricing": 57,
+  "subgroup_safety": 28,
+  "voi_acquisition": 117
+ },
+ "by_host": {
+  "challenger": 24,
+  "contract_native": 832,
+  "cost_aware_binary": 51,
+  "drift2act": 681,
+  "rar": 369
+ },
+ "by_null": {
+  "absolute_risk": 212,
+  "cond": 488,
+  "economic": 804,
+  "marg": 324,
+  "none": 129
+ },
+ "by_prior_art_status": {
+  "HIGH_OVERLAP": 976,
+  "KNOWN": 108,
+  "PLAUSIBLY_DISTINCT": 582,
+  "UNVERIFIED": 291
+ },
+ "by_question": {
+  "Q1": 284,
+  "Q2": 1272,
+  "Q3": 401
+ },
+ "grammar_version": "1.0.0",
+ "identities": 1957,
+ "sha256": {
+  "CANDIDATE_REGISTRY.jsonl (uncompressed)": "ca09529a1a58aad447d0c0573bef58bea8533d479c92127afbc100abbd5ff9ce",
+  "CANDIDATE_REGISTRY.jsonl.gz": "67715a6061d60a933b4b9fa38322cdea9325de2bb3b1dfbf27b28c092ac4ba5f",
+  "DEV_SUITE.json": "7efc13ea9ce5055e1214f95760c65847470cdc08d468f25a3262f93ed9656f31",
+  "stage_b_batch_001.jsonl": "129d12dc027d26c4125a39959d0e9d5adb9c04027ed30f524d9faaf0f47b7381"
+ },
+ "stats": {
+  "after_dedup": 1957,
+  "dedup_reasons": {
+   "alias": 30,
+   "inert_knob": 447
+  },
+  "duplicates_collapsed": 477,
+  "q3_factorial_generated": 696,
+  "raw_before_dedup": 2434,
+  "raw_q12_families": 1738
+ },
+ "uncompressed_bytes": 5974507
+}

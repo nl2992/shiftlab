@@ -35,8 +35,8 @@ Atlas) findings are development knowledge, not confirmation.
 ## Work packages
 
 - [x] WP0 Failure ledger + null-assumption registry + `FAILURE_ATLAS_CORRECTED.md` (agent: ledger)
-- [ ] WP1a Drift2Act paper_reconstruction + native-task reproduction subset (agent: d2a)
-- [ ] WP1b RAR paper_reconstruction + native-stream reproduction subset (agent: rar)
+- [x] WP1a Drift2Act PAPER_RECONSTRUCTION + 40-ep synthetic repro + contract port (b31ff5e1). Paper V~0 NOT reproduced; Camelyon/DomainNet not run
+- [x] WP1b RAR PAPER_RECONSTRUCTION + ELEC2/semi-synth repro + RAR/Binary/CostAwareBinary contract ports (af7a0494). Win windows ~12x narrower than paper
 - [x] WP1c SOTA registry for C-F + WATCH/PPRM; implement Challenger GSE/OSE/LSE (agent: sota)
 - [x] WP2 `BENCHMARK_CONTRACT.md` + common event-driven simulator with leakage/budget/cost tests (agent: sim)
 - [x] WP1d Gong-Zhang paid-observation, ASI, Sethi Markov test comparators (after WP1c)
@@ -58,3 +58,4 @@ Dependencies: WP5 after WP0+WP1a/b+WP2; WP6 after WP5; Q3 factorial only after a
 - 2026-11-07: WP1e committed a7fcc291 (33 in-repo adapters, 22 regression tests incl. bit-for-bit). Open: H2c/HG/PPRM need proxy predictions + source calibration in ObservableState (WP2c, do with Drift2Act sensing port); original E_rb + RMM restart wrapper not ported.
 - 2026-11-07: WP1d committed 1a32f1a2 (Sethi/ASI/Gong-Zhang PAPER_RECONSTRUCTION, 36 tests; no author code read or run). Caveats: Gong-Zhang Alg2 printed eta form appears inconsistent with Thm 3.2 on one instance (both forms kept via eta_form); Table-2 repro 3004.8 vs 2899.75 with guessed generator; ASI streaming cond-null evidence is our derivation (MC-checked only).
 - 2026-11-07 (resume run, ~06:50): WP1a/WP1b detached runs had finished (Drift2Act 8x5 episodes; RAR 3 streams x 4 seeds); docs + code were uncommitted, code untracked. Opus ran tests (151 pass after fixing RMM verbatim test to compare ASTs — port had been auto-formatted). Commit blocked by ruff hook (93 lint errors, plus a real syntax error and a NameError in drift2act/aggregate.py). Relaunched Sonnet finishers: WP1a-finish and WP1b-finish (lint, repro write-ups, COMMON_CONTRACT_PORT adapters in new adapters_drift2act.py / adapters_rar.py); WP5 launched in parallel (grammar, registry, ledger, preflight, AUTORESEARCH_PROGRAM.md).
+- 2026-11-07: WP1a committed b31ff5e1, WP1b committed af7a0494 (Opus re-derived headline tables from result json: exact match; 165 tests pass). Key facts for WP5/6: (i) Drift2Act certificate at tau=0.2 needs ~370 in-window labels, gate open 30% of steps, controller abstains ~99% -> certification latency is a live failure mode on the host; (ii) RAR fixed gates suppress retrains — Rollback-Only and Cost-Aware Binary beat Full RAR everywhere measured, so any RAR-host candidate must beat Cost-Aware Binary, not just RAR. Contract-port caveats: no corruption channel (R2/hard hold unmapped), constants untuned, smoke-tested only.

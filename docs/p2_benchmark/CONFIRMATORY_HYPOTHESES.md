@@ -83,3 +83,27 @@ promotion .141 vs .05; CAMS twin promotion .71–.91), so 120 splits leaves them
 The twins are built from five UCI-derived sources that the programme has already used; the new
 splits are new model fits on development-exposed events, not unseen data. Synthetic seeds are new,
 but the regime parameters are exposed. Empirical rates are not guarantees.
+
+## Amendment 1 (2026-11-07, before any confirmatory policy run)
+
+The UCI sources were downloaded and match their recorded SHA-256 values. This amendment fixes
+cohort details that the registration left implicit; no rule or threshold changes.
+
+1. **Synthetic cohort** (seed base 2026110692, 200 seeds each): the six dependent alternatives, plus
+   the seven mean-reverting nulls named in H3 (F5_dep_null_r8, F5_dep_null_r95, O_null_semimarkov,
+   O_null_order2, WP2_o2_null, WP2_sm_null, WP2_hs_null), plus **F0_null**, the iid null used as
+   Tier A for H7.
+2. **H7 fresh-real cohort:** the five fresh UCI sources (metro, beijing_pm25, bike_hour, appliances,
+   household_power), already used in Sprint 2, with new policy seed base **2026110691** and 3 seeds,
+   panel P. H7 stays descriptive.
+3. **H1b:** the T=1000/4000 re-windowings of twin v3 are run on the six strict-pool policies plus
+   `CONTROL_never_switch`, policy seed base 2026110691.
+4. **H7 gates:** the single gate admits a certified policy if its promotion rate is ≤ .0936 on every
+   synthetic null and every twin v3 dataset. The two-tier rule admits it if it passes Tier A on its
+   claimed null(s): F0_null for V1 claims; F0_null, F5_dep_null_r8 and F5_dep_null_r95 for V2 claims.
+   The bound is `.05 + 2·sqrt(.05·.95/200) = .0808`.
+5. **Analysis script:** `scripts/p2_benchmark/analyze_confirmatory.py`, committed with this
+   amendment. A smoke run on the exposed v2 development runs (20 splits, 50 bootstrap draws)
+   checked the plumbing only; its output is not a result.
+6. **Runner:** `wp2_run.py` now recognises the `twin3_` prefix when looking up a dataset's
+   registered label delay (one-line change).

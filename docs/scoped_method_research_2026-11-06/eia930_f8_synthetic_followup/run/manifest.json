@@ -1,0 +1,23 @@
+{
+  "argv": {
+    "kind": "synthetic",
+    "seeds": 100,
+    "seed_base": 2026110717,
+    "regimes": "F8_rare_better,F0_null,F3_reversal_800",
+    "policies": "fixed_challenger,cams_adapter,online_llm_picker,model_selector_causal,model_picker_adapter,gong_zhang_paid_obs,qiu_delayed_movement,xu_acquisition_only,SMCS+retain-incumbent,gated_deployment,CONTROL_never_switch",
+    "extra": "f8_synthetic_extra",
+    "workers": 4,
+    "budget": 200,
+    "cs": 5.0,
+    "out": "docs/scoped_method_research_2026-11-06/eia930_f8_synthetic_followup/run"
+  },
+  "config": {
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0,
+    "alpha": 0.05
+  },
+  "T": 2000,
+  "n_jobs": 300,
+  "seconds": 103.5
+}

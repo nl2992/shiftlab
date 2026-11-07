@@ -24,9 +24,11 @@ from its unlabeled stream.
   frozen panel: online LLM picker, causal Model Selector adapter, Model Picker adapter,
   Gong-Zhang, Qiu, Xu acquisition-only, SMCS, gated certificate, and never-switch.
 - Primary endpoint: paired net cost, equal to prediction loss + label cost + switch cost.
-- Primary evidence criterion: candidate saves at least 5 units per 2,000 events versus CAMS with
-  paired 95% interval below zero. Report every method, all three regimes, null promotions, costs,
-  labels and switches. No result is pooled across regimes.
+- Primary evidence criterion, applied only to `F8_rare_better`: candidate saves at least 5 units per
+  2,000 events versus CAMS with paired 95% interval below zero. `F0_null` and `F3_reversal_800` are
+  descriptive adverse-cell diagnostics; no success gate or null error-rate claim is applied there.
+  Report every method, all three regimes, null promotions, costs, labels and switches. No result is
+  pooled across regimes.
 
 This fixed policy is a known baseline, not a novel method. The F8 candidate is the declared
 alternative cell; the null and reversal rows are adverse cases showing why the rule cannot be

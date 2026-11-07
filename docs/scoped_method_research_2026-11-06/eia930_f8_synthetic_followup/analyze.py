@@ -38,7 +38,8 @@ for regime in regimes:
         "n_paired_seeds": len(diff),
         "candidate_minus_cams_mean": float(diff.mean()),
         "candidate_minus_cams_ci95_percentile": [float(lo), float(hi)],
-        "candidate_saves_at_least_5_and_ci_below_zero": bool(diff.mean() <= -5 and hi < 0),
+        "primary_gate_evaluated": regime == "F8_rare_better",
+        "primary_gate_pass": bool(diff.mean() <= -5 and hi < 0) if regime == "F8_rare_better" else None,
         "methods": by_policy,
     }
 
@@ -51,10 +52,11 @@ with (OUT / "RESULTS.md").open("w") as f:
     f.write("Paired bootstrap intervals resample the 100 fresh synthetic streams. The candidate is a fixed deployment control, not a learned method.\n\n")
     for regime, result in summary.items():
         f.write(f"## {regime}\n\n")
-        f.write(f"Candidate minus CAMS: {result['candidate_minus_cams_mean']:.3f}; paired percentile 95% CI [{result['candidate_minus_cams_ci95_percentile'][0]:.3f}, {result['candidate_minus_cams_ci95_percentile'][1]:.3f}]. Frozen criterion pass: {result['candidate_saves_at_least_5_and_ci_below_zero']}.\n\n")
+        gate = f" Primary F8 gate pass: {result['primary_gate_pass']}." if result["primary_gate_evaluated"] else " Adverse-cell diagnostic only; no success gate is applied."
+        f.write(f"Candidate minus CAMS: {result['candidate_minus_cams_mean']:.3f}; paired percentile 95% CI [{result['candidate_minus_cams_ci95_percentile'][0]:.3f}, {result['candidate_minus_cams_ci95_percentile'][1]:.3f}].{gate}\n\n")
         f.write("| Method | Net cost | Loss | Labels | Switches | Promotions |\n|---|---:|---:|---:|---:|---:|\n")
         for name, m in sorted(result["methods"].items(), key=lambda kv: kv[1]["net_mean"]):
             f.write(f"| {name} | {m['net_mean']:.3f} | {m['loss_mean']:.3f} | {m['labels_mean']:.1f} | {m['switches_mean']:.2f} | {m['promotions']} |\n")
         f.write("\n")
     f.write("## Interpretation\n\n")
-    f.write("These results evaluate a known static control on simulator-generated streams. They do not establish a novel method or independent real-world transfer. Null and reversal outcomes are reported as scope limits.\n")
+    f.write("These results evaluate a known static control on simulator-generated streams. The F8 cell is the only primary gate; null and reversal cells are adverse scope diagnostics. The apparent null-cell cost difference is not a calibrated type-I error estimate. Results do not establish a novel method or independent real-world transfer.\n")

@@ -1,0 +1,293 @@
+{
+  "T": 2000,
+  "analysis": {
+    "F0_null": {
+      "candidate_minus_cams_ci95_percentile": [
+        -68.48713749999999,
+        -51.655462500000006
+      ],
+      "candidate_minus_cams_mean": -59.9305,
+      "methods": {
+        "CONTROL_never_switch": {
+          "labels_mean": 0.0,
+          "loss_mean": 359.33,
+          "net_mean": 359.33,
+          "promotions": 0,
+          "switches_mean": 0.0
+        },
+        "SMCS+retain-incumbent": {
+          "labels_mean": 199.55,
+          "loss_mean": 359.37,
+          "net_mean": 369.44749999999993,
+          "promotions": 2,
+          "switches_mean": 0.02
+        },
+        "cams_adapter": {
+          "labels_mean": 193.41,
+          "loss_mean": 358.67,
+          "net_mean": 423.24050000000005,
+          "promotions": 99,
+          "switches_mean": 10.98
+        },
+        "fixed_challenger": {
+          "labels_mean": 0.0,
+          "loss_mean": 358.31,
+          "net_mean": 363.31,
+          "promotions": 100,
+          "switches_mean": 1.0
+        },
+        "gated_deployment": {
+          "labels_mean": 199.61,
+          "loss_mean": 359.33,
+          "net_mean": 369.31049999999993,
+          "promotions": 0,
+          "switches_mean": 0.0
+        },
+        "gong_zhang_paid_obs": {
+          "labels_mean": 199.55,
+          "loss_mean": 358.63,
+          "net_mean": 403.6575,
+          "promotions": 99,
+          "switches_mean": 7.01
+        },
+        "model_picker_adapter": {
+          "labels_mean": 95.91,
+          "loss_mean": 358.09,
+          "net_mean": 400.9855,
+          "promotions": 96,
+          "switches_mean": 7.62
+        },
+        "model_selector_causal": {
+          "labels_mean": 199.79,
+          "loss_mean": 359.03,
+          "net_mean": 397.6194999999999,
+          "promotions": 99,
+          "switches_mean": 5.72
+        },
+        "online_llm_picker": {
+          "labels_mean": 95.45,
+          "loss_mean": 360.13,
+          "net_mean": 410.3025,
+          "promotions": 100,
+          "switches_mean": 9.08
+        },
+        "qiu_delayed_movement": {
+          "labels_mean": 199.46,
+          "loss_mean": 359.98,
+          "net_mean": 393.55300000000005,
+          "promotions": 97,
+          "switches_mean": 4.72
+        },
+        "xu_acquisition_only": {
+          "labels_mean": 195.57,
+          "loss_mean": 359.39,
+          "net_mean": 369.2684999999999,
+          "promotions": 2,
+          "switches_mean": 0.02
+        }
+      },
+      "n_paired_seeds": 100,
+      "primary_gate_evaluated": false,
+      "primary_gate_pass": null
+    },
+    "F3_reversal_800": {
+      "candidate_minus_cams_ci95_percentile": [
+        -16.289537500000005,
+        -6.769450000000003
+      ],
+      "candidate_minus_cams_mean": -11.499499999999996,
+      "methods": {
+        "CONTROL_never_switch": {
+          "labels_mean": 0.0,
+          "loss_mean": 344.77,
+          "net_mean": 344.77,
+          "promotions": 0,
+          "switches_mean": 0.0
+        },
+        "SMCS+retain-incumbent": {
+          "labels_mean": 199.75,
+          "loss_mean": 402.41,
+          "net_mean": 416.4975,
+          "promotions": 82,
+          "switches_mean": 0.82
+        },
+        "cams_adapter": {
+          "labels_mean": 191.59,
+          "loss_mean": 364.44,
+          "net_mean": 395.71950000000004,
+          "promotions": 100,
+          "switches_mean": 4.34
+        },
+        "fixed_challenger": {
+          "labels_mean": 0.0,
+          "loss_mean": 379.22,
+          "net_mean": 384.22,
+          "promotions": 100,
+          "switches_mean": 1.0
+        },
+        "gated_deployment": {
+          "labels_mean": 193.46,
+          "loss_mean": 349.44,
+          "net_mean": 359.36299999999994,
+          "promotions": 5,
+          "switches_mean": 0.05
+        },
+        "gong_zhang_paid_obs": {
+          "labels_mean": 199.79,
+          "loss_mean": 324.99,
+          "net_mean": 349.5795,
+          "promotions": 100,
+          "switches_mean": 2.92
+        },
+        "model_picker_adapter": {
+          "labels_mean": 85.66,
+          "loss_mean": 365.64,
+          "net_mean": 386.4230000000001,
+          "promotions": 100,
+          "switches_mean": 3.3
+        },
+        "model_selector_causal": {
+          "labels_mean": 199.86,
+          "loss_mean": 361.26,
+          "net_mean": 385.903,
+          "promotions": 100,
+          "switches_mean": 2.93
+        },
+        "online_llm_picker": {
+          "labels_mean": 84.08,
+          "loss_mean": 357.92,
+          "net_mean": 385.02399999999994,
+          "promotions": 100,
+          "switches_mean": 4.58
+        },
+        "qiu_delayed_movement": {
+          "labels_mean": 199.73,
+          "loss_mean": 331.8,
+          "net_mean": 352.3865,
+          "promotions": 100,
+          "switches_mean": 2.12
+        },
+        "xu_acquisition_only": {
+          "labels_mean": 196.02,
+          "loss_mean": 390.35,
+          "net_mean": 406.70099999999996,
+          "promotions": 77,
+          "switches_mean": 1.31
+        }
+      },
+      "n_paired_seeds": 100,
+      "primary_gate_evaluated": false,
+      "primary_gate_pass": null
+    },
+    "F8_rare_better": {
+      "candidate_minus_cams_ci95_percentile": [
+        -6.856999999999999,
+        -5.544487500000001
+      ],
+      "candidate_minus_cams_mean": -6.173999999999999,
+      "methods": {
+        "CONTROL_never_switch": {
+          "labels_mean": 0.0,
+          "loss_mean": 249.89,
+          "net_mean": 249.89,
+          "promotions": 0,
+          "switches_mean": 0.0
+        },
+        "SMCS+retain-incumbent": {
+          "labels_mean": 58.48,
+          "loss_mean": 216.3,
+          "net_mean": 224.17399999999998,
+          "promotions": 99,
+          "switches_mean": 0.99
+        },
+        "cams_adapter": {
+          "labels_mean": 29.28,
+          "loss_mean": 206.9,
+          "net_mean": 214.16400000000002,
+          "promotions": 100,
+          "switches_mean": 1.16
+        },
+        "fixed_challenger": {
+          "labels_mean": 0.0,
+          "loss_mean": 202.99,
+          "net_mean": 207.99,
+          "promotions": 100,
+          "switches_mean": 1.0
+        },
+        "gated_deployment": {
+          "labels_mean": 27.98,
+          "loss_mean": 225.95,
+          "net_mean": 232.29899999999998,
+          "promotions": 99,
+          "switches_mean": 0.99
+        },
+        "gong_zhang_paid_obs": {
+          "labels_mean": 58.43,
+          "loss_mean": 207.86,
+          "net_mean": 215.88150000000002,
+          "promotions": 100,
+          "switches_mean": 1.02
+        },
+        "model_picker_adapter": {
+          "labels_mean": 14.09,
+          "loss_mean": 209.54,
+          "net_mean": 216.3445,
+          "promotions": 100,
+          "switches_mean": 1.22
+        },
+        "model_selector_causal": {
+          "labels_mean": 58.78,
+          "loss_mean": 206.15,
+          "net_mean": 214.18899999999996,
+          "promotions": 100,
+          "switches_mean": 1.02
+        },
+        "online_llm_picker": {
+          "labels_mean": 36.79,
+          "loss_mean": 206.8,
+          "net_mean": 214.63949999999997,
+          "promotions": 100,
+          "switches_mean": 1.2
+        },
+        "qiu_delayed_movement": {
+          "labels_mean": 58.51,
+          "loss_mean": 207.81,
+          "net_mean": 215.9355,
+          "promotions": 100,
+          "switches_mean": 1.04
+        },
+        "xu_acquisition_only": {
+          "labels_mean": 58.65,
+          "loss_mean": 222.17,
+          "net_mean": 230.0525,
+          "promotions": 99,
+          "switches_mean": 0.99
+        }
+      },
+      "n_paired_seeds": 100,
+      "primary_gate_evaluated": true,
+      "primary_gate_pass": true
+    }
+  },
+  "argv": {
+    "budget": 200,
+    "cs": 5.0,
+    "extra": "f8_synthetic_extra",
+    "kind": "synthetic",
+    "out": "docs/scoped_method_research_2026-11-06/eia930_f8_synthetic_followup/run",
+    "policies": "fixed_challenger,cams_adapter,online_llm_picker,model_selector_causal,model_picker_adapter,gong_zhang_paid_obs,qiu_delayed_movement,xu_acquisition_only,SMCS+retain-incumbent,gated_deployment,CONTROL_never_switch",
+    "regimes": "F8_rare_better,F0_null,F3_reversal_800",
+    "seed_base": 2026110717,
+    "seeds": 100,
+    "workers": 4
+  },
+  "config": {
+    "alpha": 0.05,
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0
+  },
+  "n_jobs": 300,
+  "records_sha256": "31b94cb3be2c570d150e710908aff9fb9c042e9d08e7b6f07ca17f9e863849f1",
+  "seconds": 103.5
+}

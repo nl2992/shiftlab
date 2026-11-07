@@ -128,6 +128,16 @@ def test_rejected_split90_candidate_reproduces_short_null_promotions():
     assert hits == 3
 
 
+def test_srr_rollback_alpha_is_separate_from_promotion_alpha():
+    candidate = fam_e.EXTRA["E_srrSR:rb05:gated_deployment"](
+        2000, 200, 5.0, 0.05, 0.0005, 100, lambda nm: policy_rng(11, 0, nm)
+    )
+    assert candidate.alpha_det == pytest.approx(0.00025)
+    assert candidate.alpha_rb == pytest.approx(0.05)
+    candidate.deployed = 1
+    assert candidate._new_detector().alpha == pytest.approx(0.05)
+
+
 def test_erb_gated_matches_b2():
     l0, l1 = _pair([(0, 0.72), (700, 0.3)], seed=1)
     _, r1, _ = _episode("B2", l0, l1)

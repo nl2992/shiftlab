@@ -264,6 +264,7 @@ def _rb_front_gated_adaptive_range(T, B, cs, cq, alpha, delay, r):
 
 
 EXTRA["E_rb:gated_adaptive_range+front"] = _rb_front_gated_adaptive_range
+EXTRA["E_srrSR:rb05:gated_deployment"] = _swap("gated_deployment", "sr", alpha_rb=0.05)
 EXTRA.update({f"E_srr:{h}": _swap(h, "cusum") for h in HOSTS})
 EXTRA.update(
     {

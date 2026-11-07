@@ -48,18 +48,18 @@ utilities. No new theorem and no universal SOTA claim.
 | 5. Proposal | The benchmark: twin nulls, dependence classes, alternatives, ≥ 20 methods, the three-null matrix with all-in cost, and the pacing-matched evaluation protocol. Optionally, FLQ as a diagnosis-driven baseline |
 | 6. Contributions | (1) Benchmark and construction pipeline with exact real-data nulls. (2) Two-tier evaluation protocol: claimed-null validity plus dependent-null economics. (3) Systematic evaluation of certified, uncertified and control policies. (4) Findings 1–5, including the pacing confound |
 
-## 4. Findings already in hand (development, exposed data)
+## 4. Findings (development evidence; W4 confirmatory status per row, exposed sources)
 
 | # | Finding (draft) | Evidence | Status |
 |---|---|---|---|
-| F1 | V1 certified methods break the marginal null on real twins; the rate grows with horizon | Pooled V1-certified promotion on v2 twins .141 [.120, .163]. Pooled rate .112 → .156 → .187 for T = 1000/2000/4000 (delay ×1) (`amended_no_xu_pool/results.json`, H2/H6a). Strict 6-port sensitivity: H1a false (4/6 vs threshold 5) | Replicated across sprint 1 and v2 splits; sensitive to comparator pool |
-| F2 | Those promotions are conditionally informed | Mean remaining advantage at promotion .0122 [.0063, .018] (H2 pass) | Development |
-| F3 | Neither null tracks economic appropriateness | About half of first promotions are EI under both persistence classes: mean-reverting .49 [.42, .56], fixed-effect real .49 [.44, .54], fixed-effect synthetic .44 [.36, .53] (H4 registered rule fails) | Development; EI is a hold-to-end proxy that excludes label cost |
-| F4 | Uncertified selectors fail badly on nulls | bike_hour twins: CAMS adapter promotes .908, ModelPicker .875, with excess cost 10.7 and 8.4 vs −0.9 to 5.6 for certified and internal rows. Atlas v2 V_null: uncertified rows .63–.99 | Development |
-| F5 | Robustness to dependence costs a lot | A5b − QSG on real realised-better episodes: ΔJ +118.5 [+89.3, +150.1], first promotion +972 events later (H5) | Development; conditions on realised advantage (descriptive) |
+| F1 | V1 certified methods break the marginal null on real twins; the rate grows with horizon | Pooled V1-certified promotion on v2 twins .141 [.120, .163]. Pooled rate .112 → .156 → .187 for T = 1000/2000/4000 (delay ×1) (`amended_no_xu_pool/results.json`, H2/H6a). Strict 6-port sensitivity: H1a false (4/6 vs threshold 5) | **Confirmed on twin v3 (H1):** strict pool .098 [.091, .106] (99%); T = 1000/2000/4000 → .073/.098/.104 ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
+| F2 | Those promotions are conditionally informed | Mean remaining advantage at promotion .0122 [.0063, .018] (H2 pass) | **Confirmed (H2):** .0152 [.0114, .0198] ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
+| F3 | Neither null tracks economic appropriateness | About half of first promotions are EI under both persistence classes: mean-reverting .49 [.42, .56], fixed-effect real .49 [.44, .54], fixed-effect synthetic .44 [.36, .53] (H4 registered rule fails) | **Equivalence passes (H3):** .530 vs .444, difference [+.032, +.141] inside ±.15 but excludes 0 ([confirmatory](results/CONFIRMATORY_RESULTS.md)). EI excludes label cost |
+| F4 | Uncertified selectors fail badly on nulls | bike_hour twins: CAMS adapter promotes .908, ModelPicker .875, with excess cost 10.7 and 8.4 vs −0.9 to 5.6 for certified and internal rows. Atlas v2 V_null: uncertified rows .63–.99 | **Confirmed (H4):** per-dataset 99% LB .66–.92 ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
+| F5 | Robustness to dependence costs a lot | A5b − QSG on real realised-better episodes: ΔJ +118.5 [+89.3, +150.1], first promotion +972 events later (H5) | **Confirmed on synthetic dependent alternatives (H5):** +50.3 [+47.0, +53.5] ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
 | F6 | Pacing, not the certificate, explains most certified-method cost gaps | Front-loaded vs unmodified gated: −24.55 [−42.81, −6.29] over 14 source clusters; front vs tuned pace −0.30 [−1.05, +0.45]; front vs C2 +0.60, vs C6 +0.03 (corrected replay, **unmerged** branch `codex/scoped-method-research-results-2026-11-06`) | Exposed, constructed streams; imposed delays |
-| F8 | The validity gate reorders the leaderboard | Registered re-test: front-loading passes the two-tier rule, with dependent-null cost ≤ its host's despite 2–4× more promotions. Re-admitting SMCS under the same rule blocks front-loading's wins ([results](results/FLQ_TWO_TIER_RESULTS.md)) | Fresh seeds, new instances, synthetic |
-| F7 | Even a marginal-null method fails on one real dataset | A5b's upper bound on bike_hour .192 > .0936 (H1b fails) | Needs ≥ 60 splits to separate design noise from real failure |
+| F8 | The validity gate reorders the leaderboard | Registered re-test: front-loading passes the two-tier rule, with dependent-null cost ≤ its host's despite 2–4× more promotions. Re-admitting SMCS under the same rule blocks front-loading's wins ([results](results/FLQ_TWO_TIER_RESULTS.md)) | Fresh seeds, synthetic. **H7 (twin v3 / fresh real):** the all-null gate admits only `discern_style`, the costliest; the Tier A-only gate admits all 16, so restate F8 as "all-null gate is degenerate" until a Tier B gate is registered ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
+| F7 | Even a marginal-null method fails on one real dataset | A5b's upper bound on bike_hour .192 > .0936 (H1b fails) | **Confirmed (H6b, 120 splits):** bike_hour .089, 99% LB .067 > .05, 95% UB .105; other four datasets meet .0936 ([confirmatory](results/CONFIRMATORY_RESULTS.md)) |
 
 ## 5. Section skeleton
 
@@ -85,8 +85,8 @@ utilities. No new theorem and no universal SOTA claim.
 |---|---|---|---|
 | W1 | **Done 2026-11-06.** Corrected ports merged (fast-forward to `c0a5017d`, plus the MOPE intersection fix `0c52913c`); full suite green, 3,337 passed ([ENVIRONMENT.md](ENVIRONMENT.md)) | The benchmark must use corrected ports; the suite must run green | Done |
 | W2 | **First pass done.** [RELATED_WORK.md](RELATED_WORK.md): closest prior work is arXiv 2609.04388, so the gap statement must narrow. Re-check later sections and new preprints before submission | The gap is the contribution; an unverified gap is fatal | Re-check before submission |
-| W3 | **Audit done; parity P1–P2 open.** [COMPARATOR_FIDELITY.md](COMPARATOR_FIDELITY.md). Exact parity exists for SMCS, CAMS and Model Picker; no parity yet for gated deployment (author code `n17s/mope`) or Choe–Ramdas (`comparecast`); no DISCERN code exists | "Ports, not author-native" is the first reviewer objection | Needs approval to fetch author code |
-| W4 | **Registered.** [CONFIRMATORY_HYPOTHESES.md](CONFIRMATORY_HYPOTHESES.md): H1–H7 on 120 new twin splits per dataset, with a power analysis (bike_hour needs ~100 splits) | Turns development findings into confirmatory ones | Needs approval to download the UCI sources, then a few hours of compute |
+| W3 | **Done 2026-11-07.** [COMPARATOR_FIDELITY.md](COMPARATOR_FIDELITY.md). Exact parity for SMCS, CAMS and Model Picker; gated bets match MOPE author code, endpoints conservative (~1.5× wider); Choe–Ramdas stand-in more aggressive than `comparecast`; no DISCERN code exists | "Ports, not author-native" is the first reviewer objection | Optional: exact-grid gated endpoint |
+| W4 | **Done 2026-11-07.** [CONFIRMATORY_HYPOTHESES.md](CONFIRMATORY_HYPOTHESES.md), [confirmatory](results/CONFIRMATORY_RESULTS.md): H1, H2, H4, H5, H6b pass; H3 equivalence passes; H7 top changes but the Tier A-only gate does not discriminate | Turns development findings into confirmatory ones | Done |
 | W5 | Add 2–4 untouched chronological sources with imposed, swept delays: candidates are Wild-Time HuffPost/arXiv from raw records, UCI Online Retail II, and OPSD as the external-clock case study | Generality beyond 5 UCI-derived datasets that are already exposed | Large (acquisition, license, checksums, one-shot runner) |
 | W6 | Fresh-seed confirmatory run, then a single opening of the untouched sources | Confirmation | Medium compute |
 | W7 | Release package: one-command runner, data card, licenses, maintenance plan | Benchmark acceptance norms | Medium |
@@ -95,12 +95,12 @@ utilities. No new theorem and no universal SOTA claim.
 
 ## 7. Pre-submission checklist: unresolved items
 
-**Critical (3, updated 2026-11-06):** no pipeline figure or running-example figure (W8); no
-confirmatory evidence yet, though H1–H7 are now registered (W4–W6); no released, runnable package
-(W7). Resolved: a verified first-pass comparison table exists (W2), and the test suite is green (W1).
+**Critical (3, updated 2026-11-07):** no pipeline figure or running-example figure (W8); confirmatory
+evidence exists only on exposed sources (W4 done; untouched-source confirmation W5–W6 open); no
+released, runnable package (W7). Resolved: a verified first-pass comparison table exists (W2), and the test suite is green (W1).
 
-**Major (6):** method coverage is ~25 policies but none are author-native (W3); real data is 5
-exposed UCI-derived sources (W5); the bike_hour twin result is underpowered (W4); the decision-harm
+**Major (6):** method coverage is ~25 policies, ports only, with author parity for SMCS, CAMS, Model Picker and gated bets (W3); real data is 5
+exposed UCI-derived sources (W5); F8 needs a registered Tier B gate before the reordering claim stands; the decision-harm
 framing must be cut back to prediction-loss economics everywhere; no data card or maintenance plan
 (W7); EI is a proxy that excludes label cost (report all-in cost as primary).
 

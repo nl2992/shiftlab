@@ -1,5 +1,9 @@
 # P2 confirmatory hypotheses: registration (W4, 2026-11-06)
 
+**Result (2026-11-07):** H1, H2, H4, H5 and H6b pass, and H3 passes its equivalence rule. In H7 the
+leading policy changes between gates, but the Tier A-only gate admits all 16 certified policies.
+See [results/CONFIRMATORY_RESULTS.md](results/CONFIRMATORY_RESULTS.md).
+
 **Status:** registered before any confirmatory data exist. The new twin splits (40–159) have not
 been built, because their raw UCI source files are not on this machine. No new policy run has
 been made. The registration record is the commit adding this file.

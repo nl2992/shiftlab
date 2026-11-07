@@ -38,18 +38,26 @@ potentially distinct regulatory and market domain, as well as many reporting zon
 
 The platform requires additional chronology checks. Data providers can submit corrections, so the
 latest value is not necessarily the value visible at the historical decision time. Although platform
-documentation describes submission timestamps/version histories, those histories must be
-validated for the chosen data products and zones. The REST API requires a registered account and
-security token; this audit did not request credentials or download data. Public UI access and the
-availability of usable historical versions remain to be checked before an eligible stream can be
-declared.
+documentation is more promising than initially established: its official consumer manual says the
+platform interface can show the submission date/time and older versions, and that viewing the
+platform does not require registration. The ENTSO-E FAQ confirms that providers may submit updates,
+including past values, at their discretion; the platform does not itself know which local changes
+have not been submitted. This is a concrete route to reconstructing published information sets,
+provided the chosen products and zones actually retain usable versions. The REST API/data download
+does require a registered user, and this audit did not request credentials or download data. The
+next eligibility step can inspect a small, preselected load product through the public interface,
+record version timestamps, then determine the permitted reproducible extraction route.
+
+Official chronology sources: [ENTSO-E Manual of Procedures, consumer registration and version
+history](https://www.entsoe.eu/Documents/MC%20documents/Transparency%20Platform/MOP/00_ENTSO-E%20Manual%20of%20Procedures_V2R1.pdf)
+and [ENTSO-E Transparency Platform FAQ, updates](https://www.entsoe.eu/Documents/MC%20documents/Transparency%20Platform/Transparency_platform_FAQ.pdf).
 
 ## Decision and source registry status
 
 | Source | Independent domain potential | Chronology evidence | Current status |
 |---|---|---|---|
 | EIA-930 | U.S. electricity operations; BAs are correlated subclusters | Operating-hour and forecast availability schedules documented; revisions acknowledged; historical point-in-time snapshots not yet established | Promising, not eligible yet |
-| ENTSO-E Transparency Platform | European electricity market, distinct from U.S. macro and grid governance | Historical data and provider correction process documented; exact usable version timestamps require product-level validation | Promising, not eligible yet |
+| ENTSO-E Transparency Platform | European electricity market, distinct from U.S. macro and grid governance | Official manual documents public-interface submission timestamps and older versions; provider corrections are discretionary; selected-product retention and reproducible extraction remain to be checked | Strong candidate, not yet eligible |
 
 Official sources checked: [EIA-930 data description and availability](https://www.eia.gov/electricity/930-content/about.html),
 [EIA API update behavior](https://www.eia.gov/opendata/faqs.php), and

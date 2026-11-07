@@ -615,6 +615,37 @@ class UniformStartSUI(fam_a.MarkovSUI):
         return self.value
 
 
+class BetaStartSUI(UniformStartSUI):
+    """Fixed Beta(2,1) prior over the finite, predeclared restart grid.
+
+    For ``n_starts`` equally spaced potential starts, bin ``j`` receives the integrated Beta(2,1)
+    mass ``(2*j - 1) / n_starts**2``. The weights are fixed before observing labels and sum to one.
+    This is a conventional weighted restart mixture, included as a candidate transfer of the
+    registered late-prior result; it is not asserted to be a novel method.
+    """
+
+    def __init__(self, n_starts: int, **kw):
+        super().__init__(n_starts=n_starts, **kw)
+        j = np.arange(1, self.n_starts + 1, dtype=float)
+        self.start_weights = (2.0 * j - 1.0) / self.n_starts**2
+
+    def update(self, hit, gap, prev):
+        self.k += 1
+        if (self.k - 1) % self.stride == 0 and len(self.starts) < self.n_starts:
+            self.starts.append((self.cum.copy(), self.acum.copy()))
+        self.cum = np.maximum(self.cum + self._null_factor(hit, gap, prev), LOG0)
+        self.acum = np.maximum(self.acum + self._alt_factor(hit, gap, prev), LOG0)
+        terms = [
+            math.log(self.start_weights[i])
+            + _lse(self.alogpi + self.acum - a0)
+            - float(np.max(self.cum - c0))
+            for i, (c0, a0) in enumerate(self.starts)
+        ]
+        self.log_value = _lse(np.array(terms))
+        self.value = float(math.exp(min(self.log_value, 700.0)))
+        return self.value
+
+
 class _Det:
     def __init__(self, ev, alpha):
         self.ev, self.alpha = ev, float(alpha)
@@ -629,7 +660,8 @@ def _make_p6():
     class ReservedRestartMonitor(fam_m.RMMSUI):
         """fam_m.RMMSUI (host A5b never restarted; detector overrides deployment on alarm) plus:
         reserve: fraction of B only the detector may spend (host sees remaining - unspent reserve);
-        det: 'uniform' (UniformStartSUI) | 'b' (fam_a._B prior, = fam_m) | 'renewal'."""
+        det: 'uniform' (UniformStartSUI) | 'beta2' (fixed Beta(2,1) start prior) | 'b' (fam_a._B
+        prior, = fam_m) | 'renewal'."""
 
         def __init__(
             self,
@@ -654,6 +686,12 @@ def _make_p6():
             a = self.alpha_det / (2.0**self.n_promotions) if self.deployed == 0 else self.alpha_rb
             if self.det_kind == "uniform":
                 ev = UniformStartSUI(
+                    n_starts=math.ceil(self.B / self.stride_d),
+                    stride=self.stride_d,
+                    rho_prior=fam_a._B["rho_prior"],
+                )
+            elif self.det_kind == "beta2":
+                ev = BetaStartSUI(
                     n_starts=math.ceil(self.B / self.stride_d),
                     stride=self.stride_d,
                     rho_prior=fam_a._B["rho_prior"],
@@ -780,6 +818,7 @@ EXTRA = {
     "P6_RRD-bprior": _p6("P6_RRD-bprior", reserve=0.25, det="b"),
     "P6_RRD-renewal": _p6("P6_RRD-renewal", reserve=0.25, det="renewal"),
     "P6_LRMD_U": _p6_lrmd("P6_LRMD_U", reserve=0.0, det="uniform"),
+    "P6_LRMD_BETA2": _p6_lrmd("P6_LRMD_BETA2", reserve=0.0, det="beta2"),
 }
 
 

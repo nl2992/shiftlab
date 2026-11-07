@@ -133,6 +133,28 @@ def test_uniform_start_sui_weights_sum_to_one_and_late_start_cheaper():
     assert u.log_value > b.log_value
 
 
+def test_beta2_start_sui_is_fixed_normalized_and_favors_late_evidence():
+    n_starts = 20
+    beta = fam_p.BetaStartSUI(
+        n_starts=n_starts,
+        stride=10,
+        rho_prior=fam_p.fam_a._B["rho_prior"],
+    )
+    uniform = fam_p.UniformStartSUI(
+        n_starts=n_starts,
+        stride=10,
+        rho_prior=fam_p.fam_a._B["rho_prior"],
+    )
+    assert beta.start_weights.sum() == pytest.approx(1.0)
+    assert beta.start_weights[0] < 1 / n_starts < beta.start_weights[-1]
+    prev = None
+    for h in [0] * 150 + [1] * 50:
+        beta.update(h, 1, prev)
+        uniform.update(h, 1, prev)
+        prev = h
+    assert beta.log_value > uniform.log_value
+
+
 def test_capmix_invalid_component_documented():
     # a cap-.5 component on a rho=.98 null stream is not a supermartingale: it explodes
     rng = np.random.default_rng(1)

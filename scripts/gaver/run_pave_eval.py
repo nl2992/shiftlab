@@ -210,6 +210,7 @@ def main():
                         todo,
                     )
                 )
+    jobs.sort(key=lambda j: j[3][0])  # seed-chunk major: partial runs give equal n per cell
     print(f"{a.stage}: {len(jobs)} jobs, methods={methods}", flush=True)
     new = not path.exists()
     with path.open("a", newline="", encoding="utf-8") as f, Pool(a.workers) as pool:

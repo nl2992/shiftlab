@@ -1,0 +1,89 @@
+{
+ "ORIG": {
+  "ports_breaking_on_some_dataset": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "discern_design_floor",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "ports_with_upper_ci_above_bound": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "discern_design_floor",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "max_promote": 0.42777777777777776
+ },
+ "PERM": {
+  "ports_breaking_on_some_dataset": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "discern_design_floor",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "ports_with_upper_ci_above_bound": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "discern_design_floor",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "max_promote": 0.2916666666666667
+ },
+ "BSWAP": {
+  "ports_breaking_on_some_dataset": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "ports_with_upper_ci_above_bound": [
+   "SMCS+retain-incumbent",
+   "choe_ramdas_eb",
+   "choe_ramdas_eb+front",
+   "discern_design_floor",
+   "gated_adaptive_range",
+   "gated_adaptive_range+front",
+   "gated_deployment",
+   "gated_deployment+QCE",
+   "gated_deployment+QCE+front"
+  ],
+  "max_promote": 0.24166666666666667
+ },
+ "ESWAP": {
+  "ports_breaking_on_some_dataset": [],
+  "ports_with_upper_ci_above_bound": [],
+  "max_promote": 0.04047619047619048
+ },
+ "HP2a_perm_over_orig_ratio_mean": 0.6374002007749248,
+ "HP2a_cells": 25,
+ "note_mope_affected_ports": [
+  "gated_adaptive_range",
+  "gated_adaptive_range+front",
+  "gated_deployment",
+  "gated_deployment+QCE",
+  "gated_deployment+QCE+front"
+ ]
+}

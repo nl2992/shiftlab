@@ -332,3 +332,11 @@ so parallel implementers never touch shared registry files.
 - (c) Alpha allocation: **closed as a contribution.** Under the contract's criterion (i) rollback needs no alpha, so the alpha/2 split is conservative. The comparator is full-alpha promotion. Criterion (ii) uses textbook fixed-sequence chains; under (iii) α_P = α forces α_R = 0. Track A must declare (ii) or (iii).
 - Corrections: B0_prior_art.md:29 (1411.3107 is not statistic-dependent); the full-alpha e-SR null check exists (0.016/0.019/0.000).
 - Decision: **stop track B as a method contribution**; keep its findings as benchmark content. Pivots (Paper 3 pacing theorem; track A under a declared criterion) need user approval.
+
+## Track A economic gating (2026-11-07)
+
+- Files: `econ_gate_bound_protocol.md` (locked in `8f7e8b1e`), `econ_gate_bound_results.md` / `.json`; prior art `prior_art/econ_gate_internal.md` (repo sweep), `prior_art/econ_gate_external.md` (retrieval), `prior_art/ECON_CHECK.md` (independent check).
+- Internal: five earlier economic gates (P4, B3+ break-even, EconomicStop, R5, H family) were all closed; none was a gate around a valid detector on the sprint reversal regimes.
+- Bound: the hindsight-optimal veto gate over `esr_rmmbets_fullalpha`, `two_sided_esr_label_clock` and `rmm:LRMD_k1` never beats never-switch. Headroom H is about −10 (the label spend) in all four primary reversal regimes; without label cost it is exactly 0 on F3_800, W_700 and S_400 (no promotion worth taking, even in hindsight), 0.3 on V_1000 and at most 3.0 on F3_1200. Locked rule: **STOP** (4/4).
+- A gate can save 10–43 over the bare detector, all of it by not promoting; vetoed rollbacks contribute nothing.
+- Decision: stop track A economic gating. Beating never-switch on reversal needs faster evidence, not switch filtering.

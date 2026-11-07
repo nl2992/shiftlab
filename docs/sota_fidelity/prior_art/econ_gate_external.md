@@ -114,3 +114,12 @@ with economics-gated promote *and* rollback under reversal, switch costs, and a 
 paired-label stream. Any claim should be framed as that combination and benchmarked against Wan
 et al.-style horizon-utility rules with an AV launch constraint and against a time-varying BF/e
 threshold (Schultzberg & Frånberg App. H). It should not be framed as "economic gating" per se.
+
+## Checker qualifications (2026-11-07, see ECON_CHECK.md)
+
+- Chick–Forster–Pertile: the adoption rule is in §2.1.1; Prop. 2.4 only gives symmetry of the continuation region about I/P. The beneficiary count is fixed, not shrinking.
+- Schultzberg & Frånberg App. H: exactly optimal only for a two-point prior with affine costs; in their worked example the economic Bayes-factor threshold (~0.42) is below 1, where Ville's bound gives no error control. The threat to g4 is somewhat smaller than stated above.
+- Grünwald 2205.00901: type-I safety is Prop. 1, not Thm 1, and the setting is one-shot post-hoc alpha, not anytime-valid.
+- Wan et al. §5.3 uses horizon H, not H+T−t; the always-valid launch rule is proposed, not analysed.
+- Muravlev et al. do penalise each switch (Eq. 20), contrary to the table; g2/g3 are better supported than stated.
+- Verdicts g1–g4 survive.

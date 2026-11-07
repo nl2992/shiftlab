@@ -368,8 +368,11 @@ class ModelSelectorCausalAdapter:
                 return QueryRequest(requested=False, probability=0.0)
         mat = np.stack([p for _, p in self.pool])
         ent = hypothetical_entropies(self.posterior, mat, self.num_classes, self.gamma)
-        # ADAPTER: record gate. The current event is the last row.
-        if ent[-1] != np.min(ent):
+        # ADAPTER: record gate. The current event is the last row. Compare with a tolerance:
+        # with >= 3 classes, equal-score rows can differ by ~1e-16 from summation order, and an
+        # exact `!=` then rejects the event on rounding noise (docs/sota_fidelity/checks/
+        # model_selector.md, 2026-11-06). Binary benchmark streams are unaffected (exact ties).
+        if ent[-1] > np.min(ent) + 1e-12:
             return QueryRequest(requested=False, probability=0.0)
         self.pool.pop()  # ADAPTER: leaves the eligible set at issue time (label still pending)
         self.n_issued += 1

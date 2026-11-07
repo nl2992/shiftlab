@@ -71,6 +71,12 @@ INTERNAL = ["P7s_settled", "QSG", "QSG-env8", "gated_deployment+QCE+front", "rmm
             "rmm:LRMD"]
 CONTROLS = ["CONTROL_never_switch", "economic_replacement"]
 ALL_COMPARATORS = CERTIFIED_PUBLISHED + ACQUISITION_ADAPTERS + UNCERTIFIED_PUBLISHED + INTERNAL + CONTROLS
+# 2026-11-06 SOTA fidelity additions (docs/sota_fidelity/LEDGER.md); built from
+# scripts/failure_atlas_v2_flq/fidelity_extras.EXTRA. Deliberately NOT in ALL_COMPARATORS or any
+# registered pool, so historical protocols are unchanged; future protocols opt in explicitly.
+FIDELITY_ADAPTERS_20261106 = ["shekhar_ramdas_rcs_t3", "shekhar_ramdas_rcs_t3_anyexcl",
+                              "han_arw_label_clock", "upf_style_switch_timing_T3",
+                              "two_sided_esr_label_clock", "river_page_hinkley_t3"]
 
 # A cheap comparator panel for 20-seed screening (strongest of each class on Atlas v2 evidence).
 SCREEN_PANEL = ["CONTROL_never_switch", "gated_adaptive_range", "gated_adaptive_range+front",

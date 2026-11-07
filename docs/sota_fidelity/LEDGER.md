@@ -292,3 +292,15 @@ so parallel implementers never touch shared registry files.
 - Next step for track A: development-seed comparison (>= 100 fresh dev seeds, reversal and late
   regimes) of E_rb and RMM against `two_sided_esr_label_clock` (both calibrations, both bet grids)
   before any novelty claim.
+
+## Development comparison E_rb / RMM vs two-sided e-SR (2026-11-07)
+
+- Protocol locked in `70a84679` before the run; results in `esr_vs_erb_dev_results.md` / `.json`.
+- Primary (reversal, 4 regimes × 4 hosts, 100 seeds): E_rb − e-SR = +1.90 [−1.01, +4.80]. **Not
+  favourable to E_rb** under the stated rule. RMM − e-SR on reversal = +9.40 [+6.36, +12.44].
+  E_rb − e-SR on F0_better = −18.66 [−23.20, −14.13] (e-SR promotes more slowly). Late regimes
+  unresolved (−1.41 [−3.44, +0.62]); E_rb = RMM on every late seed.
+- Every valid adaptive method is costlier than never-switch on all four reversal regimes.
+- Null safety passes for all valid policies; `esr_arl` is invalid (promotes on ~100% of nulls).
+- Decision: **pivot within track A** (stop claiming the rollback statistic; test economic gating
+  or a promotion-speed component directly). Track B (late change) becomes the next priority.

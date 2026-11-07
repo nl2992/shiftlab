@@ -65,7 +65,9 @@ uv run pytest tests/sota_fidelity tests/promising_directions/test_sota_model_sel
 
 ## Still open
 
-- Development-seed comparison (>= 100 fresh dev seeds) of E_rb/RMM against `two_sided_esr_label_clock`.
+- ~~Development-seed comparison of E_rb/RMM against `two_sided_esr_label_clock`~~ **done 2026-11-07**:
+  E_rb − e-SR on reversal +1.90 [−1.01, +4.80], not favourable to E_rb; all valid methods lose to
+  never-switch on reversal. See [esr_vs_erb_dev_results.md](esr_vs_erb_dev_results.md).
 - WATCH unweighted CTM sentinel; non-vacuous Timans replay test.
 - Restore `vendor_sota/` and re-run author-parity tests (needs approval).
 - Not yet audited in this pass: e-SR/e-CUSUM is done, but the DISCERN-style, SMCS and gated

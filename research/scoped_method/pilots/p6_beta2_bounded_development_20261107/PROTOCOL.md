@@ -51,7 +51,10 @@ untouched confirmation protocol.
 ## Reproducibility
 
 - Source revision at registration: `f128988c` (`Add fixed beta-weighted P6 restart candidate`).
-- Runner: `scripts/sota_sprint/screen.py`; analysis: this protocol's paired bootstrap endpoint.
+- Runner: `PYTHONPATH=scripts/promising_directions/sota uv run python scripts/sota_sprint/screen.py`;
+  analysis: this protocol's paired bootstrap endpoint. The first attempted launch omitted this
+  import path and exited before generating any episode records; this correction was made before
+  outcomes existed.
 - Results path: `outputs/scoped_method/p6_beta2_bounded_development_20261107/` (kept out of Git
   if it contains bulky raw outputs; a compact summary and checksums will be registered in this
   folder).

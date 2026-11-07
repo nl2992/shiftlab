@@ -1,0 +1,20 @@
+# Recent retraining-policy prior art relevant to Failure Atlas follow-up
+
+**Status:** targeted primary-source check; no new dataset was opened and no outcomes were generated.
+This note screens recent work for comparator/applicability, not novelty.
+
+## Evidence checked
+
+1. Regol et al., [*When to retrain a machine learning model* (ICML 2025)](https://proceedings.mlr.press/v267/regol25a.html), formulate a finite-horizon retraining-cost objective and use an uncertainty/performance forecaster (UPF) to compare future cumulative-cost quantiles. The primary paper models future performance cells from temporal and feature-shift inputs, using a Beta approximation and a 0.95 quantile. It evaluates Electricity, Airplanes, YelpCHI, EpicGames, and iWildCam alongside two synthetic tasks. Its stated limitation is that the forecasting approach is primarily suited to gradual performance changes; abrupt shifts remain open. The repo already records UPF as related work and has a separate independent UPF adaptation for EIA forecasting in `papers/shiftguard_unified/`; that is not a paired model-switching baseline.
+2. Han, Huang, and Wang, [*Model Assessment and Selection under Temporal Distribution Shift* (ICML 2024)](https://proceedings.mlr.press/v235/han24b.html), use adaptive rolling-window estimates of current model errors and a pairwise tournament for model selection under nonstationarity. The publisher abstract establishes temporal model assessment and selection, but does not establish a hard label budget, delayed feedback, pathwise switching cost, or false-promotion control matching the ShiftLab contract.
+3. Dasari, [*When to Retrain: An Empirical Study of Retraining Policies for Streaming ML Under Concept Drift, Budget, and Latency Constraints* (arXiv:2608.19488, 2026)](https://arxiv.org/abs/2608.19488), is a recent preprint (not a peer-reviewed proceedings publication in the source checked). It compares periodic, error-threshold, and ADWIN-triggered retraining under a finite retrain budget and training/deployment latency. In its static-model setting it reports periodic retraining ahead of reactive policies under abrupt and gradual drift, with the reactive policies retaining an advantage under recurring drift. It uses synthetic and injected-drift LUFlow/LendingClub streams, three real stream constructions per dataset, and immediate prequential labels. Its contract is retraining a changing model, not choosing between two fixed classifiers with selectively queried delayed paired losses.
+
+## Consequence for the present objective
+
+These works make generic cost-aware adaptation, rolling-window model assessment, periodic refresh, and finite-budget/latency retraining poor novelty boundaries. They are adjacent rather than directly matched baselines for Failure Atlas M1/M3: none of the checked source descriptions supplies ShiftLab's full combination of frozen incumbent/challenger predictions, label-request costs, delayed/selective paired feedback, reversible deployment, and an anytime false-promotion contract. Do not cite this mismatch as novelty by itself.
+
+The repo's existing bounded Failure Atlas screens still show no distinct economic opening: calibrated PFA-SR is established prior art, the P7s/Model Picker overlay failed its frozen gate, and the reversal/late target pair has no pre-change context signal. A fresh retraining/forecasting route would change the task and needs a new prospectively justified Failure Atlas scenario and an applicable comparator contract before data access. Do not use the recent preprint's reported improvements as ShiftLab results.
+
+## Baseline-fidelity implication
+
+If a future registered scenario changes from frozen-model switching to model refresh/retraining, the comparator table must include periodic refresh, UPF, a corrected temporal rolling-window selector, and latency/budget-aware reactive baselines. For the present frozen-pair task, these methods are scope references until a source-faithful adaptation can obey the same information, label budget, release delay, switching cost, and target null. No test of them is reported here.

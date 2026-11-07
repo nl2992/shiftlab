@@ -55,6 +55,20 @@ label the policy as conventional and must not claim method novelty. Do not imple
 validation-plus-rollback variant as a new method without a separate, non-obvious mechanism and
 matched-cost evidence against the listed methods.
 
+### Overall novelty assessment
+
+- **Score:** 4/10 for a method claim; the components have close prior work, while the exact F8
+  economic result is a potentially useful empirical finding.
+- **Recommendation:** PROCEED WITH CAUTION only as a benchmark/case study; the distinct-method gate
+  does not pass.
+- **Key differentiator:** the result isolates a rare-disagreement, strong-challenger regime under a
+  shared label/switch-cost contract and shows that a known fixed policy can beat online selectors.
+- **Main reviewer risk:** challengers were already identified as favorable in F8, validation-based
+  model choice is established, and the real replay has one provider plus simulated costs/feedback.
+- **Honest positioning:** “In a registered rare-disagreement regime, preselecting the known strong
+  challenger avoids online acquisition and promotion costs; we report the null/reversal boundary
+  and a limited temporal replay.” This is an empirical benchmark claim, not a new algorithm claim.
+
 ## Independent review
 
 A read-only adversarial reviewer reached the same conclusion and identified the fairness constraint:

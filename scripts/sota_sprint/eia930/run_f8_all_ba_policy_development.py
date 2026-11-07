@@ -247,7 +247,7 @@ def main() -> None:
         ROOT / "scripts/promising_directions/sota/simulator.py",
         ROOT / "scripts/sota_sprint/pfa_srr_baseline.py",
         ROOT / "scripts/sota_sprint/fam_e.py",
-        ROOT / "scripts/sota_sprint/strong_hosts.py",
+        ROOT / "scripts/failure_atlas_v2_flq/strong_hosts.py",
     ]
     manifest_path.write_text(
         json.dumps(

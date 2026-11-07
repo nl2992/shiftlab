@@ -1,0 +1,82 @@
+{
+  "protocol": "eia930_f8_all_ba_policy_development_20261107/PROTOCOL.md",
+  "run_source_commit": "b3e8bfb27cadee8e0180df9051b916805f9ea74f",
+  "run_source_tree": "070186a14715f74d1f1cf7066484cab48e6a84a4",
+  "respondents": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "periods": [
+    "2021_Jan_Jun",
+    "2021_Jul_Dec",
+    "2022_Jan_Jun",
+    "2022_Jul_Dec",
+    "2023_Jan_Jun",
+    "2023_Jul_Dec"
+  ],
+  "raw_file_sha256": {
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jan_Jun.csv": "40b183f333e0f3edc1b9a2ed48b792eff00fd477915dae79ce5784e862380f7f",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2021_Jul_Dec.csv": "66afadcab6865f74cebd6db82e363a66976846241c040cba66baf240afcd669b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jan_Jun.csv": "d3d315a0c29d9527a1c64cf6ddcdcc5c0b7281fddd99199bd70f06d242e503d5",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2022_Jul_Dec.csv": "267575c29ef40f386bcf3bc3993013b9ce13a3a154b89b702559a75dd742976d",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jan_Jun.csv": "a0e14e9c07ab4cc1de3e384c7be890b0c61d9de3fe04ad3ae5ec739f1f35ec1b",
+    "data/raw/eia930_f8_development_20261107/EIA930_BALANCE_2023_Jul_Dec.csv": "c719fc1b513eec8982ce209b6e3173fc64b2d0d243f83d3bf0d8d1adf6222de2"
+  },
+  "source_sha256_at_run_commit": {
+    "scripts/sota_sprint/eia930/run_f8_all_ba_policy_development.py": "b580f33036855e8c5a3c2294b4eba999de4d4761c1a2253cff2043cd6029bbf5",
+    "scripts/sota_sprint/eia930/profile_all_balancing_authorities.py": "cd2489414cd8d48adf8e660cd34eaa0327ce14a74a1f75f5b67da4aa8a761295",
+    "scripts/failure_atlas_v2_flq/suite.py": "2b33024ef95928bc5d5d530b5e9355a7695d4952546b0902021b47fbe88b5d45",
+    "scripts/sota_sprint/registry.py": "e90450aa58dd46eee6cfea9209b4fbbdc7ca17394312970a790b6cadee9c0d21",
+    "scripts/promising_directions/sota/simulator.py": "6d66295e5367c70c1a003a322c9d77237a760947ba9424829a51e2c861f6dfaa",
+    "scripts/sota_sprint/pfa_srr_baseline.py": "0bb017f3ce4a68556d28b66969b558db442fdfdb083f0ae0aba16bae55e5b085",
+    "scripts/sota_sprint/fam_e.py": "42d51710b61ed38d3c901954714fc9752bfdce093cfd190bab8ebc9fbf6e5059",
+    "scripts/failure_atlas_v2_flq/strong_hosts.py": "4e80e05c355810b6a768a0e4672fa6aed7cb3f54dcfd112d9e4f96518ab50270"
+  },
+  "policies": [
+    "PFA-SR:gated_deployment",
+    "rmm:gated_deployment+RMM",
+    "SMCS+retain-incumbent",
+    "xu_acquisition_only",
+    "gated_deployment",
+    "gated_adaptive_range",
+    "E_rb:gated_deployment",
+    "cams_adapter",
+    "online_llm_picker",
+    "model_selector_causal",
+    "model_picker_adapter",
+    "gong_zhang_paid_obs",
+    "qiu_delayed_movement",
+    "variance_min_ipw",
+    "economic_replacement",
+    "CONTROL_never_switch"
+  ],
+  "contract": {
+    "T": 2000,
+    "B": 200,
+    "label_price": 0.05,
+    "switch_cost": 5.0,
+    "alpha": 0.05,
+    "delay": 1,
+    "paired_seeds_per_episode": 5,
+    "seed_base": 2026110711
+  },
+  "episodes": 81,
+  "rows": 6480,
+  "cost_identity_max_abs_residual": 1.0658141036401503e-14,
+  "runtime_environment_at_finalization": {
+    "python": "Python 3.12.15",
+    "pandas": "3.0.6",
+    "scikit_learn": "1.9.1"
+  },
+  "finalization_note": "The policy simulations and episode records completed. Initial runner exit was nonzero only after writing all 6,480 rows, while hashing a nonexistent scripts/sota_sprint/strong_hosts.py. The executed policy module is scripts/failure_atlas_v2_flq/strong_hosts.py. This manifest was reconstructed from the recorded rows and immutable run commit; no outcomes were rerun or changed.",
+  "feedback_note": "Revised historical EIA values; simulated one-hour release; no 2024+ outcomes used."
+}

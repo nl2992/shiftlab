@@ -1,0 +1,451 @@
+{
+  "rows": 6480,
+  "episodes": 81,
+  "bas": [
+    "AZPS",
+    "BANC",
+    "EPE",
+    "ERCO",
+    "FMPP",
+    "FPC",
+    "MISO",
+    "NEVP",
+    "NYIS",
+    "SWPP",
+    "TIDC"
+  ],
+  "policy_seed_replicates_per_episode": 5,
+  "max_abs_cost_identity_residual": 1.1546319456101628e-14,
+  "equal_ba_method_summary": [
+    {
+      "policy": "cams_adapter",
+      "net_cost": 29.8253896104,
+      "prediction_loss": 22.5738095238,
+      "labels": 36.3,
+      "label_cost": 1.815,
+      "switches": 1.0873160173,
+      "switch_cost": 5.4365800866,
+      "promotions": 0.9464502165,
+      "rollbacks": 0.1408658009,
+      "first_promotion": 359.6294924616
+    },
+    {
+      "policy": "model_selector_causal",
+      "net_cost": 30.6660497835,
+      "prediction_loss": 22.1816017316,
+      "labels": 72.4811688312,
+      "label_cost": 3.6240584416,
+      "switches": 0.9720779221,
+      "switch_cost": 4.8603896104,
+      "promotions": 0.8824675325,
+      "rollbacks": 0.0896103896,
+      "first_promotion": 327.2481601732
+    },
+    {
+      "policy": "model_picker_adapter",
+      "net_cost": 30.6885746753,
+      "prediction_loss": 24.3188961039,
+      "labels": 15.2593722944,
+      "label_cost": 0.7629686147,
+      "switches": 1.1213419913,
+      "switch_cost": 5.6067099567,
+      "promotions": 0.9577272727,
+      "rollbacks": 0.1636147186,
+      "first_promotion": 372.1526515247
+    },
+    {
+      "policy": "gong_zhang_paid_obs",
+      "net_cost": 31.1822142857,
+      "prediction_loss": 23.5444805195,
+      "labels": 72.1507792208,
+      "label_cost": 3.607538961,
+      "switches": 0.806038961,
+      "switch_cost": 4.0301948052,
+      "promotions": 0.7992207792,
+      "rollbacks": 0.0068181818,
+      "first_promotion": 348.6072993673
+    },
+    {
+      "policy": "online_llm_picker",
+      "net_cost": 31.2782261905,
+      "prediction_loss": 23.1067965368,
+      "labels": 43.2792424242,
+      "label_cost": 2.1639621212,
+      "switches": 1.2014935065,
+      "switch_cost": 6.0074675325,
+      "promotions": 1.0021861472,
+      "rollbacks": 0.1993073593,
+      "first_promotion": 344.781969697
+    },
+    {
+      "policy": "qiu_delayed_movement",
+      "net_cost": 35.3888820346,
+      "prediction_loss": 27.395974026,
+      "labels": 72.1568614719,
+      "label_cost": 3.6078430736,
+      "switches": 0.877012987,
+      "switch_cost": 4.3850649351,
+      "promotions": 0.8349350649,
+      "rollbacks": 0.0420779221,
+      "first_promotion": 397.9305694306
+    },
+    {
+      "policy": "variance_min_ipw",
+      "net_cost": 35.5744989177,
+      "prediction_loss": 22.4584415584,
+      "labels": 158.1133549784,
+      "label_cost": 7.9056677489,
+      "switches": 1.0420779221,
+      "switch_cost": 5.2103896104,
+      "promotions": 0.9211038961,
+      "rollbacks": 0.120974026,
+      "first_promotion": 330.4146320346
+    },
+    {
+      "policy": "SMCS+retain-incumbent",
+      "net_cost": 38.7523658009,
+      "prediction_loss": 31.3111255411,
+      "labels": 72.1906060606,
+      "label_cost": 3.609530303,
+      "switches": 0.7663419913,
+      "switch_cost": 3.8317099567,
+      "promotions": 0.7663419913,
+      "rollbacks": 0.0,
+      "first_promotion": 567.7626190476
+    },
+    {
+      "policy": "economic_replacement",
+      "net_cost": 39.1445530303,
+      "prediction_loss": 32.1261038961,
+      "labels": 72.2304545455,
+      "label_cost": 3.6115227273,
+      "switches": 0.6813852814,
+      "switch_cost": 3.4069264069,
+      "promotions": 0.6813852814,
+      "rollbacks": 0.0,
+      "first_promotion": 438.4631818182
+    },
+    {
+      "policy": "PFA-SR:gated_deployment",
+      "net_cost": 40.3950270563,
+      "prediction_loss": 33.0008658009,
+      "labels": 74.1386363636,
+      "label_cost": 3.7069318182,
+      "switches": 0.7374458874,
+      "switch_cost": 3.6872294372,
+      "promotions": 0.7374458874,
+      "rollbacks": 0.0,
+      "first_promotion": 610.479047619
+    },
+    {
+      "policy": "xu_acquisition_only",
+      "net_cost": 40.9923658009,
+      "prediction_loss": 33.7966450216,
+      "labels": 69.9425541126,
+      "label_cost": 3.4971277056,
+      "switches": 0.7397186147,
+      "switch_cost": 3.6985930736,
+      "promotions": 0.7397186147,
+      "rollbacks": 0.0,
+      "first_promotion": 630.7060822511
+    },
+    {
+      "policy": "gated_adaptive_range",
+      "net_cost": 44.2438495671,
+      "prediction_loss": 39.6576839827,
+      "labels": 23.0977705628,
+      "label_cost": 1.1548885281,
+      "switches": 0.6862554113,
+      "switch_cost": 3.4312770563,
+      "promotions": 0.6862554113,
+      "rollbacks": 0.0,
+      "first_promotion": 764.8764701965
+    },
+    {
+      "policy": "gated_deployment",
+      "net_cost": 45.1673181818,
+      "prediction_loss": 40.5414502165,
+      "labels": 23.8918181818,
+      "label_cost": 1.1945909091,
+      "switches": 0.6862554113,
+      "switch_cost": 3.4312770563,
+      "promotions": 0.6862554113,
+      "rollbacks": 0.0,
+      "first_promotion": 781.7257819958
+    },
+    {
+      "policy": "E_rb:gated_deployment",
+      "net_cost": 45.2119199134,
+      "prediction_loss": 38.0354761905,
+      "labels": 74.1565800866,
+      "label_cost": 3.7078290043,
+      "switches": 0.6937229437,
+      "switch_cost": 3.4686147186,
+      "promotions": 0.6937229437,
+      "rollbacks": 0.0,
+      "first_promotion": 718.2271578422
+    },
+    {
+      "policy": "rmm:gated_deployment+RMM",
+      "net_cost": 45.2119199134,
+      "prediction_loss": 38.0354761905,
+      "labels": 74.1565800866,
+      "label_cost": 3.7078290043,
+      "switches": 0.6937229437,
+      "switch_cost": 3.4686147186,
+      "promotions": 0.6937229437,
+      "rollbacks": 0.0,
+      "first_promotion": 718.2271578422
+    },
+    {
+      "policy": "CONTROL_never_switch",
+      "net_cost": 78.3373376623,
+      "prediction_loss": 78.3373376623,
+      "labels": 0.0,
+      "label_cost": 0.0,
+      "switches": 0.0,
+      "switch_cost": 0.0,
+      "promotions": 0.0,
+      "rollbacks": 0.0,
+      "first_promotion": null
+    }
+  ],
+  "top_development_baseline": "cams_adapter",
+  "top_development_baseline_mean_net_cost": 29.82538961038961,
+  "candidate_mean_net_cost": 40.39502705627706,
+  "candidate_minus_top_baseline": 10.569637445887448,
+  "primary_contrasts": {
+    "cams_adapter": {
+      "candidate": "PFA-SR:gated_deployment",
+      "comparator": "cams_adapter",
+      "equal_ba_mean_candidate_minus_comparator": 10.569637445887446,
+      "hierarchical_ba_then_episode_ci95": [
+        7.931278003246753,
+        12.799621617965366
+      ],
+      "ba_directional_savings_at_least_5": 0,
+      "ba_count": 11,
+      "by_ba": {
+        "AZPS": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": 8.875,
+          "ci95_episode_bootstrap": [
+            2.5287500000000005,
+            15.240499999999995
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "BANC": {
+          "episodes": 7,
+          "mean_candidate_minus_comparator": 9.142857142857142,
+          "ci95_episode_bootstrap": [
+            1.3542857142857139,
+            15.977142857142857
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "EPE": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": 8.04125,
+          "ci95_episode_bootstrap": [
+            2.6587499999999995,
+            13.178749999999999
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "ERCO": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": 14.575,
+          "ci95_episode_bootstrap": [
+            13.479968750000001,
+            15.7413125
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "FMPP": {
+          "episodes": 6,
+          "mean_candidate_minus_comparator": 11.408333333333331,
+          "ci95_episode_bootstrap": [
+            5.211666666666668,
+            16.39166666666667
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "FPC": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": 14.12125,
+          "ci95_episode_bootstrap": [
+            11.532499999999999,
+            16.64015625
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "MISO": {
+          "episodes": 7,
+          "mean_candidate_minus_comparator": 13.158571428571426,
+          "ci95_episode_bootstrap": [
+            8.452857142857141,
+            16.52860714285714
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "NEVP": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": 9.026249999999997,
+          "ci95_episode_bootstrap": [
+            3.8499999999999996,
+            14.059999999999997
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "NYIS": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": 12.486250000000002,
+          "ci95_episode_bootstrap": [
+            7.096875,
+            17.125
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "SWPP": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": 11.73125,
+          "ci95_episode_bootstrap": [
+            7.92859375,
+            15.006468749999998
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "TIDC": {
+          "episodes": 5,
+          "mean_candidate_minus_comparator": 3.7,
+          "ci95_episode_bootstrap": [
+            -3.152,
+            11.743999999999998
+          ],
+          "paired_savings_at_least_5": false
+        }
+      }
+    },
+    "rmm:gated_deployment+RMM": {
+      "candidate": "PFA-SR:gated_deployment",
+      "comparator": "rmm:gated_deployment+RMM",
+      "equal_ba_mean_candidate_minus_comparator": -4.816892857142857,
+      "hierarchical_ba_then_episode_ci95": [
+        -5.780955438311689,
+        -3.7153774350649367
+      ],
+      "ba_directional_savings_at_least_5": 5,
+      "ba_count": 11,
+      "by_ba": {
+        "AZPS": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": -4.737500000000001,
+          "ci95_episode_bootstrap": [
+            -7.331875,
+            -1.9987500000000011
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "BANC": {
+          "episodes": 7,
+          "mean_candidate_minus_comparator": -4.155714285714284,
+          "ci95_episode_bootstrap": [
+            -7.254285714285709,
+            -1.6028571428571416
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "EPE": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": -4.83125,
+          "ci95_episode_bootstrap": [
+            -7.45628125,
+            -2.1850000000000005
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "ERCO": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": -6.30125,
+          "ci95_episode_bootstrap": [
+            -7.018750000000001,
+            -5.473750000000001
+          ],
+          "paired_savings_at_least_5": true
+        },
+        "FMPP": {
+          "episodes": 6,
+          "mean_candidate_minus_comparator": -4.555,
+          "ci95_episode_bootstrap": [
+            -8.376750000000003,
+            -0.021125000000009452
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "FPC": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": -6.247500000000001,
+          "ci95_episode_bootstrap": [
+            -7.471250000000004,
+            -4.7912500000000025
+          ],
+          "paired_savings_at_least_5": true
+        },
+        "MISO": {
+          "episodes": 7,
+          "mean_candidate_minus_comparator": -5.572857142857145,
+          "ci95_episode_bootstrap": [
+            -7.767142857142858,
+            -2.998535714285715
+          ],
+          "paired_savings_at_least_5": true
+        },
+        "NEVP": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": -3.076250000000002,
+          "ci95_episode_bootstrap": [
+            -5.855250000000004,
+            -0.2962500000000019
+          ],
+          "paired_savings_at_least_5": false
+        },
+        "NYIS": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": -5.0962499999999995,
+          "ci95_episode_bootstrap": [
+            -7.334999999999996,
+            -2.6862499999999994
+          ],
+          "paired_savings_at_least_5": true
+        },
+        "SWPP": {
+          "episodes": 8,
+          "mean_candidate_minus_comparator": -5.696249999999997,
+          "ci95_episode_bootstrap": [
+            -6.764999999999997,
+            -4.001249999999999
+          ],
+          "paired_savings_at_least_5": true
+        },
+        "TIDC": {
+          "episodes": 5,
+          "mean_candidate_minus_comparator": -2.716000000000001,
+          "ci95_episode_bootstrap": [
+            -5.516000000000001,
+            0.0
+          ],
+          "paired_savings_at_least_5": false
+        }
+      }
+    }
+  },
+  "gate_pass": false,
+  "limitations": [
+    "2022-2023 is development data; BA selection used the same period's frozen profile screen.",
+    "EIA history is revised and one-hour feedback release is simulated.",
+    "All 11 BAs are correlated under one data provider; hierarchical intervals are not source-level uncertainty.",
+    "PFA-SR is published prior art; no null guarantee is established for these serial streams.",
+    "The cost contract is hypothetical Failure Atlas units, not calibrated electricity-market utility."
+  ]
+}

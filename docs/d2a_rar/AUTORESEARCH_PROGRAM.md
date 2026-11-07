@@ -132,6 +132,13 @@ used **alongside** v1, not instead of it.
 - **Decision rule:** §4 unchanged, applied per suite; a candidate must not be worse than its host on any v1 cell it
   ran on. Mandate Q2 stop rule: if Q2 candidates on v2 at best match `pending_cap` / `fixed_schedule`, Q2 is
   recorded NEGATIVE and its line stops.
+- **A1 scope (iii) line (registered 2026-11-07, hook commit `35be7435`, before any Q1 tranche-2 record):** the 42
+  batch-001 Q1 evidence identities (`evidence_q1.build_evidence`) run in the contract-native evidence promoter shell
+  (`adapters_evidence`) on the v1 §3 Q1 row (where they were never run; v1 seeds/rules) and on v2 cells whose stream
+  family is compatible with the identity's declared gap schedule. Validity is scored on the shell only; Drift2Act-host
+  Q1 runs are reported as OUT_OF_CONTRACT for validity (host selection uses x_t, no propensity). Q1 comparators: the
+  valid Markov-LR, the gap-10 thinned gate, Gap-Mix `exact0.8_s4`, and the restart mixture without gaps; §4 item 4
+  applies with these. Counts against the remaining 99 tranche-2 slots (41 used by scope i-ii).
 - **Frozen after registration:** any change to cells, seeds, comparators or hosts after the first tranche-2 record
   requires amendment A2 with a fresh seed sub-block; results under A1 are never re-labelled.
 

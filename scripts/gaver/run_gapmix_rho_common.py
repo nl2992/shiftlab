@@ -62,9 +62,10 @@ def task(args):
     out = {m: [] for m in methods}
     for seed in seeds:
         stream = fa.make_stream(cell, seed)
+        pool = gr.new_pool(cell.T)  # evidence trajectories shared across methods on this stream
         for name in methods:
             cfg = cell.config(seed)
-            m = gr.build_gate(name)
+            m = gr.build_gate(name, pool)
             r = fa.run_for(cell, stream, m, cfg)
             path = stream.truth.regime
             onset = int(np.argmax(path)) + 1 if path.any() else None

@@ -95,3 +95,19 @@ def test_methods_build_and_names_unique():
     assert len(set(gr.METHOD_NAMES)) == len(gr.METHOD_NAMES)
     for n in gr.METHOD_NAMES:
         assert gr.build_gate(n).name == n
+
+
+def test_shared_pool_gives_identical_evidence():
+    class Cfg:
+        h, T = 0.1, 400
+
+    rng = np.random.default_rng(3)
+    labels = _chain(rng, 50, 4, 0.7, 0.6, jitter=True)
+    pool = gr.new_pool(Cfg.T)
+    for mode in ("gate", "cs_sup", "mix"):
+        a = gr.RhoEvidence(Cfg, 0.1, mode)
+        b = gr.RhoEvidence(Cfg, 0.1, mode, pool=pool)
+        for ev, z in labels:
+            a.update(ev, -1.0 if z else 1.0)
+            b.update(ev, -1.0 if z else 1.0)
+            assert a.log_e_value == pytest.approx(b.log_e_value, abs=1e-12)

@@ -136,6 +136,46 @@ class RhoStart:
         return self.log_m - (float(np.max(self.best[:n_cells])) + gm.EPS_SLACK)
 
 
+class Snap:
+    """Frozen view of a ``RhoStart`` after some number of labels (same ``log_e`` interface)."""
+
+    def __init__(self, log_m: float, best: np.ndarray, started: bool):
+        self.log_m, self.best, self.started = log_m, best, started
+
+    def log_e(self, n_cells: int) -> float:
+        if not self.started:
+            return 0.0
+        return self.log_m - (float(np.max(self.best[:n_cells])) + gm.EPS_SLACK)
+
+
+class StartPool:
+    """Per-stream cache of ``RhoStart`` trajectories shared by every method run on that stream.
+
+    The labels fed to the evidence depend only on the (deterministic) calendar and the stream, not
+    on the method, so all methods see identical (event, z) sequences until they stop feeding at a
+    promotion. Caching the per-label snapshots makes the numbers identical to a private
+    computation (checked by an assertion on the (event, z) pair at every cached step).
+    """
+
+    def __init__(self, q0: float, n_starts: int):
+        self.starts = [RhoStart(q0) for _ in range(n_starts)]
+        self.cache: list[list] = [[] for _ in range(n_starts)]  # entries: ((ev, z), Snap)
+
+    def step(self, i: int, m: int, ev: int, z: int) -> Snap:
+        c = self.cache[i]
+        if m < len(c):
+            if c[m][0] != (ev, z):
+                raise RuntimeError("StartPool reused across different label sequences")
+            return c[m][1]
+        if m != len(c):
+            raise RuntimeError("StartPool step out of order")
+        st = self.starts[i]
+        st.update(ev, z)
+        snap = Snap(st.log_m if st.started else 0.0, st.best, st.started)
+        c.append(((ev, z), snap))
+        return snap
+
+
 # ----------------------------------------------------------------------------- confidence sequence
 
 
@@ -198,7 +238,7 @@ class RhoEvidence:
     mode ``env_cs`` : envelope factor with plug-in ``rho_bar = ub`` before the current label (CS)
     """
 
-    def __init__(self, cfg, alpha: float, mode: str, rungs=LADDER, weights=W_EQ):
+    def __init__(self, cfg, alpha: float, mode: str, rungs=LADDER, weights=W_EQ, pool=None):
         if mode not in {"mix", "gate", "cs_sup", "env_cs"}:
             raise ValueError(mode)
         self.mode, self.rungs = mode, tuple(rungs)
@@ -207,8 +247,12 @@ class RhoEvidence:
         q0 = (1.0 + cfg.h) / 2.0
         self.q0 = q0
         self.thresholds = gm.restart_thresholds(cfg.T, True)
-        mk = (lambda: EnvCSStart(q0, RHO_MAX)) if mode == "env_cs" else (lambda: RhoStart(q0))
-        self.starts = [mk() for _ in self.thresholds]
+        if mode == "env_cs":
+            self.starts = [EnvCSStart(q0, RHO_MAX) for _ in self.thresholds]
+        else:
+            self.pool = pool or StartPool(q0, len(self.thresholds))
+            self.starts = [Snap(0.0, np.zeros(N_CELLS), False) for _ in self.thresholds]
+            self.step_count = [0] * len(self.thresholds)
         self.uses_cs = mode != "mix"
         self.cs = RhoCS(CS_FRAC * alpha) if self.uses_cs else None
         self.alpha_test = alpha * (1.0 - CS_FRAC) if self.uses_cs else alpha
@@ -233,12 +277,13 @@ class RhoEvidence:
 
     def update(self, ev: int, x: float) -> bool:
         z = 1 if x < 0 else 0
-        for thr, st in zip(self.thresholds, self.starts, strict=True):
+        for i, thr in enumerate(self.thresholds):
             if ev >= thr:
                 if self.mode == "env_cs":
-                    st.update(ev, z, self.cs.ub)  # ub from labels strictly before this one
+                    self.starts[i].update(ev, z, self.cs.ub)  # ub from labels strictly before
                 else:
-                    st.update(ev, z)
+                    self.starts[i] = self.pool.step(i, self.step_count[i], ev, z)
+                    self.step_count[i] += 1
         if self.cs is not None:
             self.cs.update(ev, z)
         self.n_used += 1
@@ -256,7 +301,7 @@ class RhoEvidence:
 
 
 def _single(rb: float):
-    return lambda c, a: RhoEvidence(c, a, "mix", (rb,), (1.0,))
+    return lambda c, a, pool=None: RhoEvidence(c, a, "mix", (rb,), (1.0,), pool=pool)
 
 
 def _registry() -> dict:
@@ -264,13 +309,21 @@ def _registry() -> dict:
         "exact0.8_s4": _single(0.8),  # fast re-implementation of the WP1 reference (tested equal)
         "exact0.95_s4": _single(0.95),
         "exact0.99_s4": _single(0.99),  # variant C
-        "exactcs_s4": lambda c, a: RhoEvidence(c, a, "cs_sup"),  # variant B2
-        "gate_eq_s4": lambda c, a: RhoEvidence(c, a, "gate", LADDER, W_EQ),  # A-gated
-        "gate_w_s4": lambda c, a: RhoEvidence(c, a, "gate", LADDER, W_08),
-        "gate_fine_eq_s4": lambda c, a: RhoEvidence(c, a, "gate", LADDER_FINE, W_FINE),
-        "envcs_s4": lambda c, a: RhoEvidence(c, a, "env_cs"),  # variant B1
-        "mixnaive_eq_s4": lambda c, a: RhoEvidence(c, a, "mix", LADDER, W_EQ),  # NEG control
-        "mixnaive_w_s4": lambda c, a: RhoEvidence(c, a, "mix", LADDER, W_08),  # NEG control
+        "exactcs_s4": lambda c, a, pool=None: RhoEvidence(c, a, "cs_sup", pool=pool),  # variant B2
+        "gate_eq_s4": lambda c, a, pool=None: RhoEvidence(
+            c, a, "gate", LADDER, W_EQ, pool=pool
+        ),  # A-gated
+        "gate_w_s4": lambda c, a, pool=None: RhoEvidence(c, a, "gate", LADDER, W_08, pool=pool),
+        "gate_fine_eq_s4": lambda c, a, pool=None: RhoEvidence(
+            c, a, "gate", LADDER_FINE, W_FINE, pool=pool
+        ),
+        "envcs_s4": lambda c, a, pool=None: RhoEvidence(c, a, "env_cs"),  # variant B1
+        "mixnaive_eq_s4": lambda c, a, pool=None: RhoEvidence(
+            c, a, "mix", LADDER, W_EQ, pool=pool
+        ),  # NEG control
+        "mixnaive_w_s4": lambda c, a, pool=None: RhoEvidence(
+            c, a, "mix", LADDER, W_08, pool=pool
+        ),  # NEG control
     }
     return reg
 
@@ -280,9 +333,15 @@ REFERENCE_WP1 = ("mlr_default8",)  # served by gapmix.EVIDENCE
 METHOD_NAMES = tuple(EVIDENCE_RHO) + REFERENCE_WP1
 
 
-def build_gate(name: str) -> gm.GapGate:
+def new_pool(T: int = 1000, h: float = 0.1) -> StartPool:
+    return StartPool((1.0 + h) / 2.0, len(gm.restart_thresholds(T, True)))
+
+
+def build_gate(name: str, pool: StartPool | None = None) -> gm.GapGate:
+    """``pool`` (optional): per-stream shared cache; must only be reused on the same stream."""
     if name in EVIDENCE_RHO:
-        return gm.GapGate(name, EVIDENCE_RHO[name])
+        f = EVIDENCE_RHO[name]
+        return gm.GapGate(name, lambda c, a: f(c, a, pool))
     if name in REFERENCE_WP1:
         return gm.build_gate(name)
     raise ValueError(f"unknown WP1b method {name}")
@@ -294,7 +353,9 @@ __all__ = [
     "RhoCS",
     "RhoEvidence",
     "RhoStart",
+    "StartPool",
     "build_gate",
     "cell_best_loglik",
     "n_cells_for",
+    "new_pool",
 ]

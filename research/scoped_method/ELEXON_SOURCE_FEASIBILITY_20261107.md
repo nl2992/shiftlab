@@ -109,6 +109,15 @@ saving transitions, missing periods, or later corrections.
 
 ## Current decision
 
+Reproduce the bounded schema, vintage, DST, coverage, and response-hash audit (13 fixed UTC windows
+for each dataset) with:
+
+```bash
+python3 research/scoped_method/audit_elexon_metadata.py
+```
+
+The script reports counts and timestamps only; it does not save or print load quantities.
+
 Elexon is a promising independent-domain candidate relative to U.S. EIA-930, but it is not yet an
 eligible real-data confirmation source. The immediate next action is a bounded schema/vintage audit,
 not a method outcome run. This source lead does not reverse the existing negative repair gates or

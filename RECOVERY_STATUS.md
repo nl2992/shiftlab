@@ -131,3 +131,27 @@ The frozen economic matrix found oracle-only headroom in the economically worthw
 ## Common-prefix diagnostic follow-up (2026-11-06)
 
 A matched-seed source check verified that `F3_reversal_800` and `F3_reversal_1200` have exactly identical generated loss histories through event 799 in 1,000/1,000 pairs. Their registered parameter schedules are identical until the unfavorable regime changes at event 800; the worthwhile regime changes at event 1200. The policy receives no regime label or pre-change context feature. See `research/scoped_method/COMMON_PREFIX_IDENTIFIABILITY_20261106.md` and the amended `research/scoped_method/ECONOMIC_HEADROOM_DECISION_20261106.md`. This is a design-identifiability diagnostic, not a new positive method result or a claim of universal impossibility. The remaining plausible route is to locate a chronological model-pair source with an observable pre-change covariate, then freeze one context-aware hypothesis before accessing a test window.
+
+## Current branch revalidation (2026-11-07)
+
+The current branch is `codex/scoped-method-research-results-2026-11-06` at
+`80e78824219f9a2258f586c0dc528f04f2a364c8` (`Record current retraining prior-art boundary`). The
+immediately preceding code commit `68f3e59f` only reformatted and lint-repaired the already reported
+P7s/Model Picker overlay pilot runner, analyzer, adapter, implementation, and tests; it did not
+change the frozen protocol or pilot outcomes. The targeted rerun on this exact checkout passed:
+
+| Command | Result |
+|---|---|
+| `uv run ruff check .` | PASS — all checks passed |
+| `uv run ruff format --check .` | PASS — 2,070 files already formatted |
+| `uv run mypy` | PASS — no issues in 2 source files |
+| `uv run pytest -q tests/promising_directions/test_p7s_model_picker_overlay.py` | PASS — 4 passed in 1.42s |
+
+The last full-suite run recorded above was on `17a3f7e0` (3,339 passed, 46 skipped); the full suite
+was not rerun after the narrow overlay cleanup. The overlay results remain adverse to the proposed
+composition: its frozen `F1_late_800` comparisons miss the practical improvement threshold, and its
+reversal excess over never-switch is 56.43 [47.69, 65.17] units. The separate 1,000-null E-SR
+calibration and late-persistent synthetic advantage are results for an established method, not a
+distinct ShiftLab repair. The current exit remains `BENCHMARK_OR_CASE_STUDY_ONLY`; the smallest
+scientifically permitted next action is to close the method search and prepare the benchmark/case
+study with all adverse results. Do not open confirmation data under this failed development gate.

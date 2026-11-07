@@ -1,0 +1,23 @@
+{
+  "argv": {
+    "kind": "synthetic",
+    "seeds": 50,
+    "seed_base": 2026110719,
+    "regimes": "F8_rare_better,F0_null,F3_reversal_800",
+    "policies": "fair_validation_gate,cams_adapter,SMCS+retain-incumbent,gated_deployment,CONTROL_never_switch,fixed_challenger",
+    "extra": "f8_fair_extra",
+    "workers": 4,
+    "budget": 200,
+    "cs": 5.0,
+    "out": "research/scoped_method/pilots/f8_fair_gate_20261107/run"
+  },
+  "config": {
+    "budget": 200,
+    "cq": 0.05,
+    "cs": 5.0,
+    "alpha": 0.05
+  },
+  "T": 2000,
+  "n_jobs": 150,
+  "seconds": 25.7
+}

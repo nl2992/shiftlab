@@ -204,3 +204,30 @@ contract that were actually tested.
 This checkpoint was committed and pushed as `a098faf3` to the existing research branch. GitHub
 Actions run `42357579417` was in progress when checked; the complete local lint, formatting, typing
 and test checks above passed. No merge to `main` was performed.
+
+## Phase 7 — F8 shared-horizon validation falsification (2026-11-07)
+
+After the novelty audit identified free validation as a fairness risk, a single in-horizon gate was
+frozen in `pilots/f8_fair_gate_20261107/PROTOCOL.md` before running its 50-seed-per-cell pilot. It
+queries all disagreements during events 0–399, remains on the incumbent through the 100-event label
+delay, and makes a one-look Clopper-Pearson gate at event 500. The common simulator charges the
+validation losses, 0.05 per requested label, switch cost 5, and enforces the same horizon 2,000 and
+pathwise budget 200 for every method. The upper-control fixed challenger is explicitly identified as
+unimplementable because its target model identity is supplied.
+
+The candidate failed its frozen primary criterion in `F8_rare_better`: mean net cost 226.439 versus
+211.482 for CAMS, a paired difference of +14.957 (95% paired bootstrap CI [+11.379,+18.703]); the
+criterion required savings of at least 5 units. It spent 12.38 labels and switched 0.74 times on
+average; CAMS spent 30.44 labels and switched once. In the null cell, the gate promoted 1/50 times,
+cost 4.300 more than never-switch (CI [+3.932,+4.942]), and used 80.4 labels. In the reversal cell,
+it promoted 44/50 times and cost 71.616 more than never-switch (CI [+62.860,+79.744]). The
+known-in-advance fixed challenger remained 20.939 cheaper than the gate in F8, confirming that its
+advantage depends on the free identity assumption.
+
+**Decision:** retain `BENCHMARK_OR_CASE_STUDY_ONLY`; do not advance a method claim or open a new
+confirmation source. This single paid validation baseline failed to reproduce the static F8
+advantage against CAMS, while the adverse regimes reinforce the need to report applicability limits.
+It does not prove absence of headroom outside these frozen cells. See the full breakdown, confidence
+intervals, adapter fidelity notes, and reproducibility artifacts in
+`pilots/f8_fair_gate_20261107/DECISION.md`. The remaining research action is to stop candidate
+expansion and prepare the benchmark/case-study package if desired.

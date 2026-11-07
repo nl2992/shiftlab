@@ -1,0 +1,347 @@
+{
+  "protocol": "PROTOCOL.md",
+  "run_manifest": "run/manifest.json",
+  "bootstrap_replicates": 20000,
+  "bootstrap_seed": 2026110720,
+  "results": {
+    "F8_rare_better": {
+      "n": 50,
+      "methods": {
+        "fair_validation_gate": {
+          "mean_net_cost": 226.43900000000005,
+          "mean_prediction_loss": 222.12,
+          "mean_label_count": 12.38,
+          "mean_label_cost": 0.619,
+          "mean_switch_count": 0.74,
+          "mean_switch_cost": 3.7,
+          "promotions": 37,
+          "promotion_rate": 0.74,
+          "mean_promotion_event_given_promoted": 500.0
+        },
+        "cams_adapter": {
+          "mean_net_cost": 211.48199999999997,
+          "mean_prediction_loss": 204.96,
+          "mean_label_count": 30.44,
+          "mean_label_cost": 1.5220000000000002,
+          "mean_switch_count": 1.0,
+          "mean_switch_cost": 5.0,
+          "promotions": 50,
+          "promotion_rate": 1.0,
+          "mean_promotion_event_given_promoted": 188.76
+        },
+        "SMCS+retain-incumbent": {
+          "mean_net_cost": 222.10399999999993,
+          "mean_prediction_loss": 214.06,
+          "mean_label_count": 60.88,
+          "mean_label_cost": 3.044000000000001,
+          "mean_switch_count": 1.0,
+          "mean_switch_cost": 5.0,
+          "promotions": 50,
+          "promotion_rate": 1.0,
+          "mean_promotion_event_given_promoted": 547.38
+        },
+        "gated_deployment": {
+          "mean_net_cost": 229.708,
+          "mean_prediction_loss": 223.3,
+          "mean_label_count": 28.16,
+          "mean_label_cost": 1.408,
+          "mean_switch_count": 1.0,
+          "mean_switch_cost": 5.0,
+          "promotions": 50,
+          "promotion_rate": 1.0,
+          "mean_promotion_event_given_promoted": 937.84
+        },
+        "CONTROL_never_switch": {
+          "mean_net_cost": 249.26,
+          "mean_prediction_loss": 249.26,
+          "mean_label_count": 0.0,
+          "mean_label_cost": 0.0,
+          "mean_switch_count": 0.0,
+          "mean_switch_cost": 0.0,
+          "promotions": 0,
+          "promotion_rate": 0.0,
+          "mean_promotion_event_given_promoted": null
+        },
+        "fixed_challenger": {
+          "mean_net_cost": 205.5,
+          "mean_prediction_loss": 200.5,
+          "mean_label_count": 0.0,
+          "mean_label_cost": 0.0,
+          "mean_switch_count": 1.0,
+          "mean_switch_cost": 5.0,
+          "promotions": 50,
+          "promotion_rate": 1.0,
+          "mean_promotion_event_given_promoted": 0.0
+        }
+      },
+      "paired_differences": {
+        "fair_minus_cams_adapter": {
+          "mean": 14.956999999999999,
+          "ci95_percentile": [
+            11.378999999999998,
+            18.702999999999996
+          ],
+          "sd": 13.360526729504187
+        },
+        "fair_minus_SMCS+retain-incumbent": {
+          "mean": 4.334999999999999,
+          "ci95_percentile": [
+            1.1139999999999999,
+            7.766024999999996
+          ],
+          "sd": 12.096509236729649
+        },
+        "fair_minus_gated_deployment": {
+          "mean": -3.269,
+          "ci95_percentile": [
+            -6.602125,
+            0.38602499999999745
+          ],
+          "sd": 12.765953964050036
+        },
+        "fair_minus_CONTROL_never_switch": {
+          "mean": -22.820999999999998,
+          "ci95_percentile": [
+            -26.914000000000005,
+            -18.537975000000003
+          ],
+          "sd": 15.395238761727997
+        },
+        "fair_minus_fixed_challenger": {
+          "mean": 20.939,
+          "ci95_percentile": [
+            17.676000000000002,
+            24.37804999999999
+          ],
+          "sd": 12.319531075425207
+        }
+      }
+    },
+    "F0_null": {
+      "n": 50,
+      "methods": {
+        "fair_validation_gate": {
+          "mean_net_cost": 366.08,
+          "mean_prediction_loss": 361.96,
+          "mean_label_count": 80.4,
+          "mean_label_cost": 4.02,
+          "mean_switch_count": 0.02,
+          "mean_switch_cost": 0.1,
+          "promotions": 1,
+          "promotion_rate": 0.02,
+          "mean_promotion_event_given_promoted": 500.0
+        },
+        "cams_adapter": {
+          "mean_net_cost": 409.73900000000003,
+          "mean_prediction_loss": 361.98,
+          "mean_label_count": 195.18,
+          "mean_label_cost": 9.759,
+          "mean_switch_count": 7.6,
+          "mean_switch_cost": 38.0,
+          "promotions": 50,
+          "promotion_rate": 1.0,
+          "mean_promotion_event_given_promoted": 224.82
+        },
+        "SMCS+retain-incumbent": {
+          "mean_net_cost": 371.76,
+          "mean_prediction_loss": 361.78,
+          "mean_label_count": 199.6,
+          "mean_label_cost": 9.98,
+          "mean_switch_count": 0.0,
+          "mean_switch_cost": 0.0,
+          "promotions": 0,
+          "promotion_rate": 0.0,
+          "mean_promotion_event_given_promoted": null
+        },
+        "gated_deployment": {
+          "mean_net_cost": 371.764,
+          "mean_prediction_loss": 361.78,
+          "mean_label_count": 199.68,
+          "mean_label_cost": 9.984,
+          "mean_switch_count": 0.0,
+          "mean_switch_cost": 0.0,
+          "promotions": 0,
+          "promotion_rate": 0.0,
+          "mean_promotion_event_given_promoted": null
+        },
+        "CONTROL_never_switch": {
+          "mean_net_cost": 361.78,
+          "mean_prediction_loss": 361.78,
+          "mean_label_count": 0.0,
+          "mean_label_cost": 0.0,
+          "mean_switch_count": 0.0,
+          "mean_switch_cost": 0.0,
+          "promotions": 0,
+          "promotion_rate": 0.0,
+          "mean_promotion_event_given_promoted": null
+        },
+        "fixed_challenger": {
+          "mean_net_cost": 364.02,
+          "mean_prediction_loss": 359.02,
+          "mean_label_count": 0.0,
+          "mean_label_cost": 0.0,
+          "mean_switch_count": 1.0,
+          "mean_switch_cost": 5.0,
+          "promotions": 50,
+          "promotion_rate": 1.0,
+          "mean_promotion_event_given_promoted": 0.0
+        }
+      },
+      "paired_differences": {
+        "fair_minus_cams_adapter": {
+          "mean": -43.659,
+          "ci95_percentile": [
+            -55.453025000000004,
+            -32.72487500000001
+          ],
+          "sd": 41.37166373502621
+        },
+        "fair_minus_SMCS+retain-incumbent": {
+          "mean": -5.679999999999995,
+          "ci95_percentile": [
+            -6.051999999999998,
+            -5.040999999999993
+          ],
+          "sd": 2.0892826617804334
+        },
+        "fair_minus_gated_deployment": {
+          "mean": -5.683999999999995,
+          "ci95_percentile": [
+            -6.0559999999999965,
+            -5.037999999999995
+          ],
+          "sd": 2.0971418840013336
+        },
+        "fair_minus_CONTROL_never_switch": {
+          "mean": 4.3000000000000025,
+          "ci95_percentile": [
+            3.932000000000005,
+            4.942000000000005
+          ],
+          "sd": 2.0908937645643033
+        },
+        "fair_minus_fixed_challenger": {
+          "mean": 2.0600000000000023,
+          "ci95_percentile": [
+            -2.776024999999998,
+            7.0950250000000015
+          ],
+          "sd": 17.99503332838803
+        }
+      }
+    },
+    "F3_reversal_800": {
+      "n": 50,
+      "methods": {
+        "fair_validation_gate": {
+          "mean_net_cost": 416.67599999999993,
+          "mean_prediction_loss": 408.34,
+          "mean_label_count": 78.72,
+          "mean_label_cost": 3.9360000000000004,
+          "mean_switch_count": 0.88,
+          "mean_switch_cost": 4.4,
+          "promotions": 44,
+          "promotion_rate": 0.88,
+          "mean_promotion_event_given_promoted": 500.0
+        },
+        "cams_adapter": {
+          "mean_net_cost": 390.589,
+          "mean_prediction_loss": 363.7,
+          "mean_label_count": 189.78,
+          "mean_label_cost": 9.488999999999999,
+          "mean_switch_count": 3.48,
+          "mean_switch_cost": 17.4,
+          "promotions": 50,
+          "promotion_rate": 1.0,
+          "mean_promotion_event_given_promoted": 126.96
+        },
+        "SMCS+retain-incumbent": {
+          "mean_net_cost": 414.405,
+          "mean_prediction_loss": 400.22,
+          "mean_label_count": 199.7,
+          "mean_label_cost": 9.985,
+          "mean_switch_count": 0.84,
+          "mean_switch_cost": 4.2,
+          "promotions": 42,
+          "promotion_rate": 0.84,
+          "mean_promotion_event_given_promoted": 435.7142857142857
+        },
+        "gated_deployment": {
+          "mean_net_cost": 357.7439999999999,
+          "mean_prediction_loss": 347.84,
+          "mean_label_count": 194.08,
+          "mean_label_cost": 9.704,
+          "mean_switch_count": 0.04,
+          "mean_switch_cost": 0.2,
+          "promotions": 2,
+          "promotion_rate": 0.04,
+          "mean_promotion_event_given_promoted": 538.5
+        },
+        "CONTROL_never_switch": {
+          "mean_net_cost": 345.06,
+          "mean_prediction_loss": 345.06,
+          "mean_label_count": 0.0,
+          "mean_label_cost": 0.0,
+          "mean_switch_count": 0.0,
+          "mean_switch_cost": 0.0,
+          "promotions": 0,
+          "promotion_rate": 0.0,
+          "mean_promotion_event_given_promoted": null
+        },
+        "fixed_challenger": {
+          "mean_net_cost": 380.92,
+          "mean_prediction_loss": 375.92,
+          "mean_label_count": 0.0,
+          "mean_label_cost": 0.0,
+          "mean_switch_count": 1.0,
+          "mean_switch_cost": 5.0,
+          "promotions": 50,
+          "promotion_rate": 1.0,
+          "mean_promotion_event_given_promoted": 0.0
+        }
+      },
+      "paired_differences": {
+        "fair_minus_cams_adapter": {
+          "mean": 26.087000000000003,
+          "ci95_percentile": [
+            17.269875000000003,
+            34.481299999999976
+          ],
+          "sd": 31.192610666696076
+        },
+        "fair_minus_SMCS+retain-incumbent": {
+          "mean": 2.2710000000000012,
+          "ci95_percentile": [
+            -7.092100000000001,
+            11.761174999999987
+          ],
+          "sd": 34.507563634067004
+        },
+        "fair_minus_gated_deployment": {
+          "mean": 58.93200000000001,
+          "ci95_percentile": [
+            49.36887500000001,
+            67.828
+          ],
+          "sd": 33.625723207456666
+        },
+        "fair_minus_CONTROL_never_switch": {
+          "mean": 71.616,
+          "ci95_percentile": [
+            62.859975,
+            79.744
+          ],
+          "sd": 31.03304104877081
+        },
+        "fair_minus_fixed_challenger": {
+          "mean": 35.756,
+          "ci95_percentile": [
+            27.092750000000002,
+            43.304025
+          ],
+          "sd": 29.73914763473924
+        }
+      }
+    }
+  }
+}

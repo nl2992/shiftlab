@@ -184,6 +184,8 @@ def main():
         if not p.exists() or p.stat().st_size < 200:
             continue
         nd = pd.read_csv(p)
+        if stage == "null":  # mlr:pave was dropped mid-run (compute); partial rows ignored
+            nd = nd[nd.arm != MP]
         g = nd.groupby(["cell", "arm"]).fp.agg(["sum", "count"]).reset_index()
         g["ucb"] = [cp_ucb(k, n) for k, n in zip(g["sum"], g["count"], strict=True)]
         L += [f"## {title}", "", "k/n (Clopper-Pearson 95% one-sided UCB)", ""]

@@ -82,6 +82,8 @@ def arms_for(stage: str, cell) -> list[str]:
     ref = ["uniform", "episode_front"] if stage == "alt" else []
     gated_on = pave_active(cell.config(0))
     arms = FACTORIAL if gated_on or stage == "alt" else [f"gaver:{e}:dss" for e in EVIDENCES]
+    if stage == "null":  # compute: mlr:pave dropped from null (7 s/stream); see results doc
+        arms = [a for a in arms if a != "gaver:mlr:pave"]
     return ref + arms
 
 

@@ -48,6 +48,11 @@ does require a registered user, and this audit did not request credentials or do
 next eligibility step can inspect a small, preselected load product through the public interface,
 record version timestamps, then determine the permitted reproducible extraction route.
 
+During a read-only interface check, ENTSO-E displayed a Terms/Privacy acceptance dialog and rejected
+the deep-linked product URL as expired. No terms were accepted and no data were retrieved. The
+manual's documented interface capability therefore remains a strong source lead, while direct
+product-level verification is pending a valid navigation path and any required user acceptance.
+
 Official chronology sources: [ENTSO-E Manual of Procedures, consumer registration and version
 history](https://www.entsoe.eu/Documents/MC%20documents/Transparency%20Platform/MOP/00_ENTSO-E%20Manual%20of%20Procedures_V2R1.pdf)
 and [ENTSO-E Transparency Platform FAQ, updates](https://www.entsoe.eu/Documents/MC%20documents/Transparency%20Platform/Transparency_platform_FAQ.pdf).

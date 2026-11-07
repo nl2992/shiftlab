@@ -2,7 +2,7 @@
 
 Branch `research/drift2act-rar-autoresearch-2026-11-07`, written 2026-11-07. Status: **development
 knowledge only**; nothing here is confirmatory except the two rows marked CONFIRMED (scoped).
-Machine-readable companions: [registry/failure_ledger.jsonl](registry/failure_ledger.jsonl) (49 rows,
+Machine-readable companions: [registry/failure_ledger.jsonl](registry/failure_ledger.jsonl) (55 rows,
 every number a verbatim quote re-checked against `git show`), [registry/null_assumptions.yaml](registry/null_assumptions.yaml)
 (29 entries), validator `scripts/d2a_rar/validate_registry.py --verify-quotes`.
 
@@ -36,9 +36,8 @@ Null classes used throughout (`d_t` as above):
 
 ## 2. Counts
 
-49 ledger rows: 32 negative, 11 correction, 2 narrow positive, 2 theory-closed, 2 applicability. Status:
-47 development, 2 confirmed (scoped). Null-mismatch flag: **13** measurements where a marginal-null rate was charged
-against a conditional-null method (`yes`, original measurement), **4** partial (valid-vs-invalid pairs or
+55 ledger rows (49 from WP0 + 6 from WP0b, section 3E). WP0 breakdown: 32 negative, 11 correction, 2 narrow positive, 2 theory-closed, 2 applicability; WP0b adds 4 negative, 1 correction, 1 theory-closed. Status: 52 development, 3 confirmed (scoped; FL-036, FL-047, FL-052). Null-mismatch flag: **13** (WP0) + 1 (WP0b, FL-054) measurements where a marginal-null rate was charged
+against a conditional-null method (`yes`, original measurement), **4** (WP0) + 1 (FL-055) partial (valid-vs-invalid pairs or
 mixed-null comparisons), **4** `yes`-flagged rows that are the corrections themselves (FL-028, FL-035,
 FL-036, FL-037), 14 `no`, 13 not applicable, 1 unclear (secondary source).
 
@@ -118,6 +117,25 @@ guarantee concerns (registry); **Flag** = mismatch. Evidence level: DEV = develo
 | FL-047 | Uncertified selectors on the twin protocol | Model Picker .695-.931, CAMS .788-.962 promote rates; harmful in 24-46% of runs under every condition incl. ESWAP (SL `DISCOVERY_DECISION.md`, `P2_HARM_CONFIRMATION_RESULTS.md`) | none | CONF (scoped) / DEV |
 | FL-019 | Decision-value track CF-S1 failed; PFA-SR HuffPost miss +289.91 [+193.64,+391.18] per 1000 events vs RMM | secondary citation only (SL `candidate_registry_v2.md`) | UNVERIFIED | primary docs not read |
 | FL-048, FL-049 | Drift2Act and RAR: **no repo-measured failure**; never reproduced; abstract/secondary level only | (SL `SOTA_APPLICABILITY_REPORTS.md`; CO `versioned_dual_monitor_protocol.md`) | absolute_risk / none | n/a |
+
+### 3E. WP0b additions (sources skipped in the first pass)
+
+Source kinds: **MD2V** = `research/monitoring-to-decision-value-2026-10-30@a155ed6c`; **PD** =
+`research/shiftlab-promising-directions-2026-10-30@673a2b79`; **HGXH** = `main-checkout-untracked:docs/hgxh2c/FINAL_REPORT.md`
+(untracked file in the main checkout, generated from a dirty tree at 7354480a; verifier reads it from disk).
+
+| Ledger | Failure mode | Numbers copied (source) | Null measured / own null | Flag | Level |
+|---|---|---|---|---|---|
+| FL-050 | HGxH2c search and Stage-4: scoped win only inside the anytime-valid family, loses to CUSUM/PH; A7 mechanism not run | registry rows 2055203; secondary family (CUSUM/PH) Holm p = 1.0, status = lost; primary Holm p = 0.0012496875781054738; negative control and E7-E9 marked DEFECTIVE_A7 (HGXH) | cond / cond (families kept separate, the corrected practice) | no | DEV |
+| FL-051 | PPRM independent reproduction (synthetic only) | paired PPRM - SRM -313.7 steps vs paper about -40 / -30; adaptive - fixed -0.8 vs -11 to -21; PPE NOT_AVAILABLE (HGXH) | absolute_risk / absolute_risk | no | DEV, fidelity caveat |
+| FL-052 | Monitoring-to-decision-value: better monitoring is small and conditional once controllers are tuned | four target cells +6.58 (LB 6.07) < MME 6.79 so CF-S1 FAILED; CF-S2 +1.87 (LB 1.35) passed, driven by 2 of 6 pairs; untuned reversals 16/1620, 0 matched in 23/24 tuned cells; real OPSD Part R: no alarm (value 0 vs MME 7.3) (MD2V `09`, `13`) | economic / economic | no | CONF (frozen one-shot; negative on CF-S1, uninformative on real) |
+| FL-053 | Lane A primary: joint acquisition+switching vs best calendar | max relative gap 0.003645 (144 cells), 0.008741 (288 cells), 0 J<=C* violations; A1b alpha=1/5 0.500 to 4.641 % for T=6..11, INCONCLUSIVE; zero at alpha=1/10 (PD `FINAL_RESEARCH_REPORT.md`) | cond / cond | no | DEV (exact, known model) |
+| FL-054 | **P3b paired certificate under a persistent-regime marginal null** | promoted in 20.8% of 6,000 paths, all in the positive regime; "Any certificate claim must be written as conditional-null only"; fixed-sample batch test ties P3b (P6 - P3b +3.0, +3.0, -0.2, +1.3) (PD) | marg / cond | **yes (new)** | DEV |
+| FL-055 | HG vs PH/CUSUM; P4 persistence-aware promotion | HG -0.066 / -0.110 n.s. vs PH / CUSUM, FAR up to .23 under dependence; P4 worse by 10.45, 22.33, 9.50, 23.93 % in W1 (PD) | marg stress / cond (HG null UNVERIFIED) | partial (new) | DEV |
+
+Net effect of WP0b: one additional `yes` mismatch (FL-054, now 14 original mismatches) and one additional
+`partial` (FL-055, now 5). It also confirms the registry-level Lane A numbers (FL-017) from the primary report,
+and adds one more frozen-protocol result (FL-052), a scoped negative.
 
 ## 4. What survives the correction
 

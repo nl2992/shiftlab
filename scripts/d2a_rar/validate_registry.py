@@ -21,6 +21,9 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 REG = ROOT / "docs" / "d2a_rar" / "registry"
+# Source kind for files that exist only on disk in the main checkout (not in any git ref).
+UNTRACKED_KIND = "main-checkout-untracked"
+UNTRACKED_ROOT = Path("C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter")
 
 NULL_CLASSES = {"cond", "marg", "absolute_risk", "economic", "none", "UNVERIFIED"}
 LEDGER_NULL_FLAG = {"yes", "no", "partial", "n_a", "unclear"}
@@ -134,12 +137,25 @@ def check_ledger(errors: list[str], verify_quotes: bool) -> int:
                 src = n["source"]
                 if src not in cache:
                     sha, _, p = src.partition(":")
-                    out = subprocess.run(
-                        ["git", "show", f"{sha}:{p}"], cwd=ROOT, capture_output=True, check=False
-                    )
-                    cache[src] = (
-                        norm(out.stdout.decode("utf-8", "replace")) if out.returncode == 0 else ""
-                    )
+                    if sha == UNTRACKED_KIND:
+                        fp = UNTRACKED_ROOT / p
+                        cache[src] = (
+                            norm(fp.read_text(encoding="utf-8", errors="replace"))
+                            if fp.exists()
+                            else ""
+                        )
+                    else:
+                        out = subprocess.run(
+                            ["git", "show", f"{sha}:{p}"],
+                            cwd=ROOT,
+                            capture_output=True,
+                            check=False,
+                        )
+                        cache[src] = (
+                            norm(out.stdout.decode("utf-8", "replace"))
+                            if out.returncode == 0
+                            else ""
+                        )
                 if not cache[src]:
                     errors.append(f"{rid}: cannot read {src}")
                 elif norm(n["quote"]) not in cache[src]:

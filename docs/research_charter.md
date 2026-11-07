@@ -1,5 +1,9 @@
 # ShiftLab research charter
 
+> **Success standard, 2026-11-07:** paper candidates are now pursued under the discovery-first
+> [research success criteria v2](research_success_criteria_v2.md) (outcome classes A–E, minimum
+> success = any one of algorithmic / benchmark / empirical / theory options). Integrity safeguards stand.
+
 > **Failure Atlas direction, 2026-11-01:** pursue a diagnosed shared failure and a useful,
 > modestly novel repair against strong matched competitors. A new theorem is not required
 > for continuing this method search. See [evidence review](failure_atlas_review_2026_11_01.md)

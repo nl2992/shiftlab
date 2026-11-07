@@ -5,6 +5,15 @@ harm under distribution shift. Read [the research charter](docs/research_charter
 relevant paper protocol before changing research code, metrics, or claims. Treat the charter as the
 current scientific direction; paper folders and reports record implementation status and evidence.
 
+## Research success standard (2026-11-07)
+
+Decide whether to pursue a paper candidate with
+[research success criteria v2](docs/research_success_criteria_v2.md): discovery-first, regime-specific
+and narrow contributions count, there are no fixed effect-size or candidate-count caps, and outcomes are
+classified A–E. The integrity rules below and in Section 9 of that document are unchanged. Delegate
+expensive surveys, literature reads, frozen-protocol runs and red-team reviews to the sub-agents in
+`.claude/agents/`; classification decisions stay with the main session.
+
 ## Scientific scope
 
 - Keep distributional change `D(P_t, P_0)`, predictive degradation `R_t(f)-R_0(f)`, and decision

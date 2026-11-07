@@ -72,6 +72,7 @@ uv run pytest tests/sota_fidelity tests/promising_directions/test_sota_model_sel
   stale evidence and budget exhaustion drive late-change failure; post-verdict stopping does not.
 - **Track B prior-art check done 2026-11-07** ([prior_art/README.md](prior_art/README.md)): levers (a) pacing, (b) delay and (c) alpha allocation are each closed as contributions; track B stops as a method contribution.
 - **Track A economic gating done 2026-11-07** ([econ_gate_bound_results.md](econ_gate_bound_results.md)): even the hindsight-optimal veto gate over a valid detector does not beat never-switch on the reversal regimes (headroom about −10, the label spend); stopped.
+- **Paper 3 pacing minimax screen done 2026-11-07** ([pacing_minimax_results.md](pacing_minimax_results.md)): no pacer beats uniform's worst case by >6%; stopped as a method (independent check pending).
 - WATCH unweighted CTM sentinel; non-vacuous Timans replay test.
 - Restore `vendor_sota/` and re-run author-parity tests (needs approval).
 - Not yet audited in this pass: e-SR/e-CUSUM is done, but the DISCERN-style, SMCS and gated

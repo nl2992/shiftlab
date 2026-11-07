@@ -340,3 +340,7 @@ so parallel implementers never touch shared registry files.
 - Bound: the hindsight-optimal veto gate over `esr_rmmbets_fullalpha`, `two_sided_esr_label_clock` and `rmm:LRMD_k1` never beats never-switch. Headroom H is about −10 (the label spend) in all four primary reversal regimes; without label cost it is exactly 0 on F3_800, W_700 and S_400 (no promotion worth taking, even in hindsight), 0.3 on V_1000 and at most 3.0 on F3_1200. Locked rule: **STOP** (4/4).
 - A gate can save 10–43 over the bare detector, all of it by not promoting; vetoed rollbacks contribute nothing.
 - Decision: stop track A economic gating. Beating never-switch on reversal needs faster evidence, not switch filtering.
+
+## Paper 3 pacing minimax screen (2026-11-07)
+
+- Protocol locked in `4d0099f9`; results `pacing_minimax_results.md` / `.json`. Verdict **STOP**: worst-case regret gain vs uniform is +6.0% [3.9, 6.9] for truncated uniform (Lemma A predicted ~6%) and +4.2% for the dev-tuned burst pacer; bar was 10%. Burst pacing lowers onset-averaged regret 15% but misses late onsets (0.69 vs 0.24 at onset 1200). Independent check of code and proof still pending.

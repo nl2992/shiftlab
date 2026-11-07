@@ -71,18 +71,18 @@ Status keys: `[ ]` open, `[~]` in progress, `[x]` done (verdict recorded), `[-]`
 
 ### WP2. PAVE: pending-aware value-of-label governor
 
-- [ ] 2.1 Implement the governor on top of the *unchanged* existing evidence engine: state =
+- [x] 2.1 Implement the governor on top of the *unchanged* existing evidence engine: state =
       evidence, proxy gap, remaining horizon, budget, pending count/ages, deployment state,
       rollback reserve. Short rollout over 2–3 candidate next-request gaps; query iff estimated
       net value > 0.
-- [ ] 2.2 Replace the fixed pending cap with `ceil(delay * remaining_budget / remaining_horizon)`
+- [x] 2.2 Replace the fixed pending cap with `ceil(delay * remaining_budget / remaining_horizon)`
       as a simple control (diagnostic, not a novelty claim).
-- [ ] 2.3 Run the two mandatory regression cells
+- [x] 2.3 Run the two mandatory regression cells
       (`on0.6_L1_strong_harmful_d50_b0.05_s0.1`, `f3_rho0_on0.3_L0.6_strong_harmful_d1_b0.1_s0.1`),
       their neighbours, and the cycle-7 primary cells at 60 dev seeds vs DSS, uniform, and
       undecided-only.
-- [ ] 2.4 Small factorial ablation: pending state on/off × deadline value on/off × reserve on/off.
-- [ ] 2.5 Verdict: `docs/gaver/20_PAVE_RESULTS.md`. Stop rule: no attributable benefit over
+- [x] 2.4 Small factorial ablation: pending state on/off × deadline value on/off × reserve on/off.
+- [x] 2.5 Verdict: `docs/gaver/20_PAVE_RESULTS.md`. Stop rule: no attributable benefit over
       uniform with the same evidence.
 
 ### WP3. FreshCheck: separate promotion and current-value evidence
@@ -136,3 +136,4 @@ WP0 first (short). Then WP1, WP2, WP3 and WP4 in parallel, each in its own files
 - 2026-11-06: WP0 done (a458a21d). Seeds 101000000–101199999 registered. Findings that change the plan: no `E_rb` exists in code (rollback = Page-CUSUM kappa=2 + per-episode alpha spending), so WP3 compares against that; DSS with `delay_switch` reduces to uniform when d >= 2T/(B+2), so the d50/b0.05 regression cell is a uniform-acquisition cell for WP2. WP2 seeds start at 101080010 (first ten used by the smoke run).
 - 2026-11-06: WP3 done (2a8b695b, bd8316ba). Screening verdict: FAIL on value, PASS on null safety (boundary-null FP UCB 0.017). FreshCheck cut reversal harm 79% vs promotion-only but is 15% worse J/T than the existing CUSUM rollback on reversals, and loses 17.7% persistent value with the reserve (~5% without). Real side-finding: on keep-null streams (benefit exactly h) CUSUM/hysteresis/cost-threshold roll back in 91–100% of promoted streams vs 2/584 for FreshCheck; reused wealth has no level control (47–62%). Planner grading: drop FreshCheck as a value component for WP5; keep it as an optional certified-rollback wrapper and report the uncontrolled-rollback finding. Two-phase persistence comparator absent in repo; transient cells uninformative.
 - 2026-11-06: Cross-branch search found both missing WP3 comparators: two-phase persistence in `src/shiftlab/dive/persistence_promotion.py` (on main), and E_rb in `origin/codex/sprint2-leaderboards@297a706e:scripts/sota_sprint/fam_e.py::_rb` wrapping `fam_b.py::RecoveryMonitor`. WP3 3.2/3.4 reopened to add them. Standing rule for all WPs: search other branches (`git grep <pat> <ref>`) before declaring a component missing; port with a source-commit citation.
+- 2026-11-06: WP2 done (a7116a16, 9912008e, c4b1e0b6). Registered verdict: FAIL screening as specified (worse than DSS at d<=10: 13/22 cells CI-excluded worse, 0 better; f3_rho0 d1 regression cell 16–19% worse). Planner fair grading: one *meaningful* scoped positive, in the long-delay regression cell the report targeted (d50/b0.05: reserve-off −8.2% vs uniform≡DSS, −6.0% vs episode_front, CI excludes 0, replicated on fresh seeds; d=50 mean 3.4%, 5/9 better). Ablation: pending state and deadline value each help; reserve hurts. Null side-finding: PAVE's false-promotion UCB at rho<=0.8 is <=0.059 vs DSS 0.269 at rho=0.8 (partial null grid, 120–500 streams). Reserve-off and the d>=50 scope are post-hoc, so for WP5 PAVE enters only as a predeclared delay-gated branch (PAVE iff d >= 2T/(B+2), i.e. exactly where DSS already falls back to uniform), with its null grid completed to 500 first. No ASI-style or paid-observation request controller found on any branch.

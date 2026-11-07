@@ -1,6 +1,6 @@
 # ALFRED as a point-in-time chronological source for a model-switching replay
 
-**Status:** source feasibility only. No ALFRED series were downloaded, no outcomes or vintages were opened, and no candidate method was evaluated.
+**Status:** source-route feasibility only. A tiny public export was downloaded to verify the route; no observation values or README contents were opened, no outcome analysis was run, and no candidate method was evaluated.
 
 ## Why this source is a better lead
 
@@ -21,7 +21,7 @@ This is a plausible real-data test of late improvement and scarce/delayed labels
 
 ## Access and protocol constraints
 
-The FRED API documents a registered API key requirement. This checkout has no `FRED_API_KEY` or `ALFRED_API_KEY` in its environment. A read-only inspection of the public UNRATE download page confirmed that its HTML exposes a POST form with output mode `Observations, Initial Release Only` and zipped CSV format. I did not submit the form or download any values, so a scripted key-free export remains unverified. Do not embed a key in Git or logs; prefer the public form if its exported archive can be pinned and checksummed.
+The FRED API documents a registered API key requirement. This checkout has no `FRED_API_KEY` or `ALFRED_API_KEY` in its environment. A bounded source-route test confirmed that the public UNRATE form can return zipped CSV without an API key. The request for `Observations, Initial Release Only` with one vintage was correctly rejected because that output needs at least two releases; `Observations by Vintage Date, All Observations` with vintages `1960-03-15` and `1960-04-12` succeeded for a short 1960 observation range. The ZIP was 2,231 bytes and SHA-256 `a0e99ad35ba0f723907ebeac0f1fc0855d4745c524d8db80948ddf097d2398d9`; its member listing was README plus a 103-byte vintage CSV. I did not read the CSV or README contents. Temporary download and cookie files remain in `/tmp`; no series data was added to Git.
 
 Before data access, a protocol should freeze:
 

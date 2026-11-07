@@ -45,10 +45,17 @@ def load(dirs) -> pd.DataFrame:
                 r = json.loads(line)
                 p = r.pop("promos")
                 f = p[0] if p else {}
-                r.update({"tau": f.get("t", -1), "ei": f.get("ei", 0),
-                          "adv_100": f.get("adv_100", np.nan), "adv_500": f.get("adv_500", np.nan),
-                          "adv_rest": f.get("adv_rest", np.nan), "pre_adv": f.get("pre_adv", np.nan),
-                          "n_ei_all": sum(x["ei"] for x in p)})
+                r.update(
+                    {
+                        "tau": f.get("t", -1),
+                        "ei": f.get("ei", 0),
+                        "adv_100": f.get("adv_100", np.nan),
+                        "adv_500": f.get("adv_500", np.nan),
+                        "adv_rest": f.get("adv_rest", np.nan),
+                        "pre_adv": f.get("pre_adv", np.nan),
+                        "n_ei_all": sum(x["ei"] for x in p),
+                    }
+                )
                 rows.append(r)
     df = pd.DataFrame(rows)
     return derive(df)
@@ -57,21 +64,29 @@ def load(dirs) -> pd.DataFrame:
 def derive(df: pd.DataFrame) -> pd.DataFrame:
     pr = df.ever_promote.astype(bool)
     df = df.assign(
-        cluster=np.where(df.kind == "synthetic", df.regime + "|s" + df.seed.astype(str),
-                         np.where(df.split >= 0, df.regime + "|p" + df.split.astype(str),
-                                  df.regime + "|e" + df.ep.astype(str))),
+        cluster=np.where(
+            df.kind == "synthetic",
+            df.regime + "|s" + df.seed.astype(str),
+            np.where(
+                df.split >= 0,
+                df.regime + "|p" + df.split.astype(str),
+                df.regime + "|e" + df.ep.astype(str),
+            ),
+        ),
         hp=(pr & (df.ei == 1)).astype(float),
         hp_path=(pr & (df.db <= 0)).astype(float),
         v1_err_100=(pr & (df.adv_100 <= 0)).astype(float),
         v1_err_500=(pr & (df.adv_500 <= 0)).astype(float),
         delay_t=np.where(df.first_deploy >= 0, df.first_deploy, df["T"]).astype(float),
-        adv_rest_p=np.where(pr, df.adv_rest, 0.0))
+        adv_rest_p=np.where(pr, df.adv_rest, 0.0),
+    )
     return df
 
 
 def _cluster_sums(g: pd.DataFrame, cols) -> pd.DataFrame:
-    agg = g.groupby("cluster").agg(**{c: (c, "sum") for c in cols}, n=("policy", "size"),
-                                   stratum=("regime", "first"))
+    agg = g.groupby("cluster").agg(
+        **{c: (c, "sum") for c in cols}, n=("policy", "size"), stratum=("regime", "first")
+    )
     return agg
 
 
@@ -90,8 +105,13 @@ def boot(agg: pd.DataFrame, num: str, den: str | None, n=NBOOT, seed=0):
 
     full = np.arange(len(a))
     point = float(stat(full))
-    idx = np.concatenate([rng.choice(np.flatnonzero(strata == s), (n, int((strata == s).sum())))
-                          for s in np.unique(strata)], axis=1)
+    idx = np.concatenate(
+        [
+            rng.choice(np.flatnonzero(strata == s), (n, int((strata == s).sum())))
+            for s in np.unique(strata)
+        ],
+        axis=1,
+    )
     bs = stat(idx)
     bs = bs[~np.isnan(bs)]
     if not len(bs):
@@ -106,7 +126,7 @@ MEAN = ["harm", "db", "labels", "delay_t", "net"]
 def score_group(g: pd.DataFrame) -> dict:
     agg = _cluster_sums(g, RATE + MEAN + ["ei", "adv_rest_p"])
     agg["ei_p"] = agg["ei"]  # ei is 0 when not promoted, so sum ei = sum EI among promoted
-    out = {"runs": int(len(g)), "clusters": int(len(agg))}
+    out = {"runs": len(g), "clusters": len(agg)}
     for c in RATE + MEAN:
         p, lo, hi = boot(agg, c, None)
         out[c] = p
@@ -132,8 +152,23 @@ def main(argv=None):
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     s.to_csv(a.out, index=False)
     with pd.option_context("display.width", 200, "display.max_rows", 500):
-        print(s[["regime", "T", "delay_mult", "policy", "ever_promote", "hp", "pi_ei", "adv_rest",
-                 "harm"]].round(3).to_string(index=False))
+        print(
+            s[
+                [
+                    "regime",
+                    "T",
+                    "delay_mult",
+                    "policy",
+                    "ever_promote",
+                    "hp",
+                    "pi_ei",
+                    "adv_rest",
+                    "harm",
+                ]
+            ]
+            .round(3)
+            .to_string(index=False)
+        )
 
 
 if __name__ == "__main__":

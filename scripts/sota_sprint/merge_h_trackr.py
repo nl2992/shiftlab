@@ -5,6 +5,7 @@ The original grid screens H2/H4 plus D2/A5b. The completion screen adds H1/H3 an
 under the same seed/alpha contract. This merger keeps the original controls once, unions H1-H4, and
 recomputes the family-level empirical Pareto flags.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -45,8 +46,11 @@ def merge(existing: dict, added: dict, rollback: dict | None = None) -> dict:
                 point["pareto"] = policy in front
             curves[target] = points
     calibration = {}
-    for source, selected in ((existing, keep_existing), (added, keep_added),
-                             (rollback or {}, keep_rollback)):
+    for source, selected in (
+        (existing, keep_existing),
+        (added, keep_added),
+        (rollback or {}, keep_rollback),
+    ):
         for policy, targets_map in source.get("calibration", {}).items():
             if policy in selected:
                 if policy in calibration:
@@ -58,8 +62,11 @@ def merge(existing: dict, added: dict, rollback: dict | None = None) -> dict:
     present = set(calibration)
     if present != required:
         raise ValueError(f"expected calibrations for {sorted(required)}, got {sorted(present)}")
-    return {"calibration": calibration, "curves": curves,
-            "scope": "Family H; H1-H6 plus D2/A5b; empirical Track-R grid, not guarantees."}
+    return {
+        "calibration": calibration,
+        "curves": curves,
+        "scope": "Family H; H1-H6 plus D2/A5b; empirical Track-R grid, not guarantees.",
+    }
 
 
 def render(data: dict) -> str:
@@ -77,16 +84,22 @@ def render(data: dict) -> str:
         for policy, point in sorted(points.items(), key=lambda item: item[1]["cost"]):
             lo, hi = point["risk_ci"]
             clo, chi = point["cost_ci"]
-            lines.append(f"| {target} | `{policy}` | {point['alpha']} | {point['risk']:.3f} [{lo:.3f},{hi:.3f}] | "
-                         f"{point['cost']:.1f} [{clo:.1f},{chi:.1f}] | {'*' if point['pareto'] else ''} |")
+            lines.append(
+                f"| {target} | `{policy}` | {point['alpha']} | {point['risk']:.3f} [{lo:.3f},{hi:.3f}] | "
+                f"{point['cost']:.1f} [{clo:.1f},{chi:.1f}] | {'*' if point['pareto'] else ''} |"
+            )
     return "\n".join(lines) + "\n"
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--existing", type=Path, default=Path("docs/sprint2/family_h/track_R.json"))
-    parser.add_argument("--added", type=Path, default=Path("docs/sprint2/family_h/track_R_remaining.json"))
-    parser.add_argument("--rollback", type=Path, default=Path("docs/sprint2/family_h/track_R_rollback.json"))
+    parser.add_argument(
+        "--added", type=Path, default=Path("docs/sprint2/family_h/track_R_remaining.json")
+    )
+    parser.add_argument(
+        "--rollback", type=Path, default=Path("docs/sprint2/family_h/track_R_rollback.json")
+    )
     parser.add_argument("--out", type=Path, default=Path("docs/sprint2/family_h/track_R_all.json"))
     args = parser.parse_args()
     existing = json.loads(args.existing.read_text())

@@ -65,10 +65,10 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
-import fam_a  # noqa: E402
-import fam_d  # noqa: E402
-from fam_d import DeployGate, _A1Cert, _host_extra, _host_u, make_host, started_mixture  # noqa: E402
-from simulator import QueryRequest  # noqa: E402
+import fam_a
+import fam_d
+from fam_d import DeployGate, _A1Cert, _host_extra, _host_u, make_host, started_mixture
+from simulator import QueryRequest
 
 GAMMA_C2, ZETA_C2 = 3.0, 0.25  # fam_c TUNED C2 values (docs/sota_sprint/family_c/tuned.json)
 
@@ -116,16 +116,46 @@ def sui_cert(sui_kw=None):
 class HGate(DeployGate):
     """D2's deploy gate with dependence-robust evidence and A5b / C2 / dual-clock acquisition."""
 
-    def __init__(self, host, T, B, alpha, *, rng, delay=100, cs=5.0, cq=0.05, evidence="sui",
-                 sui_kw=None, single_cycle=False, spacing=False, space_host=True, c_corr=0.25,
-                 min_pairs=8, rho_sig=2.0, shadow=False, shadow_host=True, gamma=GAMMA_C2,
-                 zeta=ZETA_C2, n0=10, dualclock=False, inflight_margin=2.0, rollback=False,
-                 reserve=0.0, alpha_r=0.05, rb_uniform=True, trace=False, name="H"):
+    def __init__(
+        self,
+        host,
+        T,
+        B,
+        alpha,
+        *,
+        rng,
+        delay=100,
+        cs=5.0,
+        cq=0.05,
+        evidence="sui",
+        sui_kw=None,
+        single_cycle=False,
+        spacing=False,
+        space_host=True,
+        c_corr=0.25,
+        min_pairs=8,
+        rho_sig=2.0,
+        shadow=False,
+        shadow_host=True,
+        gamma=GAMMA_C2,
+        zeta=ZETA_C2,
+        n0=10,
+        dualclock=False,
+        inflight_margin=2.0,
+        rollback=False,
+        reserve=0.0,
+        alpha_r=0.05,
+        rb_uniform=True,
+        trace=False,
+        name="H",
+    ):
         cert = started_mixture if evidence == "iid" else sui_cert(sui_kw)
         self.evidence = evidence
-        self.rb_cert = (lambda side: _A1Cert(side, UniformStartSUI, n_starts=-(-B // 10),
-                                             **fam_a._B)) \
-            if (rb_uniform and evidence == "sui") else cert
+        self.rb_cert = (
+            (lambda side: _A1Cert(side, UniformStartSUI, n_starts=-(-B // 10), **fam_a._B))
+            if (rb_uniform and evidence == "sui")
+            else cert
+        )
         self.single_cycle = single_cycle and not rollback
         self.delay, self.cs, self.cq = int(delay), float(cs), float(cq)
         self.spacing, self.space_host = spacing, space_host
@@ -136,22 +166,38 @@ class HGate(DeployGate):
         self.rel_z: list[int] = []
         self.rel_t: list[int] = []
         self.rho_hat = None
-        self.last_issue = -10**9
+        self.last_issue = -(10**9)
         self.n_issued = self.n_processed = 0
         self.seg_k = self.seg_hits = 0
         self.cross_event = None  # event id of the outcome whose release crossed the threshold
-        self._buf: list[tuple[int, int]] = []  # dualclock: outcomes released between cross & promote
+        self._buf: list[
+            tuple[int, int]
+        ] = []  # dualclock: outcomes released between cross & promote
         self.trace = trace
         self._t_now = 0
         self.tr: dict[str, list] = {"req": [], "ev": [], "veto": []}
         self.n_veto = {"spacing": 0, "shadow": 0, "inflight": 0, "deadline": 0, "reserve": 0}
-        super().__init__(host, T, B, alpha, rng=rng, cert=cert, acq="host_pref", and_host=True,
-                         rollback=rollback, reserve=reserve, alpha_r=alpha_r, share=True,
-                         stop_when_final=True, monitor=True, name=name)
+        super().__init__(
+            host,
+            T,
+            B,
+            alpha,
+            rng=rng,
+            cert=cert,
+            acq="host_pref",
+            and_host=True,
+            rollback=rollback,
+            reserve=reserve,
+            alpha_r=alpha_r,
+            share=True,
+            stop_when_final=True,
+            monitor=True,
+            name=name,
+        )
 
     # ------------------------------------------------------------------ thresholds
     def _thr_up(self) -> float:
-        return (1.0 if self.single_cycle else 2.0 ** self.cycle) / self.alpha
+        return (1.0 if self.single_cycle else 2.0**self.cycle) / self.alpha
 
     def _new_tests(self):
         super()._new_tests()
@@ -165,7 +211,7 @@ class HGate(DeployGate):
             return 0
         if self.rho_hat >= 1:
             return 10**9
-        return int(math.ceil(math.log(self.c_corr) / math.log(self.rho_hat)))
+        return math.ceil(math.log(self.c_corr) / math.log(self.rho_hat))
 
     def _eff(self) -> float:
         """Effective-sample factor (1-a)/(1+a) at the current spacing, a = rho_hat^gap."""
@@ -196,7 +242,7 @@ class HGate(DeployGate):
     def _shadow_ok(self, t, rem) -> bool:
         if self.seg_k < self.n0:
             return True
-        n, ph, phi, _ = self._p_stats()
+        _n, ph, phi, _ = self._p_stats()
         p_eff = (1.0 - self.zeta) * ph + self.zeta * phi
         g_eff = self._rate(t) * max(2.0 * p_eff - 1.0, 0.0)
         if g_eff <= 0.0:
@@ -224,7 +270,8 @@ class HGate(DeployGate):
             return float("inf")
         kl = q * math.log(2 * q) + (1 - q) * math.log(2 * (1 - q))
         return max(math.log(1.0 / self.alpha) - math.log(max(_val(self.e_dn), 1e-300)), 0.0) / (
-            kl * self._eff())
+            kl * self._eff()
+        )
 
     def _deadline_ok(self, t) -> bool:
         if not self.dualclock:
@@ -235,7 +282,9 @@ class HGate(DeployGate):
         if self.seg_k < self.n0:
             return left * self._rate(t) * 1.0 > self.cs
         _, _, phi, _ = self._p_stats()
-        side_hi = max(2.0 * phi - 1.0, 2.0 * (1.0 - (self.seg_hits + 1.0) / (self.seg_k + 2.0)) - 1.0)
+        side_hi = max(
+            2.0 * phi - 1.0, 2.0 * (1.0 - (self.seg_hits + 1.0) / (self.seg_k + 2.0)) - 1.0
+        )
         return left * self._rate(t) * max(side_hi, 1e-6) > self.cs
 
     # ------------------------------------------------------------------ deployment
@@ -243,8 +292,11 @@ class HGate(DeployGate):
         self.host_pref = int(self.host.predict(event))
         if self.deployed == 0 and self.cert_ok and self.host_pref == 1:
             self.deployed, self.decided, self.n_promotions = 1, True, self.n_promotions + 1
-            self.seg = (self.cross_event + 1) if (self.dualclock and self.cross_event is not None) \
+            self.seg = (
+                (self.cross_event + 1)
+                if (self.dualclock and self.cross_event is not None)
                 else event.t
+            )
             self._new_tests()
             if self.dualclock and self.rollback:  # replay in-flight outcomes into the H- test
                 for z, e in self._buf:
@@ -276,7 +328,11 @@ class HGate(DeployGate):
             return self._veto("deadline", t)
         open_test = pre and not self.cert_ok
         spaced_out = False
-        if self.spacing and (open_test or self.deployed == 1) and t - self.last_issue < self._gmin():
+        if (
+            self.spacing
+            and (open_test or self.deployed == 1)
+            and t - self.last_issue < self._gmin()
+        ):
             if self.space_host or not hreq.requested:
                 return self._veto("spacing", t)
             spaced_out = True  # host draw kept (space_host=False); the gate's own draw is vetoed
@@ -308,14 +364,24 @@ class HGate(DeployGate):
         self.last_issue = t
         self.n_issued += 1
         if self.trace:
-            self.tr["req"].append((t, int(host_take), self.deployed, self.host_pref,
-                                   int(self.decided), int(self.cert_ok)))
+            self.tr["req"].append(
+                (
+                    t,
+                    int(host_take),
+                    self.deployed,
+                    self.host_pref,
+                    int(self.decided),
+                    int(self.cert_ok),
+                )
+            )
         return QueryRequest(requested=True, probability=q_comb, extra=extra)
 
     # ------------------------------------------------------------------ feedback
     def _update_dn_post(self, z, e, last):
-        if self.e_dn.update(z, e, last if last is not None else self._last_before(e)) \
-                >= 1.0 / self.alpha_r:
+        if (
+            self.e_dn.update(z, e, last if last is not None else self._last_before(e))
+            >= 1.0 / self.alpha_r
+        ):
             self.deployed, self.decided, self.cycle = 0, False, self.cycle + 1
             self.cert_ok, self.cross_event = False, None
             self.seg = e + 1 if self.dualclock else self._t_now
@@ -331,15 +397,25 @@ class HGate(DeployGate):
         return None
 
     def observe(self, feedback):
-        from simulator import ReleasedFeedback  # noqa: PLC0415
+        from simulator import ReleasedFeedback
 
         fbs = sorted(feedback, key=lambda f: f.event_id)
         host_fb = []
         for fb in fbs:
-            drew, u, q_comb = self._req.pop(fb.event_id, (True, fb.query_probability,
-                                                          fb.query_probability))
-            host_fb.append(ReleasedFeedback(fb.event_id, fb.t_requested, fb.t_released,
-                                            fb.label, fb.model_losses, float(q_comb), fb.extra))
+            _drew, _u, q_comb = self._req.pop(
+                fb.event_id, (True, fb.query_probability, fb.query_probability)
+            )
+            host_fb.append(
+                ReleasedFeedback(
+                    fb.event_id,
+                    fb.t_requested,
+                    fb.t_released,
+                    fb.label,
+                    fb.model_losses,
+                    float(q_comb),
+                    fb.extra,
+                )
+            )
         if host_fb:
             self.host.observe(host_fb)
         for fb in fbs:
@@ -374,12 +450,15 @@ class HGate(DeployGate):
                 self.seg_hits += z
                 self._update_dn_post(z, e, last)
         if self.spacing and len(self.rel_z) >= self.min_pairs + 1:
-            self.rho_hat = fam_a.rho_mle(np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]),
-                                         sig=self.rho_sig)
+            self.rho_hat = fam_a.rho_mle(
+                np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]), sig=self.rho_sig
+            )
 
     def decision_state(self):
-        return (f"dep={self.deployed};cycle={self.cycle};cert={int(self.cert_ok)};"
-                f"pref={self.host_pref};gmin={self._gmin()}")
+        return (
+            f"dep={self.deployed};cycle={self.cycle};cert={int(self.cert_ok)};"
+            f"pref={self.host_pref};gmin={self._gmin()}"
+        )
 
 
 # ------------------------------------------------------------------------------------------------
@@ -387,12 +466,14 @@ class HGate(DeployGate):
 # ------------------------------------------------------------------------------------------------
 def _h(name, **kw):
     def f(T, B, cs, cq, a, d, r):
-        return HGate(make_host("cams", r), T, B, a, rng=r("D_gate"), delay=d, cs=cs, cq=cq,
-                     name=name, **kw)
+        return HGate(
+            make_host("cams", r), T, B, a, rng=r("D_gate"), delay=d, cs=cs, cq=cq, name=name, **kw
+        )
+
     return f
 
 
-H2_KW = dict(evidence="sui", single_cycle=True, spacing=True)
+H2_KW = {"evidence": "sui", "single_cycle": True, "spacing": True}
 
 EXTRA = {
     # H1: D2 + A5b certificate (MarkovSUI with fam_a._B) + single-cycle threshold 1/alpha
@@ -414,8 +495,12 @@ EXTRA = {
     "H5-decay": _h("H5-decay", evidence="sui", spacing=True, rollback=True, rb_uniform=False),
     "H5-dc": _h("H5-dc", evidence="sui", spacing=True, rollback=True, dualclock=True),
     # H6: H5 + monitoring reserve
-    **{f"H6-r{int(100 * rv)}": _h(f"H6-r{int(100 * rv)}", evidence="sui", spacing=True,
-                                  rollback=True, reserve=rv) for rv in (0.10, 0.15, 0.25)},
+    **{
+        f"H6-r{int(100 * rv)}": _h(
+            f"H6-r{int(100 * rv)}", evidence="sui", spacing=True, rollback=True, reserve=rv
+        )
+        for rv in (0.10, 0.15, 0.25)
+    },
 }
 EXTRA["H6-r0"] = EXTRA["H5"]
 # exact re-implementations (tests: must replay D2 / D5 episode-for-episode)
@@ -448,22 +533,34 @@ def _replay(z, e, kind, thr):
 
 
 def _episode(name, regime, seed, seed_base):
-    import screen  # noqa: PLC0415
-    from bench import parse_regime  # noqa: PLC0415
-    from simulator import policy_rng, run_episode  # noqa: PLC0415
-    from suite import stream_from_losses  # noqa: PLC0415
+    import screen
+    from bench import parse_regime
+    from simulator import policy_rng, run_episode
+    from suite import stream_from_losses
 
     R, _ = parse_regime(regime)
-    losses = R.sample(np.random.default_rng(np.random.SeedSequence([seed_base, screen._h(R.name),
-                                                                    seed])))
+    losses = R.sample(
+        np.random.default_rng(np.random.SeedSequence([seed_base, screen._h(R.name), seed]))
+    )
+
     def r(nm):
         return policy_rng(seed_base + screen._h(regime) % 1000, seed, nm)
+
     pol = EXTRA[name](2000, 200, 5.0, 0.05, 0.05, R.delay, r)
     pol.trace = True
-    preds, labels = stream_from_losses(losses, np.random.default_rng(
-        [seed_base, screen._h(regime), 0, seed, 7]))
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=R.delay, budget=200,
-                      label_price=0.05, switch_cost=5.0, trace=True)
+    preds, labels = stream_from_losses(
+        losses, np.random.default_rng([seed_base, screen._h(regime), 0, seed, 7])
+    )
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=R.delay,
+        budget=200,
+        label_price=0.05,
+        switch_cost=5.0,
+        trace=True,
+    )
     dep = np.array([x["deployed_model"] for x in res.records])
     rq = np.array(pol.tr["req"]) if pol.tr["req"] else np.zeros((0, 6), int)
     ev = pol.tr["ev"]
@@ -473,20 +570,31 @@ def _episode(name, regime, seed, seed_base):
     pre = rq[:, 2] == 0 if len(rq) else np.zeros(0, bool)
     open_ = pre & (rq[:, 5] == 0) if len(rq) else pre
     out = {
-        "policy": name, "regime": regime, "seed": seed, "net": res.net_cost,
-        "promote": int((dep == 1).any()), "first": int(np.argmax(dep == 1)) if (dep == 1).any() else -1,
-        "labels": len(rq), "labels_open": int(open_.sum()),
+        "policy": name,
+        "regime": regime,
+        "seed": seed,
+        "net": res.net_cost,
+        "promote": int((dep == 1).any()),
+        "first": int(np.argmax(dep == 1)) if (dep == 1).any() else -1,
+        "labels": len(rq),
+        "labels_open": int(open_.sum()),
         "labels_open_host": int((open_ & (rq[:, 1] == 1)).sum()) if len(rq) else 0,
         "labels_open_pref0": int((open_ & (rq[:, 3] == 0)).sum()) if len(rq) else 0,
-        "labels_after_discard": int((pre & (rq[:, 4] == 1) & (rq[:, 5] == 0)).sum()) if len(rq) else 0,
+        "labels_after_discard": int((pre & (rq[:, 4] == 1) & (rq[:, 5] == 0)).sum())
+        if len(rq)
+        else 0,
         "exhaust_t": int(rq[199, 0]) if len(rq) >= 200 else -1,
-        "n_evidence": len(z), "mean_z": float(z.mean()) if len(z) else float("nan"),
-        "median_gap": float(np.median(gaps)), "sign_changes": int(np.sum(z[1:] != z[:-1])) if len(z) > 1 else 0,
+        "n_evidence": len(z),
+        "mean_z": float(z.mean()) if len(z) else float("nan"),
+        "median_gap": float(np.median(gaps)),
+        "sign_changes": int(np.sum(z[1:] != z[:-1])) if len(z) > 1 else 0,
         "rho_true_at_gap": float(R.rho ** max(float(np.median(gaps)), 1.0)) if R.rho > 0 else 0.0,
         "log_e_up_max": float(np.log(max(max((x[3] for x in ev), default=1.0), 1e-300))),
         "cross_event": pol.cross_event if pol.cross_event is not None else -1,
-        "gmin_final": pol._gmin(), "rho_hat_final": pol.rho_hat,
-        "veto": dict(pol.n_veto), "runtime_events": len(res.records),
+        "gmin_final": pol._gmin(),
+        "rho_hat_final": pol.rho_hat,
+        "veto": dict(pol.n_veto),
+        "runtime_events": len(res.records),
     }
     for kind in ("iid", "sui_def", "sui_B"):
         for thr in (20.0, 40.0):
@@ -499,8 +607,8 @@ def _diag_job(a):
 
 
 def diagnose(regimes, policies, seeds, seed_base, out, workers=2):
-    import json  # noqa: PLC0415
-    import multiprocessing as mp  # noqa: PLC0415
+    import json
+    import multiprocessing as mp
 
     jobs = [(p, rg, s, seed_base) for rg in regimes for p in policies for s in range(seeds)]
     with mp.Pool(workers) as pool:
@@ -511,31 +619,38 @@ def diagnose(regimes, policies, seeds, seed_base, out, workers=2):
 
 
 LEGACY_SUMMARY_COMPARATOR_POOL = [
-    "xu_acquisition_only", "gated_adaptive_range+front", "choe_ramdas_eb+front",
+    "xu_acquisition_only",
+    "gated_adaptive_range+front",
+    "choe_ramdas_eb+front",
     "SMCS+retain-incumbent",
 ]
 
 
-def summarize(dirs, out, refs=("D2", "D5", "A5b", "cams_adapter"), *,
-              legacy_comparator_pool=False):
+def summarize(dirs, out, refs=("D2", "D5", "A5b", "cams_adapter"), *, legacy_comparator_pool=False):
     """Per-regime mean net / promotion / labels and paired net differences (candidate - ref,
     95% t-interval over seeds x episodes) vs D2, D5, A5b, CAMS and the lowest-cost tested
     certified-method port. The current pool comes from bench.CERTIFIED_PUBLISHED (which excludes
     Xu's acquisition adapter and non-native Choe-Ramdas port). Set legacy_comparator_pool only to
     reproduce the historical mislabeled summary. Writes JSON + a compact markdown table."""
-    import json  # noqa: PLC0415
+    import json
 
-    import pandas as pd  # noqa: PLC0415
-    from bench import CERTIFIED_PUBLISHED  # noqa: PLC0415
+    import pandas as pd
+    from bench import CERTIFIED_PUBLISHED
 
     d = pd.concat([pd.read_json(Path(x) / "records.jsonl", lines=True) for x in dirs])
     d = d.drop_duplicates(["regime", "ep", "seed", "policy", "alpha"], keep="last")
     piv = d.pivot_table(index=["regime", "ep", "seed"], columns="policy", values="net")
     res = {}
     for (rg, pol), g in d.groupby(["regime", "policy"]):
-        row = {"net": g.net.mean(), "promote": g.ever_promote.mean(), "labels": g.labels.mean(),
-               "rollbacks": g.n_rollbacks.mean(), "n": len(g), "runtime_max": g.runtime_s.max(),
-               "runtime_mean": g.runtime_s.mean()}
+        row = {
+            "net": g.net.mean(),
+            "promote": g.ever_promote.mean(),
+            "labels": g.labels.mean(),
+            "rollbacks": g.n_rollbacks.mean(),
+            "n": len(g),
+            "runtime_max": g.runtime_s.max(),
+            "runtime_mean": g.runtime_s.mean(),
+        }
         P = piv.loc[rg]
         cmp_pool = LEGACY_SUMMARY_COMPARATOR_POOL if legacy_comparator_pool else CERTIFIED_PUBLISHED
         cert = [c for c in cmp_pool if c in P]
@@ -546,8 +661,11 @@ def summarize(dirs, out, refs=("D2", "D5", "A5b", "cams_adapter"), *,
             x = (P[pol] - P[ref]).dropna()
             se = x.std(ddof=1) / np.sqrt(len(x)) if len(x) > 1 else float("nan")
             key = "best_cert" if ref == best and ref not in refs else ref
-            row[f"d_{key}"] = [round(x.mean(), 2), round(x.mean() - 1.96 * se, 2),
-                               round(x.mean() + 1.96 * se, 2)]
+            row[f"d_{key}"] = [
+                round(x.mean(), 2),
+                round(x.mean() - 1.96 * se, 2),
+                round(x.mean() + 1.96 * se, 2),
+            ]
             if key == "best_cert":
                 row["best_cert"] = best
                 if not legacy_comparator_pool:
@@ -570,13 +688,17 @@ if __name__ == "__main__":
     ap.add_argument("--seed-base", type=int, default=2026110701)
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--out", required=True)
-    ap.add_argument("--legacy-comparator-pool", action="store_true",
-                    help="reproduce historical Family-H summaries with the mislabeled comparator pool")
+    ap.add_argument(
+        "--legacy-comparator-pool",
+        action="store_true",
+        help="reproduce historical Family-H summaries with the mislabeled comparator pool",
+    )
     a = ap.parse_args()
-    import registry  # noqa: F401,PLC0415  (pins the FLQ module paths exactly as screen.py does)
+    import registry  # noqa: F401  (pins the FLQ module paths exactly as screen.py does)
 
     if a.cmd == "summarize":
         summarize(a.dirs.split(","), a.out, legacy_comparator_pool=a.legacy_comparator_pool)
     else:
-        diagnose(a.regimes.split(","), a.policies.split(","), a.seeds, a.seed_base, a.out,
-                 a.workers)
+        diagnose(
+            a.regimes.split(","), a.policies.split(","), a.seeds, a.seed_base, a.out, a.workers
+        )

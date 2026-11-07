@@ -40,9 +40,14 @@ def _write_fixture(root: Path, *, missing_manifest: bool = False) -> None:
                 "next_action": None,
             }
             entries.append(entry)
-            registry[cid] = {key: entry[key] for key in ("status", "results_artifact", "track_E", "track_R", "track_V")}
+            registry[cid] = {
+                key: entry[key]
+                for key in ("status", "results_artifact", "track_E", "track_R", "track_V")
+            }
         (root / f"docs/sprint2/family_{suffix}").mkdir(parents=True)
-        (root / f"docs/sprint2/family_{suffix}/ledger.json").write_text(json.dumps({"candidates": entries}))
+        (root / f"docs/sprint2/family_{suffix}/ledger.json").write_text(
+            json.dumps({"candidates": entries})
+        )
     (root / "docs/sprint2/candidates.json").write_text(json.dumps(registry))
 
 

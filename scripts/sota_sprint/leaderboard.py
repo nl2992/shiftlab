@@ -16,11 +16,28 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs/sota_sprint"
 IDS = [f"{f}{i}" for f in "ABCD" for i in range(1, 7)]
-FIELDS = ["id", "parent", "added_components", "intended_failure_mechanism", "implementation",
-          "status", "dev_environments", "n_runs", "dev_cost_vs_best_certified",
-          "dev_efficacy", "null_safety", "strongest_comparator_beaten", "novelty",
-          "ablation", "real_data", "validation", "main_track_potential", "sota_performance",
-          "next_action", "results_artifact"]
+FIELDS = [
+    "id",
+    "parent",
+    "added_components",
+    "intended_failure_mechanism",
+    "implementation",
+    "status",
+    "dev_environments",
+    "n_runs",
+    "dev_cost_vs_best_certified",
+    "dev_efficacy",
+    "null_safety",
+    "strongest_comparator_beaten",
+    "novelty",
+    "ablation",
+    "real_data",
+    "validation",
+    "main_track_potential",
+    "sota_performance",
+    "next_action",
+    "results_artifact",
+]
 
 
 def _entries(path: Path) -> list[dict]:
@@ -47,10 +64,17 @@ def main():
                 if k in v:
                     e[k] = v[k]
     (DOCS / "candidates.json").write_text(json.dumps(reg, indent=1, default=str) + "\n")
-    executed = [i for i in IDS if reg[i].get("results_artifact") and reg[i]["status"] not in (
-        "NOT_IMPLEMENTED", "IMPLEMENTED", "BLOCKED")]
-    board = {"executed": executed, "missing": [i for i in IDS if i not in executed],
-             "rows": [{k: reg[c].get(k) for k in FIELDS} for c in reg]}
+    executed = [
+        i
+        for i in IDS
+        if reg[i].get("results_artifact")
+        and reg[i]["status"] not in ("NOT_IMPLEMENTED", "IMPLEMENTED", "BLOCKED")
+    ]
+    board = {
+        "executed": executed,
+        "missing": [i for i in IDS if i not in executed],
+        "rows": [{k: reg[c].get(k) for k in FIELDS} for c in reg],
+    }
     (DOCS / "leaderboard.json").write_text(json.dumps(board, indent=1, default=str) + "\n")
     print(f"{len(executed)}/24 mandatory candidates executed; missing: {board['missing']}")
     for c in reg:

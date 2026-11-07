@@ -19,21 +19,84 @@ NULL_SEED_BASE = 2026110602
 VAL_SEEDS = 100
 NULL_SEEDS = 1000
 
-NEW = {r.name: r for r in [
-    _r("W_better_dep_r7", "dependence", [(0, 0.66)], dis=((0, 0.22),), rho=0.7, tags=("alt", "dep")),
-    _r("W_better_dep_r9", "dependence", [(0, 0.68)], dis=((0, 0.2),), rho=0.9, tags=("alt", "dep")),
-    _r("W_null_dep_r9", "dependence", [(0, 0.5)], dis=((0, 0.22),), rho=0.9, tags=("null", "dep")),
-    _r("W_null_dep_r95", "dependence", [(0, 0.5)], dis=((0, 0.25),), rho=0.95, tags=("null", "dep")),
-    _r("W_worse_dep_r8", "dependence", [(0, 0.42)], dis=((0, 0.2),), rho=0.8, tags=("null", "dep")),
-    _r("W_late_1000", "late", [(0, 0.42), (1000, 0.72)], dis=((0, 0.22),), tags=("alt", "change")),
-    _r("W_reversal_700", "reversal", [(0, 0.68), (700, 0.32)], tags=("change",)),
-    _r("W_delay600_better", "delay", [(0, 0.64)], delay=600, tags=("alt",)),
-]}
+NEW = {
+    r.name: r
+    for r in [
+        _r(
+            "W_better_dep_r7",
+            "dependence",
+            [(0, 0.66)],
+            dis=((0, 0.22),),
+            rho=0.7,
+            tags=("alt", "dep"),
+        ),
+        _r(
+            "W_better_dep_r9",
+            "dependence",
+            [(0, 0.68)],
+            dis=((0, 0.2),),
+            rho=0.9,
+            tags=("alt", "dep"),
+        ),
+        _r(
+            "W_null_dep_r9",
+            "dependence",
+            [(0, 0.5)],
+            dis=((0, 0.22),),
+            rho=0.9,
+            tags=("null", "dep"),
+        ),
+        _r(
+            "W_null_dep_r95",
+            "dependence",
+            [(0, 0.5)],
+            dis=((0, 0.25),),
+            rho=0.95,
+            tags=("null", "dep"),
+        ),
+        _r(
+            "W_worse_dep_r8",
+            "dependence",
+            [(0, 0.42)],
+            dis=((0, 0.2),),
+            rho=0.8,
+            tags=("null", "dep"),
+        ),
+        _r(
+            "W_late_1000",
+            "late",
+            [(0, 0.42), (1000, 0.72)],
+            dis=((0, 0.22),),
+            tags=("alt", "change"),
+        ),
+        _r("W_reversal_700", "reversal", [(0, 0.68), (700, 0.32)], tags=("change",)),
+        _r("W_delay600_better", "delay", [(0, 0.64)], delay=600, tags=("alt",)),
+    ]
+}
 SPRINT_REGIMES.update(NEW)
 
-V_ATLAS = ["V_better_a", "V_better_b", "V_better_c", "V_dep_better_r5", "V_near", "V_bursty",
-           "V_null", "V_worse", "V_null_dep_r5", "V_null_dep_r8", "V_late_600", "V_reversal_1000",
-           "V_recurrent"]
+V_ATLAS = [
+    "V_better_a",
+    "V_better_b",
+    "V_better_c",
+    "V_dep_better_r5",
+    "V_near",
+    "V_bursty",
+    "V_null",
+    "V_worse",
+    "V_null_dep_r5",
+    "V_null_dep_r8",
+    "V_late_600",
+    "V_reversal_1000",
+    "V_recurrent",
+]
 VAL_REGIMES = V_ATLAS + list(NEW)
-NULL_REGIMES = ["V_null", "V_worse", "V_null_dep_r5", "V_null_dep_r8", "W_null_dep_r9",
-                "W_null_dep_r95", "W_worse_dep_r8"]
+NULL_REGIMES = [
+    "V_null",
+    "V_worse",
+    "V_null_dep_r5",
+    "V_null_dep_r8",
+    "W_null_dep_r9",
+    "W_null_dep_r95",
+    "W_worse_dep_r8",
+]

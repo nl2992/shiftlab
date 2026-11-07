@@ -20,8 +20,8 @@ import numpy as np
 from sklearn.ensemble import HistGradientBoostingClassifier
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fam_a import rho_mle  # noqa: E402
-from fresh_real import CATEGORICAL, DELAYS, LOADERS, MAX_EPS, T_EP, prep  # noqa: E402
+from fam_a import rho_mle
+from fresh_real import CATEGORICAL, DELAYS, LOADERS, MAX_EPS, T_EP, prep
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data/sprint_twin_losses"
@@ -52,8 +52,9 @@ def build(name: str) -> dict:
         half = _seed(name, s, 0).random(n30) < 0.5
         preds = []
         for m in (half, ~half):
-            clf = HistGradientBoostingClassifier(max_iter=100, max_depth=4, learning_rate=0.1,
-                                                 random_state=0).fit(xtr[m], y[:n30][m])
+            clf = HistGradientBoostingClassifier(
+                max_iter=100, max_depth=4, learning_rate=0.1, random_state=0
+            ).fit(xtr[m], y[:n30][m])
             preds.append((clf.predict(xe) != y[n30:end]).astype(np.int8).reshape(k, T_EP))
         if _seed(name, s, 1).random() < 0.5:
             preds = preds[::-1]
@@ -72,22 +73,36 @@ def build(name: str) -> dict:
     np.savez(OUT / f"twin_{name}.npz", l0=l0, l1=l1, split=np.array(split), ep=np.array(ep))
     adv = np.array(adv)
     per_split = adv.reshape(SPLITS, k).mean(axis=1)
-    return {"dataset": name, "splits": SPLITS, "K": int(k), "episodes": int(l0.shape[0]),
-            "delay": DELAYS[name], "err0": float(l0.mean()), "err1": float(l1.mean()),
-            "disagreement": float((l0 != l1).mean()),
-            "mean_adv_over_splits": float(per_split.mean()),
-            "sd_adv_over_splits": float(per_split.std(ddof=1)),
-            "abs_adv_episode_median": float(np.median(np.abs(adv))),
-            "median_rho_hat": float(np.median(rhos)) if rhos else None, "n_rho": len(rhos),
-            "array_content_sha256": hashlib.sha256(l0.tobytes() + l1.tobytes()).hexdigest()}
+    return {
+        "dataset": name,
+        "splits": SPLITS,
+        "K": int(k),
+        "episodes": int(l0.shape[0]),
+        "delay": DELAYS[name],
+        "err0": float(l0.mean()),
+        "err1": float(l1.mean()),
+        "disagreement": float((l0 != l1).mean()),
+        "mean_adv_over_splits": float(per_split.mean()),
+        "sd_adv_over_splits": float(per_split.std(ddof=1)),
+        "abs_adv_episode_median": float(np.median(np.abs(adv))),
+        "median_rho_hat": float(np.median(rhos)) if rhos else None,
+        "n_rho": len(rhos),
+        "array_content_sha256": hashlib.sha256(l0.tobytes() + l1.tobytes()).hexdigest(),
+    }
 
 
 def main() -> None:
     stats = {nm: build(nm) for nm in LOADERS}
     (OUT / "stats.json").write_text(json.dumps(stats, indent=1) + "\n")
     for nm, v in stats.items():
-        print(nm, {k: (round(x, 4) if isinstance(x, float) else x) for k, x in v.items()
-                   if k not in ("dataset", "array_content_sha256")})
+        print(
+            nm,
+            {
+                k: (round(x, 4) if isinstance(x, float) else x)
+                for k, x in v.items()
+                if k not in ("dataset", "array_content_sha256")
+            },
+        )
 
 
 if __name__ == "__main__":

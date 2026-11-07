@@ -13,18 +13,45 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import fam_a  # noqa: E402
-import fam_r  # noqa: E402
-from fam_r import EXTRA, LAMS, CondMeanEP, MarkovSUIPlus, RGate  # noqa: E402
-from regimes import REGIMES  # noqa: E402
-from simulator import check_budget_feasible, policy_rng, run_episode  # noqa: E402
-from suite import stream_from_losses  # noqa: E402
+import fam_a
+import fam_r
+from fam_r import EXTRA, LAMS, CondMeanEP, MarkovSUIPlus
+from regimes import REGIMES
+from simulator import check_budget_feasible, policy_rng, run_episode
+from suite import stream_from_losses
 
-CANDS = ["R2", "R2-qc", "R2-floor25", "R3-base", "R3-plugin", "R3-near", "R3-alloc",
-         "R3-plugnear", "R4-both", "R4-comb", "R5", "R5-nopen", "R5-iidvar", "R6:D2-floor25",
-         "R6:D2-always", "R:D2_replica"]
-CERTIFIED = ["R2", "R2-qc", "R2-floor25", "R3-base", "R3-plugin", "R3-near", "R3-alloc",
-             "R3-plugnear", "R4-both", "R4-comb", "R6:D2-floor25", "R6:D2-always"]
+CANDS = [
+    "R2",
+    "R2-qc",
+    "R2-floor25",
+    "R3-base",
+    "R3-plugin",
+    "R3-near",
+    "R3-alloc",
+    "R3-plugnear",
+    "R4-both",
+    "R4-comb",
+    "R5",
+    "R5-nopen",
+    "R5-iidvar",
+    "R6:D2-floor25",
+    "R6:D2-always",
+    "R:D2_replica",
+]
+CERTIFIED = [
+    "R2",
+    "R2-qc",
+    "R2-floor25",
+    "R3-base",
+    "R3-plugin",
+    "R3-near",
+    "R3-alloc",
+    "R3-plugnear",
+    "R4-both",
+    "R4-comb",
+    "R6:D2-floor25",
+    "R6:D2-always",
+]
 
 
 def _run(name, regime="F0_null", seed=0, T=2000, B=200, delay=None, alpha=0.05, extra=None):
@@ -34,8 +61,16 @@ def _run(name, regime="F0_null", seed=0, T=2000, B=200, delay=None, alpha=0.05, 
     d = R.delay if delay is None else delay
     fac = (extra or EXTRA)[name]
     pol = fac(T, B, 5.0, 0.05, alpha, d, lambda n: policy_rng(11, seed, n))
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=d, budget=B,
-                      label_price=0.05, switch_cost=5.0, trace=True)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=d,
+        budget=B,
+        label_price=0.05,
+        switch_cost=5.0,
+        trace=True,
+    )
     return pol, res
 
 
@@ -87,7 +122,9 @@ def test_ipw_factor_has_conditional_mean_one_plus_lam_a():
     for p in np.linspace(0, 1, 11):
         for q in (0.01, 0.2, 0.7, 1.0):
             y1 = 1.0 / q  # queried and challenger correct
-            m = q * (p * (1 + LAMS * (y1 - 0.5)) + (1 - p) * (1 - LAMS / 2)) + (1 - q) * (1 - LAMS / 2)
+            m = q * (p * (1 + LAMS * (y1 - 0.5)) + (1 - p) * (1 - LAMS / 2)) + (1 - q) * (
+                1 - LAMS / 2
+            )
             assert np.allclose(m, 1 + LAMS * (p - 0.5))
 
 
@@ -146,7 +183,7 @@ def test_ipw_cm_valid_with_adaptive_propensity():
 def test_cm_has_power_on_iid_alternative():
     rng = np.random.default_rng(4)
     e = CondMeanEP()
-    for zi in (rng.random(200) < 0.7):
+    for zi in rng.random(200) < 0.7:
         e.update(float(zi))
     assert e.value >= 100
 
@@ -164,8 +201,13 @@ def _exact_ll(z, ts, p, rho):
     return np.log(p if z[0] else 1 - p) + np.sum(np.log(np.where(z[1:] == 1, m, 1 - m)))
 
 
-VARIANTS = {"base": {}, "plugin": dict(beta=0.5), "near": dict(p_tilt=1.0),
-            "alloc": dict(w_first=0.9, stride=20), "plugnear": dict(beta=0.5, p_tilt=1.0)}
+VARIANTS = {
+    "base": {},
+    "plugin": {"beta": 0.5},
+    "near": {"p_tilt": 1.0},
+    "alloc": {"w_first": 0.9, "stride": 20},
+    "plugnear": {"beta": 0.5, "p_tilt": 1.0},
+}
 
 
 def _mk(kw, **over):
@@ -207,9 +249,12 @@ def test_plugin_numerator_is_a_probability(variant):
     for z in itertools.product((0, 1), repeat=n):
         ev = _mk({**VARIANTS[variant], "rho_every": 1}, started=False)
         _run_seq(ev, np.array(z), ts)
-        c0, a0, p0 = ev.starts[0]
-        num = fam_a._lse(np.array([math.log(0.5) + fam_a._lse(ev.alogpi + ev.acum - a0),
-                                   math.log(0.5) + ev.pcum - p0]))
+        _c0, a0, p0 = ev.starts[0]
+        num = fam_a._lse(
+            np.array(
+                [math.log(0.5) + fam_a._lse(ev.alogpi + ev.acum - a0), math.log(0.5) + ev.pcum - p0]
+            )
+        )
         tot += math.exp(num)
     assert abs(tot - 1.0) < 1e-9
 
@@ -241,7 +286,7 @@ def _queried(rng, n, p, rho, dis=0.2):
 
 
 def test_near_prior_normalised():
-    ev = _mk(dict(p_tilt=1.0))
+    ev = _mk({"p_tilt": 1.0})
     assert abs(np.exp(ev.alogpi).sum() - 1) < 1e-12
 
 
@@ -252,8 +297,9 @@ class _Fake:
 
 
 def _gate(evidence):
-    pol = fam_r._g("g", evidence=evidence)(500, 50, 5.0, 0.05, 0.05, 5,
-                                          lambda n: policy_rng(0, 0, n))
+    pol = fam_r._g("g", evidence=evidence)(
+        500, 50, 5.0, 0.05, 0.05, 5, lambda n: policy_rng(0, 0, n)
+    )
     return pol
 
 

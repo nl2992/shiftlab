@@ -13,22 +13,29 @@ for _p in (ROOT / "scripts/failure_atlas_v2_flq", ROOT / "scripts/sota_sprint"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-import bench  # noqa: E402,F401  (pins FLQ regimes before the RMM path)
-import fam_b  # noqa: E402
-from registry import EXTRA  # noqa: E402
-from simulator import policy_rng, run_episode  # noqa: E402
+import bench  # noqa: F401  (pins FLQ regimes before the RMM path)
+import fam_b
+from registry import EXTRA
+from simulator import policy_rng, run_episode
 
 B_NAMES = [k for k in fam_b.EXTRA]
 
 
 def _episode(name, losses, *, budget=200, delay=100, seed=0, cs=5.0):
     T = losses.shape[0]
-    pol = EXTRA[name](T, budget, cs, 0.05, 0.05, delay,
-                      lambda nm: policy_rng(11, seed, nm))
+    pol = EXTRA[name](T, budget, cs, 0.05, 0.05, delay, lambda nm: policy_rng(11, seed, nm))
     labels = np.zeros(T, dtype=int)
     preds = losses.astype(int)  # prediction = label XOR loss with label 0
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=delay, budget=budget,
-                      label_price=0.05, switch_cost=cs, trace=True)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=delay,
+        budget=budget,
+        label_price=0.05,
+        switch_cost=cs,
+        trace=True,
+    )
     return pol, res
 
 
@@ -102,7 +109,7 @@ def test_rollback_fires_on_planted_reversal():
     l1[dis & (np.arange(T) >= 400)] = 1  # challenger wrong from 400 on
     losses = np.stack([l0, l1], 1)
     for name in ("B2", "B5", "B6"):
-        pol, res = _episode(name, losses, budget=200, delay=10)
+        _pol, res = _episode(name, losses, budget=200, delay=10)
         dep = np.array([r["deployed_model"] for r in res.records])
         assert dep[:400].max() == 1, name  # promoted during the advantage
         t1 = int(np.argmax(dep == 1))

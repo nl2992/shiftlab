@@ -21,14 +21,13 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parents[2] / "scripts/promising_directions"))
 
-import construct_model_pairs as cmp  # noqa: E402
-import dataset_sources as ds  # noqa: E402
-import registry as reg  # noqa: E402
-import screen_candidate as sc  # noqa: E402
-import validate_stream as vs  # noqa: E402
-
-import b3_plus_experiments as exp  # noqa: E402
-from b3_plus_policy import run_plus_policies  # noqa: E402
+import b3_plus_experiments as exp
+import construct_model_pairs as cmp
+import dataset_sources as ds
+import registry as reg
+import screen_candidate as sc
+import validate_stream as vs
+from b3_plus_policy import run_plus_policies
 
 base = exp.base
 b1 = base.b1
@@ -42,7 +41,12 @@ def prepare(dataset_id: str, cache: Path) -> dict:
     npz_p = cache / f"{dataset_id}_losses.npz"
     if npz_p.exists() and meta_p.exists():
         z = np.load(npz_p)
-        return {**json.loads(meta_p.read_text()), "starts": z["starts"], "l0": z["l0"], "l1": z["l1"]}
+        return {
+            **json.loads(meta_p.read_text()),
+            "starts": z["starts"],
+            "l0": z["l0"],
+            "l1": z["l1"],
+        }
     registry = reg.load(reg.REGISTRY_PATH)
     entry = reg.get(registry, dataset_id)
     delay = reg.declared_delay(entry)
@@ -71,7 +75,7 @@ def prepare(dataset_id: str, cache: Path) -> dict:
         "chosen_pair": sel["chosen"],
         "inc_err_dev": float(sel["inc_err_dev"]),
         "n": int(n),
-        "K": int(len(starts)),
+        "K": len(starts),
     }
     cache.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(npz_p, starts=np.asarray(starts), l0=l0, l1=l1)
@@ -79,7 +83,9 @@ def prepare(dataset_id: str, cache: Path) -> dict:
     return {**meta, "starts": np.asarray(starts), "l0": l0, "l1": l1}
 
 
-def evaluate(prep: dict, *, seed_base: int, n_seeds: int, budget: int, cs: float, cq: float) -> dict:
+def evaluate(
+    prep: dict, *, seed_base: int, n_seeds: int, budget: int, cs: float, cq: float
+) -> dict:
     """Per-episode stats for every variant under one configuration."""
     p = b1.Params(T=T_EP, delay=prep["delay"], base_err=prep["base_err"], eps=0.05)
     rows, checks = [], {"max_queries": 0, "min_promo_time": np.inf, "budget": budget}
@@ -142,10 +148,10 @@ def paired(ev: dict, K: int, ref: str = "P3b", seed: int = 3) -> dict:
 
 
 CONFIGS = {
-    "V0_registered_seeds": dict(seed_base=20261101, budget=200, cs=5.0, cq=0.05),
-    "V1_disjoint_seeds": dict(seed_base=20261103, budget=200, cs=5.0, cq=0.05),
-    "V2_switch_cost_20": dict(seed_base=20261101, budget=200, cs=20.0, cq=0.05),
-    "V3_budget_400": dict(seed_base=20261101, budget=400, cs=5.0, cq=0.05),
+    "V0_registered_seeds": {"seed_base": 20261101, "budget": 200, "cs": 5.0, "cq": 0.05},
+    "V1_disjoint_seeds": {"seed_base": 20261103, "budget": 200, "cs": 5.0, "cq": 0.05},
+    "V2_switch_cost_20": {"seed_base": 20261101, "budget": 200, "cs": 20.0, "cq": 0.05},
+    "V3_budget_400": {"seed_base": 20261101, "budget": 400, "cs": 5.0, "cq": 0.05},
 }
 
 
@@ -160,9 +166,17 @@ def main(argv=None):
         prep = prepare(dsid, cache)
         outd = reg.OUT_ROOT / dsid / "validation"
         outd.mkdir(parents=True, exist_ok=True)
-        allr = {"dataset_id": dsid, "delay": prep["delay"], "K": prep["K"],
-                "chosen_pair": prep["chosen_pair"], "n_seeds": a.n_seeds, "configs": {}}
-        print(f"\n######## {dsid}  K={prep['K']}  delay={prep['delay']}  pair={prep['chosen_pair']}")
+        allr = {
+            "dataset_id": dsid,
+            "delay": prep["delay"],
+            "K": prep["K"],
+            "chosen_pair": prep["chosen_pair"],
+            "n_seeds": a.n_seeds,
+            "configs": {},
+        }
+        print(
+            f"\n######## {dsid}  K={prep['K']}  delay={prep['delay']}  pair={prep['chosen_pair']}"
+        )
         for name in a.configs.split(","):
             ev = evaluate(prep, n_seeds=a.n_seeds, **CONFIGS[name])
             res = paired(ev, prep["K"])
@@ -170,13 +184,17 @@ def main(argv=None):
             res["config"] = CONFIGS[name]
             allr["configs"][name] = res
             w = res["variants"]
-            flag = "WIN " if w["P7s"]["ci"][1] < 0 else ("LOSS" if w["P7s"]["ci"][0] > 0 else "  = ")
-            print(f"  {name:22s} P0={w['P0']['mean_cost']:8.2f} P3b={w['P3b']['mean_cost']:8.2f} "
-                  f"P6={w['P6']['mean_cost']:8.2f} P7s={w['P7s']['mean_cost']:8.2f} "
-                  f"lab {w['P3b']['mean_labels']:6.1f}->{w['P7s']['mean_labels']:6.1f} "
-                  f"vsP3b={w['P7s']['vs_P3b']:+7.3f} "
-                  f"[{w['P7s']['ci'][0]:+7.3f},{w['P7s']['ci'][1]:+7.3f}] {flag} "
-                  f"budget_ok={ev['checks']['budget_respected']}")
+            flag = (
+                "WIN " if w["P7s"]["ci"][1] < 0 else ("LOSS" if w["P7s"]["ci"][0] > 0 else "  = ")
+            )
+            print(
+                f"  {name:22s} P0={w['P0']['mean_cost']:8.2f} P3b={w['P3b']['mean_cost']:8.2f} "
+                f"P6={w['P6']['mean_cost']:8.2f} P7s={w['P7s']['mean_cost']:8.2f} "
+                f"lab {w['P3b']['mean_labels']:6.1f}->{w['P7s']['mean_labels']:6.1f} "
+                f"vsP3b={w['P7s']['vs_P3b']:+7.3f} "
+                f"[{w['P7s']['ci'][0]:+7.3f},{w['P7s']['ci'][1]:+7.3f}] {flag} "
+                f"budget_ok={ev['checks']['budget_respected']}"
+            )
         (outd / "validation.json").write_text(json.dumps(allr, indent=2), encoding="utf-8")
         print(f"  -> {outd / 'validation.json'}")
 

@@ -21,14 +21,15 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from scipy.stats import t as student_t
-
 from bench2 import RISK_ALTS, RISK_NULLS, RISK_TARGETS
+from scipy.stats import t as student_t
 
 
 def _load(dirs):
-    df = pd.concat([pd.read_json(Path(d) / "records.jsonl", lines=True, precise_float=True)
-                    for d in dirs], ignore_index=True)
+    df = pd.concat(
+        [pd.read_json(Path(d) / "records.jsonl", lines=True, precise_float=True) for d in dirs],
+        ignore_index=True,
+    )
     return df.assign(alpha=df.alpha.round(6))
 
 
@@ -46,8 +47,10 @@ def calibrate(dev: pd.DataFrame, nulls=RISK_NULLS, targets=RISK_TARGETS) -> dict
     out = {}
     for p in risk.index.get_level_values(0).unique():
         r = risk[p].sort_index()
-        out[p] = {t: (round(float(r[r <= v].index.max()), 6) if (r <= v).any() else None)
-                  for t, v in targets.items()}
+        out[p] = {
+            t: (round(float(r[r <= v].index.max()), 6) if (r <= v).any() else None)
+            for t, v in targets.items()
+        }
     return out
 
 
@@ -66,10 +69,16 @@ def evaluate(ev: pd.DataFrame, amap: dict, nulls=RISK_NULLS, alts=RISK_ALTS) -> 
             n_seed_blocks = len(per_seed)
             se = per_seed.std(ddof=1) / np.sqrt(n_seed_blocks)
             critical = float(student_t.ppf(0.975, df=n_seed_blocks - 1))
-            res.setdefault(t, {})[p] = {"alpha": a, "risk": k / n, "risk_ci": wilson(k, n),
-                                        "cost": float(per_seed.mean()),
-                                        "cost_ci": (float(per_seed.mean() - critical * se),
-                                                    float(per_seed.mean() + critical * se))}
+            res.setdefault(t, {})[p] = {
+                "alpha": a,
+                "risk": k / n,
+                "risk_ci": wilson(k, n),
+                "cost": float(per_seed.mean()),
+                "cost_ci": (
+                    float(per_seed.mean() - critical * se),
+                    float(per_seed.mean() + critical * se),
+                ),
+            }
     for t, d in res.items():
         pts = sorted(d.items(), key=lambda kv: (kv[1]["risk"], kv[1]["cost"]))
         best, front = float("inf"), []
@@ -91,12 +100,19 @@ def main(argv=None):
     amap = calibrate(_load(a.dev))
     res = evaluate(_load(a.eval), amap)
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
-    Path(a.out).write_text(json.dumps({"calibration": amap, "curves": res}, indent=1, default=float) + "\n")
-    L = ["| target | policy | alpha* | realised risk [95% CI] | alt cost [95% CI] | Pareto |", "|---|---|---|---|---|---|"]
+    Path(a.out).write_text(
+        json.dumps({"calibration": amap, "curves": res}, indent=1, default=float) + "\n"
+    )
+    L = [
+        "| target | policy | alpha* | realised risk [95% CI] | alt cost [95% CI] | Pareto |",
+        "|---|---|---|---|---|---|",
+    ]
     for t, d in res.items():
         for p, v in sorted(d.items(), key=lambda kv: kv[1]["cost"]):
-            L.append(f"| {t} | {p} | {v['alpha']} | {v['risk']:.3f} [{v['risk_ci'][0]:.3f},{v['risk_ci'][1]:.3f}] | "
-                     f"{v['cost']:.1f} [{v['cost_ci'][0]:.1f},{v['cost_ci'][1]:.1f}] | {'*' if v['pareto'] else ''} |")
+            L.append(
+                f"| {t} | {p} | {v['alpha']} | {v['risk']:.3f} [{v['risk_ci'][0]:.3f},{v['risk_ci'][1]:.3f}] | "
+                f"{v['cost']:.1f} [{v['cost_ci'][0]:.1f},{v['cost_ci'][1]:.1f}] | {'*' if v['pareto'] else ''} |"
+            )
     Path(a.out).with_suffix(".md").write_text("\n".join(L) + "\n")
     print("\n".join(L))
 

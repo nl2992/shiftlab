@@ -1,13 +1,14 @@
 """RMM detector: null false-alarm rate, detection of a late change, and wrapper budget safety."""
+
 import sys
 from pathlib import Path
 
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts/failure_atlas_v2"))
-from restart_monitor import FACTORIES, MixtureSRDetector  # noqa: E402
-from regimes import REGIMES  # noqa: E402
-from suite import build_suite, run_metrics  # noqa: E402
+from regimes import REGIMES
+from restart_monitor import FACTORIES, MixtureSRDetector
+from suite import build_suite, run_metrics
 
 
 def _alarm_rate(p, n_labels=200, reps=2000, alpha=0.05, seed=0):
@@ -37,9 +38,26 @@ def test_detects_late_change():
 def test_wrapper_respects_budget():
     R = REGIMES["F1_late_800"]
     L = R.sample(np.random.default_rng(3))
-    for pol in build_suite(2000, 200, 5, .05, .05, R.delay, 0, 1,
-                           names=["gated_deployment+RMM", "SMCS+retain-incumbent+RMM"],
-                           extra=FACTORIES):
-        m = run_metrics(pol, L, R.truth_gain(), delay=R.delay, budget=200, cq=.05, cs=5,
-                        stream_rng=np.random.default_rng(2))
+    for pol in build_suite(
+        2000,
+        200,
+        5,
+        0.05,
+        0.05,
+        R.delay,
+        0,
+        1,
+        names=["gated_deployment+RMM", "SMCS+retain-incumbent+RMM"],
+        extra=FACTORIES,
+    ):
+        m = run_metrics(
+            pol,
+            L,
+            R.truth_gain(),
+            delay=R.delay,
+            budget=200,
+            cq=0.05,
+            cs=5,
+            stream_rng=np.random.default_rng(2),
+        )
         assert m["labels"] <= 200

@@ -81,8 +81,13 @@ def test_hard_budget_is_enforced_pathwise():
     preds, labels = toy(T=100)
     p = AlwaysAsk()
     res = run_episode(
-        p, model_predictions=preds, labels=labels, delay=5, budget=10,
-        label_price=0.05, switch_cost=5.0,
+        p,
+        model_predictions=preds,
+        labels=labels,
+        delay=5,
+        budget=10,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert res.requested_labels == 10
     assert check_budget_feasible(res, 10) == []
@@ -95,8 +100,13 @@ def test_label_arrives_only_after_the_declared_delay():
     p = AlwaysAsk()
     delay = 7
     run_episode(
-        p, model_predictions=preds, labels=labels, delay=delay, budget=5,
-        label_price=0.05, switch_cost=5.0,
+        p,
+        model_predictions=preds,
+        labels=labels,
+        delay=delay,
+        budget=5,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     for f in p.seen:
         assert f.t_released - f.t_requested == delay
@@ -107,8 +117,13 @@ def test_policy_never_receives_unrequested_labels():
     preds, labels = toy(T=80)
     p = AlwaysAsk()
     res = run_episode(
-        p, model_predictions=preds, labels=labels, delay=3, budget=6,
-        label_price=0.05, switch_cost=5.0,
+        p,
+        model_predictions=preds,
+        labels=labels,
+        delay=3,
+        budget=6,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert len(p.seen) <= res.requested_labels
     bought = {r["event_id"] for r in res.records if r["requested"]}
@@ -118,8 +133,13 @@ def test_policy_never_receives_unrequested_labels():
 def test_release_timing_validator_passes_on_a_clean_run():
     preds, labels = toy(T=40)
     res = run_episode(
-        AlwaysAsk(), model_predictions=preds, labels=labels, delay=4, budget=40,
-        label_price=0.05, switch_cost=5.0,
+        AlwaysAsk(),
+        model_predictions=preds,
+        labels=labels,
+        delay=4,
+        budget=40,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert check_no_future_access(res, 4) == []
 
@@ -154,8 +174,13 @@ def test_frozen_propensity_travels_with_the_request():
     preds, labels = toy(T=20)
     p = Drifting()
     run_episode(
-        p, model_predictions=preds, labels=labels, delay=2, budget=20,
-        label_price=0.05, switch_cost=5.0,
+        p,
+        model_predictions=preds,
+        labels=labels,
+        delay=2,
+        budget=20,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     # event 0 was issued at q = 0.9; by release time the policy's q has moved on
     first = next(f for f in p.seen if f.event_id == 0)
@@ -165,8 +190,14 @@ def test_frozen_propensity_travels_with_the_request():
 def test_switch_accounting_counts_every_change():
     preds, labels = toy(T=100)
     res = run_episode(
-        Flipper(10), model_predictions=preds, labels=labels, delay=1, budget=0,
-        label_price=0.05, switch_cost=5.0, initial_model=0,
+        Flipper(10),
+        model_predictions=preds,
+        labels=labels,
+        delay=1,
+        budget=0,
+        label_price=0.05,
+        switch_cost=5.0,
+        initial_model=0,
     )
     # blocks of 10 alternate 0,1,0,1,...: 9 changes across 100 events
     assert res.deployment_switches == 9
@@ -176,8 +207,13 @@ def test_switch_accounting_counts_every_change():
 def test_net_cost_is_the_declared_formula():
     preds, labels = toy(T=50)
     res = run_episode(
-        AlwaysAsk(), model_predictions=preds, labels=labels, delay=1, budget=7,
-        label_price=0.25, switch_cost=3.0,
+        AlwaysAsk(),
+        model_predictions=preds,
+        labels=labels,
+        delay=1,
+        budget=7,
+        label_price=0.25,
+        switch_cost=3.0,
     )
     assert res.net_cost == pytest.approx(
         res.prediction_loss + 0.25 * res.requested_labels + 3.0 * res.deployment_switches
@@ -198,8 +234,13 @@ def test_delay_zero_is_refused_rather_than_silently_losing_labels():
     preds, labels = toy(T=20)
     with pytest.raises(ValueError, match="delay must be >= 1"):
         run_episode(
-            AlwaysAsk(), model_predictions=preds, labels=labels, delay=0, budget=20,
-            label_price=0.05, switch_cost=5.0,
+            AlwaysAsk(),
+            model_predictions=preds,
+            labels=labels,
+            delay=0,
+            budget=20,
+            label_price=0.05,
+            switch_cost=5.0,
         )
 
 
@@ -207,8 +248,13 @@ def test_delay_one_is_immediate_feedback_and_does_deliver():
     preds, labels = toy(T=20)
     p = AlwaysAsk()
     run_episode(
-        p, model_predictions=preds, labels=labels, delay=1, budget=20,
-        label_price=0.05, switch_cost=5.0,
+        p,
+        model_predictions=preds,
+        labels=labels,
+        delay=1,
+        budget=20,
+        label_price=0.05,
+        switch_cost=5.0,
     )
     assert len(p.seen) > 0
     assert all(f.t_released == f.t_requested + 1 for f in p.seen)

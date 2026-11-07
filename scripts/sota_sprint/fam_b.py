@@ -51,7 +51,8 @@ def _load_rmm():
     if name in sys.modules:
         return sys.modules[name]
     spec = importlib.util.spec_from_file_location(
-        name, ROOT / "scripts/failure_atlas_v2/restart_monitor.py")
+        name, ROOT / "scripts/failure_atlas_v2/restart_monitor.py"
+    )
     mod = importlib.util.module_from_spec(spec)
     sys.modules[name] = mod
     saved = list(sys.path)
@@ -66,8 +67,8 @@ _rmm = _load_rmm()
 RestartMixtureMonitor = _rmm.RestartMixtureMonitor
 HorizonWeightedPacer = _rmm.HorizonWeightedPacer
 
-from certificate_stops import GatedDeploymentStop  # noqa: E402  (path set by the RMM module)
-from simulator import Event, QueryRequest  # noqa: E402
+from certificate_stops import GatedDeploymentStop
+from simulator import Event, QueryRequest
 
 HOST_LAMBDAS = (0.15, 0.3, 0.5)
 WIDE_LAMBDAS = (0.1, 0.2, 0.35, 0.5, 0.7)
@@ -119,9 +120,15 @@ def host_detector(alpha, max_labels, gap=10):
 
 
 def multiscale_detector(alpha, max_labels):
-    return GridMixtureDetector(alpha, [(0.3, max_labels + 1, 1),
-                                       (0.35, 25, math.ceil(max_labels / 25)),
-                                       (0.35, 5, math.ceil(max_labels / 5))], WIDE_LAMBDAS)
+    return GridMixtureDetector(
+        alpha,
+        [
+            (0.3, max_labels + 1, 1),
+            (0.35, 25, math.ceil(max_labels / 25)),
+            (0.35, 5, math.ceil(max_labels / 5)),
+        ],
+        WIDE_LAMBDAS,
+    )
 
 
 class DeadlinePacer(HorizonWeightedPacer):
@@ -140,13 +147,32 @@ class DeadlinePacer(HorizonWeightedPacer):
 
 
 class RecoveryMonitor(RestartMixtureMonitor):
-    def __init__(self, make_base, horizon, budget, alpha, *, rng, name="", delay=100, cs=5.0,
-                 reserve=0.0, rollback=False, multiscale=False, deadline=False,
-                 alpha_rb_new=0.10, g_ref=G_REF):
-        self.reserve_n = int(math.ceil(reserve * budget))
-        self.rollback_on, self.multiscale, self.deadline = bool(rollback), bool(multiscale), bool(deadline)
+    def __init__(
+        self,
+        make_base,
+        horizon,
+        budget,
+        alpha,
+        *,
+        rng,
+        name="",
+        delay=100,
+        cs=5.0,
+        reserve=0.0,
+        rollback=False,
+        multiscale=False,
+        deadline=False,
+        alpha_rb_new=0.10,
+        g_ref=G_REF,
+    ):
+        self.reserve_n = math.ceil(reserve * budget)
+        self.rollback_on, self.multiscale, self.deadline = (
+            bool(rollback),
+            bool(multiscale),
+            bool(deadline),
+        )
         self.alpha_rb_new = float(alpha_rb_new)
-        self.h_min = int(math.ceil(cs / g_ref))
+        self.h_min = math.ceil(cs / g_ref)
         self.delay = int(delay)
         self.decided = False
         self.n_rollbacks = 0
@@ -161,7 +187,7 @@ class RecoveryMonitor(RestartMixtureMonitor):
     # -- detectors
     def _new_detector(self):
         if self.deployed == 0:
-            a = self.alpha_det / (2.0 ** self.n_promotions)
+            a = self.alpha_det / (2.0**self.n_promotions)
             m = self.B
         else:
             a = self.alpha_rb_new if self.rollback_on else self.alpha_rb
@@ -178,8 +204,9 @@ class RecoveryMonitor(RestartMixtureMonitor):
         return eff
 
     def _mark_decided(self):
-        if not self.decided and (self.deployed == 1 or self.n_alarms > 0
-                                 or getattr(self.base, "stopped", False)):
+        if not self.decided and (
+            self.deployed == 1 or self.n_alarms > 0 or getattr(self.base, "stopped", False)
+        ):
             self.decided = True
 
     # -- Policy protocol
@@ -241,7 +268,7 @@ class RecoveryMonitor(RestartMixtureMonitor):
         self.view = _rmm._View(self.t + 1, h, swap=(new == 1))
         a_base = self.alpha_base
         if new == 0 and self.rollback_on:  # re-promotion spends a halving share
-            a_base = self.alpha_base / (2.0 ** self.n_rollbacks)
+            a_base = self.alpha_base / (2.0**self.n_rollbacks)
         self.base = self.make_base(h, max(self.remaining, 0), a_base, self.rng)
         self.base_owned = set()
         self.det = self._new_detector()
@@ -258,8 +285,10 @@ def _gated(T, B, a, r):
 
 def _make(**kw):
     def f(T, B, cs, cq, alpha, delay, r):
-        return RecoveryMonitor(_gated, T, B, alpha, rng=r("gated_deployment"), delay=delay,
-                               cs=cs, **kw)
+        return RecoveryMonitor(
+            _gated, T, B, alpha, rng=r("gated_deployment"), delay=delay, cs=cs, **kw
+        )
+
     return f
 
 
@@ -294,8 +323,8 @@ def diagnose(regimes, policies, seeds=20, seed_base=None, out=None):
     import screen
     from bench import CONTRACT, DEV_SEED_BASE, parse_regime
     from registry import EXTRA as REG
-    from suite import build_suite, stream_from_losses
     from simulator import run_episode
+    from suite import build_suite, stream_from_losses
 
     seed_base = DEV_SEED_BASE if seed_base is None else seed_base
     rows = []
@@ -305,16 +334,34 @@ def diagnose(regimes, policies, seeds=20, seed_base=None, out=None):
         gain = R.truth_gain()
         neg = np.flatnonzero((gain[1:] < 0) & (gain[:-1] > 0)) + 1
         for s in range(seeds):
-            losses = R.sample(np.random.default_rng(np.random.SeedSequence(
-                [seed_base, screen._h(R.name), s])))
-            for pol in build_suite(losses.shape[0], budget, CONTRACT["cs"], CONTRACT["cq"],
-                                   CONTRACT["alpha"], R.delay, s, seed_base + screen._h(name) % 1000,
-                                   names=policies, extra=REG):
+            losses = R.sample(
+                np.random.default_rng(np.random.SeedSequence([seed_base, screen._h(R.name), s]))
+            )
+            for pol in build_suite(
+                losses.shape[0],
+                budget,
+                CONTRACT["cs"],
+                CONTRACT["cq"],
+                CONTRACT["alpha"],
+                R.delay,
+                s,
+                seed_base + screen._h(name) % 1000,
+                names=policies,
+                extra=REG,
+            ):
                 preds, labels = stream_from_losses(
-                    losses, np.random.default_rng([seed_base, screen._h(name), 0, s, 7]))
-                res = run_episode(pol, model_predictions=preds, labels=labels, delay=R.delay,
-                                  budget=budget, label_price=CONTRACT["cq"],
-                                  switch_cost=CONTRACT["cs"], trace=True)
+                    losses, np.random.default_rng([seed_base, screen._h(name), 0, s, 7])
+                )
+                res = run_episode(
+                    pol,
+                    model_predictions=preds,
+                    labels=labels,
+                    delay=R.delay,
+                    budget=budget,
+                    label_price=CONTRACT["cq"],
+                    switch_cost=CONTRACT["cs"],
+                    trace=True,
+                )
                 dep = np.array([r["deployed_model"] for r in res.records])
                 tr = np.diff(np.r_[0, dep])
                 down = np.flatnonzero(tr == -1)
@@ -323,16 +370,22 @@ def diagnose(regimes, policies, seeds=20, seed_base=None, out=None):
                     if dep[c - 1] == 1:
                         after = down[down >= c]
                         delays.append(int(after[0] - c) if len(after) else int(len(dep) - c))
-                rows.append({"regime": name, "seed": s, "policy": pol.name, "net": res.net_cost,
-                             "correct_rollbacks": int((gain[down] < 0).sum()),
-                             "false_rollbacks": int((gain[down] >= 0).sum()),
-                             "on1_at_reversal": len(delays),
-                             "reversal_delay_mean": float(np.mean(delays)) if delays else None})
+                rows.append(
+                    {
+                        "regime": name,
+                        "seed": s,
+                        "policy": pol.name,
+                        "net": res.net_cost,
+                        "correct_rollbacks": int((gain[down] < 0).sum()),
+                        "false_rollbacks": int((gain[down] >= 0).sum()),
+                        "on1_at_reversal": len(delays),
+                        "reversal_delay_mean": float(np.mean(delays)) if delays else None,
+                    }
+                )
     if out:
         Path(out).parent.mkdir(parents=True, exist_ok=True)
         with open(out, "w") as f:
-            for r in rows:
-                f.write(json.dumps(r) + "\n")
+            f.writelines(json.dumps(r) + "\n" for r in rows)
     return rows
 
 

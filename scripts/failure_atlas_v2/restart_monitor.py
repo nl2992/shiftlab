@@ -46,8 +46,8 @@ for _p in (_SOTA, _SOTA / "competitors"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from controls import PacedDisagreementAcquisition  # noqa: E402
-from simulator import Event, QueryRequest, ReleasedFeedback  # noqa: E402
+from controls import PacedDisagreementAcquisition
+from simulator import Event, QueryRequest, ReleasedFeedback
 
 
 class HorizonWeightedPacer(PacedDisagreementAcquisition):
@@ -72,12 +72,18 @@ class HorizonWeightedPacer(PacedDisagreementAcquisition):
 class MixtureSRDetector:
     """Weighted Shiryaev-Roberts e-detector over a finite start grid; total prior mass one."""
 
-    def __init__(self, alpha: float, max_labels: int, gap: int = 10,
-                 lambdas: tuple[float, ...] = (0.15, 0.3, 0.5), single_start: bool = False,
-                 w_first: float | None = None):
+    def __init__(
+        self,
+        alpha: float,
+        max_labels: int,
+        gap: int = 10,
+        lambdas: tuple[float, ...] = (0.15, 0.3, 0.5),
+        single_start: bool = False,
+        w_first: float | None = None,
+    ):
         self.alpha = float(alpha)
         self.gap = int(gap)
-        self.n_starts = 1 if single_start else max(1, int(math.ceil(max_labels / self.gap)))
+        self.n_starts = 1 if single_start else max(1, math.ceil(max_labels / self.gap))
         # prior mass of each start; total one. w_first puts extra mass on the first start.
         if self.n_starts == 1:
             self.pis = [1.0]
@@ -110,15 +116,25 @@ class _View:
 
     def event(self, ev: Event) -> Event:
         preds = ev.model_predictions[::-1].copy() if self.swap else ev.model_predictions
-        return Event(event_id=ev.event_id, t=ev.t - self.t0, horizon=self.horizon,
-                     model_predictions=preds, context=ev.context)
+        return Event(
+            event_id=ev.event_id,
+            t=ev.t - self.t0,
+            horizon=self.horizon,
+            model_predictions=preds,
+            context=ev.context,
+        )
 
     def feedback(self, fb: ReleasedFeedback) -> ReleasedFeedback:
         ml = fb.model_losses[::-1].copy() if self.swap else fb.model_losses
-        return ReleasedFeedback(event_id=fb.event_id, t_requested=fb.t_requested - self.t0,
-                                t_released=fb.t_released - self.t0, label=fb.label,
-                                model_losses=ml, query_probability=fb.query_probability,
-                                extra=fb.extra)
+        return ReleasedFeedback(
+            event_id=fb.event_id,
+            t_requested=fb.t_requested - self.t0,
+            t_released=fb.t_released - self.t0,
+            label=fb.label,
+            model_losses=ml,
+            query_probability=fb.query_probability,
+            extra=fb.extra,
+        )
 
     def model(self, k: int) -> int:
         return 1 - k if self.swap else k
@@ -127,11 +143,25 @@ class _View:
 class RestartMixtureMonitor:
     """Wrap any simulator Policy factory ``make(T, B, alpha, rng)`` with the RMM rule."""
 
-    def __init__(self, make_base, horizon: int, budget: int, alpha: float, *, rng,
-                 name: str, alpha_split: float = 0.5, alpha_rb: float | None = None,
-                 gap: int = 10, keep_acquiring: bool = True, restart_base: bool = True,
-                 p_min: float = 0.05, single_start: bool = False, pace_k: float = 1.0,
-                 w_first: float | None = None):
+    def __init__(
+        self,
+        make_base,
+        horizon: int,
+        budget: int,
+        alpha: float,
+        *,
+        rng,
+        name: str,
+        alpha_split: float = 0.5,
+        alpha_rb: float | None = None,
+        gap: int = 10,
+        keep_acquiring: bool = True,
+        restart_base: bool = True,
+        p_min: float = 0.05,
+        single_start: bool = False,
+        pace_k: float = 1.0,
+        w_first: float | None = None,
+    ):
         self.single_start = bool(single_start)
         self.w_first = w_first
         self.name = name
@@ -158,11 +188,12 @@ class RestartMixtureMonitor:
 
     def _new_detector(self) -> MixtureSRDetector:
         if self.deployed == 0:  # next alarm would promote the challenger
-            a = self.alpha_det / (2.0 ** self.n_promotions)
+            a = self.alpha_det / (2.0**self.n_promotions)
         else:
             a = self.alpha_rb
-        return MixtureSRDetector(a, self.B, self.gap, single_start=self.single_start,
-                                 w_first=self.w_first)
+        return MixtureSRDetector(
+            a, self.B, self.gap, single_start=self.single_start, w_first=self.w_first
+        )
 
     # -- Policy protocol
     def predict(self, event: Event) -> int:
@@ -225,8 +256,7 @@ class RestartMixtureMonitor:
         if self.restart_base:
             h = self.T - (self.t + 1)
             self.view = _View(self.t + 1, max(h, 1), swap=(new == 1))
-            self.base = self.make_base(max(h, 1), max(self.remaining, 0), self.alpha_base,
-                                       self.rng)
+            self.base = self.make_base(max(h, 1), max(self.remaining, 0), self.alpha_base, self.rng)
             self.base_owned = set()
         else:
             self.override = True  # ablation: the stale base no longer controls deployment
@@ -259,32 +289,76 @@ def _factories():
         "SMCS+retain-incumbent": lambda T, B, a, r: SMCSDeploymentPolicy(2, r, alpha=a),
         "model_picker_adapter": lambda T, B, a, r: ModelPickerDeploymentAdapter(2, 2, r),
         "cams_adapter": lambda T, B, a, r: CAMSDeploymentAdapter(
-            n_models=2, n_classes=2, advice_fn=stack_advice(2, []), rng=r),
+            n_models=2, n_classes=2, advice_fn=stack_advice(2, []), rng=r
+        ),
         "gong_zhang_paid_obs": lambda T, B, a, r: GongZhangPaidObs(T, B, 0.05, rng=r),
         "detector_only": lambda T, B, a, r: FixedModel(0, name="fixed"),
     }
     out = {}
     for nm, mk in bases.items():
-        seed_name = {"SMCS+retain-incumbent": "smcs", "model_picker_adapter": "model_picker",
-                     "cams_adapter": "cams", "gong_zhang_paid_obs": "gong_zhang"}.get(nm, nm)
-        out[f"{nm}+RMM"] = (lambda mk=mk, sn=seed_name: (
-            lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
-                mk, T, B, a, rng=r(sn), name="")))()
-        out[f"{nm}+RMM_single"] = (lambda mk=mk, sn=seed_name: (
-            lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
-                mk, T, B, a, rng=r(sn), name="", single_start=True)))()
-        out[f"{nm}+RMM_norestart"] = (lambda mk=mk, sn=seed_name: (
-            lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
-                mk, T, B, a, rng=r(sn), name="", restart_base=False)))()
-        out[f"{nm}+RMM_noacq"] = (lambda mk=mk, sn=seed_name: (
-            lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
-                mk, T, B, a, rng=r(sn), name="", keep_acquiring=False)))()
+        seed_name = {
+            "SMCS+retain-incumbent": "smcs",
+            "model_picker_adapter": "model_picker",
+            "cams_adapter": "cams",
+            "gong_zhang_paid_obs": "gong_zhang",
+        }.get(nm, nm)
+        out[f"{nm}+RMM"] = (  # noqa: PLC3002
+            lambda mk=mk, sn=seed_name: (
+                lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(mk, T, B, a, rng=r(sn), name="")  # noqa: B023
+            )
+        )()
+        out[f"{nm}+RMM_single"] = (  # noqa: PLC3002
+            lambda mk=mk, sn=seed_name: (
+                lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
+                    mk,  # noqa: B023 (bound by outer lambda default)
+                    T,
+                    B,
+                    a,
+                    rng=r(sn),
+                    name="",
+                    single_start=True,
+                )
+            )
+        )()
+        out[f"{nm}+RMM_norestart"] = (  # noqa: PLC3002
+            lambda mk=mk, sn=seed_name: (
+                lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
+                    mk,  # noqa: B023 (bound by outer lambda default)
+                    T,
+                    B,
+                    a,
+                    rng=r(sn),
+                    name="",
+                    restart_base=False,
+                )
+            )
+        )()
+        out[f"{nm}+RMM_noacq"] = (  # noqa: PLC3002
+            lambda mk=mk, sn=seed_name: (
+                lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
+                    mk,  # noqa: B023 (bound by outer lambda default)
+                    T,
+                    B,
+                    a,
+                    rng=r(sn),
+                    name="",
+                    keep_acquiring=False,
+                )
+            )
+        )()
     from controls import FixedModel as _Fixed
 
     def lrmd(**kw):
         return lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
-            lambda T_, B_, a_, r_: _Fixed(0, name="fixed"), T, B, a, rng=r("lrmd"), name="",
-            alpha_split=1.0, **kw)
+            lambda T_, B_, a_, r_: _Fixed(0, name="fixed"),
+            T,
+            B,
+            a,
+            rng=r("lrmd"),
+            name="",
+            alpha_split=1.0,
+            **kw,
+        )
 
     out["LRMD"] = lrmd(pace_k=2.0)
     out["LRMD_k1"] = lrmd(pace_k=1.0)

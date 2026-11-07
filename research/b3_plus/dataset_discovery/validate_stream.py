@@ -158,7 +158,10 @@ def exchangeability_diagnostic(y: np.ndarray, x, blocks: int = 10) -> dict:
             sd = a.std().replace(0, np.nan)
             sh = ((z.mean() - a.mean()).abs() / sd).dropna()
             shift = float(sh.median()) if len(sh) else None
-    return {"class_mix_by_block_chi2_p": chi_p, "median_abs_std_feature_shift_first_vs_second_half_of_train_dev": shift}
+    return {
+        "class_mix_by_block_chi2_p": chi_p,
+        "median_abs_std_feature_shift_first_vs_second_half_of_train_dev": shift,
+    }
 
 
 def leakage_screen(x, y01_train: np.ndarray, n_train: int) -> dict:
@@ -194,26 +197,40 @@ def validate(raw, entry: dict, t_ep: int = T_EP) -> dict:
         "dataset_id": entry["dataset_id"],
         "n_rows": n,
         "order": order_rep,
-        "windows": {"train_incumbent": [0, n15], "train_challenger": [0, n30], "dev": [n30, n60],
-                    "locked": [n60, n]},
+        "windows": {
+            "train_incumbent": [0, n15],
+            "train_challenger": [0, n30],
+            "dev": [n30, n60],
+            "locked": [n60, n],
+        },
         "checks": checks,
         "status": None,
         "ok": False,
     }
     declared_n = entry.get("n_rows")
     checks.append(
-        _check("row_count_matches_source", declared_n is None or declared_n == n,
-               f"declared={declared_n} loaded={n}", hard=False)
+        _check(
+            "row_count_matches_source",
+            declared_n is None or declared_n == n,
+            f"declared={declared_n} loaded={n}",
+            hard=False,
+        )
     )
     checks.append(
-        _check("X_y_aligned", (len(raw.X) if not hasattr(raw.X, "shape") else raw.X.shape[0]) == n,
-               "feature rows equal label rows")
+        _check(
+            "X_y_aligned",
+            (len(raw.X) if not hasattr(raw.X, "shape") else raw.X.shape[0]) == n,
+            "feature rows equal label rows",
+        )
     )
     L = n - n60
     checks.append(_check("locked_window_has_one_episode", L >= t_ep, f"locked rows={L}, T={t_ep}"))
     checks.append(
-        _check("train_dev_windows_nonempty", min(n15, n30 - n15, n60 - n30) >= 200,
-               f"window sizes {n15},{n30 - n15},{n60 - n30}")
+        _check(
+            "train_dev_windows_nonempty",
+            min(n15, n30 - n15, n60 - n30) >= 200,
+            f"window sizes {n15},{n30 - n15},{n60 - n30}",
+        )
     )
     if order is None:
         rep["status"] = "USELESS_INELIGIBLE"
@@ -226,12 +243,20 @@ def validate(raw, entry: dict, t_ep: int = T_EP) -> dict:
     cs = class_sorted_check(y[:n60])
     rep["class_sorted_check"] = cs
     checks.append(
-        _check("not_class_sorted", not cs["class_sorted"],
-               f"runs={cs['runs']} classes={cs['n_classes']}")
+        _check(
+            "not_class_sorted",
+            not cs["class_sorted"],
+            f"runs={cs['runs']} classes={cs['n_classes']}",
+        )
     )
     tr = y[:n30]
-    checks.append(_check("two_classes_in_training_window", len(np.unique(tr)) >= 2,
-                         f"{len(np.unique(tr))} classes in first 30%"))
+    checks.append(
+        _check(
+            "two_classes_in_training_window",
+            len(np.unique(tr)) >= 2,
+            f"{len(np.unique(tr))} classes in first 30%",
+        )
+    )
     if isinstance(x, pd.DataFrame):
         miss = x.isna().mean()
         bad = int((miss > MAX_MISSING_COL).sum())
@@ -240,7 +265,9 @@ def validate(raw, entry: dict, t_ep: int = T_EP) -> dict:
         const = int((x.iloc[:n30].nunique(dropna=False) <= 1).sum())
         rep["constant_columns_in_train"] = const
         checks.append(_check("has_informative_columns", const < x.shape[1], f"{const} const cols"))
-    rep["exchangeability_diagnostic"] = exchangeability_diagnostic(y[:n60], x.iloc[:n60] if isinstance(x, pd.DataFrame) else x[:n60])
+    rep["exchangeability_diagnostic"] = exchangeability_diagnostic(
+        y[:n60], x.iloc[:n60] if isinstance(x, pd.DataFrame) else x[:n60]
+    )
     # leakage screen uses the rule-binarised training target; imported lazily (no cycle)
     import construct_model_pairs as cmp
 
@@ -249,18 +276,25 @@ def validate(raw, entry: dict, t_ep: int = T_EP) -> dict:
     lk = leakage_screen(x, ytr01, n30)
     rep["leakage_screen"] = lk
     checks.append(
-        _check("no_target_equals_feature", lk["max_abs_corr"] is None or lk["max_abs_corr"] < LEAK_CORR,
-               f"max |corr(feature, target)|={lk['max_abs_corr']} ({lk['column']})")
+        _check(
+            "no_target_equals_feature",
+            lk["max_abs_corr"] is None or lk["max_abs_corr"] < LEAK_CORR,
+            f"max |corr(feature, target)|={lk['max_abs_corr']} ({lk['column']})",
+        )
     )
     hard_fail = [c for c in checks if c["hard"] and not c["pass"]]
     if hard_fail:
         names = {c["check"] for c in hard_fail}
-        quality = {"columns_not_mostly_missing", "has_informative_columns", "no_target_equals_feature",
-                   "two_classes_in_training_window"}
+        quality = {
+            "columns_not_mostly_missing",
+            "has_informative_columns",
+            "no_target_equals_feature",
+            "two_classes_in_training_window",
+        }
         rep["status"] = "USELESS_DATA_QUALITY" if names <= quality else "USELESS_INELIGIBLE"
         rep["reason"] = "; ".join(f"{c['check']}: {c['detail']}" for c in hard_fail)
         return rep
     rep["ok"] = True
-    rep["order_array_length"] = int(len(order))
+    rep["order_array_length"] = len(order)
     rep["_order"] = order  # stripped before JSON serialisation by the caller
     return rep

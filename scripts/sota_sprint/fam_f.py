@@ -34,10 +34,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
-
 from bench import SPRINT_REGIMES
-
-from simulator import QueryRequest  # noqa: E402  (path set by bench/suite importers)
+from simulator import QueryRequest
 
 
 def newey_west_var(z: np.ndarray, lag: int | None = None) -> float:
@@ -111,8 +109,13 @@ class DMHACMonitor:
         return f"dep={self.deployed};n={len(self.z)};W={self.stat:.2f}"
 
     def state_dict(self):
-        return {"z": list(self.z), "deployed": self.deployed, "decided": self.decided,
-                "n_dis": self.n_dis, "t_seen": self.t_seen}
+        return {
+            "z": list(self.z),
+            "deployed": self.deployed,
+            "decided": self.decided,
+            "n_dis": self.n_dis,
+            "t_seen": self.t_seen,
+        }
 
     def load_state_dict(self, state):
         self.z = list(state["z"])
@@ -124,7 +127,8 @@ EXTRA: dict = {
     "DM_HAC_monitor": lambda T, B, cs, cq, a, d, r: DMHACMonitor(T, B, a, rng=r("DM_HAC")),
     # ablation: iid variance (lag 0) = the same monitor with no dependence correction
     "DM_HAC_monitor-iid": lambda T, B, cs, cq, a, d, r: DMHACMonitor(
-        T, B, a, rng=r("DM_HAC"), lag=0, name="DM_HAC_monitor-iid"),
+        T, B, a, rng=r("DM_HAC"), lag=0, name="DM_HAC_monitor-iid"
+    ),
 }
 
 
@@ -169,7 +173,7 @@ class DepTwin:
             t = 0
             while t < horizon:
                 run = int(np.floor(rng.pareto(1.5) + 1.0))
-                s[t:t + run] = rng.random() < p
+                s[t : t + run] = rng.random() < p
                 t += run
         elif k == "hidden":
             h = np.empty(horizon)
@@ -196,12 +200,16 @@ TWIN_DELTA = 0.05  # p_e in {.45, .55}: per-event episode advantage +-.02 (real 
 
 
 def _regs() -> list[DepTwin]:
-    out = [DepTwin("WP2_iid_twin", "iid", delta=TWIN_DELTA, tags=("null", "twin")),
-           DepTwin("WP2_m8_twin", "markov1", delta=TWIN_DELTA, tags=("null", "twin", "dep"))]
+    out = [
+        DepTwin("WP2_iid_twin", "iid", delta=TWIN_DELTA, tags=("null", "twin")),
+        DepTwin("WP2_m8_twin", "markov1", delta=TWIN_DELTA, tags=("null", "twin", "dep")),
+    ]
     for k, short in (("order2", "o2"), ("semimarkov", "sm"), ("hidden", "hs")):
-        out += [DepTwin(f"WP2_{short}_null", k, tags=("null", "dep")),
-                DepTwin(f"WP2_{short}_twin", k, delta=TWIN_DELTA, tags=("null", "twin", "dep")),
-                DepTwin(f"WP2_{short}_better", k, p_base=0.65, tags=("alt", "dep"))]
+        out += [
+            DepTwin(f"WP2_{short}_null", k, tags=("null", "dep")),
+            DepTwin(f"WP2_{short}_twin", k, delta=TWIN_DELTA, tags=("null", "twin", "dep")),
+            DepTwin(f"WP2_{short}_better", k, p_base=0.65, tags=("alt", "dep")),
+        ]
     return out
 
 

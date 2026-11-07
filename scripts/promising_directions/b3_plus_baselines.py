@@ -75,7 +75,7 @@ class PctCert(b1.Cert):
     def __init__(self, n, budget, cs, p):
         super().__init__(n, budget, cs, "P3b", p)
 
-    def step(self, t, l0t, l1t, dis, u, ndis):  # noqa: PLR0914 - mirrors b1.Cert.step
+    def step(self, t, l0t, l1t, dis, u, ndis):
         p = self.p
         self.loss += np.where(self.dep == 0, l0t, l1t)
         slot = t % p.delay

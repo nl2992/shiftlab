@@ -103,14 +103,21 @@ def make_p7s(horizon, budget, cs, cq, alpha, delay, rng):
     from b3_plus_policy_adapter import P7sPolicy
 
     return P7sPolicy(
-        horizon=horizon, budget=budget, delay=delay, switch_cost=cs, label_price=cq, rng=rng,
+        horizon=horizon,
+        budget=budget,
+        delay=delay,
+        switch_cost=cs,
+        label_price=cq,
+        rng=rng,
         params=b1.Params(T=horizon, delay=delay, cq=cq, alpha=alpha),
     )
 
 
-def build_suite(horizon, budget, cs, cq, alpha, eps, p_min, delay, episode, seed, *,
-                with_controls: bool):
+def build_suite(
+    horizon, budget, cs, cq, alpha, eps, p_min, delay, episode, seed, *, with_controls: bool
+):
     """One entry per policy. Published competitors first, then our method, then any controls."""
+
     def r(nm):
         # paired on (episode, seed); private per policy so nobody perturbs anybody else
         return policy_rng(SEED_BASE, episode * 10_000 + seed, nm)
@@ -140,13 +147,26 @@ def build_stream(ep_losses: np.ndarray, label_mode: str, rng) -> tuple[np.ndarra
         labels = rng.integers(0, 2, T)
     else:
         raise ValueError(f"unknown label_mode {label_mode!r}")
-    preds = (labels[:, None].astype(int) ^ ep_losses.astype(int))
+    preds = labels[:, None].astype(int) ^ ep_losses.astype(int)
     assert ((preds != labels[:, None]).astype(int) == ep_losses.astype(int)).all()
     return preds, labels
 
 
-def run_dataset(name, losses, *, budget, cq, cs, alpha, eps, p_min, n_seeds, delay,
-                with_controls, label_mode="zeros"):
+def run_dataset(
+    name,
+    losses,
+    *,
+    budget,
+    cq,
+    cs,
+    alpha,
+    eps,
+    p_min,
+    n_seeds,
+    delay,
+    with_controls,
+    label_mode="zeros",
+):
     """Returns {policy: (K, n_seeds) net cost}, per-episode diagnostics, and any validation gripes."""
     K, T = losses.shape[0], losses.shape[1]
     cost: dict[str, np.ndarray] = {}
@@ -158,21 +178,34 @@ def run_dataset(name, losses, *, budget, cq, cs, alpha, eps, p_min, n_seeds, del
             preds, labels = build_stream(
                 losses[ep], label_mode, np.random.default_rng([SEED_BASE, ep, si, 7])
             )
-            for pol in build_suite(T, budget, cs, cq, alpha, eps, p_min, delay, ep, si,
-                                   with_controls=with_controls):
+            for pol in build_suite(
+                T, budget, cs, cq, alpha, eps, p_min, delay, ep, si, with_controls=with_controls
+            ):
                 res = run_episode(
-                    pol, model_predictions=preds, labels=labels, delay=delay, budget=budget,
-                    label_price=cq, switch_cost=cs, trace=(ep == 0 and si == 0),
+                    pol,
+                    model_predictions=preds,
+                    labels=labels,
+                    delay=delay,
+                    budget=budget,
+                    label_price=cq,
+                    switch_cost=cs,
+                    trace=(ep == 0 and si == 0),
                 )
                 if ep == 0 and si == 0:
-                    problems += [f"{name}/{pol.name}: {m}" for m in
-                                 check_budget_feasible(res, budget) + check_no_future_access(res, delay)]
+                    problems += [
+                        f"{name}/{pol.name}: {m}"
+                        for m in check_budget_feasible(res, budget)
+                        + check_no_future_access(res, delay)
+                    ]
                 elif res.requested_labels > budget:
                     problems.append(f"{name}/{pol.name} ep{ep} s{si}: over budget")
                 cost.setdefault(pol.name, np.zeros((K, n_seeds)))[ep, si] = res.net_cost
                 d = diag.setdefault(pol.name, {})
-                for key, val in (("loss", res.prediction_loss), ("labels", res.requested_labels),
-                                 ("switches", res.deployment_switches)):
+                for key, val in (
+                    ("loss", res.prediction_loss),
+                    ("labels", res.requested_labels),
+                    ("switches", res.deployment_switches),
+                ):
                     d.setdefault(key, np.zeros((K, n_seeds)))[ep, si] = val
     return cost, diag, problems
 
@@ -198,8 +231,12 @@ def main(argv=None):
     ap.add_argument("--p-min", type=float, default=0.05)
     ap.add_argument("--n-seeds", type=int, default=100)
     ap.add_argument("--controls", action="store_true", help="also run the never-switch control")
-    ap.add_argument("--label-mode", default="zeros", choices=("zeros", "xor"),
-                    help="how the cached losses are replayed; see the module docstring")
+    ap.add_argument(
+        "--label-mode",
+        default="zeros",
+        choices=("zeros", "xor"),
+        help="how the cached losses are replayed; see the module docstring",
+    )
     ap.add_argument("--out", default="docs/promising_directions/results/b3_plus/vs_sota")
     a = ap.parse_args(argv)
 
@@ -214,15 +251,26 @@ def main(argv=None):
         delay = cache_delay if cache_delay is not None else DELAYS.get(name, 100)
         t0 = time.time()
         cost, diag, problems = run_dataset(
-            name, losses, budget=a.budget, cq=a.cq, cs=a.cs, alpha=a.alpha, eps=a.eps,
-            p_min=a.p_min, n_seeds=a.n_seeds, delay=delay, with_controls=a.controls,
+            name,
+            losses,
+            budget=a.budget,
+            cq=a.cq,
+            cs=a.cs,
+            alpha=a.alpha,
+            eps=a.eps,
+            p_min=a.p_min,
+            n_seeds=a.n_seeds,
+            delay=delay,
+            with_controls=a.controls,
             label_mode=a.label_mode,
         )
         per_ep = {k: v.mean(axis=1) for k, v in cost.items()}  # average seeds within an episode
         ours = per_ep["P7s_settled"]
         K = len(ours)
         entry = {
-            "episodes": K, "delay": delay, "seconds": round(time.time() - t0, 1),
+            "episodes": K,
+            "delay": delay,
+            "seconds": round(time.time() - t0, 1),
             "low_power": K < 5,
             "validation_problems": problems,
             "mean_cost": {k: float(v.mean()) for k, v in per_ep.items()},
@@ -237,7 +285,9 @@ def main(argv=None):
             d = ours - v  # negative => P7s cheaper
             lo, hi = paired_ci(d, rng)
             entry["ours_minus_competitor"][k] = {
-                "mean": float(d.mean()), "lo": lo, "hi": hi,
+                "mean": float(d.mean()),
+                "lo": lo,
+                "hi": hi,
                 "episodes_ours_cheaper": int((d < 0).sum()),
                 "episodes_ours_worse": int((d > 0).sum()),
                 "verdict": ("ours better" if hi < 0 else "ours worse" if lo > 0 else "tie"),
@@ -248,35 +298,59 @@ def main(argv=None):
         print(f"\n==== {name} ({tag}, delay={delay}, {entry['seconds']}s)")
         for k in sorted(per_ep, key=lambda x: entry["mean_cost"][x]):
             star = " <== OURS" if k == "P7s_settled" else ""
-            print(f"  {k:26s} cost={entry['mean_cost'][k]:9.3f} "
-                  f"labels={entry['mean_labels'][k]:6.1f} "
-                  f"sw={entry['mean_switches'][k]:5.2f} loss={entry['mean_loss'][k]:8.2f}{star}")
+            print(
+                f"  {k:26s} cost={entry['mean_cost'][k]:9.3f} "
+                f"labels={entry['mean_labels'][k]:6.1f} "
+                f"sw={entry['mean_switches'][k]:5.2f} loss={entry['mean_loss'][k]:8.2f}{star}"
+            )
         for k, c in entry["ours_minus_competitor"].items():
-            print(f"  ours - {k:24s} {c['mean']:+9.3f} [{c['lo']:+8.3f},{c['hi']:+8.3f}] "
-                  f"{c['verdict']:11s} (cheaper in {c['episodes_ours_cheaper']}/{K})")
+            print(
+                f"  ours - {k:24s} {c['mean']:+9.3f} [{c['lo']:+8.3f},{c['hi']:+8.3f}] "
+                f"{c['verdict']:11s} (cheaper in {c['episodes_ours_cheaper']}/{K})"
+            )
         for m in problems:
             print(f"  !! {m}")
 
-    cfg = {"budget": a.budget, "cq": a.cq, "cs": a.cs, "alpha": a.alpha, "eps": a.eps,
-           "p_min": a.p_min, "n_seeds": a.n_seeds, "seed_base": SEED_BASE,
-           "loss_roots": [str(r) for r in roots], "label_mode": a.label_mode}
-    payload = {"config": cfg, "not_run_feature_dependent": FEATURE_DEPENDENT,
-               "datasets": report}
-    (outdir / f"vs_sota_results_{a.label_mode}.json").write_text(json.dumps(payload, indent=2) + "\n")
+    cfg = {
+        "budget": a.budget,
+        "cq": a.cq,
+        "cs": a.cs,
+        "alpha": a.alpha,
+        "eps": a.eps,
+        "p_min": a.p_min,
+        "n_seeds": a.n_seeds,
+        "seed_base": SEED_BASE,
+        "loss_roots": [str(r) for r in roots],
+        "label_mode": a.label_mode,
+    }
+    payload = {"config": cfg, "not_run_feature_dependent": FEATURE_DEPENDENT, "datasets": report}
+    (outdir / f"vs_sota_results_{a.label_mode}.json").write_text(
+        json.dumps(payload, indent=2) + "\n"
+    )
     print(f"\nwrote {outdir / f'vs_sota_results_{a.label_mode}.json'}")
 
     # A compact scoreboard: for each competitor, on how many datasets is P7s cheaper on the mean?
     comps = sorted({c for e in report.values() for c in e["ours_minus_competitor"]})
     print("\n==== scoreboard (mean net cost, powered datasets only)")
     for c in comps:
-        w = [n for n, e in report.items()
-             if not e["low_power"] and c in e["ours_minus_competitor"]
-             and e["ours_minus_competitor"][c]["mean"] < 0]
-        l = [n for n, e in report.items()
-             if not e["low_power"] and c in e["ours_minus_competitor"]
-             and e["ours_minus_competitor"][c]["mean"] > 0]
-        print(f"  vs {c:24s} ours cheaper on {len(w)} / lost on {len(l)}  "
-              f"(won: {w or '-'}; lost: {l or '-'})")
+        w = [
+            n
+            for n, e in report.items()
+            if not e["low_power"]
+            and c in e["ours_minus_competitor"]
+            and e["ours_minus_competitor"][c]["mean"] < 0
+        ]
+        l = [
+            n
+            for n, e in report.items()
+            if not e["low_power"]
+            and c in e["ours_minus_competitor"]
+            and e["ours_minus_competitor"][c]["mean"] > 0
+        ]
+        print(
+            f"  vs {c:24s} ours cheaper on {len(w)} / lost on {len(l)}  "
+            f"(won: {w or '-'}; lost: {l or '-'})"
+        )
     return report
 
 

@@ -24,8 +24,9 @@ def test_gr_hac_uses_raw_loss_difference_cross_products_under_zero_mean_null():
     x = np.full(2000, 0.25)
     out = gr_one_time_reversal(x)
     lag = out["lag"]
-    expected = 0.25 ** 2 * (1 + 2 * sum((1 - k / (lag + 1)) * (len(x) - k) / len(x)
-                                        for k in range(1, lag + 1)))
+    expected = 0.25**2 * (
+        1 + 2 * sum((1 - k / (lag + 1)) * (len(x) - k) / len(x) for k in range(1, lag + 1))
+    )
     assert out["lrv"] == pytest.approx(expected)
 
 

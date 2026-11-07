@@ -50,16 +50,16 @@ for _p in (SOTA, SOTA / "competitors", SOTA.parent):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from certificate_stops import (  # noqa: E402
+from certificate_stops import (
     DiscernStyleStop,
     GatedDeploymentStop,
     MopeCS,
     PrPlEBCS,
     _Rec,
 )
-from simulator import QueryRequest  # noqa: E402
-from smcs import SMCSDeploymentPolicy  # noqa: E402
-from xu_acquisition import XuAcquisitionPolicy  # noqa: E402
+from simulator import QueryRequest
+from smcs import SMCSDeploymentPolicy
+from xu_acquisition import XuAcquisitionPolicy
 
 
 # ------------------------------------------------------------------ certificate-stop hosts
@@ -181,21 +181,32 @@ class XuQCE(XuAcquisitionPolicy):
     def request_labels(self, event, remaining_budget):
         req = super().request_labels(event, remaining_budget)
         if req.requested:
-            lam = float(np.clip(
-                __import__("b3_plus_policy").b1.bet_from_stats(
-                    self.s1, self.s2, self.cnt, self.params, kelly=False), 0.0, 0.5))
+            lam = float(
+                np.clip(
+                    __import__("b3_plus_policy").b1.bet_from_stats(
+                        self.s1, self.s2, self.cnt, self.params, kelly=False
+                    ),
+                    0.0,
+                    0.5,
+                )
+            )
             req.extra["lam"] = lam
         return req
 
 
 EXTRA = {
-    "gated_deployment+QCE": lambda T, B, cs, cq, a, d, r: GatedQCE(T, B, a, rng=r("gated_deployment")),
+    "gated_deployment+QCE": lambda T, B, cs, cq, a, d, r: GatedQCE(
+        T, B, a, rng=r("gated_deployment")
+    ),
     "discern_style+QCE": lambda T, B, cs, cq, a, d, r: DiscernQCE(T, B, a, rng=r("discern_style")),
     "SMCS+QCE": lambda T, B, cs, cq, a, d, r: SMCSQCE(2, r("smcs"), alpha=a),
     "xu_acquisition_only+QCE": lambda T, B, cs, cq, a, d, r: XuQCE(r("xu"), delay=d, alpha=a),
     "gated_deployment+QCE+front": lambda T, B, cs, cq, a, d, r: GatedQCE(
-        T, B, a, rng=r("gated_deployment"), front=True, name="gated_deployment+QCE+front"),
-    "gated+front_only": lambda T, B, cs, cq, a, d, r: GatedFrontOnly(T, B, a, rng=r("gated_deployment")),
+        T, B, a, rng=r("gated_deployment"), front=True, name="gated_deployment+QCE+front"
+    ),
+    "gated+front_only": lambda T, B, cs, cq, a, d, r: GatedFrontOnly(
+        T, B, a, rng=r("gated_deployment")
+    ),
 }
 
 
@@ -207,7 +218,9 @@ class DiscernFrontOnly(DiscernStyleStop):
                  name="discern+front_only"):  # fmt: skip
         super().__init__(horizon, budget, alpha, eps, rng=rng, p_min=p_min, name=name)
         base = self.acq.propensity
-        self.acq.propensity = lambda t, rem, dis, _b=base: 1.0 if (dis and rem > 0) else _b(t, rem, dis)
+        self.acq.propensity = lambda t, rem, dis, _b=base: (
+            1.0 if (dis and rem > 0) else _b(t, rem, dis)
+        )
 
 
 def _smcs_front(pol):
@@ -229,19 +242,30 @@ def _xu_front(pol):
     return pol
 
 
-EXTRA.update({
-    "discern_style+QCE+front": lambda T, B, cs, cq, a, d, r: DiscernQCE(
-        T, B, a, rng=r("discern_style"), front=True, name="discern_style+QCE+front"),
-    "discern+front_only": lambda T, B, cs, cq, a, d, r: DiscernFrontOnly(T, B, a, rng=r("discern_style")),
-    "SMCS+QCE+front": lambda T, B, cs, cq, a, d, r: _smcs_front(
-        SMCSQCE(2, r("smcs"), alpha=a, name="SMCS+QCE+front")),
-    "SMCS+front_only": lambda T, B, cs, cq, a, d, r: _smcs_front(
-        SMCSDeploymentPolicy(2, r("smcs"), alpha=a, name="SMCS+front_only")),
-    "xu_acquisition_only+QCE+front": lambda T, B, cs, cq, a, d, r: _xu_front(
-        XuQCE(r("xu"), delay=d, alpha=a, name="xu_acquisition_only+QCE+front")),
-    "xu+front_only": lambda T, B, cs, cq, a, d, r: _xu_front(
-        _named(XuAcquisitionPolicy("acquisition_only", r("xu"), delay=d, alpha=a), "xu+front_only")),
-})
+EXTRA.update(
+    {
+        "discern_style+QCE+front": lambda T, B, cs, cq, a, d, r: DiscernQCE(
+            T, B, a, rng=r("discern_style"), front=True, name="discern_style+QCE+front"
+        ),
+        "discern+front_only": lambda T, B, cs, cq, a, d, r: DiscernFrontOnly(
+            T, B, a, rng=r("discern_style")
+        ),
+        "SMCS+QCE+front": lambda T, B, cs, cq, a, d, r: _smcs_front(
+            SMCSQCE(2, r("smcs"), alpha=a, name="SMCS+QCE+front")
+        ),
+        "SMCS+front_only": lambda T, B, cs, cq, a, d, r: _smcs_front(
+            SMCSDeploymentPolicy(2, r("smcs"), alpha=a, name="SMCS+front_only")
+        ),
+        "xu_acquisition_only+QCE+front": lambda T, B, cs, cq, a, d, r: _xu_front(
+            XuQCE(r("xu"), delay=d, alpha=a, name="xu_acquisition_only+QCE+front")
+        ),
+        "xu+front_only": lambda T, B, cs, cq, a, d, r: _xu_front(
+            _named(
+                XuAcquisitionPolicy("acquisition_only", r("xu"), delay=d, alpha=a), "xu+front_only"
+            )
+        ),
+    }
+)
 
 
 def _named(pol, name):

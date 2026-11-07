@@ -6,6 +6,7 @@ episodes within each fixed dataset. They describe these exposed streams, not
 generalization to new datasets. Comparator selection is reported descriptively;
 all fixed-comparator contrasts are retained.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -15,7 +16,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from bench import CERTIFIED_PUBLISHED
-
 
 CANDIDATES = ["H1", "H2", "H3", "H4", "H5", "H6-r10"]
 PUBLISHED_CERTIFICATE_PORTS = list(CERTIFIED_PUBLISHED)
@@ -39,7 +39,9 @@ def analyze(records: Path, *, n_boot: int = 20_000, seed: int = 2026110417) -> d
     if missing_cols:
         raise ValueError(f"missing columns: {sorted(missing_cols)}")
 
-    expected_policies = set(CANDIDATES + PUBLISHED_CERTIFICATE_PORTS + SUPPLEMENTAL + INTERNAL_REFERENCES)
+    expected_policies = set(
+        CANDIDATES + PUBLISHED_CERTIFICATE_PORTS + SUPPLEMENTAL + INTERNAL_REFERENCES
+    )
     if set(d.policy.unique()) != expected_policies:
         raise ValueError(
             f"unexpected policy set; missing={sorted(expected_policies - set(d.policy.unique()))}, "
@@ -56,7 +58,9 @@ def analyze(records: Path, *, n_boot: int = 20_000, seed: int = 2026110417) -> d
         if absent:
             raise ValueError(f"{dataset}: missing policies {sorted(absent)}")
         expected_seeds = set(range(20))
-        cache = Path(__file__).resolve().parents[2] / "data" / "sprint_fresh_losses" / f"{dataset}.npz"
+        cache = (
+            Path(__file__).resolve().parents[2] / "data" / "sprint_fresh_losses" / f"{dataset}.npz"
+        )
         with np.load(cache) as losses:
             expected_episodes = set(range(int(losses["l0"].shape[0])))
         episode_ids = set(g.ep.unique())
@@ -72,16 +76,20 @@ def analyze(records: Path, *, n_boot: int = 20_000, seed: int = 2026110417) -> d
                 f"{dataset}: incomplete policy/episode coverage; "
                 f"missing={list(expected_cells - observed_cells)[:5]}"
             )
-        bad_coverage = g.groupby(["policy", "ep"]).seed.apply(lambda s: set(s) != expected_seeds)
+        bad_coverage = g.groupby(["policy", "ep"]).seed.apply(lambda s: set(s) != expected_seeds)  # noqa: B023
         if bad_coverage.any():
             raise ValueError(f"{dataset}: expected seeds 0..19 for every policy/episode")
         n_ep = len(episode_ids)
         # Average stochastic policy seeds within an episode before resampling.
         g = g.copy()
         g.loc[g.detect_delay < 0, "detect_delay"] = np.nan
-        ep = g.groupby(["ep", "policy"], sort=True)[
-            ["net", "labels", "ever_promote", "detect_delay"]
-        ].mean().unstack("policy")
+        ep = (
+            g.groupby(["ep", "policy"], sort=True)[
+                ["net", "labels", "ever_promote", "detect_delay"]
+            ]
+            .mean()
+            .unstack("policy")
+        )
         result: dict[str, object] = {"episodes": n_ep, "seeds_per_episode": 20, "candidates": {}}
         for candidate in CANDIDATES:
             cand = ep["net"][candidate].to_numpy()
@@ -124,7 +132,9 @@ def analyze(records: Path, *, n_boot: int = 20_000, seed: int = 2026110417) -> d
                 boots += a[ix].mean(axis=1) / len(arrays)
             entry[comparator] = {
                 "equal_dataset_mean_candidate_minus_comparator": point,
-                "within_dataset_episode_bootstrap_95ci": [float(v) for v in np.quantile(boots, [0.025, 0.975])],
+                "within_dataset_episode_bootstrap_95ci": [
+                    float(v) for v in np.quantile(boots, [0.025, 0.975])
+                ],
             }
         equal_dataset[candidate] = entry
 
@@ -143,7 +153,7 @@ def analyze(records: Path, *, n_boot: int = 20_000, seed: int = 2026110417) -> d
         "limits": [
             "All streams were already exposed to development; this is not independent confirmation.",
             "Intervals quantify episode resampling within these fixed datasets, not generalization across datasets.",
-        "Episode bootstrap intervals treat episodes within each dataset as exchangeable; temporal dependence can make these intervals optimistic.",
+            "Episode bootstrap intervals treat episodes within each dataset as exchangeable; temporal dependence can make these intervals optimistic.",
             "The lowest-cost certificate port is selected on these same data and is descriptive only; fixed-port contrasts are reported separately.",
             "Ports implement a common contract and are not author-native reproductions; Xu and Choe-Ramdas are supplementary adapters, excluded from the published certificate pool.",
         ],
@@ -176,7 +186,13 @@ def to_markdown(result: dict) -> str:
             lines.append(
                 f"| {candidate} | {comparator} | {item['equal_dataset_mean_candidate_minus_comparator']:+.2f} | [{lo:+.2f}, {hi:+.2f}] |"
             )
-    lines += ["", "## Per-dataset descriptive winner among tested certificate ports", "", "| dataset | candidate | lowest-mean-cost port | candidate mean J |", "|---|---|---|---:|"]
+    lines += [
+        "",
+        "## Per-dataset descriptive winner among tested certificate ports",
+        "",
+        "| dataset | candidate | lowest-mean-cost port | candidate mean J |",
+        "|---|---|---|---:|",
+    ]
     for dataset, ds in result["by_dataset"].items():
         for candidate, c in ds["candidates"].items():
             lines.append(
@@ -199,8 +215,18 @@ def main() -> None:
     a.json.write_text(json.dumps(result, indent=2) + "\n")
     a.markdown.parent.mkdir(parents=True, exist_ok=True)
     a.markdown.write_text(to_markdown(result))
-    print(json.dumps({"status": result["status"], "datasets": len(result["by_dataset"]), "candidates": CANDIDATES,
-                      "ports": PUBLISHED_CERTIFICATE_PORTS, "replicates": result["replicates"]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "status": result["status"],
+                "datasets": len(result["by_dataset"]),
+                "candidates": CANDIDATES,
+                "ports": PUBLISHED_CERTIFICATE_PORTS,
+                "replicates": result["replicates"],
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

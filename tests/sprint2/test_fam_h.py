@@ -12,18 +12,17 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/sota_sprint"))
 
-import registry  # noqa: E402,F401  (pins module paths as the runner does)
-import fam_d  # noqa: E402
-import fam_h  # noqa: E402
-from simulator import policy_rng, run_episode  # noqa: E402
-from suite import stream_from_losses  # noqa: E402
+import fam_d
+import fam_h
+import registry  # noqa: F401  (pins module paths as the runner does)
+from simulator import policy_rng, run_episode
+from suite import stream_from_losses
 
-CANDS = ["H1", "H2", "H2-iid_space", "H2-gateonly", "H3", "H4", "H5", "H5-dc", "H6-r10",
-         "H6-r25"]
+CANDS = ["H1", "H2", "H2-iid_space", "H2-gateonly", "H3", "H4", "H5", "H5-dc", "H6-r10", "H6-r25"]
 
 
 def _losses(regime, seed, T):
-    import bench  # noqa: PLC0415
+    import bench
 
     R = bench.SPRINT_REGIMES[regime]
     return R, R.sample(np.random.default_rng(seed), T)
@@ -37,8 +36,16 @@ def _run(name, regime="F0_null", seed=0, T=2000, B=200, delay=None, losses=None,
     d = R.delay if delay is None else delay
     pol = (extra or fam_h.EXTRA)[name](T, B, 5.0, 0.05, 0.05, d, lambda n: policy_rng(11, seed, n))
     pol.trace = getattr(pol, "trace", False) or hasattr(pol, "tr")
-    res = run_episode(pol, model_predictions=preds, labels=labels, delay=d, budget=B,
-                      label_price=0.05, switch_cost=5.0, trace=True)
+    res = run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=d,
+        budget=B,
+        label_price=0.05,
+        switch_cost=5.0,
+        trace=True,
+    )
     return pol, res
 
 
@@ -106,7 +113,7 @@ def test_spacing_enforced_on_dependent_stream():
 
 def test_spacing_gap_holds_while_open():
     """Every open-test query issued while gmin>0 is at least gmin events after the previous one."""
-    R, L = _losses("F5_dep_better_r8", 5, 2000)
+    _R, L = _losses("F5_dep_better_r8", 5, 2000)
     preds, labels = stream_from_losses(L, np.random.default_rng(6))
     pol = fam_h.EXTRA["H2"](2000, 200, 5.0, 0.05, 0.05, 100, lambda n: policy_rng(11, 5, n))
     pol.trace = True
@@ -121,8 +128,16 @@ def test_spacing_gap_holds_while_open():
         return req
 
     pol.request_labels = wrapped
-    run_episode(pol, model_predictions=preds, labels=labels, delay=100, budget=200,
-                label_price=0.05, switch_cost=5.0, trace=False)
+    run_episode(
+        pol,
+        model_predictions=preds,
+        labels=labels,
+        delay=100,
+        budget=200,
+        label_price=0.05,
+        switch_cost=5.0,
+        trace=False,
+    )
     assert gaps_ok and all(gaps_ok)
 
 
@@ -161,7 +176,7 @@ def test_rollback_increments_cycle_on_reversal():
 
 def test_query_decisions_are_predictable():
     """Changing labels released after t0 cannot change any query decision issued before t0."""
-    R, L = _losses("F0_better", 7, 2000)
+    _R, L = _losses("F0_better", 7, 2000)
     L2 = L.copy()
     t0 = 900
     L2[t0:] = L2[t0:, ::-1]  # flip the sign of every outcome from t0 on

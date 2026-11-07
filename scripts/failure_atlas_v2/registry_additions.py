@@ -39,8 +39,8 @@ for _p in (_SOTA, _SOTA / "competitors"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from controls import PacedDisagreementAcquisition  # noqa: E402
-from simulator import Event, QueryRequest, ReleasedFeedback  # noqa: E402
+from controls import PacedDisagreementAcquisition
+from simulator import Event, QueryRequest, ReleasedFeedback
 
 
 class _Base:
@@ -105,8 +105,8 @@ class QiuMovementOCO(_Base):
         self.T, self.lam, self.rng = int(horizon), float(switch_cost), rng
         self.acq = PacedDisagreementAcquisition(horizon, budget, p_min=p_min)
         self.L = 1.0 / p_min + self.lam  # L >= G + lambda_max (Theorem 3.1)
-        n = int(math.ceil(math.log2(self.L * math.sqrt(self.T) / 1.0))) + 1
-        self.etas = [min(2.0 ** i / (self.L * math.sqrt(self.T)), 1.0 / self.L) for i in range(n)]
+        n = math.ceil(math.log2(self.L * math.sqrt(self.T) / 1.0)) + 1
+        self.etas = [min(2.0**i / (self.L * math.sqrt(self.T)), 1.0 / self.L) for i in range(n)]
         self.etas = sorted(set(self.etas))
         self.alpha = eps / self.T
         self.w = np.zeros(len(self.etas))  # one Algorithm-1 instance per eta (Algorithm 2)
@@ -185,9 +185,12 @@ class DelayedFTRLCapacity(_Base):
 
 FACTORIES = {
     "gong_zhang_paid_obs": lambda T, B, cs, cq, alpha, delay, r: GongZhangPaidObs(
-        T, B, cq, rng=r("gong_zhang")),
+        T, B, cq, rng=r("gong_zhang")
+    ),
     "qiu_movement_oco": lambda T, B, cs, cq, alpha, delay, r: QiuMovementOCO(
-        T, B, cs, rng=r("qiu")),
+        T, B, cs, rng=r("qiu")
+    ),
     "delayed_ftrl_capacity": lambda T, B, cs, cq, alpha, delay, r: DelayedFTRLCapacity(
-        T, B, delay, rng=r("ryabchenko")),
+        T, B, delay, rng=r("ryabchenko")
+    ),
 }

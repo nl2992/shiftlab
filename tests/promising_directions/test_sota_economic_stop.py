@@ -59,13 +59,23 @@ def test_zero_switch_cost_reduces_exactly_to_gated_deployment():
     preds, y = _stream(seed=4)
     a = run_episode(
         EconomicStop(2000, 200, 0.05, switch_cost=0.0, rng=np.random.default_rng(3)),
-        model_predictions=preds, labels=y, delay=50, budget=200, label_price=0.05,
-        switch_cost=0.0, trace=False,
+        model_predictions=preds,
+        labels=y,
+        delay=50,
+        budget=200,
+        label_price=0.05,
+        switch_cost=0.0,
+        trace=False,
     )
     b = run_episode(
         GatedDeploymentStop(2000, 200, 0.05, rng=np.random.default_rng(3)),
-        model_predictions=preds, labels=y, delay=50, budget=200, label_price=0.05,
-        switch_cost=0.0, trace=False,
+        model_predictions=preds,
+        labels=y,
+        delay=50,
+        budget=200,
+        label_price=0.05,
+        switch_cost=0.0,
+        trace=False,
     )
     assert a.net_cost == pytest.approx(b.net_cost)
     assert a.requested_labels == b.requested_labels
@@ -80,8 +90,13 @@ def test_a_positive_switch_cost_makes_promotion_strictly_harder():
     for cs in (0.0, 5.0, 50.0):
         res = run_episode(
             EconomicStop(2000, 200, 0.05, switch_cost=cs, rng=np.random.default_rng(5)),
-            model_predictions=preds, labels=y, delay=50, budget=200, label_price=0.05,
-            switch_cost=cs, trace=False,
+            model_predictions=preds,
+            labels=y,
+            delay=50,
+            budget=200,
+            label_price=0.05,
+            switch_cost=cs,
+            trace=False,
         )
         switches.append(res.deployment_switches)
     assert switches[0] >= switches[1] >= switches[2]
@@ -96,7 +111,11 @@ def test_budget_holds_pathwise():
     preds, y = _stream(seed=7)
     res = run_episode(
         EconomicStop(2000, 40, 0.05, switch_cost=5.0, rng=np.random.default_rng(2)),
-        model_predictions=preds, labels=y, delay=100, budget=40, label_price=0.05,
+        model_predictions=preds,
+        labels=y,
+        delay=100,
+        budget=40,
+        label_price=0.05,
         switch_cost=5.0,
     )
     assert check_budget_feasible(res, 40) == []
@@ -107,8 +126,13 @@ def test_determinism():
     out = [
         run_episode(
             EconomicStop(2000, 100, 0.05, switch_cost=5.0, rng=np.random.default_rng(13)),
-            model_predictions=preds, labels=y, delay=50, budget=100, label_price=0.05,
-            switch_cost=5.0, trace=False,
+            model_predictions=preds,
+            labels=y,
+            delay=50,
+            budget=100,
+            label_price=0.05,
+            switch_cost=5.0,
+            trace=False,
         ).net_cost
         for _ in range(2)
     ]

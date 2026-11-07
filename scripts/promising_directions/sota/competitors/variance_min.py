@@ -66,7 +66,9 @@ def zero_one_loss_table(predictions: np.ndarray, num_classes: int) -> np.ndarray
     return (preds.T[:, :, None] != classes[None, None, :]).astype(np.float64)
 
 
-def pair_score(loss_clfs: np.ndarray, p_est: np.ndarray, idx: np.ndarray | None = None) -> np.ndarray:
+def pair_score(
+    loss_clfs: np.ndarray, p_est: np.ndarray, idx: np.ndarray | None = None
+) -> np.ndarray:
     """``q_by_loss_diff_sub`` (query.py lines 4-14), vectorised: for each point in ``idx``,
     sum over pairs i<j and classes c of ``|loss[i,v,c]-loss[j,v,c]| * p_est[v,c]``."""
     K, N, _ = loss_clfs.shape
@@ -80,7 +82,10 @@ def pair_score(loss_clfs: np.ndarray, p_est: np.ndarray, idx: np.ndarray | None 
 
 
 def query_weights(
-    loss_clfs: np.ndarray, p_est: np.ndarray, idx: np.ndarray | None = None, eps: float = EPS,
+    loss_clfs: np.ndarray,
+    p_est: np.ndarray,
+    idx: np.ndarray | None = None,
+    eps: float = EPS,
     normalize: bool = False,
 ) -> np.ndarray:
     """``q_by_loss_diff`` (query.py lines 16-21): score + eps, optionally normalised."""

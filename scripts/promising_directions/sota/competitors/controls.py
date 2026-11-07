@@ -33,8 +33,14 @@ class PacedDisagreementAcquisition:
     floored at `p_min` so every eligible event keeps positive propensity.
     """
 
-    def __init__(self, horizon: int, budget: int, p_min: float = 0.05, prior_rate: float = 0.25,
-                 prior_w: float = 20.0):
+    def __init__(
+        self,
+        horizon: int,
+        budget: int,
+        p_min: float = 0.05,
+        prior_rate: float = 0.25,
+        prior_w: float = 20.0,
+    ):
         self.T, self.B, self.p_min = int(horizon), int(budget), float(p_min)
         self.prior_rate, self.prior_w = float(prior_rate), float(prior_w)
         self.n_disagree = 0
@@ -89,8 +95,16 @@ class BernoulliPairedModel:
 class _SequentialControl:
     """Shared machinery: paced acquisition, deployment, and a statistic updated on release."""
 
-    def __init__(self, horizon: int, budget: int, model: BernoulliPairedModel, threshold: float,
-                 *, reset_on_switch: bool = True, name: str = "control"):
+    def __init__(
+        self,
+        horizon: int,
+        budget: int,
+        model: BernoulliPairedModel,
+        threshold: float,
+        *,
+        reset_on_switch: bool = True,
+        name: str = "control",
+    ):
         self.name = name
         self.acq = PacedDisagreementAcquisition(horizon, budget)
         self.model = model
@@ -170,8 +184,9 @@ class ShiryaevRoberts(_SequentialControl):
 
     def __init__(self, horizon, budget, model, threshold, *, rng, **kw):
         self.rng = rng
-        super().__init__(horizon, budget, model, threshold, name=kw.pop("name", "shiryaev_roberts"),
-                         **kw)
+        super().__init__(
+            horizon, budget, model, threshold, name=kw.pop("name", "shiryaev_roberts"), **kw
+        )
 
     def _initial(self) -> float:
         return -np.inf  # log R_0 = log 0
@@ -196,8 +211,17 @@ class EconomicReplacement:
     our certified machinery earns its keep over a plain economic heuristic.
     """
 
-    def __init__(self, horizon, budget, switch_cost, *, rng, min_obs: int = 15,
-                 margin: float = 0.0, name: str = "economic_replacement"):
+    def __init__(
+        self,
+        horizon,
+        budget,
+        switch_cost,
+        *,
+        rng,
+        min_obs: int = 15,
+        margin: float = 0.0,
+        name: str = "economic_replacement",
+    ):
         self.name = name
         self.T, self.cs = int(horizon), float(switch_cost)
         self.acq = PacedDisagreementAcquisition(horizon, budget)
@@ -240,8 +264,12 @@ class EconomicReplacement:
         return f"phat={self.n_fav}/{self.n_obs};dep={self.deployed}"
 
     def state_dict(self) -> dict:
-        return {"n_obs": self.n_obs, "n_fav": self.n_fav, "deployed": self.deployed,
-                "n_dis": self.acq.n_disagree}
+        return {
+            "n_obs": self.n_obs,
+            "n_fav": self.n_fav,
+            "deployed": self.deployed,
+            "n_dis": self.acq.n_disagree,
+        }
 
     def load_state_dict(self, s: dict) -> None:
         self.n_obs, self.n_fav = int(s["n_obs"]), int(s["n_fav"])

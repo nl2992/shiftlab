@@ -1,0 +1,67 @@
+{
+  "contrasts": {
+    "cams_adapter": {
+      "all_leave_one_cluster_out_means_favor_candidate": true,
+      "cluster_differences": {
+        "AZPS": -14.394999999999996,
+        "BANC": -7.839999999999996,
+        "EPE": -7.039999999999999,
+        "ERCO": -13.443333333333335,
+        "FMPP": -43.57499999999999,
+        "FPC": -4.665000000000006,
+        "MISO": -4.469999999999992,
+        "NEVP": -11.239999999999995,
+        "NYIS": -5.969999999999999,
+        "SWPP": -15.420000000000002,
+        "TIDC": -6.57
+      },
+      "clusters": 11,
+      "clusters_favoring_candidate": 11,
+      "equal_cluster_t_95_ci": [
+        -19.70389071594405,
+        -4.7739880719347365
+      ],
+      "leave_one_cluster_out_mean_range": [
+        -13.015833333333331,
+        -9.105333333333332
+      ],
+      "mean_candidate_minus_comparator": -12.238939393939392,
+      "sd_across_clusters": 11.111714420994508
+    },
+    "online_llm_picker": {
+      "all_leave_one_cluster_out_means_favor_candidate": true,
+      "cluster_differences": {
+        "AZPS": -22.294999999999987,
+        "BANC": -7.210000000000001,
+        "EPE": -2.25,
+        "ERCO": -8.57333333333333,
+        "FMPP": -28.379999999999995,
+        "FPC": -5.170000000000002,
+        "MISO": -4.609999999999999,
+        "NEVP": -12.150000000000006,
+        "NYIS": -3.335000000000001,
+        "SWPP": -2.5,
+        "TIDC": -4.630000000000003
+      },
+      "clusters": 11,
+      "clusters_favoring_candidate": 11,
+      "equal_cluster_t_95_ci": [
+        -14.963262835485157,
+        -3.419161406939083
+      ],
+      "leave_one_cluster_out_mean_range": [
+        -9.885333333333332,
+        -7.272333333333333
+      ],
+      "mean_candidate_minus_comparator": -9.19121212121212,
+      "sd_across_clusters": 8.59180139211889
+    }
+  },
+  "input_analysis_sha256": "b9b0bf278bd7676998471ed2d695b816271c11fcb5113a58b928bc7b53aea949",
+  "limitations": [
+    "These are 11 balancing authorities within one EIA provider, not 11 independent data sources.",
+    "The online_llm_picker contrast is descriptive after comparator selection; use the registered selection-aware hierarchical interval for inference.",
+    "The replay uses revised historical values, simulated one-hour label maturity, hypothetical costs, and has disclosed progress-row exposure."
+  ],
+  "weighting": "equal weight per BA; each BA is the mean over its complete episodes and five policy seeds"
+}

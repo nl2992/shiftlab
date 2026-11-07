@@ -22,6 +22,7 @@ from pathlib import Path
 from shiftlab.gaver import freshcheck as fc
 
 CHUNK = 10
+METHODS_RUN = fc.METHODS
 D_VALUES = (1, 10)
 
 
@@ -60,7 +61,7 @@ def work(task):
     study, cell, s0, n = task
     rows = []
     for sd in range(s0, s0 + n):
-        rows += fc.run_cell_seed(cell, sd)
+        rows += fc.run_cell_seed(cell, sd, METHODS_RUN)
     for r in rows:
         r["study"] = study
     return (study, cell.cell_id, s0), rows
@@ -71,12 +72,17 @@ def main():
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--workers", type=int, default=12)
     ap.add_argument("--out", default="outputs/gaver/wp3")
+    ap.add_argument("--methods", default="", help="comma list; default all")
+    ap.add_argument("--tag", default="", help="records file suffix (e.g. ext)")
     a = ap.parse_args()
     out = Path(a.out)
     if a.smoke:
         out = out / "smoke"
     out.mkdir(parents=True, exist_ok=True)
-    rec = out / "records.jsonl"
+    global METHODS_RUN
+    if a.methods:
+        METHODS_RUN = tuple(a.methods.split(","))
+    rec = out / (f"records_{a.tag}.jsonl" if a.tag else "records.jsonl")
     done = set()
     if rec.exists():
         for line in rec.read_text(encoding="utf-8").splitlines():

@@ -110,3 +110,22 @@ def test_keepnull_stream_ends_at_hurdle_boundary():
     assert np.isclose(s.truth.regime_mean[-1], -0.1)
     m, _, _ = _run("fresh", 0.2, cell, 101150000)
     assert m.stat_trigger_ever in (0, 1)
+
+
+def test_ported_comparators_respect_release_and_budget():
+    cell = fc.Wp3Cell("reversal", 0.2, d=10)
+    for name in ("erb", "erb_a05", "two_phase"):
+        m = fc.make_method(name)
+        cfg, stream = cell.config(101120070), fc.make_stream(cell, 101120070)
+        res = run(stream, m, cfg)
+        assert res.queries <= cfg.B
+        assert all(ev + cfg.d <= t for t, ev, _ in m.consumed)
+
+
+def test_two_phase_needs_two_alarms_and_never_rolls_back():
+    cell = fc.Wp3Cell("persistent", 0.2, d=1)
+    m = fc.make_method("two_phase")
+    res = run(fc.make_stream(cell, 101120071), m, cell.config(101120071))
+    assert res.promotions <= 1 and m.rollback_mode == "none"
+    if res.promotions:
+        assert m.phase == 2 and m.ph2_start > 0

@@ -3,7 +3,7 @@
 Date 2026-11-06, branch `research/gave-r-2026-11-06`. Development/screening only: seeds
 101120000-101159999 (WP3 block of `gaver_screening_development`), no confirmation seeds. Every
 number below comes from `outputs/gaver/wp3/records.jsonl` (gitignored; regenerate with the commands
-at the end). Code commit: `2a8b695b`.
+at the end). Code commit: `2a8b695b`; follow-up (E_rb, two-phase) commit given in the last line.
 
 ## Verdict (screening)
 
@@ -24,6 +24,10 @@ at the end). Code commit: `2a8b695b`.
 - Continue/pivot/stop: **stop** FreshCheck-as-benefit; **keep** it only as an optional validity
   wrapper if a later claim needs a certified rollback. A cheaper next step would be a level-valid
   version of the cost-threshold rule, not more tuning of this one.
+
+**Follow-up (E_rb and two-phase added): the verdict is unchanged.** E_rb behaves like FreshCheck
+without the reserve (same J/T and harm to within noise); two-phase avoids reversal harm only by almost
+never promoting and loses 17.8% on persistent value. See "Ported comparators".
 
 ## Build
 
@@ -62,8 +66,9 @@ at the end). Code commit: `2a8b695b`.
   kappa=2, per-episode alpha spending; this stands in for the non-existent `E_rb`), `existing_hysteresis`
   (repo `hysteresis`, k=2), and, on the same pacing as FreshCheck, `paced_promo_only`, `paced_cusum`,
   `paced_cost_threshold` (roll back when remaining horizon x recent mean loss exceeds `s`).
-  **Two-phase persistence rule: none exists in the repo** (searched `scripts/*rollback*`,
-  `*reversal*`, `switching_explore`, `atlas_components`); not compared.
+  The follow-up (section "Ported comparators" below) adds `erb`, `erb_a05` (E_rb from
+  `origin/codex/sprint2-leaderboards@297a706e`) and `two_phase` (`persistence_promotion.py`). My first
+  search missed them because they are not in the rollback/reversal scripts.
 - Ablations: `reuse_*` keeps feeding the promotion process with post-switch labels and rolls back when
   its wealth falls below 1 (a heuristic, not a level-alpha test); `*_noreserve` vs `*_reserve`;
   `cusum_reserve` isolates the reserve from the evidence; `fresh_reserve_a20` is a sensitivity run
@@ -208,6 +213,59 @@ rollback after a reversal (harm -84% relative) but delays promotion by thinning 
 (persistent J/T +10.6% worse with it); net on the equal-weight mean it is a loss (0.496 vs 0.489 for
 fresh). For CUSUM the reserve is a net loss too.
 
+## Ported comparators (follow-up)
+
+Code: `src/shiftlab/gaver/erb_port.py` (docstring cites sources and every adaptation), run with
+`--methods erb,erb_a05,two_phase --tag ext` on the same cells and the same WP3 seeds (including keep-null),
+rows in `outputs/gaver/wp3/records_ext.jsonl`. Because the file merges with `records.jsonl`, the tables
+in `tables.md` now include them.
+
+Adaptation choices (details in the module docstring): E_rb keeps the source's detector (restart-mixture SR
+e-detector, gap 10, bets .15/.3/.5, `alpha_rb` 0.10 or 0.05 for `erb_a05`, grid over the budget left at
+promotion, halving shares for re-promotion, horizon veto) but takes x = D, uses this harness's promotion
+gate and credit pacing (no reserve), and has no hurdle in its null (`E[D] <= 0`) and no economic gate; with
+`g_ref = h` the horizon veto is 1 round and effectively inactive at s = 0.1. Two-phase: the source's
+fixed discovery/persistence windows become adaptive (phase 2 starts at the phase-1 alarm round, fresh
+e-process, each phase at the full promotion level), promotion-only, no rollback.
+
+| method | J/T persistent | J/T reversal | J/T transient | equal-weight mean | reversal harm/T | rollback delay | switches (reversal) |
+|---|---|---|---|---|---|---|---|
+| erb | 0.418 | 0.508 | 0.542 | 0.489 | 0.0965 | 120.8 | 1.34 |
+| erb_a05 | 0.418 | 0.520 | 0.542 | 0.493 | 0.1083 | 135.8 | 1.30 |
+| two_phase | 0.569 | 0.445 | 0.541 | 0.518 | 0.0027 | 3.4 | 0.01 |
+| fresh_reserve (reference) | 0.467 | 0.480 | 0.541 | 0.496 | 0.0527 | 66.2 | 0.96 |
+| fresh_noreserve (reference) | 0.418 | 0.508 | 0.542 | 0.489 | 0.0970 | 121.6 | 1.32 |
+| existing_cusum (reference) | 0.507 | 0.417 | 0.541 | 0.488 | 0.0094 | 11.8 | 1.43 |
+
+FreshCheck (`fresh_reserve`) vs the ported comparators (gain = comparator - FreshCheck, J/T, pooled):
+
+| comparator | reversal J/T gain [95% CI] | grade | reversal harm gain | persistent J/T gain [95% CI] | grade |
+|---|---|---|---|---|---|
+| erb | +0.0272 [0.0183, 0.0362] (+5.4%) | meaningful better | +0.0438 (+45%) substantial better | -0.0497 [-0.0614, -0.0384] (-11.9%) | substantial worse |
+| erb_a05 | +0.0392 [0.0294, 0.0490] (+7.5%) | meaningful better | +0.0555 (+51%) substantial better | -0.0497 (-11.9%) | substantial worse |
+| two_phase | -0.0353 [-0.0428, -0.0273] (-7.9%) | meaningful worse | -0.0500 (harm 0.0027) substantial worse | +0.1014 [0.0886, 0.1142] (+17.8%) | substantial better |
+
+Safety: false promotion in boundary-null streams is 10/1000 for `erb`/`erb_a05` (upper 0.018) and 0/1000
+for `two_phase` (upper 0.004). Persistent false rollback is 0/2000 for all three. Keep-null rollback among
+promoted streams: `erb` 1/775 (upper 0.007); `two_phase` promoted only 58/775 streams, 0 rollbacks (no
+rollback exists).
+
+Reading.
+- **E_rb vs FreshCheck:** the fresh e-process (without reserve) and E_rb are indistinguishable in the
+  means (reversal J/T 0.508 vs 0.508, harm 0.0970 vs 0.0965, delay 122 vs 121 rounds; persistent
+  identical). E_rb is not the stronger incumbent that would have changed the picture: it is as slow as the
+  fresh process and far slower than the heuristic CUSUM (harm 0.0965 vs 0.0094). It also controls
+  false rollback at the keep-null boundary (1/775), so FreshCheck's "level-valid" property is not unique to it;
+  FreshCheck's distinct features are the explicit hurdle in the null and the reserve (which buys the 45%
+  harm reduction at an 11.9% persistent cost).
+- **Two-phase vs FreshCheck and CUSUM:** it wins the reversal cells (J/T 0.445, harm 0.0027) only because
+  the second e-process rarely completes before the reversal (0.01 switches per stream), and it pays 17.8% in
+  persistent value versus FreshCheck (0.569 vs 0.467; 43% above promotion-only). Against CUSUM it is worse
+  on persistent (+0.062) and slightly worse on reversal (0.445 vs 0.417). Its equal-weight mean (0.518) is
+  the worst of the rollback-capable comparators.
+- The adaptive phase boundary is my adaptation of an offline fixed-window design; a fixed-window
+  version with an optimised split could behave differently.
+
 ## Limitations and caveats
 
 - One synthetic family: iid Bernoulli within regime, a single effect size (D = +-0.8), one budget
@@ -235,10 +293,11 @@ fresh). For CUSUM the reserve is a net loss too.
 cd C:/Users/nigel/OneDrive/桌面/ICML/shiftlab-gave-r-2026-11-06
 export PYTHONPATH="$PWD/src" OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 PYTHONIOENCODING=utf-8
 PY=C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter/.venv/Scripts/python.exe
-$PY -m pytest tests/test_gaver_freshcheck.py -q                       # 9 passed
+$PY -m pytest tests/test_gaver_freshcheck.py -q                       # 11 passed
 $PY -m ruff check src/shiftlab/gaver/freshcheck.py scripts/gaver/run_freshcheck_*.py tests/test_gaver_freshcheck.py
 $PY scripts/gaver/run_freshcheck_main.py --smoke --workers 12          # smoke, outputs/gaver/wp3/smoke
 $PY scripts/gaver/run_freshcheck_main.py --workers 10                  # full, resumable, ~11 + ~4 min
+$PY scripts/gaver/run_freshcheck_main.py --workers 12 --methods erb,erb_a05,two_phase --tag ext   # follow-up, ~8 min
 $PY scripts/gaver/run_freshcheck_analyze.py                            # tables.md, *.csv
 ```
 

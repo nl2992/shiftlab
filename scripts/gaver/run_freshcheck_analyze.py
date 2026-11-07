@@ -21,6 +21,9 @@ COMPARATORS = (
     "existing_hysteresis",
     "paced_cusum",
     "paced_cost_threshold",
+    "erb",
+    "erb_a05",
+    "two_phase",
 )
 ABL = (
     ("reuse_reserve", "fresh_reserve", "reuse old wealth vs fresh (both reserve)"),
@@ -32,10 +35,11 @@ ABL = (
 
 def load(d: Path) -> pd.DataFrame:
     rows = []
-    for line in (d / "records.jsonl").read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            rows += json.loads(line)["rows"]
-    df = pd.DataFrame(rows)
+    for f in sorted(d.glob("records*.jsonl")):
+        for line in f.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                rows += json.loads(line)["rows"]
+    df = pd.DataFrame(rows).drop_duplicates(["study", "cell", "seed", "method"])
     df["kind"] = df["cell"].str.split("_").str[0]
     return df
 
@@ -288,7 +292,7 @@ def main():
             rt, rr = fc.clopper_pearson(kt, n), fc.clopper_pearson(kr, n)
             trig = (
                 f"{kt}/{n} ({fmt(rt[0])}, {fmt(rt[2])})"
-                if m.startswith(("fresh", "reuse", "paced_cusum", "cusum", "existing_cusum"))
+                if m.startswith(("fresh", "reuse", "paced_cusum", "cusum", "existing_cusum", "erb"))
                 else "n/a"
             )
             md.append(f"| {m} | {n} | {trig} | {kr}/{n} ({fmt(rr[0])}, {fmt(rr[2])}) |")

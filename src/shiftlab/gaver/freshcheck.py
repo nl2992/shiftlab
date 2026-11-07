@@ -140,7 +140,7 @@ class FreshCheckMethod(ComposedMethod):
         econ_mult: float = 1.0,
         kappa: float = 2.0,
     ):
-        if rollback not in ("none", "cusum", "cost_threshold", "fresh", "reuse"):
+        if rollback not in ("none", "cusum", "cost_threshold", "fresh", "reuse", "ext"):
             raise ValueError(rollback)
         if not 0.0 <= reserve_frac < 1.0:
             raise ValueError("reserve_frac")
@@ -170,6 +170,23 @@ class FreshCheckMethod(ComposedMethod):
         self.query_log: list[tuple[int, int, int]] = []  # (round, act, used_after)
         self.stat_trigger_ever = 0  # rollback statistic (no econ gate) fired while deployed
 
+    # hooks (default behaviour = repository promotion gate; subclasses override) -------------
+    def _promo_feed(self, ev: int, x: float) -> None:
+        self.ep.update(x)
+        self.ep_labels.append(x)
+
+    def _promo_alarm(self, t: int) -> bool:
+        return bool(self.ep.alarm)
+
+    def _ext_promote(self, t: int) -> None:
+        pass
+
+    def _ext_feed(self, x: float) -> None:
+        pass
+
+    def _ext_rollback(self, t: int) -> bool:
+        return False
+
     def _rb_econ(self, t: int) -> bool:
         if len(self.post) < 3:
             return False
@@ -181,8 +198,7 @@ class FreshCheckMethod(ComposedMethod):
         for ev, x in released:
             if self.act == 0:
                 if ev >= self.ep_start:
-                    self.ep.update(x)
-                    self.ep_labels.append(x)
+                    self._promo_feed(ev, x)
                     self.consumed.append((t, ev, 0))
             elif ev >= self.promo_t:
                 self.post.append(x)
@@ -193,9 +209,11 @@ class FreshCheckMethod(ComposedMethod):
                     self.rb_events.append((t, ev))
                 elif mode == "reuse":
                     self.ep.update(x)
+                elif mode == "ext":
+                    self._ext_feed(x)
         if self.act == 0:
             ben = self._ben(self.ep_labels, 10)
-            cond = bool(self.ep.alarm and ben is not None and self._econ(t, ben))
+            cond = bool(self._promo_alarm(t) and ben is not None and self._econ(t, ben))
             if cond:
                 self.act, self.promo_t, self.post, self.cus = 1, t, [], 0.0
                 self.ref = (-float(ben) - c.h) / 2.0
@@ -204,6 +222,8 @@ class FreshCheckMethod(ComposedMethod):
                     self.rb = started_gate(1.0 + c.h, self.alpha_rb_k(self.n_prom), c.B)
                     self.ep = None  # promotion wealth retired: unreadable in this mode
                 self.n_prom += 1
+                if mode == "ext":
+                    self._ext_promote(t)
         else:
             if (
                 (mode == "fresh" and self.rb.alarm)
@@ -219,6 +239,8 @@ class FreshCheckMethod(ComposedMethod):
                 rollback = bool(self.rb.alarm) and self._rb_econ(t)
             elif mode == "reuse":
                 rollback = self.ep.proc.log_e_value < 0.0 and self._rb_econ(t)
+            elif mode == "ext":
+                rollback = self._ext_rollback(t)
             else:
                 rollback = False
             if rollback:
@@ -277,6 +299,10 @@ def make_method(name: str) -> ComposedMethod:
         )
     if name == "fresh_reserve_a20":  # sensitivity: family-wise false-rollback budget 0.2
         return FreshCheckMethod("fresh", 0.2, alpha_rb=0.2)
+    if name in ("erb", "erb_a05", "two_phase"):
+        from shiftlab.gaver import erb_port
+
+        return erb_port.make(name)
     mode, r = _PACED[name]
     return FreshCheckMethod(mode, r)
 
@@ -294,6 +320,9 @@ METHODS = (
     "reuse_reserve",
     "reuse_noreserve",
     "fresh_reserve_a20",
+    "erb",
+    "erb_a05",
+    "two_phase",
 )
 
 # ----------------------------------------------------------------------------- evaluator metrics

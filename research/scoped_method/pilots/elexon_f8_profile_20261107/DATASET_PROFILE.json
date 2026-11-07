@@ -1,0 +1,664 @@
+{
+  "duplicate_valid_times_with_multiple_documents": {
+    "ATL": 204,
+    "DATL": 1248
+  },
+  "execution_provenance": {
+    "command": "uv run python research/scoped_method/pilots/elexon_f8_profile_20261107/profile_f8.py",
+    "halted_attempts": [
+      {
+        "attempt": 1,
+        "reason": "Initial lags were anchored to the future target rather than the latest actual available at issue time; zero training rows, no model fit."
+      },
+      {
+        "attempt": 2,
+        "reason": "One feature-eligible training row lacked a published ATL target label; lookup stopped before fit. The protocol and runner were amended to exclude and count missing target labels."
+      }
+    ],
+    "protocol_sha256": "6b387173533f1d5d367fd60f5f4806af855fc23cf0732f521227b31b33f54302",
+    "runner_commit": "99a74a106532386b1da1d65bb72ca66a38a14b97",
+    "runner_sha256": "1b35c02c42c6a5c638d98ca90dbb5b14841c95e7448e7ba183fe4c1371e8b893",
+    "runtime": {
+      "numpy": "2.5.4",
+      "python": "3.12.15",
+      "scikit_learn": "1.9.1"
+    },
+    "uv_lock_sha256": "a50f921c44e4f37d0e746f9a2680c8ec823d21a1f6a8901406620e1ca55c44fd"
+  },
+  "half_year_results": {
+    "2025_H1": {
+      "challenger_accuracy_on_disagreements": 0.5285605483625285,
+      "complete_nonoverlap_2000_event_blocks": 3,
+      "disagreement_count": 1313,
+      "disagreement_rate": 0.17021000777806586,
+      "eligible_events": 7714,
+      "minimum_blocks_pass": false,
+      "profile_match": false
+    },
+    "2025_H2": {
+      "challenger_accuracy_on_disagreements": 0.48725212464589235,
+      "complete_nonoverlap_2000_event_blocks": 4,
+      "disagreement_count": 706,
+      "disagreement_rate": 0.08745200049547876,
+      "eligible_events": 8073,
+      "minimum_blocks_pass": true,
+      "profile_match": false
+    }
+  },
+  "interpretation": "F8 prediction-profile screen only; no adaptation policy cost comparison or 2026 outcomes evaluated",
+  "limitation": "A single operator and two chronological halves do not establish independent source-level generalization.",
+  "model": {
+    "class": "HistGradientBoostingClassifier",
+    "features": [
+      "as-of DATL forecast",
+      "as-of ATL lags 1, 48, 336 half-hour valid periods",
+      "48-period trailing ATL mean and maximum, using as-of records",
+      "fixed UTC cyclical hour, weekday, and day-of-year encodings"
+    ],
+    "parameters": {
+      "l2_regularization": 1.0,
+      "learning_rate": 0.05,
+      "max_iter": 150,
+      "max_leaf_nodes": 15,
+      "random_state": 1729
+    },
+    "positive_rate_training": 0.1000533974102256,
+    "training_rows": 14982
+  },
+  "profile_screen_pass": false,
+  "protocol": "research/scoped_method/pilots/elexon_f8_profile_20261107/PROTOCOL.md",
+  "publication_query_boundary_utc": [
+    "2023-12-01T00:00:00Z",
+    "2025-12-30T00:00:00Z"
+  ],
+  "response_count": 50,
+  "response_receipts": [
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2023-12-01T00:00:00Z",
+        "2024-01-01T00:00:00Z"
+      ],
+      "records_in_window": 1489,
+      "response_records": 1489,
+      "response_sha256": "577d835fc58ae2cd3a2698ed1815d58e0cf4c269ca9d14b794153b48a7c9ef91"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-01-01T00:00:00Z",
+        "2024-02-01T00:00:00Z"
+      ],
+      "records_in_window": 1471,
+      "response_records": 1471,
+      "response_sha256": "d88d7b82f95057cb87ec99ffd5105bd232931c5ce58ef85d2117327f925369e7"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-02-01T00:00:00Z",
+        "2024-03-01T00:00:00Z"
+      ],
+      "records_in_window": 1397,
+      "response_records": 1397,
+      "response_sha256": "ccf4e170c2662463adeab29f2d28545ffc4916eeef07db7fc0998ff4ad114280"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-03-01T00:00:00Z",
+        "2024-04-01T00:00:00Z"
+      ],
+      "records_in_window": 1504,
+      "response_records": 1504,
+      "response_sha256": "64b0899364af8f31d0230ebcae9342ea6839bb5d015acbdf5cffcbf95754dca4"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-04-01T00:00:00Z",
+        "2024-05-01T00:00:00Z"
+      ],
+      "records_in_window": 1459,
+      "response_records": 1459,
+      "response_sha256": "aae94c50f00fb5b42022eaa500bb987c556540d0ca1b6761b218e860c589c723"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-05-01T00:00:00Z",
+        "2024-06-01T00:00:00Z"
+      ],
+      "records_in_window": 1486,
+      "response_records": 1486,
+      "response_sha256": "ea1336b7f7ed7bfe9606d3d4f2b31ab2c88a4b76f69b28739c4e779885cc0ec8"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-06-01T00:00:00Z",
+        "2024-07-01T00:00:00Z"
+      ],
+      "records_in_window": 1440,
+      "response_records": 1440,
+      "response_sha256": "ac79cdfcbbe56b8d283dd2e5cda939ee1e98892d3d46784309f54bd4dec944c4"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-07-01T00:00:00Z",
+        "2024-08-01T00:00:00Z"
+      ],
+      "records_in_window": 1485,
+      "response_records": 1485,
+      "response_sha256": "c762e958670e25426f8e30b1ddd013a2f12919b464baa05e23cbcfd475b7958a"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-08-01T00:00:00Z",
+        "2024-09-01T00:00:00Z"
+      ],
+      "records_in_window": 1487,
+      "response_records": 1487,
+      "response_sha256": "b8231311ac5169a89a1280e1a47625908917aa349619aab8aaedb5b4acf48005"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-09-01T00:00:00Z",
+        "2024-10-01T00:00:00Z"
+      ],
+      "records_in_window": 1440,
+      "response_records": 1440,
+      "response_sha256": "97e2c1a41ef7c3cfd4bfc52fce58eb2602121a11254056774b70d5e155f61f89"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-10-01T00:00:00Z",
+        "2024-11-01T00:00:00Z"
+      ],
+      "records_in_window": 1491,
+      "response_records": 1491,
+      "response_sha256": "aa1d3ebed087d144940efd5ef73166ad9649c56d445455504549df98b249ccb7"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-11-01T00:00:00Z",
+        "2024-12-01T00:00:00Z"
+      ],
+      "records_in_window": 1445,
+      "response_records": 1445,
+      "response_sha256": "5ce7e5ebfac03170de17d309bee104ab52aaf082a4aee6b571308af4b4ef2943"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2024-12-01T00:00:00Z",
+        "2025-01-01T00:00:00Z"
+      ],
+      "records_in_window": 1502,
+      "response_records": 1502,
+      "response_sha256": "08a93ec7e45219a79a93a90146aea7b211374e71cfcfcc517135043806fbc16f"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-01-01T00:00:00Z",
+        "2025-02-01T00:00:00Z"
+      ],
+      "records_in_window": 1489,
+      "response_records": 1489,
+      "response_sha256": "5568f5453a10e68b27466df9ebcc909efff5ff5f2c022b4e13b98698746d8eae"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-02-01T00:00:00Z",
+        "2025-03-01T00:00:00Z"
+      ],
+      "records_in_window": 1346,
+      "response_records": 1346,
+      "response_sha256": "79c83edc257c9a72082aaa9fad5ec17cfd96c6d4e22287e842f9508b49b3f933"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-03-01T00:00:00Z",
+        "2025-04-01T00:00:00Z"
+      ],
+      "records_in_window": 1493,
+      "response_records": 1493,
+      "response_sha256": "18fcad8e1b8f6bbac51bcc9ea34d67a4d058696c29db17a0ec2240dba32ccd77"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-04-01T00:00:00Z",
+        "2025-05-01T00:00:00Z"
+      ],
+      "records_in_window": 1452,
+      "response_records": 1452,
+      "response_sha256": "75461eb6a6be08bdb92eef81cb41d26b5b37d63bc427cb2428928bbaba3b0c65"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-05-01T00:00:00Z",
+        "2025-06-01T00:00:00Z"
+      ],
+      "records_in_window": 1487,
+      "response_records": 1487,
+      "response_sha256": "03bfd54e67af696162a7c1fcc9cc5321bbf87ad7fa70e086eb552a0d106d5095"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-06-01T00:00:00Z",
+        "2025-07-01T00:00:00Z"
+      ],
+      "records_in_window": 1440,
+      "response_records": 1440,
+      "response_sha256": "0e3858b2cc48af1a3574fc1b46860226ddbd73f94bdad70bb15be590ed481dd5"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-07-01T00:00:00Z",
+        "2025-08-01T00:00:00Z"
+      ],
+      "records_in_window": 1489,
+      "response_records": 1489,
+      "response_sha256": "eb8b1f6c41db99eb6d318df267fbb68756260e11e22fddbc160a55cd3cf118df"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-08-01T00:00:00Z",
+        "2025-09-01T00:00:00Z"
+      ],
+      "records_in_window": 1488,
+      "response_records": 1488,
+      "response_sha256": "beeab07cf1e89c758220c0311e4a744b6303a34962d922af4121d93059aa27de"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-09-01T00:00:00Z",
+        "2025-10-01T00:00:00Z"
+      ],
+      "records_in_window": 1468,
+      "response_records": 1468,
+      "response_sha256": "5f53485b389be7d57c2734c7d528f021b96a83dff4ba5bbcac9326467fb961e8"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-10-01T00:00:00Z",
+        "2025-11-01T00:00:00Z"
+      ],
+      "records_in_window": 1502,
+      "response_records": 1502,
+      "response_sha256": "0e372cc254399c221f504740c62b099d8c5cc8768441e071ef7e53e69c53253a"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-11-01T00:00:00Z",
+        "2025-12-01T00:00:00Z"
+      ],
+      "records_in_window": 1439,
+      "response_records": 1439,
+      "response_sha256": "d9565a9f9915108ab9a4f5b9c00a973018c875b73d4114221e51af50bc60f6ea"
+    },
+    {
+      "cached": true,
+      "dataset": "ATL",
+      "publish_time_window_utc": [
+        "2025-12-01T00:00:00Z",
+        "2025-12-30T00:00:00Z"
+      ],
+      "records_in_window": 1402,
+      "response_records": 1402,
+      "response_sha256": "4a1ec3475553f43a62ff943ae6c3eb822ba76c8a718f6aad40d8f87d4986c7e3"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2023-12-01T00:00:00Z",
+        "2024-01-01T00:00:00Z"
+      ],
+      "records_in_window": 1536,
+      "response_records": 1536,
+      "response_sha256": "9287ca0952bf71438561ee99f85d6dee1142124fa1e228e9b943aea96219ffc3"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-01-01T00:00:00Z",
+        "2024-02-01T00:00:00Z"
+      ],
+      "records_in_window": 1440,
+      "response_records": 1440,
+      "response_sha256": "00bc0dfdec0eb54ff303a1a903016cac9296371b0cc8d4d583d7f3d28d5676a5"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-02-01T00:00:00Z",
+        "2024-03-01T00:00:00Z"
+      ],
+      "records_in_window": 1392,
+      "response_records": 1392,
+      "response_sha256": "10539a940dcfd5fe3bb6998168958b8f60cc76c135442d4e334078762faa1125"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-03-01T00:00:00Z",
+        "2024-04-01T00:00:00Z"
+      ],
+      "records_in_window": 1536,
+      "response_records": 1536,
+      "response_sha256": "3a48cf59682fc5906aac7e26950391999eedd9d8128c30b7b03a25c3f7d393ad"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-04-01T00:00:00Z",
+        "2024-05-01T00:00:00Z"
+      ],
+      "records_in_window": 1392,
+      "response_records": 1392,
+      "response_sha256": "76d2c6145db47c6023e94c6539e133627a6e799be9de65c11dc711c88f54c1de"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-05-01T00:00:00Z",
+        "2024-06-01T00:00:00Z"
+      ],
+      "records_in_window": 1344,
+      "response_records": 1344,
+      "response_sha256": "0f1a3c677305922de1dd0d8068a29522b8ec0a22d107db6b45441563ddd9b4b9"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-06-01T00:00:00Z",
+        "2024-07-01T00:00:00Z"
+      ],
+      "records_in_window": 1344,
+      "response_records": 1344,
+      "response_sha256": "fc985986fbc553306fc8166b890a58bf0b8bd3bdfac9a76d5e0644c15815661d"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-07-01T00:00:00Z",
+        "2024-08-01T00:00:00Z"
+      ],
+      "records_in_window": 1392,
+      "response_records": 1392,
+      "response_sha256": "0e98341834330ea74d156c4d84933ae0ffd7418cf83722c18547ceedce124d0c"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-08-01T00:00:00Z",
+        "2024-09-01T00:00:00Z"
+      ],
+      "records_in_window": 1488,
+      "response_records": 1488,
+      "response_sha256": "a6c4ba93cf2ebeefc07f54531e01ad3f2ad08acd6af7068ecf76727f3516d2d2"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-09-01T00:00:00Z",
+        "2024-10-01T00:00:00Z"
+      ],
+      "records_in_window": 1440,
+      "response_records": 1440,
+      "response_sha256": "5060317b52b440d1c5e7804967a3c1d7688ad32a1301ffe3216774fa9008c2ff"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-10-01T00:00:00Z",
+        "2024-11-01T00:00:00Z"
+      ],
+      "records_in_window": 1488,
+      "response_records": 1488,
+      "response_sha256": "114806cbec6c9915671bc01212cd7d200bf94e708eb763fbaa7af82f6c95ceb0"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-11-01T00:00:00Z",
+        "2024-12-01T00:00:00Z"
+      ],
+      "records_in_window": 1536,
+      "response_records": 1536,
+      "response_sha256": "da377de2a27bcad43b7caaa6991b9cd561465d4c19a57d39bb4cb58054432912"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2024-12-01T00:00:00Z",
+        "2025-01-01T00:00:00Z"
+      ],
+      "records_in_window": 1488,
+      "response_records": 1488,
+      "response_sha256": "2a2a00edf07a8b287eb860ed807894a02a45e2ea1db08c072f11a1de912fb2ac"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-01-01T00:00:00Z",
+        "2025-02-01T00:00:00Z"
+      ],
+      "records_in_window": 1392,
+      "response_records": 1392,
+      "response_sha256": "120692db696b6d9d464369778a41e01eb20d31572033a4731302c2dd3f34dcac"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-02-01T00:00:00Z",
+        "2025-03-01T00:00:00Z"
+      ],
+      "records_in_window": 1488,
+      "response_records": 1488,
+      "response_sha256": "a800bae5ef0057583f72854d38e6014726b7f1261527a1fbbee7c1f6a0b25cff"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-03-01T00:00:00Z",
+        "2025-04-01T00:00:00Z"
+      ],
+      "records_in_window": 1632,
+      "response_records": 1632,
+      "response_sha256": "8a00e25d9293082aeaeba01aa43e7f6e8b98580b1feb76982095dc5da66594b2"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-04-01T00:00:00Z",
+        "2025-05-01T00:00:00Z"
+      ],
+      "records_in_window": 1392,
+      "response_records": 1392,
+      "response_sha256": "b9f2ff126d023ae5a613ab48e82176459394103ff08ce511d9d2cb2ede0d2fa1"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-05-01T00:00:00Z",
+        "2025-06-01T00:00:00Z"
+      ],
+      "records_in_window": 1536,
+      "response_records": 1536,
+      "response_sha256": "f328945298ebd5b8eaa25d71216d90482ae8641d0cc13265e2792a663184caa1"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-06-01T00:00:00Z",
+        "2025-07-01T00:00:00Z"
+      ],
+      "records_in_window": 1440,
+      "response_records": 1440,
+      "response_sha256": "f2b919c6ce794ad958e9171696a756bd132cf507314acc09843641b7b79f11ad"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-07-01T00:00:00Z",
+        "2025-08-01T00:00:00Z"
+      ],
+      "records_in_window": 1488,
+      "response_records": 1488,
+      "response_sha256": "2209cb8b54f3755896dd5d5a28ad61ee4aeaffc920b046db8476cb4136100f87"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-08-01T00:00:00Z",
+        "2025-09-01T00:00:00Z"
+      ],
+      "records_in_window": 1392,
+      "response_records": 1392,
+      "response_sha256": "029c9c13f2680e57d69b2c209df48cf5858eb894623f48b5e645efc2c722048c"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-09-01T00:00:00Z",
+        "2025-10-01T00:00:00Z"
+      ],
+      "records_in_window": 1536,
+      "response_records": 1536,
+      "response_sha256": "75fb3b733577fd5b22f4e416742f61448b5bbde57ff0fceb59a7d6c448cfae93"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-10-01T00:00:00Z",
+        "2025-11-01T00:00:00Z"
+      ],
+      "records_in_window": 1488,
+      "response_records": 1488,
+      "response_sha256": "584d4b3fb21d72f4b04f8e7d7091888b7f5620ae6a7a7e4b264bf2fc758d7f0c"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-11-01T00:00:00Z",
+        "2025-12-01T00:00:00Z"
+      ],
+      "records_in_window": 1488,
+      "response_records": 1488,
+      "response_sha256": "602bbf27920d048c0dd18147a00260d8781b8765fa678758f322bce9c9d73a08"
+    },
+    {
+      "cached": true,
+      "dataset": "DATL",
+      "publish_time_window_utc": [
+        "2025-12-01T00:00:00Z",
+        "2025-12-30T00:00:00Z"
+      ],
+      "records_in_window": 1536,
+      "response_records": 1536,
+      "response_sha256": "b4e6c6a4bad23642d11f69b926142717965f6a8e20580a82b3e40367762e1c59"
+    }
+  ],
+  "source": "Elexon BMRS ATL and DATL; one GB system operator/source cluster",
+  "source_attribution": "Contains BMRS data \u00a9 Elexon Limited copyright and database right 2026",
+  "source_licence": "https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-bmrs-data/",
+  "status": "development_profile_only",
+  "target_registry": {
+    "2026_outcomes_read": false,
+    "actual_feature_vintage": "latest ATL document for each past valid time with publishTime <= issue time",
+    "development": [
+      "2025-01-01T00:00:00Z",
+      "2025-12-30T00:00:00Z"
+    ],
+    "development_exclusions": {
+      "missing_asof_forecast": 680,
+      "missing_mature_actual_history": 927,
+      "missing_target_label": 30
+    },
+    "forecast_vintage": "latest DATL document with publishTime <= issue time",
+    "issue_time": "target startTime minus 12 hours UTC",
+    "model_fit_rows": 14982,
+    "policy_label": "first ATL publication per target valid time",
+    "profile_rows": 15787,
+    "threshold_definition": "90th percentile of first-published 2024 ATL labels",
+    "threshold_value_withheld": true,
+    "train": [
+      "2024-01-01T00:00:00Z",
+      "2025-01-01T00:00:00Z"
+    ],
+    "train_exclusions": {
+      "missing_asof_forecast": 1249,
+      "missing_mature_actual_history": 1272,
+      "missing_target_label": 65
+    }
+  },
+  "total_records_by_dataset": {
+    "ATL": 36591,
+    "DATL": 36624
+  }
+}

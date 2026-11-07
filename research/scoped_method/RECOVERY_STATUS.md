@@ -290,3 +290,27 @@ trade-offs and the single-provider EIA replay remain case-study evidence. This i
 that the entire field or all operating regions have been exhausted. Smallest next action: finish the
 already-running CI check, then stop candidate/source expansion and assemble the benchmark/case-study
 package from preserved results, including all negative gates.
+
+## Phase 10 — Independent-source F8 profile screening (2026-11-07)
+
+The EIA F8 positive-control replay was audited across its 11 balancing-authority clusters in
+`pilots/eia930_f8_2026_confirmation_20261107/BA_CONSISTENCY_AUDIT.md`: the validation-selected
+fixed challenger is cheaper than CAMS in 11/11 BAs; the equal-BA difference is −12.239 with a
+descriptive cluster t interval [−19.704, −4.774], and every leave-one-BA-out mean remains negative.
+This is within-provider consistency, not independent-provider uncertainty or a novel algorithm.
+
+Because that ordinary F8 control passed its synthetic application gate and the user continued the
+cross-dataset objective, the already frozen Elexon development-only profile was executed. The
+2024-train/2025-dev model pair failed F8 in both 2025 halves: H1 disagreement 17.021%, conditional
+challenger accuracy 52.856% (7,714 eligible events, only 3 complete 2,000-event blocks); H2
+disagreement 8.745%, conditional accuracy 48.725% (8,073 events, 4 blocks). No Elexon policy
+economics or 2026 outcomes were opened. Exact response hashes, missingness, code/protocol/runtime
+hashes, correction history, and the screen decision are in
+`pilots/elexon_f8_profile_20261107/DATASET_PROFILE.json` and `RUN_STATUS.md`. This closes the
+Elexon/F8 model-pair lane; it does not change the within-EIA positive control result.
+
+The independent Wild-Time arXiv F8 protocol was already frozen at
+`pilots/wildtime_arxiv_f8_transfer_20261107/PROTOCOL.md`; it is the next bounded transfer screen.
+Its model-choice gate uses only 2017 validation, and test-year policy outcomes stay unopened unless
+the frozen gate passes. This remains a conventional fixed-challenger application test, not a novel
+repair claim. If it fails, do not change the pair or gate to seek a favorable test result.

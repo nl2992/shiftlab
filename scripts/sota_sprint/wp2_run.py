@@ -56,7 +56,7 @@ def _source(src: str):
 def _base_delay(seed_name: str, kind: str) -> int:
     if kind == "synthetic":
         return parse_regime(seed_name)[0].delay
-    for pre in ("twin3_", "twin2_", "twin_"):
+    for pre in ("twin4_", "twin3_", "twin2_", "twin_"):
         seed_name = seed_name.removeprefix(pre)
     return _delay(re.sub(r"_T\d+$", "", seed_name.split("@")[0]))
 

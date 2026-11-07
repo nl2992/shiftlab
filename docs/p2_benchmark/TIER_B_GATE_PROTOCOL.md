@@ -97,3 +97,8 @@ The synthetic regime parameters and the five UCI sources are exposed. The twin v
 model fits, not unseen data. The +5 tolerance is a policy choice (one switch cost), not a derived
 quantity. Excluding label spend from the gate means a policy can pass Tier B while paying the full
 label budget. Empirical bounds are not guarantees.
+
+## Amendment 1 (2026-11-07, before any H8 run)
+
+`wp2_run.py` now recognises the `twin4_` prefix when it looks up a dataset's registered label delay.
+This is the same one-line change made for `twin3_` in W4. No rule, cohort or threshold changes.

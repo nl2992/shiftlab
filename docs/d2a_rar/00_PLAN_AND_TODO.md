@@ -34,7 +34,7 @@ Atlas) findings are development knowledge, not confirmation.
 
 ## Work packages
 
-- [ ] WP0 Failure ledger + null-assumption registry + `FAILURE_ATLAS_CORRECTED.md` (agent: ledger)
+- [x] WP0 Failure ledger + null-assumption registry + `FAILURE_ATLAS_CORRECTED.md` (agent: ledger)
 - [ ] WP1a Drift2Act paper_reconstruction + native-task reproduction subset (agent: d2a)
 - [ ] WP1b RAR paper_reconstruction + native-stream reproduction subset (agent: rar)
 - [x] WP1c SOTA registry for C-F + WATCH/PPRM; implement Challenger GSE/OSE/LSE (agent: sota)
@@ -54,3 +54,4 @@ Dependencies: WP5 after WP0+WP1a/b+WP2; WP6 after WP5; Q3 factorial only after a
 - 2026-11-07: branch + worktree created; WP0, WP1a, WP1b, WP1c, WP2 launched as Sonnet subagents.
 - 2026-11-07: WP4 first pass landed (10 families; most room: pending/deadline-aware querying, RAR Gate-2, canary exposure). WP2 verified (33 tests); WP2b sent (retrospective queries, canary split, retrain-window loss, seed registry).
 - 2026-11-07: WP1c committed 6f0e6d88 (Challenger 12 tests; Lending Club not reproduced). WP2+WP2b committed 7a9743c4 (55 tests). WP1d relaunched paper-only (auto-mode blocked cloning/executing author repos); WP1e in-repo ports launched.
+- 2026-11-07: WP0 committed (49 ledger rows, 29 null entries, 13 P2 null-mismatched measurements; 57 UNVERIFIED fields to be filled by baseline agents; HGxH2c FINAL_REPORT and Lane A docs not yet mined).

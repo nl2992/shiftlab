@@ -1,0 +1,522 @@
+# Null-assumption registry (WP0, 2026-11-07). One entry per baseline / method in docs/d2a_rar/MANDATE.md.
+#
+# Notation: d_t = l(I(X_t),Y_t) - l(C(X_t),Y_t)  (incumbent loss minus challenger loss).
+#   cond          H0cond : E[d_t | F_{t-1}] <= 0   (conditional on a stated filtration; ShiftLab 'V1')
+#   marg          H0marg : E[d_t] <= 0             (stationary/exchangeable/parametric-process null; ShiftLab 'V2')
+#   absolute_risk R_t <= tau (a risk-level requirement on ONE model; not a paired difference)
+#   economic      expected deployment value after all costs (ShiftLab 'V3'); no anytime guarantee implied
+#   none          the method claims no false-promotion/false-alarm guarantee (heuristic / regret / estimator)
+#
+# Rules for readers:
+#  * Score each method's validity ONLY against its own target_null (valid_validity_metric). Reporting a marg
+#    false-promotion rate for a cond method is the 'P2 error' (see failure_ledger.jsonl, rows with
+#    null_mismatched=yes). Report such numbers only as labelled out-of-contract stress.
+#  * Fields starting with 'UNVERIFIED' were NOT established by the WP0 agent. External papers were not read
+#    by WP0; their entries rest on ShiftLab repo notes (abstract/snippet level) or on MANDATE.md and say so in
+#    source_verification. The d2a / rar / sota agents must replace UNVERIFIED with paper-section citations.
+#  * source_verification vocabulary: PAPER_FULLTEXT (not used by WP0), REPO_CODE (read module source),
+#    REPO_DOC (read repo documents), ABSTRACT, SNIPPET, MANDATE_ONLY, NONE.
+#  * 'guarantee_type' describes what the SOURCE claims, not what we verified.
+#
+# Branch refs used below (all read with git show; nothing checked out):
+#   MAIN=main@7354480a  GV=origin/research/gave-r-2026-11-06@03289d1d  SL=origin/claude/sweet-lovelace-pznpjq@c53f6459
+#   CO=research/continuation-2026-11-04@10a8e808  SC=origin/codex/scoped-method-research-results-2026-11-06@a9d5c3cd
+
+version: 1
+written: "2026-11-07"
+entries:
+
+  # ------------------------------------------------------------------ Phase 1 external baselines
+  - id: drift2act_certificate
+    name: "Drift2Act active risk certificate + gate (Lamaakal et al., arXiv:2603.08578)"
+    role: baseline_primary_host
+    target_null: absolute_risk
+    target_null_detail: "Gate U_t(delta) <= tau on the CURRENT windowed risk R_t (MANDATE A2). Not a paired-difference null; compares one model's risk upper bound to a threshold. Abstract-level: 'anytime-valid upper bound on current risk'."
+    filtration: "UNVERIFIED (not stated in any ShiftLab note; paper Sec 4 / App D must be read)"
+    sampling_assumption: "UNVERIFIED. MANDATE A2 says the Hoeffding+summable-allocation radius assumes uniform random sampling from the window; ShiftLab must audit this and NOT assert validity under informative or adaptive selection."
+    dependence_assumption: "UNVERIFIED. Radius rad(n,delta)=sqrt(log(pi^2 n^2/(6 delta))/(2n)) is a Hoeffding bound for bounded losses in [0,1] with a union over n; MANDATE says do NOT assert validity under serial dependence, informative selection or arbitrary delayed sampling."
+    label_delay_assumption: "UNVERIFIED. Abstract says evaluation includes a synthetic stream with label delay; whether the certificate is stated for delayed labels is unknown."
+    guarantee_type: anytime-valid
+    guarantee_note: "ABSTRACT-level claim only (GV docs/gaver/40_PRIOR_ART_CHECK.md, item 1). Per MANDATE the allocation pi^2/6 n^-2 is a union bound over sample sizes for a FIXED window-mean target; whether the target moves with drift is UNVERIFIED."
+    output_type: [certificate, gate]
+    source: "arXiv:2603.08578 Secs 3-5, Alg 1 (App B), CS derivation (App D); MANDATE.md Phase 1A. Repo: no implementation, no author code located (SL docs/promising_directions/sota/SOTA_APPLICABILITY_REPORTS.md section 3)."
+    source_verification: ABSTRACT
+    valid_validity_metric: "absolute-risk violation: P(gate passes while true current-window risk R_t > tau) under the SAME sampling scheme the certificate assumes (uniform from window). Do NOT report conditional or marginal false promotion of a paired difference for this component."
+    notes_for_agents: "d2a agent: label every run PAPER_RECONSTRUCTION unless author code is found. Workshop paper (CAO Workshop at ICLR 2026). Earlier ShiftLab work judged a two-frozen-model restriction to remove its low-cost action ladder; do not invent retraining benefits or handoff outcomes."
+
+  - id: drift2act_action_selector
+    name: "Drift2Act belief + expected-utility action selection (A1, A3)"
+    role: baseline_primary_host
+    target_null: none
+    target_null_detail: "Sensing belief b_t(d) over {none, covariate, concept, subgroup} and argmax of U_t(a)=Delta_t(a)-lambda c(a)-gamma Viol_t(a) subject to label budget and cooldowns (MANDATE A1/A3). Decision-theoretic heuristic; no hypothesis test."
+    filtration: "UNVERIFIED"
+    sampling_assumption: "UNVERIFIED (windowed active auditing with k_t labels per step under budget B_lab, per MANDATE)"
+    dependence_assumption: "UNVERIFIED (HMM-style transition matrix T over drift types is assumed by A1)"
+    label_delay_assumption: "UNVERIFIED"
+    guarantee_type: none
+    guarantee_note: "No guarantee for the action choice is known to ShiftLab; only the gate certificate (drift2act_certificate) carries a claimed bound."
+    output_type: [retrain, rollback, promotion, label_allocation]
+    source: "arXiv:2603.08578 Sec 3-5; MANDATE.md Phase 1A (A1 belief update, A3 utility)."
+    source_verification: MANDATE_ONLY
+    valid_validity_metric: "economic: expected deployment value J after all costs on the common contract, plus safety-constraint violations; there is no false-promotion level to test."
+    notes_for_agents: "Gain tensor G(d,a) and the belief likelihood p(z|d) are paper-specific; no released artifacts, so they must be trained on development data and flagged as reconstruction."
+
+  - id: rar_gates
+    name: "RAR retrain gates (Sadeghian et al., arXiv:2611.02251) - detector-confirmed drift, label fraction l_t(W_train)>=theta_L, accuracy recovery A_pre-A_cur>=theta_R"
+    role: baseline_primary_host
+    target_null: UNVERIFIED
+    target_null_detail: "UNVERIFIED. MANDATE B: gates are thresholds that do not directly optimise intervention costs; objective U(pi;S)=sum 1{yhat=y} - C_r N_r - C_a N_a - C_b N_b. Repo note (CO docs/sota_sprint/versioned_dual_monitor_protocol.md) says the canary quality rollback is an operational screen, not a significance test, so expect target_null=none/economic for the whole framework."
+    filtration: "UNVERIFIED"
+    sampling_assumption: "UNVERIFIED (label fraction over the training window; MANDATE B gives earliest retrain t_d + tau + ceil(theta_L W_train) - 1)"
+    dependence_assumption: "UNVERIFIED"
+    label_delay_assumption: "Delay tau appears explicitly in the MANDATE latency formula L = max(L_D, tau+theta_L W_train)+(tau+W_1/p_1)+(tau+W_2); UNVERIFIED how labels are released (fixed tau vs random)."
+    guarantee_type: UNVERIFIED
+    guarantee_note: "Expected none (heuristic gates). Paper reports heterogeneous performance and no uniform dominance (CO docs/sota_sprint/independent_frontier_review_2026-11-04.md, secondary)."
+    output_type: [retrain, alarm]
+    source: "arXiv:2611.02251 Secs 3-5, Algs 1-2; MANDATE.md Phase 1B. No ShiftLab implementation exists."
+    source_verification: MANDATE_ONLY
+    valid_validity_metric: "economic: J(pi;S) per the paper objective and the common-contract J; detector false-alarm rate only for the detector component and only if the paper states a null."
+    notes_for_agents: "rar agent: find the Sec 10 reproducibility artifact; else paper-faithful tested implementation (PAPER_RECONSTRUCTION). Compare against the paper's cost-aware binary baseline, not only unmodified RAR."
+
+  - id: rar_canary_rollback
+    name: "RAR two-stage canary + typed rollback holds (Canary-1/Canary-2/Alert-Hold-Soft/Alert-Hold-Hard)"
+    role: baseline_primary_host
+    target_null: none
+    target_null_detail: "Per ShiftLab secondary note: canary-window accuracy difference compared with a margin; explicitly an operational screen, not a significance test. UNVERIFIED against the paper."
+    filtration: "UNVERIFIED"
+    sampling_assumption: "Stage 1 routes fraction p_1 until W_1 labelled routed observations; stage 2 full traffic until W_2; old model retained for rollback (MANDATE B)."
+    dependence_assumption: "UNVERIFIED"
+    label_delay_assumption: "UNVERIFIED (latency formula includes tau per stage)"
+    guarantee_type: none
+    guarantee_note: "Operational screen per secondary note; no false-rollback level known."
+    output_type: [rollback, promotion]
+    source: "arXiv:2611.02251 Secs 3-5; MANDATE.md Phase 1B; CO docs/sota_sprint/versioned_dual_monitor_protocol.md lines 63-68 (secondary)."
+    source_verification: REPO_DOC
+    valid_validity_metric: "economic and operational: rollback latency, canary overhead, unnecessary rollbacks (secondary metrics in MANDATE Phase 7); NOT a conditional-null false-promotion rate."
+    notes_for_agents: "ShiftLab precedents for promote-then-rollback economics: FL ledger rows on E_rb / reversal headroom (SC PHASE2_HEADROOM_RESULTS) - no evaluated policy captured the reversal headroom."
+
+  - id: challenger_gse
+    name: "The Challenger (Digalakis et al., arXiv:2512.18390) - greedy sequential evaluation (GSE; expansion of the acronym UNVERIFIED)"
+    role: baseline
+    target_null: economic
+    target_null_detail: "Optimal-stopping value of switching: value -c n T - c_s + n (T-t) G(t) (MANDATE C); relative to discarding: -c_s + n (T-t)(G(t)-c). Decision problem, no hypothesis test."
+    filtration: "UNVERIFIED (information = data sources arriving over time, per snippet)"
+    sampling_assumption: "Challenger trained on gradually available data (evolving learning curve); acquisition is of data/features, not delayed labels under a hard budget"
+    dependence_assumption: "UNVERIFIED (learning-curve model G(t))"
+    label_delay_assumption: "UNVERIFIED"
+    guarantee_type: decision_theoretic
+    guarantee_note: "Snippet-level: one-shot, greedy sequential and look-ahead sequential policies compared with a full-foresight oracle on a credit-scoring dataset. Mapping of GSE/OSE/LSE to those three is UNVERIFIED."
+    output_type: [promotion, stopping_rule]
+    source: "arXiv:2512.18390; MANDATE.md Phase 1C. GV docs/gaver/40_PRIOR_ART_CHECK.md item 7 (SNIPPET)."
+    source_verification: SNIPPET
+    valid_validity_metric: "economic: realised net value vs oracle and vs discard; no false-promotion metric."
+    notes_for_agents: "sota agent: native setting is NOT identical to RAR's repeated drift-response setting. SL docs/failure_atlas_v2_flq/results/REPORT.md says The Challenger has no runnable label-budget form; economic-replacement control is the closest analogue."
+
+  - id: challenger_ose
+    name: "The Challenger - one-shot evaluation (OSE; UNVERIFIED mapping)"
+    role: baseline
+    target_null: economic
+    target_null_detail: "Same value functional as GSE (MANDATE C); one-shot decision at a single time."
+    filtration: "UNVERIFIED"
+    sampling_assumption: "UNVERIFIED"
+    dependence_assumption: "UNVERIFIED"
+    label_delay_assumption: "UNVERIFIED"
+    guarantee_type: decision_theoretic
+    guarantee_note: "See challenger_gse."
+    output_type: [promotion, stopping_rule]
+    source: "arXiv:2512.18390; MANDATE.md Phase 1C."
+    source_verification: SNIPPET
+    valid_validity_metric: "economic"
+    notes_for_agents: "Expansion of OSE to 'one-shot' is an inference from the snippet-level method list, not read from the paper."
+
+  - id: challenger_lse
+    name: "The Challenger - look-ahead sequential evaluation (LSE; UNVERIFIED mapping)"
+    role: baseline
+    target_null: economic
+    target_null_detail: "Look-ahead optimal-stopping policy over the same value functional (MANDATE C)."
+    filtration: "UNVERIFIED"
+    sampling_assumption: "UNVERIFIED"
+    dependence_assumption: "UNVERIFIED"
+    label_delay_assumption: "UNVERIFIED"
+    guarantee_type: decision_theoretic
+    guarantee_note: "Snippet: look-ahead performs best and approaches a full-foresight oracle on credit scoring."
+    output_type: [promotion, stopping_rule]
+    source: "arXiv:2512.18390; MANDATE.md Phase 1C."
+    source_verification: SNIPPET
+    valid_validity_metric: "economic"
+    notes_for_agents: "Repo already has R:economic_stop and finite-horizon Bellman comparators; a threshold c_s/(T-t) alone is not a new method (SC PHASE2_HEADROOM_RESULTS prior-art boundary)."
+
+  - id: gong_zhang_paid_obs
+    name: "Gong & Zhang, The Cost of Information (ICML 2026, PMLR v306 p36013) - paid-observation contextual bandits"
+    role: baseline
+    target_null: none
+    target_null_detail: "Cost-aware regret objective; no hypothesis test. Free-budget threshold phase transition in the regret rate."
+    filtration: "UNVERIFIED"
+    sampling_assumption: "Learner chooses whether to pay for the observation each round (adversarial setting stated in snippet); stochastic variants UNVERIFIED"
+    dependence_assumption: "UNVERIFIED (adversarial in the snippet-described setting)"
+    label_delay_assumption: "UNVERIFIED (not in the described model per GV prior-art note)"
+    guarantee_type: regret_bound
+    guarantee_note: "Snippet-level: near-optimal algorithm has worse regret rate than cost-free contextual bandits even for small costs; free budgets below a threshold change cost but not rate. No closed forms recorded - do not invent."
+    output_type: [label_allocation]
+    source: "https://proceedings.mlr.press/v306/gong26i.html; MANDATE.md Phase 1D. GV docs/gaver/40_PRIOR_ART_CHECK.md item 2 (SNIPPET). Repo adapter: SL scripts/promising_directions/sota/ (bench2.NULL_TESTED 'gong_zhang_paid_obs': none)."
+    source_verification: SNIPPET
+    valid_validity_metric: "regret / economic cost; there is no validity null."
+    notes_for_agents: "sota agent: native comparator where feasible plus a designated common-contract adaptation; label the adaptation COMMON_CONTRACT_PORT or CONCEPTUAL_PROXY."
+
+  - id: asi_zrnic_candes
+    name: "Active Statistical Inference (Zrnic & Candes, ICML 2024; arXiv:2403.03208)"
+    role: baseline
+    target_null: marg
+    target_null_detail: "Estimand is a marginal population parameter (e.g. mean/risk E[Y]) with a confidence interval or test of that parameter; not a conditional-mean null on a filtration. Acquisition/inference comparator, not a controller (MANDATE E)."
+    filtration: "UNVERIFIED for a streaming variant; i.i.d. data points with model-uncertainty-driven sampling probabilities (REPO audit)"
+    sampling_assumption: "Each point labelled with probability pi(x) derived from model uncertainty, IPW-corrected; expected (not pathwise) label budget (REPO audit of arXiv 2403.03208 in GV docs/failure_atlas_dss_positioning_v1.md table)."
+    dependence_assumption: "i.i.d. (REPO audit); streaming with serial dependence UNVERIFIED"
+    label_delay_assumption: "UNVERIFIED (labels assumed available when requested in the audit summary)"
+    guarantee_type: asymptotic
+    guarantee_note: "CLT-based inference per MAIN docs/failure_atlas_dss_positioning_v1.md. Exact estimator/sampling assumptions must be read before any streaming variant (MANDATE E)."
+    output_type: [estimate, label_allocation]
+    source: "arXiv:2403.03208; PMLR v235 p62993; MANDATE.md Phase 1E; MAIN docs/failure_atlas_dss_positioning_v1.md section 2 (READ in an earlier repo audit)."
+    source_verification: REPO_DOC
+    valid_validity_metric: "coverage of the marginal estimand under i.i.d. data and the stated sampling rule; efficiency (CI width) at fixed expected budget. Not a deployment false-promotion rate."
+    notes_for_agents: "Repo audit also records Xu, Karampatziakis, Mineiro arXiv 2406.10490 (active anytime-valid RCPS: iid, predictable randomized labelling q_t>=q_min, IPW e-process) as the closest anytime-valid acquisition analogue."
+
+  - id: sethi_markov_test
+    name: "Sethi et al., Asymptotically Optimal Sequential Testing with Markovian Data (ICML 2026; arXiv:2602.17587)"
+    role: baseline
+    target_null: marg
+    target_null_detail: "Parametric null on the transition-matrix class: H0 in P vs H1 in Q for an ergodic finite-state Markov chain (abstract). A model/process-law null, not E[d_t | F_{t-1}] <= 0."
+    filtration: "UNVERIFIED (natural filtration of the observed chain assumed in the abstract-level description)"
+    sampling_assumption: "UNVERIFIED. The chain is presumably observed at consecutive times; irregular/actively chosen observation gaps are NOT part of the described model (GV 40: Gap-Mix's distinct element would be realised gaps)."
+    dependence_assumption: "Ergodic finite-state Markov chain (abstract)"
+    label_delay_assumption: "UNVERIFIED (not in the described model)"
+    guarantee_type: UNVERIFIED
+    guarantee_note: "Abstract: alpha-correct sequential test with a non-asymptotic instance-dependent lower bound on expected stopping time under H1, asymptotically tight as alpha->0. Whether the test is LR- or e-process-based, and whether alpha-correctness is anytime-valid, is NOT stated in the abstract (GV 40 item 3)."
+    output_type: [stopping_rule, alarm]
+    source: "https://proceedings.mlr.press/v306/sethi26a.html; arXiv:2602.17587; MANDATE.md Phase 1F; GV docs/gaver/40_PRIOR_ART_CHECK.md item 3 (ABSTRACT)."
+    source_verification: ABSTRACT
+    valid_validity_metric: "type-I error under H0 in P at the paper's stopping rule; expected stopping time under H1 in Q."
+    notes_for_agents: "sota agent: determine whether using P^{g_i} (exact-gap) is subsumed by existing theory; keep ShiftLab Markov-LR, restart and fixed-spacing comparators. Highest overlap threat to Gap-Mix (HIGH)."
+
+  - id: watch
+    name: "WATCH: weighted-conformal test martingales (Prinster et al., ICML 2025; arXiv:2505.04608)"
+    role: supporting_baseline
+    target_null: UNVERIFIED
+    target_null_detail: "Snippet: weighted-conformal test martingales extend conformal test martingales beyond exchangeability to monitor deployed models; separate input vs concept shift. Exact null (weighted exchangeability under a known likelihood ratio?) is UNVERIFIED."
+    filtration: "UNVERIFIED"
+    sampling_assumption: "UNVERIFIED"
+    dependence_assumption: "UNVERIFIED (beyond exchangeability via weights, per snippet)"
+    label_delay_assumption: "UNVERIFIED"
+    guarantee_type: UNVERIFIED
+    guarantee_note: "A test martingale would give anytime validity under its null, but this was not read; do not assume."
+    output_type: [alarm]
+    source: "https://proceedings.mlr.press/v267/prinster25a.html; MANDATE.md Phase 1 supporting. GV docs/gaver/40_PRIOR_ART_CHECK.md item 5 (SNIPPET)."
+    source_verification: SNIPPET
+    valid_validity_metric: "UNVERIFIED (false-alarm rate under its stated null)"
+    notes_for_agents: "Monitor only; has no action layer. Output comparable to an alarm, not to a certificate or promotion."
+
+  - id: pprm
+    name: "PPRM prediction-powered risk monitoring (Zhang et al., arXiv:2602.02229; ICML 2026 venue NOT confirmed)"
+    role: supporting_baseline
+    target_null: absolute_risk
+    target_null_detail: "Alarm when test-risk lower confidence sequence exceeds an upper bound on source/nominal risk (one-sided WSR betting UCB for source risk; CM-EB lower CS for test risk). Monitors ONE model's risk, not paired decision cost (repo module docstring)."
+    filtration: "UNVERIFIED (CS indexed by stream time)"
+    sampling_assumption: "Small labelled set corrects model predictions on unlabelled data (PPI); labelled-subset selection rule UNVERIFIED"
+    dependence_assumption: "UNVERIFIED (snippet says assumption-free finite-sample false-alarm control)"
+    label_delay_assumption: "UNVERIFIED"
+    guarantee_type: anytime-valid
+    guarantee_note: "Confidence-sequence construction; false alarm P <= delta_S + delta_T (= 0.25 in the repo's reproduction) per MAIN docs/hgxh2c/FINAL_REPORT.md Stage 1 table (untracked in main working tree; REPO reproduction, synthetic data only). Paper's own conditions UNVERIFIED."
+    output_type: [alarm]
+    source: "arXiv:2602.02229; repo MAIN src/shiftlab/dive/pprm_risk_monitor.py (implementation of estimand + PPI batch estimator); GV docs/gaver/40_PRIOR_ART_CHECK.md item 6."
+    source_verification: REPO_CODE
+    valid_validity_metric: "absolute-risk false alarm: P(alarm while true test risk <= source risk bound + tolerance) at delta_S+delta_T."
+    notes_for_agents: "Do not use PPRM as a promotion/paired-difference test; the repo module does not monitor paired decision cost. HGxH2c Stage 1 reproduced PPRM only on a synthetic stream (alarm times differ from paper)."
+
+  # ------------------------------------------------------------------ ShiftLab methods and baselines
+  - id: h2c
+    name: "ShiftLab H2c / HG: Brier-guided cost-null betting e-process (prediction-powered, IPW control variate)"
+    role: shiftlab_method
+    target_null: cond
+    target_null_detail: "COST null E[L_t | F_{t-1}] <= r0^C + tol (conditional excess decision cost); filtration = released labels. Brier increment only steers the stake."
+    filtration: "released labels (event-order); predictable stake from history up to s-d-1"
+    sampling_assumption: "Q_t ~ Bernoulli(q), independent of outcome, common random mask across arms; uniform (context-free) predictable cap Bd = hmax(1/q-1)+r0+tol"
+    dependence_assumption: "None needed beyond the conditional mean bound; the ORIGINAL cap used the current proxy and broke validity under the marginal null (exact finite-support counterexample, E[factor] up to 1.13); repaired with a uniform cap."
+    label_delay_assumption: "Fixed known delay d=5; the factor of step s enters wealth at s+d"
+    guarantee_type: anytime-valid
+    guarantee_note: "Ville on a nonnegative test martingale under the conditional null with predictable bets (docs/h2c_next/COST_NULL_VALIDITY.md cited by the anchor spec; not re-read by WP0). Nominal risk r0 is treated as KNOWN; estimating it removes power below ~5,000 calibration events (SL research/novelty_validation 11)."
+    output_type: [alarm]
+    source: "MAIN docs/hgxh2c/00_ANCHOR_SPEC.md section 1 (DOC-ONLY extraction of commit 60930a4); SL research/novelty_validation_2026-10-30/11_FAILURE_ANALYSIS.md."
+    source_verification: REPO_DOC
+    valid_validity_metric: "conditional: false-alarm rate under a stream whose conditional mean is at the boundary given F_{t-1}; the marginal-boundary Markov stream is a labelled out-of-contract stress."
+    notes_for_agents: "Gas-stream reversal and MAG failure are in the ledger. Frozen G5 confirmation is synthetic within-class only."
+
+  - id: rmm
+    name: "RMM restart-mixture label-clock monitor (Shiryaev-Roberts-style restart mixture of e-processes), attachable to certificate hosts"
+    role: shiftlab_method
+    target_null: cond
+    target_null_detail: "bench2.NULL_TESTED 'rmm:gated_deployment+RMM' and 'rmm:LRMD' = V1. First-promotion bound P(any promotion) <= alpha under the iid conditional null (challenger correct on a queried disagreement w.p. <= 1/2, independent of the past)."
+    filtration: "query-conditional, unweighted label-clock outcomes"
+    sampling_assumption: "Reserve/deadline only change predictable query rules; detector uses unweighted label-clock outcomes so the bound is unchanged (SL docs/sota_sprint/family_b/README.md)"
+    dependence_assumption: "iid conditional null; NOT controlled under serial dependence (rho=.8 null .12-.18, rho=.95 null ~.71 declared in advance)"
+    label_delay_assumption: "Constant/registered delay in the simulator; UNVERIFIED beyond that"
+    guarantee_type: anytime-valid
+    guarantee_note: "First promotion only; promote-then-rollback joint error accounting NOT formalised (SL docs/sprint2/LEADERBOARD.md missing-evidence column). Host alpha split between host and detector."
+    output_type: [promotion]
+    source: "SL docs/sota_sprint/publication_register.md P1; docs/sota_sprint/family_b/README.md; scripts/sota_sprint/bench2.py NULL_TESTED."
+    source_verification: REPO_DOC
+    valid_validity_metric: "V1 conditional-advantage error (and ESWAP-style per-event exact conditional null); report V2 twin-null promotion only as labelled out-of-contract stress (up to .62)."
+    notes_for_agents: "Real late-improvement claim NOT_SUPPORTED against gated_adaptive_range+front; matched SRR explains the real late stratum."
+
+  - id: e_rb
+    name: "E_rb: e-process rollback monitor (ported in GAVE-R from origin/codex/sprint2-leaderboards@297a706e)"
+    role: shiftlab_baseline
+    target_null: cond
+    target_null_detail: "Keep-null: 'the deployed challenger is not worse' with benefit exactly h at the boundary; rollback alpha_rb separate from promotion alpha."
+    filtration: "post-promotion released labels"
+    sampling_assumption: "UNVERIFIED (host acquisition; in GAVE-R WP3 uses the FreshCheck/DSS calendar)"
+    dependence_assumption: "iid generators in the GAVE-R WP3 study; dependence UNVERIFIED"
+    label_delay_assumption: "Fixed delay d in {1,10} in GAVE-R WP3"
+    guarantee_type: UNVERIFIED
+    guarantee_note: "Only empirical level control is recorded (GAVE-R: boundary-null FP 10/1000 UCB 0.018; persistent false rollback 0/2000; keep-null 1/775 UCB 0.007). Sprint 2 states 'Not a general null or real-transfer guarantee'."
+    output_type: [rollback]
+    source: "GV src/shiftlab/gaver/erb_port.py; GV docs/gaver/30_FRESHCHECK_RESULTS.md; SL docs/sprint2/LEADERBOARD.md section A."
+    source_verification: REPO_DOC
+    valid_validity_metric: "false-rollback rate at the keep-null boundary (conditional), plus reversal economics J."
+    notes_for_agents: "Synthetic reversal gain -6.65 vs RMM (post-development); real reversal 2/4 CIs exclude 0; SC PHASE2 headroom study: E_rb +28.73 vs never-switch on F3_reversal_1200."
+
+  - id: page_cusum
+    name: "Page-CUSUM / rollback_monitor heuristic (Atlas default rollback)"
+    role: shiftlab_baseline
+    target_null: none
+    target_null_detail: "cus = max(0, cus + x - ref) on post-promotion released labels with ref=(-ben_at_promotion-h)/2, rollback at kappa=2.0; plus fresh-episode alpha spending alpha*2^-(j+1). Not an e-process; no certificate (GV docs/gaver/01_HARNESS_MAP.md discrepancy 1)."
+    filtration: "post-promotion released labels"
+    sampling_assumption: "host acquisition"
+    dependence_assumption: "none claimed"
+    label_delay_assumption: "released labels only"
+    guarantee_type: none
+    guarantee_note: "At the keep-null boundary it rolls back on 772/773 promoted streams (GV 90_SUMMARY); that is expected of a heuristic, not a failed guarantee."
+    output_type: [rollback]
+    source: "GV docs/gaver/01_HARNESS_MAP.md (Methods table, Rollback row); MAIN src/shiftlab/dive/atlas_components.py ComposedMethod.decide act==1 branch."
+    source_verification: REPO_DOC
+    valid_validity_metric: "economic only (reversal harm, J/T); do NOT score keep-null false rollback as a validity failure."
+    notes_for_agents: "Strong cheap comparator on reversals: harm 0.0094 vs FreshCheck 0.0527."
+
+  - id: markov_lr
+    name: "Markov-LR gate (markov_lr_gate, adb:MarkovLREProcess)"
+    role: shiftlab_baseline
+    target_null: marg
+    target_null_detail: "Declared null class H0: favourable indicators z form a homogeneous 2-state Markov chain with stationary favourable probability pi <= q0=(1+h)/2 (any rho). Parametric process null on the released-label skeleton."
+    filtration: "released labels in query order (equals release order for constant delay)"
+    sampling_assumption: "Deterministic uniform calendar (predictable, D-independent); fixed start positions (<=8). Closed-loop acquisition NOT covered."
+    dependence_assumption: "Stationary homogeneous 2-state Markov skeleton - DECLARED APPROXIMATION: unequal query gaps are treated as one homogeneous chain (exact for equal gaps; gaps differ by at most 1 with the uniform calendar). Non-Markov within-regime dependence out of class."
+    label_delay_assumption: "Constant delay; released in event order"
+    guarantee_type: anytime-valid
+    guarantee_note: "Repo's written universal-inference/test-martingale-domination argument (src docstring); not machine-checked; approximation flags 1-4 in the docstring."
+    output_type: [promotion, gate]
+    source: "MAIN src/shiftlab/dive/atlas_dependence_baselines.py (docstring 'Validity argument for markov_lr_gate')."
+    source_verification: REPO_CODE
+    valid_validity_metric: "marg: false promotion under the stationary Markov boundary null (pi=q0, any rho). This is the MATCHED null for this method; it is NOT comparable to conditional-null gates' rates on the same cells."
+    notes_for_agents: "Valid but low power on late/transient alternatives (no promotions in 10/11 alternative cells in the Amendment-9 pilot)."
+
+  - id: gap_mix
+    name: "Gap-Mix (exact-gap Markov LR, certified composite-null sup, 4-start restart mixture) - GAVE-R"
+    role: shiftlab_method
+    target_null: marg
+    target_null_detail: "Composite stationary 2-state Markov null: p <= q0, rho in [0, rho_bar] with rho_bar DECLARED (0.8)."
+    filtration: "released labels with realised gaps g_i; conditioning on each start's first label"
+    sampling_assumption: "Deterministic calendar; closed-loop validity (requests depending on observed values) UNPROVEN, adaptive-acquisition validity empirical only (worst null UCB .051/.055)"
+    dependence_assumption: "Stationary Markov with rho <= rho_bar; fails at undeclared rho=.95 (FP .87-1.00)"
+    label_delay_assumption: "Constant delay (d=10 in the study); informative delay unproven"
+    guarantee_type: anytime-valid
+    guarantee_note: "Elementary argument 'given the declared null' (GV docs/gaver/10_GAPMIX_RESULTS.md validity section); not machine-checked; certified sup denominator conservative by 0 to 0.72 nats."
+    output_type: [promotion, gate]
+    source: "GV src/shiftlab/gaver/gapmix.py; docs/gaver/10_GAPMIX_RESULTS.md; docs/gaver/11_GAPMIX_RHO_RESULTS.md."
+    source_verification: REPO_DOC
+    valid_validity_metric: "marg: false promotion under the declared composite Markov null including rho_bar sweeps; also report mis-declared rho_bar. Do not compare its rate with conditional-null gates' rates as equals."
+    notes_for_agents: "HIGH overlap with Sethi et al. (UNVERIFIED subsumption). Development only; eliminated beyond rho_bar=0.8 (WP1b)."
+
+  - id: pave
+    name: "PAVE: pending-aware value-of-label governor (GAVE-R)"
+    role: shiftlab_method
+    target_null: none
+    target_null_detail: "Acquisition rule (rollout value-of-label with pending state and deadline value) on top of unchanged DSS evidence; inherits the evidence's conditional null; no certificate of its own."
+    filtration: "released labels plus pending-request state (predictable)"
+    sampling_assumption: "Predictable query rule from released labels and a fixed calendar; closed-loop validity argument not written"
+    dependence_assumption: "inherits DSS evidence (conditional); null UCB .039 at rho<=.8 is an empirical stress rate"
+    label_delay_assumption: "Fixed delay d; benefit confined to d >= 2T/(B+2)"
+    guarantee_type: none
+    guarantee_note: "Safer than DSS mostly because it promotes less (GV 90_SUMMARY section 3.4)."
+    output_type: [label_allocation]
+    source: "GV src/shiftlab/gaver/pave.py; docs/gaver/20_PAVE_RESULTS.md; docs/gaver/50_INTEGRATION_RESULTS.md."
+    source_verification: REPO_DOC
+    valid_validity_metric: "economic: paired J/T vs DSS/uniform/episode_front per cell; evidence null is the evidence module's (cond)."
+    notes_for_agents: "Hand-built heuristic with two scalars tuned on 7 cells. Treat as a Q2 comparator; closest external: Gong & Zhang (HIGH), Zrnic & Candes (MEDIUM-HIGH)."
+
+  - id: dss_straddle
+    name: "DSS / straddle acquisition (undecided-only querying + min gap 4 + delay switch) feeding an iid started-mixture gate"
+    role: shiftlab_baseline
+    target_null: cond
+    target_null_detail: "Evidence: bounded-mean started-mixture e-process on -D-h; null E[-D_t - h | F_{t-1}] <= 0 with exogenous outcomes, predictable query selection and predictable stakes (MAIN failure_atlas_v1_ledger cycle 4 section 6)."
+    filtration: "released labels (query rule depends on released labels only)"
+    sampling_assumption: "Predictable selection (undecided-only, min gap 4, pending cap 2); delay switch to uniform when d >= P*T/(B+P) is data-independent"
+    dependence_assumption: "Valid only when outcomes are conditionally independent given regime (Atlas cycle-6 restriction); the min gap is a dependence MITIGATION, not validity"
+    label_delay_assumption: "Constant delay; informative or out-of-order release NOT covered"
+    guarantee_type: anytime-valid
+    guarantee_note: "'a written argument, not a machine-checked proof'; does not cover rollback monitor, economic check, informative/out-of-order release, or streams reacting to the deployed action. No proof written for delayed-release selection (cycle-3 caveat)."
+    output_type: [promotion, label_allocation]
+    source: "MAIN src/shiftlab/dive/atlas_components.py (ComposedMethod, dss_spec); docs/failure_atlas_v1_ledger.md cycle 4; docs/failure_atlas_dss_positioning_v1.md."
+    source_verification: REPO_DOC
+    valid_validity_metric: "cond: false promotion on a stream whose conditional mean given released history is at the boundary (iid within regime or ESWAP-style). Markov-boundary-null false promotion is out-of-contract stress (cycle 7 A3: .065-.39 at rho=.8)."
+    notes_for_agents: "DSS == uniform exactly whenever the delay switch fires (e.g. d=50, B/T=.05), so d=50 cells carry no DSS acquisition effect. Frozen spec id 5b5c77b635e5."
+
+  - id: freshcheck
+    name: "FreshCheck: fresh post-switch e-process (optional 20% reserve) - GAVE-R"
+    role: shiftlab_method
+    target_null: cond
+    target_null_detail: "Keep-null for rollback: fresh evidence after promotion for 'challenger is not worse'; boundary-null false promotion and keep-null false rollback measured on iid Bernoulli generators."
+    filtration: "post-promotion released labels (evidence reset at promotion)"
+    sampling_assumption: "Paced acquisition with optional reserve; closed-loop validity not argued"
+    dependence_assumption: "iid in the WP3 generators"
+    label_delay_assumption: "Fixed delay d in {1,10}"
+    guarantee_type: UNVERIFIED
+    guarantee_note: "Empirical level control only: boundary-null pooled UCB 0.017 (1000 streams); keep-null false rollback 2/584 (upper 0.012)."
+    output_type: [rollback, promotion]
+    source: "GV src/shiftlab/gaver/freshcheck.py; docs/gaver/30_FRESHCHECK_RESULTS.md."
+    source_verification: REPO_DOC
+    valid_validity_metric: "cond: keep-null false rollback and boundary-null false promotion; economics via J/T on reversal/persistent cells."
+    notes_for_agents: "Failed on value vs Page-CUSUM and E_rb; do not revive without new mechanism."
+
+  - id: two_phase_persistence
+    name: "Two-phase persistence promotion (dive/persistence_promotion.py, adaptive port)"
+    role: shiftlab_baseline
+    target_null: cond
+    target_null_detail: "Persistence-gated promotion with adaptive phase boundary; boundary-null FP 0/1000 (UCB 0.004) because it rarely promotes."
+    filtration: "UNVERIFIED (module not read by WP0)"
+    sampling_assumption: "UNVERIFIED"
+    dependence_assumption: "UNVERIFIED"
+    label_delay_assumption: "UNVERIFIED"
+    guarantee_type: UNVERIFIED
+    guarantee_note: "Source module not read; entry rests on GV docs/gaver/30_FRESHCHECK_RESULTS.md."
+    output_type: [promotion]
+    source: "GV docs/gaver/30_FRESHCHECK_RESULTS.md; GV docs/gaver/90_SUMMARY.md component table (port at 5521a269)."
+    source_verification: REPO_DOC
+    valid_validity_metric: "report null safety only jointly with promotion rate/power (0.01 switches per stream)."
+    notes_for_agents: "Comparator only."
+
+  - id: episode_front
+    name: "episode_front gate (uniform calendar, all alpha spent on episode 0, econ_ok check, window-mean rollback)"
+    role: shiftlab_baseline
+    target_null: cond
+    target_null_detail: "Per-episode started-mixture bounded-mean e-process on -D-h with alpha spending; promote at wealth >= 1/alpha_j AND (T-t+1)*ben > econ_mult*s AND hysteresis streak."
+    filtration: "released labels with event round >= episode start"
+    sampling_assumption: "Deterministic uniform query calendar (up to B rounds in [1,T-d]); predictable"
+    dependence_assumption: "Conditional null; validity under repeated episodes is 'a research target, not established' (Atlas baseline registry). Fails marginal-Markov stress at rho>=.8, B/T>=.25."
+    label_delay_assumption: "Constant delay d; released labels only"
+    guarantee_type: anytime-valid
+    guarantee_note: "Per-episode e-process with alpha spending; economic check and rollback not covered by the argument. Written argument, not machine-checked."
+    output_type: [promotion, rollback]
+    source: "MAIN docs/failure_atlas_v1_ledger.md section 2 (baseline registry); GV docs/gaver/01_HARNESS_MAP.md; src/shiftlab/dive/switching_explore.py (started_gate, uniform_calendar)."
+    source_verification: REPO_DOC
+    valid_validity_metric: "cond: false promotion under exogenous iid-given-regime or ESWAP-style null; the Markov marginal-null rate is labelled out-of-contract."
+    notes_for_agents: "Strong in-repo comparator: beats the joint GAVE-R method pooled over the 9 gate-on cells and beats DSS in both mandatory regression cells (10-seed smoke, GV 01_HARNESS_MAP); in the d=50 cell PAVE alone beats it by 6.0% (GV 90_SUMMARY)."
+
+  - id: thinned_hedged_gate
+    name: "thinned_hedged_gate (iid started-mixture e-process fed labels >= 10 rounds apart)"
+    role: shiftlab_baseline
+    target_null: cond
+    target_null_detail: "E[-D_t-h | F] <= 0 on retained labels; exact conditional validity NOT claimed for persistent chains (lag-10 correlation .8^10 ~ .11)."
+    filtration: "released labels, thinned by a fixed gap G_THIN=10 chosen before data"
+    sampling_assumption: "Deterministic uniform calendar plus thinning"
+    dependence_assumption: "assumed (not proved) approximately independent once gap exceeds mixing time"
+    label_delay_assumption: "Constant delay"
+    guarantee_type: UNVERIFIED
+    guarantee_note: "Docstring: validity 'assumed (not proved)'."
+    output_type: [promotion, gate]
+    source: "MAIN src/shiftlab/dive/atlas_dependence_baselines.py."
+    source_verification: REPO_CODE
+    valid_validity_metric: "empirical false promotion under the dependence grid, labelled as mitigation not validity (UCB <= .098 at rho<=.8 in GAVE-R)."
+    notes_for_agents: "Cheap strong baseline at rho<=.8 (detection .693 in GAVE-R WP1)."
+
+  - id: certified_deployment_gates
+    name: "Certified deployment gates (common-contract ports): gated_deployment, gated_adaptive_range(+front), discern_style, discern_design_floor, SMCS+retain-incumbent, choe_ramdas_eb(+front), QCE variants; xu_acquisition_only (composite)"
+    role: sota_comparator_family
+    target_null: cond
+    target_null_detail: "bench2.NULL_TESTED = V1: E[challenger advantage | F_{t-1}] <= 0 on the evidence each uses (betting / empirical-Bernstein / LR e-processes on query-conditional or IPW outcomes). xu_acquisition_only = Xu acquisition + ShiftLab paired V1 certificate; Xu's published guarantee is for risk-controlling prediction sets (a different estimand)."
+    filtration: "pre-label query selection history (predictable propensities frozen at issue); conditional on fixed models"
+    sampling_assumption: "Predictable (possibly randomised) queries with logged propensities; hard label budget B; adaptive-range propensity ordering defect (130 runs / 411 policy entries) corrected afterwards"
+    dependence_assumption: "None needed for the conditional null; marginal-null false promotion under serial dependence or a per-split fixed effect is out-of-contract (ESWAP: 0/10 ports exceed .0936)"
+    label_delay_assumption: "Registered fixed delay (24 or 144 events on the UCI twins)"
+    guarantee_type: anytime-valid
+    guarantee_note: "Per each method's published certificate where the port is faithful; ports are COMMON_CONTRACT_PORT, none author-native; DISCERN port scaling (/4) and adaptive-range ordering fixed after the fact."
+    output_type: [promotion, gate]
+    source: "SL scripts/sota_sprint/bench2.py NULL_TESTED; scripts/promising_directions/sota/competitors/*.py; docs/sprint2/wp2/BENCHMARK.md; SC docs/scoped_method_research_2026-11-06/BASELINE_FIDELITY.md (not read)."
+    source_verification: REPO_CODE
+    valid_validity_metric: "V1 conditional-advantage error and the ESWAP exact-conditional-null promote rate; V2 twin/Markov-null rates only as labelled out-of-contract stress (ORIG/PERM/BSWAP)."
+    notes_for_agents: "FL ledger rows 'Sprint-1 P2' and 'ORIG/PERM/BSWAP/ESWAP' hold the evidence. Per-method published conditions for SMCS (arXiv 2404.18678), Choe-Ramdas, Xu (arXiv 2406.10490) are UNVERIFIED here."
+
+  - id: a5b
+    name: "A5b: gap-indexed sequential universal inference certificate + adaptive density (ShiftLab Sprint 1)"
+    role: shiftlab_method
+    target_null: marg
+    target_null_detail: "bench2.NULL_TESTED 'A5b': V2 = marginal stationary first-order Markov null (p <= 1/2, any rho). In-class only; order-2, semi-Markov and HMM are misspecification stresses."
+    filtration: "released labels with gap index"
+    sampling_assumption: "adaptive density; predictable"
+    dependence_assumption: "stationary first-order Markov (declared)"
+    label_delay_assumption: "registered fixed delay; UNVERIFIED beyond"
+    guarantee_type: UNVERIFIED
+    guarantee_note: "Repo calls it a certificate; the SUI proof/clamp bound was not read by WP0 (audit_sui_clamp_bound.py checks log-floor non-attainment at T=2000 only)."
+    output_type: [promotion, gate]
+    source: "SL scripts/sota_sprint/fam_a.py; bench2.py; docs/sota_sprint/REPORT.md section 3."
+    source_verification: REPO_DOC
+    valid_validity_metric: "marg (V2) false promotion on in-class Markov nulls; it is NOT directly comparable with V1 methods' V2 rates."
+    notes_for_agents: "Power loss on real streams (+61 to +257 cost); closest analogue to Gap-Mix (both exact-gap Markov)."
+
+  - id: qsg
+    name: "QSG (FLQ standalone: QCE outcomes, started-mixture Bernoulli e-process, front-loading while undecided)"
+    role: shiftlab_method
+    target_null: cond
+    target_null_detail: "'valid under the pointwise conditional null via Ville on E_k + 1/(k+1)' (FLQ REPORT section 4); bench2 NULL_TESTED 'QSG': V1."
+    filtration: "query-conditional outcomes"
+    sampling_assumption: "predictable front-loaded queries"
+    dependence_assumption: "none needed for conditional null; fails the Markov rho=.8 marginal null (.32 vs .094 bound)"
+    label_delay_assumption: "registered delay"
+    guarantee_type: anytime-valid
+    guarantee_note: "Argument in the report; not independently reviewed."
+    output_type: [promotion, label_allocation]
+    source: "SL docs/failure_atlas_v2_flq/results/REPORT.md; scripts/failure_atlas_v2_flq/qsg.py."
+    source_verification: REPO_DOC
+    valid_validity_metric: "V1 conditional-advantage error (V1 .183 vs V2 .358 in Sprint-2 P2)."
+    notes_for_agents: "The strict-certification failure in FLQ Amendment 2 is a V2 measurement of a V1 method."
+
+  - id: uncertified_selectors
+    name: "Uncertified selectors (Model Picker, CAMS, Model Selector, Online LLM Picker, variance-min IPW, Ryabchenko capacity, Qiu delayed movement)"
+    role: sota_comparator_family
+    target_null: none
+    target_null_detail: "bench2.NULL_TESTED = none (no false-promotion guarantee). Constant-policy / regret objectives."
+    filtration: "n/a"
+    sampling_assumption: "method-specific active selection"
+    dependence_assumption: "method-specific (iid / oblivious in most)"
+    label_delay_assumption: "method-specific"
+    guarantee_type: none
+    guarantee_note: "Some carry regret bounds in their native settings (e.g. Ryabchenko et al. regret to best fixed action); not a validity guarantee."
+    output_type: [promotion, label_allocation]
+    source: "SL scripts/sota_sprint/bench2.py; scripts/promising_directions/sota/competitors/."
+    source_verification: REPO_CODE
+    valid_validity_metric: "economic: all-in excess cost J; harm in 24-46% of runs under ESWAP is a descriptive economic failure, not a guarantee failure."
+    notes_for_agents: "They are the fast/cheap end of the Pareto front; never rank them against certified methods on false promotion alone."
+
+  - id: controls_uniform_pending_cap
+    name: "Simple controls: uniform calendar, front-loaded schedule, fixed pending cap, never-switch"
+    role: control
+    target_null: none
+    target_null_detail: "No claim; MANDATE Q2: if a decision-valued policy does not beat a simple pending cap or fixed schedule, record a negative and stop."
+    filtration: "n/a"
+    sampling_assumption: "deterministic or simple predictable schedules"
+    dependence_assumption: "none"
+    label_delay_assumption: "pending cap bounds in-flight requests (frozen DSS uses pending_cap=2)"
+    guarantee_type: none
+    guarantee_note: "none"
+    output_type: [label_allocation]
+    source: "MANDATE.md Phase 3 Q2; MAIN src/shiftlab/dive/atlas_components.py (pending_cap)."
+    source_verification: REPO_CODE
+    valid_validity_metric: "economic J under identical paired streams."
+    notes_for_agents: "episode_front is a strong in-repo schedule control (see its entry for where it does and does not win)."

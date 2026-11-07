@@ -155,3 +155,29 @@ calibration and late-persistent synthetic advantage are results for an establish
 distinct ShiftLab repair. The current exit remains `BENCHMARK_OR_CASE_STUDY_ONLY`; the smallest
 scientifically permitted next action is to close the method search and prepare the benchmark/case
 study with all adverse results. Do not open confirmation data under this failed development gate.
+
+## Calibrated E-CUSUM headroom check (2026-11-07)
+
+A missing baseline-fidelity comparison was prospectively frozen at `b0904611` in
+`research/scoped_method/pilots/cusum_any_false_calibration_20261107/PROTOCOL.md`. This was a
+bounded calibration of the already implemented E-CUSUM, not a new algorithm. On 1,000 calibration
+null streams per fixed alpha, the largest value satisfying the Bonferroni-adjusted one-sided 99%
+Wilson upper bound of 0.05 was alpha 0.005 (22/1,000; upper 0.04062). Alpha 0.01 failed (40/1,000;
+upper 0.06290). Calibration records and hashes are committed alongside the protocol.
+
+The independent comparison was frozen at `d7c3f5ad` before evaluation. On the fresh 1,000-stream
+null block, E-CUSUM promoted in 6/1,000 episodes (ordinary one-sided 95% Wilson upper 0.01156),
+passing the empirical null gate. However, the economic gate failed in the worthwhile
+`F3_reversal_1200` cell: candidate minus never-switch was +20.93 (paired 95% CI [+17.53, +24.33]);
+minus E-swcert was +2.59 ([-1.20, +6.38]); minus RMM/E_rb was +0.29 ([-2.68, +3.27]). In the
+adverse `F3_reversal_800` cell, excess cost versus never-switch was +48.45 ([+44.56, +52.33]),
+exceeding the allowed +5. The complete decomposition, all method rows, paired intervals, commands,
+source hashes and raw records are in
+[`EVALUATION_RESULTS.md`](research/scoped_method/pilots/cusum_any_false_calibration_20261107/EVALUATION_RESULTS.md)
+and its adjacent run directories. The reproducible analyzer is
+[`analyze.py`](research/scoped_method/pilots/cusum_any_false_calibration_20261107/analyze.py).
+
+**Decision:** close this calibrated CUSUM operating-point lane. Do not retune alpha or switch
+methods using these evaluation outcomes. This calibration does not solve the economic failure, add
+a novel method contribution, or justify opening real-data outcomes. The branch-level status remains
+`BENCHMARK_OR_CASE_STUDY_ONLY`; the broader field is not claimed to be exhausted.

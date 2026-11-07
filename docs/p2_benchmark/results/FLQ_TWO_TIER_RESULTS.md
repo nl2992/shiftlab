@@ -76,3 +76,31 @@ Synthetic only. Comparators are common-contract ports, not author-native code. E
 are not guarantees. Tier B's tolerance is measured against the host, so it does not show that
 front-loading is safe in absolute terms. Both front-loading and its host cost about +6 to +10 vs
 never-switch on nulls, mostly label spend.
+
+## Code-correction sensitivity: MOPE interval intersection (added 2026-11-06)
+
+After registration, another branch fixed `MopeCS` so that it intersects its one-sided bounds after
+every update and re-bets at the intersected endpoints (`81dc4d34`; ported here as `0c52913c`). Every
+gated port and both candidates use `MopeCS`, so the full re-test was replayed with **identical seeds,
+regimes, policies and analysis** on the patched code (outputs in
+`outputs/p2_benchmark/two_tier_mopefix/`; analysis in
+[flq_two_tier_mopefix.md](flq_two_tier_mopefix.md)).
+
+**Result: no change.** All 116,600 policy runs (44,000 + 38,500 + 26,400 + 7,700) match the
+registered run row for row on net cost, labels, switches, first promotion and promotion. The
+analysis JSON is byte-identical, so the verdict stays `NOT_SUPPORTED` with both validity tiers
+passing. A direct check confirms the replay imported the patched `MopeCS.update`. In this contract
+the uncoupled one-sided bounds never crossed, so the intersection never bound.
+
+The replay manifests record git `f69382fa`, because each manifest is written when its run ends.
+Between `0c52913c` and `f69382fa` the only code change was a docstring in `certificate_stops.py`
+(plus a test file), so the code that ran is the patched code at `0c52913c`.
+
+The file hashes differ from the registered run only because each record stores its wall-clock `runtime_s`.
+
+| Run | SHA-256 of records.jsonl (replay) |
+|---|---|
+| tier_a | `298a60ced083943a7740cdfcdc6ce9d3b4f5018cef77f3f075da9243f092f6aa` |
+| tier_b | `2f44dbec2def71c3e2d6d78547453ea9be9b73922fafe8bcc5ca05a9f051acb8` |
+| region | `b93f070d7a5aa2b0c889376de348e673b551db015074510941ca6aea4a19a1d2` |
+| outside | `bf7e9e3e08e42ba6579c97f2ddda2531ef21abd0581ff96135270d0b00f12470` |

@@ -29,10 +29,7 @@ approval.
    both had local bugs that changed results (three fixes in two days). The paper must either complete
    gated-deployment parity against `n17s/mope` or label every gated result as a printed-construction
    port and show sensitivity to the fixes.
-2. **The MOPE interval fix affects results already recorded under this scope.** The FLQ two-tier
-   re-test ran before the fix; a same-seed replay with the fix is in progress
-   (`outputs/p2_benchmark/two_tier_mopefix/`), and its outcome will be added to the re-test results
-   as a code-correction sensitivity. Any P2 table using gated ports must use post-fix code.
+2. **The MOPE interval fix did not change the FLQ re-test.** A same-seed replay on the patched code reproduced all 116,600 policy runs row for row ([results](results/FLQ_TWO_TIER_RESULTS.md)). The fix still matters in principle, so any new P2 table must use post-fix code.
 3. SMCS, CAMS and Model Picker are the most defensible rows (exact author parity). SMCS now matters
    more, because it blocked front-loading's wins in the re-test.
 

@@ -83,10 +83,10 @@ utilities. No new theorem and no universal SOTA claim.
 
 | # | Item | Why it is needed | Size |
 |---|---|---|---|
-| W1 | Merge the corrected-port (wmaxfix) replays and fix the test environment. In this worktree `.venv` lacks pytest and `uv run` collects 93 errors (missing torch); a combined run has a `regimes` import collision | The benchmark must use corrected ports; the suite must run green | Small |
-| W2 | Verified literature search and related-work table | The gap is the contribution; an unverified gap is fatal | Medium |
-| W3 | Comparator fidelity: per port, reproduce one published result or check against author code where it exists | "Ports, not author-native" is the first reviewer objection | Medium–large |
-| W4 | Freeze the two-tier criterion and register F1–F7 as hypotheses with power analysis (≥ 60 twin splits per dataset; C7 in the criteria review) | Turns development findings into confirmatory ones | Small to register; medium compute |
+| W1 | **Done 2026-11-06.** Corrected ports merged (fast-forward to `c0a5017d`, plus the MOPE intersection fix `0c52913c`); full suite green, 3,337 passed ([ENVIRONMENT.md](ENVIRONMENT.md)) | The benchmark must use corrected ports; the suite must run green | Done |
+| W2 | **First pass done.** [RELATED_WORK.md](RELATED_WORK.md): closest prior work is arXiv 2609.04388, so the gap statement must narrow. Re-check later sections and new preprints before submission | The gap is the contribution; an unverified gap is fatal | Re-check before submission |
+| W3 | **Audit done; parity P1–P2 open.** [COMPARATOR_FIDELITY.md](COMPARATOR_FIDELITY.md). Exact parity exists for SMCS, CAMS and Model Picker; no parity yet for gated deployment (author code `n17s/mope`) or Choe–Ramdas (`comparecast`); no DISCERN code exists | "Ports, not author-native" is the first reviewer objection | Needs approval to fetch author code |
+| W4 | **Registered.** [CONFIRMATORY_HYPOTHESES.md](CONFIRMATORY_HYPOTHESES.md): H1–H7 on 120 new twin splits per dataset, with a power analysis (bike_hour needs ~100 splits) | Turns development findings into confirmatory ones | Needs approval to download the UCI sources, then a few hours of compute |
 | W5 | Add 2–4 untouched chronological sources with imposed, swept delays: candidates are Wild-Time HuffPost/arXiv from raw records, UCI Online Retail II, and OPSD as the external-clock case study | Generality beyond 5 UCI-derived datasets that are already exposed | Large (acquisition, license, checksums, one-shot runner) |
 | W6 | Fresh-seed confirmatory run, then a single opening of the untouched sources | Confirmation | Medium compute |
 | W7 | Release package: one-command runner, data card, licenses, maintenance plan | Benchmark acceptance norms | Medium |
@@ -95,9 +95,9 @@ utilities. No new theorem and no universal SOTA claim.
 
 ## 7. Pre-submission checklist: unresolved items
 
-**Critical (4):** no verified benchmark comparison table (W2); no pipeline figure or running-example
-figure (W8); no confirmatory evidence, only development runs (W4–W6); no released, runnable package,
-and the test suite does not currently run in this worktree (W1, W7).
+**Critical (3, updated 2026-11-06):** no pipeline figure or running-example figure (W8); no
+confirmatory evidence yet, though H1–H7 are now registered (W4–W6); no released, runnable package
+(W7). Resolved: a verified first-pass comparison table exists (W2), and the test suite is green (W1).
 
 **Major (6):** method coverage is ~25 policies but none are author-native (W3); real data is 5
 exposed UCI-derived sources (W5); the bike_hour twin result is underpowered (W4); the decision-harm

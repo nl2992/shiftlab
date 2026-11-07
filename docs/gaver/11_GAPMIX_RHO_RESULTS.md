@@ -112,4 +112,101 @@ pipeline.
 
 ## 1. Results
 
-(filled in after the runs)
+Code: `src/shiftlab/gaver/gapmix_rho.py` (imports `gapmix.py`, unmodified), runners
+`scripts/gaver/run_gapmix_rho_{null,power,summarize}.py`, tests `tests/test_gaver_gapmix_rho.py`. Runs used
+commits `6d9e71b2` (code) and `23dc2248` (per-stream sharing of evidence trajectories across methods, which is
+numerically identical to private computation: tested to 1e-12). The first ~20 power chunks were computed
+before that change with the same numbers. Outputs: `outputs/gaver/wp1b/{null,alt}/records.jsonl` (gitignored),
+`null_summary.csv`, `alt_summary.csv`, `alt_pairs.csv` (force-added). 4 workers, resumable, launched detached.
+Deviations from the pre-declaration: none in methods or settings. `exact0.8_s4` and `exact0.95_s4` are run with
+the fast vectorised implementation (tested equal to the WP1 `ExactGapStart` to 1e-5 on the log-e-value) rather
+than the WP1 class; `exact0.8_s4` reproduces WP1 (pooled detection .794 vs .795, gain over the Markov LR
++.365 vs +.367).
+
+### Null false-promotion (k/500, CP95 upper bound)
+
+| method | rho0 B100 | rho0 B250 | rho.5 B100 | rho.5 B250 | rho.8 B100 | rho.8 B250 | rho.95 B100 | rho.95 B250 | rho.99 B100 | rho.99 B250 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| exact0.8_s4 (WP1 ref) | 10 (.034) | 3 (.015) | 11 (.036) | 5 (.021) | 24 (.067) | 36 (.094) | 423 (.872) | 499 (1.000) | 467 (.951) | 493 (.993) |
+| exact0.95_s4 (WP1 ref) | 1 (.010) | 3 (.015) | 5 (.021) | 5 (.021) | 2 (.013) | 9 (.031) | 11 (.036) | 5 (.021) | 187 (.411) | 185 (.407) |
+| exact0.99_s4 (C) | 1 (.010) | 3 (.015) | 5 (.021) | 5 (.021) | 2 (.013) | 9 (.031) | 4 (.018) | 4 (.018) | 0 (.006) | 0 (.006) |
+| exactcs_s4 (B2) | 1 (.010) | 3 (.015) | 4 (.018) | 4 (.018) | 2 (.013) | 8 (.029) | 2 (.013) | 3 (.015) | 0 (.006) | 0 (.006) |
+| gate_eq_s4 (A-gated) | 0 (.006) | 2 (.013) | 1 (.010) | 2 (.013) | 0 (.006) | 1 (.010) | 1 (.010) | 0 (.006) | 0 (.006) | 0 (.006) |
+| gate_w_s4 (A-gated) | 0 (.006) | 0 (.006) | 0 (.006) | 0 (.006) | 0 (.006) | 1 (.010) | 1 (.010) | 0 (.006) | 0 (.006) | 0 (.006) |
+| gate_fine_eq_s4 | 0 (.006) | 2 (.013) | 0 (.006) | 2 (.013) | 0 (.006) | 1 (.010) | 1 (.010) | 0 (.006) | 0 (.006) | 0 (.006) |
+| envcs_s4 (B1) | 0 (.006) | 6 (.024) | 0 (.006) | 2 (.013) | 0 (.006) | 0 (.006) | 0 (.006) | 0 (.006) | 0 (.006) | 0 (.006) |
+| mixnaive_eq_s4 (NEG control) | 7 (.026) | 6 (.024) | 14 (.043) | 14 (.043) | 26 (.071) | 402 (.833) | 468 (.953) | 500 (1.000) | 475 (.965) | 496 (.997) |
+| mixnaive_w_s4 (NEG control) | 7 (.026) | 6 (.024) | 13 (.041) | 12 (.039) | 24 (.067) | 379 (.789) | 463 (.944) | 500 (1.000) | 474 (.963) | 496 (.997) |
+| mlr_default8 (existing) | 1 (.010) | 1 (.010) | 2 (.013) | 3 (.015) | 1 (.010) | 3 (.015) | 3 (.015) | 2 (.013) | 0 (.006) | 0 (.006) |
+
+* Every variant built on a valid argument (C, B2, A-gated, B1) has UCB <= 0.041 in all ten cells, including
+  rho=0.99. They are extremely conservative at high rho (0-4 false promotions of 500).
+* The plain mixture is invalid, as argued: FP .79-1.00 at rho=0.8 (B250) and rho >= 0.95; weighting toward 0.8
+  does not help.
+* `exact0.95_s4` fails at rho=0.99 (UCB .41); `exact0.8_s4` fails at rho >= 0.95 as in WP1.
+* The CS bound is loose: mean final `ub` of `exactcs_s4` on null streams is .81 (rho 0, B250) to .95 (rho 0,
+  B100), .93-.96 at rho .8, and .99 at rho >= .95 (a true rho of 0-0.5 is never certified below ~0.8). That is
+  the mechanism behind the power result.
+
+### Power (60 paired seeds x 24 cells = 1440 streams)
+
+Pooled detection probability and paired contrasts versus `mlr_default8` (bootstrap 95% CI; the gain fraction is
+the candidate's d(detect) divided by `exact0.8_s4`'s d(detect) on the same pairs):
+
+| method | detect | d(detect) vs mlr_default8 | d(cost) vs mlr | gain fraction of exact0.8_s4 | valid on rho<=0.99 (null evidence)? |
+|---|---|---|---|---|---|
+| exact0.8_s4 (anchor) | .794 | +0.365 [+.340, +.392] | -0.076 | 1.00 | no (fails rho >= .95) |
+| exact0.95_s4 | .397 | -0.033 [-.051, -.014] | +0.006 | -0.09 | no (fails rho .99) |
+| exact0.99_s4 (C) | .370 | -0.059 [-.076, -.042] | +0.010 | -0.16 [-.22, -.11] | yes |
+| exactcs_s4 (B2) | .357 | -0.072 [-.090, -.055] | +0.013 | -0.20 [-.26, -.15] | yes |
+| gate_eq_s4 (A-gated) | .253 | -0.176 [-.196, -.157] | +0.027 | -0.48 [-.57, -.41] | yes |
+| gate_w_s4 (A-gated) | .212 | -0.217 [-.237, -.195] | +0.032 | -0.59 [-.69, -.51] | yes |
+| gate_fine_eq_s4 | .230 | -0.199 [-.220, -.179] | +0.031 | -0.55 [-.64, -.47] | yes |
+| envcs_s4 (B1) | .035 | -0.394 [-.419, -.369] | +0.050 | -1.08 | yes |
+| mlr_default8 | .429 | 0 | 0 | | yes |
+
+By alternative (d(detect) vs `mlr_default8`; early, early-medium, late, transient): exact0.8_s4 +.14, +.13, +.57,
++.62; exact0.99_s4 -.06, +.01 (CI includes 0), -.09, -.09; exactcs_s4 -.08, -.03 (CI includes 0), -.07, -.11.
+`exactcs_s4` vs `exact0.99_s4`: -0.013 [-.023, -.004]; vs `exact0.95_s4`: -0.040 [-.052, -.028]. So the
+data-driven bound costs a little relative to the fixed cap and gives no gain, consistent with the looseness
+of the CS above.
+
+## 2. Verdict
+
+**WP1b is an ELIMINATED extension.** No variant that is valid on rho <= 0.99 comes close to the pre-declared
+bar (at least half of `exact0.8_s4`'s gain over the Markov LR). The best valid variant (`exact0.99_s4`, C) has
+a gain fraction of -0.16: it is worse than the existing Markov LR by 5.9 points (*meaningful* loss). The
+mixture-style constructions are worse still (*substantial* losses: -18 to -22 points for the gated ladders,
+-39 for the envelope). The data-driven bound does not rescue it because with 100-250 labels at gaps 4-10 the
+confidence sequence cannot certify rho below ~0.8-0.95 even when the truth is 0 (final `ub` .81-.96), so it
+behaves like a fixed rho_bar of ~0.95-0.99, which is where WP1 already found no power.
+
+What the experiment establishes (evidence, not proof):
+* Valid-by-construction rho-robust versions exist and pass the null in all ten cells, so the dependence
+  limit can be removed formally; the price is the loss of the whole power advantage over the Markov LR.
+* The power advantage of `exact0.8_s4` is bought by excluding rho in (0.8, 0.99] from the null. Plain
+  mixtures over `rho_bar` do not interpolate: they are invalid (negative control).
+* A mis-declared `rho_bar` is the dominant risk of `exact0.8_s4`: FP .87-1.00 at rho .95 and .95-.99 at .99.
+* Not run: min-over-components (dominated by C, section 0). Not implemented: any construction without a
+  stated validity argument.
+
+Recommendation (unchanged from WP1): `exact0.8_s4` stays the recommended Gap-Mix evidence only with an openly
+declared dependence range rho <= 0.8 (an assumption, not a robustness result); do not claim robustness to
+rho = 0.95 or 0.99. When rho cannot be bounded by 0.8, `exact0.99_s4` or the existing Markov LR are the valid
+choices and have similar power (C is 5.9 points lower). Continue/pivot/stop: **stop** this extension; WP1
+stays **continue** with the narrowed range.
+
+Caveats: development/screening only; one T, one delay; power alternatives only at rho <= 0.8 (as WP1);
+the CS is a simple Clopper-Pearson union bound and a sharper (e.g. betting) CS could be tighter, but its width
+is limited by the information in 100-250 binary labels per gap, so we do not expect it to certify rho well
+below 0.9 (an expectation, not a measured result); no Holm correction; the validity arguments cover the
+declared stationary Markov null, not closed-loop requests or informative delay.
+
+## 3. Reproduce
+
+```
+PYTHONPATH=<worktree>/src python scripts/gaver/run_gapmix_rho_power.py --workers 4   # ~1.5 h on a busy machine
+PYTHONPATH=<worktree>/src python scripts/gaver/run_gapmix_rho_null.py --workers 4    # ~1.5 h
+python scripts/gaver/run_gapmix_rho_summarize.py    # null_summary.csv, alt_summary.csv, alt_pairs.csv
+```
+Runs are resumable. Interpreter: the shift-research-starter `.venv`.

@@ -1,7 +1,7 @@
 # GAVE-R WP2: PAVE (pending-aware value-of-label governor) results
 
 Date 2026-11-06, branch `research/gave-r-2026-11-06`, base `main@7354480a`. Development/screening
-only: no confirmation seeds, no claim beyond the cells listed. Code commit `a7116a16 (code); results commit follows`.
+only: no confirmation seeds, no claim beyond the cells listed. Code commit `a7116a16 (code), results in the commit after it (9912008e)`.
 
 ## Verdict (read this first)
 

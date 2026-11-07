@@ -62,6 +62,10 @@ continuous timestamp run. Report and omit incomplete tails, and never join acros
 method and budget per episode. Per episode: `T=2000`, pathwise `B=200`, label price `0.05`, switch
 price `5`, `alpha=0.05`, and assumed label delay of one hour.
 
+Use five private policy-randomness seeds, `2026110720` through `2026110724`, for every episode and
+method, with method-specific RNG streams as provided by the registered suite. The fixed controls are
+deterministic and repeat identically across those seeds.
+
 Primary comparator is `cams_adapter`, fixed as the strongest published-method Failure Atlas F8
 discovery method before this test. Secondary published/registered comparator panel is:
 PFA-SR:gated_deployment; corrected RMM on the registered hosts; E_rb on the registered host;

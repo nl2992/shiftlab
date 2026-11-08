@@ -1730,6 +1730,60 @@ studies:
   derivation: allocated
   purpose: PAVE+ feasibility eval seeds; seed = start + cell_index*100 + replicate (60 used per cell)
   note: 'development evidence only; no re-tuning after eval results are seen'
+- id: pave_c_tuning
+  start: 101700000
+  end: 101709999
+  source: docs/methods_recovery/41_PAVE_MATCHED.md (allocated 2026-11-08 manually; no use of 1017xxxxx-1018xxxxx found in configs on any local ref, branch research/methods-recovery-2026-11-07)
+  status: development
+  used_by: [PAVE matched-acquisition comparison tuning (S1/S2/S3), branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  purpose: Track C matched comparison tuning seeds; seed = start + 100*cell_index + replicate (20 used per cell); tuning only
+  note: 'development only, never confirmatory'
+- id: pave_c_eval
+  start: 101800000
+  end: 101809999
+  source: docs/methods_recovery/41_PAVE_MATCHED.md (allocated 2026-11-08 manually, branch research/methods-recovery-2026-11-07)
+  status: development
+  used_by: [PAVE matched-acquisition comparison evaluation (27 long-delay cells + 6 d10 controls), branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  purpose: Track C matched comparison eval seeds; seed = start + 100*cell_index + replicate (60 used per cell)
+  note: 'development evidence only; no re-tuning after eval results are seen'
+- id: gapmix_match_null
+  start: 101900000
+  end: 101909999
+  source: docs/methods_recovery/51_GAPMIX_MATCHED.md (allocated 2026-11-08 manually; no use of 1019xxxxx-1020xxxxx found on any local ref, branch research/methods-recovery-2026-11-07)
+  status: development
+  used_by: [Gap-Mix matched-assumption null calibration (Track B), branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  purpose: Gap-Mix vs mlr_rb0.8 vs ui_gap_allstarts null streams; seed = start + 1000*cell_index + replicate (500 used per cell, 8 cells)
+  note: 'development evidence only; no re-tuning after results are seen'
+- id: gapmix_match_power
+  start: 102000000
+  end: 102029999
+  source: docs/methods_recovery/51_GAPMIX_MATCHED.md (allocated 2026-11-08 manually, branch research/methods-recovery-2026-11-07)
+  status: development
+  used_by: [Gap-Mix matched-assumption power study (Track B), branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  purpose: Gap-Mix matched power seeds; seed = start + 1000*cell_index + replicate (60 used per cell, 24 cells)
+  note: 'development evidence only; no re-tuning after results are seen'
+- id: pave_ef_eval
+  start: 102100000
+  end: 102109999
+  source: docs/methods_recovery/42_PAVE_ON_EF.md (allocated 2026-11-08 manually; 1021xxxxx unused in configs on all local refs, branch research/methods-recovery-2026-11-07)
+  status: development
+  used_by: [PAVE on episode_front engine, 27 long-delay cells, branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  purpose: Track C pave_ef evaluation seeds; seed = start + 100*cell_index + replicate (60 used per cell); no tuning
+  note: 'development evidence only; PAVE has no tuned parameters'
+- id: pave_ef_null
+  start: 102200000
+  end: 102209999
+  source: docs/methods_recovery/42_PAVE_ON_EF.md (allocated 2026-11-08 manually, branch research/methods-recovery-2026-11-07)
+  status: development
+  used_by: [pave_ef false-promotion check on GAVE-R null cells with d>=50, branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  purpose: pave_ef and episode_front null streams; seed = start + 500*cell_index + replicate (500 per cell, 9 cells)
+  note: 'development evidence only'
 excluded_scalar_seeds:
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}

@@ -1,0 +1,78 @@
+{
+ "name": "austin_animal",
+ "built_utc": "2026-11-08T02:11:02+00:00",
+ "meta": {
+  "name": "austin_animal",
+  "url": "https://data.austintexas.gov/resource/9t4d-g238.csv",
+  "license": "City of Austin open data portal terms (public, open data)",
+  "publisher": "City of Austin / Austin Animal Center",
+  "task": "binary: animal outcome is an adoption",
+  "label": "outcome_type == 'Adoption' (expected base rate ~0.35-0.45 from public reporting)",
+  "delay": 100,
+  "window": [
+   "2013-10-01T00:00:00",
+   "2025-06-01T00:00:00"
+  ],
+  "subsample_rule": "none (full history < c4_build.N_MAX)",
+  "features_note": "outcome hour/dow/month (hour is 0 for date-only early records; within-day order arbitrary), animal type, sex upon outcome (includes neutered/spayed state at outcome), age at outcome in days, primary breed, primary colour. outcome_type/outcome_subtype excluded."
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "age_days"
+ ],
+ "cat": [
+  "animal_type",
+  "sex_upon_outcome",
+  "breed",
+  "color"
+ ],
+ "n_after_filter": 173729,
+ "subsample": "none",
+ "n": 173729,
+ "split": {
+  "train_old": [
+   0,
+   34746
+  ],
+  "train_new": [
+   34746,
+   69492
+  ],
+  "validation": [
+   69492,
+   86864
+  ],
+  "test": [
+   86864,
+   173729
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2013-10-01 09:31:00",
+  "test_start": "2018-08-06 11:37:00",
+  "end": "2025-05-05 07:22:00"
+ },
+ "validation": {
+  "n": 17372,
+  "disagreement": 0.13573566658991482,
+  "err_incumbent": 0.1995164632742344,
+  "err_challenger": 0.18305318903983422,
+  "base_rate_y1": 0.46776421828229336
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 43,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/austin_animal.npz",
+  "array_content_sha256": "7d0d948fd86c44fdd17e4c20aa2f64c82012d6e80e97119846fa58596c62bc33"
+ }
+}

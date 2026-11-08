@@ -1,0 +1,79 @@
+{
+ "name": "la_crime",
+ "built_utc": "2026-11-08T02:11:39+00:00",
+ "meta": {
+  "name": "la_crime",
+  "url": "https://data.lacity.org/resource/2nrs-mtv8.csv",
+  "license": "Creative Commons CC0 1.0 (public domain dedication), City of Los Angeles open data",
+  "publisher": "City of Los Angeles / Los Angeles Police Department",
+  "task": "binary: reported crime has a non-default case status (cleared) vs investigation continuing",
+  "label": "status != 'IC'",
+  "delay": 100,
+  "window": [
+   "2020-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "occurrence hour/dow/month (date_occ + time_occ), area, crime code, premise, weapon-recorded flag, victim age (<=0 -> missing) and sex. status/status_desc used only for the label. Within-day order of rows with equal timestamps is the portal's order."
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "vict_age"
+ ],
+ "cat": [
+  "area",
+  "crm_cd",
+  "premis_desc",
+  "weapon_flag",
+  "vict_sex"
+ ],
+ "n_after_filter": 1004893,
+ "subsample": "systematic 400000 of 1004893",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2020-01-01 00:01:00",
+  "test_start": "2022-05-26 09:00:00",
+  "end": "2024-12-30 23:00:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.044425,
+  "err_incumbent": 0.1579,
+  "err_challenger": 0.154525,
+  "base_rate_y1": 0.1984
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/la_crime.npz",
+  "array_content_sha256": "b3a717bed1e8873220113d3816c1d347fc4e755c2cd433639d0555a05d7a6af8"
+ }
+}

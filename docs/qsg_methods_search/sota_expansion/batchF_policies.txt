@@ -1,0 +1,13 @@
+EQSDp_l0.9_g0.2
+EQSDp_l0.98_g0.3
+qiu_delayed_movement
+gongT_w100_m10
+cams_adapter
+upf_d0.95_m50
+chalgse_l1.0_g0.2
+gongT_w800_m20
+wald_l0.97_g0.2
+smarg_l0.97_k0.2
+econF_mo5_m5
+econF_mo5_m0
+CONTROL_never_switch

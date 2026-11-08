@@ -95,6 +95,7 @@ def main():
     ap.add_argument("--workers", type=int, default=16)
     ap.add_argument("--seeds", type=int, default=None)
     ap.add_argument("--policies", default=None, help="file with one policy per line")
+    ap.add_argument("--reg", default=str(REG), help="registration JSON (default: C4 batch 1)")
     a = ap.parse_args()
     from sota_extra import DEV_POLICIES
 
@@ -117,7 +118,7 @@ def main():
                     for s in range(seeds)
                 ]
     else:
-        reg = json.loads(REG.read_text())
+        reg = json.loads(Path(a.reg).read_text())
         seeds, sb = a.seeds or reg["policy_seeds"], reg["seed_base"]
         ok = {}
         for d in reg["datasets"]:

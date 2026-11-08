@@ -29,7 +29,7 @@ def _h(s):
 
 
 def job(args):
-    env_name, seed, seed_base, names = args
+    env_name, seed, seed_base, names, B, CQ = args
     from envs import ENVS, oracle_cost
     from policies import registry
     from simulator import policy_rng, run_episode
@@ -74,6 +74,8 @@ def job(args):
                 "exp_cost": float(exp_cost),
                 "regret": float(exp_cost - orc),
                 "frac_best": float((dep == best).mean()),
+                "B": B,
+                "cq": CQ,
             }
         )
     return rows
@@ -87,13 +89,19 @@ def main():
     ap.add_argument("--policies", default="")
     ap.add_argument("--workers", type=int, default=12)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--budget", type=int, default=B)
+    ap.add_argument("--cq", type=float, default=CQ)
     a = ap.parse_args()
     from policies import registry
 
     names = a.policies.split(",") if a.policies else list(registry())
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    jobs = [(e, s, a.seed_base, names) for e in a.envs.split(",") for s in range(a.seeds)]
+    jobs = [
+        (e, s, a.seed_base, names, a.budget, a.cq)
+        for e in a.envs.split(",")
+        for s in range(a.seeds)
+    ]
     (out / "manifest.json").write_text(json.dumps({**vars(a), "n_policies": len(names)}, indent=1))
     with open(out / "records.jsonl", "w") as f, mp.Pool(a.workers) as pool:
         for rows in pool.imap_unordered(job, jobs):

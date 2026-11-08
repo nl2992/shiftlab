@@ -124,9 +124,22 @@ class KWald:
                 return QueryRequest(requested=False)
             if self.acq == "anydis" or (self.acq == "bcr" and self.n_lab < self.n_warm):
                 q = self._base_q(remaining, self._rate())
-            elif self.acq == "mp":
+            elif self.acq == "mp" or (self.acq == "emp" and self.n_lab < self.n_warm):
                 eta = eta_t(self.K, event.t + 1)
                 q = query_probability(posterior(self.mp_loss, eta), preds, 1.0, 2, eta)
+                q = max(q, self.p_min)
+            elif self.acq == "emp":
+                # economic Model Picker: MP's posterior-disagreement probability computed only over
+                # the economically plausible set S = {deployed} + plausible challengers; outside
+                # S-disagreements, monitor at rho_mon x MP's full-set probability (q > 0 on R).
+                eta = eta_t(self.K, event.t + 1)
+                q_full = query_probability(posterior(self.mp_loss, eta), preds, 1.0, 2, eta)
+                S = [self.deployed, *self.plausible()]
+                if len(S) > 1 and len(np.unique(preds[S])) > 1:
+                    eS = eta_t(len(S), event.t + 1)
+                    q = query_probability(posterior(self.mp_loss[S], eS), preds[S], 1.0, 2, eS)
+                else:
+                    q = self.rho_mon * q_full
                 q = max(q, self.p_min)
             else:  # bcr
                 S = [self.deployed, *self.plausible()]
@@ -214,4 +227,6 @@ def registry(stage="pilot"):
                 for rm in (0.1, 0.3):
                     n = f"bcr_l{lam}_g{g}_zu{zu}_rm{rm}"
                     R[n] = _kw(lam=lam, gamma=g, acq="bcr", z_u=zu, rho_mon=rm, name=n)
+                    n = f"emp_l{lam}_g{g}_zu{zu}_rm{rm}"
+                    R[n] = _kw(lam=lam, gamma=g, acq="emp", z_u=zu, rho_mon=rm, name=n)
     return R

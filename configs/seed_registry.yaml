@@ -2414,3 +2414,19 @@ disclosed_overlaps:
   overlap: [2040000000, 2040000001]
   disclosure: found_by_T0.1
   note: 'found by T0.1, previously undisclosed: same start offset, one block is a prefix of the other (smoke/pilot/rerun reuse).'
+- id: pave_c3_eval
+  start: 102300000
+  end: 102399999
+  source: docs/methods_recovery/70_PAVE_C3_PROTOCOL.md (allocated 2026-11-08; 1023xxxxx unused on all local refs)
+  status: confirmation
+  used_by: [PAVE-EF C3 confirmation, 54 long-delay cells, branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  note: 'confirmation; opened once; no re-tuning'
+- id: pave_c3_null
+  start: 102400000
+  end: 102499999
+  source: docs/methods_recovery/70_PAVE_C3_PROTOCOL.md (allocated 2026-11-08; 1024xxxxx unused on all local refs)
+  status: confirmation
+  used_by: [PAVE-EF C3 validity guard, d=50 null grid]
+  derivation: allocated
+  note: 'confirmation; opened once'

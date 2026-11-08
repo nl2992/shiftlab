@@ -84,3 +84,29 @@ Diagnosis (expected-oracle regret by regime):
    streams. Promoting under an exact null is cheap; the harm is concentrated in V_worse.
 4. The change regimes hold the remaining headroom: expected-oracle regret 55–121 on F1_late_800 /
    F3_reversal_800 for every D1 policy. This motivates D2.
+
+## D2: EQS-D on the 14-regime change+stationary family (seed base 2026110721, 40 seeds)
+
+Best `EQSD_l0.95_g0.2_pcinf_mf1.0`: family −6.08 [−7.26, −4.89] vs Qiu; −11.79 [−13.45, −10.14]
+vs Gong–Zhang (untuned adapter). The registered decision-at-stake acquisition clause **fails**
+(vs always-paced: −0.87 [−2.18, +0.45]).
+
+## D3: decomposition against tuned Gong–Zhang (seed base 2026110731, 40 seeds)
+
+16-config tuned Gong–Zhang (window × margin); RNG parity with the original adapter exact. The
+frozen D2 winner replicates: −6.29 [−7.97, −4.62] vs best tuned Gong–Zhang, −6.98 [−8.11, −5.85]
+vs Qiu. Hysteresis: γ=.2 vs γ=.5 at λ=.95: −18.80 [−21.10, −16.50]. Tuned Gong–Zhang trades
+guard for change cost along a frontier (W=100: change 353.0 / guard 384.9; m=20: 358.1 / 374.5)
+that EQS-D dominates (351.9 / 365.6).
+
+## D4: quantile hysteresis vs additive margin (D3 seeds; in-sample ablation)
+
+On the same label-clock evidence, point estimate + best margin ≈ tuned Gong–Zhang
+(+1.15 [−0.88, +3.18] at λ=.95, m=10). The evidence clock alone contributes nothing. The Beta
+quantile beats the best margin by −6.21 to −12.71 (all CIs exclude 0). **Mechanism:** a hurdle
+that scales with posterior uncertainty, strict when evidence is thin and loose when it is strong,
+removes null churn without slowing real changes. A fixed margin cannot do both.
+
+## C3
+
+See [synthetic_confirmation.md](synthetic_confirmation.md): frozen confirmation PASS.

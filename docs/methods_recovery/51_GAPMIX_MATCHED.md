@@ -148,3 +148,23 @@ python scripts/methods_recovery/gapmix_match.py summarize
 python -m pytest tests/gaver/test_gapmix_matched.py
 ```
 (`scripts/methods_recovery/gapmix_match_all.ps1` chains these with a memory wait.) Nothing committed.
+
+## Coordinator interpretation (2026-11-08)
+
+- **The declared restriction is legitimate.** A method valid under a declared dependence class
+  (ρ ≤ ρ̄) is a real scoped result. The restriction is not a defect.
+- **What closes Gap-Mix as a construction.** Under the identical declared class, the standard
+  universal-inference all-starts e-detector with exact gap likelihood (`ui_gap_allstarts`) beats
+  it by 8.3% J/T (CI excludes 0), and a ρ̄-restricted gap-blind LR nearly matches it.
+- **What survives (positive).** The best valid evidence under the declared bound is
+  `ui_gap_allstarts`:
+  - J/T .344 vs .447 for the unrestricted Markov LR (**23% cheaper**);
+  - 7.6% cheaper than gap-10 thinning;
+  - 8.3% cheaper than Gap-Mix;
+  - worst null UCB .074 at ρ ≤ .8 (formally valid for a deterministic calendar and constant
+    delay; adaptive acquisition is not proven).
+
+  Its novelty is low (a standard construction instantiated here), so it is recorded as a
+  **component / strong baseline**, not a standalone C2 contribution. Natural next use: as the
+  evidence engine under PAVE acquisition. That needs its own registered test, given GAVE-R's
+  earlier negative evidence × acquisition interaction.

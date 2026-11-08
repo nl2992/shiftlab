@@ -72,6 +72,10 @@ The λ = .97 rows are new grid points. They give the Wald/Hoeffding/margin/dwell
 longer memory that real streams are known to prefer (M5). This strengthens the baselines and
 makes the comparison harder for arm B.
 
+**Mechanism ablation** (descriptive; added before the nine-dataset run): `EQSDp_l0.9_g0.5`. This
+is arm B with the switching hurdle at the posterior median (a point estimate). Evidence, discounting,
+pacing and payback are identical, so it isolates the confidence-bound component on real data.
+
 ## 4. Development-only tuning (real streams)
 
 - **Development set**: the 14 exposed C4-0 pilot streams (Atlas v2: rialto, spam, weather,

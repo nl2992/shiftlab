@@ -17,7 +17,7 @@ from sota_extra import FAMILIES, FIXED, FROZEN, SYNTH_SELECTED
 
 pd.set_option("display.width", 250)
 pd.set_option("display.max_rows", 400)
-DESCRIPTIVE = ["EQSDp_l0.95_g0.2"]
+DESCRIPTIVE = ["EQSDp_l0.95_g0.2", "EQSDp_l0.9_g0.5"]
 
 
 def holm(ps):

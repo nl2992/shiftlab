@@ -237,7 +237,12 @@ def analyse():
     out["cell_wins_vs_episode_front"] = wins
     if (OUT / "rows_null.jsonl").exists():
         acc = {}
+        seen = set()
         for r in load("null"):
+            key = (r["cell"], r["seed"], r["arm"])
+            if key in seen:  # resumed chunks can be appended twice; seeds are deterministic
+                continue
+            seen.add(key)
             a = acc.setdefault((r["cell"], r["arm"]), [0, 0, 0])
             a[0] += r["fp"]
             a[1] += r["promoted"]

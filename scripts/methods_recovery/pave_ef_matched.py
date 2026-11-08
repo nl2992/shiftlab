@@ -107,25 +107,29 @@ def run(workers, arm="ef_dss"):
 def analyse():
     import pandas as pd
 
-    rows = [
-        json.loads(x)
-        for p in ("rows_eval.jsonl", "rows_eval_efdss.jsonl")
-        for x in (OUT / p).read_text().splitlines()
-    ]
+    files = ["rows_eval.jsonl", "rows_eval_efdss.jsonl"]
+    if (OUT / "rows_eval_pave_ef_novoi.jsonl").exists():
+        files.append("rows_eval_pave_ef_novoi.jsonl")
+    rows = [json.loads(x) for p in files for x in (OUT / p).read_text().splitlines()]
     d = pd.DataFrame(rows)
     d = d[d.cell.isin([c for _, c in pe.LONG_CELLS])]
     piv = d.pivot_table(index=["cell", "seed"], columns="arm", values="cost")
     rng = np.random.default_rng(20261108)
     res = {}
-    for a, b in (
-        ("pave_ef", "ef_dss"),
-        ("pave_ef", "pave_ef_nopendinfo"),
-        ("pave_ef", "episode_front"),
-        ("ef_dss", "episode_front"),
+    # (a, b, reference arm for the % scale); Amendment 2 scales pave_ef - novoi by ef_dss J/T
+    for a, b, rf in (
+        ("pave_ef", "ef_dss", "ef_dss"),
+        ("pave_ef", "pave_ef_nopendinfo", "pave_ef_nopendinfo"),
+        ("pave_ef", "episode_front", "episode_front"),
+        ("ef_dss", "episode_front", "episode_front"),
+        ("pave_ef", "pave_ef_novoi", "ef_dss"),
+        ("pave_ef_novoi", "ef_dss", "ef_dss"),
     ):
+        if a not in piv or b not in piv:
+            continue
         cells = piv.index.get_level_values(0).unique()
         diffs = [(piv.loc[c][a] - piv.loc[c][b]).to_numpy() for c in cells]
-        ref = np.mean([piv.loc[c][b].mean() for c in cells])
+        ref = np.mean([piv.loc[c][rf].mean() for c in cells])
         point = np.mean([x.mean() for x in diffs]) / ref * 100
         bs = [
             np.mean([x[rng.integers(0, len(x), len(x))].mean() for x in diffs]) / ref * 100

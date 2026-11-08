@@ -93,3 +93,12 @@ optimal on change-heavy streams is badly wrong on dependent, mostly stationary s
 versa. This is not fixable by a better change detector (dependence fools detectors), and it is
 what Candidate G targets: select among shadow switchers by their **IPW-estimated realised
 economic cost**, which is exactly measurable online because acquisition is decision-independent.
+
+## SAES pivot (2026-11-08)
+
+| ID | Target failure | Design | Evidence | Decision |
+|---|---|---|---|---|
+| SAES-proxy | information limit (M1/M3) | unlabeled confidence-gap proxy as extra evidence on every disagreement (prediction-powered style) | cross-fitted ρ² .00–.11 on 11 dev streams → ≤1.13× labels; +100% labels worth 5.3 units → bound ≤0.7 | **STOP** (Phase 1) |
+| SAES-staleness | information limit, M5 | drift / disagreement-rate / score-gap triggered acquisition or reset | pooled \|r\| ≤ .08 with the future advantage change; inconsistent signs | **STOP** (Phase 1) |
+
+Details: [SAES_PHASE1.md](SAES_PHASE1.md).

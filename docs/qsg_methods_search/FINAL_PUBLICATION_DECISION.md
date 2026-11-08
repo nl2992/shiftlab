@@ -89,3 +89,70 @@ More variants of the same families are not justified by the evidence.
    Each needs its own development cycle; none has evidence yet.
 
 Not recommended: tuning the Beta/Wald hurdle further, or re-screening adaptive-memory variants.
+
+
+---
+
+# Update 2026-11-08: SAES pivot outcome and EQSDp viability
+
+## SAES (signal-assisted economic switching): FAIL at Phase 1
+
+See [SAES_PHASE1.md](SAES_PHASE1.md). On 11 feature-bearing development streams:
+- **Per-event proxy information is too weak.** The confidence gap predicts the correct model
+  on disagreements with AUC .50–.78, but it is worth only 1.00–1.13× labels (median 1.04).
+- **Staleness signals do not anticipate advantage changes.** For drift, disagreement-rate and
+  score-gap changes, pooled |r| ≤ .08.
+- **The price of information is low.** +100% free labels is worth 5.3 units to tuned Wald, so
+  the proxy channel is bounded at ≤0.7 units.
+
+Phase 2–5 were not started, per the directive's stop rule and the user's 2026-11-08
+instruction. No sealed seed or dataset was consumed.
+
+## Is the original EQSDp paper still viable? Assessment
+
+**What the evidence supports**
+1. **Adapter gains.** Confidence-bound reversible payback switching under hard, delayed,
+   disagreement-only label budgets (EQSDp ≡ Wald-LCB payback) beats the published-method
+   adapters:
+   - frozen C3, 100 fresh seeds, Holm: −8.8 vs tuned Gong–Zhang-style, −9.7 vs Qiu-style;
+   - post-confirmation panel: −30 vs UPF-style.
+2. **Real-stream transfer of the registered contrast.** On exposed real streams the C4
+   contrast (vs tuned Gong–Zhang-style) holds on 13 of 14 streams (pooled −5.7). This is
+   development evidence only.
+3. **Analysis results (new, robust).**
+   - The fixed-discount confidence-bound rule is frontier-efficient against 12 adaptive
+     alternatives.
+   - The problem is information-limited: change-time knowledge is worth 11.7 units, +100%
+     labels 5.3, and observable unlabeled signals ≤0.7.
+   - M5: memory tuned on change-heavy streams transfers badly to serially dependent real
+     streams (EQSDp-B is +6 vs long-memory Wald on exposed streams).
+
+**What it does not support**
+- A new algorithmic primitive. The rule is a confidence-bound horizon-pays rule. Regol et al.
+  2025 (UPF) and *The Challenger* (arXiv 2512.18390) constrain the novelty; both must be read
+  in full.
+- Superiority over native published algorithms. The comparators are common-contract adapters.
+- Best real-data configuration. A differently tuned Wald (λ=.97) beats the frozen arm on
+  exposed streams. Per the user's instruction the sealed C4 protocol is **not** amended to
+  chase this.
+- C4: only 2 sealed eligible sources exist (austin_animal, la_crime). Reaching ≥8 needs at
+  least 6 more eligible builds from the registered candidate list.
+
+**Viability verdict**
+- As an ICML main-track *algorithmic* paper: **weak**. The method is a NOVEL-INTEGRATION of
+  known parts with modest gains over the strongest simple baseline (tie with Wald).
+- As a scoped contribution, the strongest honest paper is a **methods-plus-analysis** paper.
+  Its message: "In budgeted, delayed model replacement, a simple confidence-bound payback
+  switcher is (empirically) near the achievable frontier, and the remaining gap is
+  informational: neither adaptive evidence processing nor observable unlabeled signals recover
+  it."
+  - Primary evidence: C3 (vs adapters) plus the registered C4 (vs tuned Gong–Zhang-style,
+    arm B frozen).
+  - Analysis section: the frontier and information-bound results, and M5.
+  - Venue: TMLR or a workshop is more realistic than ICML main track. An ICML submission would
+    rest on the analysis being judged a contribution.
+
+**Programme status:** C1 PASS (M1–M5). C2 new-method NOT ACHIEVED (SAES and 12 label-only
+mechanisms closed). C3 historical PASS only. C4 NOT STARTED (2/8 sealed eligible). **INCOMPLETE.**
+The remaining executable work for the scoped paper is the C4 acquisition (≥6 more eligible
+sources) and its single sealed opening under the existing registration.

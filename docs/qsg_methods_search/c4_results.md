@@ -57,3 +57,49 @@ Registered secondary and summary statistics:
 
 Further datasets may only be added as a **new, separately reported batch** whose denominator
 includes these 9. No dataset here is dropped or re-analysed.
+
+---
+
+# Batch 2 and cumulative result (Amendment A2)
+
+Batch 2: 7 audited 311 datasets, registered at `0b034638` before opening, seed base 2026111301.
+All sealed hashes verified. Analysis: `analyze_c4_batches.py` (locked per-dataset rule, same
+bootstrap stream). Full output: [c4_cumulative_b2.txt](c4_cumulative_b2.txt).
+
+| dataset (city) | episodes | Δ vs tuned Gong–Zhang-style | one-sided 95% UB | supports |
+|---|---|---|---|---|
+| sandiego_311 (San Diego) | 100 | −9.63 | −8.11 | **yes** |
+| cincinnati_311 (Cincinnati) | 67 | −5.05 | −2.89 | **yes** |
+| austin_311 (Austin) | 100 | −2.53 | −1.20 | **yes** |
+| oakland_311 (Oakland) | 55 | −1.02 | −0.40 | **yes** |
+| sacramento_311 (Sacramento) | 100 | −1.18 | +0.02 | no |
+| baltimore_311 (Baltimore) | 83 | −0.78 | +0.40 | no |
+| nola_311 (New Orleans) | 61 | −0.78 | +0.29 | no |
+
+## Cumulative verdict: **TARGET REACHED. 9 of 16 opened datasets support the claim** (9 distinct organisations; also 9 under the one-per-city sensitivity count). Acquisition stops (A2 stopping rule).
+
+| statistic (all 16 opened datasets) | value |
+|---|---|
+| batch 1 / batch 2 supporters | 5/9, 4/7 |
+| binomial count bound P(X ≥ 9 \| N = 16, p = .05) | **1.6 × 10⁻⁸** |
+| sign test (Δ < 0) | **16/16**, one-sided p = 1.5 × 10⁻⁵ |
+| pooled secondary vs Qiu-style | −6.07, one-sided p = 2.2 × 10⁻⁵ |
+| pooled Δ vs tuned Gong–Zhang-style | −3.38 per episode, **−0.75% of cost** (median −0.39%) |
+
+## Honest reading
+
+- **Real, small, consistent.** The direction is uniform across 16 sources, and the count test is
+  overwhelming even under the outcome-dependent stopping rule. The size is negligible to small on
+  total cost: below 1% on average, and up to −1.9% (Kansas City) where the comparator churns.
+- **Mechanism.** Gains come from switching about half as often as the tuned point-estimate
+  economic switcher.
+- **Batch 2 was selected after batch 1.** Its pool favoured 311 streams (disclosed in A2). The
+  application family the evidence supports is mostly municipal service-request closure streams,
+  plus crime clearance, collision injury and traffic citations in batch 1.
+- **Boundary.** On 3 datasets (la_crime, montgomery_traffic, nyc_collisions) never switching
+  beats arm B: there is no false-promotion protection.
+- **M5 again.** Arm A (λ=.95, descriptive) is the cheapest of arm A, arm B and Wald λ=.9 on
+  **16/16** datasets. Longer memory transfers better to real streams. This is not part of the
+  registered claim.
+- **What is supported.** The claim is about the integration (confidence-bound payback ≡ Wald) vs
+  a point-estimate adapter. It is not evidence for a new algorithmic primitive.

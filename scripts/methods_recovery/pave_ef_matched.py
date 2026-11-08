@@ -29,19 +29,60 @@ class EFDSS(pe.PaveEF):
         self.name = "ef_dss"
 
 
+class NoVoI(pe.PaveEF):
+    """pave_ef with the VoI rollout replaced by a deadline-truncated calendar (Amendment 2)."""
+
+    def __init__(self):
+        super().__init__()
+        self.name = "pave_ef_novoi"
+
+    def _init(self):
+        super()._init()
+        self.last_q = -(10**9)
+
+    def _pave_query(self, t):
+        import math
+
+        c = self.cfg
+        if self.burst_left > 0 and len(self.pending_events) < 2 and self.can_query(t):
+            self.burst_left -= 1
+            self.last_q = t
+            return True
+        if not self.can_query(t) or len(self.pending_events) >= self.pending_capacity(t):
+            return False
+        b_eff = self._b_eff()
+        if b_eff <= 0:
+            return False
+        cap = max(1, math.ceil(self._p("acquisition", "burst_frac") * c.B)) + math.floor(
+            2 * c.B * t / c.T
+        )
+        if self.used >= cap:
+            return False
+        g = max(1, math.ceil(max(1, c.T - c.d - t + 1) / b_eff))
+        if t - self.last_q >= g:
+            self.last_q = t
+            return True
+        return False
+
+
+ARM_CLS = {"ef_dss": None, "pave_ef_novoi": NoVoI}
+
+
 def task(job):
-    cid, cell, seeds = job
+    cid, cell, seeds = job[:3]
+    arm = job[3] if len(job) > 3 else "ef_dss"
     rows = []
     for sd in seeds:
         cfg, stream = cell.config(sd), pe.fa.make_stream(cell, sd)
-        r = pe.fa.run_for(cell, stream, EFDSS(), cfg)
+        pol = EFDSS() if arm == "ef_dss" else ARM_CLS[arm]()
+        r = pe.fa.run_for(cell, stream, pol, cfg)
         assert r.queries <= cfg.B
         rows.append(
             {
                 "stage": "eval",
                 "cell": cid,
                 "seed": sd,
-                "arm": "ef_dss",
+                "arm": arm,
                 "cost": float(r.cost) / cell.T,
                 "queries": int(r.queries),
             }
@@ -49,14 +90,15 @@ def task(job):
     return rows
 
 
-def run(workers):
+def run(workers, arm="ef_dss"):
     jobs = []
     for i, (_g, cid) in enumerate(pe.LONG_CELLS):
         cell = pe.cell_obj(cid)
         s0 = pe.EVAL_BASE + 100 * i
         for k in range(0, pe.N_EVAL, pe.CHUNK):
-            jobs.append((cid, cell, list(range(s0 + k, s0 + min(pe.N_EVAL, k + pe.CHUNK)))))
-    with open(OUT / "rows_eval_efdss.jsonl", "w") as f, Pool(workers) as pool:
+            jobs.append((cid, cell, list(range(s0 + k, s0 + min(pe.N_EVAL, k + pe.CHUNK))), arm))
+    fn = "rows_eval_efdss.jsonl" if arm == "ef_dss" else f"rows_eval_{arm}.jsonl"
+    with open(OUT / fn, "w") as f, Pool(workers) as pool:
         for rows in pool.imap_unordered(task, jobs):
             f.writelines(json.dumps(r) + "\n" for r in rows)
     print("done", len(jobs))
@@ -97,4 +139,5 @@ def analyse():
 
 if __name__ == "__main__":
     w = int(sys.argv[sys.argv.index("--workers") + 1]) if "--workers" in sys.argv else 6
-    run(w) if sys.argv[1] == "run" else analyse()
+    arm = sys.argv[sys.argv.index("--arm") + 1] if "--arm" in sys.argv else "ef_dss"
+    run(w, arm) if sys.argv[1] == "run" else analyse()

@@ -65,3 +65,19 @@ on the same eval seeds and cells (`scripts/methods_recovery/pave_ef_matched.py`)
    over the 27 cells.
 
 STOP if `pave_ef` is within 1% of `ef_dss` or worse. Native `episode_front` is reported as before.
+
+## Amendment 2 (coordinator, 2026-11-08): VoI-rollout control, registered before it is run
+
+The prior-art audit (`60_PAVE_NOVELTY.md`) names the strongest objection: "pending fantasies +
+deadline cutoff + rate cap" might reproduce PAVE without its value-of-information rollout.
+
+**Control `pave_ef_novoi`.** Identical to `pave_ef` (same engine, burst rule, `can_query`,
+pending capacity `ceil(d·B_rem/H_rem)`, effective budget, DSS spend-pace cap, deadline-truncated
+horizon h_rem = T − d − t + 1 and gap g = ceil(h_rem / b_eff)), except that the rollout decision
+is replaced by a calendar rule: query iff t − last_query ≥ g. Same eval seeds and 27 cells.
+
+**Rule for the C2 mechanism claim.**
+- The VoI rollout is credited only if `pave_ef − pave_ef_novoi` < −1% of `ef_dss` J/T with CI
+  excluding 0.
+- Otherwise the gain is attributed to delay-aware pacing (deadline plus capacity), and the claim
+  is narrowed to that.

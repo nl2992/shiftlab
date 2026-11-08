@@ -142,6 +142,37 @@ used **alongside** v1, not instead of it.
 - **Frozen after registration:** any change to cells, seeds, comparators or hosts after the first tranche-2 record
   requires amendment A2 with a fresh seed sub-block; results under A1 are never re-labelled.
 
+### 3b. Amendment A2: final Stage-B round (registered 2026-11-07, before any A2 record)
+
+Draft: `docs/d2a_rar/drafts/A2_DRAFT.md`. Budget: at most 15 experiments of the 57 remaining Stage-B slots. Reference
+runs of comparators do not count, as under A1. This is the last screening round before the 200-checkpoint decision.
+
+- **Seeds:** `110070000 + cell_index*1000 + replicate`, which is disjoint from v1 and v2 (v2 occupies 110050000-110064019).
+  20 replicates per cell, except the null audit below.
+- **Corrected control reading (applies to A2 records only; every A1 record keeps its A1 decision).** The A1
+  analysis (`stage_b.py:520`) compared every candidate's spend with the Drift2Act host, and it counted promotion on
+  S3c as a control failure. But S3c is a persistent real shift, where every null is false (`null_truth_expected`), so
+  promoting there is correct. Under A2, the §4 neighbouring/negative-control check is read as follows:
+  (a) *extra promotion* counts only on cells where the candidate's claimed null holds;
+  (b) *extra spend* is measured against the strongest applicable comparator of the same action family (shell
+      candidates against the shell comparators), with the same 1.10x + 0.5 tolerance;
+  (c) *worse J* requires the paired 95% CI to exclude 0.
+  A2 records report both the strict A1 reading and the A2 reading, and a KEEP requires the A2 reading.
+- **Q1 arm:** fresh-seed replications of the three tranche-2 near-KEEPs named in the draft, including CAND-0c6c168c
+  `min_of_both_certificate`, on the A1 Q1 cells (v1 Q1 row + compatible v2 cells). Add one repaired variant,
+  `restart_min`, which targets the diagnosed S2d pre-onset dilution, plus a 100-replicate null audit of that variant on
+  its validity cells. Comparators are the A1 Q1 set plus `rmm_detector`. The S2d loss to `rmm_detector` is disclosed as
+  a counterexample; it does not trigger a discard (§4 requires a win on at least one target cell, not every target cell).
+- **RAR arm:** a new frozen family `rar_persistent` (5 cells, including one where retraining is harmful). Its YAML and
+  suite JSON sha256 must be appended to this amendment in a registration line BEFORE any RAR-arm record. The
+  candidate is K2 (skip Canary-1 when estimated degradation is at least 2θ_R). K1 (full-traffic fast verification) and L
+  (routed-only labels) are ablations, not candidates. K3 is dropped (Lindon-style sequential stop, known).
+  Comparators: RAR `calibrated_v1`, `NoCanary` (mandatory), Cost-Aware Binary, the strengthened Cost-Aware Binary
+  variant from the draft, Rollback-Only, and the A1 simple controls. K2 must beat both RAR `calibrated_v1` and
+  `NoCanary`.
+- **Exit:** if A2 yields no KEEP, Stage B closes with 0 KEEP, and the 200-checkpoint decision proceeds on the
+  benchmark findings.
+
 ## 4. Keep / discard (preregistered; no single-metric rule)
 
 A candidate is **KEEP** (promote to the Stage-C queue) iff all of:

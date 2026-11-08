@@ -1,0 +1,12 @@
+{
+  "arm4": "k4_p1_w0",
+  "arm5": {
+    "b0.05_d1": "f0.9",
+    "b0.05_d10": "G20",
+    "b0.1_d1": "G10",
+    "b0.1_d10": "G10",
+    "b0.25_d1": "G4",
+    "b0.25_d10": "G6"
+  },
+  "note": "chosen on tuning seeds 101300000-101309999 only; Arm 4 global (equal-weight cell mean J/T); Arm 5 per (B/T,d) family"
+}

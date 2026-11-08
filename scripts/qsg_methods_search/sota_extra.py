@@ -20,7 +20,7 @@ for _p in (_SOTA, _SOTA / "competitors"):
 from d3_extra import EXTRA as _D3
 from eqs import EXTRA as _EQS
 from han_arw import HanARWDeploymentAdapter
-from hurdles import Dwell, HoeffdingLCB, ScaledMargin, WaldLCB
+from hurdles import ChallengerGSE, Dwell, HoeffdingLCB, ScaledMargin, WaldLCB
 from p1_extra import EXTRA as _P1
 from shekhar_ramdas import ShekharRamdasDeploymentAdapter
 from shin_esr import TwoSidedESRDeploymentAdapter
@@ -64,6 +64,10 @@ EXTRA.update(
     }
 )
 
+for _l in (1.0, 0.97, 0.9):
+    for _g in (0.1, 0.2, 0.3, 0.45):
+        EXTRA[f"chalgse_l{_l}_g{_g}"] = _mk(ChallengerGSE, f"chalgse_l{_l}_g{_g}", lam=_l, gamma=_g)
+
 FROZEN = "EQSDp_l0.9_g0.2"
 # Fixed (untunable or guarantee-fixed) comparators, evaluated at their registered defaults.
 FIXED = [
@@ -102,6 +106,7 @@ FAMILIES = {
     "smarg": [k for k in EXTRA if k.startswith("smarg_l")],
     "dwell": [k for k in EXTRA if k.startswith("dwell_l")],
     "econF": [k for k in _EQS if k.startswith("econF_")],
+    "chalgse": [k for k in EXTRA if k.startswith("chalgse_")],
 }
 # Configurations previously selected on synthetic development seeds (P1 Stage 1 / D3 / D1).
 SYNTH_SELECTED = {
@@ -112,5 +117,6 @@ SYNTH_SELECTED = {
     "smarg": "smarg_l0.9_k0.2",
     "dwell": "dwell_l0.9_s5",
     "econF": "econF_mo5_m5",
+    "chalgse": "chalgse_l1.0_g0.2",
 }
 DEV_POLICIES = [FROZEN, *FIXED, *[k for v in FAMILIES.values() for k in v]]

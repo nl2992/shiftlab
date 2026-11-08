@@ -68,6 +68,13 @@ The certified methods use α = 0.05. α is fixed by their guarantee and is not t
 | S12 `dwell` (k-streak) | λ ∈ {.9,.95,.97} × k ∈ {3,5,10,20} | `dwell_l0.9_s5` (P1) |
 | S12 `econF` (front-loaded economic) | min_obs ∈ {5,10,15,25,40} × margin ∈ {0,5,10,20} | `econF_mo5_m5` (D1) |
 
+| Challenger-style `chalgse` (added after the prior-art audit, before the nine-dataset run) | λ ∈ {1, .97, .9} × γ ∈ {.1,.2,.3,.45}, irreversible Hoeffding payback | none; nominal default `chalgse_l1.0_g0.2` (undiscounted, as in the source) |
+
+`chalgse` follows the GSE rule of Digalakis Jr et al. (arXiv 2512.18390), the closest published
+payback-with-confidence-bound rule: `ChallengerGSE` in `hurdles.py`, a common-contract
+adaptation. Its development records are in `dev_chalgse/` (same streams and seeds). Selection reads
+both development record files.
+
 The λ = .97 rows are new grid points. They give the Wald/Hoeffding/margin/dwell families the
 longer memory that real streams are known to prefer (M5). This strengthens the baselines and
 makes the comparison harder for arm B.

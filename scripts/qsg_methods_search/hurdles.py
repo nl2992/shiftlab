@@ -66,3 +66,15 @@ class Dwell(EQSD):
             self.streak = self.streak + 1 if self._gain_away(0.5) > self.cs else 0
             if self.streak >= self.k_streak:
                 self.deployed, self.streak = 1 - self.deployed, 0
+
+
+class ChallengerGSE(HoeffdingLCB):
+    """Challenger-style irreversible payback with a Hoeffding bound (after Digalakis Jr et al.,
+    arXiv 2512.18390, GSE). Switch once when the Hoeffding lower bound of the advantage times
+    r (T-t) exceeds cs; never switch back. Shares EQSDp's evidence clock and pacing (common-contract
+    adaptation; the source has no label budget, delay, or disagreement-only labels)."""
+
+    def _gain_away(self, lev):
+        if self.deployed == 1:
+            return -math.inf
+        return super()._gain_away(lev)

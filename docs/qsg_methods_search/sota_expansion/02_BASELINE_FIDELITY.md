@@ -252,7 +252,7 @@ Grid lam {1.0,.97,.9} x gamma {.1,.2,.3,.45} = 12; nominal default `chalgse_l1.0
 3. Changed/added: streaming normaliser; HT replaces LURE; no switching-cost awareness; `class_prior = [.5, .5]`.
 4. Tuning: none. Fixed entry.
 5. Information: released feedback (propensities frozen at issue; `observe` raises on non-positive propensity); hard cap guard at variance_min.py:`request_labels`. Smoke: 192 labels, 13 switches.
-6. Tests: `test_sota_variance_min.py` (13); parity at test line 122 skips (`vendor_sota/variance_min`).
+6. Tests: `test_sota_variance_min.py` (13); its 4 author-parity tests skip at test line 120 because the author code needs numba (not vendor-related per the skip message).
 7. Class **C** (score and sampler ported, estimator replaced; degenerates to disagreement sampling with two classes). **Uncertified.**
 
 ### QSG (internal, ours): `QSG`
@@ -282,12 +282,17 @@ Every family's real-dev winner beats its synthetic-dev winner on the same real s
 ## 3. Tests run
 
 Command: `OPENBLAS_NUM_THREADS=1 .venv/Scripts/python.exe -m pytest tests/sota_fidelity tests/promising_directions -q -x -p no:cacheprovider -rs`.
-TEST_RESULTS_PLACEHOLDER
+Result of this audit (the single combined command did not finish inside 9 minutes while the machine was loaded by the dev run, so `tests/promising_directions` was run file by file, 170 s timeout each, in parallel, afterwards):
+- `tests/sota_fidelity`: 62 passed, 1 skipped (as stated in the brief; not re-run separately here).
+- `tests/promising_directions`, 21 of 23 files completed with **0 failures**: passed / skipped per file: a1_exact_separation 3/0, a1c_alpha_mechanism 2/0, a1d_mixture_comparator 3/0, a3_calendar_certificates 7/0, b1_certified_switching 9/0, b3_plus_experiments 6/0, b3_plus_policy 18/0, b3_real_data 7/0, research_loop 7/0, sota_b3_plus_adapter 11/0, sota_cams 10/6, sota_certificate_stops 30/0, sota_controls 17/0, sota_economic_stop 9/0, sota_model_picker 12/3, sota_model_selector 21/8, sota_online_llm_picker 13/0, sota_simulator 10/0, sota_smcs 17/4, sota_variance_min 12/4, sota_xu_acquisition 23/1. Subtotal 247 passed, 26 skipped.
+- **Not completed (timeout at 170 s, no failure observed):** `test_b3_plus_screening.py` and `test_sota_sawade.py` (the latter is not a registered comparator in this panel). Their results are unknown, not passing.
+- Companion tests (below): 58 passed.
+Per-file counts in the section 2 test lines that quote the number of `def test_` functions are the static counts and differ from these parametrised run counts; the run counts here are authoritative.
 
 Additional run (companion tests): `tests/qsg_methods_search tests/failure_atlas_v2 tests/test_atlas_v2_qce.py tests/test_atlas_r6_baselines.py`: **58 passed**, 0 skipped (118 s on a machine busy with the dev run).
 
 Author-parity tests that need `vendor_sota/` are skipped or never exercised because the directory is empty/absent (the ledger's open action 1): `test_sota_cams.py:269` (`skipif`, `CAMS_identity.py`), `test_sota_model_picker.py:147`,
-`test_sota_model_selector.py:318`, `test_sota_variance_min.py:122`, and `test_sota_smcs.py:139` (also requires Rscript). Consequently the "T1 native, pending parity" status of CAMS, Model Selector, Model Picker, SMCS and variance-min is unverified, and no class A can be assigned.
+`test_sota_model_selector.py:403/431/445`, `test_sota_variance_min.py:120` (skip reason is numba, not the vendor directory), `test_sota_xu_acquisition.py:233` (author clone not present), and `test_sota_smcs.py:139` (also requires Rscript). Consequently the "T1 native, pending parity" status of CAMS, Model Selector, Model Picker, SMCS and variance-min is unverified, and no class A can be assigned.
 The new ports have no author-parity test at all: Shin, Shekhar-Ramdas and Han are T2 audited mathematical ports (no T1 claim possible).
 
 ## 4. Summary table

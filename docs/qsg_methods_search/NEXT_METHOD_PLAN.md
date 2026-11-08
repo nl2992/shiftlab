@@ -38,8 +38,9 @@ failed âˆ’0.9 n.s.; GAVE-R coupling failed).
 | C3 confirmation (historical) | 2026110799 | 100 | used |
 | panel Stage 2 (historical) | 2026110851 | 100 | used |
 | **NM-dev screen** | **2026110901** | 40 | development (selection allowed) |
-| NM-dev replication | 2026110941 | 40 | development (replicate the finalist and the re-tuned Wald on fresh dev seeds) |
-| **NM-C3 confirmation** | **2026110977** | 100 | reserved; opened once after the freeze in `NEXT_METHOD_C3.md` |
+| NM-dev replication | 2026110941 | 40 | reserved, **unopened** (no candidate passed the gate) |
+| **NM-C3 confirmation** | **2026110977** | 100 | reserved, **unopened** |
+| NM real-stream development (exposed) | 2026110961 | 5 per episode | development |
 
 ## Development gate (heuristic, not a test)
 
@@ -50,3 +51,7 @@ config re-selected there, (3) an ablation (setting the adaptive component off: Î
 g_pro=g_rb) removes the gain, (4) the gain sits in a coherent regime family.
 
 The primary comparator is always the in-sample-tuned best Wald, which favours the comparator.
+
+## Outcome
+
+See [NEXT_METHOD_RESULTS.md](NEXT_METHOD_RESULTS.md) and [FINAL_PUBLICATION_DECISION.md](FINAL_PUBLICATION_DECISION.md): 12 candidates screened, none passed the gate; programme INCOMPLETE.

@@ -24,3 +24,7 @@ into the Atlas v2 runner through `--extra`. Set
   `BENCHMARK_OR_CASE_STUDY_ONLY`).
 
 This work does not rely on any of the superseded adaptive-range tables.
+
+## Next-method cycle (2026-11-07 continuation)
+
+[NEXT_METHOD_PLAN.md](NEXT_METHOD_PLAN.md) · [NEXT_METHOD_LEDGER.md](NEXT_METHOD_LEDGER.md) · [NEXT_METHOD_RESULTS.md](NEXT_METHOD_RESULTS.md) · [NEXT_METHOD_NOVELTY.md](NEXT_METHOD_NOVELTY.md) · [NEXT_METHOD_C3.md](NEXT_METHOD_C3.md) · [NEXT_METHOD_C4.md](NEXT_METHOD_C4.md) · [FINAL_PUBLICATION_DECISION.md](FINAL_PUBLICATION_DECISION.md). Verdict: INCOMPLETE; no candidate beat tuned fixed-discount Wald.

@@ -170,6 +170,18 @@ runs of comparators do not count, as under A1. This is the last screening round 
   Comparators: RAR `calibrated_v1`, `NoCanary` (mandatory), Cost-Aware Binary, the strengthened Cost-Aware Binary
   variant from the draft, Rollback-Only, and the A1 simple controls. K2 must beat both RAR `calibrated_v1` and
   `NoCanary`.
+- **A2 RAR-arm registration line (2026-11-07, before any RAR-arm record):** these files are frozen:
+  - `configs/d2a_rar/stream_families_v3.yaml`: CRLF-normalised sha256 `ab2512bf94f0fb2dddd563c99fabbe3608a9bf681cab2fed997b1fe8faedf490`, LF `50c86110…a012cf0a7`.
+  - `docs/d2a_rar/registry/DEV_SUITE_A2.json`: CRLF-normalised sha256 `58c5c7ab1216142006858f47413ef433ed621ac1194ca66e47ced1a35f30f7d8`.
+
+  The checksums are computed by `stage_b_a2.sha_crlf`, and Opus recomputed both. Disclosed implementation deviations:
+  - (i) `restart_min` gets a reduced identity check, because it is outside the grammar.
+  - (ii) Its marg start is an envelope bet, not the certified-sup LR, because of the CPU cap. This confounds its
+    "restart removed" ablation with REP1.
+  - (iii) The null-audit record's decision is UNVERIFIED, with PASS/FAIL in `results.audit_outcome`.
+  - (iv) `rar_persistent` `null_truth_expected` refers to the free candidate model.
+
+  RAR-host calibration (G0) runs as a reference before K2.
 - **Exit:** if A2 yields no KEEP, Stage B closes with 0 KEEP, and the 200-checkpoint decision proceeds on the
   benchmark findings.
 

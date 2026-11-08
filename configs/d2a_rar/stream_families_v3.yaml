@@ -1,0 +1,63 @@
+# `rar_persistent` stream families for Amendment A2 (registered in docs/d2a_rar/AUTORESEARCH_PROGRAM.md section 3b).
+# NEW file: stream_families.yaml and stream_families_v2.yaml are not modified. Dev block seeds only (see DEV_SUITE_A2.json).
+# gain/loss convention as in the contract: loss_inc = Y, loss_cand = 1 - Y, so the free candidate model has loss
+# 1 - p: with p_during <= 0.5 the candidate model is NOT better than the incumbent and cannot substitute for a retrain.
+# Retrain quality (BENCHMARK_CONTRACT 4a): q(e) = retrain_rate + (retrain_poor_rate - retrain_rate) * (1 - min(1, e/sat)).
+# Env (suite JSON): T = label_cap = 1500 (all labels requested; RAR "labels eventually arrive"), intervention_dear costs,
+# retrain_duration 20, w_train 100, max_lookback 10, obs_mode shadow.
+version: 1
+families:
+  rar_persist_alt:            # S5a: drift where retraining pays
+    T: 1500
+    dependence: iid
+    onset_frac: 0.25
+    duration_frac: 1.0
+    p_before: 0.25
+    p_during: 0.5
+    delay: {kind: fixed, d: 10}
+    retrain_rate: 0.25
+    retrain_poor_rate: 0.6
+    retrain_sat_fraction: 0.7
+  rar_persist_null:           # S5b: no drift
+    T: 1500
+    dependence: iid
+    p_before: 0.25
+    p_during: 0.25
+    p_after: 0.25
+    delay: {kind: fixed, d: 10}
+    retrain_rate: 0.25
+    retrain_poor_rate: 0.6
+    retrain_sat_fraction: 0.7
+  rar_persist_harm:           # S5c: drift where retraining is harmful (retrained 0.45-0.70 vs incumbent 0.33)
+    T: 1500
+    dependence: iid
+    onset_frac: 0.25
+    duration_frac: 1.0
+    p_before: 0.25
+    p_during: 0.33
+    delay: {kind: fixed, d: 10}
+    retrain_rate: 0.45
+    retrain_poor_rate: 0.7
+    retrain_sat_fraction: 0.7
+  rar_persist_alt_tau40:      # S5d: S5a with a long fixed label delay (label-frontier stress)
+    T: 1500
+    dependence: iid
+    onset_frac: 0.25
+    duration_frac: 1.0
+    p_before: 0.25
+    p_during: 0.5
+    delay: {kind: fixed, d: 40}
+    retrain_rate: 0.25
+    retrain_poor_rate: 0.6
+    retrain_sat_fraction: 0.7
+  rar_persist_strong_bad:     # S5e: visible drop but retraining does not help (descriptive stress)
+    T: 1500
+    dependence: iid
+    onset_frac: 0.25
+    duration_frac: 1.0
+    p_before: 0.25
+    p_during: 0.5
+    delay: {kind: fixed, d: 10}
+    retrain_rate: 0.6
+    retrain_poor_rate: 0.8
+    retrain_sat_fraction: 0.7

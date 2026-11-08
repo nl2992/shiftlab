@@ -1,0 +1,108 @@
+{
+ "amendment": "A2",
+ "cells": [
+  {
+   "T": 1500,
+   "cost_vector": "intervention_dear",
+   "family": "rar_persist_alt",
+   "family_source": "v3",
+   "id": "S5a",
+   "index": 16,
+   "label_cap": 1500,
+   "max_lookback": 10,
+   "null_truth_expected": {
+    "abs_risk": true,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "drift where retraining pays (0.25/round); candidate model 1 is not better, so no free switch substitutes",
+   "retrain_duration": 20,
+   "role": "alternative",
+   "w_train": 100
+  },
+  {
+   "T": 1500,
+   "cost_vector": "intervention_dear",
+   "family": "rar_persist_null",
+   "family_source": "v3",
+   "id": "S5b",
+   "index": 17,
+   "label_cap": 1500,
+   "max_lookback": 10,
+   "null_truth_expected": {
+    "abs_risk": true,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "no drift: retraining has zero benefit; gates/canary must not spend",
+   "retrain_duration": 20,
+   "role": "correct_null",
+   "w_train": 100
+  },
+  {
+   "T": 1500,
+   "cost_vector": "intervention_dear",
+   "family": "rar_persist_harm",
+   "family_source": "v3",
+   "id": "S5c",
+   "index": 18,
+   "label_cap": 1500,
+   "max_lookback": 10,
+   "null_truth_expected": {
+    "abs_risk": true,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "drift where retraining is harmful (retrained 0.45-0.70 vs incumbent 0.33); drop 0.08 < Delta_crit 0.10",
+   "retrain_duration": 20,
+   "role": "neighbouring_negative_control",
+   "w_train": 100
+  },
+  {
+   "T": 1500,
+   "cost_vector": "intervention_dear",
+   "family": "rar_persist_alt_tau40",
+   "family_source": "v3",
+   "id": "S5d",
+   "index": 19,
+   "label_cap": 1500,
+   "max_lookback": 10,
+   "null_truth_expected": {
+    "abs_risk": true,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "S5a with fixed label delay 40 (label-frontier stress)",
+   "retrain_duration": 20,
+   "role": "alternative",
+   "w_train": 100
+  },
+  {
+   "T": 1500,
+   "cost_vector": "intervention_dear",
+   "family": "rar_persist_strong_bad",
+   "family_source": "v3",
+   "id": "S5e",
+   "index": 20,
+   "label_cap": 1500,
+   "max_lookback": 10,
+   "null_truth_expected": {
+    "abs_risk": true,
+    "cond": true,
+    "marg": true
+   },
+   "purpose": "visible drop 0.25 but retraining does not help (K2 failure probe); descriptive only",
+   "retrain_duration": 20,
+   "role": "stress_descriptive",
+   "w_train": 100
+  }
+ ],
+ "clocks": "canary comparators/candidates: ClockSpec(deploy_on_complete=False, max_lookback=10, w_train=100, retrain_duration=20); nocanary/binary/CAB/simple controls: deploy_on_complete=True, same lookback",
+ "families_file": "configs/d2a_rar/stream_families_v3.yaml",
+ "null_truth_note": "null_truth_expected is the contract's statistical-null truth for the free CANDIDATE model (gain = l_inc - l_cand, hurdle 0.1); it is not a claim about retraining. All RAR-arm candidates/comparators claim null none/economic, so it is never used for a validity claim; roles are authoritative.",
+ "obs_mode": "shadow",
+ "seed_block": "d2a_rar_dev (sub-block a2)",
+ "seed_rule": "seed = 110070000 + a2_index*1000 + replicate; Q1 panel idx 0-15, rar_persistent idx 16-20, null audit idx 21-24",
+ "seeds_per_cell": 20,
+ "version": "a2"
+}

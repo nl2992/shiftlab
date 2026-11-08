@@ -1,0 +1,67 @@
+{
+ "name": "uk_police",
+ "built_utc": "2026-11-08T06:10:18+00:00",
+ "meta": {
+  "name": "uk_police",
+  "url": "https://data.police.uk/data/archive/2026-06.zip (members *-metropolitan-street.csv)",
+  "license": "Open Government Licence v3.0 (data.police.uk)",
+  "publisher": "UK police forces via data.police.uk / Home Office; Metropolitan Police Service",
+  "task": "binary: closed crime outcome is 'no suspect identified' (vs any other resolved outcome)",
+  "label": "Last outcome category == 'Investigation complete; no suspect identified', among non-blank, non-'Under investigation' outcomes",
+  "delay": 100,
+  "window": "2025-01 to 2025-05 reporting months (archive snapshot 2026-06)",
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "report month index, crime type, LSOA code, borough (LSOA name prefix): all known at report time. Event time is month-resolution only: ts = month start plus one second per row in file order (ordering within month is the file order)."
+ },
+ "num": [
+  "month_idx"
+ ],
+ "cat": [
+  "crime_type",
+  "lsoa",
+  "borough"
+ ],
+ "n_after_filter": 365505,
+ "subsample": "none",
+ "n": 365505,
+ "split": {
+  "train_old": [
+   0,
+   73101
+  ],
+  "train_new": [
+   73101,
+   146202
+  ],
+  "validation": [
+   146202,
+   182752
+  ],
+  "test": [
+   182752,
+   365505
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-01-01 00:00:00",
+  "test_start": "2025-03-01 15:17:20",
+  "end": "2025-05-02 03:36:25"
+ },
+ "validation": {
+  "n": 36550,
+  "disagreement": 0.0060465116279069765,
+  "err_incumbent": 0.2039671682626539,
+  "err_challenger": 0.20344733242134064,
+  "base_rate_y1": 0.5321203830369357
+ },
+ "gates": {
+  "disagreement": false,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 91,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

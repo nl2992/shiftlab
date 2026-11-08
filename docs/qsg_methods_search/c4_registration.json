@@ -1,0 +1,100 @@
+{
+ "registered": "2026-11-08",
+ "claim": "Arm B EQSDp_l0.9_g0.2 (frozen since 10ba0237) has lower net cost than the tuned Gong-Zhang-style adapter gongT_w100_m10 on real chronological model-replacement streams (c4_plan.md section 5, Amendment A1).",
+ "contract": {
+  "budget": 200,
+  "cq": 0.05,
+  "cs": 5.0,
+  "T_episode": 2000
+ },
+ "policy_seeds": 10,
+ "seed_base": 2026111201,
+ "criterion": "per dataset: one-sided 95% episode-bootstrap upper bound (2000 resamples, rng seed 0) of mean episode Delta = J(B) - J(gongT) < 0",
+ "pass_rule": ">= 8 supporting datasets with distinct organisations; sensitivity count: one per city; report X/K, one-sided sign test, pooled one-sided t-test vs qiu_delayed_movement (secondary)",
+ "analysis": "scripts/qsg_methods_search/analyze_c4_confirm.py",
+ "runner": "scripts/qsg_methods_search/c4_confirm.py",
+ "exclusions": "austin_animal excluded by pre-opening audit (c4_build_audit.md); ineligible builds listed there",
+ "datasets": [
+  {
+   "name": "la_crime",
+   "org": "City of Los Angeles / Los Angeles Police Department",
+   "city": "Los Angeles",
+   "sealed_path": "data/c4_sealed/la_crime.npz",
+   "array_content_sha256": "b3a717bed1e8873220113d3816c1d347fc4e755c2cd433639d0555a05d7a6af8",
+   "episodes": 100,
+   "delay": 100
+  },
+  {
+   "name": "sf_311",
+   "org": "City and County of San Francisco (DataSF / SF311)",
+   "city": "San Francisco",
+   "sealed_path": "data/c4_sealed/sf_311.npz",
+   "array_content_sha256": "536866a1b717a53f623ab71a21d2aeb1541d48f487c3fae47f67abfcb99c89ba",
+   "episodes": 100,
+   "delay": 100
+  },
+  {
+   "name": "nyc_collisions",
+   "org": "City of New York / NYPD",
+   "city": "New York City",
+   "sealed_path": "data/c4_sealed/nyc_collisions.npz",
+   "array_content_sha256": "28fe9880855151016f506d83c98fd34c56b5e165977feebf07da5a02e453a96a",
+   "episodes": 88,
+   "delay": 100
+  },
+  {
+   "name": "boston_311",
+   "org": "City of Boston (Analyze Boston / data.boston.gov)",
+   "city": "Boston",
+   "sealed_path": "data/c4_sealed/boston_311.npz",
+   "array_content_sha256": "47c3a63e6791685ecfb5775b6d4a78a30baf2b4f9435788cabd9757062e66f73",
+   "episodes": 42,
+   "delay": 100
+  },
+  {
+   "name": "kc_311",
+   "org": "City of Kansas City, Missouri (311 Call Center / MyKCMO)",
+   "city": "Kansas City",
+   "sealed_path": "data/c4_sealed/kc_311.npz",
+   "array_content_sha256": "209747b825dfcd068438486ce6bf4264dbe88230b5de24a943195b659701f5ea",
+   "episodes": 80,
+   "delay": 100
+  },
+  {
+   "name": "montgomery_traffic",
+   "org": "Montgomery County, Maryland (Department of Police / dataMontgomery)",
+   "city": "Montgomery County MD",
+   "sealed_path": "data/c4_sealed/montgomery_traffic.npz",
+   "array_content_sha256": "0a0f012332e1a4d17019693e8b71c9236c6c693d9ec0810002aced257998b662",
+   "episodes": 49,
+   "delay": 100
+  },
+  {
+   "name": "dallas_311",
+   "org": "City of Dallas (311 / dallasopendata.com)",
+   "city": "Dallas",
+   "sealed_path": "data/c4_sealed/dallas_311.npz",
+   "array_content_sha256": "774168cc902cf159fa5c6d62c1fa50d989a3fccc4c4835b4e7f3a92b16361c97",
+   "episodes": 100,
+   "delay": 100
+  },
+  {
+   "name": "dc_311",
+   "org": "Government of the District of Columbia (DC 311 / DCGIS)",
+   "city": "Washington DC",
+   "sealed_path": "data/c4_sealed/dc_311.npz",
+   "array_content_sha256": "fe3bad36aea2320b24d9a1e064a1c5f1cdbedf980ac05a78ae1a6c554ea7df0d",
+   "episodes": 100,
+   "delay": 100
+  },
+  {
+   "name": "philly_311",
+   "org": "City of Philadelphia (Philly311, via OpenDataPhilly / phl.carto.com)",
+   "city": "Philadelphia",
+   "sealed_path": "data/c4_sealed/philly_311.npz",
+   "array_content_sha256": "e75f16332bc67830fa18dcec4c2c4d4c4aa93d8cc75678716b9ed8db0a0aa3ff",
+   "episodes": 100,
+   "delay": 100
+  }
+ ]
+}

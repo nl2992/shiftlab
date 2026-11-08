@@ -1,0 +1,73 @@
+{
+ "name": "nyc_restaurant_inspections",
+ "built_utc": "2026-11-08T06:12:47+00:00",
+ "meta": {
+  "name": "nyc_restaurant_inspections",
+  "url": "https://data.cityofnewyork.us/resource/43nn-pn8j.csv",
+  "license": "NYC Open Data terms of use (public, open data)",
+  "publisher": "City of New York / DOHMH",
+  "task": "binary: inspection score within Grade A range (<= 13)",
+  "label": "score <= 13 (blank score with 'No violations were recorded' = 0; other blanks dropped)",
+  "delay": 100,
+  "window": [
+   "2022-01-01T00:00:00",
+   "2026-10-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "cuisine, borough, inspection type, zip 3-digit prefix, month/dow, the same restaurant's previous inspection score (strictly earlier inspection date, within the window); score/action/grade used only for the label"
+ },
+ "num": [
+  "month",
+  "dow",
+  "prev_score"
+ ],
+ "cat": [
+  "cuisine",
+  "boro",
+  "inspection_type",
+  "zip3"
+ ],
+ "n_after_filter": 80113,
+ "subsample": "none",
+ "n": 80113,
+ "split": {
+  "train_old": [
+   0,
+   16023
+  ],
+  "train_new": [
+   16023,
+   32045
+  ],
+  "validation": [
+   32045,
+   40056
+  ],
+  "test": [
+   40056,
+   80113
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2022-01-04 00:00:00",
+  "test_start": "2025-03-20 00:00:00",
+  "end": "2026-09-30 00:00:00"
+ },
+ "validation": {
+  "n": 8011,
+  "disagreement": 0.13131943577580826,
+  "err_incumbent": 0.3571339408313569,
+  "err_challenger": 0.36112844838347274,
+  "base_rate_y1": 0.6096617151416802
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": false
+ },
+ "eligible": false,
+ "episodes": 20,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

@@ -1,0 +1,77 @@
+{
+ "name": "nyc_collisions",
+ "built_utc": "2026-11-08T06:10:53+00:00",
+ "meta": {
+  "name": "nyc_collisions",
+  "url": "https://data.cityofnewyork.us/resource/h9gi-nx95.csv",
+  "license": "NYC Open Data terms of use (public, open data)",
+  "publisher": "City of New York / NYPD",
+  "task": "binary: police-reported crash with at least one person injured or killed",
+  "label": "number_of_persons_injured + number_of_persons_killed > 0",
+  "delay": 100,
+  "window": [
+   "2022-01-01T00:00:00",
+   "2025-10-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "crash hour/dow/month, borough, contributing factor vehicle 1, vehicle type code 1, number of vehicles (non-null vehicle type codes); injured/killed counts used only for the label"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "n_vehicles"
+ ],
+ "cat": [
+  "borough",
+  "factor1",
+  "vehicle_type1"
+ ],
+ "n_after_filter": 355308,
+ "subsample": "none",
+ "n": 355308,
+ "split": {
+  "train_old": [
+   0,
+   71062
+  ],
+  "train_new": [
+   71062,
+   142123
+  ],
+  "validation": [
+   142123,
+   177654
+  ],
+  "test": [
+   177654,
+   355308
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2022-01-01 00:00:00",
+  "test_start": "2023-10-07 01:11:00",
+  "end": "2025-09-30 23:36:00"
+ },
+ "validation": {
+  "n": 35531,
+  "disagreement": 0.044046044299344236,
+  "err_incumbent": 0.3382679913315133,
+  "err_challenger": 0.3375643804002139,
+  "base_rate_y1": 0.4356477442233542
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 88,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/nyc_collisions.npz",
+  "array_content_sha256": "28fe9880855151016f506d83c98fd34c56b5e165977feebf07da5a02e453a96a"
+ }
+}

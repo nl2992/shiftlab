@@ -1,0 +1,72 @@
+{
+ "name": "seattle_spd",
+ "built_utc": "2026-11-08T06:11:27+00:00",
+ "meta": {
+  "name": "seattle_spd",
+  "url": "https://data.seattle.gov/resource/33kz-ixgy.csv",
+  "license": "Public Domain (data.seattle.gov, City of Seattle open data)",
+  "publisher": "City of Seattle / Seattle Police Department",
+  "task": "binary: an officer arrived at the scene of a call for service",
+  "label": "cad_event_arrived_time is not null",
+  "delay": 100,
+  "window": [
+   "2025-10-01T00:00:00",
+   "2026-10-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "queued-time hour/day-of-week/month, call type, initial call type, priority; dispatch location fields excluded as post-dispatch (label leakage)"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "call_type",
+  "initial_call_type",
+  "priority"
+ ],
+ "n_after_filter": 605695,
+ "subsample": "systematic 400000 of 605695",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-10-01 00:03:35",
+  "test_start": "2026-04-10 07:17:15",
+  "end": "2026-09-30 23:59:20"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.00575,
+  "err_incumbent": 0.050475,
+  "err_challenger": 0.048125,
+  "base_rate_y1": 0.926025
+ },
+ "gates": {
+  "disagreement": false,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

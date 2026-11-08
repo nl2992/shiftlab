@@ -1,0 +1,82 @@
+{
+ "name": "boston_311",
+ "built_utc": "2026-11-08T06:15:56+00:00",
+ "meta": {
+  "name": "boston_311",
+  "url": "https://data.boston.gov/dataset/8048697b-ad64-4bfc-b090-ee00169f2323/resource/dff4d804-5031-443a-8409-8344efd0e5c8/download/lagan_311_open_data_2024_rvsd3.csv",
+  "license": "Open Data Commons Public Domain Dedication and License (PDDL), City of Boston",
+  "publisher": "City of Boston (Analyze Boston / data.boston.gov)",
+  "task": "binary: 311 case closed within 2 days of being opened",
+  "label": "closed_dt present and closed_dt - open_dt <= 2 days",
+  "delay": 100,
+  "window": [
+   "2024-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "open hour/dow/month, subject, reason, type, source channel, neighborhood, ward, police district, city council district, zip: all recorded at case opening"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "subject",
+  "reason",
+  "type",
+  "source",
+  "neighborhood",
+  "ward",
+  "police_district",
+  "city_council_district",
+  "location_zipcode"
+ ],
+ "n_after_filter": 169858,
+ "subsample": "none",
+ "n": 169858,
+ "split": {
+  "train_old": [
+   0,
+   33972
+  ],
+  "train_new": [
+   33972,
+   67943
+  ],
+  "validation": [
+   67943,
+   84929
+  ],
+  "test": [
+   84929,
+   169858
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-01-01 00:20:52.963000",
+  "test_start": "2024-07-16 16:21:36.890000",
+  "end": "2024-12-31 23:47:03.657000"
+ },
+ "validation": {
+  "n": 16986,
+  "disagreement": 0.14941716707877076,
+  "err_incumbent": 0.28758977981867423,
+  "err_challenger": 0.18656540680560463,
+  "base_rate_y1": 0.6514188154951136
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 42,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/boston_311.npz",
+  "array_content_sha256": "47c3a63e6791685ecfb5775b6d4a78a30baf2b4f9435788cabd9757062e66f73"
+ }
+}

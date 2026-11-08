@@ -1,0 +1,80 @@
+{
+ "name": "dc_311",
+ "built_utc": "2026-11-08T06:42:26+00:00",
+ "meta": {
+  "name": "dc_311",
+  "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/ServiceRequests/FeatureServer/16/query",
+  "license": "DC Open Data (opendata.dc.gov), Government of the District of Columbia, CC0 / open public data",
+  "publisher": "Government of the District of Columbia (DC 311 / DCGIS)",
+  "task": "binary: 311 service request resolved within 5 days of being added",
+  "label": "RESOLUTIONDATE present and RESOLUTIONDATE - ADDDATE <= 5 days",
+  "delay": 100,
+  "window": [
+   "2024-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "service code/description/type, organization acronym, ward, zip, priority, added hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_code",
+  "service_desc",
+  "service_type",
+  "org",
+  "ward",
+  "zip",
+  "priority"
+ ],
+ "n_after_filter": 422321,
+ "subsample": "systematic 400000 of 422321",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-01-01 00:09:11",
+  "test_start": "2024-06-26 17:35:32",
+  "end": "2024-12-31 23:53:45"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.357275,
+  "err_incumbent": 0.349175,
+  "err_challenger": 0.15195,
+  "base_rate_y1": 0.551075
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/dc_311.npz",
+  "array_content_sha256": "fe3bad36aea2320b24d9a1e064a1c5f1cdbedf980ac05a78ae1a6c554ea7df0d"
+ }
+}

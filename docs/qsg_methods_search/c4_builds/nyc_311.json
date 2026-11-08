@@ -1,0 +1,75 @@
+{
+ "name": "nyc_311",
+ "built_utc": "2026-11-08T06:10:25+00:00",
+ "meta": {
+  "name": "nyc_311",
+  "url": "https://data.cityofnewyork.us/resource/erm2-nwe9.csv",
+  "license": "NYC Open Data terms of use (public, open data)",
+  "publisher": "City of New York / NYC 311 (Office of Technology and Innovation)",
+  "task": "binary: 311 request closed within 1 day of creation",
+  "label": "closed_date - created_date <= 1 day (open requests = 0)",
+  "delay": 100,
+  "window": [
+   "2025-01-01T00:00:00",
+   "2025-04-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "creation hour/dow/month, complaint type, agency, borough, location type, zip 3-digit prefix, channel; closed_date/status/resolution used only for the label"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "complaint_type",
+  "agency",
+  "borough",
+  "location_type",
+  "zip3",
+  "channel"
+ ],
+ "n_after_filter": 884765,
+ "subsample": "systematic 400000 of 884765",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-01-01 00:00:12",
+  "test_start": "2025-02-11 14:03:26",
+  "end": "2025-03-31 23:59:57"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.027375,
+  "err_incumbent": 0.13415,
+  "err_challenger": 0.128675,
+  "base_rate_y1": 0.55455
+ },
+ "gates": {
+  "disagreement": false,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

@@ -1,0 +1,72 @@
+{
+ "name": "citibike",
+ "built_utc": "2026-11-08T06:27:44+00:00",
+ "meta": {
+  "name": "citibike",
+  "url": "https://s3.amazonaws.com/tripdata/202604-citibike-tripdata.zip",
+  "license": "Citi Bike (Lyft / NYC Bike Share) Data License Agreement, public trip data",
+  "publisher": "Citi Bike / Lyft (NYCBS)",
+  "task": "binary: trip taken on an electric bike",
+  "label": "rideable_type == 'electric_bike'",
+  "delay": 100,
+  "window": [
+   "2026-04-01T00:00:00",
+   "2026-05-01T00:00:00"
+  ],
+  "subsample_rule": "load(): every K-th row in file order with K = ceil(n_in_window/700000); then c4_build.N_MAX systematic if above 400k",
+  "features_note": "start hour/dow, start station id, start lat/lng, member_casual: all known at trip start. rideable_type is the label; end time/station/duration not used."
+ },
+ "num": [
+  "hour",
+  "dow",
+  "start_lat",
+  "start_lng"
+ ],
+ "cat": [
+  "start_station_id",
+  "member_casual"
+ ],
+ "n_after_filter": 643396,
+ "subsample": "systematic 400000 of 643396",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2026-04-01 00:00:03.307000",
+  "test_start": "2026-04-16 16:06:05.699000",
+  "end": "2026-04-30 23:59:33.674000"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.002275,
+  "err_incumbent": 0.279875,
+  "err_challenger": 0.2796,
+  "base_rate_y1": 0.720125
+ },
+ "gates": {
+  "disagreement": false,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

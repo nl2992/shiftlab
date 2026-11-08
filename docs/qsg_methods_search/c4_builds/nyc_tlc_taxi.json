@@ -1,0 +1,73 @@
+{
+ "name": "nyc_tlc_taxi",
+ "built_utc": "2026-11-08T06:09:26+00:00",
+ "meta": {
+  "name": "nyc_tlc_taxi",
+  "url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{m}.parquet",
+  "license": "NYC TLC Trip Record Data terms of use (public, published by NYC Taxi & Limousine Commission)",
+  "publisher": "New York City Taxi and Limousine Commission",
+  "task": "binary: tip >= 20% of fare for credit-card yellow taxi trips",
+  "label": "payment_type == 1 and fare_amount > 0; y = tip_amount >= 0.2 * fare_amount",
+  "delay": 100,
+  "window": [
+   "2025-08-01T00:00:00",
+   "2025-11-01T00:00:00"
+  ],
+  "subsample_rule": "load(): per month, card trips sorted by pickup time, every 12th row; then c4_build.N_MAX systematic if above 400k",
+  "features_note": "pickup hour/dow/month, PULocationID, passenger_count, RatecodeID, VendorID: all known at pickup. Dropoff, fare, tip, distance not used as features."
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "passenger_count"
+ ],
+ "cat": [
+  "PULocationID",
+  "RatecodeID",
+  "VendorID"
+ ],
+ "n_after_filter": 648126,
+ "subsample": "systematic 400000 of 648126",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-08-01 00:00:01",
+  "test_start": "2025-09-20 00:12:26",
+  "end": "2025-10-31 23:59:57"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.005275,
+  "err_incumbent": 0.2412,
+  "err_challenger": 0.241025,
+  "base_rate_y1": 0.72945
+ },
+ "gates": {
+  "disagreement": false,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

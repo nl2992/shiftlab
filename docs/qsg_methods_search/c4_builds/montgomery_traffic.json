@@ -1,0 +1,91 @@
+{
+ "name": "montgomery_traffic",
+ "built_utc": "2026-11-08T06:17:02+00:00",
+ "meta": {
+  "name": "montgomery_traffic",
+  "url": "https://data.montgomerycountymd.gov/resource/4mse-ku6q.csv",
+  "license": "Open data, Montgomery County Maryland (dataMontgomery)",
+  "publisher": "Montgomery County, Maryland (Department of Police / dataMontgomery)",
+  "task": "binary: traffic violation resulted in a Citation (vs warning/other)",
+  "label": "violation_type == 'Citation'",
+  "delay": 100,
+  "window": [
+   "2024-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "stop hour/dow/month, sub-agency, violation description, vehicle type/year/make/model/colour/state, stop condition flags; demographics, search, charge/article, arrest type excluded"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "vehicle_year"
+ ],
+ "cat": [
+  "subagency",
+  "description",
+  "state",
+  "vehicle_type",
+  "make",
+  "model",
+  "color",
+  "accident",
+  "belts",
+  "personal_injury",
+  "property_damage",
+  "fatal",
+  "commercial_license",
+  "hazmat",
+  "commercial_vehicle",
+  "alcohol",
+  "work_zone"
+ ],
+ "n_after_filter": 198565,
+ "subsample": "none",
+ "n": 198565,
+ "split": {
+  "train_old": [
+   0,
+   39713
+  ],
+  "train_new": [
+   39713,
+   79426
+  ],
+  "validation": [
+   79426,
+   99282
+  ],
+  "test": [
+   99282,
+   198565
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-07-01 00:00:00",
+  "test_start": "2025-08-12 16:09:00",
+  "end": "2026-06-30 23:56:00"
+ },
+ "validation": {
+  "n": 19856,
+  "disagreement": 0.07050765511684126,
+  "err_incumbent": 0.16941982272361,
+  "err_challenger": 0.16065672844480258,
+  "base_rate_y1": 0.24662570507655115
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 49,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/montgomery_traffic.npz",
+  "array_content_sha256": "0a0f012332e1a4d17019693e8b71c9236c6c693d9ec0810002aced257998b662"
+ }
+}

@@ -214,3 +214,26 @@ edge over tuned Gong–Zhang, the closest prior construction, needs about 35. Th
 The frozen claim for the paper narrows to: arm B beats the closest prior construction (tuned
 discounted point-estimate payback switching) on real chronological model-replacement streams.
 The synthetic advantage over Qiu-style is still reported, but not as a real-data claim.
+
+## Acquisition rules (fixed 2026-11-07, before any source other than chicago_crimes was built)
+
+- **Shared builder** `scripts/qsg_methods_search/c4_build.py`. Source modules live in
+  `scripts/qsg_methods_search/c4_sources/`. Agents follow the binding brief
+  [c4_source_brief.md](c4_source_brief.md).
+- **Build records** (validation stats, gates, sealed hash; never test statistics):
+  `docs/qsg_methods_search/c4_builds/<name>.json`. Sealed losses are kept locally in
+  `data/c4_sealed/` (gitignored).
+- **First build: chicago_crimes is INELIGIBLE.** Validation disagreement is 2.1%, below the
+  3% gate (arrest base rate 13%). It is recorded and not retuned. For all later sources, label
+  definitions target an expected base rate of roughly 0.2–0.8, chosen from documentation before
+  building.
+- **Independence for the count.** One dataset per data-generating organisation (e.g. NYC TLC,
+  NYPD, NYC 311, NYC DOHMH, SF 311, LAPD, Austin Animal Center, Lyft/Citi Bike, City of Chicago
+  taxi licensing, UK Home Office police data, EIA).
+  - **Sensitivity count, reported alongside:** at most one dataset per city or country.
+  - EIA counts as one source, even though it shares an archive with the exposed CISO/ERCO; the
+    sensitivity count excludes it.
+- **Candidate list (13 after Chicago crimes):** nyc_311, nyc_collisions,
+  nyc_restaurant_inspections, sf_311, nyc_tlc_taxi, citibike, chicago_taxi, austin_animal,
+  la_crime, uk_police, eia_ba. Amazon reviews and arXiv are deferred: they need heavier text
+  pipelines, and arXiv's source is login-gated.

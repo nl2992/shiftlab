@@ -1,0 +1,74 @@
+{
+ "name": "chicago_crimes",
+ "built_utc": "2026-11-08T02:07:58+00:00",
+ "meta": {
+  "name": "chicago_crimes",
+  "url": "https://data.cityofchicago.org/resource/ijzp-q8t2.csv",
+  "license": "City of Chicago data portal terms (public, open data)",
+  "publisher": "City of Chicago / Chicago Police Department",
+  "task": "binary: arrest made for a reported incident",
+  "label": "arrest == true",
+  "delay": 100,
+  "window": [
+   "2023-10-01T00:00:00",
+   "2025-10-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "occurrence hour/day-of-week/month, primary type, location description, domestic flag, district, community area: all recorded with the incident report"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "primary_type",
+  "location_description",
+  "domestic",
+  "district",
+  "community_area"
+ ],
+ "n_after_filter": 506718,
+ "subsample": "systematic 400000 of 506718",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-10-01 00:00:00",
+  "test_start": "2024-09-17 09:00:00",
+  "end": "2025-09-30 23:50:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.02145,
+  "err_incumbent": 0.105225,
+  "err_challenger": 0.100075,
+  "base_rate_y1": 0.1348
+ },
+ "gates": {
+  "disagreement": false,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

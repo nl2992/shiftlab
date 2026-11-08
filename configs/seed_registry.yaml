@@ -1712,6 +1712,24 @@ studies:
   derivation: allocated
   purpose: Gap-Mix+ C3 eval seeds; alt/neighbour cells 101400000+100*i (60 seeds), null cells 101420000+500*i (500 streams)
   note: 'development evidence only; no tuning after eval results are seen'
+- id: pave_plus_tuning
+  start: 101500000
+  end: 101509999
+  source: docs/methods_recovery/40_PAVE_PLUS_FEASIBILITY.md (allocated 2026-11-08 manually; grep found no use of 1015xxxxx-1016xxxxx in repo, branch research/methods-recovery-2026-11-07)
+  status: development
+  used_by: [PAVE+ feasibility simple-rule tuning, branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  purpose: PAVE+ feasibility tuning seeds; seed = start + cell_index*100 + replicate (20 used per cell); tuning only
+  note: 'development only, never confirmatory'
+- id: pave_plus_eval
+  start: 101600000
+  end: 101609999
+  source: docs/methods_recovery/40_PAVE_PLUS_FEASIBILITY.md (allocated 2026-11-08 manually, branch research/methods-recovery-2026-11-07)
+  status: development
+  used_by: [PAVE+ feasibility evaluation (gate-on d50, d100 and d10 control cells), branch research/methods-recovery-2026-11-07]
+  derivation: allocated
+  purpose: PAVE+ feasibility eval seeds; seed = start + cell_index*100 + replicate (60 used per cell)
+  note: 'development evidence only; no re-tuning after eval results are seen'
 excluded_scalar_seeds:
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v1, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}
 - {output: shiftguard_unified/real_data_development/gas_sensor_candidates_v2, seed: 20261026, reason: 'dataset split, encoder, cross-fit or bootstrap seed on real data, not a stream block'}

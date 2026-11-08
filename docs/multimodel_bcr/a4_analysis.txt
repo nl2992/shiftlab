@@ -1,0 +1,12 @@
+bcr_       bcr_l0.95_g0.05_zu0.5_rm0.5        net=559.2 recov=547.2 stable=567.2 labels=193 vs kw_anydis_l0.95_g0.1: +2.85 [+0.05,+5.65]
+bcrra20    bcrra20_l0.95_g0.05_zu1.5_rm0.3    net=559.6 recov=547.8 stable=567.4 labels=199 vs kw_anydis_l0.95_g0.1: +3.22 [+0.43,+6.02]
+bcrra50    bcrra50_l0.95_g0.05_zu1.5_rm0.3    net=558.1 recov=546.5 stable=565.8 labels=196 vs kw_anydis_l0.95_g0.1: +1.78 [-1.61,+5.18]
+kw_anydis  kw_anydis_l0.95_g0.1               net=556.3 recov=538.9 stable=567.9 labels=200 vs kw_anydis_l0.95_g0.1: +0.00 [+0.00,+0.00]
+kw_mp      kw_mp_l0.9_g0.05                   net=557.9 recov=550.9 stable=562.5 labels=96 vs kw_anydis_l0.95_g0.1: +1.54 [-1.73,+4.82]
+bcr_rm0.5  bcr_l0.95_g0.05_zu0.5_rm0.5        net=559.2 recov=547.2 stable=567.2 labels=193 vs kw_anydis_l0.95_g0.1: +2.85 [+0.05,+5.65]
+policy
+bcr_l0.95_g0.05_zu0.5_rm0.5        559.2
+bcrra20_l0.95_g0.05_zu1.5_rm0.3    556.9
+bcrra50_l0.95_g0.05_zu1.5_rm0.3    562.2
+kw_anydis_l0.95_g0.1               545.3
+Name: net, dtype: float64

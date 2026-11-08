@@ -61,7 +61,10 @@ class KWald:
         rho_mon=0.2,
         n_warm=20,
         p_min=0.02,
+        readmit=None,
     ):
+        self.readmit = readmit
+        self.last_in = np.zeros(K)
         self.name, self.T, self.B, self.cs, self.K, self.rng = name, T, B, cs, K, rng
         self.lam, self.z = lam, float(norm.ppf(1 - gamma))
         self.z_u = self.z if z_u is None else float(z_u)
@@ -102,7 +105,22 @@ class KWald:
         return out
 
     def plausible(self):
-        return [j for j, v in enumerate(self._values(self.z_u)) if v > 0]
+        base = [j for j, v in enumerate(self._values(self.z_u)) if v > 0]
+        if not getattr(self, "readmit", None):
+            return base
+        # A4 recovery-aware elimination: a challenger out of the plausible set for more than
+        # `readmit` released labels is re-admitted for a window of 10 labels in every `readmit`
+        # (periodic re-checking of eliminated candidates).
+        for j in base:
+            self.last_in[j] = self.n_lab
+        extra = []
+        for j in range(self.K):
+            if j == self.deployed or j in base:
+                continue
+            gap = self.n_lab - self.last_in[j]
+            if gap > self.readmit and gap % self.readmit < 10:
+                extra.append(j)
+        return base + extra
 
     # ---------------------------------------------------------------- policy API
     def predict(self, event):
@@ -229,4 +247,12 @@ def registry(stage="pilot"):
                     R[n] = _kw(lam=lam, gamma=g, acq="bcr", z_u=zu, rho_mon=rm, name=n)
                     n = f"emp_l{lam}_g{g}_zu{zu}_rm{rm}"
                     R[n] = _kw(lam=lam, gamma=g, acq="emp", z_u=zu, rho_mon=rm, name=n)
+    # A4 recovery follow-up arms (bounded): stronger monitoring floor and recovery-aware re-admission
+    for lam, g in ((0.95, 0.05), (0.9, 0.05)):
+        for zu in (0.5, 1.5):
+            n = f"bcr_l{lam}_g{g}_zu{zu}_rm0.5"
+            R[n] = _kw(lam=lam, gamma=g, acq="bcr", z_u=zu, rho_mon=0.5, name=n)
+            for ra in (20, 50):
+                n = f"bcrra{ra}_l{lam}_g{g}_zu{zu}_rm0.3"
+                R[n] = _kw(lam=lam, gamma=g, acq="bcr", z_u=zu, rho_mon=0.3, readmit=ra, name=n)
     return R

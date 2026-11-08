@@ -1,0 +1,83 @@
+{
+ "name": "dallas_animal_shelter",
+ "built_utc": "2026-11-08T20:47:05+00:00",
+ "meta": {
+  "name": "dallas_animal_shelter",
+  "url": "https://www.dallasopendata.com/resource/txcn-ne83.csv",
+  "license": "Open data (City of Dallas Open Data Portal, Dallas Animal Services)",
+  "publisher": "City of Dallas (Dallas Animal Shelter Data Fiscal Year 2000 - Present)",
+  "task": "binary: shelter intake ends in live release (adoption, return to owner, transfer)",
+  "label": "outcome_type in {ADOPTION, RETURNED TO OWNER, TRANSFER}; rows without outcome_type dropped",
+  "delay": 100,
+  "window": [
+   "2015-10-01",
+   "2024-10-01"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "intake hour/dow/month, animal type, breed, intake type/subtype/condition, reason, origin, council district, census tract, jurisdiction"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "animal_type",
+  "animal_breed",
+  "intake_type",
+  "intake_subtype",
+  "intake_condition",
+  "reason",
+  "animal_origin",
+  "council_district",
+  "census_tract",
+  "jurisdiction"
+ ],
+ "n_after_filter": 307652,
+ "subsample": "none",
+ "n": 307652,
+ "split": {
+  "train_old": [
+   0,
+   61530
+  ],
+  "train_new": [
+   61530,
+   123061
+  ],
+  "validation": [
+   123061,
+   153826
+  ],
+  "test": [
+   153826,
+   307652
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2015-10-01 09:58:00",
+  "test_start": "2019-11-25 17:28:00",
+  "end": "2024-09-30 23:05:00"
+ },
+ "validation": {
+  "n": 30765,
+  "disagreement": 0.15306354623760768,
+  "err_incumbent": 0.25099951243295954,
+  "err_challenger": 0.17835202340321793,
+  "base_rate_y1": 0.6938404030554202
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 76,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/dallas_animal_shelter.npz",
+  "array_content_sha256": "fde54af07362548a90cd4b53d999843ef2ffad1bce00a1de16ac05bd6a9bfecc"
+ }
+}

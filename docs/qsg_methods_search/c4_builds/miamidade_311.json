@@ -1,0 +1,80 @@
+{
+ "name": "miamidade_311",
+ "built_utc": "2026-11-08T20:29:56+00:00",
+ "meta": {
+  "name": "miamidade_311",
+  "url": "https://services.arcgis.com/8Pc9XBTAsYuxx9Ny/arcgis/rest/services/data_311_{2022,2023}/FeatureServer/0",
+  "license": "Miami-Dade County Open Data Hub (gis-mdc.opendata.arcgis.com), public open data",
+  "publisher": "Miami-Dade County (311 Service Requests)",
+  "task": "binary: Miami-Dade 311 ticket closed within 7 days of creation",
+  "label": "ticket_closed_date_time present and closed - created <= 7 days",
+  "delay": 100,
+  "window": [
+   "2022-01-01T00:00:00",
+   "2024-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "issue type/description, case owner, zip, neighbourhood district, intake channel, priority, created hour/dow/month"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "issue_type",
+  "issue_description",
+  "case_owner",
+  "zip",
+  "neighborhood_district",
+  "method",
+  "priority"
+ ],
+ "n_after_filter": 677687,
+ "subsample": "systematic 400000 of 677687",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2022-01-01 00:18:32.373000",
+  "test_start": "2023-01-06 12:58:26.112000",
+  "end": "2023-12-31 23:57:01.050000"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.113375,
+  "err_incumbent": 0.17005,
+  "err_challenger": 0.129475,
+  "base_rate_y1": 0.3728
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/miamidade_311.npz",
+  "array_content_sha256": "e0c70d6415d62927e9f380677d9b56f2af4155e7e5ac7c5accad9ce7926f9ea1"
+ }
+}

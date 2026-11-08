@@ -1,0 +1,72 @@
+{
+ "name": "chicago_food_inspections",
+ "built_utc": "2026-11-08T20:40:28+00:00",
+ "meta": {
+  "name": "chicago_food_inspections",
+  "url": "https://data.cityofchicago.org/resource/4ijn-s7e5.csv",
+  "license": "City of Chicago open data terms of use (data.cityofchicago.org)",
+  "publisher": "City of Chicago, Chicago Department of Public Health (Food Inspections)",
+  "task": "binary: food inspection result is Pass (vs Fail / Pass w/ Conditions)",
+  "label": "results == 'Pass'; non-inspections (Out of Business, No Entry, Not Ready, Business Not Located) dropped",
+  "delay": 100,
+  "window": [
+   "2013-01-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "facility type, risk, inspection type, zip, inspection dow/month; violations text excluded"
+ },
+ "num": [
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "facility_type",
+  "risk",
+  "inspection_type",
+  "zip"
+ ],
+ "n_after_filter": 217960,
+ "subsample": "none",
+ "n": 217960,
+ "split": {
+  "train_old": [
+   0,
+   43592
+  ],
+  "train_new": [
+   43592,
+   87184
+  ],
+  "validation": [
+   87184,
+   108980
+  ],
+  "test": [
+   108980,
+   217960
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2013-01-02 00:00:00",
+  "test_start": "2019-02-26 00:00:05",
+  "end": "2026-06-30 00:00:22"
+ },
+ "validation": {
+  "n": 21796,
+  "disagreement": 0.13080381721416773,
+  "err_incumbent": 0.5082125160579923,
+  "err_challenger": 0.4813727289410901,
+  "base_rate_y1": 0.4631583776839787
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": false,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 54,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

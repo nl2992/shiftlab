@@ -43,3 +43,30 @@ Sources tried: 16. Ineligible by gate: 8. Excluded by audit: 1 (austin_animal).
 | buffalo_311 | ineligible (incumbent error 0.60) | — | no |
 | detroit_311 | ineligible (incumbent error 0.68) | — | no |
 | houston_311, louisville_311, cambridge_311 | not built (builder agent hit a usage limit) | — | batch 3 candidates |
+
+## Batch F (protocols `sota_expansion/10` and `11`; audited from module code and builder records before opening)
+
+| source | builder gates | audit | registered? |
+|---|---|---|---|
+| miamidade_311 | eligible (100 ep) | **pass with caveat.** `case_owner` is treated as the department routed by issue type at intake. `issue_description` is empty (a harmless null feature). | yes |
+| minneapolis_311 | eligible (53 ep) | **pass with caveat.** `TITLE` is treated as intake-time. Validation base rate .83 (label kept as locked). | yes |
+| louisville_311 | eligible (85 ep) | **pass.** `agency_responsible` routed by type. Fetch-only fix: the page size went 2000 → 1000 because the server caps pages at 1000; the first build was truncated. Label and features unchanged; the receipts match the server count. | yes |
+| chicago_311 | eligible (100 ep) | **pass.** `created_department` (not `owner_department`) is used. One-year window to fit the size limit. Validation base rate .80. | yes |
+| denver_311 | eligible (100 ep) | **pass with caveat.** Agency and division routed by type at intake. Validation base rate .845. | yes |
+| pittsburgh_311 | eligible (48 ep) | **pass with caveat.** Closures propagate from parent to grouped child tickets, as the codebook documents. | yes |
+| bts_ontime | eligible (100 ep) | **pass.** Schedule-time features only. Zip check: exactly one CSV is read; the bundled `readme.html` is never opened. | yes |
+| sf_building_permits | eligible (85 ep) | **pass.** Filing-time fields only; status, issue, approval and revised-cost fields excluded. Same city as sf_311 (different department). | yes |
+| chicago_traffic_crashes | eligible (54 ep) | **pass.** Scene-condition fields only; damage, injury, crash_type, causes and hit-and-run excluded. Dataset id 85ca-t3if (the brief's id was wrong). | yes |
+| dallas_animal_shelter | eligible (76 ep) | **pass with caveat.** Intake records and intake-time fields only (unlike austin_animal). Rows with no outcome are dropped. Re-impounds are present. Same city as dallas_311 (different department). | yes |
+| cambridge_311 | ineligible (7 ep) | — | no |
+| gainesville_311 | ineligible (1 ep) | — | no |
+| chicago_food_inspections | ineligible (err_incumbent .508 > .5) | — | no |
+| seattle_building_permits | ineligible (17 ep) | — | no |
+| cfpb_complaints | ineligible (disagreement 1.9%) | — | no |
+| sonoma_animal_shelter | ineligible (7 ep) | — | no |
+| houston_311, seattle_csr, norfolk_311, somerville_311, bloomington_311, fortworth_311 | not buildable | no closure timestamp, no export, or too small | no |
+
+**Registered (K = 10; 801 episodes):** `c4_registration_batchF.json`, with hashes recomputed from the
+sealed arrays. 6 are 311 streams (protocol 10 primary); 4 come from other domains (air travel,
+permitting, road safety, animal shelter). By city: Chicago appears twice in batch F (311 and crashes);
+SF and Dallas also appear in the seen tier.

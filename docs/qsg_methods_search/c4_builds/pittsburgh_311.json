@@ -1,0 +1,80 @@
+{
+ "name": "pittsburgh_311",
+ "built_utc": "2026-11-08T20:26:58+00:00",
+ "meta": {
+  "name": "pittsburgh_311",
+  "url": "https://data.wprdc.org/api/3/action/datastore_search_sql?resource_id=29462525-62a6-45bf-9b5e-ad2e1c06348d",
+  "license": "Creative Commons Attribution (WPRDC / City of Pittsburgh)",
+  "publisher": "City of Pittsburgh via the Western Pennsylvania Regional Data Center (311 Data)",
+  "task": "binary: Pittsburgh 311 request closed within 7 days of creation",
+  "label": "closed_date_et present and closed_date_et - create_date_et <= 7 days",
+  "delay": 100,
+  "window": [
+   "2022-07-01T00:00:00",
+   "2024-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request type, dept, origin, neighbourhood, council district, ward, police zone, created hour/dow/month"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "dept",
+  "request_type_name",
+  "origin",
+  "neighborhood",
+  "council_district",
+  "ward",
+  "police_zone"
+ ],
+ "n_after_filter": 192237,
+ "subsample": "none",
+ "n": 192237,
+ "split": {
+  "train_old": [
+   0,
+   38447
+  ],
+  "train_new": [
+   38447,
+   76895
+  ],
+  "validation": [
+   76895,
+   96118
+  ],
+  "test": [
+   96118,
+   192237
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2022-07-01 00:28:00",
+  "test_start": "2023-07-14 10:27:00",
+  "end": "2024-06-30 23:48:00"
+ },
+ "validation": {
+  "n": 19223,
+  "disagreement": 0.26978099152057433,
+  "err_incumbent": 0.3097331321854029,
+  "err_challenger": 0.3038027363054674,
+  "base_rate_y1": 0.38948135046558807
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 48,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/pittsburgh_311.npz",
+  "array_content_sha256": "eda076c41bf8ad3e0aa502840e9ad6256abc555e49db60424963871ad3c9e333"
+ }
+}

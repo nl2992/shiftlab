@@ -1,0 +1,78 @@
+{
+ "name": "louisville_311",
+ "built_utc": "2026-11-08T20:32:30+00:00",
+ "meta": {
+  "name": "louisville_311",
+  "url": "https://services1.arcgis.com/79kfd2K6fskCAkyg/arcgis/rest/services/metro_call_311_service_requests_2023/FeatureServer/0;https://services1.arcgis.com/79kfd2K6fskCAkyg/arcgis/rest/services/Louisville_Metro_KY_Metro_311_Service_Requets_2024/FeatureServer/0",
+  "license": "Louisville Metro Open Data (data.louisvilleky.gov), public open data",
+  "publisher": "Louisville Metro Government (Metro 311 Service Requests)",
+  "task": "binary: Louisville 311 request closed within 7 days of creation",
+  "label": "closed_date present and closed_date - requested_datetime <= 7 days",
+  "delay": 100,
+  "window": [
+   "2023-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "service name, source, responsible agency, zip, council district, hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_name",
+  "source",
+  "agency",
+  "zip",
+  "council"
+ ],
+ "n_after_filter": 342845,
+ "subsample": "none",
+ "n": 342845,
+ "split": {
+  "train_old": [
+   0,
+   68569
+  ],
+  "train_new": [
+   68569,
+   137138
+  ],
+  "validation": [
+   137138,
+   171422
+  ],
+  "test": [
+   171422,
+   342845
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-01-01 00:00:00",
+  "test_start": "2023-12-26 00:00:00",
+  "end": "2024-12-31 00:00:00"
+ },
+ "validation": {
+  "n": 34284,
+  "disagreement": 0.10354684400886711,
+  "err_incumbent": 0.1455781122389453,
+  "err_challenger": 0.11127639715319099,
+  "base_rate_y1": 0.3961906428654766
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 85,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/louisville_311.npz",
+  "array_content_sha256": "d6cbdc7b63c712229a1b9c8b2bc2cf17fe6e55238437af6f438d0f4892c2963c"
+ }
+}

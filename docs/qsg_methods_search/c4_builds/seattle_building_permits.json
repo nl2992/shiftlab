@@ -1,0 +1,83 @@
+{
+ "name": "seattle_building_permits",
+ "built_utc": "2026-11-08T20:41:15+00:00",
+ "meta": {
+  "name": "seattle_building_permits",
+  "url": "https://data.seattle.gov/resource/76t5-zqzr.csv",
+  "license": "Public Domain (City of Seattle open data)",
+  "publisher": "City of Seattle, Seattle Department of Construction and Inspections",
+  "task": "binary: building permit issued within 60 days of application",
+  "label": "issueddate present and issueddate - applieddate <= 60 days",
+  "delay": 100,
+  "window": [
+   "2016-01-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "permit class/type, housing units, log cost, zip, zoning, dwelling unit type, housing category, flags, application dow/month"
+ },
+ "num": [
+  "dow",
+  "month",
+  "housingunits",
+  "housingunitsremoved",
+  "housingunitsadded",
+  "log_cost"
+ ],
+ "cat": [
+  "permitclass",
+  "permitclassmapped",
+  "permittypemapped",
+  "permittypedesc",
+  "originalzip",
+  "zoning",
+  "dwellingunittype",
+  "housingcategory",
+  "standardplan",
+  "dependentbuilding",
+  "relatedmup_present"
+ ],
+ "n_after_filter": 68200,
+ "subsample": "none",
+ "n": 68200,
+ "split": {
+  "train_old": [
+   0,
+   13640
+  ],
+  "train_new": [
+   13640,
+   27280
+  ],
+  "validation": [
+   27280,
+   34100
+  ],
+  "test": [
+   34100,
+   68200
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2016-01-04 00:00:00",
+  "test_start": "2020-02-19 00:00:12",
+  "end": "2025-06-30 00:00:31"
+ },
+ "validation": {
+  "n": 6820,
+  "disagreement": 0.18269794721407626,
+  "err_incumbent": 0.27360703812316717,
+  "err_challenger": 0.21994134897360704,
+  "base_rate_y1": 0.567008797653959
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": false
+ },
+ "eligible": false,
+ "episodes": 17,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

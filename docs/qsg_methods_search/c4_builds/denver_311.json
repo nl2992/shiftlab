@@ -1,0 +1,83 @@
+{
+ "name": "denver_311",
+ "built_utc": "2026-11-08T20:35:47+00:00",
+ "meta": {
+  "name": "denver_311",
+  "url": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/311_Service_Requests_2023/FeatureServer/0",
+  "license": "City and County of Denver open data (opendata-geospatialdenver.hub.arcgis.com), public use with as-is disclaimer",
+  "publisher": "City and County of Denver (311 Service Requests, per-year layers 2022-2023)",
+  "task": "binary: Denver 311 request closed within 5 days of creation",
+  "label": "Case_Closed_dttm present and Case_Closed_dttm - Case_Created_dttm <= 5 days",
+  "delay": 100,
+  "window": [
+   "2022-01-01T00:00:00",
+   "2024-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "type, topic, major area, agency, division, intake channel, council/police district, neighbourhood, incident zip, created hour/dow/month"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "Case_Source",
+  "Agency",
+  "Division",
+  "Major_Area",
+  "Type",
+  "Topic",
+  "Council_District",
+  "Police_District",
+  "Neighborhood",
+  "Incident_Zip_Code"
+ ],
+ "n_after_filter": 895703,
+ "subsample": "systematic 400000 of 895703",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2022-01-01 00:07:39",
+  "test_start": "2023-01-20 10:26:33",
+  "end": "2023-12-31 23:57:22"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.076375,
+  "err_incumbent": 0.12295,
+  "err_challenger": 0.111825,
+  "base_rate_y1": 0.845
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/denver_311.npz",
+  "array_content_sha256": "63f94f85fb7002fb7c3cf51cb0ac55890ac4adf035349599a24b00c642450b2a"
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "name": "cambridge_311",
+ "built_utc": "2026-11-08T20:30:38+00:00",
+ "meta": {
+  "name": "cambridge_311",
+  "url": "https://data.cambridgema.gov/resource/2z9k-mv9g.csv",
+  "license": "Open data (data.cambridgema.gov), City of Cambridge MA",
+  "publisher": "City of Cambridge MA (Commonwealth Connect Service Requests)",
+  "task": "binary: Cambridge 311 ticket closed within 7 days of creation",
+  "label": "ticket_closed_date_time present and closed - created <= 7 days",
+  "delay": 100,
+  "window": [
+   "2023-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "issue type, issue category, 0.01-degree location cell, hour/dow/month: intake-time"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "issue_type",
+  "issue_category",
+  "cell"
+ ],
+ "n_after_filter": 29202,
+ "subsample": "none",
+ "n": 29202,
+ "split": {
+  "train_old": [
+   0,
+   5840
+  ],
+  "train_new": [
+   5840,
+   11681
+  ],
+  "validation": [
+   11681,
+   14601
+  ],
+  "test": [
+   14601,
+   29202
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-01-01 02:30:12",
+  "test_start": "2024-01-27 10:55:16",
+  "end": "2024-12-31 22:09:06"
+ },
+ "validation": {
+  "n": 2920,
+  "disagreement": 0.29486301369863016,
+  "err_incumbent": 0.19657534246575342,
+  "err_challenger": 0.36883561643835616,
+  "base_rate_y1": 0.7047945205479452
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": false
+ },
+ "eligible": false,
+ "episodes": 7,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

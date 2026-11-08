@@ -1,0 +1,75 @@
+{
+ "name": "cfpb_complaints",
+ "built_utc": "2026-11-08T20:49:47+00:00",
+ "meta": {
+  "name": "cfpb_complaints",
+  "url": "https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/",
+  "license": "CC0 1.0 (CFPB Consumer Complaint Database, public domain)",
+  "publisher": "Consumer Financial Protection Bureau",
+  "task": "binary: consumer complaint closed with explanation (vs other closures)",
+  "label": "company_response_to_consumer == 'Closed with explanation'; In progress/blank dropped",
+  "delay": 100,
+  "window": [
+   "2018-07-01",
+   "2020-01-01"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "received dow/month, product, sub-product, issue, sub-issue, state, tags, submitted via"
+ },
+ "num": [
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "product",
+  "sub_product",
+  "issue",
+  "sub_issue",
+  "state",
+  "tags",
+  "submitted_via"
+ ],
+ "n_after_filter": 398430,
+ "subsample": "none",
+ "n": 398430,
+ "split": {
+  "train_old": [
+   0,
+   79686
+  ],
+  "train_new": [
+   79686,
+   159372
+  ],
+  "validation": [
+   159372,
+   199215
+  ],
+  "test": [
+   199215,
+   398430
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2018-07-01 00:05:11",
+  "test_start": "2019-04-19 23:22:11",
+  "end": "2019-12-31 23:56:11"
+ },
+ "validation": {
+  "n": 39843,
+  "disagreement": 0.018823883743694,
+  "err_incumbent": 0.20543131792284716,
+  "err_challenger": 0.20257008759380568,
+  "base_rate_y1": 0.7974299124061943
+ },
+ "gates": {
+  "disagreement": false,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 99,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

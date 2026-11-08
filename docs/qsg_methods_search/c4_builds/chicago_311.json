@@ -1,0 +1,80 @@
+{
+ "name": "chicago_311",
+ "built_utc": "2026-11-08T20:34:40+00:00",
+ "meta": {
+  "name": "chicago_311",
+  "url": "https://data.cityofchicago.org/resource/v6vf-nfxy.csv",
+  "license": "City of Chicago Data Portal terms of use (public open data)",
+  "publisher": "City of Chicago (311 Service Requests)",
+  "task": "binary: Chicago 311 request closed within 7 days of creation",
+  "label": "closed_date present and closed_date - created_date <= 7 days",
+  "delay": 100,
+  "window": [
+   "2024-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "SR type, creating department, origin, zip, community area, ward, police district, hour/dow/month: intake-time"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "sr_type",
+  "created_department",
+  "origin",
+  "zip_code",
+  "community_area",
+  "ward",
+  "police_district"
+ ],
+ "n_after_filter": 1913929,
+ "subsample": "systematic 400000 of 1913929",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-01-01 00:00:12",
+  "test_start": "2024-06-21 10:32:48",
+  "end": "2024-12-31 23:59:43"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.085575,
+  "err_incumbent": 0.1221,
+  "err_challenger": 0.093725,
+  "base_rate_y1": 0.801525
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/chicago_311.npz",
+  "array_content_sha256": "7d65c00634131fba2ac18fec4512e9cb162ec6df67ae72e9ccc2ca4164fa08b8"
+ }
+}

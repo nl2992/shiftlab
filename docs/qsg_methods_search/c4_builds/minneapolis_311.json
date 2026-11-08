@@ -1,0 +1,77 @@
+{
+ "name": "minneapolis_311",
+ "built_utc": "2026-11-08T20:25:53+00:00",
+ "meta": {
+  "name": "minneapolis_311",
+  "url": "https://services.arcgis.com/afSMGVsC7QlRK1kZ/ArcGIS/rest/services/Public_311_{2023,2024}/FeatureServer/0",
+  "license": "Open Minneapolis (opendata.minneapolismn.gov), City of Minneapolis, public open data (Creative Commons)",
+  "publisher": "City of Minneapolis (Public 311 incidents)",
+  "task": "binary: Minneapolis 311 case closed within 7 days of opening",
+  "label": "CLOSEDDATETIME present and CLOSEDDATETIME - OPENEDDATETIME <= 7 days",
+  "delay": 100,
+  "window": [
+   "2023-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "subject, reason, type, title (intake), opened hour/dow/month"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "subject",
+  "reason",
+  "type",
+  "title"
+ ],
+ "n_after_filter": 213821,
+ "subsample": "none",
+ "n": 213821,
+ "split": {
+  "train_old": [
+   0,
+   42764
+  ],
+  "train_new": [
+   42764,
+   85528
+  ],
+  "validation": [
+   85528,
+   106910
+  ],
+  "test": [
+   106910,
+   213821
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-01-01 01:16:00",
+  "test_start": "2023-11-06 09:42:00",
+  "end": "2024-12-31 18:26:00"
+ },
+ "validation": {
+  "n": 21382,
+  "disagreement": 0.13773267234122158,
+  "err_incumbent": 0.16050883921055092,
+  "err_challenger": 0.19254513141895052,
+  "base_rate_y1": 0.829435974183893
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 53,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/minneapolis_311.npz",
+  "array_content_sha256": "b490dbbd1c0cf61ab770ac273d446434c3636576a8107cf1e312a48d453d355e"
+ }
+}

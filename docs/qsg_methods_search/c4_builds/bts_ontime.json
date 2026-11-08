@@ -1,0 +1,78 @@
+{
+ "name": "bts_ontime",
+ "built_utc": "2026-11-08T20:43:22+00:00",
+ "meta": {
+  "name": "bts_ontime",
+  "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_{y}_{m}.zip",
+  "license": "US Government work, public domain (US DOT Bureau of Transportation Statistics)",
+  "publisher": "US DOT Bureau of Transportation Statistics (TranStats On-Time Performance)",
+  "task": "binary: flight arrives >=15 min late or is cancelled/diverted",
+  "label": "ArrDel15 == 1 or Cancelled == 1 or Diverted == 1",
+  "delay": 100,
+  "window": [
+   "2025-05-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "carrier, origin, dest, scheduled dep hour, dow, month, distance, CRS elapsed time; no actual times/delays"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "distance",
+  "crs_elapsed"
+ ],
+ "cat": [
+  "carrier",
+  "origin",
+  "dest"
+ ],
+ "n_after_filter": 1217223,
+ "subsample": "systematic 400000 of 1217223",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-05-01 00:05:00",
+  "test_start": "2025-06-01 07:30:00",
+  "end": "2025-06-30 23:59:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.084025,
+  "err_incumbent": 0.24425,
+  "err_challenger": 0.237325,
+  "base_rate_y1": 0.23065
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/bts_ontime.npz",
+  "array_content_sha256": "c60b24a9151b91c82eb94c540654d589e2e1706c17a2c6f97573c0517905e43e"
+ }
+}

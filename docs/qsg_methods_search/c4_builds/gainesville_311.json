@@ -1,0 +1,73 @@
+{
+ "name": "gainesville_311",
+ "built_utc": "2026-11-08T20:26:36+00:00",
+ "meta": {
+  "name": "gainesville_311",
+  "url": "https://data.cityofgainesville.org/resource/78uv-94ar.csv",
+  "license": "Public Domain (City of Gainesville open data, per Socrata metadata)",
+  "publisher": "City of Gainesville FL (myGNV 311 Service Requests)",
+  "task": "binary: Gainesville 311 request closed within 3 days of creation",
+  "label": "closed present and closed - created <= 3 days",
+  "delay": 100,
+  "window": [
+   "2019-06-01T00:00:00",
+   "2021-06-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request type, mobile flag, police sector, commission district, created hour/dow/month"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "request_type",
+  "reported_using_mobile",
+  "police_sector",
+  "commission_district"
+ ],
+ "n_after_filter": 4896,
+ "subsample": "none",
+ "n": 4896,
+ "split": {
+  "train_old": [
+   0,
+   979
+  ],
+  "train_new": [
+   979,
+   1958
+  ],
+  "validation": [
+   1958,
+   2448
+  ],
+  "test": [
+   2448,
+   4896
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2019-06-01 10:30:00",
+  "test_start": "2020-06-02 06:23:00",
+  "end": "2021-05-31 13:58:00"
+ },
+ "validation": {
+  "n": 490,
+  "disagreement": 0.24897959183673468,
+  "err_incumbent": 0.3224489795918367,
+  "err_challenger": 0.2938775510204082,
+  "base_rate_y1": 0.6816326530612244
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": false
+ },
+ "eligible": false,
+ "episodes": 1,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

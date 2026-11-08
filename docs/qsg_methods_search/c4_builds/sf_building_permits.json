@@ -1,0 +1,82 @@
+{
+ "name": "sf_building_permits",
+ "built_utc": "2026-11-08T20:41:00+00:00",
+ "meta": {
+  "name": "sf_building_permits",
+  "url": "https://data.sfgov.org/resource/i98e-djp9.csv",
+  "license": "Open Data Commons Public Domain Dedication and License (DataSF)",
+  "publisher": "City and County of San Francisco, Dept. of Building Inspection (via DataSF)",
+  "task": "binary: building permit issued within 30 days of filing",
+  "label": "issued_date present and issued_date - filed_date <= 30 days",
+  "delay": 100,
+  "window": [
+   "2015-01-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "permit type, neighbourhood, zip, district, proposed/existing use, stories, log cost, plansets, submission method, filing dow/month"
+ },
+ "num": [
+  "dow",
+  "month",
+  "stories",
+  "log_cost",
+  "plansets"
+ ],
+ "cat": [
+  "permit_type_definition",
+  "neighborhoods_analysis_boundaries",
+  "zipcode",
+  "supervisor_district",
+  "proposed_use",
+  "existing_use",
+  "application_submission_method"
+ ],
+ "n_after_filter": 343889,
+ "subsample": "none",
+ "n": 343889,
+ "split": {
+  "train_old": [
+   0,
+   68778
+  ],
+  "train_new": [
+   68778,
+   137556
+  ],
+  "validation": [
+   137556,
+   171944
+  ],
+  "test": [
+   171944,
+   343889
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2015-01-02 00:00:00",
+  "test_start": "2019-03-19 00:00:32",
+  "end": "2025-06-30 00:02:01"
+ },
+ "validation": {
+  "n": 34388,
+  "disagreement": 0.05720018611143422,
+  "err_incumbent": 0.14557403745492614,
+  "err_challenger": 0.13495986972199606,
+  "base_rate_y1": 0.7845469349773176
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 85,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/sf_building_permits.npz",
+  "array_content_sha256": "ff2f7bf47f1bebbf617150ae9f97afbb5a834b547c0453a1f29ab3443b122194"
+ }
+}

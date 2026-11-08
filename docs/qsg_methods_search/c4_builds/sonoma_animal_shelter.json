@@ -1,0 +1,77 @@
+{
+ "name": "sonoma_animal_shelter",
+ "built_utc": "2026-11-08T20:42:15+00:00",
+ "meta": {
+  "name": "sonoma_animal_shelter",
+  "url": "https://data.sonomacounty.ca.gov/resource/924a-vesw.csv",
+  "license": "Open data (County of Sonoma Department of Health Services, data.sonomacounty.ca.gov)",
+  "publisher": "County of Sonoma Department of Health Services (Animal Shelter Intake and Outcome)",
+  "task": "binary: shelter intake ends in live release (adoption, return to owner, transfer)",
+  "label": "outcome_type in {ADOPTION, RETURN TO OWNER, TRANSFER}; rows without outcome_type dropped",
+  "delay": 100,
+  "window": [
+   "2014-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "intake dow/month, age at intake, type, breed, color, size, intake type/subtype/condition, jurisdiction"
+ },
+ "num": [
+  "dow",
+  "month",
+  "age_days"
+ ],
+ "cat": [
+  "type",
+  "breed",
+  "color",
+  "size",
+  "intake_type",
+  "intake_subtype",
+  "intake_condition",
+  "intake_jurisdiction"
+ ],
+ "n_after_filter": 29399,
+ "subsample": "none",
+ "n": 29399,
+ "split": {
+  "train_old": [
+   0,
+   5880
+  ],
+  "train_new": [
+   5880,
+   11760
+  ],
+  "validation": [
+   11760,
+   14700
+  ],
+  "test": [
+   14700,
+   29399
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2014-01-01 00:00:00",
+  "test_start": "2018-08-08 00:00:00",
+  "end": "2024-12-31 00:00:00"
+ },
+ "validation": {
+  "n": 2940,
+  "disagreement": 0.04965986394557823,
+  "err_incumbent": 0.08605442176870748,
+  "err_challenger": 0.08401360544217687,
+  "base_rate_y1": 0.8476190476190476
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": false
+ },
+ "eligible": false,
+ "episodes": 7,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

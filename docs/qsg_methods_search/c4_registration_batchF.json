@@ -1,0 +1,114 @@
+{
+ "registered": "2026-11-08",
+ "batch": "F",
+ "protocols": [
+  "sota_expansion/10_FRESH_CONFIRMATION_PROTOCOL.md",
+  "sota_expansion/11_AMENDMENT_ALL_DATA.md"
+ ],
+ "contract": {
+  "budget": 200,
+  "cq": 0.05,
+  "cs": 5.0,
+  "T_episode": 2000
+ },
+ "policy_seeds": 10,
+ "seed_base": 2026111601,
+ "arms": {
+  "B": "EQSDp_l0.9_g0.2",
+  "R": "EQSDp_l0.98_g0.3"
+ },
+ "policies": "outputs/qsg_methods_search/sota_expansion/all_policies.txt (nine_policies.txt + EQSDp_l0.98_g0.3)",
+ "primary": "protocol 10 s5: arm B vs qiu_delayed_movement on batch-F 311 datasets (dataset-level t, majority sign); amendment 11 s4 >=SOTA counts reported by tier",
+ "datasets": [
+  {
+   "name": "miamidade_311",
+   "org": "Miami-Dade County (311 Service Requests)",
+   "sealed_path": "data/c4_sealed/miamidade_311.npz",
+   "array_content_sha256": "e0c70d6415d62927e9f380677d9b56f2af4155e7e5ac7c5accad9ce7926f9ea1",
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:29:56+00:00"
+  },
+  {
+   "name": "minneapolis_311",
+   "org": "City of Minneapolis (Public 311 incidents)",
+   "sealed_path": "data/c4_sealed/minneapolis_311.npz",
+   "array_content_sha256": "b490dbbd1c0cf61ab770ac273d446434c3636576a8107cf1e312a48d453d355e",
+   "episodes": 53,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:25:53+00:00"
+  },
+  {
+   "name": "louisville_311",
+   "org": "Louisville Metro Government (Metro 311 Service Requests)",
+   "sealed_path": "data/c4_sealed/louisville_311.npz",
+   "array_content_sha256": "d6cbdc7b63c712229a1b9c8b2bc2cf17fe6e55238437af6f438d0f4892c2963c",
+   "episodes": 85,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:32:30+00:00"
+  },
+  {
+   "name": "chicago_311",
+   "org": "City of Chicago (311 Service Requests)",
+   "sealed_path": "data/c4_sealed/chicago_311.npz",
+   "array_content_sha256": "7d65c00634131fba2ac18fec4512e9cb162ec6df67ae72e9ccc2ca4164fa08b8",
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:34:40+00:00"
+  },
+  {
+   "name": "denver_311",
+   "org": "City and County of Denver (311 Service Requests, per-year layers 2022-2023)",
+   "sealed_path": "data/c4_sealed/denver_311.npz",
+   "array_content_sha256": "63f94f85fb7002fb7c3cf51cb0ac55890ac4adf035349599a24b00c642450b2a",
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:35:47+00:00"
+  },
+  {
+   "name": "pittsburgh_311",
+   "org": "City of Pittsburgh via the Western Pennsylvania Regional Data Center (311 Data)",
+   "sealed_path": "data/c4_sealed/pittsburgh_311.npz",
+   "array_content_sha256": "eda076c41bf8ad3e0aa502840e9ad6256abc555e49db60424963871ad3c9e333",
+   "episodes": 48,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:26:58+00:00"
+  },
+  {
+   "name": "bts_ontime",
+   "org": "US DOT Bureau of Transportation Statistics (TranStats On-Time Performance)",
+   "sealed_path": "data/c4_sealed/bts_ontime.npz",
+   "array_content_sha256": "c60b24a9151b91c82eb94c540654d589e2e1706c17a2c6f97573c0517905e43e",
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:43:22+00:00"
+  },
+  {
+   "name": "sf_building_permits",
+   "org": "City and County of San Francisco, Dept. of Building Inspection (via DataSF)",
+   "sealed_path": "data/c4_sealed/sf_building_permits.npz",
+   "array_content_sha256": "ff2f7bf47f1bebbf617150ae9f97afbb5a834b547c0453a1f29ab3443b122194",
+   "episodes": 85,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:41:00+00:00"
+  },
+  {
+   "name": "chicago_traffic_crashes",
+   "org": "City of Chicago (Traffic Crashes - Crashes)",
+   "sealed_path": "data/c4_sealed/chicago_traffic_crashes.npz",
+   "array_content_sha256": "4aa60e006ec1431711bed0419c9383acc09eda051454b41a3dc36df8499a0ad7",
+   "episodes": 54,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:46:27+00:00"
+  },
+  {
+   "name": "dallas_animal_shelter",
+   "org": "City of Dallas (Dallas Animal Shelter Data Fiscal Year 2000 - Present)",
+   "sealed_path": "data/c4_sealed/dallas_animal_shelter.npz",
+   "array_content_sha256": "fde54af07362548a90cd4b53d999843ef2ffad1bce00a1de16ac05bd6a9bfecc",
+   "episodes": 76,
+   "delay": 100,
+   "built_utc": "2026-11-08T20:47:05+00:00"
+  }
+ ]
+}

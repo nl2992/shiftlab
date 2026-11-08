@@ -1,0 +1,10 @@
+{
+  "arm5": {
+    "b0.05_d50": "G20",
+    "b0.1_d50": "f0.9",
+    "b0.25_d50": "G4",
+    "b0.5_d1": "G6",
+    "b0.5_d10": "G5"
+  },
+  "note": "Amendment A1: neighbour families, tuning seeds 101306000-101309999 only"
+}

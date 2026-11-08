@@ -143,3 +143,26 @@ Excluded:
   contract parameter, stated as a limitation.
 - **Effort.** Builders for about 10 new sources take roughly 1–2 days of agent time. Fetch sizes
   are large (TLC, crimes); subsample by a fixed, predeclared rule.
+
+## C4-0 pilot rule (registered 2026-11-07 before the pilot run)
+
+Data: the 9 Atlas streams (`data/atlas_v2_losses`, runner delays) and the 5 Sprint streams
+(`data/sprint_fresh_losses`, README delays). All are exposed and count for nothing. Checksums are
+verified against each README before use. 10 policy seeds per episode (seed base 2026110901).
+
+Policies:
+- arm B `EQSDp_l0.9_g0.2` and arm A;
+- `gongT_w100_m10`, `qiu_delayed_movement`;
+- descriptive: `wald_l0.9_g0.2`, `smarg_l0.9_k0.2`, `dwell_l0.9_s5`, `econF_mo5_m5`, never switch.
+
+Per stream: the episode-level mean of Δ = J(B) − J(comparator) (seed-averaged), with a 95%
+episode bootstrap CI.
+
+**Go** to acquisition if both of these hold:
+- the stream-equal-weight pooled mean Δ is below 0 against **both** comparators;
+- among streams with ≥5 episodes, at least half have a negative Δ point estimate against both.
+
+**Otherwise no-go:** revisit the claim before fetching fresh data.
+
+The per-episode SD of Δ feeds the power calculation (episodes needed for 80% one-sided power
+at the pooled effect).

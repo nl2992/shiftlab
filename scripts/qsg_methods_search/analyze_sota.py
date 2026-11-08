@@ -36,8 +36,8 @@ def grade(pct):
     )
 
 
-def select(path):
-    d = pd.read_json(path, lines=True)
+def select(*paths):
+    d = pd.concat([pd.read_json(p, lines=True) for p in paths])
     st = d.groupby(["policy", "stream"]).net.mean().unstack()
     score = st.mean(axis=1)  # equal stream weight
     chosen = {}

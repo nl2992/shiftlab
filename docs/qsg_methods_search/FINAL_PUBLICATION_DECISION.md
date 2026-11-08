@@ -156,3 +156,29 @@ instruction. No sealed seed or dataset was consumed.
 mechanisms closed). C3 historical PASS only. C4 NOT STARTED (2/8 sealed eligible). **INCOMPLETE.**
 The remaining executable work for the scoped paper is the C4 acquisition (≥6 more eligible
 sources) and its single sealed opening under the existing registration.
+
+---
+
+# Update 2026-11-08 (late): BCR pivot and C4 opening
+
+- **Multi-model BCR: feasibility FAIL.** BCR ties tuned K-Wald (+1.15 [−1.37, +3.66]). See branch
+  `research/multimodel-bcr-2026-11-08`, `docs/multimodel_bcr/`.
+- **C4 (registered, opened once): NOT PASS under the registered rule**, with 5 of 9 datasets
+  supporting. Against the tuned Gong–Zhang-style adapter, arm B is cheaper on 9 of 9 datasets
+  (sign test p = .002); pooled vs the Qiu-style adapter −8.1 (p = .0003). The effect is small:
+  pooled −3.7 per episode (−0.8% of cost), driven by halved switching where the comparator
+  churns. On 3 datasets never-switching is best. See [c4_results.md](c4_results.md).
+
+**Programme status:**
+
+| | Status |
+|---|---|
+| C1 | PASS (M1–M5, plus K-model observations) |
+| C2 | new method NOT ACHIEVED; base rule = NOVEL-INTEGRATION |
+| C3 | historical PASS vs adapters |
+| C4 | NOT PASS (5/9; uniform direction, small effect) |
+
+Overall: **INCOMPLETE.** The honest scoped paper is a methods-and-analysis paper. Its message:
+a confidence-bound payback switcher is consistently, but only slightly, better than a tuned
+point-estimate economic switcher on real streams, and the remaining headroom is informational.
+Venue: TMLR or a workshop.

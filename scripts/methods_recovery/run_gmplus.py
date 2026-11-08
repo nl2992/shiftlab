@@ -33,6 +33,11 @@ from shiftlab.gaver.gapmix_plus import GapMixPlusMethod, GMParams, QSGMethod
 from shiftlab.gaver.integrated import GaverMethod, pave_active
 
 FROZEN = ROOT / "configs/methods_recovery/gapmix_plus_frozen.json"
+# Amendment A1: Arm-5 pacing for neighbour families (d=50, B/T=.5), tuned on tuning seeds only
+FROZEN_NB = ROOT / "configs/methods_recovery/gapmix_plus_frozen_nb.json"
+TUNE_NB_BASE = (
+    101306000  # inside the registered tuning block 101300000-101309999, unused by stage tune
+)
 TUNE_BASE, EVAL_BASE = 101300000, 101400000  # registry: gapmix_plus_tuning / gapmix_plus_eval
 NULL_OFF = 20000  # eval null streams start at EVAL_BASE + NULL_OFF
 FIELDS = [
@@ -105,6 +110,8 @@ def make(arm: str, cfg, cell_fam: str):
         if len(parts) == 4:  # explicit key (tuning)
             return GapMixPlusMethod(ev, mode, parse_key(parts[3]))
         fz = json.loads(FROZEN.read_text("utf-8"))
+        if mode == "pace" and cell_fam not in fz["arm5"]:
+            fz["arm5"].update(json.loads(FROZEN_NB.read_text("utf-8"))["arm5"])
         key = fz["arm5"][cell_fam] if mode == "pace" else fz["arm4"]
         return GapMixPlusMethod(ev, mode, parse_key(key))
     if arm.startswith("gaver:"):
@@ -121,6 +128,8 @@ MAIN_ARMS = [
 
 
 def arms_for(stage: str, cell) -> list[str]:
+    if stage == "tune_nb":
+        return [f"gmp:gapmix:pace:{k}" for k in ARM5_GRID]
     if stage == "tune":
         return (
             [f"gmp:gapmix:plus:{k}" for k in ARM4_GRID]
@@ -164,6 +173,9 @@ def task(job):
 def build_cells(stage):
     if stage == "tune":
         return [(c.cell_id, c) for c in target_cells()], TUNE_BASE, 100, 8
+    if stage == "tune_nb":
+        nb = neighbour_cells()
+        return [(c.cell_id, c) for c in nb["d50"] + nb["b0.5"]], TUNE_NB_BASE, 100, 8
     if stage == "alt":
         cs = list(target_cells())
         for v in neighbour_cells().values():
@@ -174,14 +186,14 @@ def build_cells(stage):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--stage", required=True, choices=["tune", "alt", "null"])
+    ap.add_argument("--stage", required=True, choices=["tune", "tune_nb", "alt", "null"])
     ap.add_argument("--workers", type=int, default=10)
     ap.add_argument("--chunk", type=int, default=4)
     ap.add_argument("--n", type=int, default=None)
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
     a.workers = min(a.workers, 10)
-    if a.stage != "tune" and not FROZEN.exists():
+    if a.stage not in ("tune", "tune_nb") and not FROZEN.exists():
         sys.exit("frozen config missing: tune first")
     cells, base, stride, n = build_cells(a.stage)
     n = a.n or n

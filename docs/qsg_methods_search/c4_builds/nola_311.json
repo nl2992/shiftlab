@@ -1,0 +1,77 @@
+{
+ "name": "nola_311",
+ "built_utc": "2026-11-08T07:02:53+00:00",
+ "meta": {
+  "name": "nola_311",
+  "url": "https://data.nola.gov/resource/2jgv-pqrq.csv",
+  "license": "Open data (data.nola.gov, City of New Orleans)",
+  "publisher": "City of New Orleans (311 / OPCD)",
+  "task": "binary: New Orleans 311 case closed within 7 days of creation",
+  "label": "case_close_date present and case_close_date - date_created <= 7 days",
+  "delay": 100,
+  "window": [
+   "2023-01-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "created hour/dow/month, request type, request reason, responsible agency, council district"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "request_type",
+  "request_reason",
+  "responsible_agency",
+  "address_councildis"
+ ],
+ "n_after_filter": 244790,
+ "subsample": "none",
+ "n": 244790,
+ "split": {
+  "train_old": [
+   0,
+   48958
+  ],
+  "train_new": [
+   48958,
+   97916
+  ],
+  "validation": [
+   97916,
+   122395
+  ],
+  "test": [
+   122395,
+   244790
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-01-01 00:52:37",
+  "test_start": "2024-04-08 10:31:04",
+  "end": "2025-06-30 23:56:38"
+ },
+ "validation": {
+  "n": 24479,
+  "disagreement": 0.2331794599452592,
+  "err_incumbent": 0.28902324441357896,
+  "err_challenger": 0.2299522039298991,
+  "base_rate_y1": 0.46844233833081417
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 61,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/nola_311.npz",
+  "array_content_sha256": "42fde52da63ebb2805b6e40558995287be8605c7787bc391549f074181dfcf9b"
+ }
+}

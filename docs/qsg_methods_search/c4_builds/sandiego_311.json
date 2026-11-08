@@ -1,0 +1,80 @@
+{
+ "name": "sandiego_311",
+ "built_utc": "2026-11-08T07:00:51+00:00",
+ "meta": {
+  "name": "sandiego_311",
+  "url": "https://seshat.datasd.org/get_it_done_reports/get_it_done_requests_{closed_2024,closed_2025,closed_2026,open}_datasd.csv",
+  "license": "City of San Diego open data (data.sandiego.gov), Creative Commons CC0 / public domain",
+  "publisher": "City of San Diego (Get It Done)",
+  "task": "binary: Get It Done request closed within 14 days of being requested",
+  "label": "status in (Closed, Referred) and case_age_days <= 14",
+  "delay": 100,
+  "window": [
+   "2024-01-01 00:00:00",
+   "2025-01-01 00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "staff group, service name/detail, council district, community plan, zip, case origin, request hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "case_record_type",
+  "service_name",
+  "service_name_detail",
+  "council_district",
+  "comm_plan_code",
+  "zipcode",
+  "case_origin"
+ ],
+ "n_after_filter": 423486,
+ "subsample": "systematic 400000 of 423486",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-01-01 00:00:00",
+  "test_start": "2024-06-24 20:44:00",
+  "end": "2024-12-31 23:58:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.1444,
+  "err_incumbent": 0.21815,
+  "err_challenger": 0.16265,
+  "base_rate_y1": 0.715975
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/sandiego_311.npz",
+  "array_content_sha256": "054a34ba143d9cbbbdf11f0412366b6694be72f1f6822e94610363cbcd93f00d"
+ }
+}

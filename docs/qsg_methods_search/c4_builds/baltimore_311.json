@@ -1,0 +1,80 @@
+{
+ "name": "baltimore_311",
+ "built_utc": "2026-11-08T07:01:41+00:00",
+ "meta": {
+  "name": "baltimore_311",
+  "url": "https://services1.arcgis.com/UWYHeuuJISiGmgXx/ArcGIS/rest/services/311_Customer_Service_Requests_2024/FeatureServer/0",
+  "license": "Open Baltimore (data.baltimorecity.gov), City of Baltimore, public open data",
+  "publisher": "City of Baltimore (Open Baltimore / 311)",
+  "task": "binary: 311 service request closed within 7 days of creation",
+  "label": "CloseDate present and CloseDate - CreatedDate <= 7 days",
+  "delay": 100,
+  "window": [
+   "2024-09-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request type, method received, agency, neighbourhood, council/police district, zip, created hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "sr_type",
+  "method",
+  "agency",
+  "neighborhood",
+  "council",
+  "police",
+  "zip"
+ ],
+ "n_after_filter": 332385,
+ "subsample": "none",
+ "n": 332385,
+ "split": {
+  "train_old": [
+   0,
+   66477
+  ],
+  "train_new": [
+   66477,
+   132954
+  ],
+  "validation": [
+   132954,
+   166192
+  ],
+  "test": [
+   166192,
+   332385
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-09-01 00:11:00",
+  "test_start": "2024-10-29 04:33:58",
+  "end": "2024-12-31 18:59:46"
+ },
+ "validation": {
+  "n": 33238,
+  "disagreement": 0.09621517540164871,
+  "err_incumbent": 0.12846741681208257,
+  "err_challenger": 0.08297731512124677,
+  "base_rate_y1": 0.7763704193994825
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 83,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/baltimore_311.npz",
+  "array_content_sha256": "cbdaab5613fa45f58a7fb44dfac3c75cae1c054349134af74194ef9d0d0eafd1"
+ }
+}

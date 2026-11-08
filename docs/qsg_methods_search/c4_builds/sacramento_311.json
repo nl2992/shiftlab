@@ -1,0 +1,80 @@
+{
+ "name": "sacramento_311",
+ "built_utc": "2026-11-08T07:06:37+00:00",
+ "meta": {
+  "name": "sacramento_311",
+  "url": "https://services5.arcgis.com/54falWtcpty3V47Z/arcgis/rest/services/SalesForce311_View/FeatureServer/0/query",
+  "license": "City of Sacramento open data (City of Sacramento ArcGIS Hub), open public data",
+  "publisher": "City of Sacramento (311 Customer Contact Center)",
+  "task": "binary: Sacramento 311 request closed within 7 days of creation",
+  "label": "DateClosed valid (>= DateCreated) and DateClosed - DateCreated <= 7 days",
+  "delay": 100,
+  "window": [
+   "2024-01-01 00:00:00",
+   "2025-01-01 00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "category levels/name, council district, incident source, neighborhood, zip, created hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "CategoryLevel1",
+  "CategoryLevel2",
+  "CategoryName",
+  "CouncilDistrictNumber",
+  "SourceLevel1",
+  "Neighborhood",
+  "ZIP"
+ ],
+ "n_after_filter": 517293,
+ "subsample": "systematic 400000 of 517293",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-01-01 00:07:00",
+  "test_start": "2024-06-29 16:06:00",
+  "end": "2024-12-31 15:59:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.04825,
+  "err_incumbent": 0.14185,
+  "err_challenger": 0.13115,
+  "base_rate_y1": 0.598825
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/sacramento_311.npz",
+  "array_content_sha256": "54abe45f9450d0e355c8081c9b34dd6f2b7e31cc4ca0ff7c9d9a21bf607e4ea1"
+ }
+}

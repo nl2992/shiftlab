@@ -1,0 +1,79 @@
+{
+ "name": "oakland_311",
+ "built_utc": "2026-11-08T06:59:19+00:00",
+ "meta": {
+  "name": "oakland_311",
+  "url": "https://data.oaklandca.gov/resource/quth-gb8e.csv",
+  "license": "City of Oakland open data (data.oaklandca.gov), public domain / open government data",
+  "publisher": "City of Oakland (OAK 311 Call Center)",
+  "task": "binary: OAK 311 request closed within 7 days of initiation",
+  "label": "datetimeclosed present and datetimeclosed - datetimeinit <= 7 days",
+  "delay": 100,
+  "window": [
+   "2023-07-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "description, category, intake source, council district, beat, zip, init hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "description",
+  "reqcategory",
+  "source",
+  "councildistrict",
+  "beat",
+  "zipcode"
+ ],
+ "n_after_filter": 221695,
+ "subsample": "none",
+ "n": 221695,
+ "split": {
+  "train_old": [
+   0,
+   44339
+  ],
+  "train_new": [
+   44339,
+   88678
+  ],
+  "validation": [
+   88678,
+   110848
+  ],
+  "test": [
+   110848,
+   221695
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-07-01 05:45:55",
+  "test_start": "2024-06-24 08:49:47",
+  "end": "2025-06-30 23:34:37"
+ },
+ "validation": {
+  "n": 22170,
+  "disagreement": 0.06409562471808751,
+  "err_incumbent": 0.19896256202074877,
+  "err_challenger": 0.18276950834460984,
+  "base_rate_y1": 0.2963915200721696
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 55,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/oakland_311.npz",
+  "array_content_sha256": "02b7a9f9d68f628b067f5c997dcd6f4f9db5fa1038e131b8c78999eddcf7455d"
+ }
+}

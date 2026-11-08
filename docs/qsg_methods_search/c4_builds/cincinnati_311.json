@@ -1,0 +1,82 @@
+{
+ "name": "cincinnati_311",
+ "built_utc": "2026-11-08T07:01:36+00:00",
+ "meta": {
+  "name": "cincinnati_311",
+  "url": "https://data.cincinnati-oh.gov/resource/gcej-gmiw.csv",
+  "license": "Open data (data.cincinnati-oh.gov, City of Cincinnati)",
+  "publisher": "City of Cincinnati (311 Non-Emergency Service Requests)",
+  "task": "binary: Cincinnati 311 request closed within 14 days of creation",
+  "label": "date_closed present and date_closed - date_created <= 14 days",
+  "delay": 100,
+  "window": [
+   "2023-07-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "received hour/dow/month, request type, priority, group, department, division, intake channel, neighbourhood, police district, zip"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "sr_type_desc",
+  "priority",
+  "group_title",
+  "dept_name",
+  "dept_division",
+  "method_received",
+  "neighborhood",
+  "police_district",
+  "zipcode"
+ ],
+ "n_after_filter": 268412,
+ "subsample": "none",
+ "n": 268412,
+ "split": {
+  "train_old": [
+   0,
+   53682
+  ],
+  "train_new": [
+   53682,
+   107365
+  ],
+  "validation": [
+   107365,
+   134206
+  ],
+  "test": [
+   134206,
+   268412
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-07-01 00:14:00",
+  "test_start": "2024-07-20 16:18:00",
+  "end": "2025-06-30 23:47:00"
+ },
+ "validation": {
+  "n": 26841,
+  "disagreement": 0.10815543385119779,
+  "err_incumbent": 0.190194106031817,
+  "err_challenger": 0.1655676018032115,
+  "base_rate_y1": 0.7662903766625685
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 67,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/cincinnati_311.npz",
+  "array_content_sha256": "745b9026a67597a5f76cdefc31b14894e4f9ef2b435d7a4a02a6f3ebdb0eb9e6"
+ }
+}

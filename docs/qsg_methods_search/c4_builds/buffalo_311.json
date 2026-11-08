@@ -1,0 +1,77 @@
+{
+ "name": "buffalo_311",
+ "built_utc": "2026-11-08T07:02:37+00:00",
+ "meta": {
+  "name": "buffalo_311",
+  "url": "https://data.buffalony.gov/resource/whkc-e5vr.csv",
+  "license": "Open data (data.buffalony.gov, City of Buffalo)",
+  "publisher": "City of Buffalo (311 Call and Resolution Center)",
+  "task": "binary: Buffalo 311 request closed within 7 days of opening",
+  "label": "closed_date present and closed_date - open_date <= 7 days",
+  "delay": 100,
+  "window": [
+   "2021-06-01T00:00:00",
+   "2024-05-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "open hour/dow/month, subject, reason, type, object type, council district, police district, neighbourhood, zip"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "subject",
+  "reason",
+  "type",
+  "object_type",
+  "council_district",
+  "police_district",
+  "neighborhood",
+  "zip_code"
+ ],
+ "n_after_filter": 255151,
+ "subsample": "none",
+ "n": 255151,
+ "split": {
+  "train_old": [
+   0,
+   51030
+  ],
+  "train_new": [
+   51030,
+   102060
+  ],
+  "validation": [
+   102060,
+   127576
+  ],
+  "test": [
+   127576,
+   255151
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2021-06-01 00:51:00",
+  "test_start": "2022-10-21 11:54:00",
+  "end": "2024-04-30 23:30:00"
+ },
+ "validation": {
+  "n": 25516,
+  "disagreement": 0.6509641009562628,
+  "err_incumbent": 0.5962925223389246,
+  "err_challenger": 0.1690311961122433,
+  "base_rate_y1": 0.6581752625803418
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": false,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 63,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

@@ -1,0 +1,75 @@
+{
+ "name": "detroit_311",
+ "built_utc": "2026-11-08T07:05:44+00:00",
+ "meta": {
+  "name": "detroit_311",
+  "url": "https://services2.arcgis.com/qvkbeam7Wirps6zC/ArcGIS/rest/services/improve_detroit/FeatureServer/0",
+  "license": "City of Detroit Open Data Portal (data.detroitmi.gov), public open data",
+  "publisher": "City of Detroit (Improve Detroit / DoIT)",
+  "task": "binary: Improve Detroit issue closed within 14 days of creation",
+  "label": "closed_at present and closed_at - created_at <= 14 days",
+  "delay": 100,
+  "window": [
+   "2024-01-01T00:00:00",
+   "2026-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request type, report method, priority code, neighbourhood, council district, zip, created hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "request_type",
+  "method",
+  "priority",
+  "neighborhood",
+  "council",
+  "zip"
+ ],
+ "n_after_filter": 172377,
+ "subsample": "none",
+ "n": 172377,
+ "split": {
+  "train_old": [
+   0,
+   34475
+  ],
+  "train_new": [
+   34475,
+   68951
+  ],
+  "validation": [
+   68951,
+   86188
+  ],
+  "test": [
+   86188,
+   172377
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-01-01 07:01:11",
+  "test_start": "2025-02-04 10:58:31",
+  "end": "2025-12-31 22:13:09"
+ },
+ "validation": {
+  "n": 17237,
+  "disagreement": 0.5422637349886871,
+  "err_incumbent": 0.6806868944711957,
+  "err_challenger": 0.3898590241921448,
+  "base_rate_y1": 0.8098857109705865
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": false,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 43,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4"
+}

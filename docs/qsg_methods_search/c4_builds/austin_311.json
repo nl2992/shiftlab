@@ -1,0 +1,78 @@
+{
+ "name": "austin_311",
+ "built_utc": "2026-11-08T07:01:11+00:00",
+ "meta": {
+  "name": "austin_311",
+  "url": "https://data.austintexas.gov/resource/xwdj-i9he.csv",
+  "license": "Open data (data.austintexas.gov, City of Austin)",
+  "publisher": "City of Austin (Austin 311 Unified Data)",
+  "task": "binary: Austin 311 service request closed within 7 days of creation",
+  "label": "sr_closed_date present and sr_closed_date - sr_created_date <= 7 days",
+  "delay": 100,
+  "window": [
+   "2024-01-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "created hour/dow/month, request type, department, intake channel, council district, zip"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "sr_type_desc",
+  "sr_department_desc",
+  "sr_method_received_desc",
+  "sr_location_council_district",
+  "sr_location_zip_code"
+ ],
+ "n_after_filter": 444426,
+ "subsample": "systematic 400000 of 444426",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-01-01 00:00:33",
+  "test_start": "2024-09-30 08:37:10",
+  "end": "2025-06-30 23:50:08"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.17555,
+  "err_incumbent": 0.160475,
+  "err_challenger": 0.112575,
+  "base_rate_y1": 0.821825
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/c4_sealed/austin_311.npz",
+  "array_content_sha256": "3315fe6a7a09db6b8713c47cad876bff7960b7cd2ac3e61a6c860e73853007e9"
+ }
+}

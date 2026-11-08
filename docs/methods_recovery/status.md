@@ -17,3 +17,16 @@
 - Eval running detached (parent shell gone): alt stage about 80 min, then null stage about 2 h. The agent was stopped; the run is unaffected.
 - NEXT: when both stages print "done" in outputs/methods_recovery/*/eval.log, run `scripts/methods_recovery/analyse_gmplus.py`. Opus then checks that the C3 numbers do NOT use the per-cell-table fallback (Arm 3 -> Arm 2 values when PAVE rows are absent; it applies outside the delay gate, where delay-gated PAVE = shell rule). Recompute criteria 1-5 and commit the verdict.
 - Watch: tuning gain for Arm 4 over Arm 2 was only 0.75% (0.4386 vs 0.4419), against a >=3% C3 bar. kappa=4 sits on the grid edge; omega=0 means the pending-label term is unused.
+
+## 2026-11-08 (Opus coordinator): Gap-Mix+ C3 development verdict = FAIL
+- The alt stage had crashed on missing neighbour-family Arm-5 configs. Amendment A1 (`b74a1fc3`)
+  tuned them on tuning seeds; they were frozen at `17dd261b`, and the alt stage was then resumed
+  to completion (112 cells × 60 seeds × 11 arms).
+- Registered analysis (`20_GAPMIX_PLUS_RESULTS.md`):
+  - Arm 4 is **3.97% worse** [3.27, 4.66] than the strongest valid comparator (C1 fails);
+  - C3 fails (no gain over Arm 3 in the gate-on subset);
+  - neighbours fail, with up to 12.7% loss at B/T=.5;
+  - attribution (C2: +1.19% vs evidence-frozen) and validity (C4: worst UCB .060) pass.
+- Gap-10 thinning (valid) is 2.6% cheaper than Gap-Mix+. Per prereg §5 the next step would be
+  PAVE-Delay+, but its bounded feasibility (`40_PAVE_PLUS_FEASIBILITY.md`) also stops: PAVE ties
+  `episode_front`.

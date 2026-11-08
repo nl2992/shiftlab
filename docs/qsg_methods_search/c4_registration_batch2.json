@@ -1,0 +1,84 @@
+{
+ "claim": "Arm B EQSDp_l0.9_g0.2 (frozen since 10ba0237) has lower net cost than the tuned Gong-Zhang-style adapter gongT_w100_m10 on real chronological model-replacement streams (c4_plan.md section 5, Amendment A1).",
+ "contract": {
+  "budget": 200,
+  "cq": 0.05,
+  "cs": 5.0,
+  "T_episode": 2000
+ },
+ "policy_seeds": 10,
+ "criterion": "per dataset: one-sided 95% episode-bootstrap upper bound (2000 resamples, rng seed 0) of mean episode Delta = J(B) - J(gongT) < 0",
+ "analysis": "scripts/qsg_methods_search/analyze_c4_confirm.py",
+ "runner": "scripts/qsg_methods_search/c4_confirm.py",
+ "registered": "2026-11-08",
+ "batch": 2,
+ "amendment": "c4_amendment_A2.md",
+ "seed_base": 2026111301,
+ "pass_rule": "cumulative across batches (A2): >=8 distinct-organisation supporters; binomial count bound, sign test, pooled secondary",
+ "selection_disclosure": "candidate pool chosen after batch-1 results (311-type streams favoured)",
+ "datasets": [
+  {
+   "name": "austin_311",
+   "org": "City of Austin (Austin 311 Unified Data)",
+   "city": "Austin",
+   "sealed_path": "data/c4_sealed/austin_311.npz",
+   "array_content_sha256": "3315fe6a7a09db6b8713c47cad876bff7960b7cd2ac3e61a6c860e73853007e9",
+   "episodes": 100,
+   "delay": 100
+  },
+  {
+   "name": "cincinnati_311",
+   "org": "City of Cincinnati (311 Non-Emergency Service Requests)",
+   "city": "Cincinnati",
+   "sealed_path": "data/c4_sealed/cincinnati_311.npz",
+   "array_content_sha256": "745b9026a67597a5f76cdefc31b14894e4f9ef2b435d7a4a02a6f3ebdb0eb9e6",
+   "episodes": 67,
+   "delay": 100
+  },
+  {
+   "name": "nola_311",
+   "org": "City of New Orleans (311 / OPCD)",
+   "city": "New Orleans",
+   "sealed_path": "data/c4_sealed/nola_311.npz",
+   "array_content_sha256": "42fde52da63ebb2805b6e40558995287be8605c7787bc391549f074181dfcf9b",
+   "episodes": 61,
+   "delay": 100
+  },
+  {
+   "name": "oakland_311",
+   "org": "City of Oakland (OAK 311 Call Center)",
+   "city": "Oakland",
+   "sealed_path": "data/c4_sealed/oakland_311.npz",
+   "array_content_sha256": "02b7a9f9d68f628b067f5c997dcd6f4f9db5fa1038e131b8c78999eddcf7455d",
+   "episodes": 55,
+   "delay": 100
+  },
+  {
+   "name": "sandiego_311",
+   "org": "City of San Diego (Get It Done)",
+   "city": "San Diego",
+   "sealed_path": "data/c4_sealed/sandiego_311.npz",
+   "array_content_sha256": "054a34ba143d9cbbbdf11f0412366b6694be72f1f6822e94610363cbcd93f00d",
+   "episodes": 100,
+   "delay": 100
+  },
+  {
+   "name": "sacramento_311",
+   "org": "City of Sacramento (311 Customer Contact Center)",
+   "city": "Sacramento",
+   "sealed_path": "data/c4_sealed/sacramento_311.npz",
+   "array_content_sha256": "54abe45f9450d0e355c8081c9b34dd6f2b7e31cc4ca0ff7c9d9a21bf607e4ea1",
+   "episodes": 100,
+   "delay": 100
+  },
+  {
+   "name": "baltimore_311",
+   "org": "City of Baltimore (Open Baltimore / 311)",
+   "city": "Baltimore",
+   "sealed_path": "data/c4_sealed/baltimore_311.npz",
+   "array_content_sha256": "cbdaab5613fa45f58a7fb44dfac3c75cae1c054349134af74194ef9d0d0eafd1",
+   "episodes": 83,
+   "delay": 100
+  }
+ ]
+}

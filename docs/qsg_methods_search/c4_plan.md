@@ -166,3 +166,51 @@ episode bootstrap CI.
 
 The per-episode SD of Δ feeds the power calculation (episodes needed for 80% one-sided power
 at the pooled effect).
+
+## C4-0 pilot result (exposed data; development only)
+
+Run: 14 streams, 230 episodes × 10 seeds (seed base 2026110901), all checksums verified. Code:
+`scripts/qsg_methods_search/c4_pilot.py`, `analyze_c4_pilot.py`. Output:
+`outputs/qsg_methods_search/c4_pilot/` and `c4_pilot_analysis.txt`. The lock commit
+`a1682d1f` landed seconds after launch: a lint hook rejected the first commit attempt. The
+launched code differed only by `dict(...)` versus an equivalent dict literal.
+
+| comparator | pooled stream-mean Δ (stream bootstrap 95%) | negative in ≥5-episode streams | median per-episode SD | episodes for 80% one-sided power |
+|---|---|---|---|---|
+| tuned Gong–Zhang-style | **−4.57 [−7.20, −1.97]** | 8 / 10 | 10.7 | 35 |
+| Qiu-style | −2.37 [−6.83, +3.44] | 6 / 10 | 10.9 | 130 |
+
+Verdict under the registered rule: **GO**. The pooled point estimate is below 0 against both
+comparators, and 6 of 10 streams are negative against both.
+
+Per-stream detail is in `c4_pilot_analysis.txt`. Notable streams:
+- airlines: −8.0 [−11.0, −5.1] vs Gong–Zhang, −3.8 vs Qiu;
+- openml_ldpa: −9.4 vs Gong–Zhang;
+- metro: −18.3 vs Qiu;
+- appliances: Qiu is better by 25.9 [16.0, 35.8].
+
+Descriptive findings:
+- The Wald LCB is again equivalent to arm B (|Δ| ≤ 3.4).
+- Arm B beats dwell on all 14 streams by 1.8–14.2.
+- Arm A is worse than arm B everywhere.
+- Arm B loses to never-switch on airlines, bank and elec2, where the challenger is not better.
+
+## Amendment A1 (adopted 2026-11-07, after the pilot, before any fresh data is fetched or opened)
+
+The pilot shows the edge over the Qiu-style adapter is too small and inconsistent to confirm per
+dataset. It would need about 130 episodes (260k events) per dataset at the pooled effect. The
+edge over tuned Gong–Zhang, the closest prior construction, needs about 35. Therefore:
+
+1. **Per-dataset primary comparator: tuned Gong–Zhang-style (`gongT_w100_m10`) only.** A
+   dataset supports the claim if the episode-bootstrap one-sided 95% upper bound of mean
+   J(B) − J(gongT) is below 0.
+2. **Qiu-style becomes a pooled secondary test.** Across all K registered datasets, a
+   one-sided t-test on per-dataset mean Δ is reported. It cannot add or remove supporting
+   datasets.
+3. **Episode floor raised to 35 test episodes** (≥70k post-validation events), replacing 25.
+4. The count rule (≥8 of K distinct sources), the independence rule and the sealed
+   single-opening procedure are unchanged.
+
+The frozen claim for the paper narrows to: arm B beats the closest prior construction (tuned
+discounted point-estimate payback switching) on real chronological model-replacement streams.
+The synthetic advantage over Qiu-style is still reported, but not as a real-data claim.

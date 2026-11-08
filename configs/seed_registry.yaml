@@ -2430,3 +2430,11 @@ disclosed_overlaps:
   used_by: [PAVE-EF C3 validity guard, d=50 null grid]
   derivation: allocated
   note: 'confirmation; opened once'
+- id: pave_panel_eval
+  start: 102500000
+  end: 102599999
+  source: docs/methods_recovery/71_PAVE_SOTA_PANEL_PROTOCOL.md (allocated 2026-11-08; 1025xxxxx unused on all local refs)
+  status: confirmation
+  used_by: [PAVE-EF comparator panel, 54 long-delay cells x 30 seeds]
+  derivation: allocated
+  note: 'post-C3 comparator panel; opened once'

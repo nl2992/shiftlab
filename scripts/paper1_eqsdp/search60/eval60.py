@@ -19,6 +19,8 @@ Output: <out>/records.jsonl (one row per stream, ep, seed, config_id), meta.json
 from __future__ import annotations
 
 import argparse
+import atexit
+import hashlib
 import json
 import multiprocessing as mp
 import os
@@ -85,10 +87,10 @@ def load_specs(path, setting=None, wald_parent=False) -> list[dict]:
     return out
 
 
-def select_episodes(split, episodes=None, n_sub=None):
+def select_episodes(split, episodes=None, n_sub=None, sealed=None):
     """Return {dataset: [episode indices]}; ``episodes`` {dataset: [...]} overrides the split."""
     out = {}
-    for ds, (p, _, _) in tr.sealed_paths().items():
+    for ds, (p, _, _) in (sealed or tr.sealed_paths()).items():
         n = int(np.load(p)["l0"].shape[0])
         if episodes is not None:
             eps = [e for e in episodes.get(ds, []) if 0 <= e < n]
@@ -101,9 +103,9 @@ def select_episodes(split, episodes=None, n_sub=None):
     return out
 
 
-def make_jobs(names, episodes, seeds, budget=200, datasets=None):
+def make_jobs(names, episodes, seeds, budget=200, datasets=None, sealed=None):
     jobs = []
-    for ds, (p, delay, sb) in tr.sealed_paths().items():
+    for ds, (p, delay, sb) in (sealed or tr.sealed_paths()).items():
         if datasets and ds not in datasets:
             continue
         jobs += [(ds, p, delay, e, s, sb, list(names), budget, ())
@@ -111,10 +113,54 @@ def make_jobs(names, episodes, seeds, budget=200, datasets=None):
     return jobs
 
 
+_W: dict = {"key": None, "reg": None, "arrays": {}}  # per-worker caches (also used in-process)
+_POOL: dict = {}  # (workers) -> warm persistent mp.Pool, reused across run_eval calls
+
+
+def _losses(path, ep):
+    """(T, 2) int8 loss matrix of one episode; the npz is read once per worker and kept."""
+    a = _W["arrays"].get(path)
+    if a is None:
+        z = np.load(path)
+        a = _W["arrays"][path] = (z["l0"], z["l1"])
+    return np.stack([a[0][ep], a[1][ep]], axis=1).astype(np.int8)
+
+
 def _job(args):
-    base, specs = args
-    comp.register_specs(list(specs.values()))
-    return tr.job(base)
+    """Same rows as ``trace_run.job``; specs are registered and the registry built once per run
+    (key) per worker, and the sealed arrays are cached, instead of once per job."""
+    base, specs, key = args
+    if _W["key"] != key:
+        comp.register_specs(list(specs.values()))
+        _W["reg"] = tr.registry()
+        _W["key"] = key
+    dataset, path, delay, ep, seed, seed_base, names, budget, check_orig = base
+    orig, tr.registry = tr.registry, _cached_registry
+    try:
+        return tr.run_policies(
+            names, _losses(path, ep), delay, ep, seed, seed_base, dataset, budget, check_orig
+        )
+    finally:
+        tr.registry = orig
+
+
+def _cached_registry():
+    return _W["reg"]
+
+
+def _get_pool(workers):
+    """Persistent warm pool: the 30+ s of import/start-up is paid once per process, not per call."""
+    n = min(workers, 16)
+    if n not in _POOL:
+        _POOL[n] = mp.Pool(n, initializer=ev._warm)
+        atexit.register(_close_pools)
+    return _POOL[n]
+
+
+def _close_pools():
+    for p in _POOL.values():
+        p.terminate()
+    _POOL.clear()
 
 
 def run_eval(specs, out: Path, split="odd", episodes=None, n_sub=None, seeds=(0, 1), workers=8,
@@ -132,8 +178,9 @@ def run_eval(specs, out: Path, split="odd", episodes=None, n_sub=None, seeds=(0,
             status.append({"config_id": cid, "status": e.status, "reason": str(e)})
     names = [comp.config_id(s) for s in ok] + (CONTROLS if controls else []) + list(extra_names)
     sha = code_sha()
-    eps = select_episodes(split, episodes, n_sub)
-    jobs = make_jobs(names, eps, seeds, budget, datasets)
+    sealed = tr.sealed_paths()  # checksum verification once (not per helper)
+    eps = select_episodes(split, episodes, n_sub, sealed)
+    jobs = make_jobs(names, eps, seeds, budget, datasets, sealed)
     (out / "status.jsonl").write_text("\n".join(json.dumps(x) for x in status) + "\n")
     (out / "meta.json").write_text(json.dumps({
         "sha": sha, "split": split, "n_sub": n_sub, "seeds": list(seeds), "budget": budget,
@@ -141,7 +188,8 @@ def run_eval(specs, out: Path, split="odd", episodes=None, n_sub=None, seeds=(0,
         "episodes": eps if episodes is not None or n_sub else "all-of-split"}, indent=1,
         default=str))  # fmt: skip
     reg = {comp.config_id(s): s for s in ok}
-    jobs = [(j, reg) for j in jobs]
+    key = hashlib.sha256(json.dumps(reg, sort_keys=True, default=str).encode()).hexdigest()
+    jobs = [(j, reg, key) for j in jobs]
     rows = []
     t0 = time.perf_counter()
     with open(out / "records.jsonl", "w") as f:
@@ -149,8 +197,10 @@ def run_eval(specs, out: Path, split="odd", episodes=None, n_sub=None, seeds=(0,
             it = map(_job, jobs)
             pool = None
         else:
-            pool = mp.Pool(min(workers, 16), initializer=ev._warm)
-            it = pool.imap_unordered(_job, jobs, chunksize=2)
+            pool = _get_pool(workers)
+            it = pool.imap_unordered(
+                _job, jobs, chunksize=max(1, min(8, len(jobs) // (4 * workers)))
+            )
         for i, rs in enumerate(it):
             for r in rs:
                 rec = {k: r[k] for k in KEEP if k in r} | {"config_id": r["policy"], "sha": sha}
@@ -159,9 +209,6 @@ def run_eval(specs, out: Path, split="odd", episodes=None, n_sub=None, seeds=(0,
             if i % 50 == 0:
                 f.flush()
                 (out / "progress.txt").write_text(f"{i + 1}/{len(jobs)}")
-        if pool:
-            pool.close()
-            pool.join()
     (out / "progress.txt").write_text(
         f"done {len(jobs)}/{len(jobs)} in {time.perf_counter() - t0:.0f}s"
     )

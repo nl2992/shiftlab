@@ -296,10 +296,9 @@ class ComposedPolicy:
     # ---- simulator interface ---------------------------------------------------------------
     def predict(self, event):
         c, p = self.ctx, self.parent
-        ev = EventView(event.event_id, event.t, event.horizon, tuple(event.model_predictions))
-        c.t = int(ev.t)
-        c.preds = tuple(int(x) for x in ev.model_predictions)
-        c.disagree = bool(c.preds[0] != c.preds[1])
+        c.t = int(event.t)  # only t and the two predictions are exposed (no EventView needed)
+        c.preds = preds = tuple(map(int, event.model_predictions))
+        c.disagree = bool(preds[0] != preds[1])
         for m in self.mods:
             m.on_event(c)
         out = p.predict(event)

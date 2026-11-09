@@ -1,0 +1,609 @@
+{
+  "repository": "nl2992/shiftlab",
+  "branch": "research/paper1-eqsdp-foundation-2026-11-08",
+  "head_at_design": "8ac1ce4c90a18b0a4010c0fc9b3a48b5cefaef0f",
+  "parent": "s2armr_H1100 = EQSDp_l0.98_g0.3 + cutoff at t+delay>T-1100",
+  "datasets": [
+    "sf_311",
+    "kc_311",
+    "montgomery_traffic",
+    "dallas_311",
+    "dc_311",
+    "austin_311",
+    "cincinnati_311",
+    "oakland_311",
+    "sandiego_311"
+  ],
+  "contract": {
+    "T": 2000,
+    "B": 200,
+    "label_price": 0.05,
+    "switch_cost": 5,
+    "policy_seeds": 10,
+    "delay": "registered per dataset"
+  },
+  "evaluation": "The nine datasets were selected after C4 outcomes; all their episode parities are now exposed development data; no fresh confirmation claim.",
+  "tools": "All contraptions hypothetical. Prior context flags overlap, not full novelty audits. No policy runs were performed.",
+  "modules": [
+    {
+      "id": "A01",
+      "family": "A",
+      "name": "Periodic sentinel",
+      "implementation": "After cutoff, buy one disagreement label every m eligible events.",
+      "hypothesis": "Detect late advantage reversals with minimal spend.",
+      "parameters": "m=40,80,160; reserve=10,20",
+      "prior_context": "standard monitoring control"
+    },
+    {
+      "id": "A02",
+      "family": "A",
+      "name": "Geometric sentinel",
+      "implementation": "After cutoff, grow the sentinel interval geometrically until a warning resets it.",
+      "hypothesis": "Save more labels during long stable intervals.",
+      "parameters": "m0=20,40; growth=1.2,1.5",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "A03",
+      "family": "A",
+      "name": "Hazard-responsive sentinel",
+      "implementation": "Set sentinel probability using a posterior change hazard, with an irreducible floor.",
+      "hypothesis": "Spend monitoring budget when latent changes are more likely.",
+      "parameters": "hazard=0.0005,0.002; floor=0.01,0.03",
+      "prior_context": "hazard ideas previously explored"
+    },
+    {
+      "id": "A04",
+      "family": "A",
+      "name": "Disagreement CUSUM",
+      "implementation": "Track prediction-only disagreement indicator with a two-sided CUSUM; reopen a bounded query window on alarm.",
+      "hypothesis": "Detect distribution shift without paid labels.",
+      "parameters": "window=50,100; threshold=2,4",
+      "prior_context": "common prior-art family"
+    },
+    {
+      "id": "A05",
+      "family": "A",
+      "name": "Disagreement Page-Hinkley",
+      "implementation": "Apply Page-Hinkley to the online prediction-disagreement rate; reopen on alarm.",
+      "hypothesis": "Avoid a static post-cutoff purchase schedule.",
+      "parameters": "threshold=3,5; decay=0.95,0.99",
+      "prior_context": "common prior-art family"
+    },
+    {
+      "id": "A06",
+      "family": "A",
+      "name": "Prediction-pair transition alarm",
+      "implementation": "Monitor frequencies of observable (0,1) versus (1,0) model-output patterns.",
+      "hypothesis": "Capture regime changes invisible to total disagreement frequency.",
+      "parameters": "window=100,200; z=2,3",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "A07",
+      "family": "A",
+      "name": "Disagreement burst alarm",
+      "implementation": "Compare short versus long disagreement-frequency EWMAs and reopen on a burst.",
+      "hypothesis": "Increase label buys during unstable model-output periods.",
+      "parameters": "fast=20,50; slow=150,300",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "A08",
+      "family": "A",
+      "name": "Prediction turnover alarm",
+      "implementation": "Detect a change in each model's observed prediction-flip frequency (not label error).",
+      "hypothesis": "Use free prediction streams to trigger monitoring.",
+      "parameters": "window=50,100; z=2,3",
+      "prior_context": "proposal; may track context not quality"
+    },
+    {
+      "id": "A09",
+      "family": "A",
+      "name": "Feedback-staleness sentinel",
+      "implementation": "Force a disagreement query if no released informative label has arrived for m events.",
+      "hypothesis": "Prevent an early posterior from permanently suppressing data.",
+      "parameters": "max_age=60,120,240",
+      "prior_context": "related to R1 gap safeguard"
+    },
+    {
+      "id": "A10",
+      "family": "A",
+      "name": "One-shot reopening window",
+      "implementation": "At predeclared checkpoints past cutoff, reopen for W events under a reserved budget.",
+      "hypothesis": "Cover late shifts more efficiently than constant sentinels.",
+      "parameters": "checkpoint=1000,1300; width=100,200",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "B11",
+      "family": "B",
+      "name": "Maximum eligible-query gap",
+      "implementation": "Never leave more than G disagreement opportunities without buying one label.",
+      "hypothesis": "Avoid change-blind evidence starvation.",
+      "parameters": "G=20,50,100",
+      "prior_context": "R1-related; prior odd run tied"
+    },
+    {
+      "id": "B12",
+      "family": "B",
+      "name": "Randomized minimum propensity",
+      "implementation": "Impose positive acquisition probability p_min after cutoff before horizon-feasibility check.",
+      "hypothesis": "Protect against zero-support feedback policies.",
+      "parameters": "p_min=0.01,0.03,0.05",
+      "prior_context": "R1-related; prior odd run tied"
+    },
+    {
+      "id": "B13",
+      "family": "B",
+      "name": "Split-period budget reserve",
+      "implementation": "Reserve a fixed fraction of the 200 labels for t>800.",
+      "hypothesis": "Preserve capacity to recover late.",
+      "parameters": "reserve=10%,20%,30%",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "B14",
+      "family": "B",
+      "name": "Post-promotion reserve",
+      "implementation": "Reserve a small packet of labels for the first W events after model-1 promotion.",
+      "hypothesis": "Detect false promotion before losses compound.",
+      "parameters": "packet=5,10; W=100,200",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "B15",
+      "family": "B",
+      "name": "Post-reversal reserve",
+      "implementation": "Reserve queries immediately after returning to model 0.",
+      "hypothesis": "Check whether rollback itself was premature.",
+      "parameters": "packet=5,10; W=100,200",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "B16",
+      "family": "B",
+      "name": "Pending-queue cap",
+      "implementation": "Suppress redundant acquisition when too many already-requested disagreement labels are in flight.",
+      "hypothesis": "Avoid paying twice before evidence can arrive.",
+      "parameters": "pending_cap=5,10,20",
+      "prior_context": "existing stake variant uses pending cap"
+    },
+    {
+      "id": "B17",
+      "family": "B",
+      "name": "Pending-age priority",
+      "implementation": "Prefer query windows where queued labels are unlikely to arrive early enough to change an action.",
+      "hypothesis": "Improve value per released observation.",
+      "parameters": "max_pending_age=50,100; age_penalty=0.3,1",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "B18",
+      "family": "B",
+      "name": "Posterior-uncertainty pacing",
+      "implementation": "Multiply the parent query propensity by a clipped posterior-variance score.",
+      "hypothesis": "Shift buying toward uncertainty rather than uniform pacing.",
+      "parameters": "gain=0.5,1.5; floor=0.1,0.3",
+      "prior_context": "conventional active learning"
+    },
+    {
+      "id": "B19",
+      "family": "B",
+      "name": "Decision-boundary proximity pacing",
+      "implementation": "Increase buying near the original EQSDp payback boundary, but retain a nonzero sentinel floor.",
+      "hypothesis": "Buy labels most likely to affect switching while avoiding old C1 lock-in.",
+      "parameters": "band=2,5,10; floor=0.05,0.15",
+      "prior_context": "C1 proximity mechanism failed without insurance"
+    },
+    {
+      "id": "B20",
+      "family": "B",
+      "name": "Prediction-pattern stratified acquisition",
+      "implementation": "Maintain separate acquisition quotas for (0,1) and (1,0) disagreement patterns.",
+      "hypothesis": "Reduce skew when the direction of disagreement changes.",
+      "parameters": "target_balance=0.5,0.75; min_rate=0.01",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "C21",
+      "family": "C",
+      "name": "Fast/slow Beta evidence blend",
+      "implementation": "Maintain two discounted Beta counts and combine their switching signals, preserving the original EQSDp as default.",
+      "hypothesis": "React to abrupt changes without excessive stationary variance.",
+      "parameters": "lambda_fast=0.8,0.9; mix=0.2,0.5",
+      "prior_context": "related adaptive forgetting tested previously"
+    },
+    {
+      "id": "C22",
+      "family": "C",
+      "name": "Surprise-triggered discount",
+      "implementation": "Temporarily decrease lambda after low-probability released-label outcomes.",
+      "hypothesis": "Recover from stale posterior lock-in.",
+      "parameters": "surprise=0.01,0.05; lambda_alert=0.8,0.9",
+      "prior_context": "adaptive forgetting family previously screened"
+    },
+    {
+      "id": "C23",
+      "family": "C",
+      "name": "Soft posterior reset",
+      "implementation": "Shrink old discounted counts toward their prior after an observable released-feedback change alarm.",
+      "hypothesis": "Remove incorrect old evidence without full reset.",
+      "parameters": "shrink=0.25,0.5; threshold=3,5",
+      "prior_context": "reset ideas related to earlier screens"
+    },
+    {
+      "id": "C24",
+      "family": "C",
+      "name": "Hazard-mixture Beta filter",
+      "implementation": "Use a stable-versus-redraw posterior mixture to adjust the evidence summary.",
+      "hypothesis": "Make sudden changes less surprising to the decision rule.",
+      "parameters": "hazard=0.0001,0.001; prior_strength=1,3",
+      "prior_context": "R2 Bayesian hazard tested standalone"
+    },
+    {
+      "id": "C25",
+      "family": "C",
+      "name": "Bayesian run-length posterior",
+      "implementation": "Track the posterior since last likely change using only released disagreement outcomes.",
+      "hypothesis": "Weight post-change observations more heavily.",
+      "parameters": "hazard=0.0005,0.002; truncate=50,200",
+      "prior_context": "BOCPD family previously screened"
+    },
+    {
+      "id": "C26",
+      "family": "C",
+      "name": "Two-regime hidden-state belief",
+      "implementation": "Infer latent persistent challenger-better versus incumbent-better regimes.",
+      "hypothesis": "Avoid treating transient and persistent advantages equally.",
+      "parameters": "self_transition=0.98,0.995; smoothing=0.1,0.3",
+      "prior_context": "proposal; persistence ideas previously tested"
+    },
+    {
+      "id": "C27",
+      "family": "C",
+      "name": "Dependence-adjusted effective sample size",
+      "implementation": "Reduce effective Beta counts as observed label autocorrelation rises.",
+      "hypothesis": "Avoid overconfident switching in correlated streams.",
+      "parameters": "strength=0.5,1; cap=0.9",
+      "prior_context": "G/ESS correction previously tied or lost"
+    },
+    {
+      "id": "C28",
+      "family": "C",
+      "name": "Request-time discount correction",
+      "implementation": "Discount a released label according to its event timestamp rather than only its release order.",
+      "hypothesis": "Avoid stale delayed-label updates appearing artificially fresh.",
+      "parameters": "age_tau=100,300; min_weight=0.2,0.5",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "C29",
+      "family": "C",
+      "name": "Robust Beta prior ensemble",
+      "implementation": "Average or take a conservative envelope across weak and concentrated Beta priors.",
+      "hypothesis": "Reduce sensitivity to early small samples.",
+      "parameters": "alpha_beta=(1,1),(2,2),(5,5)",
+      "prior_context": "proposal; standard Bayesian robustness"
+    },
+    {
+      "id": "C30",
+      "family": "C",
+      "name": "Joint disagreement-and-win-rate belief",
+      "implementation": "Maintain separate Beta filters for observable disagreement probability and conditional challenger win rate.",
+      "hypothesis": "Improve payback estimates when disagreement frequency shifts.",
+      "parameters": "rate_lambda=0.95,0.99; gain_lambda=0.9,0.98",
+      "prior_context": "the parent already estimates both separately"
+    },
+    {
+      "id": "D31",
+      "family": "D",
+      "name": "Two-observation promotion confirmation",
+      "implementation": "After parent proposes promotion, require one additional informative released disagreement before switching.",
+      "hypothesis": "Reduce expensive false promotions.",
+      "parameters": "needed=1,2; timeout=100,200",
+      "prior_context": "proposal; may delay adoption"
+    },
+    {
+      "id": "D32",
+      "family": "D",
+      "name": "Reversible probation after promotion",
+      "implementation": "Apply a short probation phase with elevated monitoring and conditional rollback.",
+      "hypothesis": "Reduce error exposure after mistaken promotion.",
+      "parameters": "probation=50,100; extra_queries=5,10",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "D33",
+      "family": "D",
+      "name": "Fast negative-evidence rollback",
+      "implementation": "During probation, reverse when an observed short-window loss gap is strongly adverse.",
+      "hypothesis": "Shorten expensive bad deployments.",
+      "parameters": "window=5,10; threshold=2,4",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "D34",
+      "family": "D",
+      "name": "Direction-specific conservative quantiles",
+      "implementation": "Use separate promotion and reversal gamma values around original baseline gamma.",
+      "hypothesis": "Balance missed adoption versus false reversal.",
+      "parameters": "gamma_enter=0.2,0.35; gamma_exit=0.1,0.3",
+      "prior_context": "asymmetric thresholds tried previously"
+    },
+    {
+      "id": "D35",
+      "family": "D",
+      "name": "Switch-count-dependent hurdle",
+      "implementation": "Increase marginal switch cost in the decision rule following repeated reversals.",
+      "hypothesis": "Suppress churn without blocking the first beneficial adoption.",
+      "parameters": "slope=1,3; decay=100,300",
+      "prior_context": "earlier hysteresis family tied"
+    },
+    {
+      "id": "D36",
+      "family": "D",
+      "name": "Persistence-adjusted payback",
+      "implementation": "Replace raw remaining horizon by expected duration of the advantage under a hazard model.",
+      "hypothesis": "Prevent adoption of a fleeting improvement.",
+      "parameters": "hazard=0.0005,0.002; floor_horizon=100,300",
+      "prior_context": "C2 option-value related; prior tied"
+    },
+    {
+      "id": "D37",
+      "family": "D",
+      "name": "Alarm-conditioned emergency promotion",
+      "implementation": "After a strong label-based change alarm, reduce the promotion hurdle for a bounded window.",
+      "hypothesis": "Recover faster from abrupt advantage changes.",
+      "parameters": "hurdle_scale=0.6,0.8; window=100,200",
+      "prior_context": "proposal; requires false-promotion analysis"
+    },
+    {
+      "id": "D38",
+      "family": "D",
+      "name": "Query-burst confirmation before switching",
+      "implementation": "When payback is near the hurdle, buy a brief evidence packet then decide.",
+      "hypothesis": "Improve timing of high-impact uncertain switches.",
+      "parameters": "packet=3,5; band=2,5",
+      "prior_context": "decision-at-stake related earlier variants"
+    },
+    {
+      "id": "D39",
+      "family": "D",
+      "name": "Horizon-dependent quantile level",
+      "implementation": "Vary risk tolerance through the episode while leaving Beta evidence and payback structure intact.",
+      "hypothesis": "Trade early adaptation against late overfitting.",
+      "parameters": "gamma_early=0.3,0.45; gamma_late=0.1,0.2",
+      "prior_context": "C5 earlier tied"
+    },
+    {
+      "id": "D40",
+      "family": "D",
+      "name": "Posterior no-action switch band",
+      "implementation": "Require additional predicted incremental benefit when posterior uncertainty makes repeated switching likely.",
+      "hypothesis": "Reduce low-value reversals while protecting strong signals.",
+      "parameters": "band=1,3,5",
+      "prior_context": "common hysteresis variant"
+    },
+    {
+      "id": "E41",
+      "family": "E",
+      "name": "Missed-switch expected-loss proxy",
+      "implementation": "Estimate downside of withholding another label under a finite-horizon future-change mixture.",
+      "hypothesis": "Prevent 600-unit missed promotions that dwarf label fees.",
+      "parameters": "rollout_h=100,300; hazard=0.0005,0.002",
+      "prior_context": "one-step R2 tested; must improve model"
+    },
+    {
+      "id": "E42",
+      "family": "E",
+      "name": "Paired-cost tail-aware acquisition",
+      "implementation": "Purchase labels when estimated upper-tail excess cost of skipping is high.",
+      "hypothesis": "Protect rare high-cost episodes.",
+      "parameters": "alpha=0.9,0.95; risk_weight=0.5,2",
+      "prior_context": "R3 tail prior standalone tied"
+    },
+    {
+      "id": "E43",
+      "family": "E",
+      "name": "Posterior risk budget per deployment",
+      "implementation": "Track posterior expected downside of wrong switches against a preallocated loss budget.",
+      "hypothesis": "Spend caution only when downside budget is tight.",
+      "parameters": "risk_budget=5,10,20",
+      "prior_context": "proposal; not a formal guarantee"
+    },
+    {
+      "id": "E44",
+      "family": "E",
+      "name": "Prior-robust payback envelope",
+      "implementation": "Check economic benefit under multiple posterior priors before allowing a risky state change.",
+      "hypothesis": "Avoid optimistic transitions driven by a single assumed prior.",
+      "parameters": "priors=weak,balanced; envelope=quantile,mean",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "E45",
+      "family": "E",
+      "name": "Ambiguity-triggered parent fallback",
+      "implementation": "If an add-on decision is too uncertain, use frozen EQSDp+cutoff behaviour.",
+      "hypothesis": "Keep the parent's strong default performance.",
+      "parameters": "ambiguity=0.05,0.1; cooldown=50,100",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "E46",
+      "family": "E",
+      "name": "Positive-propensity feedback correction",
+      "implementation": "Use capped inverse-propensity weighted statistics for diagnostics or decision calibration where valid.",
+      "hypothesis": "Reduce informative-label selection bias when acquisition becomes adaptive.",
+      "parameters": "weight_cap=5,10; shrink=0.25,0.5",
+      "prior_context": "known IPW; formal assumptions required"
+    },
+    {
+      "id": "E47",
+      "family": "E",
+      "name": "Released-loss CUSUM monitor",
+      "implementation": "Apply CUSUM to purchased-label signs, with explicit delay and monitoring floor.",
+      "hypothesis": "Detect switching advantage reversals from actual loss evidence.",
+      "parameters": "threshold=3,5; reset=soft,hard",
+      "prior_context": "existing change detector families"
+    },
+    {
+      "id": "E48",
+      "family": "E",
+      "name": "Next-information arrival value",
+      "implementation": "Penalize actions that rely on evidence arriving after the last economically useful switch time.",
+      "hypothesis": "Avoid buying or switching on information that cannot pay back.",
+      "parameters": "arrival_discount=0.5,1; lookahead=50,150",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "E49",
+      "family": "E",
+      "name": "Posterior lock-in detector",
+      "implementation": "Flag high-confidence states with few recent labels and force monitoring.",
+      "hypothesis": "Prevent self-confirming starvation after an early stationary belief.",
+      "parameters": "confidence=0.95,0.99; age=80,160",
+      "prior_context": "directly targets failed C1 mechanism"
+    },
+    {
+      "id": "E50",
+      "family": "E",
+      "name": "Observed-regret risk score",
+      "implementation": "Compute a downside proxy from purchased-label regret, carefully respecting query propensities.",
+      "hypothesis": "Estimate risky deployment intervals without hidden labels.",
+      "parameters": "window=10,30; upper_q=0.9,0.95",
+      "prior_context": "proposal; not true realized unlabeled regret"
+    },
+    {
+      "id": "F51",
+      "family": "F",
+      "name": "Front-loaded startup pulse",
+      "implementation": "Spend a small fixed packet before first actionable delayed feedback.",
+      "hypothesis": "Improve the first high-value promotion decision.",
+      "parameters": "packet=5,10; duration=100,200",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "F52",
+      "family": "F",
+      "name": "Backloaded adaptive evidence pulse",
+      "implementation": "Keep budget for a predeclared late evidence pulse after cutoff.",
+      "hypothesis": "Detect later regime reversals.",
+      "parameters": "packet=5,10; start=1100,1400",
+      "prior_context": "proposal"
+    },
+    {
+      "id": "F53",
+      "family": "F",
+      "name": "Alarm-triggered reserve release",
+      "implementation": "Unlock a protected budget reserve when free or paid change alarms fire.",
+      "hypothesis": "Concentrate expensive monitoring on likely shifts.",
+      "parameters": "reserve=10,20; alarm_z=2,3",
+      "prior_context": "dynamic budget allocation prior art"
+    },
+    {
+      "id": "F54",
+      "family": "F",
+      "name": "Sequential surprise query burst",
+      "implementation": "After two surprising released labels, temporarily raise query propensity.",
+      "hypothesis": "Verify whether change is persistent.",
+      "parameters": "surprises=2,3; burst=5,10",
+      "prior_context": "prior related drift active learning"
+    },
+    {
+      "id": "F55",
+      "family": "F",
+      "name": "Unlabeled/labeled sensor fusion",
+      "implementation": "Require agreement or Bayesian fusion between prediction-pattern alarms and released-loss alarms.",
+      "hypothesis": "Reduce spurious triggers while capturing true shifts.",
+      "parameters": "fusion=OR,AND,weighted; horizon=100",
+      "prior_context": "proposal; model-output may not track loss"
+    },
+    {
+      "id": "F56",
+      "family": "F",
+      "name": "Sentinel-to-rollback cascade",
+      "implementation": "A post-cutoff sentinel surprise triggers high-rate querying plus rapid rollback review.",
+      "hypothesis": "Combine cheap monitoring with costly-deployment containment.",
+      "parameters": "alert=2,3; burst=5,10; review=50",
+      "prior_context": "combination candidate"
+    },
+    {
+      "id": "F57",
+      "family": "F",
+      "name": "Alarm-gated fast/slow evidence",
+      "implementation": "Use fast Beta counts only after a change warning, otherwise retain parent evidence.",
+      "hypothesis": "Avoid the stationary variance penalty of permanent fast forgetting.",
+      "parameters": "fast_lambda=0.8,0.9; duration=100,200",
+      "prior_context": "combines prior failed components"
+    },
+    {
+      "id": "F58",
+      "family": "F",
+      "name": "Two-policy economic arbitration",
+      "implementation": "Maintain parent and experimental policy states; use released labels to select action cautiously, charging all switches.",
+      "hypothesis": "Avoid catastrophic regressions from an unstable add-on.",
+      "parameters": "score_window=30,100; penalty=1,3",
+      "prior_context": "proposal; requires full state and selection audit"
+    },
+    {
+      "id": "F59",
+      "family": "F",
+      "name": "Lightweight learned acquisition controller",
+      "implementation": "Train a small threshold policy on observable state features, then freeze it on a development fold.",
+      "hypothesis": "Learn interactions too complex for hand-tuned rules.",
+      "parameters": "model=tree,logistic; depth=2,3",
+      "prior_context": "non-novel generic meta-learning alone"
+    },
+    {
+      "id": "F60",
+      "family": "F",
+      "name": "Multi-label short-rollout VOI",
+      "implementation": "Estimate net value of a bundle of 2–4 future labels, conditional on their arrival times.",
+      "hypothesis": "One label may not cross a switch threshold although a packet could.",
+      "parameters": "bundle=2,3,4; horizon=100,200",
+      "prior_context": "R2-roll k=2,3 tried; tied on odd"
+    }
+  ],
+  "comparators": {
+    "adapters": [
+      "qiu_delayed_movement",
+      "gong_zhang_paid_obs",
+      "gongT_w100_m10",
+      "gongT_w800_m20",
+      "upf_d0.95_m50",
+      "upf_d0.8_m50",
+      "chalgse_l1.0_g0.2",
+      "chalgse_l0.9_g0.3",
+      "cams_adapter",
+      "model_selector_causal",
+      "model_picker_adapter",
+      "online_llm_picker",
+      "variance_min_ipw",
+      "han_arw_label_clock"
+    ],
+    "uncertified_controls": [
+      "wald_l0.9_g0.2",
+      "wald_l0.97_g0.2",
+      "hoef_l0.9_g0.45",
+      "hoef_l0.97_g0.3",
+      "smarg_l0.9_k0.2",
+      "smarg_l0.97_k0.2",
+      "dwell_l0.9_s5",
+      "dwell_l0.97_s3",
+      "econF_mo5_m5",
+      "econF_mo5_m0",
+      "economic_replacement"
+    ],
+    "matched_cutoff_refs": [
+      "s2armr_H1100",
+      "s2wald_l0.98_g0.3_H1100",
+      "s2wald_l0.97_g0.2_H1100"
+    ],
+    "own_no_cutoff": [
+      "EQSDp_l0.98_g0.3",
+      "EQSDp_l0.9_g0.2"
+    ]
+  }
+}

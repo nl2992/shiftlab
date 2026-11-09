@@ -1,0 +1,620 @@
+{"combo_id": "K1__A01", "modules": ["A01"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A02", "modules": ["A02"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A03", "modules": ["A03"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A04", "modules": ["A04"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A05", "modules": ["A05"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A06", "modules": ["A06"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A07", "modules": ["A07"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A08", "modules": ["A08"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A09", "modules": ["A09"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__A10", "modules": ["A10"], "cardinality": 1, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B11", "modules": ["B11"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B12", "modules": ["B12"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B13", "modules": ["B13"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B14", "modules": ["B14"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B15", "modules": ["B15"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B16", "modules": ["B16"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B17", "modules": ["B17"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B18", "modules": ["B18"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B19", "modules": ["B19"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__B20", "modules": ["B20"], "cardinality": 1, "families": ["B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C21", "modules": ["C21"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C22", "modules": ["C22"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C23", "modules": ["C23"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C24", "modules": ["C24"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C25", "modules": ["C25"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C26", "modules": ["C26"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C27", "modules": ["C27"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C28", "modules": ["C28"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C29", "modules": ["C29"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__C30", "modules": ["C30"], "cardinality": 1, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D31", "modules": ["D31"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D32", "modules": ["D32"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D33", "modules": ["D33"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D34", "modules": ["D34"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D35", "modules": ["D35"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D36", "modules": ["D36"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D37", "modules": ["D37"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D38", "modules": ["D38"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D39", "modules": ["D39"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__D40", "modules": ["D40"], "cardinality": 1, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E41", "modules": ["E41"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E42", "modules": ["E42"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E43", "modules": ["E43"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E44", "modules": ["E44"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E45", "modules": ["E45"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E46", "modules": ["E46"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E47", "modules": ["E47"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E48", "modules": ["E48"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E49", "modules": ["E49"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__E50", "modules": ["E50"], "cardinality": 1, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F51", "modules": ["F51"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F52", "modules": ["F52"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F53", "modules": ["F53"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F54", "modules": ["F54"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F55", "modules": ["F55"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F56", "modules": ["F56"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F57", "modules": ["F57"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F58", "modules": ["F58"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F59", "modules": ["F59"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K1__F60", "modules": ["F60"], "cardinality": 1, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B19_E43", "modules": ["B19", "E43"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D33_E48", "modules": ["D33", "E48"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E47_F56", "modules": ["E47", "F56"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A02_B19", "modules": ["A02", "B19"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C29_F52", "modules": ["C29", "F52"], "cardinality": 2, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E42_F52", "modules": ["E42", "F52"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A04_F51", "modules": ["A04", "F51"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C22_E45", "modules": ["C22", "E45"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C29_E49", "modules": ["C29", "E49"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E49_F58", "modules": ["E49", "F58"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B13_C30", "modules": ["B13", "C30"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C22_D34", "modules": ["C22", "D34"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B11_D32", "modules": ["B11", "D32"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A08_B20", "modules": ["A08", "B20"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C27_F58", "modules": ["C27", "F58"], "cardinality": 2, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A07_B20", "modules": ["A07", "B20"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C25_E41", "modules": ["C25", "E41"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A08_B17", "modules": ["A08", "B17"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C23_D40", "modules": ["C23", "D40"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A07_C28", "modules": ["A07", "C28"], "cardinality": 2, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_D40", "modules": ["A01", "D40"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B20_F53", "modules": ["B20", "F53"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B13_E45", "modules": ["B13", "E45"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_A04", "modules": ["A01", "A04"], "cardinality": 2, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A08_B18", "modules": ["A08", "B18"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B12_D37", "modules": ["B12", "D37"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C23_D38", "modules": ["C23", "D38"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A04_D36", "modules": ["A04", "D36"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B15_E49", "modules": ["B15", "E49"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D32_E42", "modules": ["D32", "E42"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E44_F56", "modules": ["E44", "F56"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C29_E41", "modules": ["C29", "E41"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B14_E42", "modules": ["B14", "E42"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B15_F55", "modules": ["B15", "F55"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E48_F60", "modules": ["E48", "F60"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B17_F53", "modules": ["B17", "F53"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E41_F53", "modules": ["E41", "F53"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B11_E45", "modules": ["B11", "E45"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B18_D39", "modules": ["B18", "D39"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_B18", "modules": ["A01", "B18"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C22_D36", "modules": ["C22", "D36"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E47_F57", "modules": ["E47", "F57"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B16_F58", "modules": ["B16", "F58"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C25_E48", "modules": ["C25", "E48"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E44_F55", "modules": ["E44", "F55"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B19_C26", "modules": ["B19", "C26"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A04_D33", "modules": ["A04", "D33"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A02_F56", "modules": ["A02", "F56"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A02_C25", "modules": ["A02", "C25"], "cardinality": 2, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D40_E41", "modules": ["D40", "E41"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C28_E42", "modules": ["C28", "E42"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D32_E45", "modules": ["D32", "E45"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C30_E48", "modules": ["C30", "E48"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D38_F55", "modules": ["D38", "F55"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A03_A06", "modules": ["A03", "A06"], "cardinality": 2, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_E49", "modules": ["A01", "E49"], "cardinality": 2, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C22_E49", "modules": ["C22", "E49"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C25_D31", "modules": ["C25", "D31"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A06_E44", "modules": ["A06", "E44"], "cardinality": 2, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A10_C22", "modules": ["A10", "C22"], "cardinality": 2, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_B11", "modules": ["A01", "B11"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D33_E44", "modules": ["D33", "E44"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B13_E46", "modules": ["B13", "E46"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C29_F55", "modules": ["C29", "F55"], "cardinality": 2, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A05_D38", "modules": ["A05", "D38"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B18_E47", "modules": ["B18", "E47"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D35_E44", "modules": ["D35", "E44"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B14_C22", "modules": ["B14", "C22"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A03_E49", "modules": ["A03", "E49"], "cardinality": 2, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A04_E47", "modules": ["A04", "E47"], "cardinality": 2, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D40_F57", "modules": ["D40", "F57"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A10_D35", "modules": ["A10", "D35"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B15_F60", "modules": ["B15", "F60"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D36_D37", "modules": ["D36", "D37"], "cardinality": 2, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D40_F55", "modules": ["D40", "F55"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E43_F56", "modules": ["E43", "F56"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_B15", "modules": ["A01", "B15"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B13_E42", "modules": ["B13", "E42"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A09_B19", "modules": ["A09", "B19"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A05_E43", "modules": ["A05", "E43"], "cardinality": 2, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B20_C30", "modules": ["B20", "C30"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D34_F56", "modules": ["D34", "F56"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B15_C29", "modules": ["B15", "C29"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C27_E41", "modules": ["C27", "E41"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D31_F51", "modules": ["D31", "F51"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A05_F57", "modules": ["A05", "F57"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D37_E41", "modules": ["D37", "E41"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B14_F60", "modules": ["B14", "F60"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C25_E47", "modules": ["C25", "E47"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B14_D32", "modules": ["B14", "D32"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B20_D35", "modules": ["B20", "D35"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B17_D38", "modules": ["B17", "D38"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A03_B17", "modules": ["A03", "B17"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C25_D33", "modules": ["C25", "D33"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C26_D31", "modules": ["C26", "D31"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A07_F53", "modules": ["A07", "F53"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D31_E46", "modules": ["D31", "E46"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A07_B12", "modules": ["A07", "B12"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C21_E50", "modules": ["C21", "E50"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E47_F59", "modules": ["E47", "F59"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D33_F51", "modules": ["D33", "F51"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C24_D37", "modules": ["C24", "D37"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B12_D39", "modules": ["B12", "D39"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A09_F52", "modules": ["A09", "F52"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D34_F52", "modules": ["D34", "F52"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D39_E50", "modules": ["D39", "E50"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B11_F57", "modules": ["B11", "F57"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A08_F57", "modules": ["A08", "F57"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_D38", "modules": ["A01", "D38"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D36_E50", "modules": ["D36", "E50"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D34_F60", "modules": ["D34", "F60"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C24_F55", "modules": ["C24", "F55"], "cardinality": 2, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D31_F52", "modules": ["D31", "F52"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B17_F60", "modules": ["B17", "F60"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C24_D35", "modules": ["C24", "D35"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D38_F59", "modules": ["D38", "F59"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A03_B12", "modules": ["A03", "B12"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C24_D31", "modules": ["C24", "D31"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A07_F52", "modules": ["A07", "F52"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C26_F59", "modules": ["C26", "F59"], "cardinality": 2, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_B14", "modules": ["A01", "B14"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A06_F54", "modules": ["A06", "F54"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A02_C24", "modules": ["A02", "C24"], "cardinality": 2, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A06_E46", "modules": ["A06", "E46"], "cardinality": 2, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A10_B14", "modules": ["A10", "B14"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__F53_F56", "modules": ["F53", "F56"], "cardinality": 2, "families": ["F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D34_E46", "modules": ["D34", "E46"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D31_E47", "modules": ["D31", "E47"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B15_E46", "modules": ["B15", "E46"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C30_E47", "modules": ["C30", "E47"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B19_E46", "modules": ["B19", "E46"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B19_C28", "modules": ["B19", "C28"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C23_D31", "modules": ["C23", "D31"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B12_C21", "modules": ["B12", "C21"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A03_C30", "modules": ["A03", "C30"], "cardinality": 2, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B16_E44", "modules": ["B16", "E44"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_C28", "modules": ["A01", "C28"], "cardinality": 2, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D39_E44", "modules": ["D39", "E44"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B17_E42", "modules": ["B17", "E42"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C28_E47", "modules": ["C28", "E47"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B15_C21", "modules": ["B15", "C21"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C28_E44", "modules": ["C28", "E44"], "cardinality": 2, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_E48", "modules": ["A01", "E48"], "cardinality": 2, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D35_E42", "modules": ["D35", "E42"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A03_D37", "modules": ["A03", "D37"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D40_F56", "modules": ["D40", "F56"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C23_F56", "modules": ["C23", "F56"], "cardinality": 2, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B20_D38", "modules": ["B20", "D38"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A01_D36", "modules": ["A01", "D36"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B19_C21", "modules": ["B19", "C21"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B20_F54", "modules": ["B20", "F54"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B18_C21", "modules": ["B18", "C21"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D33_F60", "modules": ["D33", "F60"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A03_F55", "modules": ["A03", "F55"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C21_D32", "modules": ["C21", "D32"], "cardinality": 2, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D38_E49", "modules": ["D38", "E49"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B13_C27", "modules": ["B13", "C27"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B17_C24", "modules": ["B17", "C24"], "cardinality": 2, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A08_F55", "modules": ["A08", "F55"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E49_F56", "modules": ["E49", "F56"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B17_E49", "modules": ["B17", "E49"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A05_F54", "modules": ["A05", "F54"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E46_F52", "modules": ["E46", "F52"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D39_F60", "modules": ["D39", "F60"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D37_F54", "modules": ["D37", "F54"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A09_C24", "modules": ["A09", "C24"], "cardinality": 2, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C27_F51", "modules": ["C27", "F51"], "cardinality": 2, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C25_F52", "modules": ["C25", "F52"], "cardinality": 2, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B19_F54", "modules": ["B19", "F54"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E46_F56", "modules": ["E46", "F56"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A03_D32", "modules": ["A03", "D32"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D36_D40", "modules": ["D36", "D40"], "cardinality": 2, "families": ["D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__C27_C30", "modules": ["C27", "C30"], "cardinality": 2, "families": ["C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E50_F58", "modules": ["E50", "F58"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D37_F57", "modules": ["D37", "F57"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A08_A10", "modules": ["A08", "A10"], "cardinality": 2, "families": ["A"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A02_F54", "modules": ["A02", "F54"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A07_D32", "modules": ["A07", "D32"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D40_F51", "modules": ["D40", "F51"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B15_D38", "modules": ["B15", "D38"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A06_E41", "modules": ["A06", "E41"], "cardinality": 2, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D31_F56", "modules": ["D31", "F56"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B20_E48", "modules": ["B20", "E48"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E48_F57", "modules": ["E48", "F57"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E42_E44", "modules": ["E42", "E44"], "cardinality": 2, "families": ["E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B12_D32", "modules": ["B12", "D32"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B20_F60", "modules": ["B20", "F60"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B17_E48", "modules": ["B17", "E48"], "cardinality": 2, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B11_F55", "modules": ["B11", "F55"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D36_E41", "modules": ["D36", "E41"], "cardinality": 2, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B14_F56", "modules": ["B14", "F56"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E48_F51", "modules": ["E48", "F51"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B12_F54", "modules": ["B12", "F54"], "cardinality": 2, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E46_F54", "modules": ["E46", "F54"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__E43_F55", "modules": ["E43", "F55"], "cardinality": 2, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A10_D36", "modules": ["A10", "D36"], "cardinality": 2, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__B11_D39", "modules": ["B11", "D39"], "cardinality": 2, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A02_F60", "modules": ["A02", "F60"], "cardinality": 2, "families": ["A", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__D35_F56", "modules": ["D35", "F56"], "cardinality": 2, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K2__A10_B12", "modules": ["A10", "B12"], "cardinality": 2, "families": ["A", "B"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B11_C21_F58", "modules": ["B11", "C21", "F58"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B18_D31_F52", "modules": ["B18", "D31", "F52"], "cardinality": 3, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B16_C29_E45", "modules": ["B16", "C29", "E45"], "cardinality": 3, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_E49_F52", "modules": ["A09", "E49", "F52"], "cardinality": 3, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B12_D39_E46", "modules": ["B12", "D39", "E46"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B15_D35_F56", "modules": ["B15", "D35", "F56"], "cardinality": 3, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_B11_F60", "modules": ["A06", "B11", "F60"], "cardinality": 3, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_B14_E42", "modules": ["A03", "B14", "E42"], "cardinality": 3, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_D39_F60", "modules": ["A09", "D39", "F60"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C25_D40_E49", "modules": ["C25", "D40", "E49"], "cardinality": 3, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_C30_D39", "modules": ["A06", "C30", "D39"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_C25_E46", "modules": ["A03", "C25", "E46"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C30_D36_F54", "modules": ["C30", "D36", "F54"], "cardinality": 3, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A02_B13_D40", "modules": ["A02", "B13", "D40"], "cardinality": 3, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D34_E44_F53", "modules": ["D34", "E44", "F53"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C22_D37_E44", "modules": ["C22", "D37", "E44"], "cardinality": 3, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C26_E42_F55", "modules": ["C26", "E42", "F55"], "cardinality": 3, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A08_D38_F52", "modules": ["A08", "D38", "F52"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_C30_D40", "modules": ["A05", "C30", "D40"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_E48_F51", "modules": ["A06", "E48", "F51"], "cardinality": 3, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B13_C23_F56", "modules": ["B13", "C23", "F56"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_C23_E44", "modules": ["A09", "C23", "E44"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A04_C23_E47", "modules": ["A04", "C23", "E47"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B20_F52_F58", "modules": ["B20", "F52", "F58"], "cardinality": 3, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B16_C21_D33", "modules": ["B16", "C21", "D33"], "cardinality": 3, "families": ["B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C24_D38_E44", "modules": ["C24", "D38", "E44"], "cardinality": 3, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A02_D32_E45", "modules": ["A02", "D32", "E45"], "cardinality": 3, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A01_D32_E45", "modules": ["A01", "D32", "E45"], "cardinality": 3, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_B15_E43", "modules": ["A06", "B15", "E43"], "cardinality": 3, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B11_C28_F58", "modules": ["B11", "C28", "F58"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B12_C23_D33", "modules": ["B12", "C23", "D33"], "cardinality": 3, "families": ["B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B14_D38_E48", "modules": ["B14", "D38", "E48"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B17_C22_C27", "modules": ["B17", "C22", "C27"], "cardinality": 3, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A02_B16_D32", "modules": ["A02", "B16", "D32"], "cardinality": 3, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A02_D34_E46", "modules": ["A02", "D34", "E46"], "cardinality": 3, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A07_B18_E41", "modules": ["A07", "B18", "E41"], "cardinality": 3, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B18_C23_C28", "modules": ["B18", "C23", "C28"], "cardinality": 3, "families": ["B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B11_C24_D37", "modules": ["B11", "C24", "D37"], "cardinality": 3, "families": ["B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A07_B18_F51", "modules": ["A07", "B18", "F51"], "cardinality": 3, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A10_C24_E42", "modules": ["A10", "C24", "E42"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B12_C29_E47", "modules": ["B12", "C29", "E47"], "cardinality": 3, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D32_E50_F59", "modules": ["D32", "E50", "F59"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A04_C24_F51", "modules": ["A04", "C24", "F51"], "cardinality": 3, "families": ["A", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_C27_E47", "modules": ["A09", "C27", "E47"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_C26_D38", "modules": ["A06", "C26", "D38"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A02_C28_F58", "modules": ["A02", "C28", "F58"], "cardinality": 3, "families": ["A", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_A07_C30", "modules": ["A05", "A07", "C30"], "cardinality": 3, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_B14_D38", "modules": ["A09", "B14", "D38"], "cardinality": 3, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C29_D34_F52", "modules": ["C29", "D34", "F52"], "cardinality": 3, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D31_D32_F51", "modules": ["D31", "D32", "F51"], "cardinality": 3, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B16_D40_F54", "modules": ["B16", "D40", "F54"], "cardinality": 3, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D37_E43_F59", "modules": ["D37", "E43", "F59"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_C29_E48", "modules": ["A05", "C29", "E48"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B20_D36_F57", "modules": ["B20", "D36", "F57"], "cardinality": 3, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B12_C24_D38", "modules": ["B12", "C24", "D38"], "cardinality": 3, "families": ["B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C24_D31_F57", "modules": ["C24", "D31", "F57"], "cardinality": 3, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A01_C25_E48", "modules": ["A01", "C25", "E48"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_C29_E47", "modules": ["A05", "C29", "E47"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C22_D38_E47", "modules": ["C22", "D38", "E47"], "cardinality": 3, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D34_E48_F52", "modules": ["D34", "E48", "F52"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C26_D34_E50", "modules": ["C26", "D34", "E50"], "cardinality": 3, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C26_D32_D38", "modules": ["C26", "D32", "D38"], "cardinality": 3, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_C21_D34", "modules": ["A03", "C21", "D34"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B14_F58_F60", "modules": ["B14", "F58", "F60"], "cardinality": 3, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_D39_F58", "modules": ["A09", "D39", "F58"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A01_B11_D38", "modules": ["A01", "B11", "D38"], "cardinality": 3, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_C23_D35", "modules": ["A09", "C23", "D35"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C23_E48_E49", "modules": ["C23", "E48", "E49"], "cardinality": 3, "families": ["C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A07_C26_E42", "modules": ["A07", "C26", "E42"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B20_D40_E48", "modules": ["B20", "D40", "E48"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D36_E48_F58", "modules": ["D36", "E48", "F58"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D33_F55_F60", "modules": ["D33", "F55", "F60"], "cardinality": 3, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B20_E46_F59", "modules": ["B20", "E46", "F59"], "cardinality": 3, "families": ["B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B13_E43_F51", "modules": ["B13", "E43", "F51"], "cardinality": 3, "families": ["B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A01_B16_E42", "modules": ["A01", "B16", "E42"], "cardinality": 3, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_C30_E48", "modules": ["A06", "C30", "E48"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_B16_E43", "modules": ["A03", "B16", "E43"], "cardinality": 3, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_B16_C29", "modules": ["A03", "B16", "C29"], "cardinality": 3, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D33_E44_F53", "modules": ["D33", "E44", "F53"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C22_C29_F60", "modules": ["C22", "C29", "F60"], "cardinality": 3, "families": ["C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_C29_D32", "modules": ["A09", "C29", "D32"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_E44_F55", "modules": ["A06", "E44", "F55"], "cardinality": 3, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C23_E46_F59", "modules": ["C23", "E46", "F59"], "cardinality": 3, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B20_C21_E47", "modules": ["B20", "C21", "E47"], "cardinality": 3, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B19_D40_E47", "modules": ["B19", "D40", "E47"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B11_E45_E50", "modules": ["B11", "E45", "E50"], "cardinality": 3, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A07_B13_F52", "modules": ["A07", "B13", "F52"], "cardinality": 3, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C25_D33_E45", "modules": ["C25", "D33", "E45"], "cardinality": 3, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_D33_E43", "modules": ["A09", "D33", "E43"], "cardinality": 3, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B14_C25_F60", "modules": ["B14", "C25", "F60"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B17_C29_D39", "modules": ["B17", "C29", "D39"], "cardinality": 3, "families": ["B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C30_D36_F52", "modules": ["C30", "D36", "F52"], "cardinality": 3, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_B18_C28", "modules": ["A06", "B18", "C28"], "cardinality": 3, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B11_B16_E42", "modules": ["B11", "B16", "E42"], "cardinality": 3, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A07_D38_F57", "modules": ["A07", "D38", "F57"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_E42_E47", "modules": ["A05", "E42", "E47"], "cardinality": 3, "families": ["A", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_B13_F54", "modules": ["A06", "B13", "F54"], "cardinality": 3, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B17_D36_E42", "modules": ["B17", "D36", "E42"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_C27_D40", "modules": ["A03", "C27", "D40"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_C30_F59", "modules": ["A03", "C30", "F59"], "cardinality": 3, "families": ["A", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__E49_F53_F56", "modules": ["E49", "F53", "F56"], "cardinality": 3, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A01_A08_C26", "modules": ["A01", "A08", "C26"], "cardinality": 3, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A01_B18_F59", "modules": ["A01", "B18", "F59"], "cardinality": 3, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__E42_E46_F51", "modules": ["E42", "E46", "F51"], "cardinality": 3, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B15_C26_F54", "modules": ["B15", "C26", "F54"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_B17_F60", "modules": ["A05", "B17", "F60"], "cardinality": 3, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B20_E48_F51", "modules": ["B20", "E48", "F51"], "cardinality": 3, "families": ["B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D32_E46_F55", "modules": ["D32", "E46", "F55"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C28_D35_D36", "modules": ["C28", "D35", "D36"], "cardinality": 3, "families": ["C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_C23_D31", "modules": ["A03", "C23", "D31"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B15_C30_F55", "modules": ["B15", "C30", "F55"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B14_E48_F58", "modules": ["B14", "E48", "F58"], "cardinality": 3, "families": ["B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A04_D40_F59", "modules": ["A04", "D40", "F59"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_D38_E50", "modules": ["A05", "D38", "E50"], "cardinality": 3, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C27_E48_F55", "modules": ["C27", "E48", "F55"], "cardinality": 3, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C27_D34_E50", "modules": ["C27", "D34", "E50"], "cardinality": 3, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B12_C24_F52", "modules": ["B12", "C24", "F52"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A04_B14_E50", "modules": ["A04", "B14", "E50"], "cardinality": 3, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B13_F55_F60", "modules": ["B13", "F55", "F60"], "cardinality": 3, "families": ["B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A04_B15_C22", "modules": ["A04", "B15", "C22"], "cardinality": 3, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C24_D39_E47", "modules": ["C24", "D39", "E47"], "cardinality": 3, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_B13_F59", "modules": ["A05", "B13", "F59"], "cardinality": 3, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B13_D33_F58", "modules": ["B13", "D33", "F58"], "cardinality": 3, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_D39_F60", "modules": ["A03", "D39", "F60"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D34_F57_F60", "modules": ["D34", "F57", "F60"], "cardinality": 3, "families": ["D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B14_C21_E49", "modules": ["B14", "C21", "E49"], "cardinality": 3, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B11_C30_E48", "modules": ["B11", "C30", "E48"], "cardinality": 3, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B16_C22_F54", "modules": ["B16", "C22", "F54"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C25_E45_F54", "modules": ["C25", "E45", "F54"], "cardinality": 3, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_C29_D38", "modules": ["A03", "C29", "D38"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D31_D32_E45", "modules": ["D31", "D32", "E45"], "cardinality": 3, "families": ["D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B13_D31_E43", "modules": ["B13", "D31", "E43"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A02_D32_F56", "modules": ["A02", "D32", "F56"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A03_C30_F56", "modules": ["A03", "C30", "F56"], "cardinality": 3, "families": ["A", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B18_D32_E49", "modules": ["B18", "D32", "E49"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D36_E50_F58", "modules": ["D36", "E50", "F58"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D40_E50_F51", "modules": ["D40", "E50", "F51"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_B14_C26", "modules": ["A05", "B14", "C26"], "cardinality": 3, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A10_B14_E46", "modules": ["A10", "B14", "E46"], "cardinality": 3, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D31_E48_F55", "modules": ["D31", "E48", "F55"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C30_E42_F57", "modules": ["C30", "E42", "F57"], "cardinality": 3, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A04_C24_D36", "modules": ["A04", "C24", "D36"], "cardinality": 3, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B20_E45_F54", "modules": ["B20", "E45", "F54"], "cardinality": 3, "families": ["B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__D40_E44_F55", "modules": ["D40", "E44", "F55"], "cardinality": 3, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B16_D39_D40", "modules": ["B16", "D39", "D40"], "cardinality": 3, "families": ["B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B18_C21_F51", "modules": ["B18", "C21", "F51"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B17_D31_E42", "modules": ["B17", "D31", "E42"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A05_D39_F51", "modules": ["A05", "D39", "F51"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A06_C21_E43", "modules": ["A06", "C21", "E43"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A01_C22_E49", "modules": ["A01", "C22", "E49"], "cardinality": 3, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B11_D38_F60", "modules": ["B11", "D38", "F60"], "cardinality": 3, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B14_D40_E43", "modules": ["B14", "D40", "E43"], "cardinality": 3, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_B12_C28", "modules": ["A09", "B12", "C28"], "cardinality": 3, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C25_E47_F56", "modules": ["C25", "E47", "F56"], "cardinality": 3, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B11_C22_E41", "modules": ["B11", "C22", "E41"], "cardinality": 3, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A02_D36_F56", "modules": ["A02", "D36", "F56"], "cardinality": 3, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B16_C23_D37", "modules": ["B16", "C23", "D37"], "cardinality": 3, "families": ["B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__B20_C23_F58", "modules": ["B20", "C23", "F58"], "cardinality": 3, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__A09_D33_E46", "modules": ["A09", "D33", "E46"], "cardinality": 3, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K3__C24_E41_F60", "modules": ["C24", "E41", "F60"], "cardinality": 3, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A02_D40_F59_F60", "modules": ["A02", "D40", "F59", "F60"], "cardinality": 4, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A05_A06_B16_C28", "modules": ["A05", "A06", "B16", "C28"], "cardinality": 4, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A10_C27_D33_E50", "modules": ["A10", "C27", "D33", "E50"], "cardinality": 4, "families": ["A", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B12_B19_C29_D32", "modules": ["B12", "B19", "C29", "D32"], "cardinality": 4, "families": ["B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B12_B16_C28_F52", "modules": ["B12", "B16", "C28", "F52"], "cardinality": 4, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A10_B16_D35_E41", "modules": ["A10", "B16", "D35", "E41"], "cardinality": 4, "families": ["A", "B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A06_B19_D38_E45", "modules": ["A06", "B19", "D38", "E45"], "cardinality": 4, "families": ["A", "B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A01_A05_B13_E50", "modules": ["A01", "A05", "B13", "E50"], "cardinality": 4, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A07_B13_C21_D39", "modules": ["A07", "B13", "C21", "D39"], "cardinality": 4, "families": ["A", "B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A02_C28_E46_F54", "modules": ["A02", "C28", "E46", "F54"], "cardinality": 4, "families": ["A", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B17_D36_D39_E47", "modules": ["B17", "D36", "D39", "E47"], "cardinality": 4, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_A05_C27_D36", "modules": ["A04", "A05", "C27", "D36"], "cardinality": 4, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A05_A06_E46_F60", "modules": ["A05", "A06", "E46", "F60"], "cardinality": 4, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A01_A08_B17_D38", "modules": ["A01", "A08", "B17", "D38"], "cardinality": 4, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C27_D38_E46_F55", "modules": ["C27", "D38", "E46", "F55"], "cardinality": 4, "families": ["C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A08_C28_E46_F51", "modules": ["A08", "C28", "E46", "F51"], "cardinality": 4, "families": ["A", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C22_C26_E49_F55", "modules": ["C22", "C26", "E49", "F55"], "cardinality": 4, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C28_D34_D39_E48", "modules": ["C28", "D34", "D39", "E48"], "cardinality": 4, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__D31_E50_F54_F59", "modules": ["D31", "E50", "F54", "F59"], "cardinality": 4, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A03_D33_D36_F58", "modules": ["A03", "D33", "D36", "F58"], "cardinality": 4, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A01_B16_E50_F58", "modules": ["A01", "B16", "E50", "F58"], "cardinality": 4, "families": ["A", "B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B18_E43_E50_F55", "modules": ["B18", "E43", "E50", "F55"], "cardinality": 4, "families": ["B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A09_C26_E45_F54", "modules": ["A09", "C26", "E45", "F54"], "cardinality": 4, "families": ["A", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A07_B17_D33_E49", "modules": ["A07", "B17", "D33", "E49"], "cardinality": 4, "families": ["A", "B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A02_B18_E43_F52", "modules": ["A02", "B18", "E43", "F52"], "cardinality": 4, "families": ["A", "B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A06_D33_D35_D38", "modules": ["A06", "D33", "D35", "D38"], "cardinality": 4, "families": ["A", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C28_D33_D34_F53", "modules": ["C28", "D33", "D34", "F53"], "cardinality": 4, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A05_D37_E41_E42", "modules": ["A05", "D37", "E41", "E42"], "cardinality": 4, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A09_C28_D37_F51", "modules": ["A09", "C28", "D37", "F51"], "cardinality": 4, "families": ["A", "C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A01_B13_E47_F55", "modules": ["A01", "B13", "E47", "F55"], "cardinality": 4, "families": ["A", "B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A06_A10_C30_E47", "modules": ["A06", "A10", "C30", "E47"], "cardinality": 4, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A10_B16_D34_F51", "modules": ["A10", "B16", "D34", "F51"], "cardinality": 4, "families": ["A", "B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A02_D39_D40_E41", "modules": ["A02", "D39", "D40", "E41"], "cardinality": 4, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C24_E45_F57_F58", "modules": ["C24", "E45", "F57", "F58"], "cardinality": 4, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A03_A08_C23_F59", "modules": ["A03", "A08", "C23", "F59"], "cardinality": 4, "families": ["A", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B13_B15_D36_F59", "modules": ["B13", "B15", "D36", "F59"], "cardinality": 4, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A10_C30_D33_F55", "modules": ["A10", "C30", "D33", "F55"], "cardinality": 4, "families": ["A", "C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B17_C21_C22_F57", "modules": ["B17", "C21", "C22", "F57"], "cardinality": 4, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__D38_E48_F53_F59", "modules": ["D38", "E48", "F53", "F59"], "cardinality": 4, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A07_B19_D32_E49", "modules": ["A07", "B19", "D32", "E49"], "cardinality": 4, "families": ["A", "B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_E49_F58_F59", "modules": ["A04", "E49", "F58", "F59"], "cardinality": 4, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A07_B14_D34_D39", "modules": ["A07", "B14", "D34", "D39"], "cardinality": 4, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A09_B14_C22_E43", "modules": ["A09", "B14", "C22", "E43"], "cardinality": 4, "families": ["A", "B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A01_A02_C22_C24", "modules": ["A01", "A02", "C22", "C24"], "cardinality": 4, "families": ["A", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_D39_E44_E48", "modules": ["A04", "D39", "E44", "E48"], "cardinality": 4, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A10_B15_C24_D40", "modules": ["A10", "B15", "C24", "D40"], "cardinality": 4, "families": ["A", "B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B11_C27_E48_F55", "modules": ["B11", "C27", "E48", "F55"], "cardinality": 4, "families": ["B", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A05_A07_C28_E45", "modules": ["A05", "A07", "C28", "E45"], "cardinality": 4, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B14_B19_D32_F57", "modules": ["B14", "B19", "D32", "F57"], "cardinality": 4, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B13_C26_D37_F58", "modules": ["B13", "C26", "D37", "F58"], "cardinality": 4, "families": ["B", "C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B15_B19_D40_F53", "modules": ["B15", "B19", "D40", "F53"], "cardinality": 4, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A02_C28_F51_F55", "modules": ["A02", "C28", "F51", "F55"], "cardinality": 4, "families": ["A", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__D34_E44_E48_F60", "modules": ["D34", "E44", "E48", "F60"], "cardinality": 4, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_C21_D36_E46", "modules": ["A04", "C21", "D36", "E46"], "cardinality": 4, "families": ["A", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B13_C26_F52_F55", "modules": ["B13", "C26", "F52", "F55"], "cardinality": 4, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C22_E41_F52_F59", "modules": ["C22", "E41", "F52", "F59"], "cardinality": 4, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A09_C29_D37_E41", "modules": ["A09", "C29", "D37", "E41"], "cardinality": 4, "families": ["A", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A10_B15_E41_E47", "modules": ["A10", "B15", "E41", "E47"], "cardinality": 4, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B11_C27_F52_F55", "modules": ["B11", "C27", "F52", "F55"], "cardinality": 4, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B18_C28_F51_F59", "modules": ["B18", "C28", "F51", "F59"], "cardinality": 4, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A03_B11_C21_D40", "modules": ["A03", "B11", "C21", "D40"], "cardinality": 4, "families": ["A", "B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A09_D39_D40_F60", "modules": ["A09", "D39", "D40", "F60"], "cardinality": 4, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B17_C21_D35_F59", "modules": ["B17", "C21", "D35", "F59"], "cardinality": 4, "families": ["B", "C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A06_B11_E49_F59", "modules": ["A06", "B11", "E49", "F59"], "cardinality": 4, "families": ["A", "B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_B18_D31_D35", "modules": ["A04", "B18", "D31", "D35"], "cardinality": 4, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A09_D39_E47_F55", "modules": ["A09", "D39", "E47", "F55"], "cardinality": 4, "families": ["A", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B13_C30_E44_E50", "modules": ["B13", "C30", "E44", "E50"], "cardinality": 4, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C28_D36_D39_F52", "modules": ["C28", "D36", "D39", "F52"], "cardinality": 4, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A08_B11_D36_F56", "modules": ["A08", "B11", "D36", "F56"], "cardinality": 4, "families": ["A", "B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B14_D31_E50_F54", "modules": ["B14", "D31", "E50", "F54"], "cardinality": 4, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B16_D33_D39_F52", "modules": ["B16", "D33", "D39", "F52"], "cardinality": 4, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B15_D40_E48_F60", "modules": ["B15", "D40", "E48", "F60"], "cardinality": 4, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B16_C25_E44_F51", "modules": ["B16", "C25", "E44", "F51"], "cardinality": 4, "families": ["B", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__D38_E45_E50_F58", "modules": ["D38", "E45", "E50", "F58"], "cardinality": 4, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A03_D35_F54_F56", "modules": ["A03", "D35", "F54", "F56"], "cardinality": 4, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A06_C24_D39_E45", "modules": ["A06", "C24", "D39", "E45"], "cardinality": 4, "families": ["A", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A02_A04_B13_C24", "modules": ["A02", "A04", "B13", "C24"], "cardinality": 4, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B16_C22_D35_E50", "modules": ["B16", "C22", "D35", "E50"], "cardinality": 4, "families": ["B", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C27_D40_E41_F54", "modules": ["C27", "D40", "E41", "F54"], "cardinality": 4, "families": ["C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_B13_B16_C24", "modules": ["A04", "B13", "B16", "C24"], "cardinality": 4, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A07_D38_E41_F58", "modules": ["A07", "D38", "E41", "F58"], "cardinality": 4, "families": ["A", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A08_C26_E50_F51", "modules": ["A08", "C26", "E50", "F51"], "cardinality": 4, "families": ["A", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A07_B12_B14_F59", "modules": ["A07", "B12", "B14", "F59"], "cardinality": 4, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__D33_D39_E41_F54", "modules": ["D33", "D39", "E41", "F54"], "cardinality": 4, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C28_D39_E48_E49", "modules": ["C28", "D39", "E48", "E49"], "cardinality": 4, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B14_B16_E50_F55", "modules": ["B14", "B16", "E50", "F55"], "cardinality": 4, "families": ["B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B11_C22_F51_F59", "modules": ["B11", "C22", "F51", "F59"], "cardinality": 4, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A08_B12_E44_F55", "modules": ["A08", "B12", "E44", "F55"], "cardinality": 4, "families": ["A", "B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A01_B13_D31_F60", "modules": ["A01", "B13", "D31", "F60"], "cardinality": 4, "families": ["A", "B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A06_B17_C24_D40", "modules": ["A06", "B17", "C24", "D40"], "cardinality": 4, "families": ["A", "B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C26_E41_F55_F60", "modules": ["C26", "E41", "F55", "F60"], "cardinality": 4, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B12_B17_D31_E46", "modules": ["B12", "B17", "D31", "E46"], "cardinality": 4, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__E47_E48_F54_F56", "modules": ["E47", "E48", "F54", "F56"], "cardinality": 4, "families": ["E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B12_B19_E46_E50", "modules": ["B12", "B19", "E46", "E50"], "cardinality": 4, "families": ["B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B20_C24_E45_E47", "modules": ["B20", "C24", "E45", "E47"], "cardinality": 4, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A03_B19_C28_D39", "modules": ["A03", "B19", "C28", "D39"], "cardinality": 4, "families": ["A", "B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_D35_E42_E50", "modules": ["A04", "D35", "E42", "E50"], "cardinality": 4, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__D37_E43_F55_F59", "modules": ["D37", "E43", "F55", "F59"], "cardinality": 4, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_B12_F51_F57", "modules": ["A04", "B12", "F51", "F57"], "cardinality": 4, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A10_B17_D36_D38", "modules": ["A10", "B17", "D36", "D38"], "cardinality": 4, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C25_D37_D40_E49", "modules": ["C25", "D37", "D40", "E49"], "cardinality": 4, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A05_A08_E45_F57", "modules": ["A05", "A08", "E45", "F57"], "cardinality": 4, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__D34_E42_F54_F60", "modules": ["D34", "E42", "F54", "F60"], "cardinality": 4, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C23_D33_E43_E49", "modules": ["C23", "D33", "E43", "E49"], "cardinality": 4, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A09_D35_E43_F56", "modules": ["A09", "D35", "E43", "F56"], "cardinality": 4, "families": ["A", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C21_E41_E48_F55", "modules": ["C21", "E41", "E48", "F55"], "cardinality": 4, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C22_E41_F56_F59", "modules": ["C22", "E41", "F56", "F59"], "cardinality": 4, "families": ["C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__D31_D40_E48_F56", "modules": ["D31", "D40", "E48", "F56"], "cardinality": 4, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A06_B19_F55_F57", "modules": ["A06", "B19", "F55", "F57"], "cardinality": 4, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B17_C28_F55_F57", "modules": ["B17", "C28", "F55", "F57"], "cardinality": 4, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B20_C29_E46_F56", "modules": ["B20", "C29", "E46", "F56"], "cardinality": 4, "families": ["B", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C30_D36_E46_F52", "modules": ["C30", "D36", "E46", "F52"], "cardinality": 4, "families": ["C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C22_C23_D40_E44", "modules": ["C22", "C23", "D40", "E44"], "cardinality": 4, "families": ["C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_E47_F53_F58", "modules": ["A04", "E47", "F53", "F58"], "cardinality": 4, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B12_C23_D34_E48", "modules": ["B12", "C23", "D34", "E48"], "cardinality": 4, "families": ["B", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A05_C28_E42_E44", "modules": ["A05", "C28", "E42", "E44"], "cardinality": 4, "families": ["A", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A10_B11_B20_E47", "modules": ["A10", "B11", "B20", "E47"], "cardinality": 4, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__C21_D40_F52_F56", "modules": ["C21", "D40", "F52", "F56"], "cardinality": 4, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__B19_C22_D34_D36", "modules": ["B19", "C22", "D34", "D36"], "cardinality": 4, "families": ["B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K4__A04_D34_D38_F51", "modules": ["A04", "D34", "D38", "F51"], "cardinality": 4, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B11_B17_C25_F58_F59", "modules": ["B11", "B17", "C25", "F58", "F59"], "cardinality": 5, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A04_A10_B18_B19_D39", "modules": ["A04", "A10", "B18", "B19", "D39"], "cardinality": 5, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A07_A10_E44_E46_F54", "modules": ["A07", "A10", "E44", "E46", "F54"], "cardinality": 5, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A08_B17_D31_E49_F51", "modules": ["A08", "B17", "D31", "E49", "F51"], "cardinality": 5, "families": ["A", "B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B13_B16_D35_D37_F59", "modules": ["B13", "B16", "D35", "D37", "F59"], "cardinality": 5, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A01_C29_D38_D39_E43", "modules": ["A01", "C29", "D38", "D39", "E43"], "cardinality": 5, "families": ["A", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B19_C28_D31_E47_F57", "modules": ["B19", "C28", "D31", "E47", "F57"], "cardinality": 5, "families": ["B", "C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A07_C23_D39_E46_F58", "modules": ["A07", "C23", "D39", "E46", "F58"], "cardinality": 5, "families": ["A", "C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B17_C25_D35_E42_E47", "modules": ["B17", "C25", "D35", "E42", "E47"], "cardinality": 5, "families": ["B", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B13_D38_E45_E48_F51", "modules": ["B13", "D38", "E45", "E48", "F51"], "cardinality": 5, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A09_B14_C21_D32_E42", "modules": ["A09", "B14", "C21", "D32", "E42"], "cardinality": 5, "families": ["A", "B", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B11_C24_D34_E41_F54", "modules": ["B11", "C24", "D34", "E41", "F54"], "cardinality": 5, "families": ["B", "C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__C23_C27_D33_D35_F56", "modules": ["C23", "C27", "D33", "D35", "F56"], "cardinality": 5, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A09_C25_E43_E47_F53", "modules": ["A09", "C25", "E43", "E47", "F53"], "cardinality": 5, "families": ["A", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B12_D32_D40_E45_F53", "modules": ["B12", "D32", "D40", "E45", "F53"], "cardinality": 5, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A02_C30_D32_F57_F59", "modules": ["A02", "C30", "D32", "F57", "F59"], "cardinality": 5, "families": ["A", "C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A09_C21_D38_E44_F54", "modules": ["A09", "C21", "D38", "E44", "F54"], "cardinality": 5, "families": ["A", "C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__C28_D35_F51_F52_F60", "modules": ["C28", "D35", "F51", "F52", "F60"], "cardinality": 5, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A04_B14_C23_C30_D36", "modules": ["A04", "B14", "C23", "C30", "D36"], "cardinality": 5, "families": ["A", "B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__C26_C28_D32_D40_F58", "modules": ["C26", "C28", "D32", "D40", "F58"], "cardinality": 5, "families": ["C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A03_A04_C23_C30_F59", "modules": ["A03", "A04", "C23", "C30", "F59"], "cardinality": 5, "families": ["A", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B11_D33_D38_E49_F59", "modules": ["B11", "D33", "D38", "E49", "F59"], "cardinality": 5, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A01_B13_E41_E47_F57", "modules": ["A01", "B13", "E41", "E47", "F57"], "cardinality": 5, "families": ["A", "B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A08_B15_B18_C26_D39", "modules": ["A08", "B15", "B18", "C26", "D39"], "cardinality": 5, "families": ["A", "B", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A04_A07_B19_D31_D38", "modules": ["A04", "A07", "B19", "D31", "D38"], "cardinality": 5, "families": ["A", "B", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B11_C23_E47_F56_F59", "modules": ["B11", "C23", "E47", "F56", "F59"], "cardinality": 5, "families": ["B", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B19_D31_E44_F54_F55", "modules": ["B19", "D31", "E44", "F54", "F55"], "cardinality": 5, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B19_D32_D35_E41_F59", "modules": ["B19", "D32", "D35", "E41", "F59"], "cardinality": 5, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A01_A04_B14_C28_F53", "modules": ["A01", "A04", "B14", "C28", "F53"], "cardinality": 5, "families": ["A", "B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A08_B15_D33_D39_E43", "modules": ["A08", "B15", "D33", "D39", "E43"], "cardinality": 5, "families": ["A", "B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B20_D34_E41_E46_E50", "modules": ["B20", "D34", "E41", "E46", "E50"], "cardinality": 5, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A02_A06_D37_E42_F56", "modules": ["A02", "A06", "D37", "E42", "F56"], "cardinality": 5, "families": ["A", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A07_A09_B12_E45_E48", "modules": ["A07", "A09", "B12", "E45", "E48"], "cardinality": 5, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A09_C21_D31_D39_E46", "modules": ["A09", "C21", "D31", "D39", "E46"], "cardinality": 5, "families": ["A", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A05_C23_C29_D38_F57", "modules": ["A05", "C23", "C29", "D38", "F57"], "cardinality": 5, "families": ["A", "C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A09_C26_D31_D35_D37", "modules": ["A09", "C26", "D31", "D35", "D37"], "cardinality": 5, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B11_B13_C24_F51_F56", "modules": ["B11", "B13", "C24", "F51", "F56"], "cardinality": 5, "families": ["B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A02_B15_C23_E48_F60", "modules": ["A02", "B15", "C23", "E48", "F60"], "cardinality": 5, "families": ["A", "B", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A03_B19_C26_E49_E50", "modules": ["A03", "B19", "C26", "E49", "E50"], "cardinality": 5, "families": ["A", "B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A10_B17_D32_F51_F54", "modules": ["A10", "B17", "D32", "F51", "F54"], "cardinality": 5, "families": ["A", "B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A04_B15_B16_C26_F56", "modules": ["A04", "B15", "B16", "C26", "F56"], "cardinality": 5, "families": ["A", "B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__C27_D34_E43_F57_F59", "modules": ["C27", "D34", "E43", "F57", "F59"], "cardinality": 5, "families": ["C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B15_B16_C26_E45_E50", "modules": ["B15", "B16", "C26", "E45", "E50"], "cardinality": 5, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A06_B15_C24_F57_F60", "modules": ["A06", "B15", "C24", "F57", "F60"], "cardinality": 5, "families": ["A", "B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A06_B14_C22_C25_F56", "modules": ["A06", "B14", "C22", "C25", "F56"], "cardinality": 5, "families": ["A", "B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B17_B18_E48_E50_F54", "modules": ["B17", "B18", "E48", "E50", "F54"], "cardinality": 5, "families": ["B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B13_D38_E43_E50_F51", "modules": ["B13", "D38", "E43", "E50", "F51"], "cardinality": 5, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A09_B14_C24_E46_F59", "modules": ["A09", "B14", "C24", "E46", "F59"], "cardinality": 5, "families": ["A", "B", "C", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B12_B14_D31_E41_E42", "modules": ["B12", "B14", "D31", "E41", "E42"], "cardinality": 5, "families": ["B", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A01_B19_C22_D33_E44", "modules": ["A01", "B19", "C22", "D33", "E44"], "cardinality": 5, "families": ["A", "B", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__D31_D35_D36_E41_F59", "modules": ["D31", "D35", "D36", "E41", "F59"], "cardinality": 5, "families": ["D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A05_B13_C21_D40_E41", "modules": ["A05", "B13", "C21", "D40", "E41"], "cardinality": 5, "families": ["A", "B", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A04_B19_C21_C27_E46", "modules": ["A04", "B19", "C21", "C27", "E46"], "cardinality": 5, "families": ["A", "B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A05_B20_C27_D32_E45", "modules": ["A05", "B20", "C27", "D32", "E45"], "cardinality": 5, "families": ["A", "B", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B14_B20_D34_F51_F59", "modules": ["B14", "B20", "D34", "F51", "F59"], "cardinality": 5, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B17_D35_E50_F54_F57", "modules": ["B17", "D35", "E50", "F54", "F57"], "cardinality": 5, "families": ["B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A09_C28_D37_D40_F59", "modules": ["A09", "C28", "D37", "D40", "F59"], "cardinality": 5, "families": ["A", "C", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A06_A09_A10_B16_F52", "modules": ["A06", "A09", "A10", "B16", "F52"], "cardinality": 5, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A08_D31_D34_D36_F53", "modules": ["A08", "D31", "D34", "D36", "F53"], "cardinality": 5, "families": ["A", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A06_C23_D35_D36_D37", "modules": ["A06", "C23", "D35", "D36", "D37"], "cardinality": 5, "families": ["A", "C", "D"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A01_B14_B18_E49_F60", "modules": ["A01", "B14", "B18", "E49", "F60"], "cardinality": 5, "families": ["A", "B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B15_B18_C22_C28_E41", "modules": ["B15", "B18", "C22", "C28", "E41"], "cardinality": 5, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A03_A06_B17_C28_E46", "modules": ["A03", "A06", "B17", "C28", "E46"], "cardinality": 5, "families": ["A", "B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A06_A08_D36_E44_F59", "modules": ["A06", "A08", "D36", "E44", "F59"], "cardinality": 5, "families": ["A", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A02_A03_E41_E45_F53", "modules": ["A02", "A03", "E41", "E45", "F53"], "cardinality": 5, "families": ["A", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B18_C22_D31_E43_F58", "modules": ["B18", "C22", "D31", "E43", "F58"], "cardinality": 5, "families": ["B", "C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A03_A06_B20_C21_C23", "modules": ["A03", "A06", "B20", "C21", "C23"], "cardinality": 5, "families": ["A", "B", "C"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B12_B13_C24_E42_E50", "modules": ["B12", "B13", "C24", "E42", "E50"], "cardinality": 5, "families": ["B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__B12_D32_D34_F53_F57", "modules": ["B12", "D32", "D34", "F53", "F57"], "cardinality": 5, "families": ["B", "D", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A10_B12_B20_E44_E45", "modules": ["A10", "B12", "B20", "E44", "E45"], "cardinality": 5, "families": ["A", "B", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A03_A09_B20_C30_E48", "modules": ["A03", "A09", "B20", "C30", "E48"], "cardinality": 5, "families": ["A", "B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A05_C29_D31_D39_E43", "modules": ["A05", "C29", "D31", "D39", "E43"], "cardinality": 5, "families": ["A", "C", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A03_B18_D40_E41_F55", "modules": ["A03", "B18", "D40", "E41", "F55"], "cardinality": 5, "families": ["A", "B", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A04_C26_D32_E43_F54", "modules": ["A04", "C26", "D32", "E43", "F54"], "cardinality": 5, "families": ["A", "C", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A02_A04_A08_B20_F59", "modules": ["A02", "A04", "A08", "B20", "F59"], "cardinality": 5, "families": ["A", "B", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A05_D32_D35_D37_E42", "modules": ["A05", "D32", "D35", "D37", "E42"], "cardinality": 5, "families": ["A", "D", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A07_B20_E42_E43_F53", "modules": ["A07", "B20", "E42", "E43", "F53"], "cardinality": 5, "families": ["A", "B", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A02_B14_B16_C28_E48", "modules": ["A02", "B14", "B16", "C28", "E48"], "cardinality": 5, "families": ["A", "B", "C", "E"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A02_A06_D34_E45_F54", "modules": ["A02", "A06", "D34", "E45", "F54"], "cardinality": 5, "families": ["A", "D", "E", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}
+{"combo_id": "K5__A04_B19_C30_F54_F58", "modules": ["A04", "B19", "C30", "F54", "F58"], "cardinality": 5, "families": ["A", "B", "C", "F"], "phase": "bootstrap", "parent": "s2armr_H1100", "status": "NOT_RUN"}

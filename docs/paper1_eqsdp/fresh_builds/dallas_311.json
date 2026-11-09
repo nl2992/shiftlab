@@ -1,0 +1,79 @@
+{
+ "name": "dallas_311",
+ "built_utc": "2026-11-09T17:54:00+00:00",
+ "meta": {
+  "name": "dallas_311",
+  "url": "https://www.dallasopendata.com/resource/d7e7-envw.csv",
+  "license": "Dallas Open Data (Socrata), City of Dallas; open public data, no login",
+  "publisher": "City of Dallas (311 / dallasopendata.com)",
+  "task": "binary: 311 service request closed within 3 days of creation",
+  "label": "closed_date present and closed_date - created_date <= 3 days",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request type, department, estimated response time, priority, intake channel, council district, created hour/dow/month: all set at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_request_type",
+  "department",
+  "ert",
+  "priority",
+  "method",
+  "council_district"
+ ],
+ "n_after_filter": 435164,
+ "subsample": "systematic 400000 of 435164",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:13:12",
+  "test_start": "2026-01-01 19:16:30",
+  "end": "2026-06-30 23:58:39"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.186725,
+  "err_incumbent": 0.270575,
+  "err_challenger": 0.2115,
+  "base_rate_y1": 0.6356
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/c4_sealed/dallas_311__fresh.npz",
+  "array_content_sha256": "f0d47fbce5948945f200ef348ef69ea3898429e457ece4d432e7340156189dc6"
+ }
+}

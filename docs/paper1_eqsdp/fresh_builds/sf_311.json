@@ -1,0 +1,78 @@
+{
+ "name": "sf_311",
+ "built_utc": "2026-11-09T17:53:54+00:00",
+ "meta": {
+  "name": "sf_311",
+  "url": "https://data.sfgov.org/resource/vw6y-z8j6.csv",
+  "license": "Open Data Commons Public Domain Dedication and License (PDDL 1.0), DataSF",
+  "publisher": "City and County of San Francisco (DataSF / SF311)",
+  "task": "binary: 311 case closed within 3 days of being opened",
+  "label": "closed_date present and closed_date - requested_datetime <= 3 days",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request hour/dow/month, service name and subtype, intake source, supervisor district, analysis neighbourhood: all recorded at case opening"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_name",
+  "service_subtype",
+  "source",
+  "supervisor_district",
+  "analysis_neighborhood"
+ ],
+ "n_after_filter": 890146,
+ "subsample": "systematic 400000 of 890146",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:01:48",
+  "test_start": "2025-12-25 10:18:35",
+  "end": "2026-06-30 23:46:55"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.17535,
+  "err_incumbent": 0.255725,
+  "err_challenger": 0.206575,
+  "base_rate_y1": 0.715075
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/c4_sealed/sf_311__fresh.npz",
+  "array_content_sha256": "73400538c94e9fc1e7600b56dfa0e146d3a70e4dcae82d05040017ed50e97839"
+ }
+}

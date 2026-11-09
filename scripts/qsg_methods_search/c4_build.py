@@ -88,9 +88,37 @@ def array_hash(*arrs) -> str:
     return h.hexdigest()
 
 
-def build(name: str, do_fetch: bool) -> dict:
+# Fresh-window rebuilds (docs/paper1_eqsdp/19_FRESH_CONFIRMATION_PROTOCOL.md): same recipe, overridden
+# window; a few publishers split data by year, so the layer/file constant is patched explicitly.
+FRESH_RAW = ROOT / "data/raw/c4_fresh"
+FRESH_RECORDS = ROOT / "docs/paper1_eqsdp/fresh_builds"
+FRESH_PATCH = {
+    "dc_311": {
+        "BASE": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/ServiceRequests/"
+        "FeatureServer/18/query",
+        "FILE": "dc311_2025.csv",
+    }
+}
+
+
+def _fmt_like(old: str, new: str) -> str:
+    sep = "T" if "T" in old else " "
+    return new.replace("T", sep).replace(" ", sep) if len(new) > 10 else f"{new}{sep}00:00:00"
+
+
+def build(name: str, do_fetch: bool, window=None, tag=None) -> dict:
     mod = importlib.import_module(f"c4_sources.{name}")
     raw = RAW / name
+    records, suffix = RECORDS, ""
+    if window is not None:
+        mod.WINDOW = (_fmt_like(mod.WINDOW[0], window[0]), _fmt_like(mod.WINDOW[1], window[1]))
+        mod.META = {**mod.META, "window": mod.WINDOW}
+        for k, v in FRESH_PATCH.get(name, {}).items():
+            setattr(mod, k, v)
+        if name in FRESH_PATCH:
+            mod.META["url"] = mod.BASE
+        raw = FRESH_RAW / name
+        records, suffix = FRESH_RECORDS, f"__{tag}"
     raw.mkdir(parents=True, exist_ok=True)
     if do_fetch:
         mod.fetch(raw)
@@ -165,15 +193,19 @@ def build(name: str, do_fetch: bool) -> dict:
         starts = (c + np.arange(k) * T_EP).astype(np.int64)
         SEALED.mkdir(parents=True, exist_ok=True)
         np.savez(
-            SEALED / f"{name}.npz", l0=l0, l1=l1, starts=starts, delay=np.int64(mod.META["delay"])
+            SEALED / f"{name}{suffix}.npz",
+            l0=l0,
+            l1=l1,
+            starts=starts,
+            delay=np.int64(mod.META["delay"]),
         )
         rec["sealed"] = {
-            "path": f"data/c4_sealed/{name}.npz",
+            "path": f"data/c4_sealed/{name}{suffix}.npz",
             "array_content_sha256": array_hash(l0, l1, starts),
         }
         del l0, l1
-    RECORDS.mkdir(parents=True, exist_ok=True)
-    (RECORDS / f"{name}.json").write_text(json.dumps(rec, indent=1, default=str) + "\n")
+    records.mkdir(parents=True, exist_ok=True)
+    (records / f"{name}.json").write_text(json.dumps(rec, indent=1, default=str) + "\n")
     return rec
 
 
@@ -182,8 +214,10 @@ def main():
     ap.add_argument("cmd", choices=["build"])
     ap.add_argument("name")
     ap.add_argument("--fetch", action="store_true")
+    ap.add_argument("--window", nargs=2, metavar=("START", "END"))
+    ap.add_argument("--tag", default="fresh")
     a = ap.parse_args()
-    rec = build(a.name, a.fetch)
+    rec = build(a.name, a.fetch, a.window, a.tag)
     print(
         json.dumps(
             {k: rec[k] for k in ("name", "n", "validation", "gates", "eligible", "episodes")},

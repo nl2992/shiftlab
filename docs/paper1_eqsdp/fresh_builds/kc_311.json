@@ -1,0 +1,80 @@
+{
+ "name": "kc_311",
+ "built_utc": "2026-11-09T17:53:43+00:00",
+ "meta": {
+  "name": "kc_311",
+  "url": "https://data.kcmo.org/resource/d4px-6rwg.csv",
+  "license": "Public Domain (data.kcmo.org, City of Kansas City, Missouri)",
+  "publisher": "City of Kansas City, Missouri (311 Call Center / MyKCMO)",
+  "task": "binary: 311 issue resolved within 7 days of being reported",
+  "label": "resolved_date present and resolved_date - open_date_time <= 7 days",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "open hour/dow/month, report source and source category, issue type and sub-type, default department work group, council district, zip parsed from reported address"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "report_source",
+  "source_category",
+  "issue_type",
+  "issue_sub_type",
+  "department_work_group",
+  "council_district",
+  "zip_region"
+ ],
+ "n_after_filter": 161000,
+ "subsample": "none",
+ "n": 161000,
+ "split": {
+  "train_old": [
+   0,
+   32200
+  ],
+  "train_new": [
+   32200,
+   64400
+  ],
+  "validation": [
+   64400,
+   80500
+  ],
+  "test": [
+   80500,
+   161000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:41:00",
+  "test_start": "2026-01-05 11:34:00",
+  "end": "2026-06-30 22:29:00"
+ },
+ "validation": {
+  "n": 16100,
+  "disagreement": 0.16677018633540372,
+  "err_incumbent": 0.29354037267080746,
+  "err_challenger": 0.22105590062111802,
+  "base_rate_y1": 0.6556521739130434
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 40,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/c4_sealed/kc_311__fresh.npz",
+  "array_content_sha256": "a3eb70bf6c5a9750a7cb9031911f1bbbacf430e11bf5eb3d4e1e068307d4f92e"
+ }
+}

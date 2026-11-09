@@ -1,0 +1,52 @@
+"""Detached driver: remaining fresh datasets, core arms first then the 25-comparator panel, one dataset at a
+time with a stall watchdog (kill + restart on stall)."""
+
+import subprocess, sys, time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+OUT = ROOT / "outputs/paper1_eqsdp/fresh"
+DS = ["austin_311", "cincinnati_311", "dc_311", "sandiego_311"]
+for part in ("core", "panel"):
+    for ds in DS:
+        d = OUT / f"run_{part}_{ds}"
+        for attempt in range(5):
+            if (d / "progress.txt").exists() and (d / "progress.txt").read_text().startswith(
+                "done"
+            ):
+                break
+            d.mkdir(parents=True, exist_ok=True)
+            (d / "progress.txt").unlink(missing_ok=True)
+            p = subprocess.Popen(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts/paper1_eqsdp/fresh_confirm_run.py"),
+                    "--out",
+                    str(d),
+                    "--workers",
+                    "10",
+                    "--only",
+                    ds,
+                    "--part",
+                    part,
+                ],
+                cwd=ROOT,
+                stdout=open(d / "stdout.log", "w"),
+                stderr=open(d / "stderr.log", "w"),
+            )
+            last, t_last = None, time.time()
+            while p.poll() is None:
+                time.sleep(20)
+                cur = (d / "records.jsonl").stat().st_size if (d / "records.jsonl").exists() else 0
+                if cur != last:
+                    last, t_last = cur, time.time()
+                elif time.time() - t_last > 900:
+                    subprocess.run(["taskkill", "/PID", str(p.pid), "/T", "/F"])
+                    break
+            if not (
+                (d / "progress.txt").exists()
+                and (d / "progress.txt").read_text().startswith("done")
+            ):
+                (OUT / "driver.log").open("a").write(
+                    f"{part} {ds} attempt {attempt} stalled/failed rc={p.returncode}\n"
+                )

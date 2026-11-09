@@ -62,11 +62,13 @@ def check_against_ledger():
     return True
 
 
-def fresh_sealed(reg_path):
+def fresh_sealed(reg_path, only=None):
     reg = json.loads(Path(reg_path).read_text(encoding="utf-8"))
     out, sb = {}, reg["seed_base"]
     for d in reg["datasets"]:
         if not d.get("eligibility", {}).get("eligible", d.get("eligible", True)):
+            continue
+        if only and d["name"] not in only:
             continue
         p = ROOT / d["sealed_path"]
         z = np.load(p)
@@ -85,6 +87,13 @@ def main():
     ap.add_argument("--seeds", type=int, default=10)
     ap.add_argument("--reg", default=str(REG))
     ap.add_argument(
+        "--part",
+        choices=["all", "core", "panel"],
+        default="all",
+        help="core = 2 pair specs + 2 cutoff arms + arm R; panel = the 25 comparators",
+    )
+    ap.add_argument("--only", nargs="*", help="restrict to these datasets (resume after a stall)")
+    ap.add_argument(
         "--smoke-old", action="store_true", help="old data / old seeds; code check only"
     )
     a = ap.parse_args()
@@ -92,15 +101,20 @@ def main():
     if a.smoke_old:
         sealed = {k: v for k, v in tr.sealed_paths().items() if k == "sf_311"}
     else:
-        sealed = fresh_sealed(a.reg)
+        sealed = fresh_sealed(a.reg, a.only)
     tr.sealed_paths = lambda *args, **kw: sealed
     extra = [EQ_CUT, W_CUT, ARM_R, *SOTA]
+    specs = pair_specs()
+    if a.part == "core":
+        extra = extra[:3]
+    elif a.part == "panel":
+        extra, specs = SOTA, []
     out = Path(a.out)
     (out).mkdir(parents=True, exist_ok=True)
     (out / "checksums_ok.json").write_text(json.dumps({k: True for k in sealed}))
-    (out / "policies.txt").write_text("\n".join([EQ_PAIR, W_PAIR, *extra]))
+    (out / "policies.txt").write_text("\n".join([sp["name"] for sp in specs] + extra))
     kw = {"episodes": {"sf_311": [0, 1]}} if a.smoke_old else {}
-    e60.run_eval(pair_specs(), out, split="all", seeds=tuple(range(a.seeds if not a.smoke_old else 2)),
+    e60.run_eval(specs, out, split="all", seeds=tuple(range(a.seeds if not a.smoke_old else 2)),
                  workers=a.workers, controls=False, extra_names=extra, **kw)  # fmt: skip
 
 

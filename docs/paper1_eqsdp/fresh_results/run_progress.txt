@@ -1,0 +1,8 @@
+run_core_austin_311: done 710/710 in 584s
+run_core_cincinnati_311: done 390/390 in 20s
+run_core_dc_311: done 1000/1000 in 42s
+run_core_sandiego_311: done 970/970 in 23s
+run_panel_austin_311: done 710/710 in 440s
+run_panel_cincinnati_311: done 390/390 in 245s
+run_panel_dc_311: done 1000/1000 in 634s
+run_panel_sandiego_311: done 970/970 in 603s

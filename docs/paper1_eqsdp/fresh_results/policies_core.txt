@@ -1,0 +1,5 @@
+P2_K2__E48_F60
+P4W__P2_K2__E48_F60
+s2armr_H1100
+s2wald_l0.98_g0.3_H1100
+EQSDp_l0.98_g0.3

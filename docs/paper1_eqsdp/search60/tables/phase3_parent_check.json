@@ -1,0 +1,21 @@
+{
+ "stage3_odd": {
+  "n_old": 3740,
+  "n_matched": 3740,
+  "net_mismatch": 0,
+  "loss_mismatch": 0,
+  "labels_mismatch": 0,
+  "switches_mismatch": 0,
+  "max_abs_net_diff": 0.0
+ },
+ "stage5_even": {
+  "n_old": 3770,
+  "n_matched": 3770,
+  "net_mismatch": 0,
+  "loss_mismatch": 0,
+  "labels_mismatch": 0,
+  "switches_mismatch": 0,
+  "max_abs_net_diff": 0.0
+ },
+ "n_new": 7510
+}

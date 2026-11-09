@@ -1,0 +1,44 @@
+\section{Setting and Objective}\label{sec:setting}
+
+\paragraph{Stream.} Events $t=1,\dots,T$ arrive. An incumbent and a challenger each issue a
+prediction; $D_t\in\{0,1\}$ indicates disagreement. On a disagreement the label determines a sign
+$s_t=1$ if the challenger is correct and $0$ otherwise. A label for event $t$ may be requested at the
+time of the event, costs $c_q$, and is released after a delay of $\Delta$ events. At most $B$ labels
+may be bought. Switching the served model costs $c_s$. The contract used throughout is
+$T=2000$, $B=200$, $c_q=.05$, $c_s=5$, $\alpha=.05$, $\Delta=100$ unless stated.
+
+\paragraph{Filtration.} Let $t_k$ be the issue time of the $k$-th query, $g_k=t_k-t_{k-1}$ its gap,
+and $z_k=s_{t_k}$ its outcome. With a constant delay, outcomes are released and processed in issue
+order. Define
+$\Fcal_{k-1}=\sigma(z_1,\dots,z_{k-1},t_1,\dots,t_k,\text{private randomness})$.
+The query rule may use released labels, the disagreement indicators and private randomness. It never
+reads an unreleased label, so $t_k$ is predictable.
+
+\begin{assumption}[Disagreement independent of signs]\label{as:indep}
+The disagreement process $(D_t)$ is independent of the sign process $(s_t)$.
+\end{assumption}
+\begin{assumption}[Constant delay, issue-order processing]\label{as:delay}
+Delay is constant and outcomes are processed in issue order. With variable delay the outcomes must be
+buffered and processed in issue order; the implementation sorts within a released batch only.
+\end{assumption}
+\begin{assumption}[Predictable queries]\label{as:pred}
+$t_k$ is $\Fcal_{k-1}$-measurable.
+\end{assumption}
+
+\paragraph{Declared null classes.} Classes are nested in the persistence bound $\rhob$.
+$\mathcal M(\rhob,b)$: $s$ is a stationary two-state Markov chain with $\PP(s=1)=p\le b$ and
+persistence $\rho\le\rhob$. The per-step relaxation $\widetilde{\mathcal M}(\rhob,b)$ contains every
+process with $\PP(z_k=1\mid\Fcal_{k-1})\le u_k$, where
+\begin{equation}\label{eq:envelope}
+u_k = b+(1-b)\,\rhob^{\,g_k}\,z_{k-1},\qquad u_1=b .
+\end{equation}
+It contains $\mathcal M(\rhob,b)$ because $\PP(z_k=1\mid\Fcal_{k-1})=p+\rho^{g_k}(z_{k-1}-p)\le u_k$.
+The $\phi$-mixing class $\Phi(\beta,b)$ (stationary, $\PP(s=1)\le b$, $\phi(g)\le\beta(g)$) gives
+$u_k=b+\beta(g_k)$. Heavy-tailed run lengths (semi-Markov) are in neither class. The promotion null is
+$b=1/2$.
+
+\paragraph{Objective.} The all-in cost of an episode is
+$J = \text{(loss)} + c_q\,(\text{labels bought}) + c_s\,(\text{switches})$.
+\emph{Decision harm} on a null episode is the increase in loss plus switches relative to never
+switching, with labels excluded. We report promotion rate and decision harm on nulls, and $J$ on
+alternatives.

@@ -1,0 +1,26 @@
+\section{Limitations}\label{sec:limitations}
+
+\begin{itemize}
+  \item \textbf{Out-of-class nulls.} In development \devnote, certified rows promoted on slow
+  hidden-state nulls (latent flips about every 500 events; development promotion rates of
+  .35--.475 for the robust rows on the hidden-state null, 40 seeds) and on heavy-tailed
+  semi-Markov nulls (Pareto(1.5) run lengths, which have no geometric mixing envelope). These are
+  outside every declared class; we report them as stress tests and make no validity claim there.
+  \resultTODO{confirmation rates on WP2\_hs\_null and WP2\_sm\_null}
+  \item \textbf{Imposed delays.} Real-stream delays are imposed (100 events), not recorded release
+  times. The proofs assume constant delay and issue-order processing.
+  \item \textbf{Cost relative to fast V1 methods.} NAD costs more than V1 front-loaders and native
+  adaptive-range MOPE, which promote on a substantial share of persistent nulls. The comparison is
+  between guarantees as well as costs; the information-rate bound is for the relaxed class and does
+  not exclude cheaper stationary-class methods.
+  \item \textbf{Strong dependence is synthetic only.} The C4 streams are weakly dependent (lag-1
+  $\le.23$). UCI twins show stronger short-range dependence (lag-1 $.29$--$.70$) but their dependence
+  class is unknown.
+  \item \textbf{Class selection.} The persistence bound $\rhob=.8$ was chosen on exposed development
+  data; larger $\rhob$ is close to never switching in development.
+  \item \textbf{Evidence status.} Proofs have had no external review. Comparator ports are not author
+  code except the native MOPE endpoint, whose parity with the authors' code is approximate (about one
+  grid step, larger on some IPW paths). No DISCERN code exists.
+  \item \textbf{Scope.} We study prediction-loss and switching economics. No dataset supplies causal
+  utilities, so application-level decision harm is outside scope.
+\end{itemize}

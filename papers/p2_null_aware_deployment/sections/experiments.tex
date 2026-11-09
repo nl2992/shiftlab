@@ -1,0 +1,144 @@
+\section{Experiments}\label{sec:experiments}
+
+% TODO: every confirmation number below is a placeholder. The frozen confirmation (docs/p2/07_CONFIRMATION.md)
+% has not been opened. Fill only from the appended RESULTS section after the single opening.
+
+\paragraph{Protocol.} Arms, panel, cohorts and decision rules were registered before any
+confirmation run (\texttt{docs/p2/07\_CONFIRMATION.md}). Arm A is NAD-2S (\texttt{NAD2S-g10-f6}),
+claimed class $\mathcal M(.8)$. Arm B is the payback variant \texttt{PB80-g10}. NAD-m80-g10 is
+descriptive. Directional tests use 99\% percentile intervals from 4{,}000 bootstrap draws, by seed
+(stratified by regime) on synthetic data and by (source, episode) cluster with source-equal weights on
+C4.
+
+\paragraph{Panel (20 policies).} Arms A, B and NAD-m80-g10; dependence-robust comparators A5b, D5 and
+QSG-env8; published-certificate ports (author-endpoint MOPE: \texttt{gated\_deployment\_native},
+\texttt{gated\_adaptive\_range\_native}, and the latter with front-loading; quad-endpoint MOPE
+\texttt{gated\_adaptive\_range}; DISCERN-style, SMCS with retain-incumbent, Choe--Ramdas EB with
+front-loading); and QSG, D2, \texttt{economic\_replacement}, CAMS and Model Picker adapters and
+never-switch. Ports are common-contract re-implementations, not author code, except the
+\texttt{*\_native} MOPE rows, whose endpoint follows the authors' released code
+(\cref{app:impl}); there is no public DISCERN code, so that row is an approximation.
+
+\paragraph{Cohorts.} \textbf{S-null}: eight null regimes, 500 seeds each. \textbf{S-alt}: six
+alternative regimes, 200 seeds each. \textbf{C4}: 27 chronological replacement streams, 2{,}097
+episodes, never run in P2 before the freeze, with imposed delay 100; they are weakly dependent
+(lag-1 autocorrelation of the disagreement subsequence $\le.23$) so they test whether robustness
+gives up too much when dependence is weak, not validity under strong dependence. \textbf{Twin}: five
+UCI datasets with exact marginal nulls. Full descriptions are in \cref{app:panel}.
+
+\begin{figure}[t]
+% TODO(PaperBanana unavailable in this environment): Figure 1. Method schematic: envelope u_k as a
+% function of gap g after a favourable outcome, the budget waste of back-to-back queries, and the
+% flagged vs unflagged streams of NAD-2S. Generate with PaperBanana, not another tool.
+\centering
+\fbox{\parbox{0.9\columnwidth}{\centering\vspace{3em}Figure 1 placeholder (method schematic)\vspace{3em}}}
+\caption{\resultTODO{Figure 1 caption}}\label{fig:schematic}
+\end{figure}
+
+\subsection{Registered hypotheses}
+
+\begin{table}[t]
+\caption{Registered rules (H1--H7) and outcomes. Outcomes are filled only after the single opening.}\label{tab:hyp}
+\centering\small
+\begin{tabular}{@{}p{0.33\columnwidth}p{0.3\columnwidth}p{0.25\columnwidth}@{}}
+\toprule
+Claim & Rule & Outcome \\
+\midrule
+H1: A cheaper than A5b, synthetic alt. & 99\% UB of $J(A)-J(\mathrm{A5b})<0$ & \resultTODO{H1} \\
+H2: A cheaper than A5b, C4 & same, source-equal & \resultTODO{H2} \\
+H3: A cheaper than D5, both & UB $<0$ on S-alt and C4 & \resultTODO{H3} \\
+H4: A at level $\alpha$ in class & rate $\le.0695$ on F0\_null, F5\_dep\_null\_r8 & \resultTODO{H4} \\
+H5: A passes Tier B & 95\% UB of mean harm $\le5$ on 8 nulls & \resultTODO{H5} \\
+H6: B negligible harm & 95\% UB $\le1$ on 8 nulls & \resultTODO{H6} \\
+H7: B cheaper than A5b & 99\% UB $<0$ & \resultTODO{H7} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Frontier on synthetic regimes}
+
+\begin{table}[t]
+\caption{Frontier on synthetic regimes: claimed class, worst-case null promotion rate, maximum mean
+decision harm on nulls, and $J$ on alternatives (mean over six regimes). 95\% CIs.}\label{tab:frontier}
+\centering\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Policy & Claims & Worst null promo. & Max harm & $J_{\rm alt}$ \\
+\midrule
+NAD2S-g10-f6 (A) & $\mathcal M(.8)$ & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
+PB80-g10 (B) & $\mathcal M(.8)$, payback & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
+A5b, D5 & V2 & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
+gated\_adaptive\_range\_native & V1 & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
+QSG, D2 & V1 & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
+never-switch & -- & 0 & 0 & \resultTODO{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Development finding on the author-endpoint MOPE comparator.} In development
+\devnote\ the author-endpoint adaptive-range gate (\texttt{gated\_adaptive\_range\_native}) is cheaper
+than the NAD candidates but promotes on 15--35\% of persistent nulls, whereas the quad-endpoint port
+is more conservative (it also had a wider interval than the authors' code in a parity check
+\devnote). This gate claims a V1 null, so the promotions are outside its stated guarantee rather than
+a violated theorem. % TODO: confirm the 15-35% range against outputs/p2/dev5 (docs/p2/04 lists dev5 as pending).
+We report both because the quad-endpoint port would otherwise understate the gap in cost.
+
+\paragraph{Development context (not confirmation).} On 40 selection seeds \devnote, the cheapest
+certificate with in-class null promotion $\le.025$ was NAD-m80-g10, 2--4\% cheaper than the
+quad-endpoint MOPE port and A5b-type comparators and 6--12\% more expensive than V1 front-loaders that
+promote on 25--70\% of persistent nulls. The 14 development streams are exposed, and the design
+choices were made with them in view.
+
+\subsection{Chronological replacement streams (C4)}
+
+\begin{table}[t]
+\caption{C4: $J(A)-J(c)$ with source-equal 95\% CIs and per-source win counts.}\label{tab:c4}
+\centering\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Comparator $c$ & $\Delta J$ [95\% CI] & Sources won / 27 \\
+\midrule
+A5b & \resultTODO{} & \resultTODO{} \\
+D5 & \resultTODO{} & \resultTODO{} \\
+gated\_adaptive\_range\_native & \resultTODO{} & \resultTODO{} \\
+QSG & \resultTODO{} & \resultTODO{} \\
+never-switch & \resultTODO{} & \resultTODO{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Harm check.} Four C4 sources have a worse challenger on average (kc\_311,
+louisville\_311, miamidade\_311, minneapolis\_311); we report promotion and loss on them separately
+\resultTODO{promotion rate and harm on the four worse-challenger sources}. Delays are imposed, not
+recorded.
+
+\subsection{Exact marginal-null twins}
+
+\begin{table}[t]
+\caption{Promotion rate on exact marginal-null twins, per dataset (five UCI sources, 5 policy seeds
+per episode), with 95\% intervals.}\label{tab:twins}
+\centering\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Dataset & A & B & A5b & V1 pool \\
+\midrule
+metro, beijing\_pm25, bike\_hour, appliances, household & \resultTODO{} & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Twin promotion rates are descriptive. The dependence class of the real streams is unknown, so they
+are evidence, not a test of the guarantee.
+
+\subsection{Robustness value}
+
+The robustness value is recorded only by NAD-m80-g10 and reported descriptively
+\resultTODO{distribution of $\rhob^*$ at the end of null and alternative episodes}.
+
+\begin{figure}[t]
+% TODO(PaperBanana unavailable): Figure 2. Cost-vs-validity frontier (J_alt vs worst null promotion),
+% data from the confirmation analysis outputs only, verified against source values.
+\centering
+\fbox{\parbox{0.9\columnwidth}{\centering\vspace{3em}Figure 2 placeholder (cost vs validity frontier)\vspace{3em}}}
+\caption{\resultTODO{Figure 2 caption}}\label{fig:frontier}
+\end{figure}

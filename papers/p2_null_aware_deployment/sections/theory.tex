@@ -1,0 +1,59 @@
+\section{Theory}\label{sec:theory}
+
+All statements are for the declared classes under \cref{as:indep} to \cref{as:pred}. Proofs are in
+\cref{app:proofs}. % TODO: the arguments were written by the research lead and checked against the
+% implementation (docs/p2/05_VALIDITY_AUDIT.md); they have had no external review.
+
+\begin{proposition}[Validity of the envelope certificate]\label{prop:validity}
+Under every member of $\widetilde{\mathcal M}(\rhob,1/2)$, $\PP(\sup_k E_k\ge 1/\alpha)\le\alpha$,
+and the cycle schedule with thresholds $2^j/\alpha$ has total false-promotion probability at most
+$\alpha$. This requires that $z_{k-1}$ in \eqref{eq:envelope} is the preceding queried outcome of the
+whole stream, including outcomes a test restart discards.
+\end{proposition}
+
+\begin{proposition}[Information rate and price of robustness]\label{prop:rate}
+Fix a predictable gap policy and alternative conditional success probabilities $q_k$. For any
+e-process $E$ valid under $\widetilde{\mathcal M}(\rhob,b)$,
+$\EE_Q[\log(E_k/E_{k-1})\mid\Fcal_{k-1}]\le \mathrm{KL}(q_k\Vert u_k)\mathbf 1[q_k>u_k]$.
+The expected number of events to reach $1/\alpha$ is therefore at least of order
+$\log(1/\alpha)/R^*(\rhob)$, up to overshoot, where $R^*(\rhob)=\max_g I(g)/\max(g+1/\mathrm{dis},T/B)$
+and $I(g)$ is the per-label KL. The envelope bet attains $I(g)$ per label, the mixture over $c$ costs
+$O(\log k)$ regret, and the gap $g^*=\arg\max_g R(g)$ is rate-optimal for the relaxed class.
+\end{proposition}
+\begin{remark}[Caveat]\label{rem:caveat}
+The bound is for the relaxed class $\widetilde{\mathcal M}$. A procedure that uses a fixed $\rho$ across
+time (e.g.\ universal inference over $\mathcal M(\rhob)$) is valid for a smaller class and can beat it
+on stationary data. The bound does not say that no stationary-class method can be cheaper.
+\end{remark}
+The price of robustness is $\mathrm{PoR}(\rhob)=R^*_{\rm iid}/R^*(\rhob)$. With $\mathrm{dis}=.2$,
+$T/B=10$, $p_{\rm alt}=.65$ and true $\rho=0$, the analytic rates are $R^*_{\rm iid}=4.57\times10^{-3}$
+and $R^*=2.00\times10^{-3}$ ($g^*=13$), $1.60\times10^{-3}$, $1.60\times10^{-3}$ for
+$\rhob=.8,.9,.95$ (\texttt{scripts/p2/info\_rates.py}; analytic, not simulated). For true $\rho=.8$
+the rates under $\rhob=.9,.95$ fall to $1.11\times10^{-3}$ ($g^*=26$) and $0.59\times10^{-3}$
+($g^*=49$).
+
+\begin{proposition}[Two-stream validity]\label{prop:twostream}
+Under $\mathcal M(.8)$ for the envelope stream, and validity of the UI stream at level $\alpha/2$
+for any persistence, the false-promotion probability of NAD-2S is at most $\alpha/2+\alpha/4<\alpha$.
+\end{proposition}
+
+\begin{proposition}[Anytime robustness value]\label{prop:rv}
+For every $\rho_0$ and every null in $\widetilde{\mathcal M}(\rho_0,1/2)$,
+$\PP(\exists t:\rhob^*(t)\ge\rho_0)\le\alpha$, provided the acquisition does not depend on which
+$\rhob$ is reported.
+\end{proposition}
+
+\begin{proposition}[Payback-certified promotion]\label{prop:payback}
+Under $\mathcal M(\rhob,\cdot)$, $\PP(\text{promotion at some }\tau\text{ with }p\le b(\tau))\le\alpha$,
+where $b(\tau)=1/2+h(\tau)$ may depend on any data.
+\end{proposition}
+\begin{remark}
+The economic reading (a promotion with $p\le b(\tau)$ has non-positive expected forward net benefit)
+uses a plug-in $\widehat{\mathrm{dis}}$ and an approximate transient bound. It is not part of the
+guarantee.
+\end{remark}
+
+\paragraph{Not guaranteed.} Validity outside the declared class (heavy-tailed semi-Markov run
+lengths, slow hidden states, real streams); real twins have an exact marginal null but an unknown
+dependence class, so empirical promotion rates on them are evidence, not guarantees; variable or
+reordering delay.

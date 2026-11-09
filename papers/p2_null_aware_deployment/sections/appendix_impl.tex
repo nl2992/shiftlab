@@ -1,0 +1,35 @@
+\section{Implementation Details}\label{app:impl}
+
+Code: \texttt{scripts/p2/nad.py} (classes \texttt{NAD}, \texttt{EnvelopeStarted}, \texttt{TwoStream},
+\texttt{RobustnessValue}), \texttt{scripts/p2/info\_rates.py}, \texttt{scripts/p2/comparators.py}.
+% TODO: add commit hash of the frozen confirmation registration and the SHA-256 of the result files.
+
+\paragraph{Grids.} Relative-edge grid $c\in\{.05,.1,.2,.3,.45,.6,.8\}$ with uniform prior; payback
+hurdle grid $h\in\{0,.005,.01,.02,.03,.05,.08,.12,.2,.3\}$.
+
+\paragraph{Gap choices.} NAD candidates were screened over $\rhob\in\{.8,.9,.95\}$ and gaps
+$\{0,5,10,15,20,40\}$, a rate-maximising planner (\texttt{rate}, \texttt{rate2}) and A5b's density
+rule \devnote. A fixed gap $g=10$ with $\rhob=.8$ was selected; $g=0$ reproduces the budget waste of
+QSG-env8, $g=40$ is too slow, and $\rhob=.95$ is close to never switching in development. The
+$\phi$-envelope variant was parked: it costs more than the Markov envelope at the same $\rhob$, and is
+the class to report for order-2 nulls.
+
+\paragraph{Budget guard.} While undecided, the guard keeps the spend rate sustainable relative to
+$T/B$; it affects power, not validity, because queries stay predictable.
+
+\paragraph{MOPE endpoints.} The quad-endpoint port is $1.3$--$1.4\times$ wider than the author code in
+a parity check on iid streams \devnote; the exact-grid endpoint (\texttt{*\_native}) follows the
+authors' released code (\texttt{n17s/mope} at \texttt{a4b8584b}, commit hash as recorded in
+\texttt{docs/p2/\_mope\_native.md}) to about one grid step. Native and author code emitted a
+\texttt{log1p} NaN warning on some streams, not investigated.
+
+\paragraph{Delay.} \texttt{NAD.observe} sorts each released batch by issue order, not across batches;
+constant delay makes this exact.
+
+\paragraph{Comparators without author code.} DISCERN has no public code; \texttt{discern\_style} and
+\texttt{discern\_design\_floor} are approximations. The Choe--Ramdas row is a stand-in more aggressive
+than the author's \texttt{comparecast}.
+
+\paragraph{Reproducibility.} Seed bases: 2026110901 (selection), 2026110911 (neighbourhood sweep),
+2026110921 (real development), 2026110951--53 (confirmation: synthetic, C4, twins). Raw P2 run
+directories are not on all machines; their hashes are recorded in the results documents.

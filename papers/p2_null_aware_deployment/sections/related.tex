@@ -1,0 +1,46 @@
+\section{Related Work}\label{sec:related}
+
+The search behind this section was not exhaustive; most items were checked at abstract level, and
+those marked in \texttt{refs.bib} as unverified were seen second-hand. % TODO: run citation-audit
+% before submission; docs/p2/01_PRIOR_ART.md section 5 lists open checks (read DISCERN in full,
+% check Yuan 2512.01817 for time-uniformity, sensitivity analysis for dependence).
+
+\paragraph{Anytime-valid forecast comparison.} \citet{choe2024comparing} give confidence sequences
+for the time-averaged mean score difference with no assumptions on forecasts or outcomes; their null
+is a conditional mean, which is the V1 null here. \citet{henzi2022valid} give e-values for proper-score
+comparison, with an erratum restricting the original construction to lag one and a corrected
+construction for larger lags. \citet{arnold2024sequential} give sequential model confidence sets.
+\citet{giacomini2006tests} is the classical conditional-versus-unconditional distinction.
+
+\paragraph{Gated deployment and active labelling.} \citet{karampatziakis2021offpolicy} use betting
+confidence sequences for off-policy evaluation, including a gated-deployment application, without
+label cost or serial dependence. \citet{xu2024active} derive an anytime-valid active labelling policy
+under an expected budget with i.i.d.-style variance allocation. \citet{balachandran2026discern}
+(DISCERN, single-author preprint, read at abstract level only) pairs a zero-label tier with an audited
+tier that labels sampled disagreements; it is the closest work to ``label disagreements, then certify''
+and, from its abstract, has no switching cost, delay handling or dependence robustness. Active model
+selection \citep{karimi2021online,liu2024cams} and active inference \citep{zrnic2024active} lack a
+level-$\alpha$ promotion certificate.
+
+\paragraph{Dependence-robust sequential inference.} Universal inference
+\citep{wasserman2020universal} is the basis of the UI stream of A5b and NAD-2S.
+\citet{ramdas2021testing} test exchangeability with Markov alternatives. \citet{choe2024combining}
+discuss combining evidence across filtrations, which bears on the thinned-stream argument.
+\citet{yuan2025selfnormalized} derive marginal-mean concentration under mixing; whether it is
+time-uniform is unchecked. We found no Markov-chain e-process indexed by a declared persistence bound
+with predictable gaps, and no sensitivity value for dependence in sequential tests; this is evidence
+of a gap, not proof.
+
+\paragraph{Economic switching.} \citet{digalakis2025challenger} and \citet{regol2025when} give
+horizon- and cost-based rules for when to evaluate or retrain, without certificates or label purchase.
+\citet{fernandez2026promotion} compare nine promotion policies for intrusion detection on a common
+harness with a conditional null and delayed labels; labels are counted rather than priced and
+dependence is not analysed.
+
+\paragraph{Internal precursors.} QSG (front-loaded disagreement queries and a started mixture against
+a constant null) is the skeleton. QSG-env8 already implements an envelope bet, but without spacing and
+with a reset of the previous outcome at test restarts, which leaves its first post-restart factor
+unbounded by the class envelope. A5b already spaces queries adaptively with a heuristic target.
+Our claim is a different rule evaluated head to head with A5b, not the first spacing rule.
+Disagreement-only labelling with a confidence sequence, gated deployment and horizon-based switching
+are cited, not claimed.

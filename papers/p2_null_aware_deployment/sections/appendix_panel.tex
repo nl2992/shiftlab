@@ -1,0 +1,31 @@
+\section{Full Panel and Cohort Description}\label{app:panel}
+
+\paragraph{Policies (20).} Arms: \texttt{NAD2S-g10-f6}, \texttt{PB80-g10}, \texttt{NAD-m80-g10}.
+Dependence-robust comparators: A5b, D5 (V2), QSG-env8. Published-certificate ports:
+\texttt{gated\_deployment\_native}, \texttt{gated\_adaptive\_range\_native},
+\texttt{gated\_adaptive\_range\_native+front}, \texttt{gated\_adaptive\_range} (quad endpoint),
+\texttt{discern\_style}, \texttt{discern\_design\_floor}, \texttt{SMCS+retain-incumbent},
+\texttt{choe\_ramdas\_eb+front}. Other: QSG, D2, \texttt{economic\_replacement}, \texttt{cams\_adapter},
+\texttt{model\_picker\_adapter}, \texttt{CONTROL\_never\_switch}.
+
+\paragraph{Synthetic cohorts.} S-null: F0\_null, F5\_dep\_null\_r8, F5\_dep\_null\_r95,
+O\_null\_semimarkov, O\_null\_order2, WP2\_o2\_null, WP2\_sm\_null, WP2\_hs\_null (500 seeds each).
+S-alt: F0\_better, F5\_dep\_better\_r8, S\_dep\_better\_r95, WP2\_o2\_better, WP2\_sm\_better,
+WP2\_hs\_better (200 seeds each). Seed base 2026110951.
+
+\paragraph{C4 chronological replacement streams.} Chronological split into train-old, train-new,
+validation and test. The incumbent is a standardised logistic regression trained on train-old; the
+challenger is a HistGradientBoosting classifier trained on train-new, with preprocessing fitted on
+each model's own window. Episodes are non-overlapping 2{,}000-event windows of the test period; the
+label delay (100 events) is imposed. 27 sources, 2{,}097 episodes; the full table of sources,
+episode counts, disagreement rates and content hashes is in \texttt{docs/p2/06\_REAL\_DATA.md}.
+% TODO: copy the 27-row table here once the C4 hashes are re-verified at the confirmation run.
+Built for an earlier project and not used for any P2-NAD design choice. 3 policy seeds per episode,
+seed base 2026110952.
+
+\paragraph{Twins.} \texttt{data/sprint\_twin\_losses} v1: five UCI datasets (metro, beijing\_pm25,
+bike\_hour, appliances, household\_power) with exact marginal nulls, 5 policy seeds per episode, seed
+base 2026110953. A rebuild (v3) is pending; the confirmation uses v1 as registered.
+
+\paragraph{Development streams.} Five UCI fresh sources (62 episodes) and nine Atlas v2 sources
+(168 episodes) were exposed during design and are not confirmation evidence.

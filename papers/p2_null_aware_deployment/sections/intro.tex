@@ -1,0 +1,56 @@
+\section{Introduction}\label{sec:intro}
+
+A deployed model is often compared against a candidate while labels are scarce, delayed and
+selectively collected. A common design labels only events on which the two models disagree, since
+agreements carry no evidence about which is better, and promotes the candidate when an anytime-valid
+certificate crosses a threshold \citep{karampatziakis2021offpolicy,choe2024comparing}. Promotion
+changes the served model and carries a switching cost, so a false promotion is costly, and so is a
+certificate that waits too long.
+
+\paragraph{Which null.} The certificate is calibrated to a null, and published certificates use
+different ones. Some control a conditional null: the conditional mean of the score increment given the
+past is at most zero \citep{choe2024comparing}. Others assume an i.i.d.\ stream. A practitioner
+usually cares about a marginal statement, namely that the challenger is not better on average. On
+dependent streams the two differ. During an excursion the challenger \emph{is} conditionally ahead,
+so a conditional-null certificate can promote on a stream whose marginal advantage is exactly zero
+without violating its own guarantee. In a companion benchmark (P2 benchmark, confirmatory results;
+\texttt{docs/p2\_benchmark/results/CONFIRMATORY\_RESULTS.md}) we measured this on exact real-data
+marginal-null twins: certificate ports of the conditional-null family (``V1'') promoted at
+$.098$ (99\% interval $[.091,.106]$), about $2\alpha$, and those promotions were conditionally
+informed (mean remaining advantage $.0152$). % TODO: cite the benchmark paper once it has a reference.
+A dependence-robust certificate (``V2'') removes this, but on synthetic dependent alternatives it
+cost $+50.3$ per episode more than the cheapest V1 baseline in the same benchmark (confirmatory, 99\%
+interval $[+47.0,+53.5]$, about $12\%$ of the cost $J$ defined in \cref{sec:setting}).
+
+\paragraph{This paper.} We ask whether that price can be reduced without leaving a declared null
+class. Our answer has a negative and a positive part. The negative part is that much of the price is
+intrinsic: for a relaxed per-step class, the growth rate of any valid certificate is bounded by an
+information rate that is several times smaller than the i.i.d.\ rate (\cref{prop:rate}), and
+stationary-class methods may still beat it. The positive part is that a poorly designed robust
+procedure pays more than this bound. Spending labels back-to-back wastes the budget, because after a
+favourable outcome the envelope is still wide; spacing queries by the envelope is the direct repair.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item \textbf{Envelope certificate.} A started mixture of betting factors tested against a
+  per-step envelope $u_k$ on the conditional success probability under a declared dependence class,
+  with \emph{predictable query spacing} and \emph{restart-safe conditioning}: the previous queried
+  outcome is tracked over the whole stream, including outcomes a test restart discards
+  (\cref{prop:validity}).
+  \item \textbf{Price of robustness.} An information-rate characterisation (\cref{prop:rate}),
+  stated for the \emph{relaxed} per-step class, with the caveat that procedures exploiting a fixed
+  persistence on stationary data can beat it.
+  \item \textbf{Two-stream design.} An envelope e-process on a flagged subsequence whose times are
+  independent of the signs, combined with a universal-inference stream by a Bonferroni split
+  (\cref{prop:twostream}).
+  \item \textbf{Robustness value.} An anytime-valid dependence-robustness value, the largest
+  persistence bound whose certificate has crossed (\cref{prop:rv}).
+  \item \textbf{Payback certificate.} A promotion rule that bounds the probability of promoting when the
+  forward net benefit does not cover the switching cost (\cref{prop:payback}).
+  \item \textbf{Evaluation.} On the P2 benchmark, including author-endpoint comparators for the
+  MOPE-based gate, exact marginal-null twins and 27 chronological replacement streams, with
+  claimed-null validity and all-in cost reported together (\cref{sec:experiments}).
+\end{enumerate}
+We do not claim new probability theory. The results are elementary consequences of testing by
+betting and Ville's inequality; the contribution is their combination in a budgeted, delayed-label
+promotion rule and the measurement of what it costs.

@@ -1,0 +1,87 @@
+\section{Proofs}\label{app:proofs}
+
+The arguments are elementary (testing by betting, Ville's inequality). They follow
+\texttt{docs/p2/05\_VALIDITY\_AUDIT.md}; the two-stream argument is from the \texttt{TwoStream}
+docstring in \texttt{scripts/p2/nad.py}. They have not had external review.
+
+\subsection{Proof of \cref{prop:validity}}
+Fix the direction $+1$ with $h=z_k$. Let $v=\PP(z_k=1\mid\Fcal_{k-1})\le u_k<1$ and
+$p'_k=u_k+c(1-u_k)>u_k$. Then
+\[
+\EE[\mathrm{LR}_k\mid\Fcal_{k-1}]=v\frac{p'_k}{u_k}+(1-v)\frac{1-p'_k}{1-u_k}
+=1+\frac{(v-u_k)(p'_k-u_k)}{u_k(1-u_k)}\le 1,
+\]
+since $v\le u_k$ and $p'_k>u_k$. If $u_k\ge1$ no bet is placed and the factor is $1$. Hence for every
+$c$ and start $j$, the product $\prod_{i=j}^{k}\mathrm{LR}_i^{(c)}$ is a nonnegative supermartingale
+after $j$, and the weights $w_j=1/(j(j+1))$ and $\pi_c$ sum to at most one. By QSG's argument, which we
+inherit rather than reprove, $E_k+1/(k+1)$ is a test supermartingale. Ville's inequality gives
+$\PP(\sup_kE_k\ge1/\alpha)\le\alpha$ under every member of $\widetilde{\mathcal M}(\rhob,1/2)$. The
+promotion test of cycle $j$ starts at a stopping time and is conditional on its past, with threshold
+$2^j/\alpha$; a union bound gives $\sum_j\alpha/2^j\le\alpha$.
+
+\emph{Restart-safe conditioning.} The class bound $u_k$ in \eqref{eq:envelope} conditions on $z_{k-1}$,
+the immediately preceding queried outcome over the whole stream. If the implementation resets
+$z_{k-1}$ to ``none'' at a test restart (as QSG-env8 does), the first post-restart factor uses
+$u=1/2$ although the class allows $u_k=1/2+\rhob^{g_k}/2$, and the bound on $\EE[\mathrm{LR}_k]$ no
+longer follows from $v\le u_k$. \NAD\ sets \texttt{prev} for every non-agreement outcome before
+checking the segment start. The side $-1$ test uses $h=1-z_k$ and prev$\,=1-z_{k-1}$. For the first
+outcome, $u_1=b$ requires $p\le b$, which holds in the class. $\square$
+
+\subsection{Proof of \cref{prop:rate}}
+Under the member $Q^\dagger$ of $\widetilde{\mathcal M}(\rhob,b)$ with conditional success probability
+$\min(q_k,u_k)$ at every step, any e-variable $e_k$ satisfies
+$\EE_Q[\log e_k\mid\Fcal_{k-1}]\le\mathrm{KL}(Q_k\Vert Q^\dagger_k)$, the standard bound that the
+expected log of an e-variable under $Q$ is at most the KL divergence from any null; this equals
+$\mathrm{KL}(q_k\Vert u_k)\mathbf 1[q_k>u_k]$. Summing over labels and applying Wald's identity gives
+that the expected number of events to cross $1/\alpha$ is at least of order $\log(1/\alpha)/R^*(\rhob)$,
+up to overshoot and the usual $(1-\beta)$ factor. Here the per-event rate is $I(g)$ divided by
+$\max(g+1/\mathrm{dis},T/B)$, the expected time between sustainable queries. The envelope bet with
+$c$ near the optimum attains $I(g)$ per label, and the mixture over a grid of $c$ costs $O(\log k)$
+regret, so \NAD\ with $g^*=\arg\max R$ is rate-optimal for $\widetilde{\mathcal M}(\rhob)$. The bound
+holds for the relaxed class only, since $Q^\dagger$ need not be stationary; a procedure valid only on
+$\mathcal M(\rhob)$ is not constrained by it. $\square$
+
+\subsection{Proof of \cref{prop:twostream}}
+Flagged queries are the first disagreement at least $g_{\rm env}$ events after the previous flagged
+issue, with probability one, and draw on a reserved budget $B_{\rm env}$. Their times are a function
+of $(D_t)$ and the budget counter, which is a function of the flag times, so by \cref{as:indep} they
+are independent of the signs. Under $\mathcal M(\rhob)$ the flagged outcomes therefore satisfy
+$\PP(z=1\mid\text{flagged past})\le1/2+\rhob^{G}z_{\rm prev}/2$ in their own filtration, where $G$ is
+the flagged gap, and the envelope process ENV (never restarted) is a test supermartingale in that
+filtration.
+
+ENV may promote only before any verdict and only at cycle 1, and it closes when a verdict is
+reached. The closure time depends on signs through the UI stream. To handle it, let ENV$'$ be the
+envelope process on the hypothetical flag stream that is never closed, with the same flag times. ENV
+coincides with ENV$'$ until closure and ENV promotes only while open, so an ENV promotion implies
+ENV$'$ crossed $4/\alpha$. By Ville, this has probability at most $\alpha/4$. The UI stream runs at
+level $\alpha/2$ (thresholds $2^c/(\alpha/2)$). Its validity at that level for any persistence is taken
+from A5b's universal-inference construction \citep{wasserman2020universal} and is not re-proved here.
+A union bound gives $\alpha/2+\alpha/4<\alpha$. There is no averaging of e-values across filtrations.
+$\square$
+
+\subsection{Proof of \cref{prop:rv}}
+For each fixed grid value $\rho_0$ the process $E^{(\rho_0)}$ is a test supermartingale under
+$\widetilde{\mathcal M}(\rho_0,1/2)$ (\cref{prop:validity}), so the probability that it ever reaches
+$1/\alpha$ is at most $\alpha$. For fixed data, each factor is non-increasing in $u_k$ (on $h=1$ it is
+$1+c(1-u)/u$, on $h=0$ it is $1-c$), and $u_k$ is increasing in $\rhob$, so $E^{(\rhob)}_k$ is
+pathwise non-increasing in $\rhob$. Hence $\{\exists t:\rhob^*(t)\ge\rho_0\}\subseteq\{\sup_tE^{(\rho_0)}_t\ge1/\alpha\}$
+on the grid, which has probability at most $\alpha$ under any null in
+$\widetilde{\mathcal M}(\rho_0,1/2)$, simultaneously over time. The acquisition is a predictable
+function independent of the reported $\rhob$, so the same sampled outcomes feed all processes. $\square$
+
+\subsection{Proof of \cref{prop:payback}}
+By the monotonicity above, $E^{(\rhob,b)}_k$ is non-increasing in $b$. Under $\mathcal M(\rhob,\cdot)$
+with true $p$, the process $E^{(\rhob,p)}$ is a valid e-process. Suppose promotion occurs at $\tau$ with
+$p\le b(\tau)$. The rule uses the smallest grid value $b_j\ge b(\tau)$, so $b_j\ge b(\tau)\ge p$, and
+$E^{(\rhob,p)}_\tau\ge E^{(\rhob,b_j)}_\tau\ge2^{\rm cycle}/\alpha$. Thus the event is contained in
+the event that the valid e-process $E^{(\rhob,p)}$ crossed its cycle threshold, which has probability
+at most $\alpha$ (with the cycle schedule as in \cref{prop:validity}). Since $b(\tau)$ is only used to
+select $b_j$, it may depend on any data. Equivalently, the lower confidence sequence for $p$ exceeded
+the hurdle. $\square$
+
+\emph{Economic reading (approximate).} Under $\mathcal M(\rhob)$, switching at $\tau$ has expected forward
+net benefit about $\mathrm{dis}\,(2p-1)(T-\tau)+\text{transient}-c_s$, with the transient at most about
+$\mathrm{dis}\,\rhob/(1-\rhob)$ per unit of current excursion. With
+$h(\tau)=(c_s+\kappa)/(2\,\mathrm{dis}\,(T-\tau))$, forward benefit $\le0$ implies $p\le b(\tau)$ up to
+the error in the plug-in $\widehat{\mathrm{dis}}$. This is outside the guarantee.

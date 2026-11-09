@@ -1,0 +1,67 @@
+\section{Method}\label{sec:method}
+
+\NAD\ keeps the decision skeleton of QSG (an internal predecessor, \cref{sec:related}): a promotion
+test, a discard test, a mirrored rollback test, cycle $j$ run at level $\alpha/2^j$, and paced
+monitoring after a verdict. It changes the evidence process and the acquisition.
+
+\paragraph{Evidence.} For a relative edge $c\in(0,1)$ and an outcome $h$ in the tested direction, let
+$p'_k=u_k+c(1-u_k)$ and
+\[
+\mathrm{LR}_k=(p'_k/u_k)^{h}\big((1-p'_k)/(1-u_k)\big)^{1-h}.
+\]
+The started mixture is $E_k=\sum_c\pi_c\sum_{j\le k}w_j\prod_{i=j}^{k}\mathrm{LR}_i^{(c)}$ with
+$w_j=1/(j(j+1))$. If $u_k\ge1$ no bet is admissible. The side $-1$ test (discard, rollback) uses the
+mirrored coding $h\mapsto 1-z$.
+
+\begin{algorithm}[tb]
+\caption{\NAD\ envelope certificate (side $+1$)}\label{alg:nad}
+\begin{algorithmic}
+\STATE {\bfseries Input:} $\rhob$, gap rule, level $\alpha$, cycle $j$
+\STATE $\text{prev}\gets\text{None}$; $E\gets$ fresh started mixture
+\FOR{each released outcome $z_k$ (in issue order)}
+  \STATE $u_k\gets 1/2$ if prev is None, else $1/2+\tfrac12\rhob^{g_k}\,\text{prev}$
+  \IF{outcome is inside the current test segment}
+     \STATE $E\gets \textsc{Update}(E,z_k,u_k)$
+  \ENDIF
+  \STATE $\text{prev}\gets z_k$ \COMMENT{set for every queried outcome, including discarded ones}
+  \IF{$E\ge 2^{j}/\alpha$} \STATE promote; $j\gets j+1$ \ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Acquisition.} While undecided, a disagreement is queried only if at least $g$ events have
+passed since the last issued query; a budget guard keeps the spend rate sustainable. The registered
+gap is fixed ($g=10$, $\rhob=.8$). A planner that picks $g$ to maximise the planned information rate
+was screened and was not better than a fixed gap in development (\cref{app:impl}); validity does not
+depend on $g$.
+
+\paragraph{Two-stream design (NAD-2S).} Reserve a fraction $f$ of the budget (registered $f=.6$). The
+first disagreement at least $g_{\rm env}=10$ events after the previous flagged issue is flagged and
+queried with probability one. Flagged outcomes feed an envelope e-process that never restarts and may
+trigger only the cycle-1 promotion before any verdict, at level $\alpha/4$. All outcomes also feed
+A5b's universal-inference (UI) evidence \citep{wasserman2020universal} at level $\alpha/2$, with A5b's
+adaptive query density.
+
+\begin{algorithm}[tb]
+\caption{NAD-2S flagging and promotion}\label{alg:twostream}
+\begin{algorithmic}
+\STATE {\bfseries Input:} $\rhob=.8$, $g_{\rm env}$, reserved budget $B_{\rm env}$, level $\alpha$
+\FOR{each disagreement at event $t$}
+  \IF{ENV open and $t-\text{last\_flag}\ge g_{\rm env}$ and $\text{env\_used}<B_{\rm env}$}
+    \STATE flag $t$; query with probability 1; $\text{last\_flag}\gets t$
+  \ELSE \STATE query by A5b's density, outside the reserved budget
+  \ENDIF
+\ENDFOR
+\STATE ENV promotes if its e-value $\ge 4/\alpha$ (cycle 1, before any verdict)
+\STATE UI stream (level $\alpha/2$) runs the promote/discard/rollback cycles
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Robustness value.} Run one started envelope e-process per $\rhob$ in a grid on every
+queried outcome. $\rhob^*(t)$ is the largest grid value whose process has crossed $1/\alpha$ by $t$.
+
+\paragraph{Payback variant (PB).} Run envelope e-processes on a grid of hurdles $b=1/2+h_j$. At release
+time $\tau$, promote at the current cycle threshold if the process with the smallest $h_j\ge h(\tau)$
+crosses, where $h(\tau)=(c_s+\kappa)/\big(2\,\widehat{\mathrm{dis}}\,(T-\tau)\big)$,
+$\kappa=\widehat{\mathrm{dis}}\,\rhob/(1-\rhob)$ and $\widehat{\mathrm{dis}}$ is the estimated
+disagreement rate.

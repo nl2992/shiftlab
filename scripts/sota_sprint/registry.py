@@ -90,6 +90,14 @@ def build_extra() -> dict:
             extra.update(importlib.import_module(fam).EXTRA)
         except (ImportError, AttributeError) as e:
             IMPORT_ERRORS[fam] = repr(e)
+    p2 = HERE.parents[0] / "p2"  # P2 null-aware deployment candidates (2026-11-09)
+    if (p2 / "nad.py").exists():
+        if str(p2) not in sys.path:
+            sys.path.insert(0, str(p2))
+        try:
+            extra.update(importlib.import_module("nad").EXTRA)
+        except (ImportError, AttributeError) as e:
+            IMPORT_ERRORS["p2_nad"] = repr(e)
     return extra
 
 

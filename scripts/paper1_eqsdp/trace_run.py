@@ -26,6 +26,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -33,7 +34,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 MAIN = Path("C:/Users/nigel/OneDrive/桌面/ICML/shift-research-starter")
-for _p in (ROOT / "scripts/qsg_methods_search", ROOT / "scripts/failure_atlas_v2_flq"):
+for _p in (HERE, ROOT / "scripts/qsg_methods_search", ROOT / "scripts/failure_atlas_v2_flq"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
@@ -70,6 +71,11 @@ def registry() -> dict:
         if name not in reg:
             lam, g = name[len("wald_l") :].split("_g")
             reg[name] = _mk(WaldLCB, name, lam=float(lam), gamma=float(g))
+    from stage1_policies import registry_entries  # Stage 1 candidates and controls (new names only)
+
+    for name, f in registry_entries().items():
+        assert name not in reg
+        reg[name] = f
     return reg
 
 
@@ -134,12 +140,14 @@ def run_policies(names, losses, delay, ep, seed, seed_base, dataset, budget, che
 
     rows = []
     for pol in suite(list(names)):
+        t_start = time.perf_counter()
         rng = np.random.default_rng([seed_base, h, ep, seed, 7])
         preds, labels = stream_from_losses(losses, rng)
         res = run_episode(
             pol, model_predictions=preds, labels=labels, delay=delay, budget=budget,
             label_price=cq, switch_cost=cs, trace=True,
         )  # fmt: skip
+        secs = time.perf_counter() - t_start
         dep = np.fromiter((r["deployed_model"] for r in res.records), int, T)
         dec = decompose(dep, losses[:, 0], losses[:, 1], res.requested_labels, cq, cs)
         # the replicated bookkeeping must equal the simulator's own totals
@@ -150,6 +158,8 @@ def run_policies(names, losses, delay, ep, seed, seed_base, dataset, budget, che
             "mean_gain": float(gain[0]), **{k: dec[k] for k in COMPONENTS},
             "net": res.net_cost, "loss": res.prediction_loss, "labels": res.requested_labels,
             "switches": res.deployment_switches, "regret": dec["regret"],
+            "first_deploy": int(np.argmax(dep == 1)) if (dep == 1).any() else -1,
+            "better": int(losses[:, 0].sum() > losses[:, 1].sum()), "secs": secs,
         }  # fmt: skip
         if pol.name in check_orig:  # untraced-path (original run_metrics) net for comparison
             (p2,) = suite([pol.name])

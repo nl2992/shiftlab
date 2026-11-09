@@ -28,6 +28,33 @@ PARITY = {"even": 0, "odd": 1}
 PER_EP_COLS = ["net", "loss", "labels", "switches"]
 
 
+def _warm():
+    """Pool initializer: import the simulator suite once per worker with git calls retried. The suite
+    import runs git subprocesses (b3_plus_policy.load_b1) that intermittently fail when many workers
+    start together on this OneDrive-synced path (file locks on the git object store)."""
+    import random
+    import subprocess
+
+    time.sleep(random.random() * 3.0)
+    orig = subprocess.run
+
+    def retrying(*a, **kw):
+        r = orig(*a, **kw)
+        for k in range(12):
+            if r.returncode == 0 or not (a and a[0] and a[0][0] == "git"):
+                break
+            time.sleep(0.5 + k + random.random())
+            r = orig(*a, **kw)
+        return r
+
+    subprocess.run = retrying
+    try:
+        import c4_pilot  # noqa: F401
+        from suite import build_suite  # noqa: F401
+    finally:
+        subprocess.run = orig
+
+
 def make_jobs(split: str, names, budget=200):
     start = PARITY[split]
     jobs = []
@@ -58,7 +85,10 @@ def run_named(names, split, out: Path, workers=16, budget=200, dyn=None):
     (out / "meta.json").write_text(
         json.dumps({"split": split, "budget": budget, "policies": list(names), "jobs": len(jobs)})
     )
-    with open(out / "records.jsonl", "w") as f, mp.Pool(min(workers, 16)) as pool:
+    with (
+        open(out / "records.jsonl", "w") as f,
+        mp.Pool(min(workers, 16), initializer=_warm) as pool,
+    ):
         for i, rows in enumerate(pool.imap_unordered(fn, jobs, chunksize=2)):
             f.writelines(json.dumps(r) + "\n" for r in rows)
             if i % 50 == 0:
@@ -80,7 +110,7 @@ def pooled(e: pd.DataFrame, col: str) -> float:
 class Evaluator:
     def __init__(self, workers=16, split="even", budget=200):
         self.split, self.budget = split, budget
-        self.pool = mp.Pool(min(workers, 16))
+        self.pool = mp.Pool(min(workers, 16), initializer=_warm)
 
     def evaluate(self, cfgs: dict[str, dict], named=()) -> tuple[pd.DataFrame, pd.DataFrame, float]:
         """cfgs: name -> Stage2Policy kwargs; named: registry policy names run in the same jobs.

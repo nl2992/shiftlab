@@ -59,6 +59,9 @@ def read_log() -> list[dict]:
 
 
 def propose(hist: list[dict], it: int) -> np.ndarray:
+    import contextlib
+
+    import botorch.optim.utils.timeout as _to
     import torch
     from botorch.acquisition.logei import qLogNoisyExpectedImprovement
     from botorch.acquisition.objective import GenericMCObjective
@@ -69,6 +72,8 @@ def propose(hist: list[dict], it: int) -> np.ndarray:
     from botorch.sampling.normal import SobolQMCNormalSampler
     from gpytorch.mlls import SumMarginalLogLikelihood
 
+    # threadpoolctl cannot load DLLs from this non-ASCII (OneDrive/桌面) path; BLAS is single-threaded anyway
+    _to.threadpool_limits = lambda **k: contextlib.nullcontext()
     torch.manual_seed(1000 + it)
     X = torch.tensor([h["u"] for h in hist], dtype=torch.double)
     J = torch.tensor([[h["J"]] for h in hist], dtype=torch.double)

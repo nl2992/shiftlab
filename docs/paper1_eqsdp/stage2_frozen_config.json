@@ -1,0 +1,31 @@
+{
+ "stage": "2 freeze",
+ "branch": "research/paper1-eqsdp-foundation-2026-11-08",
+ "candidate_policy_class": "scripts/paper1_eqsdp/stage2_policies.py::Stage2Policy",
+ "candidate_cfg": {
+  "lam": 0.9675,
+  "gamma": 0.2641,
+  "rho0": 0.0079,
+  "s": 0.7779,
+  "h": 12,
+  "floor": 0.0765,
+  "stop_h": null,
+  "bw": 0.0,
+  "gs": 0.0
+ },
+ "new_reference": "s2armr_H1100",
+ "new_reference_definition": "arm R EQSDp_l0.98_g0.3 + hard end-of-horizon label stop H=1100 (Stage1C1Stop, stop_h=1100)",
+ "also_run": [
+  "EQSDp_l0.98_g0.3",
+  "wald_l0.97_g0.2"
+ ],
+ "contract": {
+  "B": 200,
+  "c_q": 0.05,
+  "c_s": 5,
+  "T": 2000,
+  "policy_seeds": 10,
+  "split": "odd episodes, episode index kept in the seed derivation"
+ },
+ "test": "paired dJ (candidate - frozen new reference), equal-dataset pooled, 95% percentile CI over per-dataset episode bootstraps (2000); freeze-to-confirm iff dJ<0, CI upper end <0, and dL/T <= +0.1 pp"
+}

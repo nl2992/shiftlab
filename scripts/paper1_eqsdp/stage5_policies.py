@@ -276,10 +276,76 @@ class Stage5R2(Stage5Base):
         return bool(ok)
 
 
+def evsi_k(w, filt, pending, k, deployed, gamma, cs, rate, hp, rule="mean"):
+    """EVSI of a bundle of ``k`` new labels (all released at t+delay) with ``pending`` others in
+    flight; k = 1 equals ``preposterior``'s EVSI. Exact enumeration on the grid."""
+    p, n = filt.p, len(filt.p)
+    P = int(pending)
+    bp = np.exp(_binom_logpmf(P, filt.logp, filt.log1p))  # n x (P+1)
+    bk = np.exp(_binom_logpmf(k, filt.logp, filt.log1p))  # n x (k+1)
+    bt = np.exp(_binom_logpmf(P + k, filt.logp, filt.log1p))  # n x (P+k+1)
+    scale = rate * hp
+
+    def decide(joint):
+        mass = joint.sum(axis=0)
+        post = joint / np.where(mass > 1e-300, mass, 1.0)[None, :]
+        if rule == "mean":
+            q = (post * p[:, None]).sum(axis=0)
+        else:
+            cdf = np.cumsum(post, axis=0)
+            lev = gamma if deployed == 0 else 1.0 - gamma
+            q = p[np.minimum((cdf >= lev - 1e-12).argmax(axis=0), n - 1)]
+        gain = (2.0 * q - 1.0) * scale if deployed == 0 else (1.0 - 2.0 * q) * scale
+        return np.where(gain > cs, 1 - deployed, deployed)
+
+    reg0, reg1 = np.maximum(2 * p - 1, 0.0) * scale, np.maximum(1 - 2 * p, 0.0) * scale
+
+    def cost(d):
+        return (
+            np.where(d[None, :] == 0, reg0[:, None], reg1[:, None]) + cs * (d != deployed)[None, :]
+        )
+
+    wsk = w[:, None] * bp
+    c_sk, c_t = cost(decide(wsk)), cost(decide(w[:, None] * bt))
+    return float(
+        sum((wsk * bk[:, z : z + 1] * (c_sk - c_t[:, z : z + P + 1])).sum() for z in range(k + 1))
+    )
+
+
+class Stage5R2Roll(Stage5R2):
+    """R2-roll: short joint rollout. Query now iff some bundle size k <= kmax of labels (this one
+    plus k-1 further labels bought at the next disagreement events and released together) has a
+    positive net value, EVSI_k > k * (c_q + lambda_t). One label cannot flip the decision when the
+    posterior is locked; a bundle can, which is the starvation mechanism of doc 15 section 2."""
+
+    def __init__(self, *a, kmax=2, **kw):
+        kw["mode"] = "evsi"
+        super().__init__(*a, **kw)
+        self.kmax = int(kmax)
+
+    def keep_q(self, event, remaining_budget, q):
+        t = event.t
+        hp = self.T - (t + self.delay)
+        if hp <= 0:
+            return False
+        w = self.filt.at(t)
+        vrem = max(self.virtual_remaining(remaining_budget), 1.0)
+        pressure = min(max(self._rate() * (self.T - t) / vrem - 1.0, 0.0), 10.0)
+        price = self.cq + self.lam0 * pressure
+        for k in range(1, self.kmax + 1):
+            ev = evsi_k(
+                w, self.filt, self.pending, k, self.deployed, self.gamma, self.cs,
+                self._rate(), hp, self.rule,
+            )  # fmt: skip
+            if ev > k * price:
+                return True
+        return False
+
+
 # ---------------------------------------------------------------------------------------------
 # dynamic registry (kind + kwargs; filled in worker processes)
 # ---------------------------------------------------------------------------------------------
-KINDS = {"r1": Stage5R1, "cal": Stage5Calendar, "r2": Stage5R2}
+KINDS = {"r1": Stage5R1, "cal": Stage5Calendar, "r2": Stage5R2, "r2roll": Stage5R2Roll}
 
 
 def make_factory(spec: dict, name: str):

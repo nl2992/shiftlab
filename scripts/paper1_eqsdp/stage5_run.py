@@ -2,7 +2,8 @@
 
   python stage5_run.py A      # F0 reference grids + R2 grid (+ quantile-rule pilot)
   python stage5_run.py B      # needs outputs/paper1_eqsdp/stage5/selection_A.json (from stage5_analysis.py A)
-  python stage5_run.py C      # needs selection_B.json: R3 grid, tail-only grid
+  python stage5_run.py C      # needs selection_A.json: R3 grid, tail-only grid
+  python stage5_run.py D      # R2-roll grid (kmax 2, 3); built only if R2/R3 beat both references
 Odd episodes are run only by stage5_odd.py (refuses to start without a pushed freeze commit).
 """
 
@@ -30,6 +31,7 @@ ENT_THETA = tuple(
     round(x, 2) for x in (0.6, 1.0, 1.4, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.2, 3.4, 3.6)
 )
 R1_F, R1_G = (0.1, 0.2, 0.3), (50, 100, 200)
+ROLL_K = (2, 3)
 TAU = (0.25, 0.5, 1.0, 2.0, 4.0, 8.0)
 
 
@@ -62,6 +64,15 @@ def cal_name(m, cut):
 
 def ent_name(hz, cut, theta):
     return f"s5ent_h{hz:g}_c{cut_tag(cut)}_th{theta:g}"
+
+
+def roll_name(r2, k):
+    return f"s5roll_h{r2['hz']:g}_l{r2['lam0']:g}_c{cut_tag(r2['cutoff'])}_k{k}"
+
+
+def roll_spec(r2, k):
+    return {"kind": "r2roll", "hz": r2["hz"], "lam0": r2["lam0"], "cutoff": r2["cutoff"],
+            "rule": r2["rule"], "kmax": k}  # fmt: skip
 
 
 def specs_A():
@@ -111,8 +122,13 @@ def main():
                     r2["hz"], r2["lam0"], r2["cutoff"], r2["rule"], mode, tau
                 )
         e5.run_specs([], sp, "even", d / "C")
+    elif which == "D":  # R2-roll (built because R2 and R3 beat both references on even episodes)
+        sel = json.loads((OUT / "selection_A.json").read_text())
+        r2 = sel["r2"]
+        sp = {roll_name(r2, k): roll_spec(r2, k) for k in ROLL_K}
+        e5.run_specs([], sp, "even", d / "D")
     else:
-        raise SystemExit("A | B | C")
+        raise SystemExit("A | B | C | D")
 
 
 if __name__ == "__main__":

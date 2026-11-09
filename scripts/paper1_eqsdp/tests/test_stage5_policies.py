@@ -166,3 +166,15 @@ def test_filter_hazard_restores_prior_mass():
     w_now, w_late = f.at(10), f.at(2000)
     assert w_late[: len(w_late) // 2].sum() > w_now[: len(w_now) // 2].sum()
     assert abs(w_late.sum() - 1) < 1e-12
+
+
+def test_evsi_k1_matches_preposterior_and_bundle_gains():
+    import stage5_policies as s
+
+    f = s.HazardFilter(1e-4)
+    for z in (1, 0, 1, 0, 0):
+        f.update(z, 100)
+    w = f.at(120)
+    ev1 = s.preposterior(w, f, 2, 0, 0.3, 5.0, 0.5, 1500, "mean")[0]
+    assert abs(ev1 - s.evsi_k(w, f, 2, 1, 0, 0.3, 5.0, 0.5, 1500, "mean")) < 1e-9
+    assert s.evsi_k(w, f, 2, 2, 0, 0.3, 5.0, 0.5, 1500, "mean") >= ev1

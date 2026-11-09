@@ -294,6 +294,12 @@ def _factories():
         "gong_zhang_paid_obs": lambda T, B, a, r: GongZhangPaidObs(T, B, 0.05, rng=r),
         "detector_only": lambda T, B, a, r: FixedModel(0, name="fixed"),
     }
+
+    def restart_factory(host_factory, seed_name, **options):
+        return lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
+            host_factory, T, B, a, rng=r(seed_name), name="", **options
+        )
+
     out = {}
     for nm, mk in bases.items():
         seed_name = {
@@ -302,50 +308,10 @@ def _factories():
             "cams_adapter": "cams",
             "gong_zhang_paid_obs": "gong_zhang",
         }.get(nm, nm)
-        out[f"{nm}+RMM"] = (  # noqa: PLC3002
-            lambda mk=mk, sn=seed_name: (
-                lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(mk, T, B, a, rng=r(sn), name="")  # noqa: B023
-            )
-        )()
-        out[f"{nm}+RMM_single"] = (  # noqa: PLC3002
-            lambda mk=mk, sn=seed_name: (
-                lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
-                    mk,  # noqa: B023 (bound by outer lambda default)
-                    T,
-                    B,
-                    a,
-                    rng=r(sn),
-                    name="",
-                    single_start=True,
-                )
-            )
-        )()
-        out[f"{nm}+RMM_norestart"] = (  # noqa: PLC3002
-            lambda mk=mk, sn=seed_name: (
-                lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
-                    mk,  # noqa: B023 (bound by outer lambda default)
-                    T,
-                    B,
-                    a,
-                    rng=r(sn),
-                    name="",
-                    restart_base=False,
-                )
-            )
-        )()
-        out[f"{nm}+RMM_noacq"] = (  # noqa: PLC3002
-            lambda mk=mk, sn=seed_name: (
-                lambda T, B, cs, cq, a, d, r: RestartMixtureMonitor(
-                    mk,  # noqa: B023 (bound by outer lambda default)
-                    T,
-                    B,
-                    a,
-                    rng=r(sn),
-                    name="",
-                    keep_acquiring=False,
-                )
-            )
-        )()
+        out[f"{nm}+RMM"] = restart_factory(mk, seed_name)
+        out[f"{nm}+RMM_single"] = restart_factory(mk, seed_name, single_start=True)
+        out[f"{nm}+RMM_norestart"] = restart_factory(mk, seed_name, restart_base=False)
+        out[f"{nm}+RMM_noacq"] = restart_factory(mk, seed_name, keep_acquiring=False)
     from controls import FixedModel as _Fixed
 
     def lrmd(**kw):

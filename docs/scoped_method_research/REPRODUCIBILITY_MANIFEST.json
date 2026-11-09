@@ -1,0 +1,54 @@
+{
+  "created_utc_date": "2026-11-06",
+  "worktree": "/Users/nigelli/Desktop/ICML/Shift-lab/.claude/worktrees/scoped-method-research-current",
+  "branch": "codex/scoped-method-research-results-2026-11-06",
+  "code_revision": "c699b4b46209abd53f3771a6f5dbc34e88f7ad85",
+  "decision": "BENCHMARK_OR_CASE_STUDY_ONLY",
+  "evidence_classification": "correction replay and development; no confirmation",
+  "required_artifacts": {
+    "00_STATE_AUDIT.md": "837b4f4a026913a38e28b89f1fd049abab3759f77a3999832b6233c11e9d7ddb",
+    "01_GRAPHIFY_MAP.md": "7edaea51fbedecd10983728a7272584149d77cd95cbb25824da4bfca6da6c396",
+    "02_FAILURE_ATLAS_UPDATE.md": "b99a590561a40cede34d1d878c9e8f32d2d563a3dd32c36fceb194df50b42b7e",
+    "03_PRIOR_ART_AND_NOVELTY.md": "186390f49d23db827067e5b0da735d7510392f543e1ec809264f21b4b16aad73",
+    "04_BASELINE_FIDELITY.md": "c70b441faabcebd8140a5e9117c77304ff443c729cf31ffa5c3662a98ecca37a",
+    "05_MECHANISM_PROPOSALS.md": "fcd36a941c22b13ca1c7012494845656019a00f3323299235f5197d2ca4499ab",
+    "06_DEVELOPMENT_PROTOCOL.md": "fd6478813d42fe8e6bd9713837fd843666c7e200b87e6f4a9c3119511c991640",
+    "07_DEVELOPMENT_RESULTS.md": "cf636923a6c82290ede88c7bd5331913cdba5f1d64f19bc9b990606ace9e9109",
+    "08_FROZEN_CONFIRMATION_PROTOCOL.md": "5869ea0d36a771455052eee499bd5bee8092d64ad62f3c8182d06be883b49216",
+    "09_SYNTHETIC_CONFIRMATION.md": "b4dada20b4d5f749764cc0b83ea74ace9d2f22b1d22d3816cf8f442fbeb6fb85",
+    "10_REAL_DATA_REGISTRY.md": "f4e0f34bac4bea335c512f3c80afb10fba6f57691843fb2cbd1c435d2b45871c",
+    "11_REAL_DATA_CONFIRMATION.md": "cb314bc5d04a9b5ad48d54e5903dce52b63ecdf024d829daf5d95917f4e3d4d4",
+    "12_REPRODUCIBILITY_AND_AUDIT.md": "bf56eacf5bf93b37a1e4364df900c463ab03f155c6d7e557822987243f3e63b9",
+    "13_INDEPENDENT_REVIEW.md": "b8181aa47ec5fadf30353e109c3abd5f62463db781b247c0d26282b5e0c0d652",
+    "14_PUBLICATION_CLAIMS.md": "e8783e743fdf6684cf978ba27352aa312bcda22aa9242c5a017840d0c0b9908a",
+    "15_FINAL_DECISION.md": "0856f199b705f5557eadd17896dbc6c20225f4ca2d8c49a08aa39e616ca43745",
+    "../scoped_method_research_2026-11-06/DIRECT_FRONTLOAD_ERB_CRITICAL_REVIEW.md": "8a1618dc4d6b2edcdd6c5bec052b63d676e0a1412c57327c31f620b89ec8e479",
+    "../scoped_method_research_2026-11-06/FINAL_ASSESSMENT.md": "66a233b2979905f3b5f8fa3b65833a01ac8707ba3155e8a1fcebc26e456beb58",
+    "../scoped_method_research_2026-11-06/EXPERIMENT_LOG.md": "a5773cc8ff3c66be3a72d4443be998a3d172887ca87f3578c843c72ae14c90e9"
+  },
+  "pilot_artifacts": {
+    "manifest.json": "6aa6a74af1ce194201800e1acd039e6b36b7bae698a3841bb65ab0545a871922",
+    "records.jsonl": "23b7f27637887a6a429c8a23df0116a8c41151fa1415f9c4f1a0077c2c6b924d",
+    "summary.json": "21f75a9a096e0316370d31cbd867d52ce772b5c86c227129cab84107c1ca38a2"
+  },
+  "corrected_replay_audit_sha256": "eff3cf6fcff5cabf2678bb3ec46744c3751283ec1c65a8b8e2e967690d516db5",
+  "limitations": [
+    "Corrected replays are exposed same-seed reruns, not confirmation.",
+    "Pilot regimes were previously used; 30 paired seeds per regime are exploratory.",
+    "No authentic independent real-source confirmation; no holdout was opened.",
+    "Primary raw replay outputs are ignored local files and are not included in this worktree.",
+    "The direct front-loading plus E_rb screen is exploratory (20 seeds per reused regime); its pre-run protocol timing is not independently verifiable, and the manifest records a dirty snapshot with truncated source hashes."
+  ],
+  "direct_composition_screen": {
+    "protocol": "research/scoped_method/pilots/direct_frontload_erb_20261106/protocol.md",
+    "records_sha256": "a1a83a1de7d101ce6e89d58461715529cb243aea0474618a31dc36a7225a09f1",
+    "summary_sha256": "08ffb4ec158640df1a7fb8d3c8a640fff3fa852d0233a204bec4e8b12a50d56d",
+    "manifest_sha256": "dc70ee343843432f7130c5019df065b04cbd7d093fee14cbcc15101251dea74b",
+    "protocol_sha256": "b92264f65337f980f778a45815994b237c8f0e44d70fc6980e0bba36586106cc",
+    "runner_sha256": "44b82db2a6db65f86fd17bca8866e4ed4039bf5277293a46358bc0c62bd34ce1",
+    "critical_review_sha256": "8a1618dc4d6b2edcdd6c5bec052b63d676e0a1412c57327c31f620b89ec8e479",
+    "run_git": "469ee3c0c7993dec93922a6e9b858bcb28d53b27+dirty",
+    "status": "development screen; pre-run protocol timing cannot be independently verified"
+  },
+  "previous_pushed_report_commit": "6299987ea1155e8e57d7f52a43bd2aeb3333ab3b"
+}

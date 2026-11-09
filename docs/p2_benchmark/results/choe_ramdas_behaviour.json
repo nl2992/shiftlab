@@ -1,0 +1,47 @@
+{
+ "comparecast_version": "1.0.0",
+ "alpha": 0.05,
+ "T": 2000,
+ "regimes": {
+  "null_iid": {
+   "reject_author": 0.0,
+   "reject_local": 0.01,
+   "verdict_agreement": 0.99,
+   "median_time_author": null,
+   "median_time_local": 892.0,
+   "median_local_minus_author_when_both": null
+  },
+  "null_markov_r8": {
+   "reject_author": 0.07333333333333333,
+   "reject_local": 0.11,
+   "verdict_agreement": 0.95,
+   "median_time_author": 365.0,
+   "median_time_local": 217.0,
+   "median_local_minus_author_when_both": -46.0
+  },
+  "alt_p55": {
+   "reject_author": 0.09666666666666666,
+   "reject_local": 0.15,
+   "verdict_agreement": 0.9133333333333333,
+   "median_time_author": 1442.0,
+   "median_time_local": 1198.0,
+   "median_local_minus_author_when_both": -152.5
+  },
+  "alt_p60": {
+   "reject_author": 0.7333333333333333,
+   "reject_local": 0.77,
+   "verdict_agreement": 0.8766666666666667,
+   "median_time_author": 1239.0,
+   "median_time_local": 1028.0,
+   "median_local_minus_author_when_both": -151.0
+  },
+  "alt_p70": {
+   "reject_author": 1.0,
+   "reject_local": 1.0,
+   "verdict_agreement": 1.0,
+   "median_time_author": 404.5,
+   "median_time_local": 273.0,
+   "median_local_minus_author_when_both": -91.0
+  }
+ }
+}

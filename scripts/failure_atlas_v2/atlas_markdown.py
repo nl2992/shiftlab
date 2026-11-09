@@ -3,7 +3,8 @@
 import json
 import sys
 
-S = json.load(open(sys.argv[1]))  # noqa: SIM115
+with open(sys.argv[1]) as source:
+    S = json.load(source)
 cols = sys.argv[2].split(",")
 short = dict(x.split("=") for x in sys.argv[3].split(",")) if len(sys.argv) > 3 else {}
 hdr = "| source | " + " | ".join(short.get(c, c) for c in cols) + " | row best (net) |"

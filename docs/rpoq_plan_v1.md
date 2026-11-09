@@ -23,7 +23,7 @@ This is a hypothesis to test and not a method claim. By the repo's own standard,
 | Supervisor-Skills | Human holds the academic judgment; AI does mechanical work with reviewable evidence | Each stage ends with a decision entry you sign off, and no stage self-approves |
 | Supervisor-Skills `deep-research` / `paper-writer` | No fabricated citations; model memory never counts as a source; no placeholders | Matches `AGENTS.md`. Every prior-art claim must cite a source read this session |
 | Supervisor-Skills reviewer | Reviewers reject "a simple combination of existing methods" and weak baselines | This is the S3 separation test; baselines are uniform, evidence-directed, `variance_proxy` and the Podkopaev–Ramdas delayed monitor |
-| Supervisor-Skills `figure-designer` | One figure, one message | The three figures below |
+| Supervisor-Skills `figure-designer` | One figure, one message | The four figures below |
 | ARIS executor/reviewer split | Executor never judges its own work; the reviewer is a different model | Use for the proof and the claim map only (S2, S5), never to iterate on confirmatory results |
 | ARIS `/proof-checker`, `/kill-argument` | Adversarial proof and claim attack | S2 gate and S5 claim map |
 | ARIS `/result-to-claim` | Claims at the strength the evidence supports | S4 and S5 claim-to-artifact table |
@@ -91,7 +91,7 @@ Each stage ends with a dated continue/pivot/stop entry in a new `docs/rpoq_*.md`
 
 ## Visuals (PaperBanana)
 
-`AGENTS.md` requires PaperBanana for research visuals. Three figures, one message each. For plots, derive data and labels from validated outputs and inspect the exported image against the source values.
+`AGENTS.md` requires PaperBanana for research visuals. Four figures, one message each. For plots, derive data and labels from validated outputs and inspect the exported image against the source values.
 1. Method diagram of the resolved-prefix filtration and admissible class (S2/S3).
 2. State-space growth: generic oracle vs reduced solver, from the scaling `results.json` (S3).
 3. Gap to the heuristic across the dose×onset grid (S4).

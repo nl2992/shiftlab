@@ -40,7 +40,7 @@ def analyze(path: Path, n_boot: int, seed: int) -> dict:
         p = p[[CANDIDATE, *COMPARATORS]].dropna()
         delta = np.column_stack([p[CANDIDATE].to_numpy() - p[c].to_numpy() for c in COMPARATORS])
         obs = delta.mean(axis=0)
-        centered = delta - obs  # noqa: F841
+        delta - obs
         ix = rng.integers(0, len(delta), size=(n_boot, len(delta)))
         boot_means = delta[ix].mean(axis=1)
         # One-sided simultaneous upper bound for max_j E[delta_j], using a

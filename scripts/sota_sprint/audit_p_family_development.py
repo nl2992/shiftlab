@@ -116,13 +116,13 @@ def main() -> int:
             continue
         for candidate, col in candidate_columns:
 
-            def paired_summary(regime):
+            def paired_summary(regime, candidate=candidate):
                 paired = p1[p1.regime == regime].pivot_table(
                     index=["ep", "seed"], columns="policy", values="net"
                 )
-                if candidate not in paired or "A5b" not in paired:  # noqa: B023
+                if candidate not in paired or "A5b" not in paired:
                     return None
-                delta = (paired[candidate] - paired["A5b"]).dropna().to_numpy()  # noqa: B023
+                delta = (paired[candidate] - paired["A5b"]).dropna().to_numpy()
                 if len(delta) < 2:
                     return None
                 mean = float(delta.mean())
@@ -339,7 +339,7 @@ def main() -> int:
         twin_mismatches.append("could not parse P2 twin A_500 sentence")
     else:
         stored = list(twin_report.groups())
-        actual = [float(stored[i]) if i % 2 == 0 else float(stored[i]) for i in range(8)]  # noqa: RUF034
+        actual = [float(value) for value in stored]
         twin_cells = 8
         for display, policy, mi, fi in [
             ("A5b", "A5b", 0, 1),
@@ -702,7 +702,6 @@ def main() -> int:
     )
     p6real = p6real.drop_duplicates(["regime", "ep", "policy"], keep="last")
     real_table_start = p6doc.split("**Fresh real mean J**", 1)[1]
-    rtables = []  # noqa: F841
     lines = []
     in_table = False
     for line in real_table_start.splitlines():

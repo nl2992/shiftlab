@@ -152,7 +152,7 @@ def test_kgate_k3_budget_and_null():
     reg = fam_p.K_REGIMES["K3_null"]
     for s in range(3):
         losses = reg.sample(np.random.default_rng(s), 800)
-        r = lambda nm: policy_rng(5, s, nm)  # noqa: B023
+        r = lambda nm, s=s: policy_rng(5, s, nm)
         pol = fam_p.KGate(3, 800, 40, 0.05, rng=r("D_gate"), host_rng=r("cams"))
         preds, labels = stream_from_losses(losses, np.random.default_rng(s))
         res = run_episode(

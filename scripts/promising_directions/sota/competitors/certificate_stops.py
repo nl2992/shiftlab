@@ -6,7 +6,7 @@ SOTA_NARROWED_PROTOCOL.md``) must beat. They hold ACQUISITION fixed (the shared
 moment a statistical certificate fires at level ``alpha``. They are not economic: neither knows the
 switching cost or the remaining horizon, which is exactly what the protocol tests.
 
-Sources (fetched and read in full for the relevant sections; no author code was obtainable)
+Sources (papers read for the relevant sections; author-code status audited 2026-11-05)
 -------------------------------------------------------------------------------------------
 **DISCERN**: arXiv:2609.17560, "Pay Only for Disagreement: Certified No-Regression Verdicts for
 Model Updates with Matching Label-Complexity Bounds".
@@ -41,10 +41,10 @@ Sequences" (ICML 2021).
   current CS endpoint, Algorithm 1 (its exact solution over the triangle ``C``), the endpoint
   update by the largest root of the quadratic lower bound on log wealth (eq. 14, with the
   ``ln(2/alpha)`` from hedging), and Algorithm 2 (MOPE).
-* Section 5.3 "Gated Deployment": "If we can reject all negative values (i.e. the lower CS crosses
-  0) then pi should be deployed. Conversely, rejecting all positive values (i.e. the upper CS
-  crosses 0) means pi should be discarded." Also: "we don't have to choose a stopping time in
-  advance."
+* Section 5.3 "Gated Deployment": the lower CS crossing 0 triggers deployment, while the upper CS
+  crossing 0 triggers discard; stopping need not be fixed in advance.
+* Public author code: https://github.com/n17s/mope (pinned review checkout
+  `a4b8584b622f3a8296932568c520c1bb3e1957f0`). Native numerical parity has not been checked.
 
 Common event semantics (both classes)
 -------------------------------------
@@ -100,9 +100,12 @@ class PrPlEBCS:
     bet ``lambda_i`` does not depend on ``m``, ``log M_t(m)`` is LINEAR in ``m`` and the
     endpoints are available in closed form; the CS is the running intersection.
 
-    ADAPTER: ``v_i = 4 (W_i - mu_hat_{i-1})^2`` (the factor 4 is in Waudby-Smith and Ramdas
-    Thm. 2; DISCERN's Appendix A prints ``v_i = (W_i - mu_hat_{i-1})^2`` without it. We follow the
-    cited theorem because the un-scaled variant is not covered by it). ``mu_hat_t = (1/2 +
+    ``v_i = 4 (W_i - mu_hat_{i-1})^2`` and ``psi_E(lambda) =
+    (-log(1-lambda)-lambda)/4`` follow Waudby-Smith and Ramdas Thm. 2. Their product is exactly
+    ``(W_i - mu_hat_{i-1})^2 * (-log(1-lambda)-lambda)``, matching the variance-penalty term
+    printed in DISCERN Appendix A. The previous local port omitted the ``/4`` from ``psi_E`` while
+    retaining the factor 4 in ``v_i``; that was a local fidelity bug, not a discrepancy in DISCERN.
+    ``mu_hat_t = (1/2 +
     sum W) / (t+1)`` and ``sigma2_hat_t = (1/4 + sum (W_i - mu_hat_i)^2) / (t+1)`` are the
     Waudby-Smith and Ramdas plug-ins; DISCERN does not print them. ``lambda_max`` is not
     stated by DISCERN; 1/2 is the Waudby-Smith and Ramdas default.
@@ -227,7 +230,9 @@ class MopeLowerCS:
         if wmax <= 1.0:
             raise ValueError("wmax must exceed 1")
         self.alpha, self.wmax = float(alpha), float(wmax)
-        self.log_thr = math.log(2.0 / self.alpha)  # the 2 is the hedging factor in eq. (14)
+        # The half-initialized wealth is represented by the threshold 2/alpha on the
+        # accumulated log factors: (1/2) * product > 1/alpha iff product > 2/alpha.
+        self.log_thr = math.log(2.0 / self.alpha)
         self.keys = ("n", "s_aa", "s_as", "s_ss", "s_a", "s_s", "p11", "p12", "p22", "s1", "s2",
                      "v", "lam1", "lam2")  # fmt: skip
         for k in self.keys:
@@ -297,8 +302,20 @@ class MopeCS:
         self.plus, self.minus = MopeLowerCS(alpha, wmax), MopeLowerCS(alpha, wmax)
 
     def update(self, w: float, r: float) -> None:
+        old_lo, old_hi = self.v_lo, self.v_hi
         self.plus.update(w, r)
         self.minus.update(w, 1.0 - r)
+        # Algorithm 2 intersects the two one-sided bounds and enforces lo <= hi after
+        # every event (opebet.wealth_lb_2d). Without this coupling, a lower endpoint can
+        # exceed the reflected upper endpoint, unlike the published MOPE interval update.
+        new_lo = min(old_hi, max(old_lo, self.plus.v))
+        new_hi = max(new_lo, min(old_hi, 1.0 - self.minus.v))
+        self.plus.v = new_lo
+        self.minus.v = 1.0 - new_hi
+        # Bets for the next increment use the intersected endpoint, as in Algorithm 2;
+        # the one-sided updates above initially optimized at their uncoupled endpoints.
+        self.plus._bet()
+        self.minus._bet()
 
     @property
     def v_lo(self) -> float:
@@ -371,6 +388,9 @@ class _CertificateStop:
     def _load_extra(self, s: dict) -> None:
         pass
 
+    def _on_acquisition_propensity(self, event: Event, q: float, disagree: bool) -> None:
+        """Observe q before its Bernoulli draw or any synchronous queue flush."""
+
     # ---- Policy protocol
     def predict(self, event: Event) -> int:
         return self.deployed
@@ -381,6 +401,7 @@ class _CertificateStop:
         self._on_event_start(event)
         dis = bool(event.model_predictions[0] != event.model_predictions[1])
         q = self.acq.propensity(event.t, remaining_budget, dis)
+        self._on_acquisition_propensity(event, q, dis)
         self.acq.note_event(dis)
         if self.stopped:  # a zero-label verdict (Tier 0) may have fired on this event
             return QueryRequest(requested=False)
@@ -494,7 +515,8 @@ class DiscernStyleStop(_CertificateStop):
     ADAPTER: Tier 0 needs no labels, so it is updated on every event including after the
     budget is exhausted.
 
-    BLOCKED: no author code was available; this is built from the printed construction only.
+    BLOCKED: this is built from the printed construction only. No DISCERN author code was found
+    (search 2026-11-06); ``n17s/mope`` is the MOPE gated-deployment repository, not DISCERN's.
     DISCERN's learned judge routing is not used (acquisition is the shared paced rule).
     """
 

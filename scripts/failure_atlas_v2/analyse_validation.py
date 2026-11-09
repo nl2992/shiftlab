@@ -69,10 +69,11 @@ def wilson_ub(k, n, z=1.96):
 
 def main(path, out):
     D = defaultdict(lambda: defaultdict(dict))  # source -> policy -> unit -> row
-    for line in open(path):  # noqa: SIM115
-        r = json.loads(line)
-        unit = r["seed"] if r["kind"] == "syn" else (r["episode"], r["seed"])
-        D[r["source"]][r["policy"]][unit] = r
+    with open(path) as source:
+        for line in source:
+            r = json.loads(line)
+            unit = r["seed"] if r["kind"] == "syn" else (r["episode"], r["seed"])
+            D[r["source"]][r["policy"]][unit] = r
     res = {"regimes": {}, "families": {}, "safety": {}, "real": {}}
 
     def vec(src, pol, key="net"):
@@ -109,8 +110,8 @@ def main(path, out):
         f = {}
 
         # per-seed family mean, comparator fixed per regime as above
-        def fam_vec(pol_fn):
-            return np.mean([vec(r, pol_fn(r)) for r in regs], axis=0)  # noqa: B023
+        def fam_vec(pol_fn, regs=regs):
+            return np.mean([vec(r, pol_fn(r)) for r in regs], axis=0)
 
         f[f"{LRMD}-best_controlled"] = boot(
             fam_vec(lambda r: LRMD) - fam_vec(lambda r: res["regimes"][r]["best_controlled"])
@@ -146,9 +147,9 @@ def main(path, out):
             continue
         eps = sorted({u[0] for u in rows})
 
-        def ep_mean(p):
+        def ep_mean(p, src=src, eps=eps):
             return np.array(
-                [np.mean([D[src][p][u]["net"] for u in D[src][p] if u[0] == ep]) for ep in eps]  # noqa: B023
+                [np.mean([D[src][p][u]["net"] for u in D[src][p] if u[0] == ep]) for ep in eps]
             )
 
         means = {p: float(ep_mean(p).mean()) for p in D[src]}
@@ -170,7 +171,8 @@ def main(path, out):
         }
         res["real"][src] = e
 
-    json.dump(res, open(out, "w"), indent=2, default=float)  # noqa: SIM115
+    with open(out, "w") as output:
+        json.dump(res, output, indent=2, default=float)
 
     def fmt(t):
         return (

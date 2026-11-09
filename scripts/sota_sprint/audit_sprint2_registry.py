@@ -38,7 +38,7 @@ def family_entries(letter: str) -> list[dict[str, Any]]:
         return ledger
     entries = ledger.get("candidates", [])
     if not isinstance(entries, list):
-        raise ValueError(f"{letter} ledger candidates is not a list")  # noqa: TRY004
+        raise TypeError(f"{letter} ledger candidates is not a list")
     return entries
 
 

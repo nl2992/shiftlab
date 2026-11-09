@@ -68,7 +68,7 @@ def build_extra() -> dict:
     extra = dict(_FLQ)
     try:
         extra.update(_rmm())
-    except Exception as e:  # pragma: no cover - reported in manifests  # noqa: BLE001
+    except (ImportError, AttributeError) as e:  # pragma: no cover - reported in manifests
         IMPORT_ERRORS["rmm"] = repr(e)
     for fam in (
         "fam_a",
@@ -88,7 +88,7 @@ def build_extra() -> dict:
             continue
         try:
             extra.update(importlib.import_module(fam).EXTRA)
-        except Exception as e:  # noqa: BLE001
+        except (ImportError, AttributeError) as e:
             IMPORT_ERRORS[fam] = repr(e)
     return extra
 

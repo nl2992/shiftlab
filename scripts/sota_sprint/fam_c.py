@@ -45,6 +45,7 @@ Factories have the sprint signature ``f(T, B, cs, cq, alpha, delay, r) -> Policy
 from __future__ import annotations
 
 import sys
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -221,8 +222,8 @@ class _Ctl:
             self._flush()
             return QueryRequest(requested=False)
         q = float(min(max(q, self.c_qfloor()), 1.0))
+        self._c_record_dis(t, q)  # freeze any host bet range before drawing the query indicator
         take = bool(self.rng.random() < q)
-        self._c_record_dis(t, q)
         rec = _Rec(t, not take, 0.0, 0)
         self._queue.append(rec)
         if take:
@@ -355,8 +356,10 @@ try:  # tuned values are written by the tuning step (docs/sota_sprint/family_c/t
     _tf = ROOT / "docs/sota_sprint/family_c/tuned.json"
     if _tf.exists():
         TUNED.update(_json.loads(_tf.read_text()))
-except Exception:  # pragma: no cover  # noqa: BLE001, S110
-    pass
+except (OSError, _json.JSONDecodeError) as exc:  # pragma: no cover
+    warnings.warn(
+        f"Could not read optional Family C tuning file: {exc}", RuntimeWarning, stacklevel=2
+    )
 
 EXTRA: dict = {}
 

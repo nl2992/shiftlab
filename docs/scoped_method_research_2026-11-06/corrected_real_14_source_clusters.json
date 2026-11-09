@@ -1,0 +1,123 @@
+{
+  "contrasts": {
+    "front_minus_C2": {
+      "ci95_t": [
+        -1.1484154513863691,
+        2.3519150262162984
+      ],
+      "mean_candidate_minus_comparator": 0.6017497874149647,
+      "n_sources": 14
+    },
+    "front_minus_C6": {
+      "ci95_t": [
+        -3.069642175184996,
+        3.137120151375472
+      ],
+      "mean_candidate_minus_comparator": 0.03373898809523811,
+      "n_sources": 14
+    },
+    "front_minus_gated": {
+      "ci95_t": [
+        -42.80665396059048,
+        -6.2871508438312915
+      ],
+      "mean_candidate_minus_comparator": -24.546902402210886,
+      "n_sources": 14
+    },
+    "front_minus_pace": {
+      "ci95_t": [
+        -1.0509992642350747,
+        0.4455652931466371
+      ],
+      "mean_candidate_minus_comparator": -0.30271698554421883,
+      "n_sources": 14
+    }
+  },
+  "n_source_clusters": 14,
+  "source_effects": {
+    "airlines": {
+      "front_minus_C2": 4.560999999999999,
+      "front_minus_C6": 4.103699999999997,
+      "front_minus_gated": 0.3655999999999967,
+      "front_minus_pace": 0.03479999999999927
+    },
+    "appliances": {
+      "front_minus_C2": 0.06666666666666288,
+      "front_minus_C6": 0.07500000000000757,
+      "front_minus_gated": -116.28666666666668,
+      "front_minus_pace": 0.5941666666666559
+    },
+    "bank": {
+      "front_minus_C2": 1.8562499999999957,
+      "front_minus_C6": 1.8562499999999957,
+      "front_minus_gated": -3.041875000000004,
+      "front_minus_pace": -4.322500000000006
+    },
+    "beijing_pm25": {
+      "front_minus_C2": 2.0321428571428606,
+      "front_minus_C6": 2.6750000000000074,
+      "front_minus_gated": -1.9830357142857216,
+      "front_minus_pace": 0.7519642857142852
+    },
+    "bike_hour": {
+      "front_minus_C2": 0.0,
+      "front_minus_C6": 0.0,
+      "front_minus_gated": -45.39791666666667,
+      "front_minus_pace": 0.0
+    },
+    "criteo": {
+      "front_minus_C2": 2.0550000000000046,
+      "front_minus_C6": 3.750000000000002,
+      "front_minus_gated": -0.027499999999998862,
+      "front_minus_pace": 0.0
+    },
+    "elec2": {
+      "front_minus_C2": 6.137499999999989,
+      "front_minus_C6": 6.074999999999989,
+      "front_minus_gated": 0.1687499999999929,
+      "front_minus_pace": 0.0
+    },
+    "household_power": {
+      "front_minus_C2": -2.0075000000000016,
+      "front_minus_C6": -3.547500000000005,
+      "front_minus_gated": -19.81925,
+      "front_minus_pace": 0.04650000000000247
+    },
+    "metro": {
+      "front_minus_C2": 0.0,
+      "front_minus_C6": 0.0,
+      "front_minus_gated": -47.13203125,
+      "front_minus_pace": 0.0
+    },
+    "openml_ldpa": {
+      "front_minus_C2": -7.064062500000002,
+      "front_minus_C6": -16.657812500000006,
+      "front_minus_gated": -24.161562500000002,
+      "front_minus_pace": -1.8154687500000002
+    },
+    "rialto": {
+      "front_minus_C2": 0.0,
+      "front_minus_C6": -0.8781250000000007,
+      "front_minus_gated": -4.4065625,
+      "front_minus_pace": 0.0
+    },
+    "spam": {
+      "front_minus_C2": 0.0,
+      "front_minus_C6": 0.0,
+      "front_minus_gated": -42.88,
+      "front_minus_pace": 0.0
+    },
+    "uci_occupancy": {
+      "front_minus_C2": 0.5374999999999979,
+      "front_minus_C6": 0.5374999999999979,
+      "front_minus_gated": -23.156250000000004,
+      "front_minus_pace": 0.4724999999999994
+    },
+    "weather": {
+      "front_minus_C2": 0.25,
+      "front_minus_C6": 2.4833333333333485,
+      "front_minus_gated": -15.898333333333333,
+      "front_minus_pace": 0.0
+    }
+  }
+}

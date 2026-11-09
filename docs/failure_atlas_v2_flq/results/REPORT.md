@@ -116,8 +116,10 @@ V_better_a best uncertified 370.6 vs QSG 408.2), while they lose by 9-23 on null
 > one previously exposed stream (rialto) shows a small robust gain (-3.1).
 
 This is **not a SOTA claim**: the cost gain is obtained by trading away the strong-dependence safety
-that certification exists to provide. Comparators are ports (the strong gated/DISCERN readings are our
-re-ports), not author code. Novelty is low (front-loading = DISCERN with pi=1; QCE = sequential sign
+that certification exists to provide. Comparators are adapters, not full native-system reproductions. The MOPE author repository is public
+and pinned at `a4b8584b622f3a8296932568c520c1bb3e1957f0`, but native gated parity has not yet been
+checked. The strong gated reading also had a range-ordering defect; its historical validation tables
+are superseded pending corrected replays. Novelty is low (front-loading = DISCERN with pi=1; QCE = sequential sign
 test on discordant pairs; started mixture ~ e-detectors). What stands: the atlas and harness, the
 two-family failure map (latency vs churn), the mechanism (uniform pacing under a binding budget), the
 DISCERN port fidelity fix, and the recorded negative results.

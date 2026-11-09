@@ -80,6 +80,18 @@ listed artifacts. It does not re-compute values or establish inference validity.
 
 ## Report claim audits
 
+Regenerate the metric-specific WP1 late-improvement leaderboard from the saved primary records:
+
+```sh
+uv run python scripts/sota_sprint/build_wp1_late_metric_leaderboard.py
+```
+
+This reports J, retrospective hindsight regret, promotion-conditional delay, label expenditure,
+switching expenditure, and paired net-cost differences against the strongest certified comparator
+selected on the same episodes. It uses the 10 retrospective late episodes in five source clusters;
+the comparator and episode class selection are development-exposed, so these are descriptive
+within-stratum ranks rather than confirmatory or cross-track rankings.
+
 ```sh
 uv run python scripts/sota_sprint/audit_raw_to_reports.py --out docs/sprint2/raw_report_audit.json
 uv run python scripts/sota_sprint/audit_p_family_development.py --out docs/sprint2/family_p/development_audit.json
@@ -107,6 +119,16 @@ claim corrections and remaining coverage limits are recorded in `CLAIM_RECONCILI
   frozen raw runs in `outputs/sprint2/WP1/`.
 - WP2 runs: frozen commands/protocol in `docs/sprint2/wp2/BENCHMARK.md` and `protocol.md`; raw
   manifests under `outputs/sprint2/WP2/`.
+- Adaptive-range correction impact inventory across the SOTA sprint and Sprint 2: regenerate the manifest schedule with
+  `uv run python scripts/sota_sprint/audit_adaptive_gate_impact.py`; its source manifests are under
+  `outputs/`, its human-readable schedule is `docs/sprint2/adaptive_gate_impact.md`, and
+  machine-readable output is `outputs/sprint2/adaptive_gate_impact.json` (gitignored). Affected old
+  rows are historical; corrected same-seed replays and downstream report regeneration are pending.
+  Generate replay commands with `uv run python scripts/sota_sprint/replay_adaptive_gate_runs.py`;
+  execute the complete schedule with `uv run python scripts/sota_sprint/replay_adaptive_gate_runs.py --execute`.
+  To run one registered suite first, pass `--run-dir outputs/sota_sprint/validation/null1000
+  --workers 9 --execute`. Replays write to sibling directories tagged
+  `_wmaxfix_20261105` and refuse to overwrite existing outputs.
 
 ## Corrected sensitivity analyses
 

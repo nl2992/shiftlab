@@ -22,6 +22,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 B1_PATH = ROOT / "scripts/promising_directions/b1_certified_switching.py"
 B1_COMMIT = "041bc26"
+B1_SHA256 = "7565a647f3bb3f940d4fbd2a948597b9ffe42ef0485550a771d137e7930baebd"
 VARIANTS = ("P7", "P7a", "P7b", "P7c", "P7s", "P7sp", "P4ref")
 UCB_TRIVIAL = 1.0  # |D| <= 1, so this is the bound when no margin null is rejected
 
@@ -35,12 +36,15 @@ def _git(*args: str) -> subprocess.CompletedProcess:
 def load_b1():
     """Import b1_certified_switching as at commit 041bc26 (same approach as b3_real_data)."""
     rel = str(B1_PATH.relative_to(ROOT)).replace("\\", "/")
-    unchanged = _git("diff", "--quiet", B1_COMMIT, "--", rel).returncode == 0
-    path, how = B1_PATH, "worktree file (git diff --quiet 041bc26 is clean)"
+    current_sha = hashlib.sha256(B1_PATH.read_bytes()).hexdigest()
+    unchanged = current_sha == B1_SHA256
+    path, how = B1_PATH, "worktree file (matches pinned SHA-256)"
     if not unchanged:
         src = _git("show", f"{B1_COMMIT}:{rel}")
         if src.returncode != 0:
-            raise RuntimeError(f"cannot extract {rel} at {B1_COMMIT}")
+            raise RuntimeError(
+                f"{rel} does not match pinned SHA-256 and {B1_COMMIT} is unavailable"
+            )
         path = Path(tempfile.mkdtemp()) / "b1_certified_switching.py"
         path.write_text(src.stdout, encoding="utf-8")
         how = "extracted from 041bc26 via git show (worktree file differs)"

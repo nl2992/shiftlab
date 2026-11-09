@@ -78,7 +78,6 @@ for _p in (
 
 import fam_a
 import fam_d
-from qsg import GRID, StartedMixture  # noqa: F401  (re-exported: tests use fam_r.StartedMixture)
 from simulator import QueryRequest, ReleasedFeedback
 
 LAMS = np.array([0.02, 0.05, 0.1, 0.2, 0.35, 0.5, 0.7, 1.0, 1.3, 1.6])  # fixed (not predictable)

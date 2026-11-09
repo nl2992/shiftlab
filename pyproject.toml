@@ -97,7 +97,7 @@ shiftlab-dive-residual-variance-pva-grid = "shiftlab.dive.residual_variance_pva_
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = [".", "src"]
+pythonpath = [".", "src", "scripts/promising_directions/sota"]
 
 [tool.ruff]
 line-length = 100

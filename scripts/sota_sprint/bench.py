@@ -12,6 +12,7 @@ name may carry ``@B<budget>`` to run that regime at another hard budget (budget-
 
 from __future__ import annotations
 
+import importlib.util
 import sys
 from pathlib import Path
 
@@ -20,7 +21,22 @@ FLQ = ROOT / "scripts/failure_atlas_v2_flq"
 if str(FLQ) not in sys.path:
     sys.path.insert(0, str(FLQ))
 
-from regimes import ALL_REGIMES, Regime, _r
+# Load the registered FLQ regime module under a unique name. Other experiment suites also
+# expose a top-level ``regimes`` module; importing that shared name can silently bind this
+# benchmark to the wrong registry during full-suite pytest collection.
+_REGIMES_NAME = "shiftlab_sprint_flq_regimes"
+_REGIMES_SPEC = importlib.util.spec_from_file_location(_REGIMES_NAME, FLQ / "regimes.py")
+if _REGIMES_SPEC is None or _REGIMES_SPEC.loader is None:
+    raise ImportError(f"Could not load FLQ regime registry from {FLQ / 'regimes.py'}")
+_REGIMES_MODULE = importlib.util.module_from_spec(_REGIMES_SPEC)
+sys.modules[_REGIMES_NAME] = _REGIMES_MODULE
+_REGIMES_SPEC.loader.exec_module(_REGIMES_MODULE)
+
+ALL_REGIMES = _REGIMES_MODULE.ALL_REGIMES
+Regime = _REGIMES_MODULE.Regime
+_r = _REGIMES_MODULE._r
+expected_oracle_path = _REGIMES_MODULE.expected_oracle_path
+hindsight_oracle_cost = _REGIMES_MODULE.hindsight_oracle_cost
 
 CONTRACT = {"T": 2000, "budget": 200, "cq": 0.05, "cs": 5.0, "alpha": 0.05}
 DEV_SEED_BASE = 2026110501

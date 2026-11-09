@@ -1,0 +1,10 @@
+# P2 confirmatory hypotheses: registered analysis output
+
+- **H1**: {"estimate": 0.09839368386243386, "ci99": [0.09079143960782474, 0.10554763824760872], "pass": true}
+- **H2**: {"estimate": 0.015235957824269977, "ci99": [0.011441511139990082, 0.019841829877713404], "n_promotions": 3644, "pass": true}
+- **H3**: {"pi_ei_meanrev": 0.5299334811529933, "pi_ei_twin": 0.4442919868276619, "diff_ci95": [0.03246559871301704, 0.14095041816655787], "pass": true}
+- **H5**: {"estimate": 50.25166666666666, "ci99": [46.98675895833333, 53.51859604166667], "pass": true}
+- **H1b**: {'T2000': 0.09839368386243386, 'T1000': 0.07324520502645501, 'T4000': 0.10397486772486772}
+- **H4** pass: True; {"cams_adapter": {"metro": 0.755, "beijing_pm25": 0.919, "bike_hour": 0.857, "appliances": 0.877, "household_power": 0.851}, "model_picker_adapter": {"metro": 0.66, "beijing_pm25": 0.894, "bike_hour": 0.829, "appliances": 0.878, "household_power": 0.846}}
+- **H6**: {"metro": {"estimate": 0.0047, "ub95": 0.0068, "lb99": 0.0016, "meets_bound": true}, "beijing_pm25": {"estimate": 0.022, "ub95": 0.028, "lb99": 0.0133, "meets_bound": true}, "bike_hour": {"estimate": 0.0889, "ub95": 0.1053, "lb99": 0.0667, "meets_bound": false}, "appliances": {"estimate": 0.0556, "ub95": 0.0708, "lb99": 0.0351, "meets_bound": true}, "household_power": {"estimate": 0.0254, "ub95": 0.031, "lb99": 0.0178, "meets_bound": true}}; H6b pass: True
+- **H7**: single gate [['discern_style', 602.8451150793651]]; two-tier [['D2', 407.07369642857145], ['QSG', 409.9801984126984], ['choe_ramdas_eb+front', 416.88149999999996], ['gated_deployment+QCE+front', 420.8932202380952], ['gated_adaptive_range+front', 421.8173035714286], ['rmm:gated_deployment+RMM', 439.37740476190476], ['SMCS+retain-incumbent', 444.1875734126984], ['xu_acquisition_only', 455.5457678571429], ['gated_deployment+QCE', 455.55479166666663], ['choe_ramdas_eb', 456.55606944444446], ['gated_adaptive_range', 468.5529821428571], ['discern_design_floor', 470.7402916666666], ['A5b', 531.4908650793651], ['D5', 533.2917876984127], ['gated_deployment', 538.3838611111112], ['discern_style', 602.8451150793651]]

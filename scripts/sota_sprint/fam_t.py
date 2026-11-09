@@ -149,7 +149,7 @@ def fam_r_evidence() -> dict:
         import fam_r
 
         return {f"fam_r:{k}": v for k, v in getattr(fam_r, "EVIDENCE", {}).items()}
-    except Exception:  # noqa: BLE001
+    except ImportError:
         return {}
 
 
@@ -535,8 +535,8 @@ def _md(s, cands):
         hs = host_of(p)
         c = r["contrasts_alt"]
 
-        def f(k):
-            x = c.get(k)  # noqa: B023
+        def f(k, c=c):
+            x = c.get(k)
             return "" if not x else f"{x['mean']:+.1f} [{x['lo']:+.1f},{x['hi']:+.1f}] ({k})"
 
         L.append(

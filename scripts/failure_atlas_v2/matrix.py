@@ -3,7 +3,8 @@
 import json
 import sys
 
-S = json.load(open(sys.argv[1]))  # noqa: SIM115
+with open(sys.argv[1]) as source:
+    S = json.load(source)
 cols = sys.argv[2].split(",")
 w = max(6, max(len(c) for c in cols) // 2)
 print(f"{'source':20s}" + "".join(f"{c[:11]:>12s}" for c in cols) + "    min")

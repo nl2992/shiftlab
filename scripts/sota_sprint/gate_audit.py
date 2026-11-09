@@ -77,8 +77,8 @@ def _blob_hashes(name: str) -> set[str]:
         ["git", "log", "--format=%H", "--", f"scripts/sota_sprint/{name}"],
         cwd=ROOT,
         capture_output=True,
-        check=False,
         text=True,
+        check=False,
     ).stdout.split()
     out = set()
     for r in revs:

@@ -134,6 +134,17 @@ def test_mope_bets_in_C_and_wealth_factors_nonnegative():
         cs.update(float(w), (float(d) + 1) / 2)
 
 
+def test_mope_interval_is_intersected_after_each_two_sided_update():
+    """The lower and reflected upper CSs are intersected, as in author Algorithm 2."""
+    rng = np.random.default_rng(20261106)
+    cs = MopeCS(0.05, WMAX)
+    lo, hi = cs.v_lo, cs.v_hi
+    for w, d in zip(*_ht_stream(500, 0.4, 0.8, 0.2, rng)):
+        cs.update(float(w), (float(d) + 1) / 2)
+        assert 0.0 <= lo <= cs.v_lo <= cs.v_hi <= hi <= 1.0
+        lo, hi = cs.v_lo, cs.v_hi
+
+
 def test_eb_bets_in_range_and_endpoints_monotone():
     rng = np.random.default_rng(4)
     cs = PrPlEBCS(0.1)

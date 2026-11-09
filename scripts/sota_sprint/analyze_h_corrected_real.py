@@ -76,7 +76,9 @@ def analyze(records: Path, *, n_boot: int = 20_000, seed: int = 2026110417) -> d
                 f"{dataset}: incomplete policy/episode coverage; "
                 f"missing={list(expected_cells - observed_cells)[:5]}"
             )
-        bad_coverage = g.groupby(["policy", "ep"]).seed.apply(lambda s: set(s) != expected_seeds)  # noqa: B023
+        bad_coverage = g.groupby(["policy", "ep"]).seed.apply(
+            lambda s, expected_seeds=expected_seeds: set(s) != expected_seeds
+        )
         if bad_coverage.any():
             raise ValueError(f"{dataset}: expected seeds 0..19 for every policy/episode")
         n_ep = len(episode_ids)

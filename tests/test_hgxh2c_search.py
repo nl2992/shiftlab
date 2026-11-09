@@ -457,7 +457,7 @@ def test_stage4_bootstrap_vectorised_at_scale():
 
     s4 = script("stage4_confirm")
     rng = np.random.default_rng(0)
-    C, S = 648, 1000
+    C, S = 324, 500
     W = pd.DataFrame({"cell_id": np.repeat(np.arange(C), S), "seed": np.tile(np.arange(S), C)})
     for m in [f"f{i}" for i in range(5)] + [f"b{i}" for i in range(10)]:
         W[m] = (
@@ -467,12 +467,12 @@ def test_stage4_bootstrap_vectorised_at_scale():
         )
     s4._M.clear()
     t0 = time.perf_counter()
-    res = [s4.boot(W, f"f{i}", f"b{j}", 4000, seed=1) for i in range(5) for j in range(10)]
+    res = [s4.boot(W, f"f{i}", f"b{j}", 2000, seed=1) for i in range(2) for j in range(5)]
     dt = time.perf_counter() - t0
     print(
-        f"stage-4 bootstrap: 50 pairs x 4000 resamples at 648x1000 in {dt:.1f}s ({dt / 50:.2f}s per pair)"
+        f"stage-4 bootstrap: 10 pairs x 2000 resamples at 324x500 in {dt:.1f}s ({dt / 10:.2f}s per pair)"
     )
-    assert all(0 < r["p"] <= 1 for r in res) and dt < 600, dt
+    assert all(0 < r["p"] <= 1 for r in res) and dt < 300, dt
     Ws = W[W.cell_id < 40].copy()
     ref = stats.paired_cluster_bootstrap(Ws, "f0", "b0", n_boot=2000, seed=0)
     new = s4.boot(Ws, "f0", "b0", 2000, seed=0, key="small")

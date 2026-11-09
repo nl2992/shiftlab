@@ -9,11 +9,27 @@ across incomparable regimes. Lower `J` is better. Empirical risk rates are not t
 | Rank / candidate | Evidence and economic result | Scope and verdict |
 |---|---|---|
 | 1. P6_LRMD_U | Round-5 100-seed ΔJ vs parent M_LRMD_SUI: −10.9 [−13.2,−8.5] F1 late-800; −8.7 [−10.6,−6.8] F1 late-1200; −11.8 [−14.3,−9.2] W late-1000. Corrected 100-seed comparison vs same-sample selected certificate ports: −24.1 [−28.5,−19.8], −12.2 [−15.1,−9.3], −23.1 [−27.2,−18.9] on late regimes; a paired max-statistic bootstrap across the five certificate ports in that run gives simultaneous one-sided 95% upper bounds −20.37/−9.57/−19.26 for those late contrasts. Reversal contrasts were +25.9 [+19.5,+32.3], +4.9 [+1.0,+8.9], with no simultaneous superiority. Xu's larger -15.5/-12.4/-15.2 contrasts were against the acquisition adapter, not the parent. | Scoped synthetic late benefit against common-contract certificate ports, with a reversal cost penalty. Comparator multiplicity is adjusted only within that five-port set and regime; post-development, cross-regime/candidate selection remains, and ports are not author-native. The completed post-development twin-bike replay gives P6 promotion .076 (20-split-cluster bootstrap 95% CI [.036,.122]), which does not clear the .0936 screening convention; P6−parent cost CI includes zero. The post-development 20-seed all-14-source real replay also shows no equal-source cost advantage: P6 costs 24.41 more than M_LRMD_SUI (higher on 11/14 sources, lower on 2, tied on 1) and costs more than D2, RMM and gated adaptive-range on the equal-source mean. These are reused-stream cost diagnostics with no late-event labels or independent transfer. |
-| 2. R5 risk-aware economic deployment | All-14-source post-development real replay (20 policy seeds/episode; 230 episodes) gives equal-source mean J 404.22 for R5 vs 404.91 D2 (mean of source means Δ −0.68), vs 412.39 economic replacement and 414.14 gated adaptive-range; source-level effects are mixed. It is descriptive on exposed streams and has no pooled uncertainty. Prior development-selected Track-R points: R15/R20/R25 alpha .02 risk .138 [.079,.230], cost 357.5 [351.3,363.7]. New-seed fixed-alpha follow-up (100 seeds/regime) found promotions 15/100 on F0 null, 26/100 on rho=.8 null, 24/100 on rho=.95 null; paired six-alternative net cost was 10.23 lower than D2 (95% CI for the advantage [8.05,12.41]), but R5 lost to D2 on late and strong-persistence alternatives. | Mixed simulator evidence; the fixed-alpha sensitivity does not validate the selected frontier or establish risk control. Selection uncertainty remains, and R6 gives no better joint frontier. See `family_r/R5_round5_results.md`. |
+| 2. R5 risk-aware economic deployment | All-14-source post-development real replay (20 policy seeds/episode; 230 episodes) gives equal-source mean J 404.22 for R5 vs 404.91 D2 (mean of source means Δ −0.68), vs 412.39 economic replacement and 414.14 gated adaptive-range; source-level effects are mixed. It is descriptive on exposed streams and has no pooled uncertainty. Prior development-selected Track-R points: R15/R20/R25 alpha .02 risk .138 [.079,.230], cost 357.5 [350.9,364.1]. New-seed fixed-alpha follow-up (100 seeds/regime) found promotions 15/100 on F0 null, 26/100 on rho=.8 null, 24/100 on rho=.95 null; paired six-alternative net cost was 10.23 lower than D2 (95% CI for the advantage [8.05,12.41]), but R5 lost to D2 on late and strong-persistence alternatives. | Mixed simulator evidence; the fixed-alpha sensitivity does not validate the selected frontier or establish risk control. Selection uncertainty remains, and R6 gives no better joint frontier. See `family_r/R5_round5_results.md`. |
 | 3. H2 D2+A5b with spacing | V2-scoped candidate; 1,000-seed follow-up had 1–8/1,000 promotions on four tested first-order Markov nulls, while D2 had .192/.660/.815 on persistent nulls. | Its 100-seed screen loses to D2 by +67 to +84 on persistent alternatives; 14-source equal-weight real cost is +81.2 vs D2 and +71.7 vs `gated_adaptive_range+front`. Post-development and reused data; no transferable economic advantage. |
 | 4. E_rb rollback extension | On 16 real reversal episodes, E_rb minus RMM was −13.0 gated, −12.4 DISCERN, −19.6 SMCS, −17.1 GAR; only 2/4 intervals excluded zero. A preregistered 100-seed post-development synthetic follow-up found −6.65 (95% t CI [−7.31,−6.00]) averaged over three reversals and four matched hosts. | Supported in these simulator reversals; real-reversal evidence remains descriptive and low-cluster. Not a general null or real-transfer guarantee. |
 
 **Interpretation:** Do not call this an overall economic SOTA ordering. P6, R5, H2 and E_rb target different settings and use different evidence maturity. No candidate has a confirmed broad economic win over the strongest applicable published comparator.
+
+### Metric-specific economic ranks
+
+The four rows above are cross-workstream decisions, not complete per-metric rankings. A reproducible
+WP1 slice now ranks **all 34 policies** on the same 10 retrospective late-improvement episodes, five
+source clusters and three paired seeds per episode. It separately ranks total net cost J, hindsight
+regret, promotion delay (conditional on promotion), label expenditure, switching expenditure, and
+paired ΔJ against the strongest certified comparator selected on those same episodes. See
+[`wp1/late_metric_leaderboard.md`](wp1/late_metric_leaderboard.md) and its machine-readable source
+[`wp1/late_metric_leaderboard.json`](wp1/late_metric_leaderboard.json); regenerate with
+`uv run python scripts/sota_sprint/build_wp1_late_metric_leaderboard.py`.
+
+Those ranks answer only the WP1 late-improvement question. The comparator selection is unadjusted,
+the streams and labels were development-exposed, and hindsight regret is not the prospective
+decision objective. Other saved studies report J, delay, labels, switching or regret in different
+regimes and contracts; those are kept in their own tables rather than mixed into a false global rank.
 
 ## B. Statistical reliability and predictive/economic outcomes
 
@@ -27,6 +43,24 @@ across incomparable regimes. Lower `J` is better. Empirical risk rates are not t
 These rows do not compare error rates across different nulls as if they were the same estimand. Consult [SOTA_BENCHMARK_AUDIT.md](SOTA_BENCHMARK_AUDIT.md) and [WP2 decision-flag audit](wp2/DECISION_FLAG_AUDIT.md) for exact construction and implementation limits.
 
 ## C. Main-track contribution potential
+
+The following ordinal comparison is a research-planning judgment, not a novelty audit score. `1` is
+the strongest current opportunity within that dimension; `4` is weakest. Novelty and venue fit remain
+unconfirmed pending independent prior-art review.
+
+| Dimension | Rank 1 | Rank 2 | Rank 3 | Rank 4 | Basis and caveat |
+|---|---|---|---|---|---|
+| Novelty potential | P2 dependence/economic evaluation | P1 RMM/rollback | H/R hybrid | T transfer | P2 separates deployment nulls and measured economic consequences; external novelty review is still open. |
+| Significance | P2 | P1 | H/R hybrid | T transfer | P2 may change how deployment certificates are evaluated; application-level utility is not identified. |
+| Transferability | P2 | T transfer | P1 | H/R hybrid | P2 spans five real twin datasets plus simulated dependence; none is untouched confirmatory evidence. |
+| Empirical evidence | P2 | P1 | H/R hybrid | T transfer | P2 has the broadest null/harm matrix; WP1's real-late criterion is not supported and T shows trade-offs. |
+| Mechanism attribution | P1 | P2 | H/R hybrid | T transfer | P1 includes restart and acquisition ablations; P2 identifies objective differences, while transfer effects remain host-specific. |
+| Research-question clarity | P2 | P1 | T transfer | H/R hybrid | The conditional-versus-marginal deployment question is the clearest bounded question; the hybrid frontier spans several mechanisms. |
+| ICML/NeurIPS/ICLR relevance | P2 | P1 | H/R hybrid | T transfer | P2 aligns with sequential inference and reliable deployment; venue relevance is a hypothesis, not an acceptance prediction. |
+| Evidence still needed (least to most) | H/R hybrid | T transfer | P1 | P2 | External review and independent confirmation remain for every direction; P2 additionally needs suitable application-utility evidence for any application-harm claim. |
+
+This ranking reflects the current local evidence only. Reorder it after cross-family review; do not
+present ordinal positions as objective scores or established novelty.
 
 | Rank | Contribution direction | Current verdict | Main missing evidence |
 |---|---|---|---|

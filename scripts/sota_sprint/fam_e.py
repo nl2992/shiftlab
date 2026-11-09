@@ -242,6 +242,28 @@ def _sw(**kw):
 
 
 EXTRA = {f"E_rb:{h}": _rb(h) for h in HOSTS}
+
+
+def _rb_front_gated_adaptive_range(T, B, cs, cq, alpha, delay, r):
+    """E_rb with the same correctly ranged Gated host and front-loaded acquisition."""
+
+    def make_base(t, b, a, rng):
+        return GatedAdaptiveRange(t, b, a, rng=rng, front=True, name="gated_adaptive_range+front")
+
+    return RecoveryMonitor(
+        make_base,
+        T,
+        B,
+        alpha,
+        rng=r("gated_adaptive_range"),
+        delay=delay,
+        cs=cs,
+        rollback=True,
+        name="E_rb:gated_adaptive_range+front",
+    )
+
+
+EXTRA["E_rb:gated_adaptive_range+front"] = _rb_front_gated_adaptive_range
 EXTRA.update({f"E_srr:{h}": _swap(h, "cusum") for h in HOSTS})
 EXTRA.update(
     {

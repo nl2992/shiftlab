@@ -47,7 +47,7 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
 | 7. Statistical-validity analysis | **Complete as empirical, null-specific assessment; theorem claims remain assumption-bound** | Track V cells, WP2 definitions, P4 misspecification tests, null audits. No empirical rate is treated as a guarantee. |
 | 8. Real-data results | **Complete for available reused streams; no independent real confirmation** | Family reports and WP1/WP2 analyses; raw data and episodes are development-exposed. |
 | 9. Independent reviewer findings | **Partial** | Internal read-only reviews are documented in `INDEPENDENT_REVIEW.md`; requested external/human review remains open. |
-| 10. Ranked contribution opportunities | **Complete** | `LEADERBOARD.md`. |
+| 10. Ranked contribution opportunities | **Complete as an ordinal research-planning judgment; metric ranks remain scoped** | `LEADERBOARD.md` records contribution directions and metric-specific economic ranks for the WP1 late-improvement stratum. It does not provide a unified ranking across incomparable tracks, and statistical metric ranks remain null/regime specific. |
 | 11. Reproduction commands | **Complete for saved runs and audits** | `REPRODUCIBILITY.md`, protocols and manifests. |
 | 12. Supported research verdicts | **Complete as bounded verdicts** | `LEADERBOARD.md` and `STATUS.md`. |
 
@@ -67,6 +67,15 @@ hypothesis passed, a guarantee is valid, or independent confirmation was achieve
    plots elsewhere are not cited by these reports. The required PaperBanana visual dependency is not
    available in this environment (no matching tool is installed), so validated research figures
    remain open. WP1 headline and structural registry audits pass.
+4. Recompute Sprint 2 results that include the shared adaptive-range host after the 2026-11-05
+   predictable-range ordering correction. The manifest audit identifies 111 affected policy
+   affected policy entries (including the semantic aliases in the inventory) across 130 execution
+   runs and six aggregate manifests. The inventory also flags record directories without manifests;
+   these require provenance reconstruction. All affected classes need
+   same-seed replay because agreement events used the fallback range. The corrected Failure Atlas
+   synthetic and real validation replays are complete. The corrected 1,000-seed, seven-regime SOTA
+   null suite is running; no full Sprint 2 replay from this schedule is complete yet, so affected
+   downstream comparisons remain provisional.
 ## Integration record
 
 The initial sprint implementation and subsequent audits were committed to `main` and pushed to `origin`. Registered follow-ups now cover held-out Track-R for T3 and primary T1/T2/T5 policies; source reports and lineage audits include those panels. Raw and large run outputs remain ignored and outside Git.

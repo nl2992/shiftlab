@@ -113,9 +113,8 @@ def _a1_or_standin(rho_bar=0.8):
 
         sui = fam_a.MarkovSUI
         return (lambda side: _A1Cert(side, sui)), "fam_a.MarkovSUI (A1 evidence, default kwargs)"
-    except Exception:  # pragma: no cover - fam_a absent or broken: stand-in  # noqa: BLE001, S110
-        pass
-    return envelope(rho_bar), f"A1 stand-in: qsg.EnvelopeMixture(rho_bar={rho_bar})"
+    except (ImportError, AttributeError):  # pragma: no cover - optional fam_a unavailable
+        return envelope(rho_bar), f"A1 stand-in: qsg.EnvelopeMixture(rho_bar={rho_bar})"
 
 
 # ------------------------------------------------------------------------------------------------
@@ -387,9 +386,13 @@ class SelectThenMonitor:
             if self.phase == 1:
                 self.host.observe([fb])
                 self.n_obs += 1
-                if d != 0 and self.gate_initial and not self.pre_ok:  # noqa: SIM102
-                    if self.pre_up.update(int(d > 0), fb.event_id) >= 2.0 / self.alpha:
-                        self.pre_ok = True
+                if (
+                    d != 0
+                    and self.gate_initial
+                    and not self.pre_ok
+                    and self.pre_up.update(int(d > 0), fb.event_id) >= 2.0 / self.alpha
+                ):
+                    self.pre_ok = True
                 if self.n_obs >= self.n_select:
                     c0, c1 = self.host.correct
                     pref = 1 if c1 > c0 else 0 if c0 > c1 else self.deployed

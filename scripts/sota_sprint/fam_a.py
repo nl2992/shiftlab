@@ -211,12 +211,14 @@ class IIDMixture(StartedMixture):
         return self.value
 
 
-def rho_mle(z: np.ndarray, t: np.ndarray, grid=np.r_[np.linspace(0, 0.9, 10), 0.95, 0.98], sig=0.0):  # noqa: B008
+def rho_mle(z: np.ndarray, t: np.ndarray, grid=None, sig=0.0):
     """Gap-indexed Markov MLE of persistence from ordered outcomes (p profiled on the sample mean).
 
     ``sig > 0``: return 0 unless the MLE beats rho = 0 by more than ``sig`` nats (shrinkage)."""
     if len(z) < 2:
         return None
+    if grid is None:
+        grid = np.r_[np.linspace(0, 0.9, 10), 0.95, 0.98]
     p = float(np.clip(z.mean(), 0.02, 0.98))
     g = np.diff(t).astype(float)
     prev, cur = z[:-1], z[1:]

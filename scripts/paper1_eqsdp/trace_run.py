@@ -76,6 +76,11 @@ def registry() -> dict:
     for name, f in registry_entries().items():
         assert name not in reg
         reg[name] = f
+    from stage2_policies import registry_entries as s2_entries  # Stage 2 (new names only)
+
+    for name, f in s2_entries().items():
+        assert name not in reg
+        reg[name] = f
     return reg
 
 

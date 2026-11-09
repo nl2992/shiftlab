@@ -41,7 +41,15 @@ def guided():
                     "--seed", "20261110"], check=True)  # fmt: skip
     seen = {r["combo_id"] for r in r12.ledger_rows() if "combo_id" in r}
     props = [json.loads(x) for x in out.read_text().splitlines() if x]
-    keep = [x for x in props if x["combo_id"] not in seen and len(x["modules"]) >= 2][:30]
+    # sampler rank order, unseen, k >= 2, at most 8 per cardinality (documented diversity rule)
+    keep, cnt = [], {}
+    for x in props:
+        k = len(x["modules"])
+        if x["combo_id"] in seen or k < 2 or cnt.get(k, 0) >= 8:
+            continue
+        cnt[k] = cnt.get(k, 0) + 1
+        keep.append(x)
+    keep = keep[:30]
     (OUTG / "proposals30.jsonl").write_text("\n".join(json.dumps(x) for x in keep) + "\n")
     print("kept", len(keep), "of", len(props))
 

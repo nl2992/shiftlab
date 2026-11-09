@@ -1,0 +1,25 @@
+Assessment: **continue narrowly (one small add-on family), do not widen the module search; no gate applied.**
+
+What the full-data evidence shows (numbers in the tables above):
+- Phase 3: 28 of the 40 shortlisted configs have out-of-subset dJ < 0; 9 have a 95% CI excluding 0 (17 when all episodes are used). Those 9 are almost all E48 and/or F60 configs. The best (D40+E48+F60 and the same plus an inert B15) gain about 0.11 pp of T, about 0.47% of J, with dL near 0 and labels cut from about 70 to about 53 per episode.
+- The gain is not reproduced by a trivial control at the same label count: config minus nearest cutoff control is negative with CI below 0 in 8 of 8 comparisons; versus the nearest uniform calendar it is negative with CI below 0 in 5 of 8 (the three not distinguishable from a calendar are A03+E48+E49+F60, A02+B15+C23+E48+F60 and B18+E41+E43+E47). Single removals show F60 and E48 carry the gain; B15, E46, E49, C23 contribute about zero, and removing A03 or A04 slightly improves the result.
+- The add-on transfers: Wald (lam .98, gamma .3, cutoff 1100) plus the same modules beats Wald+cutoff by about the same amount, and EQSDp+addon minus Wald+addon is within about 0.02 pp. So the improvement is a property of the add-on, not of the arm-R parent, and it is smaller than the margin of arm R and Wald over the 26 panel comparators (the parent already beats all of them on matched keys; the add-on widens that margin only slightly).
+- Guided proposals (30 screened, 5 promoted) produced nothing better than the Phase 3 winners (best promoted: D31+F60, about -0.08 pp out-of-subset).
+
+Why this is not a result yet:
+- The effect is small (about half a percent of J) and one dataset (oakland_311) gets worse. Best-of-many selection applies: about 190 full-data configs were examined on the same out-of-subset episodes, all data are development-exposed, and the screen-subset exclusion is only a partial guard.
+- F60 is the catalogue's multi-label short-rollout value-of-information idea; the repository's own earlier R2-roll (k=2,3) was recorded as tied on odd episodes. Prior-art status of E48 and F60 is unaudited.
+- Direct superiority over matched Wald+cutoff holds only at this small size; it should be framed as a small add-on gain, not a new policy.
+
+Recommended next step (separate from this search): lock one configuration (D40+E48+F60 or the E48+F60 pair), its primary metric and the label/loss reporting, and evaluate it on fresh data (batch F style) against Wald+cutoff, with the single-removal ablation pre-registered. Stop spending search budget on further module combinations: the 60-module space yielded one mechanism family, and its single best member carries most of the effect.
+
+Wall times (from batch DONE markers / ledger `batch_wall_s`): Phase 3 full runs five batches 717+1011+761+762+205 s (about 58 min, 16 workers); Phase 3 analysis about 100 s. Phase 4: batches 1147, 603, 567, 460 and 175 s; batch p4_001 is recorded as 30562 s because the machine was suspended during it (true compute about 10-20 min, not separately measured); uniform-calendar odd-parity controls 291 s; guided screen 209 s; guided promotion to full data 171 s; Phase 4 and Phase 5 analyses about 1-2 min each.
+
+Deviations and definitions to note:
+- Phase 3 also ran full-data singletons for every module appearing in the shortlist (not requested), to compute full-data synergy; the archive "highest synergy" role is dJ(config) minus the sum of those singletons' dJ (additive expectation), among k>=2 shortlisted configs.
+- "Best error parity" = lowest primary dJ among shortlisted configs with dL <= 0 (fallback: lowest dL). "Best late-change subgroup" = lowest mean out-of-subset dJ over kc_311 and sf_311.
+- Phase 4 ablations ran single removals plus all proper subsets of size 2 and 3 of each top-8 config (so the strongest pair and triple are chosen among all of them); the top-8 are the best Phase 3 configs by out-of-subset dJ with dL <= 0.1 pp. Pair synergy was computed for all pairs inside the top-8 configs where both singletons and the pair were run (51 pairs); the heatmap shows only those pairs (blank = not tested).
+- Matched controls: nearest label count (equal-dataset mean) among EQSDp-parent cutoff variants (H = none, 500, 700, 900, 1300, 1500, 1750) and uniform calendars (m = 10..100, cutoff 1100 or none; even parity from existing stage5 records, odd parity newly run). Label gaps range from about 0.1 to 12 labels per episode and are listed in `tables/phase4_matched_controls.csv`; larger gaps weaken the match.
+- Guided proposals: sampler fitted on Phase 3 full-data results (79 usable rows), first 30 unseen proposals in sampler rank order with at most 8 per cardinality (k=2: 6), screened on the subset, best 5 by screen dJ with dL <= 0.1 promoted to full data. This is further development selection.
+- The seed-averaged paired statistic uses the same (dataset, episode, seed) keys for candidate and reference; bootstrap resamples episodes within dataset (2000 resamples); no multiplicity correction.
+- PaperBanana is not installed; the heatmap PNG is a matplotlib diagnostic.

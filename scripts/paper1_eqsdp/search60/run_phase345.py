@@ -168,8 +168,9 @@ def pair(cand, ref):
     out["dL"] = (m.loss - m.loss_r) / T * 100
     out["dlab"] = m.labels - m.labels_r
     out["dsw"] = m.switches - m.switches_r
-    out["dLA"] = (m.late_adoption - m.late_adoption_r) / T * 100
-    out["dFP"] = (m.false_promotion - m.false_promotion_r) / T * 100
+    has = "late_adoption_r" in m
+    out["dLA"] = (m.late_adoption - m.late_adoption_r) / T * 100 if has else np.nan
+    out["dFP"] = (m.false_promotion - m.false_promotion_r) / T * 100 if has else np.nan
     out["lab"] = m.labels
     out["sw"] = m.switches
     g = out.groupby(["stream", "ep"]).mean(numeric_only=True).drop(columns="seed").reset_index()

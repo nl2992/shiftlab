@@ -1,0 +1,32 @@
+[
+ {
+  "name": "P4W__P1_E48_s0",
+  "parent": {
+   "kind": "wald",
+   "lam": 0.98,
+   "gamma": 0.3,
+   "cutoff": 1100
+  },
+  "modules": [
+   {
+    "id": "E48",
+    "setting": 0
+   }
+  ]
+ },
+ {
+  "name": "P4W__P1_F60_s0",
+  "parent": {
+   "kind": "wald",
+   "lam": 0.98,
+   "gamma": 0.3,
+   "cutoff": 1100
+  },
+  "modules": [
+   {
+    "id": "F60",
+    "setting": 0
+   }
+  ]
+ }
+]

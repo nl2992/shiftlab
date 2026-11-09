@@ -1,0 +1,32 @@
+{
+  "written": "2026-11-09",
+  "branch": "research/paper1-eqsdp-scale25-2026-11-09",
+  "base_commit": "5bda4e73b5c413895db25bbfc33364e7122e10d1",
+  "method_v1": {
+    "spec_id": "P2_K2__E48_F60",
+    "parent": {"kind": "eqsdp", "lam": 0.98, "gamma": 0.3, "cutoff": 1100},
+    "modules": [
+      {"id": "E48", "setting": 0, "params": {"arrival_discount": 0.5, "lookahead": 50, "hazard": 0.002}},
+      {"id": "F60", "setting": 0, "params": {"bundle": 2, "horizon": 100, "hazard": 0.002}}
+    ]
+  },
+  "contract": {"T": 2000, "B": 200, "c_q": 0.05, "c_s": 5.0, "delay": 100, "policy_seeds": 10},
+  "fresh_confirmation": {
+    "K": 7, "episodes": 547,
+    "H1_pct": -0.391, "H2_pct": -0.387, "H3_pct": -0.389, "neg_datasets": 7,
+    "mean_pct_reduction_vs_strongest_per_dataset_reference": 0.377,
+    "mean_pct_reduction_vs_unequipped_armR": 1.62
+  },
+  "headroom_stage0_pct_of_Jref": {
+    "late_adoption": [2.35, 2.65], "false_promotion_plus_churn": [0.85, 1.16],
+    "label_fee": 1.84, "unavoidable_switch": 0.76, "total_regret_vs_best_fixed": 6.1,
+    "free_label_decision_value": [0.23, 0.32]
+  },
+  "assets": {
+    "c4_source_recipes": 45, "sealed_registered_windows": 27, "excluded_by_audit": ["austin_animal"],
+    "fresh_window_builds": 8, "fresh_eligible_opened": 7,
+    "panel_comparators": 25, "source_faithful_comparators": 0
+  },
+  "hardware": {"cpu_workers_used": 16, "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU 8GB"},
+  "feasibility_note": "Certified 2.5% cohort LB at 25 datasets under alpha_i=.05/(i(i+1)) needs per-dataset point reductions of roughly >=3.5% vs strongest reference; v1 delivers ~0.38%. Requires a new method v2 recovering late adoption."
+}

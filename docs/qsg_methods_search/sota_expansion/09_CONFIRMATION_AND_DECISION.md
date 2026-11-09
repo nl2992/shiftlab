@@ -69,10 +69,10 @@ class, never as wins (08 disclosure 4).
 
 ## 4. Open items
 
-- [ ] Choose and audit fresh streams; record provenance and checksums.
-- [ ] Select the secondary EQSDp configuration on the 14 development streams only.
-- [ ] Compute power from the 05 variance; write and commit the registration before opening data.
-- [ ] Obtain author code for at least one comparator (Gong–Zhang or Qiu) and run parity tests, to
+- [x] Choose and audit fresh streams; record provenance and checksums. (Done: 10 eligible, `c4_build_audit.md` batch-F section, `c4_registration_batchF.json`.)
+- [x] Select the secondary EQSDp configuration on the 14 development streams only. (Done: arm R λ.98 γ.3, `batchF_armR_selection.md`.)
+- [x] Compute power from the 05 variance; write and commit the registration before opening data. (Done: 10 §4; registration 00d00084 at 15:51:09, run started 15:51:29; results in 12.)
+- [ ] **OPEN (2026-11-08 audit):** `vendor_sota/` still holds only `.gitignore`. Obtain author code for at least one comparator (Gong–Zhang or Qiu) and run parity tests, to
   lift a fidelity class to A.
-- [ ] Run `paper-claim-audit` on 08 against `nine_analysis.txt` and `synth_analysis.txt` before
+- [ ] **OPEN (2026-11-08 audit):** not run yet; should now cover 08 and 12. Run `paper-claim-audit` on 08 against `nine_analysis.txt` and `synth_analysis.txt` before
   any manuscript text is drafted.

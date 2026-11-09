@@ -459,3 +459,70 @@ for _g in (10, 15):
         EXTRA[f"NAD2S-g{_g}-f{round(_fr * 10)}"] = _2s(
             f"NAD2S-g{_g}-f{round(_fr * 10)}", g_env=_g, env_frac=_fr
         )
+
+
+class EnvelopeKelly:
+    """Predictable plug-in (Kelly) bet against the envelope, mixed with the started c-mixture.
+
+    Factor 1 + lam_k (h - u_k) with lam_k = clip((q_k - u_k) / (u_k (1 - u_k)), 0, cap / u_k),
+    q_k a shrunk estimate of P(h = 1 | previous hit state) from earlier outcomes only. For any
+    conditional success v <= u_k the factor has mean 1 + lam_k (v - u_k) <= 1, so the product is a
+    test supermartingale; averaging with the started mixture (same filtration) keeps validity.
+    """
+
+    def __init__(self, side: int, cap=0.8, w_kelly=0.5):
+        self.side, self.cap, self.w = side, cap, w_kelly
+        self.mix = EnvelopeStarted(side)
+        self.logK = 0.0
+        self.n = np.ones(2)  # pseudo-counts per previous hit state
+        self.h = np.full(2, 0.5)
+
+    def update(self, hit: int, u: float, prev_hit) -> float:
+        s = 1 if prev_hit == 1 else 0
+        q = self.h[s] / self.n[s]
+        lam = 0.0 if u >= 1 else min(max((q - u) / (u * (1 - u)), 0.0), self.cap / u)
+        self.logK += math.log1p(lam * (hit - u))
+        self.h[s] += hit
+        self.n[s] += 1
+        m = self.mix.update(hit, u)
+        return self.w * math.exp(min(self.logK, 700.0)) + (1 - self.w) * m
+
+    @property
+    def value(self) -> float:
+        return self.w * math.exp(min(self.logK, 700.0)) + (1 - self.w) * self.mix.value
+
+
+class NADK(NAD):
+    """NAD with Kelly-plug-in envelope bets (no hurdle / UI options)."""
+
+    def _new_tests(self):
+        def mk(side):
+            return {"k": EnvelopeKelly(side, cap=self.kcap, w_kelly=self.kw), "side": side}
+
+        if self.deployed == 0:
+            self.e_up, self.e_dn = mk(+1), mk(-1)
+        else:
+            self.e_up, self.e_dn = None, mk(-1)
+
+    def __init__(self, *a, kcap=0.8, kw=0.5, **kw_):
+        self.kcap, self.kw = kcap, kw
+        super().__init__(*a, **kw_)
+
+    def _upd(self, test, z, e, t):
+        side = test["side"]
+        hit = z if side > 0 else 1 - z
+        prev_hit = None
+        if self.prev is not None:
+            prev_hit = self.prev[0] if side > 0 else 1 - self.prev[0]
+        return test["k"].update(hit, self._u(side, e), prev_hit)
+
+
+def _k(name, **kw):
+    return lambda T, B, cs, cq, a, d, r: NADK(T, B, a, rng=r("QSG"), name=name, cs=cs, **kw)
+
+
+for _g in (5, 10):
+    for _w in (0.5, 0.9):
+        EXTRA[f"NADK-g{_g}-w{round(_w * 10)}"] = _k(
+            f"NADK-g{_g}-w{round(_w * 10)}", env="markov", rho_bar=0.8, g=_g, kw=_w
+        )

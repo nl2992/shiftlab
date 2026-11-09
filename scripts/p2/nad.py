@@ -99,6 +99,35 @@ def _kl(a: float, b: float) -> float:
     return a * math.log(a / b) + (1 - a) * math.log((1 - a) / (1 - b))
 
 
+RV_GRID = (0.0, 0.5, 0.7, 0.8, 0.85, 0.9, 0.93, 0.95, 0.97, 0.99)
+
+
+class RobustnessValue:
+    """Anytime dependence-robustness value (05_VALIDITY_AUDIT P4).
+
+    One started envelope e-process per rho_bar in RV_GRID on every queried outcome of the stream
+    (one test from the first outcome, side +1, threshold 1/alpha). rv(t) = largest grid rho_bar whose
+    e-process has crossed by t. Pathwise monotone in rho_bar, so P(rv ever >= rho_0) <= alpha under
+    any null in the relaxed class with persistence <= rho_0.
+    """
+
+    def __init__(self, alpha, kind="markov"):
+        self.alpha, self.kind = alpha, kind
+        self.e = [EnvelopeStarted(+1) for _ in RV_GRID]
+        self.crossed = [False] * len(RV_GRID)
+
+    def update(self, z, gap, prev_z):
+        for i, rb in enumerate(RV_GRID):
+            u = envelope_u(self.kind, rb, gap, prev_z) if prev_z is not None else 0.5
+            if self.e[i].update(z, u) >= 1.0 / self.alpha:
+                self.crossed[i] = True
+
+    @property
+    def value(self):
+        ok = [rb for rb, c in zip(RV_GRID, self.crossed) if c]
+        return max(ok) if ok else -1.0
+
+
 class NAD(QSG):
     def __init__(self, horizon, budget, alpha=0.05, *, rng, env="markov", rho_bar=0.8,
                  gap="fixed", g=10, g_max=80, p_floor=0.6, budget_guard=True, rho_prior=0.5, evidence="env", hurdle=False, kappa=True, cs=5.0, name="NAD",
@@ -112,6 +141,8 @@ class NAD(QSG):
         self.rel_z: list[int] = []
         self.rel_t: list[int] = []
         self.prev = None  # (z, issue event) of the last processed outcome, whole stream
+        self.rv = RobustnessValue(alpha)
+        self.extra_record = {"rv_end": -1.0, "rv_at_promo": []}
         self.last_issue = -(10**9)
         self.n_rel = 0
         self.n_hit = 0
@@ -122,7 +153,11 @@ class NAD(QSG):
     def _new_tests(self):
         def mk(side, grid=False):
             env = [EnvelopeStarted(side) for _ in (HGRID if grid else (0.0,))]
-            ui = MarkovSUI(rho_max=self.rho_bar, **_B) if self.evidence == "mix" else None
+            ui = None
+            if self.evidence == "mix":  # bounded-rho UI: valid on M(rho_bar), brittle outside
+                ui = MarkovSUI(rho_max=self.rho_bar, **_B)
+            elif self.evidence == "mixa":  # A5b's unbounded-rho UI: valid on M(any rho)
+                ui = MarkovSUI(**_B)
             return {"env": env, "ui": ui, "side": side}
 
         if self.deployed == 0:
@@ -187,6 +222,13 @@ class NAD(QSG):
             return 0
         if self.gap_mode == "fixed":
             g = self.g_fixed
+        elif self.gap_mode == "a5b":  # A5b's density rule: min{g : rho_hat^g <= .25}
+            r = self.rho_hat
+            g = (
+                0
+                if (r is None or r <= 0)
+                else (10**9 if r >= 1 else math.ceil(math.log(0.25) / math.log(r)))
+            )
         else:
             dis = (self.n_dis + 5.0) / (self.n_ev + 20.0)
             phat = (self.n_hit + 1.0) / (self.n_rel + 2.0)
@@ -238,6 +280,9 @@ class NAD(QSG):
         z0, t0 = self.prev
         prev_hit = z0 if side > 0 else 1 - z0
         u = envelope_u(self.env, self.rho_bar, e - t0, prev_hit)  # 1/2 + slack
+        if self.env == "phi":  # P(z=1|past) <= p + phi(g) <= b + beta(g)
+            return min(b + (u - 0.5), 1.0)
+        # markov: rho^g z + (1 - rho^g) p <= b + rho_bar^g (1 - b) z for p <= b, rho <= rho_bar
         return min(b + (u - 0.5) * (1.0 - b) / 0.5, 1.0)
 
     def observe(self, feedback):
@@ -246,6 +291,9 @@ class NAD(QSG):
             if d == 0:
                 continue
             z, e, t = int(d > 0), fb.event_id, fb.t_released
+            self.rv.update(z, None if self.prev is None else e - self.prev[1],
+                           None if self.prev is None else self.prev[0])  # fmt: skip
+            self.extra_record["rv_end"] = self.rv.value
             self.n_rel += 1
             self.n_hit += z
             if e >= self.seg:
@@ -253,6 +301,7 @@ class NAD(QSG):
                     up = self._upd(self.e_up, z, e, t)
                     dn = self._upd(self.e_dn, z, e, t)
                     if up >= 2.0**self.cycle / self.alpha:
+                        self.extra_record["rv_at_promo"].append(self.rv.value)
                         self.deployed, self.decided, self.seg = 1, True, t
                         self._new_tests()
                     elif dn >= 1.0 / self.alpha:
@@ -264,7 +313,7 @@ class NAD(QSG):
             self.prev = (z, e)
             self.rel_z.append(z)
             self.rel_t.append(e)
-        if self.gap_mode == "rate2" and len(self.rel_z) >= 9:
+        if self.gap_mode in ("rate2", "a5b") and len(self.rel_z) >= 9:
             self.rho_hat = rho_mle(
                 np.array(self.rel_z[-150:]), np.array(self.rel_t[-150:]), sig=self.rho_sig
             )
@@ -284,7 +333,7 @@ for _env in ("markov", "phi"):
         EXTRA[f"NAD-{_tag}-g0"] = _f(f"NAD-{_tag}-g0", env=_env, rho_bar=_rb, gap="none")
         EXTRA[f"NAD-{_tag}-rate"] = _f(f"NAD-{_tag}-rate", env=_env, rho_bar=_rb, gap="rate")
         EXTRA[f"NAD-{_tag}-rate2"] = _f(f"NAD-{_tag}-rate2", env=_env, rho_bar=_rb, gap="rate2")
-        for _g in (5, 10, 20, 40):
+        for _g in (5, 10, 15, 20, 40):
             EXTRA[f"NAD-{_tag}-g{_g}"] = _f(f"NAD-{_tag}-g{_g}", env=_env, rho_bar=_rb, g=_g)
 EXTRA["NAD-iid-g0"] = _f("NAD-iid-g0", env="iid", rho_bar=0.0, gap="none")
 
@@ -315,3 +364,98 @@ for _rb in (0.8, 0.9):
     EXTRA[f"MIX{_t}-rate2"] = _f(
         f"MIX{_t}-rate2", env="markov", rho_bar=_rb, gap="rate2", evidence="mix"
     )
+
+# round 3: envelope + unbounded-rho UI mixture (valid on M(rho_bar) as an average of two e-processes)
+for _g in (5, 10):
+    EXTRA[f"MIXA80-g{_g}"] = _f(f"MIXA80-g{_g}", env="markov", rho_bar=0.8, g=_g, evidence="mixa")
+
+# round 4: A5b's adaptive density rule
+for _ev in ("env", "mixa"):
+    _n = {"env": "NAD", "mixa": "MIXA"}[_ev]
+    EXTRA[f"{_n}80-ad"] = _f(
+        f"{_n}80-ad", env="markov", rho_bar=0.8, gap="a5b", evidence=_ev, budget_guard=False
+    )
+
+
+class TwoStream(FamA):
+    """NAD-2S: envelope e-process on a sign-independent flagged subsequence + A5b UI on all outcomes.
+
+    Validity (05_VALIDITY_AUDIT P5). Flagged queries are the first disagreement at least g_env
+    events after the previous flagged issue, drawn from a reserved budget B_env and issued with
+    probability 1. Their times depend on the disagreement process only, so under M(rho_bar) the
+    flagged outcomes have P(z=1 | flagged past) <= 1/2 + rho_bar^G/2 z_prev in their own filtration.
+    The envelope process ENV never restarts and may trigger only the cycle-1 promotion before any
+    verdict (a coupling with a hypothetical never-closed flag stream covers the closure). The UI
+    tests run at alpha/2 inside FamA (thresholds 2^c/(alpha/2)). ENV promotes at 4/alpha. Union
+    bound: P(false promotion) <= alpha/2 + alpha/4 < alpha. No averaging across filtrations.
+    """
+
+    def __init__(self, T, B, alpha, *, rng, rho_bar=0.8, g_env=10, env_frac=0.6, name="NAD2S"):
+        self.rho_bar_env, self.g_env = rho_bar, g_env
+        self.B_env = round(env_frac * B)
+        self.env_used, self.last_flag, self.env_open = 0, -(10**9), True
+        self.flagged: set[int] = set()
+        self.env = EnvelopeStarted(+1)
+        self.env_prev = None
+        self.alpha_full = alpha
+        super().__init__(T, B, alpha / 2.0, rng=rng, evidence="sui", density="adaptive",
+                         rho_sig=2.0, sui_kw=_B, name=name)  # fmt: skip
+
+    def request_labels(self, event, remaining_budget):
+        dis = bool(event.model_predictions[0] != event.model_predictions[1])
+        q = self.acq.propensity(event.t, remaining_budget, dis)
+        self.acq.note_event(dis)
+        if not dis or remaining_budget <= 0:
+            return QueryRequest(requested=False)
+        if self.env_open and self.decided:
+            self.env_open = False
+        if self.env_open and event.t - self.last_flag >= self.g_env and self.env_used < self.B_env:
+            self.flagged.add(event.t)
+            self.last_flag, self.last_issue = event.t, event.t
+            self.env_used += 1
+            self.n_issued += 1
+            return QueryRequest(requested=True, probability=1.0)
+        reserve = (self.B_env - self.env_used) if self.env_open else 0
+        if remaining_budget - reserve <= 0:
+            return QueryRequest(requested=False)
+        if not self.decided and self.front:
+            if event.t - self.last_issue < self._gmin():
+                return QueryRequest(requested=False)
+            q = 1.0
+        elif self.decided and not self.monitor:
+            return QueryRequest(requested=False)
+        take = bool(self.rng.random() < q)
+        if take:
+            self.last_issue = event.t
+            self.n_issued += 1
+        return QueryRequest(requested=take, probability=q if take else 0.0)
+
+    def observe(self, feedback):
+        for fb in sorted(feedback, key=lambda f: f.event_id):
+            d = int(fb.model_losses[0]) - int(fb.model_losses[1])
+            if d != 0 and fb.event_id in self.flagged:
+                z, e = int(d > 0), fb.event_id
+                u = 0.5
+                if self.env_prev is not None:
+                    u = envelope_u(
+                        "markov", self.rho_bar_env, e - self.env_prev[1], self.env_prev[0]
+                    )
+                v = self.env.update(z, u)
+                self.env_prev = (z, e)
+                if (self.env_open and self.deployed == 0 and self.cycle == 1 and not self.decided
+                        and v >= 4.0 / self.alpha_full):  # fmt: skip
+                    self.deployed, self.decided, self.seg = 1, True, fb.t_released
+                    self.env_open = False
+                    self._new_tests()
+            super().observe([fb])
+
+
+def _2s(name, **kw):
+    return lambda T, B, cs, cq, a, d, r: TwoStream(T, B, a, rng=r("QSG"), name=name, **kw)
+
+
+for _g in (10, 15):
+    for _fr in (0.4, 0.6):
+        EXTRA[f"NAD2S-g{_g}-f{round(_fr * 10)}"] = _2s(
+            f"NAD2S-g{_g}-f{round(_fr * 10)}", g_env=_g, env_frac=_fr
+        )

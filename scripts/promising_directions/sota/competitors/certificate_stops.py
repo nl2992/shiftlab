@@ -226,10 +226,19 @@ class MopeLowerCS:
     endpoint by the largest root of eq. (14). Everything is O(1) per step.
     """
 
-    def __init__(self, alpha: float, wmax: float):
+    def __init__(self, alpha: float, wmax: float, endpoint: str = "quad", grid: int = 1000):
         if wmax <= 1.0:
             raise ValueError("wmax must exceed 1")
+        if endpoint not in ("quad", "exact_grid"):
+            raise ValueError("endpoint must be 'quad' or 'exact_grid'")
         self.alpha, self.wmax = float(alpha), float(wmax)
+        self.endpoint = endpoint
+        if endpoint == "exact_grid":
+            # Author construction (n17s/mope opebet.wealth_lb_2d): exact log wealth on a grid;
+            # the endpoint is the first grid value whose wealth is below 1/alpha.
+            self._vs = np.linspace(0.0, 1.0, int(grid))
+            self._logw = np.full(int(grid), math.log(0.5))
+            self._neg_log_alpha = math.log(1.0 / self.alpha)
         # The half-initialized wealth is represented by the threshold 2/alpha on the
         # accumulated log factors: (1/2) * product > 1/alpha iff product > 2/alpha.
         self.log_thr = math.log(2.0 / self.alpha)
@@ -245,6 +254,8 @@ class MopeLowerCS:
         return 1.0 + self.lam1 * (w - 1.0) + self.lam2 * (w * r - v)
 
     def update(self, w: float, r: float) -> None:
+        if self.endpoint == "exact_grid":
+            self._logw += np.log1p(self.lam1 * (w - 1.0) + self.lam2 * (w * r - self._vs))
         a = self.lam1 * (w - 1.0) + self.lam2 * w * r  # lambda^T b_i(v) = a - s v
         s = self.lam2
         self.s_aa += a * a
@@ -263,7 +274,9 @@ class MopeLowerCS:
         qb = -2.0 * PSI_MOPE * self.s_as - self.s_s
         qc = PSI_MOPE * self.s_aa + self.s_a - self.log_thr
         root = None
-        if abs(qa) < 1e-14:
+        if self.endpoint == "exact_grid":
+            root = float(self._vs[np.argmax(self._logw < self._neg_log_alpha)])
+        elif abs(qa) < 1e-14:
             if qb < -1e-14:
                 root = -qc / qb
         else:
@@ -285,11 +298,16 @@ class MopeLowerCS:
         self.lam1, self.lam2 = _argmax_triangle(a_mat, b, self.wmax)
 
     def state(self) -> dict:
-        return {k: getattr(self, k) for k in self.keys}
+        out = {k: getattr(self, k) for k in self.keys}
+        if self.endpoint == "exact_grid":
+            out["logw"] = self._logw.tolist()
+        return out
 
     def load(self, s: dict) -> None:
         for k in self.keys:
             setattr(self, k, int(s[k]) if k == "n" else float(s[k]))
+        if self.endpoint == "exact_grid":
+            self._logw = np.asarray(s["logw"], dtype=float)
 
 
 class MopeCS:
@@ -298,8 +316,9 @@ class MopeCS:
     The upper end is ``1 - LCS`` on the reflected stream ``r' = 1 - r`` (Algorithm 2's ``Z'``).
     """
 
-    def __init__(self, alpha: float, wmax: float):
-        self.plus, self.minus = MopeLowerCS(alpha, wmax), MopeLowerCS(alpha, wmax)
+    def __init__(self, alpha: float, wmax: float, endpoint: str = "quad", grid: int = 1000):
+        self.plus = MopeLowerCS(alpha, wmax, endpoint, grid)
+        self.minus = MopeLowerCS(alpha, wmax, endpoint, grid)
 
     def update(self, w: float, r: float) -> None:
         old_lo, old_hi = self.v_lo, self.v_hi
@@ -595,9 +614,10 @@ class GatedDeploymentStop(_CertificateStop):
     deploy_verdicts = ("deploy",)
 
     def __init__(self, horizon: int, budget: int, alpha: float, *, rng: np.random.Generator,
-                 p_min: float = 0.05, name: str = "gated_deployment"):  # fmt: skip
+                 p_min: float = 0.05, name: str = "gated_deployment",
+                 endpoint: str = "quad"):  # fmt: skip
         super().__init__(horizon, budget, alpha, rng=rng, p_min=p_min, name=name)
-        self.cs = MopeCS(alpha, 1.0 / self.p_min)
+        self.cs = MopeCS(alpha, 1.0 / self.p_min, endpoint)
 
     @property
     def gain_bounds(self) -> tuple[float, float]:

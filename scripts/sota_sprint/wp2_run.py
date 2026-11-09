@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import multiprocessing as mp
+import os
 import re
 import time
 from pathlib import Path
@@ -99,11 +100,14 @@ def _job(args):
         z = np.load(path)
         losses = np.stack([z["l0"][ep], z["l1"][ep]], axis=1).astype(np.int8)
         budget = CONTRACT["budget"]
-        base_delay = _base_delay(seed_name, kind)
+        # npz files that record their own declared delay (e.g. Paper 1 C4 streams) use it
+        base_delay = int(z["delay"]) if "delay" in z.files else _base_delay(seed_name, kind)
         split = int(z["split"][ep]) if "split" in z.files else -1
     delay = max(1, round(base_delay * dmult))
     l0, l1 = losses[:, 0], losses[:, 1]
-    cs, cq = CONTRACT["cs"], CONTRACT["cq"]
+    # P2 sensitivity sweeps (2026-11-09): optional env overrides, recorded in each row
+    cs = float(os.environ.get("P2_CS", CONTRACT["cs"]))
+    cq = float(os.environ.get("P2_CQ", CONTRACT["cq"]))
     rows = []
     run_ep = ep * 100_000 + seed
     for pol in build_suite(
@@ -149,6 +153,8 @@ def _job(args):
                 "alpha": alpha,
                 "delay": delay,
                 "delay_mult": dmult,
+                "cs": cs,
+                "cq": cq,
                 "budget": budget,
                 "T": len(l0),
                 "net": res.net_cost,
@@ -165,6 +171,7 @@ def _job(args):
                 "harm": res.net_cost - never,
                 "promos": promos,
                 "runtime_s": round(rt, 4),
+                "extra": getattr(pol, "extra_record", None),
             }
         )
     return rows

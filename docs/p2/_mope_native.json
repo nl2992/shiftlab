@@ -1,0 +1,38 @@
+{
+ "full_feedback": {
+  "streams": 300,
+  "T": 300,
+  "median_width_ratio_native_over_author": 0.948518278174346,
+  "median_width_ratio_quad_over_author": 1.3056796593419915,
+  "max_endpoint_abs_diff_native_vs_author": 0.031031031031031053,
+  "median_final_endpoint_abs_diff": 0.010010010010010006,
+  "p90_final_endpoint_abs_diff": 0.019019019019019034,
+  "frac_streams_endpoints_identical": 0.0,
+  "miscoverage_author": 16,
+  "miscoverage_native": 15,
+  "miscoverage_quad": 2,
+  "sec_per_stream": {
+   "author": 0.10833347033709288,
+   "native": 0.5145585606689564,
+   "quad": 0.4597825686555977
+  }
+ },
+ "ipw": {
+  "streams": 300,
+  "T": 300,
+  "median_width_ratio_native_over_author": 1.0,
+  "median_width_ratio_quad_over_author": 1.3952292545081018,
+  "max_endpoint_abs_diff_native_vs_author": 0.5615615615615616,
+  "median_final_endpoint_abs_diff": 0.014014014014014017,
+  "p90_final_endpoint_abs_diff": 0.08428428428428432,
+  "frac_streams_endpoints_identical": 0.06333333333333334,
+  "miscoverage_author": 6,
+  "miscoverage_native": 2,
+  "miscoverage_quad": 0,
+  "sec_per_stream": {
+   "author": 0.23497027899681902,
+   "native": 0.8460192376639073,
+   "quad": 0.7583134086779318
+  }
+ }
+}

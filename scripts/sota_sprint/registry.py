@@ -98,6 +98,13 @@ def build_extra() -> dict:
             extra.update(importlib.import_module("nad").EXTRA)
         except (ImportError, AttributeError) as e:
             IMPORT_ERRORS["p2_nad"] = repr(e)
+    if (p2 / "comparators.py").exists():  # native-endpoint gated deployment (2026-11-09)
+        if str(p2) not in sys.path:
+            sys.path.insert(0, str(p2))
+        try:
+            extra.update(importlib.import_module("comparators").EXTRA)
+        except (ImportError, AttributeError) as e:
+            IMPORT_ERRORS["p2_comparators"] = repr(e)
     return extra
 
 

@@ -1,7 +1,6 @@
 \section{Experiments}\label{sec:experiments}
 
-% TODO: every confirmation number below is a placeholder. The frozen confirmation (docs/p2/07_CONFIRMATION.md)
-% has not been opened. Fill only from the appended RESULTS section after the single opening.
+% Confirmation numbers come from docs/p2/07_CONFIRMATION.md (RESULTS) and docs/p2/results/confirm.md.
 
 \paragraph{Protocol.} Arms, panel, cohorts and decision rules were registered before any
 confirmation run (\texttt{docs/p2/07\_CONFIRMATION.md}). Arm A is NAD-2S (\texttt{NAD2S-g10-f6}),
@@ -32,56 +31,76 @@ UCI datasets with exact marginal nulls. Full descriptions are in \cref{app:panel
 % flagged vs unflagged streams of NAD-2S. Generate with PaperBanana, not another tool.
 \centering
 \fbox{\parbox{0.9\columnwidth}{\centering\vspace{3em}Figure 1 placeholder (method schematic)\vspace{3em}}}
-\caption{\resultTODO{Figure 1 caption}}\label{fig:schematic}
+\caption{Method schematic (placeholder; to be generated with PaperBanana): envelope $u_k$ as a function of the gap after a favourable outcome, budget waste of back-to-back queries, and flagged versus unflagged streams of NAD-2S.}\label{fig:schematic}
 \end{figure}
 
 \subsection{Registered hypotheses}
 
 \begin{table}[t]
-\caption{Registered rules (H1--H7) and outcomes. Outcomes are filled only after the single opening.}\label{tab:hyp}
-\centering\small
-\begin{tabular}{@{}p{0.33\columnwidth}p{0.3\columnwidth}p{0.25\columnwidth}@{}}
+\caption{Registered rules (H1--H7) and outcomes (registered confirmation; $\Delta=J(A)-J(c)$ unless noted).}\label{tab:hyp}
+\centering\scriptsize
+\begin{tabular}{@{}p{0.27\columnwidth}p{0.2\columnwidth}p{0.3\columnwidth}l@{}}
 \toprule
-Claim & Rule & Outcome \\
+Claim & Rule & Result & Verdict \\
 \midrule
-H1: A cheaper than A5b, synthetic alt. & 99\% UB of $J(A)-J(\mathrm{A5b})<0$ & \resultTODO{H1} \\
-H2: A cheaper than A5b, C4 & same, source-equal & \resultTODO{H2} \\
-H3: A cheaper than D5, both & UB $<0$ on S-alt and C4 & \resultTODO{H3} \\
-H4: A at level $\alpha$ in class & rate $\le.0695$ on F0\_null, F5\_dep\_null\_r8 & \resultTODO{H4} \\
-H5: A passes Tier B & 95\% UB of mean harm $\le5$ on 8 nulls & \resultTODO{H5} \\
-H6: B negligible harm & 95\% UB $\le1$ on 8 nulls & \resultTODO{H6} \\
-H7: B cheaper than A5b & 99\% UB $<0$ & \resultTODO{H7} \\
+H1: A cheaper than A5b, synth.\ alt. & 99\% UB $<0$ & $-11.31$ [$-13.79,-8.84$], $-2.9\%$ & PASS \\
+H2: A cheaper than A5b, C4 & same, source-equal & $+0.23$ [$-0.85,+1.30$], $+0.1\%$ & FAIL (tie) \\
+H3: A cheaper than D5, both & UB $<0$ on both & S-alt $-12.17$ [$-14.84,-9.48$] pass; C4 $+0.14$ [$-1.22,+1.70$] fail & FAIL \\
+H4: A at level $\alpha$ in class & rate $\le.0695$ & $.002$ (F0\_null), $.002$ (F5\_dep\_null\_r8) & PASS \\
+H5: A passes Tier B & 95\% UB harm $\le5$, 8 nulls & max $1.40$ (F5\_dep\_null\_r95) & PASS \\
+H6: B negligible harm & 95\% UB $\le1$, 8 nulls & max $1.47$ (F5\_dep\_null\_r95) & FAIL \\
+H7: B cheaper than A5b & 99\% UB $<0$ & $-0.32$ [$-3.21,+2.59$] & FAIL \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\paragraph{Negative results.} Four of seven registered hypotheses failed. H2 and H3: on the 27 weakly
+dependent C4 streams NAD-2S ties A5b ($+0.23$, $+0.1\%$) and D5 ($+0.14$), so the roughly $3\%$
+synthetic advantage does not transfer to real replacement streams. H6: the payback arm B reaches a
+max 95\% upper bound of mean decision harm of $1.47>1.0$ on F5\_dep\_null\_r95, which lies outside its
+claimed class $\mathcal M(.8)$. H7: B is not cheaper than A5b ($-0.32$, 99\% CI $[-3.21,+2.59]$).
 
 \subsection{Frontier on synthetic regimes}
 
-\begin{table}[t]
-\caption{Frontier on synthetic regimes: claimed class, worst-case null promotion rate, maximum mean
-decision harm on nulls, and $J$ on alternatives (mean over six regimes). 95\% CIs.}\label{tab:frontier}
+\begin{table*}[t]
+\caption{Frontier on synthetic regimes (registered confirmation, reported without a pass/fail rule): $J_{\rm alt}$ (mean over six alternative regimes), $A-c$ with 95\% CI, null promotion rates (500 seeds; r8, r95 = F5\_dep\_null\_r8, F5\_dep\_null\_r95; hs = WP2\_hs\_null) and maximum mean decision harm over the eight nulls. Sorted by $J_{\rm alt}$. Rows are a subset of the 20 policies; full table in \texttt{docs/p2/results/confirm.md}.}\label{tab:frontier}
 \centering\small
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabular}{@{}lccccccc@{}}
 \toprule
-Policy & Claims & Worst null promo. & Max harm & $J_{\rm alt}$ \\
+Policy & $J_{\rm alt}$ & $A-c$ [95\% CI] & F0\_null & r8 & r95 & hs & Max harm \\
 \midrule
-NAD2S-g10-f6 (A) & $\mathcal M(.8)$ & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
-PB80-g10 (B) & $\mathcal M(.8)$, payback & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
-A5b, D5 & V2 & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
-gated\_adaptive\_range\_native & V1 & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
-QSG, D2 & V1 & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
-never-switch & -- & 0 & 0 & \resultTODO{} \\
+D2 (V1) & 346.3 & $+39.0$ [$+37.1,+41.0$] & .020 & .158 & .614 & .492 & 1.24 \\
+gated\_adaptive\_range\_native+front & 348.4 & $+36.9$ [$+34.9,+38.9$] & .018 & .126 & .448 & .414 & 1.47 \\
+QSG (V1) & 349.6 & $+35.7$ [$+33.7,+37.6$] & .020 & .224 & .686 & .502 & 4.69 \\
+gated\_adaptive\_range\_native & 365.3 & $+20.0$ [$+17.9,+22.0$] & .026 & .066 & .316 & .298 & 1.56 \\
+gated\_deployment\_native & 379.9 & $+5.4$ [$+3.2,+7.6$] & .012 & .052 & .254 & .198 & 1.93 \\
+\textbf{NAD2S-g10-f6 (A)} & 385.3 & -- & .002 & .002 & .150 & .366 & 0.06 \\
+NAD-m80-g10 (desc.) & 388.2 & $-2.9$ [$-4.2,-1.6$] & .006 & .004 & .186 & .222 & 0.30 \\
+gated\_adaptive\_range (quad) & 392.9 & $-7.7$ [$-9.5,-5.9$] & .000 & .006 & .142 & .124 & 0.28 \\
+discern\_design\_floor & 394.3 & $-9.0$ [$-10.8,-7.2$] & .000 & .006 & .122 & .164 & 0.32 \\
+PB80-g10 (B) & 396.3 & $-11.0$ [$-12.4,-9.6$] & .002 & .004 & .142 & .150 & 0.06 \\
+A5b (V2) & 396.6 & $-11.3$ [$-13.2,-9.4$] & .000 & .000 & .002 & .418 & 0.36 \\
+QSG-env8 & 397.2 & $-11.9$ [$-14.0,-9.9$] & .006 & .000 & .170 & .216 & 1.71 \\
+D5 (V2) & 397.5 & $-12.2$ [$-14.3,-10.0$] & .004 & .002 & .002 & .438 & 0.35 \\
+never-switch & 419.6 & $-34.3$ [$-37.4,-31.3$] & .000 & .000 & .000 & .000 & 0.00 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
+
+Cheaper policies than A all promote on persistent marginal nulls (r95): author-endpoint
+\texttt{gated\_deployment\_native} (cheaper by $5.4$ [$3.2,7.6$]) at $.254$,
+\texttt{gated\_adaptive\_range\_native} at $.316$, QSG at $.686$, D2 at $.614$, and the uncertified
+selectors at $.76$--$.96$. A promotes at $.150$ on r95 (outside its claimed class) with max harm $0.06$.
+Among policies with r95 promotion $\le.20$, A is the cheapest; the next cheapest are NAD-m80-g10
+($-2.9$), quad-endpoint GAR ($-7.7$) and DISCERN-floor ($-9.0$). A5b and D5 are valid on r95 ($.002$) but
+promote at $.418$ and $.438$ on the hidden-state null, as does A ($.366$); that null is outside every class.
 
 \paragraph{Development finding on the author-endpoint MOPE comparator.} In development
 \devnote\ the author-endpoint adaptive-range gate (\texttt{gated\_adaptive\_range\_native}) is cheaper
-than the NAD candidates but promotes on 15--35\% of persistent nulls, whereas the quad-endpoint port
+than the NAD candidates but promotes on 15--35\% of persistent nulls (development; confirmation: $.316$ on r95), whereas the quad-endpoint port
 is more conservative (it also had a wider interval than the authors' code in a parity check
 \devnote). This gate claims a V1 null, so the promotions are outside its stated guarantee rather than
-a violated theorem. % TODO: confirm the 15-35% range against outputs/p2/dev5 (docs/p2/04 lists dev5 as pending).
-We report both because the quad-endpoint port would otherwise understate the gap in cost.
+a violated theorem. We report both because the quad-endpoint port would otherwise understate the gap in cost.
 
 \paragraph{Development context (not confirmation).} On 40 selection seeds \devnote, the cheapest
 certificate with in-class null promotion $\le.025$ was NAD-m80-g10, 2--4\% cheaper than the
@@ -92,53 +111,96 @@ choices were made with them in view.
 \subsection{Chronological replacement streams (C4)}
 
 \begin{table}[t]
-\caption{C4: $J(A)-J(c)$ with source-equal 95\% CIs and per-source win counts.}\label{tab:c4}
-\centering\small
-\begin{tabular}{@{}lcc@{}}
+\caption{C4 (registered confirmation, 27 sources, source-equal): $J(A)-J(c)$ with 95\% CIs, percent of $J(c)$ in parentheses, and sources won (negative mean). Subset of the 19 comparators.}\label{tab:c4}
+\centering\scriptsize
+\begin{tabular}{@{}lccc@{}}
 \toprule
-Comparator $c$ & $\Delta J$ [95\% CI] & Sources won / 27 \\
+Comparator $c$ & $J(c)$ & $A-c$ [95\% CI] (\%) & Won \\
 \midrule
-A5b & \resultTODO{} & \resultTODO{} \\
-D5 & \resultTODO{} & \resultTODO{} \\
-gated\_adaptive\_range\_native & \resultTODO{} & \resultTODO{} \\
-QSG & \resultTODO{} & \resultTODO{} \\
-never-switch & \resultTODO{} & \resultTODO{} \\
+never-switch & 495.6 & $-53.10$ [$-56.69,-49.70$] ($-10.7$) & 16 \\
+discern\_design\_floor & 453.4 & $-10.84$ [$-11.76,-9.86$] ($-2.4$) & 22 \\
+QSG-env8 & 452.9 & $-10.38$ [$-12.47,-8.40$] ($-2.3$) & 22 \\
+gated\_adaptive\_range (quad) & 450.9 & $-8.40$ [$-9.55,-7.20$] ($-1.9$) & 14 \\
+PB80-g10 & 449.4 & $-6.87$ [$-8.07,-5.49$] ($-1.5$) & 15 \\
+gated\_deployment\_native & 445.2 & $-2.65$ [$-3.73,-1.56$] ($-0.6$) & 8 \\
+D5 & 442.4 & $+0.14$ [$-0.88,+1.22$] ($+0.0$) & 7 \\
+A5b & 442.3 & $+0.23$ [$-0.60,+0.99$] ($+0.1$) & 14 \\
+SMCS+retain-incumbent & 440.6 & $+1.96$ [$+0.97,+2.95$] ($+0.4$) & 7 \\
+gated\_adaptive\_range\_native & 440.1 & $+2.45$ [$+1.57,+3.38$] ($+0.6$) & 3 \\
+choe\_ramdas\_eb+front & 437.2 & $+5.35$ [$+4.44,+6.22$] ($+1.2$) & 3 \\
+QSG & 434.8 & $+7.70$ [$+6.50,+9.01$] ($+1.8$) & 4 \\
+D2 & 434.0 & $+8.56$ [$+7.23,+10.04$] ($+2.0$) & 0 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+All certified methods lie within about $2\%$ of each other on C4. A is cheaper than
+\texttt{gated\_deployment\_native}, quad GAR, QSG-env8, DISCERN-floor and never-switch, ties A5b and
+D5, and costs more than native adaptive-range MOPE, the V1 front-loaders and the uncertified selectors
+($+1.2$ to $+2.2\%$).
+
 \paragraph{Harm check.} Four C4 sources have a worse challenger on average (kc\_311,
-louisville\_311, miamidade\_311, minneapolis\_311); we report promotion and loss on them separately
-\resultTODO{promotion rate and harm on the four worse-challenger sources}. Delays are imposed, not
-recorded.
+louisville\_311, miamidade\_311, minneapolis\_311). The registered analysis output
+(\texttt{docs/p2/results/confirm.md}) does not report promotion or harm on them separately, so we make
+no claim there. Delays are imposed, not recorded.
 
 \subsection{Exact marginal-null twins}
 
-\begin{table}[t]
-\caption{Promotion rate on exact marginal-null twins, per dataset (five UCI sources, 5 policy seeds
-per episode), with 95\% intervals.}\label{tab:twins}
+\begin{table*}[t]
+\caption{Exact marginal-null twins, v1 \emph{registered} cohort (1{,}240 episodes $\times$ 5 policy seeds): promotion rate / mean decision harm per dataset.}\label{tab:twins}
 \centering\small
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabular}{@{}lccccc@{}}
 \toprule
-Dataset & A & B & A5b & V1 pool \\
+Policy & appliances & beijing\_pm25 & bike\_hour & household\_power & metro \\
 \midrule
-metro, beijing\_pm25, bike\_hour, appliances, household & \resultTODO{} & \resultTODO{} & \resultTODO{} & \resultTODO{} \\
+NAD2S-g10-f6 (A) & .042 / $-1.55$ & .014 / $+0.21$ & .100 / $-0.08$ & .043 / $-0.41$ & .006 / $+0.00$ \\
+PB80-g10 (B) & .033 / $-1.47$ & .007 / $+0.09$ & .042 / $-0.56$ & .010 / $-0.10$ & .000 / $+0.00$ \\
+A5b & .042 / $-3.21$ & .007 / $+0.33$ & .058 / $-0.42$ & .035 / $-0.26$ & .000 / $+0.00$ \\
+D5 & .070 / $-1.74$ & .009 / $+0.12$ & .070 / $-0.30$ & .029 / $-0.20$ & .000 / $+0.00$ \\
+gated\_deployment\_native & .405 / $-10.21$ & .186 / $+0.52$ & .175 / $-0.75$ & .157 / $-1.11$ & .015 / $+0.05$ \\
+gated\_adaptive\_range\_native & .443 / $-11.83$ & .192 / $+0.51$ & .177 / $-0.71$ & .155 / $-1.08$ & .015 / $+0.05$ \\
+QSG & .622 / $-16.73$ & .326 / $+0.68$ & .217 / $-1.27$ & .198 / $-1.28$ & .037 / $+0.11$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table}[t]
+\caption{Twin v3, \emph{post-registration descriptive} check (7{,}440 episodes, seed base 2026110961): pooled promotion rate and number of datasets whose 99\% lower bound exceeds $.05$. Appliances v3 differs from its recorded hash in 1 of 720{,}000 cells.}\label{tab:twinv3}
+\centering\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Policy & Pooled promo. & Datasets LB $>.05$ \\
+\midrule
+PB80-g10 & .015 & 0 \\
+A5b & .028 & 1 (bike\_hour .089) \\
+NAD2S-g10-f6 (A) & .037 & 1 (bike\_hour .107) \\
+NAD-m80-g10 & .044 & 1 (bike\_hour .129) \\
+choe\_ramdas\_eb+front & .113 & 4 \\
+gated\_deployment\_native & .148 & 4 \\
+gated\_adaptive\_range\_native & .151 & 4 \\
+SMCS+retain-incumbent & .175 & 4 \\
+QSG & .224 & 4 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Twin promotion rates are descriptive. The dependence class of the real streams is unknown, so they
-are evidence, not a test of the guarantee.
+On the v1 registered twins A promotes at $.006$--$.100$ per dataset and native MOPE at $.015$--$.443$.
+In the v3 descriptive check, author-faithful MOPE promotes at $.15$ pooled with 4 of 5 datasets above
+$\alpha$. Mean decision harm is $\le+0.8$ for every certified policy and negative on appliances and
+bike\_hour, so these invalid promotions are conditionally informed and economically harmless on the
+real data available (replicating the earlier finding F2). Twin results are descriptive: the dependence
+class of the real streams is unknown, so they are evidence, not a test of the guarantee.
 
 \subsection{Robustness value}
 
-The robustness value is recorded only by NAD-m80-g10 and reported descriptively
-\resultTODO{distribution of $\rhob^*$ at the end of null and alternative episodes}.
+The anytime robustness value is recorded only by NAD-m80-g10. It is implemented with a validity
+argument (\cref{prop:rv}) but was not evaluated as a decision aid in the registered confirmation, and
+the confirmation outputs report no distribution of $\rhob^*$; we make no empirical claim about it.
 
 \begin{figure}[t]
 % TODO(PaperBanana unavailable): Figure 2. Cost-vs-validity frontier (J_alt vs worst null promotion),
 % data from the confirmation analysis outputs only, verified against source values.
 \centering
 \fbox{\parbox{0.9\columnwidth}{\centering\vspace{3em}Figure 2 placeholder (cost vs validity frontier)\vspace{3em}}}
-\caption{\resultTODO{Figure 2 caption}}\label{fig:frontier}
+\caption{Cost--validity frontier (placeholder; to be generated with PaperBanana from \cref{tab:frontier}): $J_{\rm alt}$ versus null promotion on F5\_dep\_null\_r95.}\label{fig:frontier}
 \end{figure}

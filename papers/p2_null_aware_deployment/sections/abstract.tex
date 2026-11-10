@@ -1,6 +1,4 @@
 \begin{abstract}
-% TODO: finalise after the frozen confirmation run is opened (docs/p2/07_CONFIRMATION.md). No
-% confirmation number may be written here before then.
 A team holds an incumbent and a challenger model, buys delayed labels on disagreements under a hard
 budget, and pays a cost to switch. Anytime-valid promotion certificates for this problem are usually
 calibrated to a conditional null, which does not control the marginal null on temporally dependent
@@ -9,12 +7,17 @@ We propose \NAD, which tests the challenger against a per-step envelope on the c
 probability, spaces label queries by a predictable gap, and reports an anytime
 dependence-robustness value. We give a validity argument for the certificate, an
 information-rate characterisation of the price of robustness for a relaxed per-step class, a
-two-stream design with sign-independent flagging, and a payback-certified variant. On a common
-benchmark with author-endpoint comparators, synthetic dependent streams, exact marginal-null twins
-and 27 chronological replacement streams, the registered primary contrast is
-\resultTODO{J(NAD-2S) minus J(A5b) on synthetic alternatives, 99\% CI}, and the in-class null
-promotion rate is \resultTODO{promotion rate on F0\_null and F5\_dep\_null\_r8}.
-Methods that rely on a conditional or stationary-class null are cheaper but promote on
-\resultTODO{range of null promotion rates} of persistent nulls. We state which null classes remain
-outside the guarantee.
+two-stream design with sign-independent flagging, and a payback-certified variant.
+In a registered confirmation, NAD-2S is about 3\% cheaper than the dependence-robust state of the art
+(A5b, D5) on synthetic alternatives ($J(\text{NAD-2S})-J(\text{A5b})=-11.31$, 99\% CI $[-13.79,-8.84]$,
+$-2.9\%$), keeps level $\alpha$ in its class (promotion $.002$ on F0\_null and F5\_dep\_null\_r8) and
+passes the Tier B harm gate (max 95\% upper bound $1.40\le5$). It does \emph{not} beat A5b or D5 on 27
+weakly dependent real replacement streams (ties: $+0.23$ and $+0.14$; the registered
+real-stream hypotheses H2 and H3 fail), and we do not claim state-of-the-art cost: cheaper methods, namely
+author-endpoint MOPE and conditional-null front-loaders, buy lower cost with marginal-null validity,
+for example $.15$ pooled promotion on real marginal-null twins with 4 of 5 datasets above $\alpha$
+(post-registration descriptive). On these real twins such promotions are economically harmless (mean
+decision harm $\le+0.8$), which weakens the economic case for robustness on available real data.
+The main contributions are the characterisation of the price of robustness and a corrected,
+author-endpoint MOPE comparator. Hidden-state and heavy-tailed nulls remain outside the guarantee.
 \end{abstract}

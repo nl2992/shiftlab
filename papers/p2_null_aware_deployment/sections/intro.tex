@@ -47,10 +47,26 @@ favourable outcome the envelope is still wide; spacing queries by the envelope i
   persistence bound whose certificate has crossed (\cref{prop:rv}).
   \item \textbf{Payback certificate.} A promotion rule that bounds the probability of promoting when the
   forward net benefit does not cover the switching cost (\cref{prop:payback}).
-  \item \textbf{Evaluation.} On the P2 benchmark, including author-endpoint comparators for the
-  MOPE-based gate, exact marginal-null twins and 27 chronological replacement streams, with
-  claimed-null validity and all-in cost reported together (\cref{sec:experiments}).
+  \item \textbf{Evaluation and benchmark correction.} A registered confirmation on the P2
+  benchmark with exact marginal-null twins and 27 chronological replacement streams, with
+  claimed-null validity and all-in cost reported together (\cref{sec:experiments}), including negative
+  results. We also replace our earlier quad-endpoint MOPE port by an author-endpoint port whose
+  interval width matches the authors' code (ratio $0.95$--$1.00$; the earlier port was $1.3$--$1.4\times$
+  wider).
 \end{enumerate}
+\paragraph{What we find.} The registered confirmation gives a mixed result. Within the
+dependence-robust class, NAD-2S is about $3\%$ cheaper than A5b and D5 on synthetic alternatives
+(registered H1: $-11.31$, 99\% CI $[-13.79,-8.84]$; H3 on synthetic data: $-12.17$), keeps level
+$\alpha$ in class ($.002$ promotion on both registered nulls) and passes the Tier B harm gate
+(max 95\% UB $1.40$). On 27 weakly dependent real replacement streams it ties A5b and D5 ($+0.23$,
+$+0.14$; registered H2 and H3 fail). Cheaper methods exist (author-endpoint MOPE and V1
+front-loaders), but they promote on persistent marginal nulls ($.25$--$.32$ on the $\rho=.95$ null for
+the author-endpoint MOPE rows; $.15$ pooled, 4 of 5 datasets above $\alpha$, on real twins in a
+post-registration descriptive check). Those invalid promotions are economically harmless on the real
+twins (mean decision harm $\le+0.8$). We therefore do \emph{not} claim state-of-the-art cost, and the
+real-data economic motivation for robustness is weak; the characterisation of what robustness costs
+is the main result.
+
 We do not claim new probability theory. The results are elementary consequences of testing by
 betting and Ville's inequality; the contribution is their combination in a budgeted, delayed-label
 promotion rule and the measurement of what it costs.

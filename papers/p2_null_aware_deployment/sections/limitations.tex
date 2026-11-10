@@ -6,7 +6,8 @@
   .35--.475 for the robust rows on the hidden-state null, 40 seeds) and on heavy-tailed
   semi-Markov nulls (Pareto(1.5) run lengths, which have no geometric mixing envelope). These are
   outside every declared class; we report them as stress tests and make no validity claim there.
-  \resultTODO{confirmation rates on WP2\_hs\_null and WP2\_sm\_null}
+  In the registered confirmation (500 seeds), NAD-2S promotes at $.366$ on WP2\_hs\_null and $.094$ on
+  WP2\_sm\_null (A5b: $.418$ and $.052$; D5: $.438$ and $.068$).
   \item \textbf{Imposed delays.} Real-stream delays are imposed (100 events), not recorded release
   times. The proofs assume constant delay and issue-order processing.
   \item \textbf{Cost relative to fast V1 methods.} NAD costs more than V1 front-loaders and native
@@ -16,6 +17,20 @@
   \item \textbf{Strong dependence is synthetic only.} The C4 streams are weakly dependent (lag-1
   $\le.23$). UCI twins show stronger short-range dependence (lag-1 $.29$--$.70$) but their dependence
   class is unknown.
+  \item \textbf{No cost win against the strongest comparator.} Author-endpoint MOPE and the V1
+  front-loaders are cheaper on synthetic data (by $1.4$--$13\%$) and on real data (by $0.6$--$2.2\%$).
+  NAD's advantage holds only inside the dependence-robust class, and on real streams it vanishes (H2,
+  H3 tie).
+  \item \textbf{The motivating harm is not visible on real data.} Invalid promotions on real twins
+  are economically harmless or beneficial (mean decision harm $\le+0.8$, negative on appliances and
+  bike\_hour), so the case for paying for marginal-null validity currently rests on synthetic
+  $\rho=.95$ nulls.
+  \item \textbf{Elementary and relaxed theory.} Validity is testing by betting plus Ville's
+  inequality. The rate bound holds for the per-step relaxation only; a lower bound for the stationary
+  class, which universal inference can beat, is missing.
+  \item \textbf{Integrative novelty.} The envelope bet existed internally (QSG-env8), A5b already
+  spaced queries, and universal inference is known. The new parts (restart-safe conditioning, the
+  sign-independent two-stream design, the robustness value) are modest.
   \item \textbf{Class selection.} The persistence bound $\rhob=.8$ was chosen on exposed development
   data; larger $\rhob$ is close to never switching in development.
   \item \textbf{Evidence status.} Proofs have had no external review. Comparator ports are not author

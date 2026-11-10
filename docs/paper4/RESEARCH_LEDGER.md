@@ -102,3 +102,19 @@ and the JSON was read directly.
   non-monotone, consistent with the theorem.
 - **Scope:** this covers the returned HiGHS vertex only.
 - **Decision:** no new theorem target. The final status NO-GO — Prior art is unchanged.
+
+## CP9 — counterexample library, memory and baselines (2026-11-10)
+
+Builder: Sonnet. Re-verified on Opus.
+- `pytest tests/paper4`: 25 passed. That is 13 library tests (A–L, plus I added by the lead), plus FCG and
+  IID-tightness tests.
+- Parity risk `1 - 2^-T` was hand-checked for T=1 and T=2.
+
+Results:
+- **Memory** (`results/fcg_memory_baselines_v1.json`): FCG-fast uses 14–17% less at T=10 and 11% more at T=8. This
+  fails the 50% memory gate.
+- **Never-promote:** suboptimal by 0.25–16% in C6, S1 and S3.
+- **Test I:** the IID-only certificate gap on C2 is 0.050. The cuts close it.
+- **Test H:** not expressible in the fixed-delay model; the test documents the rule.
+
+Decision unchanged: **NO-GO — Prior art.**

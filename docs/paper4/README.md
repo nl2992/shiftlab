@@ -15,7 +15,7 @@ novelty). FCG-fast is retained as an exact certified solver. See `publication/PU
 | WP4 scaling and comparators | `experiments/04_scaling_and_comparators.md` |
 | Protocols / results | `experiments/protocols/`, `experiments/results/` |
 | Theorem status, contribution, reviewer objections, decision | `publication/` |
-| Counterexample library (§13) | `tests/paper4/test_counterexample_library.py` |
+| Counterexample library (§13), items A–L incl. I | `tests/paper4/test_counterexample_library.py` (25 Paper 4 tests pass) |
 | Code | `src/shiftlab/paper4/`, `scripts/paper4/`, `tests/paper4/` |
 | Earlier Paper 4 closures | `../risk_preserving_approx/PAPER4_VALUE_SHIELD_DECISION_V1.md`, `../risk_preserving_approx/PAPER4_G1_NOVELTY_REDUCTION_V1.md` |
 

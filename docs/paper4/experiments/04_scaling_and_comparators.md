@@ -89,3 +89,27 @@ uv run --no-sync python scripts/paper4/run_fcg_scale.py --cell S3 --method ref
 uv run --no-sync python scripts/paper4/run_fcg_scale.py --cell S3 --method fast
 uv run --no-sync pytest tests/paper4 -q
 ```
+
+## Peak memory and never-promote baseline (`results/fcg_memory_baselines_v1.json`)
+
+Peak RSS is the child process's `ru_maxrss` (macOS reports bytes). Each child includes a pre-exec footprint
+floor. Single repetition, separate processes.
+
+| Cell | Reference peak MiB | FCG-fast peak MiB | Reference s / FCG-fast s (in-process) | Never-promote `C0` | `C0 - V*` |
+|---|---|---|---|---|---|
+| C6 | 193.2 | 214.1 | 1.59 / 2.28 | 4 | 0.0411 (1.03%) |
+| S1 | 250.8 | 216.6 | 67.5 / 37.4 | 5 | 0.8026 (16.05%) |
+| S3 | 249.3 | 213.4 | 62.9 / 45.5 | 5 | 0.0124 (0.25%) |
+
+- **Memory.** FCG-fast uses 14–17% less at T=10 and 11% more at T=8. This misses the directive's 50% memory gate.
+- **Never-promote.** It is suboptimal in every cell. The value of the optimal switching policy ranges from 0.25% to
+  16% of cost. Test L covers cells where never-promote *is* optimal; there FCG returns it exactly.
+- **Timing.** The second measurement repeats the T=10 picture: S1 1.81×, S3 1.38×, C6 slower.
+
+## Counterexample library (§13)
+
+`tests/paper4/test_counterexample_library.py` covers items A–L. Every item has an independent oracle. Item I (weak
+IID lower bound) was added by the lead: on C2, `L0 = 2.4002`, `V* = 2.4419`, and the IID-only certificate gap is
+0.050, about 2% of cost. Item H is not expressible: release is fixed-delay FIFO, and the test documents that rule.
+Item E is checked against an independent scipy sequence-form LP, which gives 0.75. The full Paper 4 suite passes
+(25 tests).

@@ -1,0 +1,22 @@
+{
+ "version": "seed_registry_v1",
+ "note": "Seeds are SeedSequence entropy ints; blocks are disjoint and above every block in configs/seed_registry.yaml (max 3.15e9).",
+ "blocks": {
+  "smoke": [
+   5300000000,
+   5300999999
+  ],
+  "dev": [
+   5301000000,
+   5301999999
+  ],
+  "model_selection": [
+   5302000000,
+   5302999999
+  ],
+  "confirmation": [
+   5303000000,
+   5303999999
+  ]
+ }
+}

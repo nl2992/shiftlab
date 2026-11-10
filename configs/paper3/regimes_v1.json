@@ -1,0 +1,475 @@
+{
+ "version": "regimes_v1",
+ "defaults": {
+  "r": 0.3,
+  "e_both": 0.1,
+  "rho": 0.0,
+  "x_scale": 1.0,
+  "B": 60,
+  "delay": {
+   "kind": "fixed",
+   "d": 5
+  },
+  "costs": {
+   "c_q": 0.05,
+   "k": 3.0,
+   "c_compute": 0.01,
+   "c_retrain": 0.0
+  }
+ },
+ "regimes": [
+  {
+   "id": "stationary_null",
+   "description": "no benefit anywhere (p=.5)",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ]
+    ]
+   }
+  },
+  {
+   "id": "stationary_better",
+   "description": "challenger better throughout",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.7
+     ]
+    ]
+   }
+  },
+  {
+   "id": "stationary_worse",
+   "description": "challenger worse throughout",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.3
+     ]
+    ]
+   }
+  },
+  {
+   "id": "abrupt_beneficial",
+   "description": "challenger becomes better at .3T",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.75
+     ]
+    ]
+   }
+  },
+  {
+   "id": "abrupt_harmful",
+   "description": "challenger better, turns worse at .3T",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.3,
+      0.3
+     ]
+    ]
+   }
+  },
+  {
+   "id": "gradual_beneficial",
+   "description": "ramp to challenger-better",
+   "path": {
+    "type": "linear",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.2,
+      0.5
+     ],
+     [
+      0.7,
+      0.75
+     ],
+     [
+      1,
+      0.75
+     ]
+    ]
+   }
+  },
+  {
+   "id": "gradual_harmful",
+   "description": "ramp to challenger-worse",
+   "path": {
+    "type": "linear",
+    "knots": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.2,
+      0.7
+     ],
+     [
+      0.7,
+      0.3
+     ],
+     [
+      1,
+      0.3
+     ]
+    ]
+   }
+  },
+  {
+   "id": "delayed_onset",
+   "description": "benefit starts at .6T",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.6,
+      0.8
+     ]
+    ]
+   }
+  },
+  {
+   "id": "short_transient",
+   "description": "benefit window of .08T",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.4,
+      0.85
+     ],
+     [
+      0.48,
+      0.5
+     ]
+    ]
+   }
+  },
+  {
+   "id": "long_persistent",
+   "description": "benefit from .1T",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.1,
+      0.8
+     ]
+    ]
+   }
+  },
+  {
+   "id": "multiple_reversals",
+   "description": "four reversals",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.15,
+      0.8
+     ],
+     [
+      0.35,
+      0.3
+     ],
+     [
+      0.55,
+      0.8
+     ],
+     [
+      0.75,
+      0.3
+     ]
+    ]
+   }
+  },
+  {
+   "id": "seasonal_recurrence",
+   "description": "periodic benefit windows",
+   "path": {
+    "type": "seasonal",
+    "lo": 0.4,
+    "hi": 0.8,
+    "period_frac": 0.2,
+    "duty": 0.5,
+    "phase": 0.0
+   }
+  },
+  {
+   "id": "dep_rho_0.0",
+   "description": "abrupt benefit, AR(1)-copula dependence rho=0.0",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.7
+     ]
+    ]
+   },
+   "rho": 0.0
+  },
+  {
+   "id": "dep_rho_0.5",
+   "description": "abrupt benefit, AR(1)-copula dependence rho=0.5",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.7
+     ]
+    ]
+   },
+   "rho": 0.5
+  },
+  {
+   "id": "dep_rho_0.8",
+   "description": "abrupt benefit, AR(1)-copula dependence rho=0.8",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.7
+     ]
+    ]
+   },
+   "rho": 0.8
+  },
+  {
+   "id": "dep_rho_0.95",
+   "description": "abrupt benefit, AR(1)-copula dependence rho=0.95",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.7
+     ]
+    ]
+   },
+   "rho": 0.95
+  },
+  {
+   "id": "informative_delay",
+   "description": "labels favouring the challenger arrive later",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.75
+     ]
+    ]
+   },
+   "delay": {
+    "kind": "informative",
+    "d": 3,
+    "extra": 12
+   }
+  },
+  {
+   "id": "correlated_errors",
+   "description": "models err together; little disagreement",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.75
+     ]
+    ]
+   },
+   "r": 0.12,
+   "e_both": 0.45
+  },
+  {
+   "id": "small_disagreement",
+   "description": "very small disagreement rate",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.75
+     ]
+    ]
+   },
+   "r": 0.03
+  },
+  {
+   "id": "late_improvement",
+   "description": "benefit starts at .85T",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.85,
+      0.9
+     ]
+    ]
+   }
+  },
+  {
+   "id": "expensive_switch",
+   "description": "switch fee 30",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.75
+     ]
+    ]
+   },
+   "costs": {
+    "k": 30.0
+   }
+  },
+  {
+   "id": "label_scarcity",
+   "description": "B=6",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.75
+     ]
+    ]
+   },
+   "B": 6
+  },
+  {
+   "id": "random_delay",
+   "description": "random heavy-tailed delays",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.3,
+      0.75
+     ]
+    ]
+   },
+   "delay": {
+    "kind": "random",
+    "values": [
+     1,
+     3,
+     8,
+     20,
+     40
+    ],
+    "probs": [
+     0.3,
+     0.3,
+     0.2,
+     0.15,
+     0.05
+    ]
+   }
+  },
+  {
+   "id": "dep_null_rho_0.95",
+   "description": "global null with strong dependence",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.5
+     ]
+    ]
+   },
+   "rho": 0.95
+  }
+ ]
+}

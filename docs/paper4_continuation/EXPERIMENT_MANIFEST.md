@@ -9,3 +9,4 @@
 | 2026-11-10 | A3/A4 builder (Sonnet) | src/shiftlab/paper4_continuation/*; scripts/paper4_continuation/{ablation_one,ablation_campaign,a4_feasibility}.py; results/a4_feasibility_v1.json | A3/A4 | Harness + T10D1 feasibility |
 | 2026-11-10 | literature agent (Sonnet) | docs/paper4_continuation/LITERATURE_NOTES.md | E | Primary-source notes Q1–Q4 |
 | 2026-11-10 | WP C theory agent (Opus) | CAUSAL_SAFETY_PREMIUM_THEORY.md; theory_C/*; scripts/paper4_continuation/theory_C/* | C | Γ theory + exact searches |
+| 2026-11-10 | WP B theory agent (Opus) | IMPLICIT_LEARNER_OPTIMIZATION.md; theory_B/results/*; scripts/paper4_continuation/theory_B/* | B | B1–B4 screens + exact tests |

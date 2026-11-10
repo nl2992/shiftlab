@@ -15,3 +15,4 @@
 | E (literature) | — | HKUSTDial deep-research method: Q1–Q4 notes with read-status per source; lead spot-checked arXiv:1512.03873 (exists, matches) | COMPLETE (first pass) | `LITERATURE_NOTES.md` |
 | WP C | — | Safety-premium theory: Z1 (narrow zero-premium), C3 (closed-form positive family), C4 and C5 NO-GO; lead re-verified C3 at T=4,6 and CE-6 exactly | COMPLETE (proof review pending in WP G) | `CAUSAL_SAFETY_PREMIUM_THEORY.md`, `theory_C/` |
 | idea-eval C | — | HKUSTDial idea-evaluator on safety-premium theory: Accept with Revisions (narrowness + novelty MAJOR; Lemma U is the gate) | COMPLETE | `IDEA_EVALUATION_C.md` |
+| WP B | — | B1–B4 all closed for HMM alternatives; Theorem B1-S (static alternative, tree-free certified V*) PROVED, not novel; lead verified 5 static cells == reference V* exactly | COMPLETE WITH NEGATIVE RESULT | `IMPLICIT_LEARNER_OPTIMIZATION.md`, `theory_B/results/` |

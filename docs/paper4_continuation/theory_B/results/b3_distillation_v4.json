@@ -1,0 +1,157 @@
+{
+ "script": "scripts/paper4_continuation/theory_B/b3_distill.py",
+ "script_sha256": "9d042380243b2533e3e556c9abb0bfb27314a58fd40936e74f965d902770740f",
+ "purpose": "B3 certified distillation: belief-threshold students vs exact teacher",
+ "cells": [
+  {
+   "id": "C1",
+   "config": {
+    "T": 5,
+    "B": 2,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "1/4",
+    "emissions": [
+     "1/20",
+     "19/20"
+    ]
+   },
+   "Vstar": "193099/80000",
+   "teacher_cost": "193099/80000",
+   "teacher_causal_risk": "1/10",
+   "student_cost": "73099/32000",
+   "student_causal_risk": "1/4",
+   "student_iid_risk": "1/4",
+   "student_repaired_U": "193099/80000",
+   "student_gap_to_Vstar": "0",
+   "student_rule_cells": 12,
+   "coupling_P_alt_D": "3/5",
+   "coupling_sup_nu_P_D": "3/5",
+   "coupling_risk_bound": "7/10",
+   "coupling_cost_bound_halfwidth": "783/500",
+   "actual_cost_diff": "-20703/160000",
+   "teacher_tree_infosets": 65,
+   "seconds": 0.10453012492507696
+  },
+  {
+   "id": "C4",
+   "config": {
+    "T": 6,
+    "B": 3,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "1/4",
+    "emissions": [
+     "1/20",
+     "19/20"
+    ]
+   },
+   "Vstar": "461083/160000",
+   "teacher_cost": "461083/160000",
+   "teacher_causal_risk": "1/10",
+   "student_cost": "173083/64000",
+   "student_causal_risk": "1/4",
+   "student_iid_risk": "1/4",
+   "student_repaired_U": "461083/160000",
+   "student_gap_to_Vstar": "0",
+   "student_rule_cells": 15,
+   "coupling_P_alt_D": "3/5",
+   "coupling_sup_nu_P_D": "3/5",
+   "coupling_risk_bound": "7/10",
+   "coupling_cost_bound_halfwidth": "933/500",
+   "actual_cost_diff": "-56751/320000",
+   "teacher_tree_infosets": 236,
+   "seconds": 0.6196462078951299
+  },
+  {
+   "id": "C5",
+   "config": {
+    "T": 8,
+    "B": 3,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "1/4",
+    "emissions": [
+     "1/20",
+     "19/20"
+    ]
+   },
+   "Vstar": "24735833/6400000",
+   "teacher_cost": "24735833/6400000",
+   "teacher_causal_risk": "1/10",
+   "student_cost": "9375833/2560000",
+   "student_causal_risk": "1/4",
+   "student_iid_risk": "1/4",
+   "student_repaired_U": "24735833/6400000",
+   "student_gap_to_Vstar": "0",
+   "student_rule_cells": 21,
+   "coupling_P_alt_D": "3/5",
+   "coupling_sup_nu_P_D": "3/5",
+   "coupling_risk_bound": "7/10",
+   "coupling_cost_bound_halfwidth": "1233/500",
+   "actual_cost_diff": "-2592501/12800000",
+   "teacher_tree_infosets": 848,
+   "seconds": 5.653153334278613
+  },
+  {
+   "id": "C2",
+   "config": {
+    "T": 5,
+    "B": 2,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "9/10",
+    "emissions": [
+     "1/10",
+     "9/10"
+    ]
+   },
+   "Vstar": "76309/31250",
+   "teacher_cost": "7624163/3125000",
+   "teacher_causal_risk": "13/100",
+   "student_cost": "969/500",
+   "student_causal_risk": "1",
+   "student_iid_risk": "3/4",
+   "student_repaired_U": "12219/5000",
+   "student_gap_to_Vstar": "239/125000",
+   "student_rule_cells": 12,
+   "coupling_P_alt_D": "19/20",
+   "coupling_sup_nu_P_D": "19/20",
+   "coupling_risk_bound": "27/25",
+   "coupling_cost_bound_halfwidth": "4959/2000",
+   "actual_cost_diff": "-1567913/3125000",
+   "teacher_tree_infosets": 65,
+   "seconds": 0.18654233356937766
+  },
+  {
+   "id": "C3",
+   "config": {
+    "T": 6,
+    "B": 3,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "3/4",
+    "emissions": [
+     "1/20",
+     "19/20"
+    ]
+   },
+   "Vstar": "118361/40000",
+   "teacher_cost": "18937469/6400000",
+   "teacher_causal_risk": "1/8",
+   "student_cost": "167853/64000",
+   "student_causal_risk": "1",
+   "student_iid_risk": "3/4",
+   "student_repaired_U": "1895853/640000",
+   "student_gap_to_Vstar": "2077/640000",
+   "student_rule_cells": 17,
+   "coupling_P_alt_D": "19/20",
+   "coupling_sup_nu_P_D": "19/20",
+   "coupling_risk_bound": "43/40",
+   "coupling_cost_bound_halfwidth": "5909/2000",
+   "actual_cost_diff": "-2152169/6400000",
+   "teacher_tree_infosets": 236,
+   "seconds": 1.1753882076591253
+  }
+ ]
+}

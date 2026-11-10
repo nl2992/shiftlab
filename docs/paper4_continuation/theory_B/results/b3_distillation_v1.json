@@ -1,0 +1,157 @@
+{
+ "script": "scripts/paper4_continuation/theory_B/b3_distill.py",
+ "script_sha256": "af64ea09f34f81f4a5552db57d8174f5b8056115483c20a673528356983e330c",
+ "purpose": "B3 certified distillation: belief-threshold students vs exact teacher",
+ "cells": [
+  {
+   "id": "C1",
+   "config": {
+    "T": 5,
+    "B": 2,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "1/4",
+    "emissions": [
+     "1/20",
+     "19/20"
+    ]
+   },
+   "Vstar": "193099/80000",
+   "teacher_cost": "193099/80000",
+   "teacher_causal_risk": "1/10",
+   "student_cost": "5/2",
+   "student_causal_risk": "0",
+   "student_iid_risk": "0",
+   "student_repaired_U": "5/2",
+   "student_gap_to_Vstar": "6901/80000",
+   "student_rule_cells": 12,
+   "coupling_P_alt_D": "2/5",
+   "coupling_sup_nu_P_D": "2/5",
+   "coupling_risk_bound": "1/2",
+   "coupling_cost_bound_halfwidth": "261/250",
+   "actual_cost_diff": "6901/80000",
+   "teacher_tree_infosets": 65,
+   "seconds": 0.11259370902553201
+  },
+  {
+   "id": "C4",
+   "config": {
+    "T": 6,
+    "B": 3,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "1/4",
+    "emissions": [
+     "1/20",
+     "19/20"
+    ]
+   },
+   "Vstar": "461083/160000",
+   "teacher_cost": "461083/160000",
+   "teacher_causal_risk": "1/10",
+   "student_cost": "3",
+   "student_causal_risk": "0",
+   "student_iid_risk": "0",
+   "student_repaired_U": "3",
+   "student_gap_to_Vstar": "18917/160000",
+   "student_rule_cells": 15,
+   "coupling_P_alt_D": "2/5",
+   "coupling_sup_nu_P_D": "2/5",
+   "coupling_risk_bound": "1/2",
+   "coupling_cost_bound_halfwidth": "311/250",
+   "actual_cost_diff": "18917/160000",
+   "teacher_tree_infosets": 236,
+   "seconds": 0.6513335416093469
+  },
+  {
+   "id": "C5",
+   "config": {
+    "T": 8,
+    "B": 3,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "1/4",
+    "emissions": [
+     "1/20",
+     "19/20"
+    ]
+   },
+   "Vstar": "24735833/6400000",
+   "teacher_cost": "24735833/6400000",
+   "teacher_causal_risk": "1/10",
+   "student_cost": "4",
+   "student_causal_risk": "0",
+   "student_iid_risk": "0",
+   "student_repaired_U": "4",
+   "student_gap_to_Vstar": "864167/6400000",
+   "student_rule_cells": 21,
+   "coupling_P_alt_D": "2/5",
+   "coupling_sup_nu_P_D": "2/5",
+   "coupling_risk_bound": "1/2",
+   "coupling_cost_bound_halfwidth": "411/250",
+   "actual_cost_diff": "864167/6400000",
+   "teacher_tree_infosets": 848,
+   "seconds": 5.943271540571004
+  },
+  {
+   "id": "C2",
+   "config": {
+    "T": 5,
+    "B": 2,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "9/10",
+    "emissions": [
+     "1/10",
+     "9/10"
+    ]
+   },
+   "Vstar": "76309/31250",
+   "teacher_cost": "76309/31250",
+   "teacher_causal_risk": "1/10",
+   "student_cost": "5/2",
+   "student_causal_risk": "0",
+   "student_iid_risk": "0",
+   "student_repaired_U": "5/2",
+   "student_gap_to_Vstar": "908/15625",
+   "student_rule_cells": 7,
+   "coupling_P_alt_D": "1/10",
+   "coupling_sup_nu_P_D": "1/10",
+   "coupling_risk_bound": "1/5",
+   "coupling_cost_bound_halfwidth": "261/1000",
+   "actual_cost_diff": "908/15625",
+   "teacher_tree_infosets": 65,
+   "seconds": 0.2002007090486586
+  },
+  {
+   "id": "C3",
+   "config": {
+    "T": 6,
+    "B": 3,
+    "d": 1,
+    "alpha": "1/10",
+    "transition": "3/4",
+    "emissions": [
+     "1/20",
+     "19/20"
+    ]
+   },
+   "Vstar": "118361/40000",
+   "teacher_cost": "118361/40000",
+   "teacher_causal_risk": "1/10",
+   "student_cost": "3",
+   "student_causal_risk": "0",
+   "student_iid_risk": "0",
+   "student_repaired_U": "3",
+   "student_gap_to_Vstar": "1639/40000",
+   "student_rule_cells": 8,
+   "coupling_P_alt_D": "1/10",
+   "coupling_sup_nu_P_D": "1/10",
+   "coupling_risk_bound": "1/5",
+   "coupling_cost_bound_halfwidth": "311/1000",
+   "actual_cost_diff": "1639/40000",
+   "teacher_tree_infosets": 236,
+   "seconds": 1.3216077079996467
+  }
+ ]
+}

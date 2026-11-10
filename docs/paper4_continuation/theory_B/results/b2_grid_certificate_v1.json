@@ -1,0 +1,987 @@
+{
+ "script": "scripts/paper4_continuation/theory_B/b2_grid_certificate.py",
+ "script_sha256": "6c2510e0f133832a0a0d9161486272e845c22acc600f51594b0a1cdd45b6226b",
+ "purpose": "B2 grid lower bound + snapped FSC upper bound (d=1), tree-free",
+ "float_note": "L computed in float64 with a 1e-9 margin; not a rational certificate. U, its causal risk and repair are exact rationals.",
+ "cells": [
+  {
+   "id": "C1",
+   "T": 5,
+   "B": 2,
+   "d": 1,
+   "transition": "1/4",
+   "emissions": [
+    "1/20",
+    "19/20"
+   ],
+   "Vstar_reference": "193099/80000",
+   "learner_infosets_counted": 65,
+   "runs": [
+    {
+     "N": 4,
+     "Nc": 32,
+     "L_float": 2.335944441954349,
+     "lam_star": 1.640555591089462,
+     "U": "5/2",
+     "U_float": 2.5,
+     "best_controller": {
+      "lam": null,
+      "note": "never-promote"
+     },
+     "grid_points_per_t_rem": 15,
+     "lb_state_count": 225,
+     "controller_memory_states_reached": 5,
+     "seconds": 0.30809583328664303,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0862625,
+     "gap_to_Vstar_L": 0.07779305804565073
+    },
+    {
+     "N": 8,
+     "Nc": 64,
+     "L_float": 2.372914813633146,
+     "lam_star": 1.2708518392654793,
+     "U": "193099/80000",
+     "U_float": 2.4137375,
+     "best_controller": {
+      "lam": 0.9144985941130128,
+      "raw_cost": "73099/32000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 45,
+     "lb_state_count": 675,
+     "controller_memory_states_reached": 10,
+     "seconds": 0.30055979173630476,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.04082268636685393
+    },
+    {
+     "N": 16,
+     "Nc": 128,
+     "L_float": 2.409936038610541,
+     "lam_star": 0.9006395681989603,
+     "U": "193099/80000",
+     "U_float": 2.4137375,
+     "best_controller": {
+      "lam": 0.9006395681989603,
+      "raw_cost": "73099/32000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 153,
+     "lb_state_count": 2295,
+     "controller_memory_states_reached": 10,
+     "seconds": 0.3176922081038356,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.0038014613894588045
+    },
+    {
+     "N": 32,
+     "Nc": 256,
+     "L_float": 2.411233849969831,
+     "lam_star": 0.8876615109346384,
+     "U": "386923/160000",
+     "U_float": 2.41826875,
+     "best_controller": {
+      "lam": 0.38240109817866486,
+      "raw_cost": "66923/32000",
+      "causal_risk": "1/2",
+      "iid_risk": "1/2",
+      "activation": "1/5"
+     },
+     "grid_points_per_t_rem": 561,
+     "lb_state_count": 8415,
+     "controller_memory_states_reached": 7,
+     "seconds": 0.4189503751695156,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.00453125,
+     "gap_to_Vstar_L": 0.0025036500301687248
+    },
+    {
+     "N": 64,
+     "Nc": 512,
+     "L_float": 2.4127433212819698,
+     "lam_star": 0.8725667565473422,
+     "U": "386923/160000",
+     "U_float": 2.41826875,
+     "best_controller": {
+      "lam": 0.38240109817866486,
+      "raw_cost": "66923/32000",
+      "causal_risk": "1/2",
+      "iid_risk": "1/2",
+      "activation": "1/5"
+     },
+     "grid_points_per_t_rem": 2145,
+     "lb_state_count": 32175,
+     "controller_memory_states_reached": 12,
+     "seconds": 0.9064291249960661,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.00453125,
+     "gap_to_Vstar_L": 0.000994178718030092
+    }
+   ]
+  },
+  {
+   "id": "C4",
+   "T": 6,
+   "B": 3,
+   "d": 1,
+   "transition": "1/4",
+   "emissions": [
+    "1/20",
+    "19/20"
+   ],
+   "Vstar_reference": "461083/160000",
+   "learner_infosets_counted": 236,
+   "runs": [
+    {
+     "N": 4,
+     "Nc": 32,
+     "L_float": 2.803344000542619,
+     "lam_star": 1.7631234399820461,
+     "U": "3",
+     "U_float": 3.0,
+     "best_controller": {
+      "lam": null,
+      "note": "never-promote"
+     },
+     "grid_points_per_t_rem": 15,
+     "lb_state_count": 360,
+     "controller_memory_states_reached": 6,
+     "seconds": 0.47410650039091706,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.11823125,
+     "gap_to_Vstar_L": 0.0784247494573811
+    },
+    {
+     "N": 8,
+     "Nc": 64,
+     "L_float": 2.8356648136801303,
+     "lam_star": 1.6433518478570326,
+     "U": "461083/160000",
+     "U_float": 2.88176875,
+     "best_controller": {
+      "lam": 0.9144985941130128,
+      "raw_cost": "173083/64000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 45,
+     "lb_state_count": 1080,
+     "controller_memory_states_reached": 12,
+     "seconds": 0.47915320796892047,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.04610393631986964
+    },
+    {
+     "N": 16,
+     "Nc": 128,
+     "L_float": 2.8744667160686896,
+     "lam_star": 1.2553328415672245,
+     "U": "461083/160000",
+     "U_float": 2.88176875,
+     "best_controller": {
+      "lam": 1.222937735378977,
+      "raw_cost": "173083/64000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 153,
+     "lb_state_count": 3672,
+     "controller_memory_states_reached": 12,
+     "seconds": 0.5483114579692483,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.007302033931310348
+    },
+    {
+     "N": 32,
+     "Nc": 256,
+     "L_float": 2.878669761024455,
+     "lam_star": 1.2133024003884012,
+     "U": "928233/320000",
+     "U_float": 2.900728125,
+     "best_controller": {
+      "lam": 0.6838513968787736,
+      "raw_cost": "160233/64000",
+      "causal_risk": "1/2",
+      "iid_risk": "1/2",
+      "activation": "1/5"
+     },
+     "grid_points_per_t_rem": 561,
+     "lb_state_count": 13464,
+     "controller_memory_states_reached": 11,
+     "seconds": 0.7195132919587195,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.018959375,
+     "gap_to_Vstar_L": 0.0030989889755450584
+    },
+    {
+     "N": 64,
+     "Nc": 512,
+     "L_float": 2.8798138781654474,
+     "lam_star": 1.201861141692501,
+     "U": "461083/160000",
+     "U_float": 2.88176875,
+     "best_controller": {
+      "lam": 0.9144985941130128,
+      "raw_cost": "173083/64000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 2145,
+     "lb_state_count": 51480,
+     "controller_memory_states_reached": 16,
+     "seconds": 1.5533075002022088,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.001954871834552563
+    }
+   ]
+  },
+  {
+   "id": "C5",
+   "T": 8,
+   "B": 3,
+   "d": 1,
+   "transition": "1/4",
+   "emissions": [
+    "1/20",
+    "19/20"
+   ],
+   "Vstar_reference": "24735833/6400000",
+   "learner_infosets_counted": 848,
+   "runs": [
+    {
+     "N": 4,
+     "Nc": 32,
+     "L_float": 3.7710773239676776,
+     "lam_star": 1.9611133347729517,
+     "U": "4",
+     "U_float": 4.0,
+     "best_controller": {
+      "lam": null,
+      "note": "never-promote"
+     },
+     "grid_points_per_t_rem": 15,
+     "lb_state_count": 480,
+     "controller_memory_states_reached": 8,
+     "seconds": 0.7169236252084374,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.13502609375,
+     "gap_to_Vstar_L": 0.09389658228232234
+    },
+    {
+     "N": 8,
+     "Nc": 64,
+     "L_float": 3.812818602483153,
+     "lam_star": 1.8592856877152837,
+     "U": "24735833/6400000",
+     "U_float": 3.86497390625,
+     "best_controller": {
+      "lam": 1.222937735378977,
+      "raw_cost": "9375833/2560000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 45,
+     "lb_state_count": 1440,
+     "controller_memory_states_reached": 16,
+     "seconds": 0.6555478749796748,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.05215530376684674
+    },
+    {
+     "N": 16,
+     "Nc": 128,
+     "L_float": 3.8568120136360893,
+     "lam_star": 1.4307449160800858,
+     "U": "24735833/6400000",
+     "U_float": 3.86497390625,
+     "best_controller": {
+      "lam": 1.222937735378977,
+      "raw_cost": "9375833/2560000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 153,
+     "lb_state_count": 4896,
+     "controller_memory_states_reached": 22,
+     "seconds": 0.7501986250281334,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.008161892613910648
+    },
+    {
+     "N": 32,
+     "Nc": 256,
+     "L_float": 3.861470528147909,
+     "lam_star": 1.3852947291538595,
+     "U": "24735833/6400000",
+     "U_float": 3.86497390625,
+     "best_controller": {
+      "lam": 1.222937735378977,
+      "raw_cost": "9375833/2560000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 561,
+     "lb_state_count": 17952,
+     "controller_memory_states_reached": 16,
+     "seconds": 0.9881939999759197,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.0035033781020907817
+    },
+    {
+     "N": 64,
+     "Nc": 512,
+     "L_float": 3.8628985488908945,
+     "lam_star": 1.3710144972911773,
+     "U": "24735833/6400000",
+     "U_float": 3.86497390625,
+     "best_controller": {
+      "lam": 0.9144985941130128,
+      "raw_cost": "9375833/2560000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 2145,
+     "lb_state_count": 68640,
+     "controller_memory_states_reached": 16,
+     "seconds": 1.8818317498080432,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.0020753573591054675
+    }
+   ]
+  },
+  {
+   "id": "C2",
+   "T": 5,
+   "B": 2,
+   "d": 1,
+   "transition": "9/10",
+   "emissions": [
+    "1/10",
+    "9/10"
+   ],
+   "Vstar_reference": "76309/31250",
+   "learner_infosets_counted": 65,
+   "runs": [
+    {
+     "N": 4,
+     "Nc": 32,
+     "L_float": 2.3211251187472595,
+     "lam_star": 1.0119999751092876,
+     "U": "382121/156250",
+     "U_float": 2.4455744,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "61117/31250",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 15,
+     "lb_state_count": 225,
+     "controller_memory_states_reached": 14,
+     "seconds": 0.29762154119089246,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0036864,
+     "gap_to_Vstar_L": 0.1207628812527406
+    },
+    {
+     "N": 8,
+     "Nc": 64,
+     "L_float": 2.3774439988914273,
+     "lam_star": 1.0119999751092876,
+     "U": "12219/5000",
+     "U_float": 2.4438,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "969/500",
+      "causal_risk": "1",
+      "iid_risk": "3/4",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 45,
+     "lb_state_count": 675,
+     "controller_memory_states_reached": 12,
+     "seconds": 0.3028385420329869,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.001912,
+     "gap_to_Vstar_L": 0.06444400110857273
+    },
+    {
+     "N": 16,
+     "Nc": 128,
+     "L_float": 2.387765078344021,
+     "lam_star": 1.1223491593931192,
+     "U": "76309/31250",
+     "U_float": 2.441888,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "11993/6250",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 153,
+     "lb_state_count": 2295,
+     "controller_memory_states_reached": 10,
+     "seconds": 0.32748833391815424,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.054122921655979095
+    },
+    {
+     "N": 32,
+     "Nc": 256,
+     "L_float": 2.3989439804775445,
+     "lam_star": 1.0105601330208787,
+     "U": "76309/31250",
+     "U_float": 2.441888,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "11993/6250",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 561,
+     "lb_state_count": 8415,
+     "controller_memory_states_reached": 10,
+     "seconds": 0.4317039167508483,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.04294401952245552
+    },
+    {
+     "N": 64,
+     "Nc": 512,
+     "L_float": 2.3997707769445156,
+     "lam_star": 1.0022921895799535,
+     "U": "76309/31250",
+     "U_float": 2.441888,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "11993/6250",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 2145,
+     "lb_state_count": 32175,
+     "controller_memory_states_reached": 10,
+     "seconds": 0.8019345002248883,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.04211722305548449
+    }
+   ]
+  },
+  {
+   "id": "C3",
+   "T": 6,
+   "B": 3,
+   "d": 1,
+   "transition": "3/4",
+   "emissions": [
+    "1/20",
+    "19/20"
+   ],
+   "Vstar_reference": "118361/40000",
+   "learner_infosets_counted": 236,
+   "runs": [
+    {
+     "N": 4,
+     "Nc": 32,
+     "L_float": 2.892044308128963,
+     "lam_star": 1.0075287946372566,
+     "U": "3",
+     "U_float": 3.0,
+     "best_controller": {
+      "lam": null,
+      "note": "never-promote"
+     },
+     "grid_points_per_t_rem": 15,
+     "lb_state_count": 360,
+     "controller_memory_states_reached": 6,
+     "seconds": 0.45860645873472095,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.040975,
+     "gap_to_Vstar_L": 0.06698069187103695
+    },
+    {
+     "N": 8,
+     "Nc": 64,
+     "L_float": 2.9243314804343483,
+     "lam_star": 0.7566851559336609,
+     "U": "37917951/12800000",
+     "U_float": 2.962339921875,
+     "best_controller": {
+      "lam": 0.38240109817866486,
+      "raw_cost": "3357951/1280000",
+      "causal_risk": "1",
+      "iid_risk": "3/4",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 45,
+     "lb_state_count": 1080,
+     "controller_memory_states_reached": 13,
+     "seconds": 0.4806502079591155,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.003314921875,
+     "gap_to_Vstar_L": 0.0346935195656517
+    },
+    {
+     "N": 16,
+     "Nc": 128,
+     "L_float": 2.9445263291905777,
+     "lam_star": 0.5547367187271763,
+     "U": "118361/40000",
+     "U_float": 2.959025,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "10361/4000",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 153,
+     "lb_state_count": 3672,
+     "controller_memory_states_reached": 11,
+     "seconds": 0.5456448751501739,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.014498670809422354
+    },
+    {
+     "N": 32,
+     "Nc": 256,
+     "L_float": 2.9463791791851808,
+     "lam_star": 0.5362081238401578,
+     "U": "118361/40000",
+     "U_float": 2.959025,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "10361/4000",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 561,
+     "lb_state_count": 13464,
+     "controller_memory_states_reached": 11,
+     "seconds": 0.7184962909668684,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.012645820814819242
+    },
+    {
+     "N": 64,
+     "Nc": 512,
+     "L_float": 2.9471348188083257,
+     "lam_star": 0.528651781283781,
+     "U": "118361/40000",
+     "U_float": 2.959025,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "10361/4000",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 2145,
+     "lb_state_count": 51480,
+     "controller_memory_states_reached": 11,
+     "seconds": 1.4958222093991935,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.011890181191674287
+    }
+   ]
+  },
+  {
+   "id": "C6",
+   "T": 8,
+   "B": 3,
+   "d": 1,
+   "transition": "3/4",
+   "emissions": [
+    "1/20",
+    "19/20"
+   ],
+   "Vstar_reference": "39589/10000",
+   "learner_infosets_counted": 848,
+   "runs": [
+    {
+     "N": 4,
+     "Nc": 32,
+     "L_float": 3.8912090850533527,
+     "lam_star": 1.0167893149961904,
+     "U": "4",
+     "U_float": 4.0,
+     "best_controller": {
+      "lam": null,
+      "note": "never-promote"
+     },
+     "grid_points_per_t_rem": 15,
+     "lb_state_count": 480,
+     "controller_memory_states_reached": 8,
+     "seconds": 0.6369154579006135,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0411,
+     "gap_to_Vstar_L": 0.06769091494664714
+    },
+    {
+     "N": 8,
+     "Nc": 64,
+     "L_float": 3.9243314804343483,
+     "lam_star": 0.7566851559336609,
+     "U": "50717951/12800000",
+     "U_float": 3.962339921875,
+     "best_controller": {
+      "lam": 0.38240109817866486,
+      "raw_cost": "4637951/1280000",
+      "causal_risk": "1",
+      "iid_risk": "3/4",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 45,
+     "lb_state_count": 1440,
+     "controller_memory_states_reached": 15,
+     "seconds": 0.6485693752765656,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.003439921875,
+     "gap_to_Vstar_L": 0.034568519565651545
+    },
+    {
+     "N": 16,
+     "Nc": 128,
+     "L_float": 3.9445263291905777,
+     "lam_star": 0.5547367187271763,
+     "U": "158361/40000",
+     "U_float": 3.959025,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "14361/4000",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 153,
+     "lb_state_count": 4896,
+     "controller_memory_states_reached": 13,
+     "seconds": 0.7387267085723579,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.000125,
+     "gap_to_Vstar_L": 0.014373670809422201
+    },
+    {
+     "N": 32,
+     "Nc": 256,
+     "L_float": 3.9463791791851808,
+     "lam_star": 0.5362081238401578,
+     "U": "158361/40000",
+     "U_float": 3.959025,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "14361/4000",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 561,
+     "lb_state_count": 17952,
+     "controller_memory_states_reached": 13,
+     "seconds": 0.9807852082885802,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.000125,
+     "gap_to_Vstar_L": 0.01252082081481909
+    },
+    {
+     "N": 64,
+     "Nc": 512,
+     "L_float": 3.9471348188083257,
+     "lam_star": 0.528651781283781,
+     "U": "39589/10000",
+     "U_float": 3.9589,
+     "best_controller": {
+      "lam": 0.05,
+      "raw_cost": "3589/1000",
+      "causal_risk": "1",
+      "iid_risk": "1",
+      "activation": "1/10"
+     },
+     "grid_points_per_t_rem": 2145,
+     "lb_state_count": 68640,
+     "controller_memory_states_reached": 13,
+     "seconds": 1.8537692916579545,
+     "L_le_Vstar": true,
+     "U_ge_Vstar": true,
+     "gap_to_Vstar_U": 0.0,
+     "gap_to_Vstar_L": 0.011765181191674134
+    }
+   ]
+  },
+  {
+   "id": "P12",
+   "T": 12,
+   "B": 4,
+   "d": 1,
+   "transition": "1/4",
+   "emissions": [
+    "1/20",
+    "19/20"
+   ],
+   "Vstar_reference": null,
+   "learner_infosets_counted": 17656,
+   "runs": [
+    {
+     "N": 4,
+     "Nc": 32,
+     "L_float": 5.654612029282303,
+     "lam_star": 2.151549740918986,
+     "U": "6",
+     "U_float": 6.0,
+     "best_controller": {
+      "lam": null,
+      "note": "never-promote"
+     },
+     "grid_points_per_t_rem": 15,
+     "lb_state_count": 900,
+     "controller_memory_states_reached": 12,
+     "seconds": 1.2252798327244818
+    },
+    {
+     "N": 8,
+     "Nc": 64,
+     "L_float": 5.7490766291096564,
+     "lam_star": 2.2243312775667183,
+     "U": "2979121079/512000000",
+     "U_float": 5.818595857421875,
+     "best_controller": {
+      "lam": 1.222937735378977,
+      "raw_cost": "1135921079/204800000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 45,
+     "lb_state_count": 2700,
+     "controller_memory_states_reached": 43,
+     "seconds": 1.3240824998356402
+    },
+    {
+     "N": 16,
+     "Nc": 128,
+     "L_float": 5.786831192373823,
+     "lam_star": 2.0770201374404644,
+     "U": "5937836067/1024000000",
+     "U_float": 5.798668034179688,
+     "best_controller": {
+      "lam": 2.0770201374404644,
+      "raw_cost": "4709036067/819200000",
+      "causal_risk": "1/8",
+      "iid_risk": "1/8",
+      "activation": "4/5"
+     },
+     "grid_points_per_t_rem": 153,
+     "lb_state_count": 9180,
+     "controller_memory_states_reached": 34,
+     "seconds": 1.464617167133838
+    },
+    {
+     "N": 32,
+     "Nc": 256,
+     "L_float": 5.7945907826898155,
+     "lam_star": 2.0540921577735096,
+     "U": "5937741459/1024000000",
+     "U_float": 5.798575643554687,
+     "best_controller": {
+      "lam": 2.0540921577735096,
+      "raw_cost": "4708941459/819200000",
+      "causal_risk": "1/8",
+      "iid_risk": "1/8",
+      "activation": "4/5"
+     },
+     "grid_points_per_t_rem": 561,
+     "lb_state_count": 33660,
+     "controller_memory_states_reached": 34,
+     "seconds": 1.9476339160464704
+    },
+    {
+     "N": 64,
+     "Nc": 512,
+     "L_float": 5.798214198478731,
+     "lam_star": 2.000305718076974,
+     "U": "5937741459/1024000000",
+     "U_float": 5.798575643554687,
+     "best_controller": {
+      "lam": 1.6354062370805984,
+      "raw_cost": "4708941459/819200000",
+      "causal_risk": "1/8",
+      "iid_risk": "1/8",
+      "activation": "4/5"
+     },
+     "grid_points_per_t_rem": 2145,
+     "lb_state_count": 128700,
+     "controller_memory_states_reached": 43,
+     "seconds": 3.7225990830920637
+    }
+   ]
+  },
+  {
+   "id": "P16",
+   "T": 16,
+   "B": 5,
+   "d": 1,
+   "transition": "1/4",
+   "emissions": [
+    "1/20",
+    "19/20"
+   ],
+   "Vstar_reference": null,
+   "learner_infosets_counted": 343200,
+   "runs": [
+    {
+     "N": 4,
+     "Nc": 32,
+     "L_float": 7.494237284533499,
+     "lam_star": 2.2991772766458,
+     "U": "8",
+     "U_float": 8.0,
+     "best_controller": {
+      "lam": null,
+      "note": "never-promote"
+     },
+     "grid_points_per_t_rem": 15,
+     "lb_state_count": 1440,
+     "controller_memory_states_reached": 16,
+     "seconds": 1.9921962078660727
+    },
+    {
+     "N": 8,
+     "Nc": 64,
+     "L_float": 7.666876663615152,
+     "lam_star": 2.566411529564572,
+     "U": "63695165803/8192000000",
+     "U_float": 7.775288794311524,
+     "best_controller": {
+      "lam": 2.566411529564572,
+      "raw_cost": "24373565803/3276800000",
+      "causal_risk": "1/4",
+      "iid_risk": "1/4",
+      "activation": "2/5"
+     },
+     "grid_points_per_t_rem": 45,
+     "lb_state_count": 4320,
+     "controller_memory_states_reached": 74,
+     "seconds": 2.203124084044248
+    },
+    {
+     "N": 16,
+     "Nc": 128,
+     "L_float": 7.717871469517392,
+     "lam_star": 2.4667046984437953,
+     "U": "126708313307/16384000000",
+     "U_float": 7.7336617008666995,
+     "best_controller": {
+      "lam": 2.4667046984437953,
+      "raw_cost": "100493913307/13107200000",
+      "causal_risk": "1/8",
+      "iid_risk": "1/8",
+      "activation": "4/5"
+     },
+     "grid_points_per_t_rem": 153,
+     "lb_state_count": 14688,
+     "controller_memory_states_reached": 59,
+     "seconds": 2.449696332681924
+    },
+    {
+     "N": 32,
+     "Nc": 256,
+     "L_float": 7.725178290554629,
+     "lam_star": 2.5571186851249097,
+     "U": "126706799579/16384000000",
+     "U_float": 7.733569310241699,
+     "best_controller": {
+      "lam": 2.18699078694575,
+      "raw_cost": "100492399579/13107200000",
+      "causal_risk": "1/8",
+      "iid_risk": "1/8",
+      "activation": "4/5"
+     },
+     "grid_points_per_t_rem": 561,
+     "lb_state_count": 53856,
+     "controller_memory_states_reached": 46,
+     "seconds": 3.2758717075921595
+    },
+    {
+     "N": 64,
+     "Nc": 512,
+     "L_float": 7.726029132817545,
+     "lam_star": 2.566765216582109,
+     "U": "126706799579/16384000000",
+     "U_float": 7.733569310241699,
+     "best_controller": {
+      "lam": 2.18699078694575,
+      "raw_cost": "100492399579/13107200000",
+      "causal_risk": "1/8",
+      "iid_risk": "1/8",
+      "activation": "4/5"
+     },
+     "grid_points_per_t_rem": 2145,
+     "lb_state_count": 205920,
+     "controller_memory_states_reached": 59,
+     "seconds": 6.206850708927959
+    }
+   ]
+  }
+ ]
+}

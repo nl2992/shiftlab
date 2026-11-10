@@ -1,0 +1,156 @@
+{
+  "protocol": "CANDIDATE_E_VALUE_SHIELD_SCREEN_PROTOCOL_V1.md",
+  "protocol_sha256": "3d808ba886895f2e87c2201585021e63f512b17919fd26d519703f152921910f",
+  "runner_sha256": "5a1a9252cf609c32855bad4689ad16dd7eacf057b17b1fe80c23f5fba90b23f8",
+  "game_source_sha256": "54b1347c3e213407b3feb09a801dc9ea40b3663fe6a4a227b7878b9b0a2d770a",
+  "config": {
+    "horizon": 10,
+    "budget": 4,
+    "delay": 2,
+    "alpha": "1/10",
+    "query_cost": "1/100",
+    "switch_cost": "1/10",
+    "transition": "1/10",
+    "emissions": [
+      "1/50",
+      "49/50"
+    ],
+    "prior1": "1/2"
+  },
+  "exact_pre_promotion_public_histories": 4867,
+  "pre_promotion_realization_columns": 13420,
+  "validity_sanity_T5": {
+    "cell": "T=5,B=2,d=1, transition 1/4, emissions (1/20,19/20), alpha=1 (constraint removed)",
+    "J_lower_root": "2/5",
+    "J_lower_root_float": 0.4,
+    "W_root": "5/2",
+    "exact_free_optimum_reference_float": 2.002375,
+    "lower_bound_holds": true
+  },
+  "screens": [
+    {
+      "loss_tolerance_delta": "1/100",
+      "selected_keys": 0,
+      "first_entry_keys": 0,
+      "collapsed_public_histories": 0,
+      "prepromotion_realization_columns_removed": 0,
+      "prepromotion_realization_columns_total": 13420,
+      "fraction_prepromotion_columns_removed": "0",
+      "theorem_value_loss_bound": "1/100",
+      "per_depth": {
+        "1": {
+          "keys": 1,
+          "min_D": "233/50",
+          "entries": 0
+        },
+        "2": {
+          "keys": 2,
+          "min_D": "419/100",
+          "entries": 0
+        },
+        "3": {
+          "keys": 6,
+          "min_D": "3080505513/1220703125",
+          "entries": 0
+        },
+        "4": {
+          "keys": 18,
+          "min_D": "17597049617/8482812500",
+          "entries": 0
+        },
+        "5": {
+          "keys": 54,
+          "min_D": "1574606871619/935175781250",
+          "entries": 0
+        },
+        "6": {
+          "keys": 146,
+          "min_D": "4336161883071/3300127562500",
+          "entries": 0
+        },
+        "7": {
+          "keys": 342,
+          "min_D": "159921821606/165006378125",
+          "entries": 0
+        },
+        "8": {
+          "keys": 706,
+          "min_D": "86561784281/132005102500",
+          "entries": 0
+        },
+        "9": {
+          "keys": 1318,
+          "min_D": "5035279257/13200510250",
+          "entries": 0
+        },
+        "10": {
+          "keys": 2274,
+          "min_D": "824086099/5280204100",
+          "entries": 0
+        }
+      }
+    },
+    {
+      "loss_tolerance_delta": "1/20",
+      "selected_keys": 0,
+      "first_entry_keys": 0,
+      "collapsed_public_histories": 0,
+      "prepromotion_realization_columns_removed": 0,
+      "prepromotion_realization_columns_total": 13420,
+      "fraction_prepromotion_columns_removed": "0",
+      "theorem_value_loss_bound": "1/20",
+      "per_depth": {
+        "1": {
+          "keys": 1,
+          "min_D": "233/50",
+          "entries": 0
+        },
+        "2": {
+          "keys": 2,
+          "min_D": "419/100",
+          "entries": 0
+        },
+        "3": {
+          "keys": 6,
+          "min_D": "3080505513/1220703125",
+          "entries": 0
+        },
+        "4": {
+          "keys": 18,
+          "min_D": "17597049617/8482812500",
+          "entries": 0
+        },
+        "5": {
+          "keys": 54,
+          "min_D": "1574606871619/935175781250",
+          "entries": 0
+        },
+        "6": {
+          "keys": 146,
+          "min_D": "4336161883071/3300127562500",
+          "entries": 0
+        },
+        "7": {
+          "keys": 342,
+          "min_D": "159921821606/165006378125",
+          "entries": 0
+        },
+        "8": {
+          "keys": 706,
+          "min_D": "86561784281/132005102500",
+          "entries": 0
+        },
+        "9": {
+          "keys": 1318,
+          "min_D": "5035279257/13200510250",
+          "entries": 0
+        },
+        "10": {
+          "keys": 2274,
+          "min_D": "824086099/5280204100",
+          "entries": 0
+        }
+      }
+    }
+  ]
+}

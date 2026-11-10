@@ -1,0 +1,5 @@
+env,quantity,value
+hazard_h0.01_strong,V_opt_G100,57.4152
+hazard_h0.01_strong,V_opt_G200,57.4239
+hazard_h0.01_strong,oracle_known_regime_path,35.9552
+hazard_h0.01_strong,V_opt_no_labels,80.0

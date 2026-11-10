@@ -1,0 +1,12 @@
+env,quantity,value
+hazard_h0.02,V_opt_G100,79.2155
+hazard_h0.02,V_opt_G200,79.2184
+hazard_h0.02,oracle_known_regime_path,61.8465
+hazard_h0.02,V_opt_no_labels,80.0
+hazard_h0.05,V_opt_G100,80.0
+hazard_h0.05,V_opt_G200,80.0
+hazard_h0.05,oracle_known_regime_path,66.4046
+hazard_h0.05,V_opt_no_labels,80.0
+stationary_flat,V_opt,46.2022
+stationary_flat,oracle_known_p,41.0274
+stationary_flat,V_opt_no_labels,80.0

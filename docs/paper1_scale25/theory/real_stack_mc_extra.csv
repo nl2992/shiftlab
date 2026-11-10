@@ -1,0 +1,11 @@
+env,controller,n_episodes,J_mean,J_se,delta_vs_cut_mean,delta_vs_cut_se
+hazard_h0.01_strong,eqsdp:cut,6000,69.2778,0.3441,0.0,0.0
+hazard_h0.01_strong,eqsdp:cut+E48,6000,69.6408,0.3487,0.3629,0.1621
+hazard_h0.01_strong,eqsdp:cut+E48+F60,6000,68.9426,0.3421,-0.3353,0.1651
+hazard_h0.01_strong,eqsdp:cut+F60,6000,68.7564,0.339,-0.5214,0.1063
+hazard_h0.01_strong,eqsdp:nocut,6000,67.7613,0.3144,-1.5165,0.1299
+hazard_h0.01_strong,wald:cut,6000,69.2351,0.3436,0.0,0.0
+hazard_h0.01_strong,wald:cut+E48,6000,69.6162,0.3485,0.3811,0.1629
+hazard_h0.01_strong,wald:cut+E48+F60,6000,68.9106,0.3418,-0.3245,0.1655
+hazard_h0.01_strong,wald:cut+F60,6000,68.7188,0.3387,-0.5163,0.1062
+hazard_h0.01_strong,wald:nocut,6000,67.704,0.3137,-1.5311,0.1312

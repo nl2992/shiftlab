@@ -110,7 +110,10 @@ for i, b in ns.BUILT.items():
         dev = f"{win[0][:10]}..{win[1][:10]}" if isinstance(win, list) else str(win)
         contract = "yes" if not gf else "no (gate fail)"
     else:
-        d1, qn, ph, n, eps, e0, e1, dev, contract = "not-built-yet", "", "", "", "", "", "", "", "pending"
+        fl = [json.loads(l) for l in open(OUT / "build_failures.jsonl")] if (OUT / "build_failures.jsonl").exists() else []
+        fm = [f["error"] for f in fl if f["id"] == i]
+        d1 = ("build-failed: " + fm[-1]) if fm else "not-built-yet"
+        qn, ph, n, eps, e0, e1, dev, contract = (fm[-1] if fm else ""), "", "", "", "", "", "", "pending"
     if pr:
         conf = f"2025-07-01..2026-07-01: available (verified count {pr['n_conf']:,}; latest event {pr['max_ts'][:10]})"
         ca, n24, n12c = "yes", pr["n_dev"], pr["n_conf"]

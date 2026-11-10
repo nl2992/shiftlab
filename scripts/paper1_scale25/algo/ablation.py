@@ -36,10 +36,12 @@ def load(pool):
         d = sc.load_nine_search60(
             [sc.EQ_CUT, sc.EQ_PAIR, "P1_E48_s0", "P1_F60_s0", sc.W_CUT, sc.W_PAIR]
         )
+        assert (sc.OUT / "abl_nine/DONE").exists()
         new = sc.read_jsonl(sc.OUT / "abl_nine/records.jsonl")
         d = pd.concat([d, new[~new.config_id.isin(d.config_id.unique())]])
     else:
         fr = sc.load_fresh()
+        assert (sc.OUT / "abl_fresh/DONE").exists()
         new = sc.read_jsonl(sc.OUT / "abl_fresh/records.jsonl")
         d = pd.concat([fr, new[~new.config_id.isin(fr.config_id.unique())]])
     mt = sc.read_jsonl(sc.OUT / f"matched_{pool}/records.jsonl")

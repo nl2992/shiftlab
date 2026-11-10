@@ -32,3 +32,36 @@ on each saved configuration and compares strings. The saved file was not overwri
 - **Tests:** `pytest tests/test_root_mixture.py tests/paper4 tests/test_eprocess_gated_planner.py` passes (37).
 
 ## A3 / A4 / A5 — pending (harness under construction; campaign run by the lead on a quiet CPU)
+
+## A3 — harness built (lead-verified); timing campaign pending a quiet CPU
+
+The harness lives in `src/shiftlab/paper4_continuation/{ablation,runner}.py` and
+`scripts/paper4_continuation/{ablation_one,ablation_campaign,a4_feasibility}.py`. Per-child peak RSS comes from
+`os.wait4`, which reports exactly that child. The smoke test `tests/paper4_continuation/test_ablation_smoke.py`
+passes: R0, R1, R2 and F0 agree exactly on C6 (39589/10000). I0 returns `U0` = 6357803/1600000 (IID + repair, an
+upper bound strictly above V*). F0 generates 21 cuts and I0 none, and every method's exact risk is at most 1/10.
+
+- **R2 = R1, with justification.** FCG-fast and R0 already share the same float cost vector, the float HiGHS LP, and the
+  exact belief, continuation-DP and certificate code. The only other difference is R0's null-sequence block, and
+  replacing that block is FCG itself, not a numeric choice.
+- **Spec error by the lead.** The A3 brief asked for I0 to equal both R0's cost and `U0`. Those cannot both hold, and
+  the builder correctly asserts `I0 = U0 > V*`.
+
+## A4 — T=10, d=1 anti-persistent cell (T10D1): exploratory feasibility (single runs, concurrent CPU load)
+
+`results/a4_feasibility_v1.json` (fresh processes):
+
+| | R0 reference | F0 FCG-fast |
+|---|---|---|
+| Exact cost | 49589/10000 | 49589/10000 (identical) |
+| Exact risk | 1/10 | 1/10 |
+| Learner / null sequences | 5,681 / 2,451 | 5,681 / 0 |
+| Non-IID cuts / iterations | — / 1 | **33 / 34** |
+| In-process seconds | 10.81 | 14.18 |
+| Peak RSS (MiB) | 217 | 264 |
+| Split | build 10.56 (belief 10.1), LP 0.09 | build 8.82 (belief 8.52), LP 3.15, separation 1.03, certificate 0.38 |
+
+**Findings.** Cuts **do fire at T=10** when d=1 (33 cuts), which resolves the delay confound from the earlier
+review. At d=1 the null tree is small (2,451 sequences), so FCG has little to replace, and its repeated LPs cost
+more than the null block they remove. Belief computation dominates both methods (more than 90% of R0's time). V* and
+`U0` both exceed C6's by exactly 1, which was passed to WP C as a hypothesis.

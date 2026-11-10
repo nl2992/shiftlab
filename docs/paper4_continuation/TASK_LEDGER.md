@@ -10,3 +10,5 @@
 | A2, A3/A4, B, C, E | — | Launched to subagents (Sonnet ×3, Opus ×2) | IN PROGRESS | — |
 | A2 | — | Shared stochastic root-mixture helper, guard, regression (9 tests), caller audit; historical activations all 1 | COMPLETE (lead-verified) | `ENGINEERING_AUDIT.md` §A2; `tests/test_root_mixture.py` |
 | errata | — | Lead's A2 spec misattributed the 280952/2779205 failure to the "C2 IID policy, activation 1/2". It is C2 FCG iteration 6 (`q = 10/13`). The IID policy at `q = 1/2` gives exactly 1/10 under the old helper. `docs/paper4/RESEARCH_LEDGER.md` CP5 says only "C2" and stays unedited | RECORDED | `tests/test_root_mixture.py` |
+| A3 harness | — | Ablation harness + smoke test (12 tests pass incl. root mixture); R2 = R1 justified | COMPLETE (campaign pending a quiet CPU) | `ENGINEERING_AUDIT.md` §A3 |
+| A4 | — | T10D1 exploratory: 33 non-IID cuts at T=10; F0 slower than R0 (14.2 s vs 10.8 s); exact costs equal | COMPLETE (exploratory) | `results/a4_feasibility_v1.json` |

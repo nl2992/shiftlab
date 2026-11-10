@@ -152,8 +152,53 @@ class EProcessGatedPlanner(FirstPromotionDecomposedGame):
         }
 
 
-def mix_with_never_promote(game, policy, activation: F):
-    """Behavioral realization of a root lottery between two deterministic plans."""
+def _stochastic_information(game, policy):
+    """First pre-promotion information reached with positive probability where ``policy`` randomizes.
+
+    Post-promotion information is skipped: only the raw branch reaches it, so the
+    consistent-plan weighting is exact there.
+    """
+    seen = set()
+
+    def visit(history, outcomes):
+        info = game.information(history, outcomes)
+        if info in seen or len(history) + 1 > game.config.horizon:
+            return None
+        seen.add(info)
+        probabilities = policy(history, outcomes)
+        if any(0 < p < 1 for p in probabilities):
+            return info
+        for (action, query), mass in zip(game.choices(history), probabilities, strict=True):
+            if not mass or action:
+                continue
+            following = history + ((action, query),)
+            time = len(history) + 1
+            labels = (0, 1) if query else (None,)
+            for label in labels:
+                found = visit(following, outcomes + (((time, label),) if query else ()))
+                if found is not None:
+                    return found
+        return None
+
+    return visit((), ())
+
+
+def mix_with_never_promote(game, policy, activation: F, *, _allow_stochastic: bool = False):
+    """Behavioral realization of a root lottery between two DETERMINISTIC plans.
+
+    For stochastic plans with ``0 < activation < 1`` this weighting is not the root lottery
+    (it ignores the learner's own reach probabilities), so it raises; use
+    ``shiftlab.dive.root_mixture.mix_root_lottery``.  ``_allow_stochastic`` exists only so a
+    regression test can reproduce the old defect.
+    """
+    if not _allow_stochastic and 0 < activation < 1:
+        info = _stochastic_information(game, policy)
+        if info is not None:
+            raise ValueError(
+                "mix_with_never_promote is valid only for deterministic plans; policy is "
+                f"stochastic at information {info!r}. Use "
+                "shiftlab.dive.root_mixture.mix_root_lottery instead."
+            )
     safe_choice = (0, 0)
 
     def safe(history, outcomes):

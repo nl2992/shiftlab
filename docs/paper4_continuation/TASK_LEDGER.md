@@ -8,3 +8,5 @@
 | meta | — | HKUSTDial vibe-research-workflow applied | COMPLETE | `VIBE_RESEARCH_WORKFLOW.md` |
 | D1, D2 | — | Complexity-parameter and separation screens with bounded tests from saved splits | COMPLETE WITH NEGATIVE RESULT | `FALLBACK_SCREENS.md` |
 | A2, A3/A4, B, C, E | — | Launched to subagents (Sonnet ×3, Opus ×2) | IN PROGRESS | — |
+| A2 | — | Shared stochastic root-mixture helper, guard, regression (9 tests), caller audit; historical activations all 1 | COMPLETE (lead-verified) | `ENGINEERING_AUDIT.md` §A2; `tests/test_root_mixture.py` |
+| errata | — | Lead's A2 spec misattributed the 280952/2779205 failure to the "C2 IID policy, activation 1/2". It is C2 FCG iteration 6 (`q = 10/13`). The IID policy at `q = 1/2` gives exactly 1/10 under the old helper. `docs/paper4/RESEARCH_LEDGER.md` CP5 says only "C2" and stays unedited | RECORDED | `tests/test_root_mixture.py` |

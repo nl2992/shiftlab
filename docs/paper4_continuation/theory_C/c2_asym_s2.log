@@ -1,0 +1,4 @@
+wrote ../../../docs/paper4_continuation/theory_C/c2_asym_persistent_s2.json
+asym_persistent run 400 Gamma>0: 2
+{'T': 4, 'B': 2, 'd': 2, 't01': '2/5', 't10': '1/20', 'e0': '1/10', 'e1': '3/5', 'prior': '0', 'c': '0', 'k': '0', 'alpha': '1/10'} 0.0001314 tp2 True sym False marg>=1/2 False
+{'T': 5, 'B': 2, 'd': 2, 't01': '1/2', 't10': '0', 'e0': '1/20', 'e1': '3/5', 'prior': '0', 'c': '0', 'k': '1/10', 'alpha': '1/20'} 0.00021796875 tp2 True sym False marg>=1/2 False

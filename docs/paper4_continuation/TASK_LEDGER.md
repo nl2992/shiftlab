@@ -13,3 +13,4 @@
 | A3 harness | — | Ablation harness + smoke test (12 tests pass incl. root mixture); R2 = R1 justified | COMPLETE (campaign pending a quiet CPU) | `ENGINEERING_AUDIT.md` §A3 |
 | A4 | — | T10D1 exploratory: 33 non-IID cuts at T=10; F0 slower than R0 (14.2 s vs 10.8 s); exact costs equal | COMPLETE (exploratory) | `results/a4_feasibility_v1.json` |
 | E (literature) | — | HKUSTDial deep-research method: Q1–Q4 notes with read-status per source; lead spot-checked arXiv:1512.03873 (exists, matches) | COMPLETE (first pass) | `LITERATURE_NOTES.md` |
+| WP C | — | Safety-premium theory: Z1 (narrow zero-premium), C3 (closed-form positive family), C4 and C5 NO-GO; lead re-verified C3 at T=4,6 and CE-6 exactly | COMPLETE (proof review pending in WP G) | `CAUSAL_SAFETY_PREMIUM_THEORY.md`, `theory_C/` |

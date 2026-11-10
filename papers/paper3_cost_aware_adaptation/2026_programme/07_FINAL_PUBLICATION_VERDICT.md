@@ -96,3 +96,27 @@ practical anchor without a variance-adaptive (Bernstein/betting) certificate tha
 at real effect sizes. That would be new method work, not a benchmark claim. Verdict stays
 `EMPIRICAL_BENCHMARK_CANDIDATE`, with materially weaker standing; per the registered
 consequence, fresh real data are required before any decision.
+
+## Addendum 2: B3 variance-adaptive certificate (development; even-episode selection, odd evaluated once)
+B3 is a one-sided predictable-plug-in empirical-Bernstein lower confidence sequence with drift
+age penalty, a single sequence per episode, and validity as a PROOF_SKETCH (not audited).
+- Synthetic: valid in every tested null (wrong-sign ≤ .007, Wilson upper ≤ .014 at α=.1;
+  optional continuation peaks at .0395). It certifies more and sooner than B2 (drift class .83
+  vs .77; sparse p=.45: .26 vs .003).
+- Real c4 odd episodes (1,080; h=100; c_q=0): 3 certifications. B3−B0a −1.85 [−3.73, −0.40];
+  B3−B0w −2.94 [−5.44, −0.89]; B3−B0b −1.25 [−3.97, +1.02]; B3−B2 +0.08 [0.00, 0.21]. The PI
+  recomputed the point estimates from the CSVs.
+- Diagnosis: the binding constraint is the declared drift slack, not the variance radius. The
+  hurdle is k/h + v(d+(h−1)/2) = .03 + .002·149.5 = .329, while real stream mean advantages are
+  −.04 to .24. This is Theorem T1 operating on real data. The streams' measured drift
+  (.0008–.0036 per round) exceeds a declaration small enough (v=.0005) to make B3 competitive
+  with B0b. With the real label delay d=100, valid future-payback certification under an honest
+  drift class is therefore structurally vacuous on these streams.
+
+Updated assessment: the variance-adaptive repair improves the valid branch but cannot reverse
+R1. The defensible content of B is a limits result: invalid hurdles act and sometimes earn,
+while valid ones cannot act at real delays and drifts. This is a negative/limits section, not
+a method. Paper 3 overall remains `EMPIRICAL_BENCHMARK_CANDIDATE`, weak; no method contribution.
+Recommended decision: stop new Paper 3 method work and archive. Alternatively, write the limits
+paper only if a fresh real batch with shorter label delays becomes available, since shorter
+delay is the one lever T1 says can make valid certification non-vacuous.

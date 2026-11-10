@@ -1,0 +1,666 @@
+{
+ "null_flat": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.007,
+   "wrong": 7,
+   "P_wrong": 0.007,
+   "wilson": [
+    0.0033948250792319975,
+    0.01437849692694906
+   ],
+   "P_wrong_given_cert": 1.0,
+   "delay": 38.142857142857146,
+   "labels": 149.21,
+   "net_real_mean": -0.009
+  }
+ },
+ "null_decline60": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.004,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 34.25,
+   "labels": 149.533,
+   "net_real_mean": 0.004
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.014,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 35.642857142857146,
+   "labels": 148.385,
+   "net_real_mean": -0.02
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.014,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 35.642857142857146,
+   "labels": 148.385,
+   "net_real_mean": -0.02
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.039,
+   "wrong": 1,
+   "P_wrong": 0.001,
+   "wilson": [
+    0.0001765418290572713,
+    0.0056427029601604705
+   ],
+   "P_wrong_given_cert": 0.02564102564102564,
+   "delay": 30.53846153846154,
+   "labels": 145.302,
+   "net_real_mean": 0.021
+  }
+ },
+ "sparse_null_flat_p.15": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_gated": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 9.944,
+   "net_real_mean": 0.0
+  }
+ },
+ "sparse_null_flat_p.30": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_gated": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 19.818,
+   "net_real_mean": 0.0
+  }
+ },
+ "sparse_null_decline60_p.15": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_gated": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 9.855,
+   "net_real_mean": 0.0
+  }
+ },
+ "sparse_null_decline60_p.30": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.002,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 52.0,
+   "labels": 149.802,
+   "net_real_mean": 0.005
+  },
+  "B3_gated": {
+   "N": 1000,
+   "cert_rate": 0.001,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 54.0,
+   "labels": 19.681,
+   "net_real_mean": 0.004
+  }
+ },
+ "drift": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.773,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 43.785252263906855,
+   "labels": 67.119,
+   "net_real_mean": 14.153
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.787,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 35.594663278271916,
+   "labels": 59.172,
+   "net_real_mean": 14.373
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.82,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 39.92439024390244,
+   "labels": 58.918,
+   "net_real_mean": 14.768
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.828,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 29.882850241545892,
+   "labels": 49.715,
+   "net_real_mean": 14.678
+  }
+ },
+ "boundary": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.735,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 41.480272108843536,
+   "labels": 69.503,
+   "net_real_mean": 12.919
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.766,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 34.9556135770235,
+   "labels": 61.11,
+   "net_real_mean": 13.39
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.761,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 35.62680683311432,
+   "labels": 62.201,
+   "net_real_mean": 13.235
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.817,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 29.527539779681764,
+   "labels": 50.757,
+   "net_real_mean": 14.081
+  }
+ },
+ "sparse_in_p.30": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.0,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": null,
+   "delay": null,
+   "labels": 150.0,
+   "net_real_mean": 0.0
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.003,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 43.333333333333336,
+   "labels": 149.677,
+   "net_real_mean": 0.017
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.003,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 43.333333333333336,
+   "labels": 149.677,
+   "net_real_mean": 0.017
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.007,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 59.857142857142854,
+   "labels": 149.362,
+   "net_real_mean": 0.035
+  },
+  "B3_gated": {
+   "N": 1000,
+   "cert_rate": 0.004,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 38.75,
+   "labels": 19.445,
+   "net_real_mean": 0.023
+  }
+ },
+ "sparse_in_p.45": {
+  "B2": {
+   "N": 1000,
+   "cert_rate": 0.003,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 73.0,
+   "labels": 149.766,
+   "net_real_mean": 0.027
+  },
+  "B3_batch_s1": {
+   "N": 1000,
+   "cert_rate": 0.151,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 66.36423841059603,
+   "labels": 137.22,
+   "net_real_mean": 1.293
+  },
+  "B3_batch_s.25": {
+   "N": 1000,
+   "cert_rate": 0.134,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 71.50746268656717,
+   "labels": 139.348,
+   "net_real_mean": 1.182
+  },
+  "B3_single_s.25": {
+   "N": 1000,
+   "cert_rate": 0.257,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 58.673151750972764,
+   "labels": 126.272,
+   "net_real_mean": 2.06
+  },
+  "B3_gated": {
+   "N": 1000,
+   "cert_rate": 0.183,
+   "wrong": 0,
+   "P_wrong": 0.0,
+   "wilson": [
+    0.0,
+    0.003826898586390522
+   ],
+   "P_wrong_given_cert": 0.0,
+   "delay": 48.978142076502735,
+   "labels": 28.158,
+   "net_real_mean": 1.43
+  }
+ }
+}

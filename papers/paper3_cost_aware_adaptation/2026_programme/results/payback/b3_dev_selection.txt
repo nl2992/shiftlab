@@ -1,0 +1,1 @@
+DEV SELECTION (even episodes, v=.002,h=100,c_q=0): mean net C0 .0931 C1 .0657 C2 .0648 C3 .1185 C4 .0943 B2 .0611 (1-3 certifications of 1089) -> chosen C3 (single, sigma_plan=1, lam_max=.5)

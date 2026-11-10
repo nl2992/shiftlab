@@ -70,3 +70,13 @@ single-stream method search.
 The confirmation was run detached with `scripts/p2/run_confirm.sh` from the frozen worktree. The
 analysis is `PYTHONIOENCODING=utf-8 python scripts/p2/analyze_confirm.py outputs/p2/confirm` with
 the env from `scripts/p2/env.sh`. Development commands are in `04_DEVELOPMENT_RESULTS.md`.
+
+## Addendum 2026-11-10: fleet-level pilot
+
+The recommended direction was piloted (`fleet/PILOT_REPORT.md`) and is a **NO-GO**:
+- Pooled betting priors change cost by ≤ 0.2% (synthetic) and +0.04% (27 real sources).
+- e-LOND online FDR costs 0.8–2.3%, because any fleet error guarantee is at least as strict as a
+  per-decision α.
+
+The remaining lever with the highest expected value is a new information source, for example
+earlier or cheaper feedback. Another statistical test on the same information is not it.

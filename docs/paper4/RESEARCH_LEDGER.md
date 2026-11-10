@@ -69,3 +69,36 @@ Reference run-to-run noise is about 20% (S1: 56.7 vs 69.5 s).
 
 Decision: **NO-GO — Prior art** (main track). FCG-fast is retained as an exact certified solver.
 See `publication/PUBLICATION_DECISION.md` and `experiments/04_scaling_and_comparators.md`.
+
+## CP7 — skeptical review (Opus reviewer agent, read-only) and errata (2026-11-10)
+
+The reviewer found **no correctness error** in the FCG certificate (Lemma 1, Lemma 2, items 1–4 hold). Its
+factual corrections were verified on Opus against the result JSON and are recorded here. Earlier checkpoints
+are left as written.
+- CP5: "8 / 13 / 22 cuts" are **row counts including the IID row**; cuts are 7 / 12 / 21.
+- CP3 and theory/01: the opponent-sequence count is 13,791, not 13,790 (fixed in theory/01).
+- CP5: the fresh-process timings 1.37 / 1.76 / 2.80 / 6.31 s and builds of 2.5–2.7 s come from an **unsaved**
+  scratch run (`time_c6.py`). The saved dev JSON gives 1.35 / 1.40 / 2.47 / 6.17 s and builds of 2.4 s.
+- CP6: "98%+ build" is 95–98%. The T=10 gain is **confounded**: the reference lacks the belief cache, and the
+  reference timing varies by 20–38%. Attribution is not measured. The "848 / 4,544 beliefs" count comes from the
+  builder's profile, with no saved artifact.
+- v1 slowdown on cut cells is 3.9–4.9×, not 2–4.5×.
+- "U equals reference exactly" is partly self-consistency, because both share the decomposed-game code.
+- Lemma 2 assumes a null that cannot see private coins, unlike Krale's nature. A caveat was added to theory/01.
+- S3 also changed d and B relative to C6, so "cuts not exercised at T=10" is confounded with delay.
+
+Docs corrected: `experiments/04`, `theory/01`, `publication/PUBLICATION_DECISION.md`, `PRIOR_ART_MATRIX.md`.
+The decision stands: NO-GO — Prior art, with the label provisional pending a full read of Bošanský et al.
+
+## CP8 — IID-tightness check (2026-11-10): EXPLAINED by the existing theorem; lead closed
+
+Protocol `experiments/protocols/IID_TIGHTNESS_CHECK_V1.md` (registered before code). Result
+`experiments/results/iid_tightness_v1.json`. Builder: Sonnet. Re-verified on Opus: `pytest tests/paper4` 12 passed,
+and the JSON was read directly.
+- **IID-safe cells (C1, C4, C5, S1, S2, S3):** the IID optimum has one randomised information set, mixed at 0.4,
+  giving 2 pure plans. Both plans are monotone, the average promotion function G is monotone (0 violating covers),
+  and the cells are classified EXPLAINED.
+- **IID-unsafe cells (C2, C3, C6):** G is non-monotone (maximum violation 0.4) and one plan of weight 0.4 is
+  non-monotone, consistent with the theorem.
+- **Scope:** this covers the returned HiGHS vertex only.
+- **Decision:** no new theorem target. The final status NO-GO — Prior art is unchanged.

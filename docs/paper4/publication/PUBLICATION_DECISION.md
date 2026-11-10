@@ -4,8 +4,14 @@
 
 ## Primary status: **NO-GO — Prior art** (main-track novelty)
 
-Secondary status: **useful engineering result retained.** FCG-fast is ShiftLab's fastest exact certified
-solver at T=10 (1.3–1.85×, single repetitions).
+The scheme is prior art (sequence-form oracle / constraint generation). The double-oracle source was read only
+for its abstract and introduction (pp. 829–831), so the label is provisional pending a full read. The
+conclusion is not expected to flip.
+
+Secondary status: **engineering result retained, attribution open.** Candidate B, re-engineered as FCG-fast,
+was 1.3–1.85× faster than the exact reference at T=10, in single runs. The gain is confounded: the reference lacks
+FCG-fast's belief cache, and the reference timing varies by 20–38% between runs. It is not established as the
+fastest solver.
 
 ## Answers to directive §22
 
@@ -24,7 +30,9 @@ solver at T=10 (1.3–1.85×, single repetitions).
 7. **What cannot be removed?** Nothing measured. The cut loop never fired at T=10. Where it fired (T ≤ 8) it was
    slower than the reference.
 8. **Original causal-null guarantee?** Yes. Risk is exactly 1/10 on every cell, as rational arithmetic.
-9. **Against the unrestricted oracle?** Yes. `U = V*` exactly, with gap ≤ 4e-14.
+9. **Against the unrestricted oracle?** Yes. `U` equals the reference `V_ref` exactly, and `V*` lies in
+   `[L, U]` with gap ≤ 4e-14. The reference shares the decomposed-game code, so this equality is partly a
+   self-consistency check. The independent evidence is the exact dual `L` and the T ≤ 3 brute force.
 10. **Non-vacuous?** Yes, on every cell.
 11. **End-to-end compute?** Reduced at T=10 by 1.3–1.85×, but the reduction comes from skipping the null tree
     (the Candidate B route), not from cuts.
@@ -44,7 +52,7 @@ solver at T=10 (1.3–1.85×, single repetitions).
   Cuts were needed only at T ≤ 8 with d=1 under anti-persistent regimes, and there they recover a 0.3–0.5% cost
   improvement over IID-plus-repair.
 - Exact certification is cheap. The verifier needs 56–72 states. The cost is the learner tree build with exact
-  beliefs, which both methods share.
+  beliefs. Both methods do this work, but FCG-fast caches beliefs and the reference does not.
 
 ## What was disproved / closed
 
@@ -53,7 +61,15 @@ solver at T=10 (1.3–1.85×, single repetitions).
 - The repo helper `mix_with_never_promote` is unsafe on stochastic policies. This is a latent hazard. No saved
   result is invalid, because callers re-verify.
 
-## Precise next research action (if continuing)
+## IID-tightness check (done, 2026-11-10): explained, so the lead is closed
+
+`experiments/results/iid_tightness_v1.json`: in all 6 IID-safe cells (C1, C4, C5, S1, S2, S3), the IID LP optimum
+is a root mixture of two pure plans with **monotone** promotion events. The existing theorem
+`docs/switching_monotone_promotion_reduction_v1.md` therefore explains `R_causal = R_IID`. In the IID-unsafe cells,
+one plan (weight 0.4) is non-monotone, as predicted. No new phenomenon remains. The paragraph below is kept for the
+record; its question is now answered "explained".
+
+## Precise next research action (superseded by the check above)
 
 The only regularity with possible theoretical content is **IID-tightness**: the IID-relaxed optimum is
 causal-safe across these cells. The repo already proves that monotone promotion events have causal risk equal

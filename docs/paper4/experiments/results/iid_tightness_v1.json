@@ -1,0 +1,537 @@
+{
+  "protocol": "docs/paper4/experiments/protocols/IID_TIGHTNESS_CHECK_V1.md",
+  "protocol_sha256": "e95a99f742dae0f3ca8cdbc3a56ed2eae04349949889ba2b32e786fce0a2558f",
+  "runner_sha256": "f5662cd0608fc863a7132df4721cd349ddeb281a476e216eec6244b3f07ae93f",
+  "module_sha256": "f6763b51d36c77e1554da036c47198a5b8e4d5fc9d25dd8a710965314f0fcadb",
+  "cap_seconds": 1200,
+  "cells": {
+    "C1": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 5,
+        "budget": 2,
+        "delay": 1,
+        "alpha": "1/10"
+      },
+      "learner_variables": 181,
+      "lp_objective": 2.4137375000000003,
+      "R_causal": "1/10",
+      "R_IID": "1/10",
+      "R_causal_float": 0.1,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": true,
+      "n_info_sets": 65,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.0,
+        "n_violating_covers": 0,
+        "n_covers": 80,
+        "monotone": true,
+        "witnesses": [],
+        "max_distance_to_0_1": 0.4,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 0.4,
+        "promotion_prob_iid_boundary_mean": 0.1
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 0,
+        "weight_on_non_monotone_plans": 0.0,
+        "total_weight": 1.0,
+        "witness": null
+      },
+      "group": "IID-safe",
+      "classification": "EXPLAINED",
+      "consistency_flags": [],
+      "seconds": 0.0373647497035563,
+      "cell": "C1",
+      "wall_seconds": 6.635830583050847
+    },
+    "C2": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 5,
+        "budget": 2,
+        "delay": 1,
+        "alpha": "1/10"
+      },
+      "learner_variables": 181,
+      "lp_objective": 2.4002176000000004,
+      "R_causal": "1/5",
+      "R_IID": "1/10",
+      "R_causal_float": 0.2,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": false,
+      "n_info_sets": 65,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.4,
+        "n_violating_covers": 8,
+        "n_covers": 80,
+        "monotone": false,
+        "witnesses": [
+          {
+            "y": "10000",
+            "t": 2,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          },
+          {
+            "y": "10001",
+            "t": 2,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          },
+          {
+            "y": "10010",
+            "t": 2,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          }
+        ],
+        "max_distance_to_0_1": 0.4,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 0.4,
+        "promotion_prob_iid_boundary_mean": 0.1
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 1,
+        "weight_on_non_monotone_plans": 0.4,
+        "total_weight": 1.0,
+        "witness": {
+          "y": "10000",
+          "t": 2,
+          "n_violating_covers": 8,
+          "weight": 0.4,
+          "plan_choices": [
+            {
+              "history": "()",
+              "released": "()",
+              "choice": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      },
+      "group": "IID-unsafe",
+      "classification": null,
+      "contrast_check": "CONSISTENT (non-monotone G or non-monotone plans)",
+      "consistency_flags": [],
+      "seconds": 0.031031624879688025,
+      "cell": "C2",
+      "wall_seconds": 6.250211291946471
+    },
+    "C3": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 6,
+        "budget": 3,
+        "delay": 1,
+        "alpha": "1/10"
+      },
+      "learner_variables": 705,
+      "lp_objective": 2.94725375,
+      "R_causal": "1/5",
+      "R_IID": "1/10",
+      "R_causal_float": 0.2,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": false,
+      "n_info_sets": 236,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.4,
+        "n_violating_covers": 16,
+        "n_covers": 192,
+        "monotone": false,
+        "witnesses": [
+          {
+            "y": "010000",
+            "t": 3,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          },
+          {
+            "y": "010001",
+            "t": 3,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          },
+          {
+            "y": "010010",
+            "t": 3,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          }
+        ],
+        "max_distance_to_0_1": 0.4,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 0.4,
+        "promotion_prob_iid_boundary_mean": 0.1
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 1,
+        "weight_on_non_monotone_plans": 0.4,
+        "total_weight": 1.0,
+        "witness": {
+          "y": "010000",
+          "t": 3,
+          "n_violating_covers": 16,
+          "weight": 0.4,
+          "plan_choices": [
+            {
+              "history": "((0, 0),)",
+              "released": "()",
+              "choice": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      },
+      "group": "IID-unsafe",
+      "classification": null,
+      "contrast_check": "CONSISTENT (non-monotone G or non-monotone plans)",
+      "consistency_flags": [],
+      "seconds": 0.3147585419937968,
+      "cell": "C3",
+      "wall_seconds": 8.930919375270605
+    },
+    "C4": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 6,
+        "budget": 3,
+        "delay": 1,
+        "alpha": "1/10"
+      },
+      "learner_variables": 705,
+      "lp_objective": 2.8817687499999995,
+      "R_causal": "1/10",
+      "R_IID": "1/10",
+      "R_causal_float": 0.1,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": true,
+      "n_info_sets": 236,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.0,
+        "n_violating_covers": 0,
+        "n_covers": 192,
+        "monotone": true,
+        "witnesses": [],
+        "max_distance_to_0_1": 0.4,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 0.4,
+        "promotion_prob_iid_boundary_mean": 0.1
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 0,
+        "weight_on_non_monotone_plans": 0.0,
+        "total_weight": 1.0,
+        "witness": null
+      },
+      "group": "IID-safe",
+      "classification": "EXPLAINED",
+      "consistency_flags": [],
+      "seconds": 0.23989650001749396,
+      "cell": "C4",
+      "wall_seconds": 7.990558416116983
+    },
+    "C5": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 8,
+        "budget": 3,
+        "delay": 1,
+        "alpha": "1/10"
+      },
+      "learner_variables": 2273,
+      "lp_objective": 3.86497390625,
+      "R_causal": "1/10",
+      "R_IID": "1/10",
+      "R_causal_float": 0.1,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": true,
+      "n_info_sets": 848,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.0,
+        "n_violating_covers": 0,
+        "n_covers": 1024,
+        "monotone": true,
+        "witnesses": [],
+        "max_distance_to_0_1": 0.4,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 0.4,
+        "promotion_prob_iid_boundary_mean": 0.09999999999999999
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 0,
+        "weight_on_non_monotone_plans": 0.0,
+        "total_weight": 1.0,
+        "witness": null
+      },
+      "group": "IID-safe",
+      "classification": "EXPLAINED",
+      "consistency_flags": [],
+      "seconds": 1.2764737089164555,
+      "cell": "C5",
+      "wall_seconds": 11.955898417159915
+    },
+    "C6": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 8,
+        "budget": 3,
+        "delay": 1,
+        "alpha": "1/10"
+      },
+      "learner_variables": 2273,
+      "lp_objective": 3.9472537500000002,
+      "R_causal": "1/5",
+      "R_IID": "1/10",
+      "R_causal_float": 0.2,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": false,
+      "n_info_sets": 848,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.4,
+        "n_violating_covers": 64,
+        "n_covers": 1024,
+        "monotone": false,
+        "witnesses": [
+          {
+            "y": "00010000",
+            "t": 5,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          },
+          {
+            "y": "00010001",
+            "t": 5,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          },
+          {
+            "y": "00010010",
+            "t": 5,
+            "G_y": 0.4,
+            "G_y_with_t_set_to_1": 0.0
+          }
+        ],
+        "max_distance_to_0_1": 0.4,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 0.4,
+        "promotion_prob_iid_boundary_mean": 0.1
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 1,
+        "weight_on_non_monotone_plans": 0.4,
+        "total_weight": 1.0,
+        "witness": {
+          "y": "00010000",
+          "t": 5,
+          "n_violating_covers": 64,
+          "weight": 0.4,
+          "plan_choices": [
+            {
+              "history": "((0, 0), (0, 0), (0, 0))",
+              "released": "()",
+              "choice": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      },
+      "group": "IID-unsafe",
+      "classification": null,
+      "contrast_check": "CONSISTENT (non-monotone G or non-monotone plans)",
+      "consistency_flags": [],
+      "seconds": 1.4224979160353541,
+      "cell": "C6",
+      "wall_seconds": 9.727751417085528
+    },
+    "S1": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 10,
+        "budget": 4,
+        "delay": 2,
+        "alpha": "1/10"
+      },
+      "learner_variables": 13421,
+      "lp_objective": 4.1973872015239575,
+      "R_causal": "1/10",
+      "R_IID": "1/10",
+      "R_causal_float": 0.1,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": true,
+      "n_info_sets": 4867,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.0,
+        "n_violating_covers": 0,
+        "n_covers": 5120,
+        "monotone": true,
+        "witnesses": [],
+        "max_distance_to_0_1": 0.4,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 1.0,
+        "promotion_prob_iid_boundary_mean": 0.1
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 0,
+        "weight_on_non_monotone_plans": 0.0,
+        "total_weight": 1.0,
+        "witness": null
+      },
+      "group": "IID-safe",
+      "classification": "EXPLAINED",
+      "consistency_flags": [],
+      "seconds": 40.539867375046015,
+      "cell": "S1",
+      "wall_seconds": 46.655253124888986
+    },
+    "S2": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 10,
+        "budget": 4,
+        "delay": 2,
+        "alpha": "1/10"
+      },
+      "learner_variables": 13421,
+      "lp_objective": 4.981621883733333,
+      "R_causal": "1/10",
+      "R_IID": "1/10",
+      "R_causal_float": 0.1,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": true,
+      "n_info_sets": 4867,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.0,
+        "n_violating_covers": 0,
+        "n_covers": 5120,
+        "monotone": true,
+        "witnesses": [],
+        "max_distance_to_0_1": 0.13333333333333333,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 0.13333333333333333,
+        "promotion_prob_iid_boundary_mean": 0.09999999999999999
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 0,
+        "weight_on_non_monotone_plans": 0.0,
+        "total_weight": 1.0,
+        "witness": null
+      },
+      "group": "IID-safe",
+      "classification": "EXPLAINED",
+      "consistency_flags": [],
+      "seconds": 49.61154716601595,
+      "cell": "S2",
+      "wall_seconds": 55.880089125130326
+    },
+    "S3": {
+      "status": "ok",
+      "cell_config": {
+        "horizon": 10,
+        "budget": 4,
+        "delay": 2,
+        "alpha": "1/10"
+      },
+      "learner_variables": 13421,
+      "lp_objective": 4.9876173333333345,
+      "R_causal": "1/10",
+      "R_IID": "1/10",
+      "R_causal_float": 0.1,
+      "R_IID_float": 0.1,
+      "iid_safe_exact_equality": true,
+      "n_info_sets": 4867,
+      "n_randomized_info_sets_all": 1,
+      "n_randomized_info_sets_reached": 1,
+      "max_dropped_mass_below_tol": 0.0,
+      "G": {
+        "max_violation": 0.0,
+        "n_violating_covers": 0,
+        "n_covers": 5120,
+        "monotone": true,
+        "witnesses": [],
+        "max_distance_to_0_1": 0.13333333333333333,
+        "values_within_1e-9_of_0_1": false,
+        "min": 0.0,
+        "max": 0.13333333333333333,
+        "promotion_prob_iid_boundary_mean": 0.09999999999999999
+      },
+      "plans": {
+        "n_randomized_reached": 1,
+        "n_pure_plans": 2,
+        "enumerated": true,
+        "n_non_monotone_plans": 0,
+        "weight_on_non_monotone_plans": 0.0,
+        "total_weight": 1.0,
+        "witness": null
+      },
+      "group": "IID-safe",
+      "classification": "EXPLAINED",
+      "consistency_flags": [],
+      "seconds": 53.21773283369839,
+      "cell": "S3",
+      "wall_seconds": 59.851241915952414
+    }
+  }
+}

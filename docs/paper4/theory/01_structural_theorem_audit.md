@@ -52,7 +52,7 @@ behavioural treatment, where the null conditions on public actions, is exact: se
 **Decisive measurement (from existing artifacts, no new run).** The exact robust verifier for the returned
 policy already uses **56 product states** (T=8, B=4: `iid_relaxation_certified_pipeline_v1.json`) and
 **72** (T=10, B=4, d=2: `iid_relaxation_t10_stress_v1.json`). Meanwhile the learner LP has 3,869 and 13,421
-variables, and the reference also carries 4,973 and 13,790 opponent sequences. Verification is not the
+variables, and the reference also carries 4,973 and 13,791 opponent sequences. Verification is not the
 bottleneck. A verifier-side structural theorem, however strong, has almost no end-to-end leverage
 (Amdahl).
 
@@ -79,6 +79,11 @@ MDP over generated histories. Its value is linear in `p` at each node, so a dete
 optimal. This is the recursion of `CausalSwitchingGame.null_risk`. Private learner coins are covered,
 because a root mixture's realization plan is the convex combination and the null sees only public actions,
 as in Kuhn's theorem. **PROVED.**
+*Threat-model caveat.* This is the ShiftLab null: it sees public actions and every generated outcome,
+including pending ones, but **not** the learner's private randomness. Krale et al.'s nature also sees the agent's
+memory. Against a coin-seeing null, Lemma 2 fails for randomised `x`: the supremum is no longer linear over a
+fixed set of rows, and the problem becomes combinatorial. The extreme-point reduction is borrowed from Krale
+only for a fixed, observed behaviour.
 
 **Theorem (FCG correctness).** Let `P_K` be the LP restricted to the rows `nu in K ⊆ N_ext`, with
 `IID ∈ K`, and let `x_K` be its solution.

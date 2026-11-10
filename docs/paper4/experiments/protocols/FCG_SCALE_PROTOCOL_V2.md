@@ -48,3 +48,18 @@ wall-clock cap.
   check against sequence-form double-oracle prior art.
 - Otherwise record **NO-GO — computational feasibility** for FCG on this game family. FCG is retained as an
   exact anytime alternative to the reference, not as a contribution.
+
+## Addendum A (registered 2026-11-10, after v2 results, before any S3 run)
+
+The v2 premise for S2 ("anti-persistent, where cuts are needed") **failed**. At emissions (1/50, 49/50)
+the IID optimum was already causal-safe on both T=10 cells. FCG-fast used zero cuts, and its speed
+advantage came only from skipping the reference null tree, which is the Candidate B route. To test the
+cutting mechanism at scale, one cell is added. It uses C6's emissions, the only regime where cuts were
+needed. It is not a favourable search:
+
+| id | T | B | d | transition | emissions | role |
+|---|---|---|---|---|---|---|
+| S3 | 10 | 4 | 2 | 3/4 | (1/20, 19/20) | anti-persistent T=10 counterpart of C6 |
+
+The same methods (ref, fast), fresh processes, gates and decision rule apply. If S3 is also IID-safe,
+the result is recorded as "cuts not exercised at T=10", and no further cells are added.

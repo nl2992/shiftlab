@@ -1,0 +1,784 @@
+{
+ "registered_utc": "2026-11-10T09:07:45Z",
+ "batch": "C1",
+ "protocol": "docs/paper1_scale25/07a_PROTOCOL_C1_V1_22.md",
+ "protocol_id": "P1-SCALE25-C1-V1-22",
+ "contract": {
+  "budget": 200,
+  "cq": 0.05,
+  "cs": 5.0,
+  "T_episode": 2000
+ },
+ "policy_seeds": 10,
+ "seed_base": 2026111001,
+ "datasets": [
+  {
+   "protocol_order": 1,
+   "name": "boston_311",
+   "org": "City of Boston",
+   "parent_source_id": "boston_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-01-01",
+    "2026-01-01"
+   ],
+   "episodes": 46,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:02:44+00:00",
+   "n_after_filter": 185195,
+   "subsample": "none",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 18520,
+     "disagreement": 0.14605831533477323,
+     "err_incumbent": 0.13720302375809934,
+     "err_challenger": 0.13466522678185744,
+     "base_rate_y1": 0.6632289416846652
+    }
+   },
+   "sealed_path": "data/scale25_confirm/boston_311.npz",
+   "array_content_sha256": "7bfd92ae17b4e926882664ee514386877400e470a0a07c8261439549c1b35ee0",
+   "ledger_index": 8
+  },
+  {
+   "protocol_order": 2,
+   "name": "philly_311",
+   "org": "City of Philadelphia",
+   "parent_source_id": "philly_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:03:14+00:00",
+   "n_after_filter": 528651,
+   "subsample": "systematic 400000 of 528651",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.073925,
+     "err_incumbent": 0.093075,
+     "err_challenger": 0.10105,
+     "base_rate_y1": 0.771375
+    }
+   },
+   "sealed_path": "data/scale25_confirm/philly_311.npz",
+   "array_content_sha256": "d58ad7a9c50e212a570cab278d1127d324382b28ace90ec339e514336af01ed5",
+   "ledger_index": 9
+  },
+  {
+   "protocol_order": 3,
+   "name": "sacramento_311",
+   "org": "City of Sacramento",
+   "parent_source_id": "sacramento_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-01-01",
+    "2026-01-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:07:25+00:00",
+   "n_after_filter": 569604,
+   "subsample": "systematic 400000 of 569604",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.09635,
+     "err_incumbent": 0.158625,
+     "err_challenger": 0.137675,
+     "base_rate_y1": 0.592375
+    }
+   },
+   "sealed_path": "data/scale25_confirm/sacramento_311.npz",
+   "array_content_sha256": "80bdecfc2f9de3639707eb68684e7dc4cbe6bf30e4a2f0433ef5a6ab21167a45",
+   "ledger_index": 10
+  },
+  {
+   "protocol_order": 4,
+   "name": "baltimore_311",
+   "org": "City of Baltimore",
+   "parent_source_id": "baltimore_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-01-01",
+    "2025-05-01"
+   ],
+   "episodes": 68,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:08:29+00:00",
+   "n_after_filter": 274794,
+   "subsample": "none",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 27479,
+     "disagreement": 0.07230976381964409,
+     "err_incumbent": 0.1027329961061174,
+     "err_challenger": 0.09869354780013828,
+     "base_rate_y1": 0.781760617198588
+    }
+   },
+   "sealed_path": "data/scale25_confirm/baltimore_311.npz",
+   "array_content_sha256": "3f76b73aa853585542aa3497c8bf25c8cc5bd185312b406319b8f67f81defa95",
+   "ledger_index": 11
+  },
+  {
+   "protocol_order": 5,
+   "name": "louisville_311",
+   "org": "Louisville Metro",
+   "parent_source_id": "louisville_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-01-01",
+    "2026-07-01"
+   ],
+   "episodes": 70,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:09:24+00:00",
+   "n_after_filter": 283011,
+   "subsample": "none",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 28302,
+     "disagreement": 0.04215249805667444,
+     "err_incumbent": 0.15885803123454173,
+     "err_challenger": 0.15345205285845523,
+     "base_rate_y1": 0.49742067698395875
+    }
+   },
+   "sealed_path": "data/scale25_confirm/louisville_311.npz",
+   "array_content_sha256": "e4ed727ad50b0e3ef19b4f8d397b6f1d97470e3d81f76bc710109d6c9931a8b2",
+   "ledger_index": 12
+  },
+  {
+   "protocol_order": 6,
+   "name": "chicago_311",
+   "org": "City of Chicago",
+   "parent_source_id": "chicago_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-01-01",
+    "2026-01-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:12:12+00:00",
+   "n_after_filter": 1960595,
+   "subsample": "systematic 400000 of 1960595",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.09675,
+     "err_incumbent": 0.128225,
+     "err_challenger": 0.080225,
+     "base_rate_y1": 0.79265
+    }
+   },
+   "sealed_path": "data/scale25_confirm/chicago_311.npz",
+   "array_content_sha256": "6982ad505f426844973c96cc4a7c25b07c309b15285c6344b42e84cf29196afb",
+   "ledger_index": 13
+  },
+  {
+   "protocol_order": 7,
+   "name": "chicago_traffic_crashes",
+   "org": "City of Chicago",
+   "parent_source_id": "chicago_crashes",
+   "domain": "public-safety",
+   "window": [
+    "2023-01-01",
+    "2025-01-01"
+   ],
+   "episodes": 55,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:18:38+00:00",
+   "n_after_filter": 222810,
+   "subsample": "none",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 22281,
+     "disagreement": 0.03707194470625196,
+     "err_incumbent": 0.27898209236569277,
+     "err_challenger": 0.27287823706296843,
+     "base_rate_y1": 0.7147345271756205
+    }
+   },
+   "sealed_path": "data/scale25_confirm/chicago_traffic_crashes.npz",
+   "array_content_sha256": "99ea09f72f4cac22e663241eebb26efeacaeb631bda39fa2486847190274c7de",
+   "ledger_index": 14
+  },
+  {
+   "protocol_order": 8,
+   "name": "bts_ontime",
+   "org": "US DOT BTS",
+   "parent_source_id": "bts_ontime",
+   "domain": "transport",
+   "window": [
+    "2025-07-01",
+    "2025-09-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:20:01+00:00",
+   "n_after_filter": 1233806,
+   "subsample": "systematic 400000 of 1233806",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.141,
+     "err_incumbent": 0.303825,
+     "err_challenger": 0.284675,
+     "base_rate_y1": 0.298975
+    }
+   },
+   "sealed_path": "data/scale25_confirm/bts_ontime.npz",
+   "array_content_sha256": "6fe2af336d67d64a639023edfd25b69200945c64b29143916868b6e1d20e9f41",
+   "ledger_index": 15
+  },
+  {
+   "protocol_order": 9,
+   "name": "dc_311",
+   "org": "District of Columbia",
+   "parent_source_id": "dc_311",
+   "domain": "municipal-311",
+   "window": [
+    "2026-01-01",
+    "2026-07-01"
+   ],
+   "episodes": 62,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:31:24+00:00",
+   "n_after_filter": 250354,
+   "subsample": "none",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 25035,
+     "disagreement": 0.3602955861793489,
+     "err_incumbent": 0.3257040143798682,
+     "err_challenger": 0.16720591172358698,
+     "base_rate_y1": 0.6107849011384062
+    }
+   },
+   "sealed_path": "data/scale25_confirm/dc_311.npz",
+   "array_content_sha256": "675f2d6e824276e8e3864e0c78ce341abaefa8a56b294822be1f36f379db61d8",
+   "ledger_index": 16
+  },
+  {
+   "protocol_order": 10,
+   "name": "sandiego_311",
+   "org": "City of San Diego",
+   "parent_source_id": "sandiego_getitdone",
+   "domain": "municipal-311",
+   "window": [
+    "2026-01-01",
+    "2026-07-01"
+   ],
+   "episodes": 52,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:31:56+00:00",
+   "n_after_filter": 209412,
+   "subsample": "none",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 20941,
+     "disagreement": 0.1270235423332219,
+     "err_incumbent": 0.17152953536125304,
+     "err_challenger": 0.15834964901389617,
+     "base_rate_y1": 0.7550260255002149
+    }
+   },
+   "sealed_path": "data/scale25_confirm/sandiego_311.npz",
+   "array_content_sha256": "90300d648f9d2eda3b0fe2573516017f660b8fe62257c92159d7d1a927d2fec3",
+   "ledger_index": 17
+  },
+  {
+   "protocol_order": 11,
+   "name": "edmonton_311",
+   "org": "City of Edmonton",
+   "parent_source_id": "edmonton_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:34:59+00:00",
+   "n_after_filter": 943713,
+   "subsample": "systematic 400000 of 943713",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.077175,
+     "err_incumbent": 0.145925,
+     "err_challenger": 0.11395,
+     "base_rate_y1": 0.84215
+    }
+   },
+   "sealed_path": "data/scale25_confirm/edmonton_311.npz",
+   "array_content_sha256": "8f81aff49fe5aa92251e79863d20f025028041110cba3ffab1ea28be828b5c6d",
+   "ledger_index": 18
+  },
+  {
+   "protocol_order": 12,
+   "name": "winnipeg_311",
+   "org": "City of Winnipeg",
+   "parent_source_id": "winnipeg_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:37:43+00:00",
+   "n_after_filter": 843400,
+   "subsample": "systematic 400000 of 843400",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.058125,
+     "err_incumbent": 0.13655,
+     "err_challenger": 0.130575,
+     "base_rate_y1": 0.862725
+    }
+   },
+   "sealed_path": "data/scale25_confirm/winnipeg_311.npz",
+   "array_content_sha256": "82917d4f3424a5046b0e43accfcabb764aaafaa9fe2403b0c6edbfbd162c7c04",
+   "ledger_index": 19
+  },
+  {
+   "protocol_order": 13,
+   "name": "mc311_montgomery",
+   "org": "Montgomery County MD",
+   "parent_source_id": "mc311_montgomery",
+   "domain": "municipal-311",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:38:52+00:00",
+   "n_after_filter": 543705,
+   "subsample": "systematic 400000 of 543705",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.030125,
+     "err_incumbent": 0.055475,
+     "err_challenger": 0.04615,
+     "base_rate_y1": 0.890075
+    }
+   },
+   "sealed_path": "data/scale25_confirm/mc311_montgomery.npz",
+   "array_content_sha256": "48f5bf1a0061213094639d65e32c69500ada1cc558341b1cb0fb0fbbb7921331",
+   "ledger_index": 20
+  },
+  {
+   "protocol_order": 14,
+   "name": "calgary_311",
+   "org": "The City of Calgary",
+   "parent_source_id": "calgary_311",
+   "domain": "municipal-311",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:39:55+00:00",
+   "n_after_filter": 494674,
+   "subsample": "systematic 400000 of 494674",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.149775,
+     "err_incumbent": 0.223925,
+     "err_challenger": 0.2456,
+     "base_rate_y1": 0.7591
+    }
+   },
+   "sealed_path": "data/scale25_confirm/calgary_311.npz",
+   "array_content_sha256": "f9fd2f713c8519f69425c8b0770a5353553762ee3caecbac72571630825d60c8",
+   "ledger_index": 21
+  },
+  {
+   "protocol_order": 15,
+   "name": "nyc_ems_response",
+   "org": "City of New York (FDNY)",
+   "parent_source_id": "nyc_fdny_ems",
+   "domain": "emergency-services",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:42:27+00:00",
+   "n_after_filter": 1476690,
+   "subsample": "systematic 400000 of 1476690",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.15345,
+     "err_incumbent": 0.313025,
+     "err_challenger": 0.312875,
+     "base_rate_y1": 0.457875
+    }
+   },
+   "sealed_path": "data/scale25_confirm/nyc_ems_response.npz",
+   "array_content_sha256": "6511069d7ebe849f170bf3e240580e84b768e99df0b8440d894cbcbea38419b2",
+   "ledger_index": 22
+  },
+  {
+   "protocol_order": 16,
+   "name": "nyc_fire_response",
+   "org": "City of New York (FDNY)",
+   "parent_source_id": "nyc_fdny_fire",
+   "domain": "emergency-services",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:43:29+00:00",
+   "n_after_filter": 493023,
+   "subsample": "systematic 400000 of 493023",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.11045,
+     "err_incumbent": 0.297175,
+     "err_challenger": 0.282325,
+     "base_rate_y1": 0.360525
+    }
+   },
+   "sealed_path": "data/scale25_confirm/nyc_fire_response.npz",
+   "array_content_sha256": "234e17a535937367e99b112473dec4a6aa66eca7871b51de27c0335d77006171",
+   "ledger_index": 23
+  },
+  {
+   "protocol_order": 17,
+   "name": "montgomery_police_dispatch",
+   "org": "Montgomery County MD",
+   "parent_source_id": "montgomery_police_dispatch",
+   "domain": "public-safety",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 38,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:44:01+00:00",
+   "n_after_filter": 155578,
+   "subsample": "none",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 15558,
+     "disagreement": 0.056562540172258646,
+     "err_incumbent": 0.21448772335775806,
+     "err_challenger": 0.20818871320221108,
+     "base_rate_y1": 0.2699575780948708
+    }
+   },
+   "sealed_path": "data/scale25_confirm/montgomery_police_dispatch.npz",
+   "array_content_sha256": "719177414570737ac644be401087dfb0e782c762afd39a5fdbfec7a55779f76c",
+   "ledger_index": 24
+  },
+  {
+   "protocol_order": 18,
+   "name": "divvy_chicago",
+   "org": "Divvy / Lyft",
+   "parent_source_id": "divvy_trips",
+   "domain": "transport",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:45:22+00:00",
+   "n_after_filter": 769288,
+   "subsample": "systematic 400000 of 769288",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.0939,
+     "err_incumbent": 0.241875,
+     "err_challenger": 0.215575,
+     "base_rate_y1": 0.785275
+    }
+   },
+   "sealed_path": "data/scale25_confirm/divvy_chicago.npz",
+   "array_content_sha256": "0d73b6ff9c0d6f9e1342c4521d1b3ace3de71bab75b44b769b5fb4fe40fe5b77",
+   "ledger_index": 25
+  },
+  {
+   "protocol_order": 19,
+   "name": "capitalbikeshare_dc",
+   "org": "Capital Bikeshare / Lyft",
+   "parent_source_id": "capitalbikeshare_trips",
+   "domain": "transport",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T08:49:02+00:00",
+   "n_after_filter": 774868,
+   "subsample": "systematic 400000 of 774868",
+   "eligibility": {
+    "eligible": false,
+    "gates": {
+     "disagreement": false,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.02305,
+     "err_incumbent": 0.20925,
+     "err_challenger": 0.2075,
+     "base_rate_y1": 0.788375
+    },
+    "reason": "failed C4 gate(s): disagreement"
+   }
+  },
+  {
+   "protocol_order": 20,
+   "name": "epa_aqi_county",
+   "org": "US EPA",
+   "parent_source_id": "epa_airdata_aqi",
+   "domain": "environment",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 58,
+   "delay": 1000,
+   "built_utc": "2026-11-10T09:01:05+00:00",
+   "n_after_filter": 235278,
+   "subsample": "none",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 23528,
+     "disagreement": 0.051555593335600135,
+     "err_incumbent": 0.11900714042842571,
+     "err_challenger": 0.11190921455287317,
+     "base_rate_y1": 0.14242604556273378
+    }
+   },
+   "sealed_path": "data/scale25_confirm/epa_aqi_county.npz",
+   "array_content_sha256": "09ff325f864ce3481df135dd43bc3e6dfa53f18fd084964459947062669739d7",
+   "ledger_index": 26
+  },
+  {
+   "protocol_order": 21,
+   "name": "ghcn_us_rain",
+   "org": "NOAA NCEI",
+   "parent_source_id": "noaa_ghcn_daily",
+   "domain": "environment",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 1000,
+   "built_utc": "2026-11-10T09:03:58+00:00",
+   "n_after_filter": 957575,
+   "subsample": "systematic 400000 of 957575",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.128875,
+     "err_incumbent": 0.2976,
+     "err_challenger": 0.272825,
+     "base_rate_y1": 0.299125
+    }
+   },
+   "sealed_path": "data/scale25_confirm/ghcn_us_rain.npz",
+   "array_content_sha256": "eb0ddf9c73063c56dec7be1dd0a388dce8c01dc23f2d94d157ef0b5a56350d67",
+   "ledger_index": 27
+  },
+  {
+   "protocol_order": 22,
+   "name": "eia930_pooled",
+   "org": "US EIA",
+   "parent_source_id": "eia_930",
+   "domain": "energy",
+   "window": [
+    "2025-07-01",
+    "2026-07-01"
+   ],
+   "episodes": 100,
+   "delay": 100,
+   "built_utc": "2026-11-10T09:06:05+00:00",
+   "n_after_filter": 573586,
+   "subsample": "systematic 400000 of 573586",
+   "eligibility": {
+    "eligible": true,
+    "gates": {
+     "disagreement": true,
+     "err_incumbent": true,
+     "err_challenger": true,
+     "episodes": true
+    },
+    "validation": {
+     "n": 40000,
+     "disagreement": 0.2143,
+     "err_incumbent": 0.292225,
+     "err_challenger": 0.244775,
+     "base_rate_y1": 0.60695
+    }
+   },
+   "sealed_path": "data/scale25_confirm/eia930_pooled.npz",
+   "array_content_sha256": "d1ab53f0e68147a981bedf5eb91c209138c7a3484212d013eb85fb836afdddcf",
+   "ledger_index": 28
+  }
+ ]
+}

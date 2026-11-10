@@ -43,6 +43,22 @@ def check_horizon(T: int) -> dict:
         )
         hull = {x for x in tapes if any(all(a <= b for a, b in zip(y, x)) for y in event)}
         p_hull = F(len(hull), 2**T)
+        # Independent third route: brute force over every endpoint strategy assigning
+        # p in {0, 1/2} to each of the 2^T - 1 prefixes, with forward tape probabilities.
+        prefixes = [h for t in range(T) for h in product((0, 1), repeat=t)]
+        brute = F(0)
+        for choice in product((F(0), F(1, 2)), repeat=len(prefixes)):
+            p_of = dict(zip(prefixes, choice))
+            risk = F(0)
+            for y in event:
+                mass = F(1)
+                for t in range(T):
+                    p = p_of[y[:t]]
+                    mass *= p if y[t] else 1 - p
+                risk += mass
+            brute = max(brute, risk)
+        if v[()] != brute:
+            failures += 1
         if v[()] - f[()] != surcharge or not f[()] <= v[()] <= p_hull:
             failures += 1
         hull_exact += p_hull == v[()]

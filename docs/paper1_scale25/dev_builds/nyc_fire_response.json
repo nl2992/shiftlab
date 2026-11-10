@@ -1,0 +1,81 @@
+{
+ "name": "nyc_fire_response",
+ "built_utc": "2026-11-10T00:08:43+00:00",
+ "meta": {
+  "name": "nyc_fire_response",
+  "url": "https://data.cityofnewyork.us/resource/8m42-w767  (https://data.cityofnewyork.us/d/8m42-w767)",
+  "license": "NYC Open Data terms of use (public data)",
+  "publisher": "New York City Fire Department / NYC Open Data (Fire Incident Dispatch Data)",
+  "task": "binary: first fire unit on scene within 5 minutes of the incident",
+  "label": "incident_response_seconds_qy <= 300 among valid response times",
+  "delay": 100,
+  "window": [
+   "2024-07-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "incident classification and group, alarm source, borough, zip, community district, police precinct, hour/dow/month (alarm-intake fields)"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "classification",
+  "group",
+  "alarm_source",
+  "borough",
+  "zipcode",
+  "community_district",
+  "precinct"
+ ],
+ "n_after_filter": 475515,
+ "subsample": "systematic 400000 of 475515",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-07-01 00:00:57",
+  "test_start": "2024-12-28 08:02:06",
+  "end": "2025-06-30 23:56:14"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.101025,
+  "err_incumbent": 0.306625,
+  "err_challenger": 0.29925,
+  "base_rate_y1": 0.3886
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/scale25_dev/nyc_fire_response.npz",
+  "array_content_sha256": "792ec82bc5de1d0290dd13e585aeedf5b11aa4b4d5086acd718847c623a28b62"
+ },
+ "builder": "scripts/paper1_scale25/data/dev_build.py (wraps c4_build.build; unchanged gates)"
+}

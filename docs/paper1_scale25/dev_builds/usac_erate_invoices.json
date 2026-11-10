@@ -1,0 +1,82 @@
+{
+ "name": "usac_erate_invoices",
+ "built_utc": "2026-11-10T00:34:20+00:00",
+ "meta": {
+  "name": "usac_erate_invoices",
+  "url": "https://datahub.usac.org/resource/jpiu-tj8h  (https://datahub.usac.org/d/jpiu-tj8h)",
+  "license": "USAC open data (public data portal, datahub.usac.org)",
+  "publisher": "Universal Service Administrative Company (E-Rate, FCC)",
+  "task": "binary: E-Rate invoice line processed within 30 days of receipt",
+  "label": "inv_line_completion_date - inv_received_date <= 30 days (lines are only listed once authorized)",
+  "delay": 100,
+  "window": [
+   "2023-07-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "invoice type, submission method, SPIN, applicant type/state, service type/category, funding year, bill frequency, requested amounts, discount rate"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "requested_total",
+  "requested_line",
+  "discount_rate"
+ ],
+ "cat": [
+  "invoice_type",
+  "submission",
+  "spin",
+  "applicant_type",
+  "state",
+  "service_type",
+  "category",
+  "funding_year",
+  "bill_frequency"
+ ],
+ "n_after_filter": 572412,
+ "subsample": "systematic 400000 of 572412",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-07-01 00:40:58",
+  "test_start": "2024-06-25 12:46:24",
+  "end": "2025-06-30 23:47:45"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.50585,
+  "err_incumbent": 0.5054,
+  "err_challenger": 0.02765,
+  "base_rate_y1": 0.9749
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": false,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "builder": "scripts/paper1_scale25/data/dev_build.py (wraps c4_build.build; unchanged gates)"
+}

@@ -1,0 +1,78 @@
+{
+ "name": "divvy_chicago",
+ "built_utc": "2026-11-10T00:06:37+00:00",
+ "meta": {
+  "name": "divvy_chicago",
+  "url": "https://divvy-tripdata.s3.amazonaws.com/YYYYMM-divvy-tripdata.zip",
+  "license": "Divvy Data License Agreement (public trip data; Lyft/CDOT)",
+  "publisher": "Divvy / Lyft (Chicago Department of Transportation system data)",
+  "task": "binary: trip taken by a subscribed member (not a casual rider)",
+  "label": "member_casual == 'member'",
+  "delay": 100,
+  "window": [
+   "2024-07-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "load(): every K-th row per month, K=ceil(n/70000); then c4_build.N_MAX systematic",
+  "features_note": "rideable_type, start station id, start lat/lng (3 dp), start hour/dow/month: known at unlock; end time/station/duration unused; member_casual is the label"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "lat",
+  "lng"
+ ],
+ "cat": [
+  "rideable_type",
+  "start_station_id"
+ ],
+ "n_after_filter": 772334,
+ "subsample": "systematic 400000 of 772334",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-07-01 00:01:11.433000",
+  "test_start": "2024-12-20 18:21:13.247000",
+  "end": "2025-06-30 23:50:20.971000"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.036725,
+  "err_incumbent": 0.2239,
+  "err_challenger": 0.218575,
+  "base_rate_y1": 0.776725
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/scale25_dev/divvy_chicago.npz",
+  "array_content_sha256": "029cce6bb1cabfa54a8d08f07f4cb5e982b26be4638043f381935bec4a50fb2c"
+ },
+ "builder": "scripts/paper1_scale25/data/dev_build.py (wraps c4_build.build; unchanged gates)"
+}

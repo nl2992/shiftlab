@@ -1,0 +1,80 @@
+{
+ "name": "winnipeg_311",
+ "built_utc": "2026-11-10T00:10:21+00:00",
+ "meta": {
+  "name": "winnipeg_311",
+  "url": "https://data.winnipeg.ca/resource/u7f6-5326  (https://data.winnipeg.ca/d/u7f6-5326)",
+  "license": "Open Government Licence - Winnipeg (Canada OGL compatible)",
+  "publisher": "City of Winnipeg (311 Requests)",
+  "task": "binary: 311 request closed within 7 days of creation",
+  "label": "closed_date present and closed_date - open_date <= 7 days (still open = 0)",
+  "delay": 100,
+  "window": [
+   "2024-07-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request reason/subject/type, channel type, ward, neighbourhood and open hour/dow/month; case_status and closed_date only in the label"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "reason",
+  "subject",
+  "type",
+  "channel",
+  "ward",
+  "neighbourhood"
+ ],
+ "n_after_filter": 675475,
+ "subsample": "systematic 400000 of 675475",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-07-01 00:03:00",
+  "test_start": "2025-01-16 11:55:28",
+  "end": "2025-06-30 23:59:19"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.109825,
+  "err_incumbent": 0.100575,
+  "err_challenger": 0.084,
+  "base_rate_y1": 0.90585
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/scale25_dev/winnipeg_311.npz",
+  "array_content_sha256": "030cf886a72b918ad93fa3ef1fdd88f54cf4704375c3fe72df90ee991961faa2"
+ },
+ "builder": "scripts/paper1_scale25/data/dev_build.py (wraps c4_build.build; unchanged gates)"
+}

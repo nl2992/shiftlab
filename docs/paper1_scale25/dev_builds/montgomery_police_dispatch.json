@@ -1,0 +1,81 @@
+{
+ "name": "montgomery_police_dispatch",
+ "built_utc": "2026-11-10T00:32:17+00:00",
+ "meta": {
+  "name": "montgomery_police_dispatch",
+  "url": "https://data.montgomerycountymd.gov/resource/98cc-bc7d  (https://data.montgomerycountymd.gov/d/98cc-bc7d)",
+  "license": "Montgomery County MD open data (public domain per catalog)",
+  "publisher": "Montgomery County MD Police (Police Dispatched Incidents)",
+  "task": "binary: first police unit on scene within 10 minutes of call pickup",
+  "label": "calltime_arrive <= 600 s among incidents with an arrival time",
+  "delay": 100,
+  "window": [
+   "2023-07-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "priority, initial call type, police district, sector, PRA, zip, city, hour/dow/month (call-pickup fields)"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "priority",
+  "initial_type",
+  "district",
+  "sector",
+  "pra",
+  "zip",
+  "city"
+ ],
+ "n_after_filter": 314202,
+ "subsample": "none",
+ "n": 314202,
+ "split": {
+  "train_old": [
+   0,
+   62840
+  ],
+  "train_new": [
+   62840,
+   125681
+  ],
+  "validation": [
+   125681,
+   157101
+  ],
+  "test": [
+   157101,
+   314202
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-07-01 00:00:41",
+  "test_start": "2024-06-23 07:54:34",
+  "end": "2025-06-30 23:47:27"
+ },
+ "validation": {
+  "n": 31420,
+  "disagreement": 0.03290897517504774,
+  "err_incumbent": 0.18822406110757478,
+  "err_challenger": 0.18472310630171865,
+  "base_rate_y1": 0.23548695098663272
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 78,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/scale25_dev/montgomery_police_dispatch.npz",
+  "array_content_sha256": "ba28584c496348c37ad2f98c8d0ecc21d8cf5e6714cda3060c286882c25e49a8"
+ },
+ "builder": "scripts/paper1_scale25/data/dev_build.py (wraps c4_build.build; unchanged gates)"
+}

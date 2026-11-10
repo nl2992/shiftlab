@@ -1,0 +1,81 @@
+{
+ "name": "mc311_montgomery",
+ "built_utc": "2026-11-10T00:11:52+00:00",
+ "meta": {
+  "name": "mc311_montgomery",
+  "url": "https://data.montgomerycountymd.gov/resource/xtyh-brr2  (https://data.montgomerycountymd.gov/d/xtyh-brr2)",
+  "license": "Montgomery County MD open data (data.montgomerycountymd.gov), public use",
+  "publisher": "Montgomery County MD (MC311 Service Requests)",
+  "task": "binary: 311 request closed within 7 days of creation",
+  "label": "closed present and closed - created <= 7 days (still open = 0)",
+  "delay": 100,
+  "window": [
+   "2024-07-01T00:00:00",
+   "2025-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "SR type/area/sub-area, department, zip, council district, city and creation hour/dow/month; SLA fields, status, days-open and last-update excluded (outcome-dependent or unstated timing)"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "sr_type",
+  "sr_area",
+  "sr_sub_area",
+  "department",
+  "zipcode",
+  "council_dist",
+  "city"
+ ],
+ "n_after_filter": 531695,
+ "subsample": "systematic 400000 of 531695",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2024-07-01 00:06:01",
+  "test_start": "2024-12-30 08:58:52",
+  "end": "2025-06-30 23:55:59"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.030675,
+  "err_incumbent": 0.072775,
+  "err_challenger": 0.0554,
+  "base_rate_y1": 0.88795
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.9.1",
+ "numpy": "2.5.4",
+ "sealed": {
+  "path": "data/scale25_dev/mc311_montgomery.npz",
+  "array_content_sha256": "1cc6cf27c53c4329dc27e8a280bfefcf85763fe62ecf4fcc32313c0a6ed764d8"
+ },
+ "builder": "scripts/paper1_scale25/data/dev_build.py (wraps c4_build.build; unchanged gates)"
+}

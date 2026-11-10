@@ -13,6 +13,8 @@ Nothing here changes the cost contract (T=2000, B=200, c_q=.05, c_s=5, delay 100
 | D0 eligible | passes every D0 criterion below, decided from metadata and documentation only | no label statistics |
 | D1 dev-built | `c4_build` ran on the DEV window; validation-gate statistics exist | validation split only; test half sealed |
 | D1 gate-pass | passes the four C4 gates on the DEV build | build record |
+| dev-only | D0 metadata pass but no settled CONFIRM window of at least 150,000 rows; usable for development, not for the confirmatory cohort | counts |
+| pending-review | counts pass but label/feature/timing design was not completed | metadata |
 | confirmation window available | a settled CONFIRM window passes the metadata size rule (section 4) | row counts only |
 
 Counters are reported separately and never merged. Windows used for D1 are development windows; they carry no confirmatory weight.

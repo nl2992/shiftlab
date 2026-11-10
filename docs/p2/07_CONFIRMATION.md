@@ -78,4 +78,67 @@ intervals (4,000 draws).
 
 ## RESULTS
 
-(appended after the single opening)
+The cohorts were opened once on 2026-11-09/10. The code is at the registration commit (`1f78943a`); the
+analysis script was committed before opening (`2f2427a5`). Full output:
+[results/confirm.md](results/confirm.md). Records: `outputs/p2/confirm/{salt,c4,twin,snull}`
+(24,000 / 125,820 / 124,000 / 80,000 rows; not in Git).
+
+| ID | Result | Verdict |
+|---|---|---|
+| H1 | J(A) − J(A5b), S-alt: −11.31, 99% CI [−13.79, −8.84] (−2.9%) | **PASS** |
+| H2 | J(A) − J(A5b), C4: +0.23 [−0.85, +1.30] (+0.1%) | **FAIL** (tie) |
+| H3 | vs D5: S-alt −12.17 [−14.84, −9.48] PASS; C4 +0.14 [−1.22, +1.70] FAIL | **FAIL** |
+| H4 | A promotion: F0_null .002, F5_dep_null_r8 .002 (bound .0695) | **PASS** |
+| H5 | A max 95% UB of decision harm 1.40 (F5_dep_null_r95) ≤ 5 | **PASS** |
+| H6 | B max 95% UB 1.47 (F5_dep_null_r95) > 1.0 | **FAIL** |
+| H7 | J(B) − J(A5b), S-alt: −0.32 [−3.21, +2.59] | **FAIL** |
+
+### Frontier (reported without a pass/fail rule)
+
+- **Synthetic alternatives.** A costs 385.3. Cheaper policies all promote on persistent marginal
+  nulls (r95):
+  - author-endpoint `gated_deployment_native` (+5.4 [+3.2, +7.6] cheaper than A): .254
+  - `gated_adaptive_range_native`: .316
+  - QSG: .686
+  - D2: .614
+  - the uncertified selectors: .76–.96
+
+  A promotes at .150 on r95 (out of its class) and has max harm 0.06. Among policies with r95
+  promotion ≤ .20, A is the cheapest. The next cheapest are NAD-m80-g10 (−2.9), quad-endpoint
+  GAR (−7.7) and DISCERN-floor (−9.0).
+- **C4 real streams.** All certified methods lie within about 2% of each other. A is cheaper than
+  gated_deployment_native (−0.6%), quad GAR (−1.9%), env8 (−2.3%), DISCERN-floor (−2.4%) and
+  never-switch (−10.7%). It ties A5b and D5, and costs more than native GAR (+0.6%), the V1
+  front-loaders and the uncertified selectors (+1.2 to +2.2%).
+- **Real twins v1 (registered cohort, 1,240 episodes × 5 seeds).** A promotes at .006–.100 per
+  dataset; native MOPE at .015–.443.
+
+### Post-registration descriptive check: twin v3 (7,440 episodes, seed base 2026110961)
+
+| Policy | Pooled promotion | Datasets with 99% LB > .05 |
+|---|---|---|
+| PB80-g10 | .015 | 0 |
+| A5b | .028 | 1 (bike_hour .089) |
+| NAD2S-g10-f6 (A) | .037 | 1 (bike_hour .107) |
+| NAD-m80-g10 | .044 | 1 (bike_hour .129) |
+| choe_ramdas_eb+front | .113 | 4 |
+| gated_deployment_native | .148 | 4 |
+| gated_adaptive_range_native | .151 | 4 |
+| SMCS+retain-incumbent | .175 | 4 |
+| QSG | .224 | 4 |
+
+On real twins, mean decision harm is ≤ +0.8 for every certified policy and is negative on
+appliances and bike_hour. This replicates F2: "invalid" promotions on real marginal nulls are
+conditionally informed and economically harmless. Appliances v3 differs from its recorded hash
+in 1 of 720,000 cells (`_twin_v3_rebuild.md`).
+
+### Assessment
+
+- **Supported.** Within the dependence-robust class, A is about 3% cheaper on synthetic
+  alternatives (H1, H3a), keeps level α in its class (H4) and passes Tier B (H5).
+- **Not supported.**
+  - On weakly dependent real replacement streams, A is not cheaper than A5b or D5 (H2, H3).
+  - The payback arm did not reach its harm tolerance (H6) or beat A5b (H7).
+- **Frontier.** Methods cheaper than A pay with marginal-null validity. That includes the
+  author-faithful MOPE, at .15 pooled promotion on real twins. But that invalidity costs little
+  economically on the real data available.

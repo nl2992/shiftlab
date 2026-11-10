@@ -62,3 +62,7 @@ certificates (appliances, household, beijing). Script: session scratch `dep.py` 
 ## 5. Status log
 
 - 2026-11-09: branch created, P2 recovered, harness map and prior-art search running.
+- 2026-11-09/10: dev rounds 1–6 (docs 02–04). Frozen confirmation registered (`1f78943a`) and
+  opened once. H1, H3a, H4 and H5 pass; H2, H3, H6 and H7 fail (`07_CONFIRMATION.md`). Twin v3
+  descriptive validity map added. Claims are in `08`; the decision is in `09`: not main-track ready;
+  next direction is fleet-level (cross-stream) certified promotion.

@@ -76,3 +76,23 @@ H1/H5 are confirmed null results with exact-oracle support. Weaknesses that bloc
 (2) comparators are adapters, not native code; (3) B's theory is standard and has open gaps;
 (4) no figures. Continue / pivot / stop: **continue only as a benchmark paper**, contingent on
 the real-data payback test in 07_NEXT_ACTIONS.md; stop all method searches in A, D and E.
+
+## Addendum 2026-11-10: R1, real-stream payback test (registered 0e41146c, exploratory tier)
+Decision per rule: **R1-INCONCLUSIVE**. 27 streams, 2,169 episodes, d=100, h=100, c_q=0.
+B2 − B0x realised net payback per episode: B0a −1.70 [−3.51, −0.32]; B0w −2.74 [−5.17, −0.81];
+B0b −1.16 [−3.75, +1.02]. The PI recomputed the three point estimates from `per_episode.csv`.
+
+Interpretation (PI, not part of the registered decision): the direction is against the H2
+anchor. On real streams the valid certificates (B1, B2) almost never certify (B2 in 0.08% of
+episodes): at real effect sizes, with ±1 labels and d=100, they are vacuous, as 03B predicted
+(non-vacuity needs L ≈ .45). The invalid hurdles act. B0w and B0b certify the wrong sign in
+34% and 62% of their certifications. Even so, B0a and B0w earn more in total, because 5 streams
+with a persistent challenger advantage (dc_311, sf_311, dallas_animal_shelter, boston_311,
+nola_311) carry the gains; B0w and B0b are net negative on about 15 streams.
+
+Consequence for the verdict: H2 remains a confirmed validity finding, but it does not translate
+into a real-data economic advantage for the valid certificate. The limits paper therefore has no
+practical anchor without a variance-adaptive (Bernstein/betting) certificate that is non-vacuous
+at real effect sizes. That would be new method work, not a benchmark claim. Verdict stays
+`EMPIRICAL_BENCHMARK_CANDIDATE`, with materially weaker standing; per the registered
+consequence, fresh real data are required before any decision.

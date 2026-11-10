@@ -20,3 +20,4 @@
 | WP G (C proofs) | — | Proof review of WP C; 2 decisive corrections lead-verified | COMPLETE | `CAUSAL_SAFETY_PREMIUM_REVIEW_CORRECTIONS.md` |
 | WP C follow-up | — | Lemma U unproved (12,060-cell numerics); N1 exact B=1 formula, S1, Zc proved (agent); new counterexamples lead-verified | COMPLETE (gate NOT passed by proof) | `CAUSAL_SAFETY_PREMIUM_THEORY.md` § Follow-up; `theory_C/fu_*.json` |
 | D3, D4 | — | D3 closed (prior art; tree-free LB is the open problem); D4 drafted, pending-asymmetry value test queued after A3 | D3 COMPLETE WITH NEGATIVE RESULT; D4 IN PROGRESS | `FALLBACK_SCREENS.md` |
+| WP E (survivors) | — | Source-grounded novelty audit of surviving results: none proved+distinct at main-track level; best = Γ characterisation (UNRESOLVED / PARTIAL OVERLAP) | COMPLETE | `NOVELTY_AUDIT_SURVIVORS.md` |

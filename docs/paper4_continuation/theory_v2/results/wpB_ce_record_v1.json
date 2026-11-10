@@ -1,0 +1,103 @@
+{
+ "script": "scripts/paper4_continuation/theory_v2/wpB_ce_record.py",
+ "records": [
+  {
+   "cell": [
+    "5",
+    "4",
+    "1",
+    "1/10",
+    "1/10",
+    "1/100",
+    "99/100",
+    "1/2",
+    "0",
+    "0"
+   ],
+   "alpha": "25/32",
+   "Gamma_lo": "0.0020925195199995106 (long rational)",
+   "Gamma_hi": "0.0020925195200005228 (long rational)",
+   "Gamma_positive_certified": true,
+   "U_IID": "1588759181/1562500000",
+   "U_causal": "6368114971/6250000000",
+   "R_iid_of_IID_opt": "25/32",
+   "R_causal_of_IID_opt": "13/16",
+   "V_causal_source": "FCG-fast (2 rows)",
+   "dp": {
+    "lambda_2/5": {
+     "minR": {
+      "J": "1037319273/781250000",
+      "R": "13/16",
+      "C": "783413023/781250000",
+      "R_causal": "7/8",
+      "z_monotone": false,
+      "witness": "((0, 0, 0, 1), (0, 1, 0, 1))"
+     },
+     "maxR": {
+      "J": "1037319273/781250000",
+      "R": "13/16",
+      "C": "783413023/781250000",
+      "R_causal": "7/8",
+      "z_monotone": false,
+      "witness": "((0, 0, 0, 1), (0, 1, 0, 1))"
+     }
+    },
+    "vertex_lambda_1/2": {
+     "R": "3/4",
+     "C": "402673079/390625000",
+     "z_monotone": true
+    },
+    "lambda_star": "4386627/9765625",
+    "V_IID_primal": "1588759181/1562500000",
+    "V_IID_dual": "1588759181/1562500000",
+    "Gamma_upper_exact": "13078247/6250000000"
+   }
+  },
+  {
+   "cell": [
+    "6",
+    "4",
+    "2",
+    "1/20",
+    "1/20",
+    "1/1000",
+    "999/1000",
+    "1/2",
+    "0",
+    "1/20"
+   ],
+   "alpha": "25/32",
+   "Gamma_lo": "0.0016639595939459497 (long rational)",
+   "Gamma_hi": "0.0016639595939498804 (long rational)",
+   "Gamma_positive_certified": true,
+   "U_IID": "28953318275943259/20000000000000000",
+   "U_causal": "115946389871288869/80000000000000000",
+   "R_iid_of_IID_opt": "25/32",
+   "R_causal_of_IID_opt": "13/16",
+   "V_causal_source": "FCG-fast (2 rows)"
+  },
+  {
+   "cell": [
+    "9",
+    "6",
+    "1",
+    "1/100",
+    "1/100",
+    "1/100",
+    "99/100",
+    "1/2",
+    "1/1000",
+    "1/1000"
+   ],
+   "alpha": "69/128",
+   "Gamma_lo": "0.00087631969706324336 (long rational)",
+   "Gamma_hi": "0.00087631969709653953 (long rational)",
+   "Gamma_positive_certified": true,
+   "U_IID": "51098307393230602815753/62500000000000000000000",
+   "U_causal": "25576538687148980773953/31250000000000000000000",
+   "R_iid_of_IID_opt": "69/128",
+   "R_causal_of_IID_opt": "35/64",
+   "V_causal_source": "FCG-fast (2 rows)"
+  }
+ ]
+}

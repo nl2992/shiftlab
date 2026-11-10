@@ -1,0 +1,11 @@
+{
+ "script": "scripts/paper4_continuation/theory_v2/wpB_static_proofcheck.py",
+ "seed": 1,
+ "seconds": 110.29522895812988,
+ "n_cells": 254,
+ "max_err_G_recursion_vs_DP": 4.547473508864641e-13,
+ "max_err_D_recursion_vs_DP": 6.821210263296962e-13,
+ "n_monotonicity_violations": 0,
+ "n_gap_violations": 0,
+ "examples": []
+}

@@ -1,0 +1,15 @@
+{
+ "script": "scripts/paper4_continuation/theory_v2/wpB_symce.py",
+ "family": "sym",
+ "args": [
+  "3",
+  "7",
+  "2,3",
+  "1,2"
+ ],
+ "seconds": 28.373260736465454,
+ "cells_scanned": 720,
+ "cells_flagged": 0,
+ "n_certified_positive": 0,
+ "found": []
+}

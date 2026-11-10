@@ -1,0 +1,11 @@
+{
+ "script": "scripts/paper4_continuation/theory_v2/wpB_static_falsify.py",
+ "seed": 1,
+ "Tmax": 12,
+ "Bmax": 6,
+ "seconds": 110.00536513328552,
+ "n_cells": 7035,
+ "n_vertices": 22932,
+ "n_flagged": 0,
+ "flagged": []
+}

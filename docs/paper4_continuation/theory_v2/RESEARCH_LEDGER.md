@@ -14,3 +14,12 @@
   All five stopped on the account's 5-hour usage limit before writing any file (HTTP 429). Resumed at 12:50 EST
   from their saved transcripts; no partial outputs existed. The A3 campaign process had ended by then, so the
   quiet-CPU restriction was lifted.
+
+## 2026-11-10 — WP B (multi-label zero premium), agent report
+- PROVED Theorem S0: static alternative, c = 0, any B, d, k, prior, alpha => Gamma = 0. The proof uses the calendar
+  reduction plus an induction on the closed G/D recursions. Audit: 254 cells, 0 violations.
+- FALSIFIED Z2 / U-M / "TP2 + multi-label W". Counterexample CE-B1: T=5, B=4, d=1, t=1/10, e=(1/100,99/100), prior 1/2,
+  c=k=0, alpha=25/32, Gamma in [0.00209251952, 13078247/6250000000]. Certified two ways: by gamma_cell, and
+  independently by the wpB_dual_check lower bound.
+- OPEN: static with c > 0 (Lemma S+). 0 failures in 29,297 cells.
+- Details: `MULTILABEL_ZERO_PREMIUM.md`. Nothing committed.

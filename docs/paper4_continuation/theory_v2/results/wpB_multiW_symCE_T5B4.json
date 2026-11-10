@@ -1,0 +1,19 @@
+{
+ "script": "scripts/paper4_continuation/theory_v2/wpB_multiW.py",
+ "cell": [
+  "5",
+  "4",
+  "1",
+  "0.1",
+  "0.1",
+  "0.01",
+  "0.99",
+  "0.5",
+  "0",
+  "0"
+ ],
+ "n_checked": 58,
+ "n_nonvacuous_G0_pos": 0,
+ "n_fail": 0,
+ "fails": []
+}

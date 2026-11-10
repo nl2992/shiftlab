@@ -13,3 +13,5 @@
 | CE-9 | Original Theorem C3 formula | e=1/4,k=1/10,c=0,α=1/10, T=4,6: true Γ = 0.005 vs claimed 0.0075 | WP G reviewer; lead re-computed |
 | CE-10 | "TP2 + MLR ⇒ Γ = 0" at B ≥ 2 (smallest) | T=3,B=2,d=1,t01=1/2,t10=1/10, em (1/10,3/5), prior 0, c=k=0, α=1/10: Γ = 9/50000 | WP C agent; lead re-computed (`scratchpad/verify_c2.py`) |
 | CE-11 | Symmetric persistent ⇒ Γ = 0 without a stationary start | T=6,B=3,d=1,t=1/4, em (1/10,9/10), prior 0, α=1/10: Γ = 0.00216; same cell with prior 1/2: Γ = 0 (lead control) | WP C agent; lead re-computed with control |
+| CE-12 | "Symmetric stationary persistent ⇒ Γ = 0" (Z2) and "TP2 + M_marg ⇒ Γ = 0" (U-M), for every α | T=5,B=4,d=1,t01=t10=1/10, em (1/100,99/100), prior 1/2, c=k=0, α=25/32: Γ ≈ 0.0020925 (certified); Γ = 0 at every other α tested in [1/20, 7/8] | theory_v2 WP-B agent (`wpB_ce_record_v1.json`); lead re-computed with `gamma_cell` |
+| CE-13 | C3′ formula at T = 2 | e=1/4,k=1/10,c=0,α=1/10,T=2: Γ = 3/400 vs C3′ 1/200 (correct: α((g−k)/2−c) at T=2) | theory_v2 WP-A auditor; lead re-computed |

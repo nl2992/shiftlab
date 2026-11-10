@@ -1,0 +1,459 @@
+{
+ "script": "scripts/paper4_continuation/theory_v2/wpB_u1_check.py",
+ "family": "sym",
+ "seed": 1,
+ "n_cells": 25,
+ "n_cells_U1_fails": 0,
+ "rows": [
+  {
+   "cell": [
+    "3",
+    "2",
+    "2",
+    "1/20",
+    "1/20",
+    "1/10",
+    "9/10",
+    "1/2",
+    "0",
+    "1/100"
+   ],
+   "n_monotone": 29,
+   "n_nonmonotone": 5,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "3",
+    "1",
+    "1/2",
+    "1/2",
+    "1/100",
+    "99/100",
+    "1/2",
+    "0",
+    "0"
+   ],
+   "n_monotone": 240,
+   "n_nonmonotone": 268,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "3",
+    "1",
+    "1/20",
+    "1/20",
+    "1/100",
+    "99/100",
+    "1/2",
+    "1/100",
+    "1/10"
+   ],
+   "n_monotone": 240,
+   "n_nonmonotone": 268,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "2",
+    "1",
+    "1/2",
+    "1/2",
+    "1/10",
+    "9/10",
+    "1/2",
+    "1/10",
+    "0"
+   ],
+   "n_monotone": 78,
+   "n_nonmonotone": 46,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "2",
+    "1/20",
+    "1/20",
+    "1/10",
+    "9/10",
+    "1/2",
+    "0",
+    "0"
+   ],
+   "n_monotone": 93,
+   "n_nonmonotone": 34,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "2",
+    "1",
+    "1/20",
+    "1/20",
+    "1/100",
+    "99/100",
+    "1/2",
+    "1/10",
+    "0"
+   ],
+   "n_monotone": 78,
+   "n_nonmonotone": 46,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "3",
+    "1",
+    "1/20",
+    "1/20",
+    "1/4",
+    "3/4",
+    "1/2",
+    "1/100",
+    "1/100"
+   ],
+   "n_monotone": 240,
+   "n_nonmonotone": 268,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "2",
+    "1/10",
+    "1/10",
+    "1/10",
+    "9/10",
+    "1/2",
+    "0",
+    "1/10"
+   ],
+   "n_monotone": 93,
+   "n_nonmonotone": 34,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "2",
+    "2",
+    "1/2",
+    "1/2",
+    "1/10",
+    "9/10",
+    "1/2",
+    "0",
+    "1/100"
+   ],
+   "n_monotone": 29,
+   "n_nonmonotone": 5,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "2",
+    "1/20",
+    "1/20",
+    "1/4",
+    "3/4",
+    "1/2",
+    "1/10",
+    "1/10"
+   ],
+   "n_monotone": 93,
+   "n_nonmonotone": 34,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "1",
+    "1/20",
+    "1/20",
+    "1/10",
+    "9/10",
+    "1/2",
+    "1/10",
+    "1/10"
+   ],
+   "n_monotone": 315,
+   "n_nonmonotone": 252,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "2",
+    "1/2",
+    "1/2",
+    "1/4",
+    "3/4",
+    "1/2",
+    "1/100",
+    "1/100"
+   ],
+   "n_monotone": 93,
+   "n_nonmonotone": 34,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "2",
+    "1/2",
+    "1/2",
+    "1/100",
+    "99/100",
+    "1/2",
+    "1/10",
+    "0"
+   ],
+   "n_monotone": 93,
+   "n_nonmonotone": 34,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "3",
+    "1",
+    "1/10",
+    "1/10",
+    "1/100",
+    "99/100",
+    "1/2",
+    "1/100",
+    "1/10"
+   ],
+   "n_monotone": 240,
+   "n_nonmonotone": 268,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "2",
+    "2",
+    "1/4",
+    "1/4",
+    "1/10",
+    "9/10",
+    "1/2",
+    "0",
+    "1/100"
+   ],
+   "n_monotone": 29,
+   "n_nonmonotone": 5,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "2",
+    "1/20",
+    "1/20",
+    "1/4",
+    "3/4",
+    "1/2",
+    "1/10",
+    "1/100"
+   ],
+   "n_monotone": 93,
+   "n_nonmonotone": 34,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "1",
+    "1/2",
+    "1/2",
+    "2/5",
+    "3/5",
+    "1/2",
+    "1/100",
+    "0"
+   ],
+   "n_monotone": 315,
+   "n_nonmonotone": 252,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "1",
+    "1/2",
+    "1/2",
+    "1/4",
+    "3/4",
+    "1/2",
+    "0",
+    "1/10"
+   ],
+   "n_monotone": 315,
+   "n_nonmonotone": 252,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "2",
+    "2",
+    "1/20",
+    "1/20",
+    "1/4",
+    "3/4",
+    "1/2",
+    "1/10",
+    "1/10"
+   ],
+   "n_monotone": 29,
+   "n_nonmonotone": 5,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "2",
+    "2",
+    "1/2",
+    "1/2",
+    "1/10",
+    "9/10",
+    "1/2",
+    "1/10",
+    "1/100"
+   ],
+   "n_monotone": 29,
+   "n_nonmonotone": 5,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "3",
+    "1",
+    "1/4",
+    "1/4",
+    "2/5",
+    "3/5",
+    "1/2",
+    "1/100",
+    "1/10"
+   ],
+   "n_monotone": 240,
+   "n_nonmonotone": 268,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "2",
+    "1/10",
+    "1/10",
+    "1/4",
+    "3/4",
+    "1/2",
+    "1/100",
+    "0"
+   ],
+   "n_monotone": 93,
+   "n_nonmonotone": 34,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "3",
+    "1",
+    "1/4",
+    "1/4",
+    "1/4",
+    "3/4",
+    "1/2",
+    "1/10",
+    "1/100"
+   ],
+   "n_monotone": 240,
+   "n_nonmonotone": 268,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "3",
+    "3",
+    "1",
+    "1/4",
+    "1/4",
+    "1/100",
+    "99/100",
+    "1/2",
+    "1/100",
+    "0"
+   ],
+   "n_monotone": 240,
+   "n_nonmonotone": 268,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  },
+  {
+   "cell": [
+    "4",
+    "2",
+    "2",
+    "1/4",
+    "1/4",
+    "1/100",
+    "99/100",
+    "1/2",
+    "1/10",
+    "0"
+   ],
+   "n_monotone": 93,
+   "n_nonmonotone": 34,
+   "n_undominated_nonmonotone_points": 0,
+   "example": null
+  }
+ ]
+}

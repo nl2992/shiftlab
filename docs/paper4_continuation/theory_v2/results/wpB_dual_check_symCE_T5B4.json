@@ -1,0 +1,25 @@
+{
+ "script": "scripts/paper4_continuation/theory_v2/wpB_dual_check.py",
+ "cell": [
+  "5",
+  "4",
+  "1",
+  "1/10",
+  "1/10",
+  "1/100",
+  "99/100",
+  "1/2",
+  "0",
+  "0"
+ ],
+ "alpha": "25/32",
+ "nu": "lambda tq, rel: F(0) if (tq == 2 and rel == ((1, 0),)) else F(1, 2)",
+ "multipliers_exact": [
+  "41323/131072",
+  "29653/442843"
+ ],
+ "V_causal_lower_bound_exact": "92408221607580963141/90694246400000000000",
+ "V_causal_lower_bound_float": 1.01889838965111,
+ "V_IID_dual_float_grid": 1.0167999194400001,
+ "lambda_IID_grid": 0.449
+}

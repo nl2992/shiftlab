@@ -1,0 +1,2 @@
+# Liu et al., TPAMI 2026, DOI 10.1109/TPAMI.2026.3742576 (user triage: drift + delayed supervision with regret analysis)
+UNRETRIEVED. doi.org redirects to https://ieeexplore.ieee.org/document/11733563/ ; WebFetch of that page returned no usable content. A WebSearch for the claim found no matching paper. Title, authors and content unknown to me; the occupancy claim is UNVERIFIED. Search surfaced, but I do NOT claim identical: DT-GOL arXiv 2606.22950 (label-delay online learning, regret; authors/venue not confirmed).

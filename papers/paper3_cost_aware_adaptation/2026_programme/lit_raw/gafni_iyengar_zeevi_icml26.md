@@ -1,0 +1,2 @@
+# Gafni, Iyengar, Zeevi, The Cost of Learning Under Multiple Change Points
+ICML 2026, PMLR 306 (gafni26a), pp. 32542-32580. PDF extracted. Abstract read; theorem content taken from repo audit docs/switching_gafni_theorem_audit_v1.md (R; official PDF, SHA in manifest v34). Full-observation piecewise-IID mean tracking; ATC upper bound and minimax lower bound; squared error; no purchased labels, no actions.

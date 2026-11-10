@@ -1,0 +1,2 @@
+# Cerqueira, Gomes, Heyden, Pfahringer, Bifet, A Framework for Evaluating and Benchmarking Concept Drift Detection Methods
+arXiv 2606.07789 (5 Jun 2026), KDD'26. Abstract only (WebFetch): Monte Carlo drift simulation on real datasets, timing-aware metrics, and a hyperparameter optimisation protocol advocating leave-one-dataset-out; 14 detectors, 7 datasets. Method section NOT read. Relevant to D (LODO protocol for detector configs is already published) and C (benchmark protocol).

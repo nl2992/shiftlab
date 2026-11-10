@@ -1,0 +1,3 @@
+# Lindon & Kallus, Design-Based Anytime-Valid Inference for Randomized Experiments with Delayed Outcomes and Staggered Entry
+ICML 2026, PMLR 306:75193-75210 (lindon26a); arXiv 2603.25971 (v1 Mar 2026, v2 May 2026). https://proceedings.mlr.press/v306/lindon26a.html abstract fetched 2026-11-09. Full theorems via repo audit docs/switching_source_audit_v2.md (R; Thm 4.6 asymptotic via strong approximation). Calendar-time cumulative-reward confidence sequences; arm-specific event-time filtration; IPW treatment-effect error is not a martingale under any filtration.
+Note: coordinator listed this as "delayed-outcome confidence sequences (locate)"; this is the located paper.

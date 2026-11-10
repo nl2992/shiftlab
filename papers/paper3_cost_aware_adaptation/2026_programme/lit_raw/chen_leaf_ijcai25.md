@@ -1,0 +1,2 @@
+# Chen, Zhu, Zhang, Shen, Yang, Wen, Sun, Learning to Extrapolate and Adjust: Two-Stage Meta-Learning for Concept Drift in Online Time Series Forecasting (LEAF)
+IJCAI-25 Main Track pp. 4869-4877, DOI 10.24963/ijcai.2025/542. https://www.ijcai.org/proceedings/2025/542 abstract fetched. Model-agnostic meta-learning for forecasting under macro/micro drift; datasets released. Full text not read. Not a decision/label controller.

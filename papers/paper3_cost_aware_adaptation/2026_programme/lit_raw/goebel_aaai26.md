@@ -1,0 +1,3 @@
+# Goebel, Solow, Pesantez-Cabrera, Keller, Fern, Budgeted Online Active Learning with Expert Advice and Episodic Priors
+AAAI-26 40(45):38496-38504, DOI 10.1609/aaai.v40i45.41191; arXiv 2506.03307.
+Access: PARTIAL, SEARCH-SNIPPET ONLY. doi.org redirects to https://ojs.aaai.org/index.php/AAAI/article/view/41191, which returned a bot-protection block page to WebFetch. Metadata and the setting come from WebSearch result text (finite horizon, 2-10 labels, Hedge adapted to sparse-label regression, episodic expert-behaviour priors from unlabeled streams, RMSE objective). arXiv PDF not fetched. UNRETRIEVED for method/theorem details. No repo audit exists (git grep goebel docs: none).

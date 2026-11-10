@@ -1,0 +1,2 @@
+# Sow, Lin, Liang, Zhang, Algorithm Design for Online Meta-Learning with Task Boundary Detection
+Conference on Parsimony and Learning (CPAL) 2024, PMLR 234:458-479. https://proceedings.mlr.press/v234/sow24a.html abstract fetched. A guessed PDF URL returned 404, so the full text is UNRETRIEVED. Abstract: task-switch detector plus distribution-shift detector in online meta-learning, current data only, sublinear task-averaged regret, three benchmarks.

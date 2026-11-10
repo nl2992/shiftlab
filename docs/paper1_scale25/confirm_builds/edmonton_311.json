@@ -1,0 +1,84 @@
+{
+ "name": "edmonton_311",
+ "built_utc": "2026-11-10T08:34:59+00:00",
+ "meta": {
+  "name": "edmonton_311",
+  "url": "https://data.edmonton.ca/resource/q7ua-agfg  (https://data.edmonton.ca/d/q7ua-agfg)",
+  "license": "City of Edmonton Open Data Terms of Use (Open Government Licence - Edmonton)",
+  "publisher": "City of Edmonton (311 Requests)",
+  "task": "binary: 311 request closed within 7 days of creation",
+  "label": "date_closed present and date_closed - date_created <= 7 days (still open = 0)",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "service category/area/description, interaction channel, ward, neighbourhood and creation hour/dow/month; request_status, status_detail, referral_type and closure fields are excluded"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_category",
+  "service_area",
+  "service_description",
+  "channel",
+  "ward",
+  "neighbourhood"
+ ],
+ "n_after_filter": 943713,
+ "subsample": "systematic 400000 of 943713",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:04:03",
+  "test_start": "2026-01-12 10:55:41",
+  "end": "2026-06-30 23:56:46"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.077175,
+  "err_incumbent": 0.145925,
+  "err_challenger": 0.11395,
+  "base_rate_y1": 0.84215
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/edmonton_311.npz",
+  "array_content_sha256": "8f81aff49fe5aa92251e79863d20f025028041110cba3ffab1ea28be828b5c6d"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

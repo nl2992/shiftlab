@@ -1,0 +1,85 @@
+{
+ "name": "epa_aqi_county",
+ "built_utc": "2026-11-10T09:01:05+00:00",
+ "meta": {
+  "name": "epa_aqi_county",
+  "url": "https://aqs.epa.gov/aqsweb/airdata/daily_aqi_by_county_{y}.zip",
+  "license": "US EPA AirData: US Government work, public domain",
+  "publisher": "US Environmental Protection Agency (AQS AirData daily AQI by county)",
+  "task": "binary: next-day AQI category is worse than Good (AQI > 50) for the same county",
+  "label": "AQI(county, t+1) > 50; rows without a t+1 observation dropped",
+  "delay": 1000,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "AQI, category, defining parameter, sites reporting on day t; AQI at t-1 and t-7; state, county code, month, dow"
+ },
+ "num": [
+  "aqi",
+  "aqi_l1",
+  "aqi_l7",
+  "n_sites",
+  "month",
+  "dow"
+ ],
+ "cat": [
+  "category",
+  "param",
+  "state",
+  "county"
+ ],
+ "n_after_filter": 235278,
+ "subsample": "none",
+ "n": 235278,
+ "split": {
+  "train_old": [
+   0,
+   47056
+  ],
+  "train_new": [
+   47056,
+   94111
+  ],
+  "validation": [
+   94111,
+   117639
+  ],
+  "test": [
+   117639,
+   235278
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:00:00",
+  "test_start": "2025-11-08 00:00:00",
+  "end": "2026-05-31 00:00:00"
+ },
+ "validation": {
+  "n": 23528,
+  "disagreement": 0.051555593335600135,
+  "err_incumbent": 0.11900714042842571,
+  "err_challenger": 0.11190921455287317,
+  "base_rate_y1": 0.14242604556273378
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 58,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/epa_aqi_county.npz",
+  "array_content_sha256": "09ff325f864ce3481df135dd43bc3e6dfa53f18fd084964459947062669739d7"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

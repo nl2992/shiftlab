@@ -1,0 +1,85 @@
+{
+ "name": "sandiego_311",
+ "built_utc": "2026-11-10T08:31:56+00:00",
+ "meta": {
+  "name": "sandiego_311",
+  "url": "https://seshat.datasd.org/get_it_done_reports/get_it_done_requests_{closed_2024,closed_2025,closed_2026,open}_datasd.csv",
+  "license": "City of San Diego open data (data.sandiego.gov), Creative Commons CC0 / public domain",
+  "publisher": "City of San Diego (Get It Done)",
+  "task": "binary: Get It Done request closed within 14 days of being requested",
+  "label": "status in (Closed, Referred) and case_age_days <= 14",
+  "delay": 100,
+  "window": [
+   "2026-01-01 00:00:00",
+   "2026-07-01 00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "staff group, service name/detail, council district, community plan, zip, case origin, request hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "case_record_type",
+  "service_name",
+  "service_name_detail",
+  "council_district",
+  "comm_plan_code",
+  "zipcode",
+  "case_origin"
+ ],
+ "n_after_filter": 209412,
+ "subsample": "none",
+ "n": 209412,
+ "split": {
+  "train_old": [
+   0,
+   41882
+  ],
+  "train_new": [
+   41882,
+   83765
+  ],
+  "validation": [
+   83765,
+   104706
+  ],
+  "test": [
+   104706,
+   209412
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2026-01-01 00:15:00",
+  "test_start": "2026-03-31 17:33:00",
+  "end": "2026-06-30 23:58:00"
+ },
+ "validation": {
+  "n": 20941,
+  "disagreement": 0.1270235423332219,
+  "err_incumbent": 0.17152953536125304,
+  "err_challenger": 0.15834964901389617,
+  "base_rate_y1": 0.7550260255002149
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 52,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/sandiego_311.npz",
+  "array_content_sha256": "90300d648f9d2eda3b0fe2573516017f660b8fe62257c92159d7d1a927d2fec3"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2026-01-01",
+  "2026-07-01"
+ ]
+}

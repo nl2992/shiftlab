@@ -1,0 +1,87 @@
+{
+ "name": "boston_311",
+ "built_utc": "2026-11-10T08:02:44+00:00",
+ "meta": {
+  "name": "boston_311",
+  "url": "https://data.boston.gov/dataset/8048697b-ad64-4bfc-b090-ee00169f2323/resource/9d7c2214-4709-478a-a2e8-fb2020a5bb94/download/lagan_311_open_data_2025_rvsd3.csv",
+  "license": "Open Data Commons Public Domain Dedication and License (PDDL), City of Boston",
+  "publisher": "City of Boston (Analyze Boston / data.boston.gov)",
+  "task": "binary: 311 case closed within 2 days of being opened",
+  "label": "closed_dt present and closed_dt - open_dt <= 2 days",
+  "delay": 100,
+  "window": [
+   "2025-01-01T00:00:00",
+   "2026-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "open hour/dow/month, subject, reason, type, source channel, neighborhood, ward, police district, city council district, zip: all recorded at case opening"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "subject",
+  "reason",
+  "type",
+  "source",
+  "neighborhood",
+  "ward",
+  "police_district",
+  "city_council_district",
+  "location_zipcode"
+ ],
+ "n_after_filter": 185195,
+ "subsample": "none",
+ "n": 185195,
+ "split": {
+  "train_old": [
+   0,
+   37039
+  ],
+  "train_new": [
+   37039,
+   74078
+  ],
+  "validation": [
+   74078,
+   92598
+  ],
+  "test": [
+   92598,
+   185195
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-01-01 00:04:29.143000",
+  "test_start": "2025-07-24 07:46:10.950000",
+  "end": "2025-12-31 23:58:57.723000"
+ },
+ "validation": {
+  "n": 18520,
+  "disagreement": 0.14605831533477323,
+  "err_incumbent": 0.13720302375809934,
+  "err_challenger": 0.13466522678185744,
+  "base_rate_y1": 0.6632289416846652
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 46,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/boston_311.npz",
+  "array_content_sha256": "7bfd92ae17b4e926882664ee514386877400e470a0a07c8261439549c1b35ee0"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-01-01",
+  "2026-01-01"
+ ]
+}

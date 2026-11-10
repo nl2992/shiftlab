@@ -1,0 +1,85 @@
+{
+ "name": "dc_311",
+ "built_utc": "2026-11-10T08:31:24+00:00",
+ "meta": {
+  "name": "dc_311",
+  "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/ServiceRequests/FeatureServer/21/query",
+  "license": "DC Open Data (opendata.dc.gov), Government of the District of Columbia, CC0 / open public data",
+  "publisher": "Government of the District of Columbia (DC 311 / DCGIS)",
+  "task": "binary: 311 service request resolved within 5 days of being added",
+  "label": "RESOLUTIONDATE present and RESOLUTIONDATE - ADDDATE <= 5 days",
+  "delay": 100,
+  "window": [
+   "2026-01-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "service code/description/type, organization acronym, ward, zip, priority, added hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_code",
+  "service_desc",
+  "service_type",
+  "org",
+  "ward",
+  "zip",
+  "priority"
+ ],
+ "n_after_filter": 250354,
+ "subsample": "none",
+ "n": 250354,
+ "split": {
+  "train_old": [
+   0,
+   50071
+  ],
+  "train_new": [
+   50071,
+   100142
+  ],
+  "validation": [
+   100142,
+   125177
+  ],
+  "test": [
+   125177,
+   250354
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2026-01-01 00:14:49",
+  "test_start": "2026-04-02 10:44:39",
+  "end": "2026-06-30 23:59:55"
+ },
+ "validation": {
+  "n": 25035,
+  "disagreement": 0.3602955861793489,
+  "err_incumbent": 0.3257040143798682,
+  "err_challenger": 0.16720591172358698,
+  "base_rate_y1": 0.6107849011384062
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 62,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/dc_311.npz",
+  "array_content_sha256": "675f2d6e824276e8e3864e0c78ce341abaefa8a56b294822be1f36f379db61d8"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2026-01-01",
+  "2026-07-01"
+ ]
+}

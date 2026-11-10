@@ -1,0 +1,85 @@
+{
+ "name": "sacramento_311",
+ "built_utc": "2026-11-10T08:07:25+00:00",
+ "meta": {
+  "name": "sacramento_311",
+  "url": "https://services5.arcgis.com/54falWtcpty3V47Z/arcgis/rest/services/SalesForce311_View/FeatureServer/0/query",
+  "license": "City of Sacramento open data (City of Sacramento ArcGIS Hub), open public data",
+  "publisher": "City of Sacramento (311 Customer Contact Center)",
+  "task": "binary: Sacramento 311 request closed within 7 days of creation",
+  "label": "DateClosed valid (>= DateCreated) and DateClosed - DateCreated <= 7 days",
+  "delay": 100,
+  "window": [
+   "2025-01-01 00:00:00",
+   "2026-01-01 00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "category levels/name, council district, incident source, neighborhood, zip, created hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "CategoryLevel1",
+  "CategoryLevel2",
+  "CategoryName",
+  "CouncilDistrictNumber",
+  "SourceLevel1",
+  "Neighborhood",
+  "ZIP"
+ ],
+ "n_after_filter": 569604,
+ "subsample": "systematic 400000 of 569604",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-01-01 00:04:00",
+  "test_start": "2025-07-10 15:18:00",
+  "end": "2025-12-31 15:59:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.09635,
+  "err_incumbent": 0.158625,
+  "err_challenger": 0.137675,
+  "base_rate_y1": 0.592375
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/sacramento_311.npz",
+  "array_content_sha256": "80bdecfc2f9de3639707eb68684e7dc4cbe6bf30e4a2f0433ef5a6ab21167a45"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-01-01",
+  "2026-01-01"
+ ]
+}

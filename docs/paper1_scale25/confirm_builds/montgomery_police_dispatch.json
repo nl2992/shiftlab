@@ -1,0 +1,85 @@
+{
+ "name": "montgomery_police_dispatch",
+ "built_utc": "2026-11-10T08:44:01+00:00",
+ "meta": {
+  "name": "montgomery_police_dispatch",
+  "url": "https://data.montgomerycountymd.gov/resource/98cc-bc7d  (https://data.montgomerycountymd.gov/d/98cc-bc7d)",
+  "license": "Montgomery County MD open data (public domain per catalog)",
+  "publisher": "Montgomery County MD Police (Police Dispatched Incidents)",
+  "task": "binary: first police unit on scene within 10 minutes of call pickup",
+  "label": "calltime_arrive <= 600 s among incidents with an arrival time",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "priority, initial call type, police district, sector, PRA, zip, city, hour/dow/month (call-pickup fields)"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "priority",
+  "initial_type",
+  "district",
+  "sector",
+  "pra",
+  "zip",
+  "city"
+ ],
+ "n_after_filter": 155578,
+ "subsample": "none",
+ "n": 155578,
+ "split": {
+  "train_old": [
+   0,
+   31116
+  ],
+  "train_new": [
+   31116,
+   62231
+  ],
+  "validation": [
+   62231,
+   77789
+  ],
+  "test": [
+   77789,
+   155578
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:04:30",
+  "test_start": "2025-12-28 02:03:44",
+  "end": "2026-06-30 23:56:02"
+ },
+ "validation": {
+  "n": 15558,
+  "disagreement": 0.056562540172258646,
+  "err_incumbent": 0.21448772335775806,
+  "err_challenger": 0.20818871320221108,
+  "base_rate_y1": 0.2699575780948708
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 38,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/montgomery_police_dispatch.npz",
+  "array_content_sha256": "719177414570737ac644be401087dfb0e782c762afd39a5fdbfec7a55779f76c"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

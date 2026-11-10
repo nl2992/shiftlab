@@ -1,0 +1,82 @@
+{
+ "name": "divvy_chicago",
+ "built_utc": "2026-11-10T08:45:22+00:00",
+ "meta": {
+  "name": "divvy_chicago",
+  "url": "https://divvy-tripdata.s3.amazonaws.com/YYYYMM-divvy-tripdata.zip",
+  "license": "Divvy Data License Agreement (public trip data; Lyft/CDOT)",
+  "publisher": "Divvy / Lyft (Chicago Department of Transportation system data)",
+  "task": "binary: trip taken by a subscribed member (not a casual rider)",
+  "label": "member_casual == 'member'",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "load(): every K-th row per month, K=ceil(n/70000); then c4_build.N_MAX systematic",
+  "features_note": "rideable_type, start station id, start lat/lng (3 dp), start hour/dow/month: known at unlock; end time/station/duration unused; member_casual is the label"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "lat",
+  "lng"
+ ],
+ "cat": [
+  "rideable_type",
+  "start_station_id"
+ ],
+ "n_after_filter": 769288,
+ "subsample": "systematic 400000 of 769288",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:00:23.182000",
+  "test_start": "2026-01-06 17:55:02.855000",
+  "end": "2026-06-30 23:49:19.613000"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.0939,
+  "err_incumbent": 0.241875,
+  "err_challenger": 0.215575,
+  "base_rate_y1": 0.785275
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/divvy_chicago.npz",
+  "array_content_sha256": "0d73b6ff9c0d6f9e1342c4521d1b3ace3de71bab75b44b769b5fb4fe40fe5b77"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

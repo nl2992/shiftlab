@@ -1,0 +1,83 @@
+{
+ "name": "bts_ontime",
+ "built_utc": "2026-11-10T08:20:01+00:00",
+ "meta": {
+  "name": "bts_ontime",
+  "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_{y}_{m}.zip",
+  "license": "US Government work, public domain (US DOT Bureau of Transportation Statistics)",
+  "publisher": "US DOT Bureau of Transportation Statistics (TranStats On-Time Performance)",
+  "task": "binary: flight arrives >=15 min late or is cancelled/diverted",
+  "label": "ArrDel15 == 1 or Cancelled == 1 or Diverted == 1",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2025-09-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "carrier, origin, dest, scheduled dep hour, dow, month, distance, CRS elapsed time; no actual times/delays"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "distance",
+  "crs_elapsed"
+ ],
+ "cat": [
+  "carrier",
+  "origin",
+  "dest"
+ ],
+ "n_after_filter": 1233806,
+ "subsample": "systematic 400000 of 1233806",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:04:00",
+  "test_start": "2025-07-31 10:25:00",
+  "end": "2025-08-31 23:59:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.141,
+  "err_incumbent": 0.303825,
+  "err_challenger": 0.284675,
+  "base_rate_y1": 0.298975
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/bts_ontime.npz",
+  "array_content_sha256": "6fe2af336d67d64a639023edfd25b69200945c64b29143916868b6e1d20e9f41"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2025-09-01"
+ ]
+}

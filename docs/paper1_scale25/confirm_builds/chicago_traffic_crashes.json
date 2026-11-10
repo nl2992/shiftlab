@@ -1,0 +1,89 @@
+{
+ "name": "chicago_traffic_crashes",
+ "built_utc": "2026-11-10T08:18:38+00:00",
+ "meta": {
+  "name": "chicago_traffic_crashes",
+  "url": "https://data.cityofchicago.org/resource/85ca-t3if.csv",
+  "license": "Open data (City of Chicago Data Portal terms of use; Chicago Police Department / CDOT)",
+  "publisher": "City of Chicago (Traffic Crashes - Crashes)",
+  "task": "binary: reported crash with officer-estimated damage over $1,500",
+  "label": "damage == 'OVER $1,500'",
+  "delay": 100,
+  "window": [
+   "2023-01-01T00:00:00",
+   "2025-01-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "crash hour/dow/month, posted speed limit, control device and condition, weather, lighting, first crash type, trafficway type, alignment, surface condition, road defect, beat"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "posted_speed_limit"
+ ],
+ "cat": [
+  "traffic_control_device",
+  "device_condition",
+  "weather_condition",
+  "lighting_condition",
+  "first_crash_type",
+  "trafficway_type",
+  "alignment",
+  "roadway_surface_cond",
+  "road_defect",
+  "beat_of_occurrence"
+ ],
+ "n_after_filter": 222810,
+ "subsample": "none",
+ "n": 222810,
+ "split": {
+  "train_old": [
+   0,
+   44562
+  ],
+  "train_new": [
+   44562,
+   89124
+  ],
+  "validation": [
+   89124,
+   111405
+  ],
+  "test": [
+   111405,
+   222810
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2023-01-01 00:00:00",
+  "test_start": "2024-01-03 21:15:00",
+  "end": "2024-12-31 23:47:00"
+ },
+ "validation": {
+  "n": 22281,
+  "disagreement": 0.03707194470625196,
+  "err_incumbent": 0.27898209236569277,
+  "err_challenger": 0.27287823706296843,
+  "base_rate_y1": 0.7147345271756205
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 55,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/chicago_traffic_crashes.npz",
+  "array_content_sha256": "99ea09f72f4cac22e663241eebb26efeacaeb631bda39fa2486847190274c7de"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2023-01-01",
+  "2025-01-01"
+ ]
+}

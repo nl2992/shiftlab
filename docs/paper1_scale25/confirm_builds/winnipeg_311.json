@@ -1,0 +1,84 @@
+{
+ "name": "winnipeg_311",
+ "built_utc": "2026-11-10T08:37:43+00:00",
+ "meta": {
+  "name": "winnipeg_311",
+  "url": "https://data.winnipeg.ca/resource/u7f6-5326  (https://data.winnipeg.ca/d/u7f6-5326)",
+  "license": "Open Government Licence - Winnipeg (Canada OGL compatible)",
+  "publisher": "City of Winnipeg (311 Requests)",
+  "task": "binary: 311 request closed within 7 days of creation",
+  "label": "closed_date present and closed_date - open_date <= 7 days (still open = 0)",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request reason/subject/type, channel type, ward, neighbourhood and open hour/dow/month; case_status and closed_date only in the label"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "reason",
+  "subject",
+  "type",
+  "channel",
+  "ward",
+  "neighbourhood"
+ ],
+ "n_after_filter": 843400,
+ "subsample": "systematic 400000 of 843400",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:01:00",
+  "test_start": "2026-01-05 13:03:37",
+  "end": "2026-06-30 23:59:17"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.058125,
+  "err_incumbent": 0.13655,
+  "err_challenger": 0.130575,
+  "base_rate_y1": 0.862725
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/winnipeg_311.npz",
+  "array_content_sha256": "82917d4f3424a5046b0e43accfcabb764aaafaa9fe2403b0c6edbfbd162c7c04"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

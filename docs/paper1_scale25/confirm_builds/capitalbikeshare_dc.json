@@ -1,0 +1,78 @@
+{
+ "name": "capitalbikeshare_dc",
+ "built_utc": "2026-11-10T08:49:02+00:00",
+ "meta": {
+  "name": "capitalbikeshare_dc",
+  "url": "https://s3.amazonaws.com/capitalbikeshare-data/YYYYMM-capitalbikeshare-tripdata.zip",
+  "license": "Capital Bikeshare Data License Agreement (public trip data)",
+  "publisher": "Capital Bikeshare / Lyft (DC Department of Transportation system data)",
+  "task": "binary: trip taken by a subscribed member (not a casual rider)",
+  "label": "member_casual == 'member'",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "load(): every K-th row per month, K=ceil(n/70000); then c4_build.N_MAX systematic",
+  "features_note": "rideable_type, start station id, start lat/lng (3 dp), start hour/dow/month: known at unlock; end time/station/duration unused; member_casual is the label"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month",
+  "lat",
+  "lng"
+ ],
+ "cat": [
+  "rideable_type",
+  "start_station_id"
+ ],
+ "n_after_filter": 774868,
+ "subsample": "systematic 400000 of 774868",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:00:58.022000",
+  "test_start": "2025-12-30 16:16:22.434000",
+  "end": "2026-06-30 23:54:26.159000"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.02305,
+  "err_incumbent": 0.20925,
+  "err_challenger": 0.2075,
+  "base_rate_y1": 0.788375
+ },
+ "gates": {
+  "disagreement": false,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": false,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

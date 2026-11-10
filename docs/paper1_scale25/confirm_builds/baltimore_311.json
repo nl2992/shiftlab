@@ -1,0 +1,85 @@
+{
+ "name": "baltimore_311",
+ "built_utc": "2026-11-10T08:08:29+00:00",
+ "meta": {
+  "name": "baltimore_311",
+  "url": "https://services1.arcgis.com/UWYHeuuJISiGmgXx/ArcGIS/rest/services/311_Customer_Service_Requests_2025/FeatureServer/0",
+  "license": "Open Baltimore (data.baltimorecity.gov), City of Baltimore, public open data",
+  "publisher": "City of Baltimore (Open Baltimore / 311)",
+  "task": "binary: 311 service request closed within 7 days of creation",
+  "label": "CloseDate present and CloseDate - CreatedDate <= 7 days",
+  "delay": 100,
+  "window": [
+   "2025-01-01T00:00:00",
+   "2025-05-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "request type, method received, agency, neighbourhood, council/police district, zip, created hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "sr_type",
+  "method",
+  "agency",
+  "neighborhood",
+  "council",
+  "police",
+  "zip"
+ ],
+ "n_after_filter": 274794,
+ "subsample": "none",
+ "n": 274794,
+ "split": {
+  "train_old": [
+   0,
+   54959
+  ],
+  "train_new": [
+   54959,
+   109918
+  ],
+  "validation": [
+   109918,
+   137397
+  ],
+  "test": [
+   137397,
+   274794
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-01-01 00:43:05",
+  "test_start": "2025-02-14 12:51:29",
+  "end": "2025-04-30 23:21:55"
+ },
+ "validation": {
+  "n": 27479,
+  "disagreement": 0.07230976381964409,
+  "err_incumbent": 0.1027329961061174,
+  "err_challenger": 0.09869354780013828,
+  "base_rate_y1": 0.781760617198588
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 68,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/baltimore_311.npz",
+  "array_content_sha256": "3f76b73aa853585542aa3497c8bf25c8cc5bd185312b406319b8f67f81defa95"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-01-01",
+  "2025-05-01"
+ ]
+}

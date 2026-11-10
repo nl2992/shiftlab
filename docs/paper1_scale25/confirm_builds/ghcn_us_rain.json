@@ -1,0 +1,85 @@
+{
+ "name": "ghcn_us_rain",
+ "built_utc": "2026-11-10T09:03:58+00:00",
+ "meta": {
+  "name": "ghcn_us_rain",
+  "url": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_year/{year}.csv.gz",
+  "license": "NOAA NCEI GHCN-Daily: public domain (US Government work)",
+  "publisher": "NOAA National Centers for Environmental Information (GHCN-Daily)",
+  "task": "binary: any precipitation recorded at the station on the next day",
+  "label": "PRCP(station, t+1) > 0, quality-flag clean",
+  "delay": 1000,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "station subsample crc32(id)%8==0; then c4_build.N_MAX systematic",
+  "features_note": "PRCP/TMAX/TMIN at t and t-1, station lat/lon/elevation/state, month"
+ },
+ "num": [
+  "prcp",
+  "tmax",
+  "tmin",
+  "prcp_l1",
+  "tmax_l1",
+  "lat",
+  "lon",
+  "elev",
+  "month"
+ ],
+ "cat": [
+  "state"
+ ],
+ "n_after_filter": 957575,
+ "subsample": "systematic 400000 of 957575",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:00:00",
+  "test_start": "2025-12-25 00:00:00",
+  "end": "2026-06-30 00:00:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.128875,
+  "err_incumbent": 0.2976,
+  "err_challenger": 0.272825,
+  "base_rate_y1": 0.299125
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/ghcn_us_rain.npz",
+  "array_content_sha256": "eb0ddf9c73063c56dec7be1dd0a388dce8c01dc23f2d94d157ef0b5a56350d67"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

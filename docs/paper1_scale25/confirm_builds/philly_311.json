@@ -1,0 +1,82 @@
+{
+ "name": "philly_311",
+ "built_utc": "2026-11-10T08:03:14+00:00",
+ "meta": {
+  "name": "philly_311",
+  "url": "https://phl.carto.com/api/v2/sql (table public_cases_fc)",
+  "license": "OpenDataPhilly / City of Philadelphia open data (Creative Commons Attribution)",
+  "publisher": "City of Philadelphia (Philly311, via OpenDataPhilly / phl.carto.com)",
+  "task": "binary: 311 request closed within 5 days of being requested",
+  "label": "closed_datetime present and closed_datetime - requested_datetime <= 5 days",
+  "delay": 100,
+  "window": [
+   "2025-07-01 00:00:00",
+   "2026-07-01 00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "service name/code, responsible agency, zip code, request hour/dow/month"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_name",
+  "service_code",
+  "agency",
+  "zipcode"
+ ],
+ "n_after_filter": 528651,
+ "subsample": "systematic 400000 of 528651",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-06-30 20:01:53",
+  "test_start": "2025-12-29 15:07:52",
+  "end": "2026-06-30 19:59:30"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.073925,
+  "err_incumbent": 0.093075,
+  "err_challenger": 0.10105,
+  "base_rate_y1": 0.771375
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/philly_311.npz",
+  "array_content_sha256": "d58ad7a9c50e212a570cab278d1127d324382b28ace90ec339e514336af01ed5"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

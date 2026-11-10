@@ -1,0 +1,83 @@
+{
+ "name": "calgary_311",
+ "built_utc": "2026-11-10T08:39:55+00:00",
+ "meta": {
+  "name": "calgary_311",
+  "url": "https://data.calgary.ca/resource/iahh-g8bj  (https://data.calgary.ca/d/iahh-g8bj)",
+  "license": "City of Calgary Open Data Licence (Open Government Licence - Calgary)",
+  "publisher": "The City of Calgary (311 Service Requests)",
+  "task": "binary: 311 request closed within 7 days of creation",
+  "label": "closed_date present and closed_date - requested_date <= 7 days (still open = 0)",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "service name, request source, responsible agency (routed by service type at intake: caveat), location type, community code and creation hour/dow/month; status_description and updated_date excluded"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_name",
+  "source",
+  "agency",
+  "location_type",
+  "comm_code"
+ ],
+ "n_after_filter": 494674,
+ "subsample": "systematic 400000 of 494674",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:00:00",
+  "test_start": "2025-12-31 00:00:00",
+  "end": "2026-06-30 00:00:00"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.149775,
+  "err_incumbent": 0.223925,
+  "err_challenger": 0.2456,
+  "base_rate_y1": 0.7591
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/calgary_311.npz",
+  "array_content_sha256": "f9fd2f713c8519f69425c8b0770a5353553762ee3caecbac72571630825d60c8"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

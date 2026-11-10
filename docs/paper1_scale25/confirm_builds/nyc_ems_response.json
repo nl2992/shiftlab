@@ -1,0 +1,86 @@
+{
+ "name": "nyc_ems_response",
+ "built_utc": "2026-11-10T08:42:27+00:00",
+ "meta": {
+  "name": "nyc_ems_response",
+  "url": "https://data.cityofnewyork.us/resource/76xm-jjuj  (https://data.cityofnewyork.us/d/76xm-jjuj)",
+  "license": "NYC Open Data terms of use (public data)",
+  "publisher": "New York City Fire Department / NYC Open Data (EMS Incident Dispatch Data)",
+  "task": "binary: EMS first unit on scene within 10 minutes of the incident",
+  "label": "incident_response_seconds_qy <= 600 among valid response times",
+  "delay": 100,
+  "window": [
+   "2025-07-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "initial call type and severity, borough, zip, community district, police precinct, dispatch area, special-event flag, hour/dow/month (call-intake fields)"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "call_type",
+  "severity",
+  "borough",
+  "zipcode",
+  "community_district",
+  "precinct",
+  "dispatch_area",
+  "special_event"
+ ],
+ "n_after_filter": 1476690,
+ "subsample": "systematic 400000 of 1476690",
+ "n": 400000,
+ "split": {
+  "train_old": [
+   0,
+   80000
+  ],
+  "train_new": [
+   80000,
+   160000
+  ],
+  "validation": [
+   160000,
+   200000
+  ],
+  "test": [
+   200000,
+   400000
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-07-01 00:00:14",
+  "test_start": "2025-12-27 11:49:28",
+  "end": "2026-06-30 23:59:34"
+ },
+ "validation": {
+  "n": 40000,
+  "disagreement": 0.15345,
+  "err_incumbent": 0.313025,
+  "err_challenger": 0.312875,
+  "base_rate_y1": 0.457875
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 100,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/nyc_ems_response.npz",
+  "array_content_sha256": "6511069d7ebe849f170bf3e240580e84b768e99df0b8440d894cbcbea38419b2"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-07-01",
+  "2026-07-01"
+ ]
+}

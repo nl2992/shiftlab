@@ -1,0 +1,83 @@
+{
+ "name": "louisville_311",
+ "built_utc": "2026-11-10T08:09:24+00:00",
+ "meta": {
+  "name": "louisville_311",
+  "url": "https://services1.arcgis.com/79kfd2K6fskCAkyg/arcgis/rest/services/metro_311_2025/FeatureServer/0;https://services1.arcgis.com/79kfd2K6fskCAkyg/arcgis/rest/services/metro_311_2026/FeatureServer/0",
+  "license": "Louisville Metro Open Data (data.louisvilleky.gov), public open data",
+  "publisher": "Louisville Metro Government (Metro 311 Service Requests)",
+  "task": "binary: Louisville 311 request closed within 7 days of creation",
+  "label": "closed_date present and closed_date - requested_datetime <= 7 days",
+  "delay": 100,
+  "window": [
+   "2025-01-01T00:00:00",
+   "2026-07-01T00:00:00"
+  ],
+  "subsample_rule": "c4_build.N_MAX systematic",
+  "features_note": "service name, source, responsible agency, zip, council district, hour/dow/month: all recorded at intake"
+ },
+ "num": [
+  "hour",
+  "dow",
+  "month"
+ ],
+ "cat": [
+  "service_name",
+  "source",
+  "agency",
+  "zip",
+  "council"
+ ],
+ "n_after_filter": 283011,
+ "subsample": "none",
+ "n": 283011,
+ "split": {
+  "train_old": [
+   0,
+   56602
+  ],
+  "train_new": [
+   56602,
+   113204
+  ],
+  "validation": [
+   113204,
+   141506
+  ],
+  "test": [
+   141506,
+   283011
+  ]
+ },
+ "ts_bounds": {
+  "train_old_start": "2025-01-01 00:00:00",
+  "test_start": "2025-09-21 00:00:00",
+  "end": "2026-06-30 00:00:00"
+ },
+ "validation": {
+  "n": 28302,
+  "disagreement": 0.04215249805667444,
+  "err_incumbent": 0.15885803123454173,
+  "err_challenger": 0.15345205285845523,
+  "base_rate_y1": 0.49742067698395875
+ },
+ "gates": {
+  "disagreement": true,
+  "err_incumbent": true,
+  "err_challenger": true,
+  "episodes": true
+ },
+ "eligible": true,
+ "episodes": 70,
+ "sklearn": "1.6.1",
+ "numpy": "2.4.2",
+ "sealed": {
+  "path": "data/scale25_confirm/louisville_311.npz",
+  "array_content_sha256": "e4ed727ad50b0e3ef19b4f8d397b6f1d97470e3d81f76bc710109d6c9931a8b2"
+ },
+ "builder": "scripts/paper1_scale25/data/confirm_build.py (wraps c4_build.build; unchanged gates)",
+ "confirm_window": [
+  "2025-01-01",
+  "2026-07-01"
+ ]
+}

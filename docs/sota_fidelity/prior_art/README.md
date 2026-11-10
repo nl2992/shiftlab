@@ -64,3 +64,22 @@ The sources already audited in the repo (about 212 arXiv ids, in `docs/switching
   - track A under an explicitly declared criterion (ii) or (iii) with economic gating. The E_rb
     results showed every valid method loses to never-switch on reversal, so this needs regimes with
     enough beneficial horizon before the reversal.
+
+---
+
+# Addendum (2026-11-10): scheduled periodic bursts — lead verdict
+
+Inputs: [bursts_external.md](bursts_external.md) (retrieval), an in-repo sweep (summarised here), and
+[BURSTS_CHECK.md](BURSTS_CHECK.md) (independent check, which opened the sources the retrieval missed).
+
+| Sub-question | Verdict | Why |
+|---|---|---|
+| (b1) periodic bursts beat spread sampling when the detector needs m > 1 samples under a budget | **Closed: the classic result points the other way** | For detectors that accumulate evidence (CUSUM/EWMA, and our SR e-detector), spread single observations beat grouped samples at a fixed sampling rate (Reynolds & Stoumbos 2004, via a secondary source); grouping helps only memoryless Shewhart charts. Geng & Lai 1302.3834 (worst-case delay, sampling constraint) gives greedy sampling, not bursts. The fluid-model gain in `PACING_CHECK.md` reverses between m = 66 and m = 54, consistent with a rounding/edge effect at B/m ≈ 3, not a mechanism |
+| (b2) random phase beats deterministic schedules against an adversarial change time | **Known principle** | Inspection and patrolling games (Alpern–Morton–Papadaki 2011; Cohen et al. 1302.0792), with m = 1; the detection-delay version with m > 1 was not found |
+| (b3) combination with label delay and an anytime-valid detector | Not found | A combination of known parts; on its own not a contribution |
+| (b4) in-repo A2 "confirmation burst" | **Different mechanism** | A single burst forced by a tight risk constraint requiring unanimous confirmation (Theorem 7, `13_A2_BRANCH_CONFLICT_THEORY.md`); without that constraint the A2 optima spread out. WP3's end-loaded step schedule is a third mechanism (late-onset prior) |
+
+**Decision:** periodic bursts are closed as a contribution; no new protocol for a novelty claim. The
+only remaining use is an optional small hygiene check (random-phase periodic bursts in the locked
+stochastic screen, with STOP pre-registered as the expected outcome) to remove the "untested class"
+caveat in `pacing_minimax_results.md`. With this, the Paper 3 pacing target has no open method lever.

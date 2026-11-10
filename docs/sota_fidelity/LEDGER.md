@@ -344,3 +344,9 @@ so parallel implementers never touch shared registry files.
 ## Paper 3 pacing minimax screen (2026-11-07)
 
 - Protocol locked in `4d0099f9`; results `pacing_minimax_results.md` / `.json`. Verdict **STOP**: worst-case regret gain vs uniform is +6.0% [3.9, 6.9] for truncated uniform (Lemma A predicted ~6%) and +4.2% for the dev-tuned burst pacer; bar was 10%. Burst pacing lowers onset-averaged regret 15% but misses late onsets (0.69 vs 0.24 at onset 1200). Independent check (2026-11-10, `PACING_CHECK.md`): code and numbers verified, STOP stands; Lemma A was wrong as stated (rounding at B/m≈3; periodic rate-capped bursts beat constant rate by ~8–10% in the fluid model) and is corrected in the results. Untested class: scheduled periodic bursts.
+
+## Periodic-burst prior-art check (2026-11-10)
+
+- Files: `prior_art/bursts_external.md`, `prior_art/BURSTS_CHECK.md`, verdict in `prior_art/README.md` (addendum).
+- Closed: for evidence-accumulating detectors, spread sampling beats grouped samples at a fixed rate (Reynolds & Stoumbos 2004); worst-case-delay sampling control is greedy (Geng & Lai 1302.3834); random phase against a timing adversary is a known game-theoretic principle (m = 1). The fluid-model burst gain reverses with m (rounding effect). In-repo A2 confirmation bursts are a different mechanism (tight-alpha unanimity).
+- Decision: no new protocol for periodic bursts; Paper 3 pacing has no open method lever. An optional hygiene run could close the untested-class caveat.

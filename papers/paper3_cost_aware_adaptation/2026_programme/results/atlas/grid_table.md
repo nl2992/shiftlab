@@ -1,0 +1,34 @@
+| cell | onset | dwell | Delta | rho | delay | delay type | B/T | c_q | k | dis | gated/DISCERN/SMCS null | C1 (rho_max .95) null |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | 923 | 739 | 0.23 | 0.0 | 185 | equal | 0.16 | 0.182 | 9.9 | 0.18 | valid-null | valid-null |
+| 1 | 351 | 843 | 0.14 | 0.5 | 50 | equal | 0.08 | 0.067 | 11.1 | 0.41 | INVALID-null | valid-null |
+| 2 | 654 | persist | 0.29 | 0.8 | 136 | equal | 0.11 | 0.020 | 1.0 | 0.27 | INVALID-null | valid-null |
+| 3 | 1120 | 261 | 0.19 | 0.95 | 97 | equal | 0.23 | 0.134 | 20.0 | 0.17 | INVALID-null | valid-null |
+| 4 | 1059 | persist | 0.11 | 0.0 | 71 | informative | 0.20 | 0.173 | 3.5 | 0.22 | valid-null | valid-null |
+| 5 | 464 | 358 | 0.21 | 0.5 | 114 | informative | 0.14 | 0.094 | 17.5 | 0.37 | INVALID-null | valid-null |
+| 6 | 267 | 1116 | 0.16 | 0.8 | 24 | informative | 0.06 | 0.047 | 7.6 | 0.39 | INVALID-null | valid-null |
+| 7 | 757 | 555 | 0.27 | 0.95 | 163 | informative | 0.19 | 0.124 | 13.4 | 0.35 | INVALID-null | valid-null |
+| 8 | 776 | persist | 0.16 | 0.0 | 118 | equal | 0.10 | 0.145 | 5.0 | 0.11 | valid-null | valid-null |
+| 9 | 248 | 597 | 0.26 | 0.5 | 67 | equal | 0.16 | 0.032 | 16.0 | 0.22 | INVALID-null | valid-null |
+| 10 | 570 | 1071 | 0.12 | 0.8 | 167 | equal | 0.25 | 0.079 | 6.8 | 0.23 | INVALID-null | valid-null |
+| 11 | 954 | 580 | 0.21 | 0.95 | 21 | equal | 0.11 | 0.193 | 14.2 | 0.38 | INVALID-null | valid-null |
+| 12 | 1163 | 486 | 0.29 | 0.0 | 42 | informative | 0.13 | 0.113 | 9.1 | 0.33 | valid-null | valid-null |
+| 13 | 611 | 561 | 0.18 | 0.5 | 193 | informative | 0.22 | 0.035 | 11.9 | 0.12 | INVALID-null | valid-null |
+| 14 | 433 | persist | 0.24 | 0.8 | 88 | informative | 0.19 | 0.082 | 2.6 | 0.10 | INVALID-null | valid-null |
+| 15 | 840 | 220 | 0.14 | 0.95 | 144 | informative | 0.07 | 0.161 | 18.4 | 0.47 | INVALID-null | valid-null |
+| 16 | 867 | persist | 0.26 | 0.0 | 29 | equal | 0.23 | 0.043 | 11.7 | 0.18 | valid-null | valid-null |
+| 17 | 407 | 241 | 0.15 | 0.5 | 156 | equal | 0.12 | 0.105 | 9.3 | 0.48 | INVALID-null | valid-null |
+| 18 | 604 | 865 | 0.22 | 0.8 | 78 | equal | 0.08 | 0.154 | 19.4 | 0.14 | INVALID-null | valid-null |
+| 19 | 1169 | 303 | 0.12 | 0.95 | 110 | equal | 0.17 | 0.089 | 1.6 | 0.40 | INVALID-null | valid-null |
+| 20 | 1012 | 754 | 0.18 | 0.0 | 131 | informative | 0.20 | 0.028 | 17.0 | 0.48 | valid-null | valid-null |
+| 21 | 513 | 803 | 0.28 | 0.5 | 104 | informative | 0.06 | 0.150 | 4.0 | 0.45 | INVALID-null | valid-null |
+| 22 | 209 | persist | 0.15 | 0.8 | 178 | informative | 0.15 | 0.198 | 14.0 | 0.45 | INVALID-null | valid-null |
+| 23 | 814 | 386 | 0.24 | 0.95 | 55 | informative | 0.21 | 0.074 | 7.0 | 0.19 | INVALID-null | valid-null |
+| 24 | 701 | 852 | 0.13 | 0.0 | 84 | equal | 0.10 | 0.101 | 15.4 | 0.46 | valid-null | valid-null |
+| 25 | 323 | 729 | 0.23 | 0.5 | 152 | equal | 0.24 | 0.165 | 5.6 | 0.21 | INVALID-null | valid-null |
+| 26 | 501 | persist | 0.19 | 0.8 | 35 | equal | 0.15 | 0.117 | 14.8 | 0.35 | INVALID-null | valid-null |
+| 27 | 1023 | 216 | 0.30 | 0.95 | 197 | equal | 0.09 | 0.054 | 6.2 | 0.16 | INVALID-null | valid-null |
+| 28 | 1095 | persist | 0.20 | 0.0 | 171 | informative | 0.07 | 0.063 | 12.5 | 0.20 | valid-null | valid-null |
+| 29 | 678 | 339 | 0.11 | 0.5 | 14 | informative | 0.18 | 0.186 | 8.5 | 0.32 | INVALID-null | valid-null |
+| 30 | 356 | 1195 | 0.27 | 0.8 | 126 | informative | 0.22 | 0.138 | 17.9 | 0.13 | INVALID-null | valid-null |
+| 31 | 918 | 509 | 0.17 | 0.95 | 62 | informative | 0.13 | 0.016 | 3.1 | 0.15 | INVALID-null | valid-null |

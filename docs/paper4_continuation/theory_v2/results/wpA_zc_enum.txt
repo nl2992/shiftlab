@@ -1,0 +1,8 @@
+(3, 2, 1) {'plans': 124, 'zmono': 78, 'tapemono': 78, 'tape_not_z': 0, 'z_not_tape': 0, 'zmono_gap': 0, 'tape_gap': 0, 'nonmono_gap': 46}
+(3, 2, 2) {'plans': 34, 'zmono': 29, 'tapemono': 29, 'tape_not_z': 0, 'z_not_tape': 0, 'zmono_gap': 0, 'tape_gap': 0, 'nonmono_gap': 5}
+(4, 2, 1) {'plans': 567, 'zmono': 315, 'tapemono': 311, 'tape_not_z': 0, 'z_not_tape': 4, 'zmono_gap': 0, 'tape_gap': 0, 'nonmono_gap': 252}
+(3, 3, 1) {'plans': 508, 'zmono': 240, 'tapemono': 240, 'tape_not_z': 0, 'z_not_tape': 0, 'zmono_gap': 0, 'tape_gap': 0, 'nonmono_gap': 268}
+(4, 2, 2) {'plans': 127, 'zmono': 93, 'tapemono': 93, 'tape_not_z': 0, 'z_not_tape': 0, 'zmono_gap': 0, 'tape_gap': 0, 'nonmono_gap': 34}
+(4, 3, 1) {'plans': 15886, 'zmono': 4188, 'tapemono': 4076, 'tape_not_z': 8, 'z_not_tape': 120, 'zmono_gap': 0, 'tape_gap': 0, 'nonmono_gap': 11660}
+(4, 3, 2) {'plans': 634, 'zmono': 312, 'tapemono': 312, 'tape_not_z': 0, 'z_not_tape': 0, 'zmono_gap': 0, 'tape_gap': 0, 'nonmono_gap': 322}
+(5, 2, 1) {'plans': 2090, 'zmono': 1134, 'tapemono': 1108, 'tape_not_z': 0, 'z_not_tape': 26, 'zmono_gap': 0, 'tape_gap': 0, 'nonmono_gap': 956}

@@ -46,16 +46,37 @@ fire. Even an infinitely fast oracle would save at most 14% on C6 and less than 
 **Decision: NO-GO — computational feasibility (no leverage).** Warm-started LPs would only touch the LP share
 (0.64 s on C6), which is engineering work by the directive's own definition.
 
-## D3 — Certified economic policy compression
+## D3 — Certified economic policy compression: COMPLETE WITH NEGATIVE RESULT
 
-Pending WP B3 (certified distillation), which covers the same ground. Observation for the screen: the IID-optimal
-policies in all IID-safe cells are root mixtures of two deterministic plans with a single randomised information set
-(`docs/paper4/experiments/results/iid_tightness_v1.json`). Optimal policies are therefore *structurally* compact
-(randomisation-wise), but the plans themselves are still history-indexed trees.
+**Screen.** Exact safety of a compressed policy is cheap: verify it with the 56–72-state product verifier and repair
+by root mixture. The *economic* bound against the unrestricted `V*` needs a valid lower bound. WP B shows that every
+tree-free lower bound stalls at the IID optimum on reversal cells, and that the coupling bound for distillation
+contains the teacher's tree.
+
+**Bounded tests (WP B, lead-verified where stated):**
+- **B2 grid certificate.** Finite controllers with 10–22 memory states attain `V*` exactly as an upper bound in all 6
+  reference cells. The lower bound stalls at the IID optimum on reversal cells: C2 gives 2.4002 against
+  `V*` = 2.4419.
+- **B3 distillation.** A belief-threshold student certified directly is optimal on C1, C4 and C5 and is 0.08–0.11%
+  above `V*` on C2 and C3. Coupling bounds were loose or useless. Students v1–v3 collapsed to never-promote and
+  are kept as failures.
+
+**Prior art.** Robust FSC synthesis with verification (Cubuktepe et al. AAAI 2021, repo audit), oracle-guided FSC
+synthesis (Andriushchenko et al. JAIR 2025, abstract read), and SMT-based constrained robust synthesis (Heck et al.,
+AAAI-26 / arXiv:2511.08078, read by the literature agent) all cover compression with verified safety. None of them
+supplies a tree-free unrestricted-optimum certificate, and neither did we.
+
+**Empirical regularity (EMPIRICALLY SUPPORTED, 6 cells).** `V*` is attained by a ≤22-state deterministic controller
+root-mixed with never-promote. No proof was obtained, and none is known to generalise.
+
+**Decision: NO-GO — prior art.** The open problem is precisely a tree-free lower bound tighter than IID on reversal
+cells.
 
 ## D4 — Lower bounds and impossibility
 
-Pending WP C3 (positive-premium family) and WP B. Existing related results:
-- Candidate C, the universal response-quotient bound. It is not a bound on optimisers.
-- Test B: pending-outcome access raises the null's risk (3/4 vs 1/2). This is an information-asymmetry witness, not
-  a complexity bound.
+| Target | Result | Status |
+|---|---|---|
+| Separation between causal-null and IID-constrained optimisation | Corrected C3: `Γ = α·min{(g−k)/2−c, g−2k} > 0`, uniform in even T. N1: exact `Γ` for B=1 in any HMM. Γ > 0 occurs only in (M)-violating cells across 27,648 TP2 cells | PROVED (agent) + review-corrected; a decision-theoretic separation, but a single family plus a B=1 formula. The reviewer and the idea-evaluator both judge it a characterisation, not a standalone theorem |
+| Memory requirements for safe approximate policies | No lower bound found. Candidate C (universal quotient) is not a bound on optimisers, and the observed optima need ≤22 states | NOT ESTABLISHED (screened; no candidate statement survived) |
+| Complexity of unrestricted causal-null optimisation | Finite-horizon POMDP planning is PSPACE-complete in general (Papadimitriou & Tsitsiklis 1987, cited from memory, unverified). Our instances fix a 2-state HMM, so that reduction does not apply. No hardness proof for the fixed-model family | NOT ESTABLISHED |
+| Hardness / value from pending-outcome asymmetry | Test B: pending access raises the null's risk (3/4 vs 1/2) for a fixed policy. Bounded test of the *value* effect (V* with a pending-visible null vs a released-only null) is run after the A3 campaign (CPU kept quiet) | PENDING bounded test |

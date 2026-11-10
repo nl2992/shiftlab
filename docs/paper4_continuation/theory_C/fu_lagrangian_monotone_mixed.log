@@ -1,0 +1,5 @@
+wrote ../../../docs/paper4_continuation/theory_C/fu_lagrangian_monotone_mixed.json
+{'script': 'scripts/paper4_continuation/theory_C/fu_lagrangian_monotone.py', 'family': 'mixed', 'n_cells': 400, 'n_premise_z': 397, 'n_premise_tape': 397, 'seconds': 43.92101716995239}
+FAIL ['4', '2', '1', '1/2', '0', '1/10', '3/5', '0', '0', '1/10'] [['1/4', '14919/8000']]
+FAIL ['3', '2', '1', '1/2', '1/10', '1/10', '3/5', '0', '0', '1/100'] [['1/4', '51029/40000']]
+FAIL ['4', '2', '1', '1/2', '0', '1/10', '3/5', '0', '0', '1/10'] [['1/4', '14919/8000']]

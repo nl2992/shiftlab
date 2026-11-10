@@ -442,3 +442,236 @@ Small premiums of this size are why the registered persistent cells all show Γ 
   and the parity mechanism of C3 cover them.
 - *Stop* pursuing a general primitive zero-premium theorem unless Lemma U is resolved. It is a genuine structural-POMDP
   question with a two-world posterior. Exact search finds no counterexample, but there is no proof route.
+
+---
+
+## § Follow-up: Lemma U and necessity (2026-11-10, appended; earlier sections unchanged)
+
+This section answers the two items the idea-evaluator gated on, plus the coordinator's static-alternative query.
+It adopts the corrections in `CAUSAL_SAFETY_PREMIUM_REVIEW_CORRECTIONS.md`:
+- Z1 holds under the weaker condition **(W)**: `P_1(τ)G_1(τ,s) ≥ P_0(τ)G_0(τ,s)` whenever `G_0 > 0`, for all
+  `τ ≤ T−d` and `s ≥ τ+d`. TP2 + (M) ⇒ W.
+- "TP2 + MLR ⇒ Γ = 0" already fails at B = 1.
+- Theorem C3 now reads `Γ = α·min{(g−k)/2 − c, g − 2k}`.
+- The (M) check in `c2_search.py` used `t ≤ T`.
+Lemma U is framed below as a **multi-label analogue of W**.
+Scripts are in `scripts/paper4_continuation/theory_C/fu_*.py`. Outputs are in
+`docs/paper4_continuation/theory_C/fu_*.json` (refuse-overwrite). The aggregate is `fu_summary_v1.json`, produced by
+`fu_summarize.py`. Total compute was about 35 CPU-minutes, and every job took under 6 minutes.
+
+### F1. Lemma Zc (query-order coupling) — PROVED
+
+Let `z_j` be the label of the j-th query a deterministic plan makes, in query order. Because the delay is fixed,
+release order equals query order. The plan's promotion indicator is then a function `g̃(z_1..z_B)`.
+
+**Lemma Zc.** If `g̃` is coordinatewise nondecreasing, the plan's causal risk equals its IID risk. The same holds for
+any root mixture of such plans, and of tape-monotone plans.
+
+*Proof.* Draw `U_1, U_2, … ~ Unif[0,1]` indexed by query order. Under a causal null, set `Z_j = 1{U_j ≤ p_j}`, where
+`p_j ≤ 1/2` is the null's choice at the j-th query given everything generated so far. Run the same plan on
+`Z*_j = 1{U_j ≤ 1/2}`. That run has exactly the IID(1/2) law, because labels at distinct times are i.i.d. under the
+IID null whatever the query times. The two runs may query at different times, but the j-th coordinates always satisfy
+`Z_j ≤ Z*_j`. Monotonicity then gives `g̃(Z) ≤ g̃(Z*)` pathwise. Averaging over plans covers mixtures, since a causal
+null restricted to one plan's histories is still a causal null. ∎
+
+**Consequences.**
+- **Lemma R′.** Lemma R holds with `M` replaced by `M_z ∪ M_tape`.
+- **Strictness (NUMERICALLY VERIFIED,** `fu_zcoupling_check.py` → `fu_zcoupling_check_v1.json`). All reachable pure
+  plans of `(T,B,d) ∈ {(3,2,1), (3,2,2), (4,2,1), (3,3,1)}` were enumerated, 1,233 plans in all.
+  - Every tape-monotone plan was z-monotone.
+  - Four plans at (4,2,1) are z-monotone but not tape-monotone.
+  - No z-monotone plan has `R_causal ≠ R_IID`.
+
+### F2. Lemma P (promotions only where the next label favours promotion) — PROVED, any model
+
+For every λ ≥ 0, some Lagrangian-optimal pure plan promotes only at information states h with
+`q(h) := P_A(Y_t = 1 | h) > 1/2`.
+
+*Proof.* Suppose a plan promotes at s with continuation σ, and `q(h_s) ≤ 1/2`. Replace step s by `(0, same query)` and
+follow σ's actions from s+1 on. The information is identical, so this is a valid plan.
+- **Cost.** Step s costs `q ≤ 1−q`. Switching costs are equal if σ keeps action 1 at s+1, and are 2k lower if σ
+  returns to 0 (k lower if s = T).
+- **Risk.** The new promotion event is contained in the old one.
+- **Conclusion.** The Lagrangian does not increase. Repeat until no promotion occurs at a state with q ≤ 1/2. The
+  process terminates because each step strictly delays a promotion.
+∎
+
+### F3. Exhaustive TP2 grid (item 1) — NUMERICALLY VERIFIED
+
+**Grid** (`fu_lemmaU_grid.py`; files `fu_lemmaU_T{3,4,5}_B{2,3}.json` and `fu_lemmaU_T6_B{2,3}_d{1,2}.json`).
+- `T ∈ {3,4,5,6}`, `B ∈ {2,3}`, `d ∈ {1,2}`.
+- 12 TP2 transition pairs: three symmetric (1/10, 1/4, 1/2), seven asymmetric with `t01 + t10 ≤ 1` and two drifting
+  ones with an absorbing state (`(0,1/2)`, `(1/2,0)`), plus the **static** pair (0,0).
+- Emissions: (1/10, 9/10), (1/10, 3/5) and (2/5, 9/10).
+- `prior1 ∈ {0, 1/2, stationary}`; static cells use `{0, 1/2, 1/4}`.
+- `c, k ∈ {0, 1/100, 1/10}` and `α ∈ {1/20, 1/10}`.
+- This gives **27,648 cells**, with 0 errors and no cell skipped for time.
+
+**Two multi-label versions of (M) were checked:**
+- `M_marg`: `min_{t ≤ T−d} P_A(Y_t=1) ≥ 1/2`, which is Z1's (M).
+- `M_cond`: `P_A(Y_t=1 | Y_S = y_S) ≥ 1/2` for every `t ≤ T−d`, every `S ⊆ {1..t−d}` with `|S| ≤ B−1`, and every
+  `y_S` of positive probability. This is the per-query-node analogue.
+
+**Results:**
+- **206/27,648 cells have certified Γ > 0. Every one violates `M_marg`, and hence `M_cond`.** Γ = 0 in all 12,060
+  cells satisfying `M_marg`, and in all 10,530 satisfying `M_cond`. The maximum `Γ_hi` outside the 206 is 3.4e-14.
+- **The 206 positive cells come from only four alternative models:**
+  - `(t01, t10, e0, e1, prior1) = (2/5, 1/20, 1/10, 3/5, 0)`;
+  - `(1/2, 1/10, 1/10, 3/5, 0)`;
+  - `(1/2, 0, 1/10, 3/5, 0)`;
+  - `(1/4, 1/4, 1/10, 9/10, 0)`.
+  Each starts away from stationarity, with `P_A(Y_1 = 1) ∈ {3/10, 7/20}`.
+- **Smallest counterexample:** T=3, B=2, d=1, `t01=1/2`, `t10=1/10`, `e=(1/10, 3/5)`, `prior1=0`, `c=k=0`.
+  **Γ = 9/50000 at α = 1/10** and 9/100000 at α = 1/20 (`fu_lemmaU_T3_B2.json`, exact `L = U`). B = 3 gives the same
+  values.
+- **Largest:** T=6, B=2, d=1, `t01=1/2`, `t10=0`, `e=(1/10, 3/5)`, `prior1=0`, `c=k=0`, α=1/10.
+  **Γ ∈ [0.0090499999999994, 0.0090500000000011].**
+- **New, and decisive for Z2:** T=6, B=3, d=1 with *symmetric* transitions `t01=t10=1/4` and symmetric emissions
+  (1/10, 9/10), but non-stationary `prior1 = 0` (so `P(S_1=1) = 1/4`), `c=k=0`, α=1/10.
+  **Γ ∈ [0.00215999999999858, 0.00216000000000204].** Conjecture Z2 therefore genuinely needs the stationary prior. The
+  ingredient (M) cannot be traded for symmetry of the transition and emission kernels.
+- **Direct check of the Lemma U premise** (`fu_lagrangian_monotone.py` → `fu_lagrangian_monotone_{static,sympersist,mixed}.json`).
+  All pure plans were enumerated exactly, and I tested whether every λ ≥ 0 vertex of the lower hull of `{(R_IID, C)}`
+  is attained by a z-monotone plan.
+  - It is in **374/374 static** and **315/315 symmetric-stationary** unique cells, and also by tape-monotone plans in
+    all of them.
+  - In the mixed TP2 family it fails exactly in 2/295 unique cells. Both are (M)-violating Γ > 0 models from the list
+    above.
+
+**Lemma U as a multi-label W.** Let h be a reachable information state and τ a query time on the path, with
+`τ ≤ T − d`. Let `G_y(h,τ,s)` be the open-loop gain of promoting at `s ≥ τ+d` after `Y_τ = y` when no further label
+arrives.
+- **Multi-label W** is: `P_A(Y_τ=1|h)·G_1 ≥ P_A(Y_τ=0|h)·G_0` whenever `G_0 > 0`.
+- It is exactly what makes the Z1 swap valid at the *last* released label of a path.
+- `M_cond` + TP2 ⇒ multi-label W, by the Z1 argument conditional on h. `M_cond` and `M_marg` are cheap,
+  conservative proxies.
+- W itself was not tabulated on this grid. The reviewer tabulated it on B = 1 cells: W held in all 1,126 cells with
+  Γ = 0 and failed in all 105 cells with Γ > 0.
+
+**Strongest multi-label statement I can PROVE: none beyond B = 1.** The precise status is below.
+- **Conjecture U-M (TP2 + `M_marg` ⇒ Γ = 0, any B, d, c, k, α): NUMERICALLY VERIFIED** on 12,060 grid cells with
+  T ≤ 6, B ≤ 3 (no counterexample), plus the earlier 2,000 random cells. Unproved. The intended theorem is
+  "multi-label W at every interior label ⇒ Γ = 0".
+- **"TP2 + MLR ⇒ Γ = 0": FALSIFIED.** There are 206 cells; the smallest is above.
+- **The missing step.** A bottom-up subtree exchange. At the *last* released label of a path, the Z1 swap works: the
+  continuation is open loop, and only `P(Y_τ=1 | h)` against `P(Y_τ=0 | h)` matters. At interior labels, the two
+  subtrees use different query timing, and making one level monotone can break the optimality of the level above. No
+  potential function was found that decreases under the exchange.
+
+### F4. Static alternative (coordinator query)
+
+**Theorem S1 (static, B = 1, no (M) needed) — PROVED.** Assume `t01 = t10 = 0`, any prior, `e0 < e1`, any T, `d`,
+`c, k ≥ 0` and α. Then Γ = 0.
+
+*Proof.* Show that **static ⇒ W**; Z1 under W then gives the result. Only case (b) of the Z1 argument needs it. There `G_0(s_0) > 0`, and in a static model the
+post-release continuation faces the constant `q_0 = P(Y_t = 1 | Y_τ = 0)`. So `G_0 > 0` forces `2q_0 − 1 > 0`, since
+every term of the schedule sum is otherwise ≤ 0 while the first switch costs k. By MLR,
+`q_0 = E[e_S | Y_τ=0] ≤ E[e_S] = P_A(Y_τ = 1) = P_1`. Hence `P_1 > 1/2 > P_0`, and the swap of case (b) applies. ∎
+
+This also explains why static alternatives never show the correlated coin: a negative label cannot be "cheap" in
+the alternative while the later promotion is still valuable, because there is no drift to decouple the two.
+
+**Static, general B and d: CONJECTURED, very strong numerics, proof OPEN.**
+- **Evidence.**
+  - 2,592 static grid cells (Γ = 0 in all).
+  - 3,000 random static cells with `T ≤ 7`, `B ≤ 4`, `d ≤ 3` and priors 1/20…9/10, of which 1,836 violate `M_marg`
+    (`fu_static_search.py` → `fu_static_s31.json`). Γ = 0 in all, and the returned IID vertex was causal-safe in all.
+  - The Lemma U premise holds for every λ in 374/374 static cells (z-monotone and tape-monotone).
+  - WP B's 49 static cells up to T = 24.
+- **Reformulation (PROVED, elementary).** In the static case the Lagrangian problem is a POMDP over a *static* hidden
+  parameter θ ∈ {A0, N, A1}. Labels are `Bernoulli(e0)`, `Bernoulli(1/2)` and `Bernoulli(e1)`, with unnormalised prior
+  weights `(1−π, λ, π)`. So the observation kernel is MLR in the order **A0 < N < A1**: the null sits in the middle.
+  A label flip multiplies the weights by `(r0, 1, r1)`, where `r0 = e0/(1−e0) < 1 < r1`.
+- **Leaf dominance (PROVED).** At any promotion state h with `q(h) > 1/2` (all of them, by Lemma P), flip an earlier
+  released 0 to a 1, giving h″. Then the posterior is MLR-higher, and the alternative likelihood rises:
+  `A(h″)/A(h) = q(h⁻)/(1−q(h⁻)) ≥ q(h)/(1−q(h)) > 1`, where `h⁻` is h with that label removed. So at the leaves,
+  flips help on both the belief and the null-odds axes.
+- **The open step is the same subtree exchange as in F3.**
+  - The classical monotone-policy theorems for MLR/TP2 POMDPs need cost monotonicity or submodularity in θ
+    `[unverified citation: Lovejoy 1987; Krishnamurthy 2016, chs. 10–12, from memory]`. The per-step costs of the
+    non-promote action are `(e0, 0, e1)` across `(A0, N, A1)`, which is **not monotone in θ**.
+  - Rescaling the N-world (`κ·cost`, `prior/κ`) keeps beliefs MLR-ordered and can place the promotion-cost difference
+    between A0 and A1. It cannot repair the per-step cost order.
+  - So the textbook result does not apply as stated. Query choice and delay add further state.
+
+### F5. Necessity (item 2)
+
+**Theorem N1 (exact B = 1 premium formula) — PROVED.** Let B = 1 and α ≤ 1/2, with any HMM: TP2 is not assumed. For
+each query time τ with `τ + d ≤ T`, define the design gains below, as exact cost reductions against never-query/never-promote
+`C_0`, including the query cost.
+- `g_{z0}(τ)`: query at τ and promote, at the best post-release time, only after `Y_τ = 0`.
+- `g_{z1}(τ)`: the same, only after `Y_τ = 1`.
+- `g_both(τ)`: promote after both values.
+- `g_pre`: the best plan that promotes unconditionally, before any release or with no query; its continuation may still
+  query.
+
+Let `r_c = max(0, g_pre, max_τ {2g_{z1}(τ), g_{z0}(τ), g_both(τ)})` and `r_IID = max(r_c, 2 max_τ g_{z0}(τ))`. Then
+
+`V*_IID = C_0 − α r_IID`, `V*_causal = C_0 − α r_c`, **`Γ = α (2 max_τ g_{z0}(τ) − r_c)⁺`**.
+
+*Proof.*
+1. **Classify pure plans.** A B = 1 pure plan has one of three forms:
+   - a constant event (never, or unconditional promotion: IID and causal risk 1);
+   - a `{Y_τ=1}` design (IID and causal risk 1/2);
+   - a `{Y_τ=0}` design (IID risk 1/2, causal risk 1).
+2. **Causal risk of a mixture.** At the public query node τ, the null picks `p ∈ [0, 1/2]`. A mixture with masses
+   `a_τ` (both branches), `b_τ` (y=1 only) and `c_τ` (y=0 only), together with pre-release mass `m`, has causal risk
+   `Σ_τ [a_τ + max(c_τ, (b_τ+c_τ)/2)] + m`. This is because the null maximises `(1−p)Z_0 + pZ_1` at an endpoint, and
+   nodes with different τ are publicly distinguishable. IID risk is the linear `Σ_τ [a_τ + (b_τ+c_τ)/2] + m`.
+3. **Both problems reduce to a best ratio.** Each maximises a linear gain under a sum of positively homogeneous convex
+   gauges, so the optimum is α times the best gain-per-unit-risk over the extreme rays. For causal risk the rays are
+   `b` only (ratio `2g_{z1}`), `c` only (`g_{z0}`), `c = b` (ratio `g_{z0} + g_{z1} = g_both − c ≤ g_both`, dominated),
+   `a` (`g_both`) and pre-release (`g_pre`). For IID, `c` only has ratio `2g_{z0}`.
+4. **Feasibility.** α ≤ 1/2 makes the risk-1/2 rays feasible at mass 2α ≤ 1.
+∎
+
+*Verification.* `fu_b1_formula.py` → `fu_b1_formula_s21.json`. The closed form lies inside the certified Γ interval in
+**2,000/2,000** random B = 1 cells. These had T ≤ 6, d ≤ 2, any transitions in {0, 1/10, …, 1} (892 of them
+TP2-violating), four emission pairs, five priors and `c, k ∈ {0, 1/100, 1/10}`.
+
+**Answers to item 2.**
+- **"TP2 violated or (M) violated ⇒ Γ > 0" is FALSIFIED as stated.** At B = 1, among cells violating TP2 or (M):
+  - TP2-violating cells: Γ > 0 in only **59/892 (6.6 %)**;
+  - TP2 holding but (M) violated: Γ > 0 in **0/552**.
+  In the B ∈ {2,3} grid, Γ > 0 in **206/15,588 (1.3 %)** of the (M)-violating TP2 cells.
+  Trivial reasons for Γ = 0 include promotion never paying (large k) and the best IID design being monotone anyway.
+  Violations are necessary for the known mechanisms, but not sufficient.
+- **Sufficient condition for Γ > 0 with explicit magnitude (PROVED, B = 1):** `2 max_τ g_{z0}(τ) > r_c`, and then
+  `Γ = α(2 max_τ g_{z0}(τ) − r_c)`. In words, the best negative-label design beats every monotone design per unit
+  IID risk, including the both-branch design that hedges the null. Theorem C3 is the special case where everything is
+  available in closed form. The corrected value is `2g_{z0} − r_c = min{(g − k)/2 − c, g − 2k}` per unit α.
+  When `g ≤ 3k − 2c`, the binding monotone design is `{Y_2 = 1}` at τ = 2, and the original section's formula was
+  wrong in that regime.
+- **CORRECTED: TP2 alone does not give Γ = 0 at B = 1 — FALSIFIED** (reviewer's cell, re-verified here).
+  - The cell is T=5, B=1, d=2, `t01=1/2`, `t10=0`, emissions (3/20, 3/5), `prior1=0`, `c=k=0`, α=1/10.
+    **Γ = 39/32000 exactly.** The certified interval gives `L = U`, and Theorem N1 independently gives
+    `r_IID = 1329/3200`, `r_c = 129/320`, `α(2g_{z0} − r_c) = 39/32000`.
+  - My B = 1 samples (722 TP2∧¬(M) cells, 552 here and 170 in `c2_b1_s3.json`) missed it because their emission and
+    delay grids never produced a W failure. The `c2_b1_s3` (M) flags also used the wrong time range (`t ≤ T`).
+  - Theorem S1 shows that static chains always satisfy W.
+- **No B ≥ 2 general lower bound was found.** Γ is not monotone in B (CE-C2a has Γ > 0 at B = 2, while TP2 B = 1
+  cells have Γ = 0), so B = 1 bounds do not transfer.
+
+### F6. Updated status table (follow-up only)
+
+| Statement | Status |
+|---|---|
+| Lemma Zc (query-order coupling), Lemma R′ | PROVED |
+| Lemma P (promotions only at `q > 1/2`) | PROVED |
+| Theorem N1 (exact Γ for B = 1, any HMM, α ≤ 1/2) | PROVED; 2,000/2,000 checked |
+| Theorem S1 (static ⇒ W; hence static, B = 1, any prior ⇒ Γ = 0) | PROVED |
+| TP2 + MLR ⇒ Γ = 0 at B = 1 | FALSIFIED (T=5, d=2, emissions (3/20, 3/5): Γ = 39/32000) |
+| TP2 + MLR ⇒ Γ = 0 (B ≥ 2) | FALSIFIED (206 grid cells; smallest Γ = 9/50000) |
+| Symmetric kernels without stationary prior ⇒ Γ = 0 | FALSIFIED (T=6, B=3, `t=1/4`, `prior1=0`: Γ ≈ 0.00216) |
+| TP2 + `M_marg` ⇒ Γ = 0 (any B); intended form: multi-label W ⇒ Γ = 0 | NUMERICALLY VERIFIED (12,060 + earlier cells), unproved |
+| Static alternative ⇒ Γ = 0 (any B, d, prior) | NUMERICALLY VERIFIED (2,592 + 3,000 + 374 hull checks + WP B 49), unproved beyond B = 1 |
+| TP2 violated or (M) violated ⇒ Γ > 0 | FALSIFIED (6.6 % and 0–1.3 % positive rates) |
+
+**Gate assessment.** The evaluator's Lemma U gate is **not passed by proof**. What exists:
+- a sharpened, falsifiable conjecture, U-M / multi-label W, with the correct ingredient (the W-type label-weight
+  condition) identified and no counterexample in 12,060 cells;
+- full proofs at B = 1: Z1, S1 and the exact formula N1;
+- a new coupling (Zc) that strictly enlarges the safe class.
+
+If Paper 4 needs a multi-label theorem, the remaining work is the interior subtree-exchange lemma (F3). It is a
+structural-POMDP problem with an unordered per-step cost in the 3-hypothesis representation.

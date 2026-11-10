@@ -1,0 +1,2 @@
+wrote ../../../docs/paper4_continuation/theory_C/fu_b1_formula_s21.json
+{'script': 'scripts/paper4_continuation/theory_C/fu_b1_formula.py', 'seed': 21, 'n_run': 2000, 'n_match': 2000, 'n_positive': 59, 'n_tp2_and_M': 556, 'n_positive_tp2_and_M': 0, 'n_violating': 1444, 'n_violating_positive': 59, 'n_tp2_violated': 892, 'n_tp2_violated_positive': 59, 'n_M_violated_tp2_ok': 552, 'n_M_violated_tp2_ok_positive': 0, 'seconds': 93.60349702835083}

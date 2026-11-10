@@ -20,3 +20,8 @@ PRIOR ART · BLOCKED · NOT STARTED.
 | B-3 | Certified distillation | NO-GO prior art/computational (coupling product contains teacher tree); v1–v3 students collapsed to never-promote (recorded failures) | same |
 | B-4 | Dual / first-promotion stopping reduction | NO-GO prior art/correctness (stopping on (belief,budget,t) false under alias counterexample) | same |
 | D-1..D-4 | Fallback candidates | NOT STARTED | — |
+| C-5 | Lemma U (multi-label zero premium): TP2 + (M) ⇒ Γ = 0 | CONJECTURED; NUMERICALLY VERIFIED (0 counterexamples in 12,060 cells satisfying (M)); proof gap: interior subtree exchange | `CAUSAL_SAFETY_PREMIUM_THEORY.md` § Follow-up |
+| C-6 | Theorem N1: exact Γ for B=1, any HMM, α ≤ 1/2: Γ = α(2·max_τ g_z0(τ) − r_c)⁺ | PROVED (agent); matches certified Γ in 2,000/2,000 random cells; reproduces 39/32000 | same |
+| C-7 | Theorem S1: static alternative ⇒ W ⇒ Γ = 0 for B=1 (any prior, d, c, k, α) | PROVED (agent); static general B,d CONJECTURED (5,592 + 49 cells Γ = 0) | same |
+| C-8 | Lemma Zc: promotion event monotone in queried labels in query order ⇒ causal risk = IID risk (strictly larger class than tape-monotone) | PROVED (agent); 0 violations in 1,233 plans | same |
+| C-9 | "TP2 or (M) violated ⇒ Γ > 0" | FALSIFIED (Γ>0 in only 6.6% of TP2-violating B=1 cells; 1.3% of (M)-violating B≥2 cells) | same |

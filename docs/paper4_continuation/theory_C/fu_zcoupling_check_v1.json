@@ -1,0 +1,90 @@
+{
+ "script": "scripts/paper4_continuation/theory_C/fu_zcoupling_check.py",
+ "results": {
+  "T3_B2_d1": {
+   "n_plans": 124,
+   "tape_monotone": 78,
+   "z_monotone": 78,
+   "both": 78,
+   "z_monotone_not_tape": 0,
+   "z_monotone_with_R_causal_ne_R_IID": 0,
+   "tape_monotone_with_R_causal_ne_R_IID": 0,
+   "example_z_not_tape": null
+  },
+  "T3_B2_d2": {
+   "n_plans": 34,
+   "tape_monotone": 29,
+   "z_monotone": 29,
+   "both": 29,
+   "z_monotone_not_tape": 0,
+   "z_monotone_with_R_causal_ne_R_IID": 0,
+   "tape_monotone_with_R_causal_ne_R_IID": 0,
+   "example_z_not_tape": null
+  },
+  "T4_B2_d1": {
+   "n_plans": 567,
+   "tape_monotone": 311,
+   "z_monotone": 315,
+   "both": 311,
+   "z_monotone_not_tape": 4,
+   "z_monotone_with_R_causal_ne_R_IID": 0,
+   "tape_monotone_with_R_causal_ne_R_IID": 0,
+   "example_z_not_tape": {
+    "plan": {
+     "((), ())": [
+      0,
+      1
+     ],
+     "(((0, 1),), ((1, 0),))": [
+      0,
+      0
+     ],
+     "(((0, 1), (0, 0)), ((1, 0),))": [
+      0,
+      1
+     ],
+     "(((0, 1), (0, 0), (0, 1)), ((1, 0), (3, 0)))": [
+      0,
+      0
+     ],
+     "(((0, 1), (0, 0), (0, 1)), ((1, 0), (3, 1)))": [
+      1,
+      0
+     ],
+     "(((0, 1),), ((1, 1),))": [
+      0,
+      1
+     ],
+     "(((0, 1), (0, 1)), ((1, 1), (2, 0)))": [
+      0,
+      0
+     ],
+     "(((0, 1), (0, 1), (0, 0)), ((1, 1), (2, 0)))": [
+      0,
+      0
+     ],
+     "(((0, 1), (0, 1)), ((1, 1), (2, 1)))": [
+      0,
+      0
+     ],
+     "(((0, 1), (0, 1), (0, 0)), ((1, 1), (2, 1)))": [
+      1,
+      0
+     ]
+    },
+    "R_IID": "1/2",
+    "R_causal": "1/2"
+   }
+  },
+  "T3_B3_d1": {
+   "n_plans": 508,
+   "tape_monotone": 240,
+   "z_monotone": 240,
+   "both": 240,
+   "z_monotone_not_tape": 0,
+   "z_monotone_with_R_causal_ne_R_IID": 0,
+   "tape_monotone_with_R_causal_ne_R_IID": 0,
+   "example_z_not_tape": null
+  }
+ }
+}

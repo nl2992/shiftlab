@@ -18,3 +18,4 @@
 | WP B | — | B1–B4 all closed for HMM alternatives; Theorem B1-S (static alternative, tree-free certified V*) PROVED, not novel; lead verified 5 static cells == reference V* exactly | COMPLETE WITH NEGATIVE RESULT | `IMPLICIT_LEARNER_OPTIMIZATION.md`, `theory_B/results/` |
 | lint note | — | 2 ruff E741 (variable named `l`) in theory_B/b1_pricing.py:97 and b1_run.py:85 kept unfixed on purpose: editing would change the script sha256 recorded in b1_*.json result provenance | RECORDED | ruff output |
 | WP G (C proofs) | — | Proof review of WP C; 2 decisive corrections lead-verified | COMPLETE | `CAUSAL_SAFETY_PREMIUM_REVIEW_CORRECTIONS.md` |
+| WP C follow-up | — | Lemma U unproved (12,060-cell numerics); N1 exact B=1 formula, S1, Zc proved (agent); new counterexamples lead-verified | COMPLETE (gate NOT passed by proof) | `CAUSAL_SAFETY_PREMIUM_THEORY.md` § Follow-up; `theory_C/fu_*.json` |

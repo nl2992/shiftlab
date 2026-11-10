@@ -1,0 +1,2 @@
+wrote ../../../docs/paper4_continuation/theory_C/fu_lemmaU_T6_B3_d1.json
+{'script': 'scripts/paper4_continuation/theory_C/fu_lemmaU_grid.py', 'T': 6, 'B': 3, 'd': (1,), 'n_run': 1728, 'n_skipped_budget': 0, 'n_errors': 0, 'n_positive': 34, 'n_positive_with_M_marg': 0, 'n_positive_with_M_cond': 0, 'n_M_marg': 738, 'n_M_cond': 558, 'max_Gamma_hi_nonpositive': 3.403237833577453e-14, 'seconds': 299.94057607650757}

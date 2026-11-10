@@ -1,0 +1,2 @@
+wrote ../../../docs/paper4_continuation/theory_C/fu_static_s31.json
+{'script': 'scripts/paper4_continuation/theory_C/fu_static_search.py', 'seed': 31, 'n_run': 3000, 'n_positive': 0, 'n_M_violated': 1836, 'n_iid_vertex_unsafe': 0, 'max_Gamma_hi': 3.3174788371559124e-14, 'seconds': 224.71042776107788}

@@ -1,0 +1,2 @@
+wrote ../../../docs/paper4_continuation/theory_C/fu_lagrangian_monotone_static.json
+{'script': 'scripts/paper4_continuation/theory_C/fu_lagrangian_monotone.py', 'family': 'static', 'n_cells': 400, 'n_premise_z': 400, 'n_premise_tape': 400, 'seconds': 38.07239317893982}

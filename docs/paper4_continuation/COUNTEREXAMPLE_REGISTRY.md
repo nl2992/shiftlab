@@ -11,3 +11,5 @@
 | CE-7 | "Γ is T-invariant in general" | C2 family (B=2, tr 9/10, em 1/10): Γ = 0.032567, 0.029459, 0.028712 at T=8,9,10 | WP C agent (`theory_C/` JSON) |
 | CE-8 | "TP2 + MLR ⇒ Γ = 0" already at B = 1 | T=5,B=1,d=2,t01=1/2,t10=0, em (3/20,3/5), prior 0, c=k=0, α=1/10: Γ = 39/32000 | WP G reviewer; lead re-computed (`scratchpad/verify_g.py`) |
 | CE-9 | Original Theorem C3 formula | e=1/4,k=1/10,c=0,α=1/10, T=4,6: true Γ = 0.005 vs claimed 0.0075 | WP G reviewer; lead re-computed |
+| CE-10 | "TP2 + MLR ⇒ Γ = 0" at B ≥ 2 (smallest) | T=3,B=2,d=1,t01=1/2,t10=1/10, em (1/10,3/5), prior 0, c=k=0, α=1/10: Γ = 9/50000 | WP C agent; lead re-computed (`scratchpad/verify_c2.py`) |
+| CE-11 | Symmetric persistent ⇒ Γ = 0 without a stationary start | T=6,B=3,d=1,t=1/4, em (1/10,9/10), prior 0, α=1/10: Γ = 0.00216; same cell with prior 1/2: Γ = 0 (lead control) | WP C agent; lead re-computed with control |

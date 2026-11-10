@@ -40,7 +40,7 @@ certificate of benefit after a regime reversal.
   gives optimal-value structure: [INFORMS primary article](https://doi.org/10.1287/opre.28.6.1319).
 - Chick et al., *Bayesian Decision Theoretic Model of Sequential Experimentation with Delayed
   Response*, explicitly combine costly sampling, delayed outcomes, and an online deployment decision
-  through Bellman equations: [JRSS B primary article](https://doi.org/10.1111/rssb.12201).
+  through Bellman equations: [JRSS B primary article](https://doi.org/10.1111/rssb.12225).
 - Cheng, Zhou, and Ji characterize minimax regret for online learning with switching costs and a
   finite observation budget: [ICML primary paper](https://proceedings.mlr.press/v202/cheng23f.html).
   The paper's stated model is not the full delayed recurrent-HMM task, but rules out claiming that

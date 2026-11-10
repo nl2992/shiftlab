@@ -1,0 +1,284 @@
+{
+ "generated_utc": "2026-11-09T23:50Z (approx)",
+ "origin_main": "8af33afe934c",
+ "method": "git rev-parse / merge-base / rev-list --count / diff --shortstat & --dirstat=files origin/main...ref",
+ "branches": [
+  {
+   "branch": "research/paper1-eqsdp-foundation-2026-11-08",
+   "local_sha": "5bda4e73b5c413895db25bbfc33364e7122e10d1",
+   "origin_sha": "5bda4e73b5c413895db25bbfc33364e7122e10d1",
+   "merge_base_origin_main": "9f62583a9901",
+   "ahead_of_origin_main": 58,
+   "behind_origin_main": 1,
+   "last_commit": "2026-11-09T15:01:32-05:00 Paper 1 doc 20: fresh confirmation results (H1-H3 pass at small size on 7 eligible datasets; EQ+cut and EQ+pair >= SOTA on 7/7); resul",
+   "diffstat_summary": "353 files changed, 73837 insertions(+)",
+   "top_changed_dirs": [
+    "3.6% docs/algorithm_portfolio/",
+    "2.2% docs/paper1_eqsdp/fresh_builds/",
+    "3.3% docs/paper1_eqsdp/fresh_results/",
+    "3.1% docs/paper1_eqsdp/search60/tables/",
+    "3.3% docs/paper1_eqsdp/search60/",
+    "11.0% docs/paper1_eqsdp/tables/",
+    "5.3% docs/paper1_eqsdp/",
+    "12.4% docs/qsg_methods_search/c4_builds/"
+   ],
+   "role": "Paper 1 EQSDp foundation: 9-dataset scope, JointBayes/R1-R3 recovery closed, search60 E48+F60 add-on (comparator/baseline for Paper 3; do not claim).",
+   "note": []
+  },
+  {
+   "branch": "research/paper1-eqsdp-scale25-2026-11-09",
+   "local_sha": "59da4077f185b725d936e49cf0be30acc14de878",
+   "origin_sha": "59da4077f185b725d936e49cf0be30acc14de878",
+   "merge_base_origin_main": "9f62583a9901",
+   "ahead_of_origin_main": 62,
+   "behind_origin_main": 1,
+   "last_commit": "2026-11-09T18:45:22-05:00 paper1 scale25 WS-B: algo runner, controls, v2 modules, oracle, tests",
+   "diffstat_summary": "382 files changed, 76235 insertions(+)",
+   "top_changed_dirs": [
+    "3.4% docs/algorithm_portfolio/",
+    "2.0% docs/paper1_eqsdp/fresh_builds/",
+    "3.1% docs/paper1_eqsdp/fresh_results/",
+    "2.8% docs/paper1_eqsdp/search60/tables/",
+    "3.1% docs/paper1_eqsdp/search60/",
+    "10.2% docs/paper1_eqsdp/tables/",
+    "4.9% docs/paper1_eqsdp/",
+    "0.2% docs/paper1_scale25/algo/"
+   ],
+   "role": "Paper 1 scale-25 programme (25-dataset 2.5% certified target); superset of foundation; late-label cutoff compositor + 25-comparator confirmation runner.",
+   "note": []
+  },
+  {
+   "branch": "research/qsg-methods-search-2026-11-07",
+   "local_sha": "1bb6d0552eada0f328aea3c00684663edb599d72",
+   "origin_sha": "1bb6d0552eada0f328aea3c00684663edb599d72",
+   "merge_base_origin_main": "9f62583a9901",
+   "ahead_of_origin_main": 35,
+   "behind_origin_main": 1,
+   "last_commit": "2026-11-08T19:09:33-05:00 09: tick completed confirmation items; mark author-code parity and claim audit open",
+   "diffstat_summary": "191 files changed, 18695 insertions(+)",
+   "top_changed_dirs": [
+    "6.8% docs/algorithm_portfolio/",
+    "23.0% docs/qsg_methods_search/c4_builds/",
+    "9.4% docs/qsg_methods_search/sota_expansion/",
+    "16.2% docs/qsg_methods_search/",
+    "1.5% scripts/promising_directions/sota/competitors/",
+    "24.6% scripts/qsg_methods_search/c4_sources/",
+    "15.7% scripts/qsg_methods_search/",
+    "0.5% tests/qsg_methods_search/"
+   ],
+   "role": "QSG methods search + SOTA expansion batch F; EQS-D / EQSDp source (scripts/qsg_methods_search/eqs_d.py), c4_sealed builders, 25-comparator analysis.",
+   "note": []
+  },
+  {
+   "branch": "research/multimodel-bcr-2026-11-08",
+   "local_sha": "cd93468c6b399a8065dc0b86585824ffc4383c5d",
+   "origin_sha": "cd93468c6b399a8065dc0b86585824ffc4383c5d",
+   "merge_base_origin_main": "9f62583a9901",
+   "ahead_of_origin_main": 16,
+   "behind_origin_main": 1,
+   "last_commit": "2026-11-08T09:57:54-05:00 BCR A1 audit, A2 matched-label control, A4 recovery fixes; Track A STOP",
+   "diffstat_summary": "77 files changed, 6609 insertions(+)",
+   "top_changed_dirs": [
+    "18.1% docs/multimodel_bcr/",
+    "3.8% docs/qsg_methods_search/c4_builds/",
+    "29.8% docs/qsg_methods_search/",
+    "9.0% scripts/multimodel_bcr/",
+    "6.4% scripts/qsg_methods_search/c4_sources/",
+    "29.8% scripts/qsg_methods_search/",
+    "1.2% tests/qsg_methods_search/"
+   ],
+   "role": "Multi-model BCR / K-Wald pilot (ties K-Wald); scripts/multimodel_bcr.",
+   "note": []
+  },
+  {
+   "branch": "research/drift2act-rar-autoresearch-2026-11-07",
+   "local_sha": "3a35c5cbd9c53a1722df07c7346154cc050fcbfb",
+   "origin_sha": "3a35c5cbd9c53a1722df07c7346154cc050fcbfb",
+   "merge_base_origin_main": "7354480a5234",
+   "ahead_of_origin_main": 29,
+   "behind_origin_main": 300,
+   "last_commit": "2026-11-07T21:42:33-05:00 Checkpoint Stage-B experiment ledger",
+   "diffstat_summary": "146 files changed, 31737 insertions(+)",
+   "top_changed_dirs": [
+    "2.7% configs/d2a_rar/",
+    "0.6% configs/",
+    "4.1% docs/d2a_rar/baselines/",
+    "0.6% docs/d2a_rar/drafts/",
+    "8.2% docs/d2a_rar/registry/",
+    "5.4% docs/d2a_rar/status/",
+    "6.1% docs/d2a_rar/",
+    "10.2% scripts/d2a_rar/"
+   ],
+   "role": "Drift2Act / RAR adapters and Gong-Zhang repro (scripts/d2a_rar, src/shiftlab/sota/rar); diverged from main (300 behind).",
+   "note": []
+  },
+  {
+   "branch": "research/gave-r-2026-11-06",
+   "local_sha": "03289d1df36cecf2383b89d71c1201d53ce59721",
+   "origin_sha": "03289d1df36cecf2383b89d71c1201d53ce59721",
+   "merge_base_origin_main": "03289d1df36c",
+   "ahead_of_origin_main": 0,
+   "behind_origin_main": 267,
+   "last_commit": "2026-11-07T01:43:42-05:00 Close GAVE-R WP6: Atlas ledger pointer and plan ticks",
+   "diffstat_summary": "",
+   "top_changed_dirs": [],
+   "role": "GAVE-R programme; fully merged into main (0 ahead) - code under src/shiftlab/gaver.",
+   "note": [
+    "0 commits ahead of origin/main: already merged/ancestor"
+   ]
+  },
+  {
+   "branch": "claude/failure-atlas-v2-sota-195428",
+   "local_sha": null,
+   "origin_sha": "4b4284b81458d9d5da28c6a5d13ba4aeaec23ed2",
+   "merge_base_origin_main": "4b4284b81458",
+   "ahead_of_origin_main": 0,
+   "behind_origin_main": 97,
+   "last_commit": "2026-11-03T13:07:37-05:00 Add Atlas v2 report and independent audit/claim reviews; apply audit corrections",
+   "diffstat_summary": "",
+   "top_changed_dirs": [],
+   "role": "Failure Atlas v2 SOTA worktree branch; origin only, 0 ahead (merged); atlas v2 code is on main.",
+   "note": [
+    "no local branch; head from origin",
+    "0 commits ahead of origin/main: already merged/ancestor"
+   ]
+  },
+  {
+   "branch": "research/methods-recovery-2026-11-07",
+   "local_sha": "8a62638999e94bba8ece14e815113d089fe9e493",
+   "origin_sha": "8a62638999e94bba8ece14e815113d089fe9e493",
+   "merge_base_origin_main": "9f62583a9901",
+   "ahead_of_origin_main": 15,
+   "behind_origin_main": 1,
+   "last_commit": "2026-11-08T09:53:39-05:00 Register PAVE-EF SOTA/original-parts comparator panel (before C3 result inspected)",
+   "diffstat_summary": "34 files changed, 4922 insertions(+)",
+   "top_changed_dirs": [
+    "11.7% configs/methods_recovery/",
+    "2.9% configs/",
+    "38.2% docs/methods_recovery/",
+    "35.2% scripts/methods_recovery/",
+    "5.8% src/shiftlab/gaver/",
+    "5.8% tests/gaver/"
+   ],
+   "role": "Methods recovery (Gap-Mix+, PAVE-Delay+, QSG-Recovery); configs/methods_recovery.",
+   "note": []
+  },
+  {
+   "branch": "research/monitoring-to-decision-value-2026-10-30",
+   "local_sha": "a155ed6c9576e290d7d690f57b8ffef92028f941",
+   "origin_sha": "a155ed6c9576e290d7d690f57b8ffef92028f941",
+   "merge_base_origin_main": "ce9d3ca5381e",
+   "ahead_of_origin_main": 5,
+   "behind_origin_main": 343,
+   "last_commit": "2026-10-30T23:00:44-04:00 Add final research decision, claim-evidence matrix, limitations and publication plan",
+   "diffstat_summary": "41 files changed, 12353 insertions(+)",
+   "top_changed_dirs": [
+    "7.3% docs/decision_value/manifests/",
+    "46.3% docs/decision_value/",
+    "14.6% scripts/decision_value/",
+    "29.2% src/shiftlab/decision_value/",
+    "2.4% tests/decision_value/"
+   ],
+   "role": "Monitoring-to-decision-value study (docs/decision_value); old, 343 behind main.",
+   "note": []
+  },
+  {
+   "branch": "research/shiftlab-dependence-gates-2026-10-31",
+   "local_sha": "026500db9dac67da8b9dc239870356a85c571811",
+   "origin_sha": "026500db9dac67da8b9dc239870356a85c571811",
+   "merge_base_origin_main": "bb740578c2b0",
+   "ahead_of_origin_main": 11,
+   "behind_origin_main": 386,
+   "last_commit": "2026-10-30T08:13:34Z research(dependence-sprint): reproduce Sethi Algorithm 1 on the binary chain; estimand/switching study in cluster worlds",
+   "diffstat_summary": "227 files changed, 22165 insertions(+)",
+   "top_changed_dirs": [
+    "1.3% configs/gap_closure/",
+    "5.7% docs/dependence_sprint/",
+    "25.1% docs/sota_gap_closure/",
+    "0.4% docs/sota_synthetic_search/",
+    "2.2% outputs/dep_sprint/",
+    "0.8% outputs/gap_closure/e10_s08_balanced/",
+    "0.8% outputs/gap_closure/e10b_s08_balanced_floor/",
+    "1.3% outputs/gap_closure/e14_fixes_dev2/"
+   ],
+   "role": "Dependence-gate sprint (Markov predictable bounds, gap closure); old, 386 behind main.",
+   "note": []
+  },
+  {
+   "branch": "research/risk-preserving-switching-approx-2026-10-29",
+   "local_sha": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+   "origin_sha": "2bd2e8e41639073c8d22ffb17ef0bcc68111e321",
+   "merge_base_origin_main": "ec42a2da9fdf",
+   "ahead_of_origin_main": 65,
+   "behind_origin_main": 446,
+   "last_commit": "2026-10-30T13:28:29-04:00 Checkpoint finite-controller risk verifier and certificate protocol",
+   "diffstat_summary": "581 files changed, 2243166 insertions(+), 1 deletion(-)",
+   "top_changed_dirs": [
+    "0.1% .agents/skills/ablation-planner/",
+    "0.1% .agents/skills/alphaxiv/",
+    "0.1% .agents/skills/analyze-results/",
+    "0.1% .agents/skills/arxiv/",
+    "0.1% .agents/skills/auto-paper-improvement-loop/",
+    "0.1% .agents/skills/auto-review-loop-llm/",
+    "0.1% .agents/skills/auto-review-loop-minimax/",
+    "0.1% .agents/skills/auto-review-loop/"
+   ],
+   "role": "Source of exact switching/risk solver (2bd2e8e4); also vendors .agents skills + 2.2M insertions of outputs; solver files identical on main.",
+   "note": []
+  },
+  {
+   "branch": "research/hg-decision-aware-betting-v2",
+   "local_sha": "0c7f0a264e68a831e4de2498dfc582c9a98c39ef",
+   "origin_sha": "0c7f0a264e68a831e4de2498dfc582c9a98c39ef",
+   "merge_base_origin_main": "0c7f0a264e68",
+   "ahead_of_origin_main": 0,
+   "behind_origin_main": 370,
+   "last_commit": "2026-10-30T04:53:17Z results(hg_v2): runtime profile of finalists and references",
+   "diffstat_summary": "",
+   "top_changed_dirs": [],
+   "role": "HG decision-aware betting v2; fully merged (0 ahead).",
+   "note": [
+    "0 commits ahead of origin/main: already merged/ancestor"
+   ]
+  },
+  {
+   "branch": "research/shiftlab-promising-directions-2026-10-30",
+   "local_sha": "1b4be4182af255baba20adca41a4737578afc0ce",
+   "origin_sha": "1b4be4182af255baba20adca41a4737578afc0ce",
+   "merge_base_origin_main": "1b4be4182af2",
+   "ahead_of_origin_main": 0,
+   "behind_origin_main": 299,
+   "last_commit": "2026-11-01T02:20:42-05:00 Lead B3 real-data write-up with successful datasets; preserve full evidence",
+   "diffstat_summary": "",
+   "top_changed_dirs": [],
+   "role": "Promising-directions Lane A (joint acquisition+switching, mixture_bounds, SOTA sim/competitors); merged (0 ahead).",
+   "note": [
+    "0 commits ahead of origin/main: already merged/ancestor"
+   ]
+  },
+  {
+   "branch": "research/p2-null-aware-deployment-2026-11-09",
+   "local_sha": "6f71b51eb019998de87bcc7653aed05d3b6e1315",
+   "origin_sha": null,
+   "merge_base_origin_main": "8af33afe934c",
+   "ahead_of_origin_main": 35,
+   "behind_origin_main": 0,
+   "last_commit": "2026-11-09T18:08:07-05:00 P2-NAD: queue descriptive twin-v3 validity check (post-registration); twin v3 rebuild note",
+   "diffstat_summary": "214 files changed, 35401 insertions(+), 251 deletions(-)",
+   "top_changed_dirs": [
+    "3.7% .codex/skills/graphify/references/",
+    "0.9% .codex/skills/graphify/",
+    "2.8% docs/failure_atlas_v2_flq/results/",
+    "0.4% docs/failure_atlas_v2_flq/",
+    "5.6% docs/p2/",
+    "7.4% docs/p2_benchmark/results/",
+    "4.2% docs/p2_benchmark/",
+    "0.4% docs/promising_directions/sota/"
+   ],
+   "role": "Paper 2 NAD (null-aware deployment); LOCAL ONLY (no origin ref), 35 ahead of main, scripts/p2/nad.py; also carries failure_atlas_v2_flq results.",
+   "note": [
+    "no origin ref"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,45 @@
+{
+ "rstar": "P2_K2__E48_F60",
+ "rstar_J": 23.432711585154898,
+ "per_window_ref": {
+  "fresh:austin_311": "model_picker_adapter",
+  "fresh:cincinnati_311": "s2wald_l0.99_g0.2_H1100",
+  "fresh:dallas_311": "P2_K2__E48_F60",
+  "fresh:dc_311": "model_picker_adapter",
+  "fresh:kc_311": "P2_K2__E48_F60",
+  "fresh:sandiego_311": "P2_K2__E48_F60",
+  "fresh:sf_311": "P2_K2__E48_F60",
+  "nine:austin_311": "s2wald_l0.99_g0.2_H1100",
+  "nine:cincinnati_311": "P2_K2__E48_F60",
+  "nine:dallas_311": "P2_K2__E48_F60",
+  "nine:dc_311": "P2_K2__E48_F60",
+  "nine:kc_311": "hoef_l0.9_g0.45",
+  "nine:montgomery_traffic": "s2wald_l0.99_g0.1_H1100",
+  "nine:oakland_311": "s2armr_H1300",
+  "nine:sandiego_311": "s2wald_l0.98_g0.2_H1100",
+  "nine:sf_311": "P2_K2__E48_F60"
+ },
+ "selected": [
+  "V2A_E48_d0.5_l50_h0.001",
+  "V2G_F59tree",
+  "V2G_F59logit",
+  "V2A_F60_b2_H150_h0.002",
+  "V2E_INS_a250",
+  "V2B_E48A_k2.0",
+  "V2C_EAP_g0.4_m1.5",
+  "V2D_DPW_m1.5",
+  "V2F_LSW_z1.0_m1.5"
+ ],
+ "ref_means_even": {
+  "P2_K2__E48_F60": 23.432711585154898,
+  "P4W__P2_K2__E48_F60": 23.432982053904894,
+  "s2armr_H1300": 23.515589280024507,
+  "s2wald_l0.99_g0.3_H1100": 23.52426877136271,
+  "s2armr_H1100": 23.526038073666967,
+  "s2wald_l0.98_g0.3_H1100": 23.526193494585335,
+  "s2wald_l0.97_g0.3_H1100": 23.534387568464886,
+  "s2wald_l0.95_g0.2_H1100": 23.54164331951531,
+  "s2armr_H900": 23.550738103970755,
+  "s2wald_l0.97_g0.2_H1100": 23.550802531533446
+ }
+}

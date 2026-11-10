@@ -71,3 +71,14 @@ PY
 ```
 
 Concurrent writers are serialised by a lock file next to the ledger.
+
+## 4. C1 confirmation ledger entries (2026-11-10)
+
+Protocol `07a_PROTOCOL_C1_V1_22.md` (id `P1-SCALE25-C1-V1-22`), contrast v1 vs W+cut. Registered before any policy run at `af2d76a9`
+(`confirm_registration_C1.json`); 21 eligible datasets took indices 8..28 in protocol order (index 19 of the protocol order,
+capitalbikeshare_dc, failed the C4 disagreement gate and holds no index; it is not replaced). All 21 were opened in one analysis pass
+(`confirm_c1_analyze.py --open-ledger`, results commit following `af2d76a9`). Chain validation after opening: no problems.
+
+Counters (never merged): registered 28 (7 legacy), opened in C1 21, positive point estimate 18, supported (L > 0) 0, selected 0.
+`certify_cohort(min_datasets=25, min_R=2.5)`: success = False. All-opened mean r_hat = 0.362 %.
+Per-dataset r_hat, alpha_i and L are in `confirm_C1_results/per_dataset.csv`; full discussion in `10_25_DATASET_RESULTS.md`.

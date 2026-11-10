@@ -1,0 +1,12 @@
+design,needed_common_r_hat,sd_over_draws
+"B (chronological), 25 successes among 25 attempts",4.89638596323708,0.31260419233887454
+"B (chronological), 25 successes among 40 attempts",48.45166508020251,30.474648040646418
+"B (chronological), 25 successes among 60 attempts",70.0,0.0
+"A1 Bonferroni, one pre-registered cohort of 25",4.506311943343988,
+"A1 Bonferroni, pre-registered cohort of 30",4.342823598250476,
+"A1 Bonferroni, pre-registered cohort of 40",4.2168372121812325,
+B' batch 1 of M=25 (alpha=.025/M each),4.190782715470078,
+B' batch 1 of M=30 (alpha=.025/M each),4.695412023792116,
+B' batch 1 of M=40 (alpha=.025/M each),4.775680604662824,
+"A2 mean bound at .05 assuming independence, K=25 (no per-dataset gate)",2.663729083870636,
+"A2 mean bound at .05 assuming independence, K=30 (no per-dataset gate)",2.6500758797707626,

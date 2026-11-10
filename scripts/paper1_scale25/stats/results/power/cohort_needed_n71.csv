@@ -1,0 +1,15 @@
+rule,design,needed_common_r_hat,sd
+primary,B: indices 1..25,4.358462460268129,
+primary,B: indices 8..32 (after 7 legacy),4.667712654011211,
+primary,B: 25 successes at random among 40 attempts,4.9635765982012,0.3565481047590866
+primary,B: 25 successes at random among 60 attempts,5.254901824032174,0.16476708074816962
+primary,A1 Bonferroni K=25 (.002 each),3.896405847879123,
+primary,"B' batch 1, M=25 (.001 each)",4.073443457471058,
+primary,single-level .05 each (no multiplicity; reference only),3.1595251972498772,
+cuberoot_only,B: indices 1..25,3.8589137861231393,
+cuberoot_only,B: indices 8..32 (after 7 legacy),4.031428438943294,
+cuberoot_only,B: 25 successes at random among 40 attempts,4.080819328819416,0.2019406587704594
+cuberoot_only,B: 25 successes at random among 60 attempts,4.033679017303768,0.09861904195483716
+cuberoot_only,A1 Bonferroni K=25 (.002 each),3.6246760476524287,
+cuberoot_only,"B' batch 1, M=25 (.001 each)",3.730969625964917,
+cuberoot_only,single-level .05 each (no multiplicity; reference only),3.0929557954232223,

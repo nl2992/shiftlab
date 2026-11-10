@@ -1,0 +1,7 @@
+reference,design,mean_r_hat,mean_L,n_L_positive,K,cohort_certifies_2_5
+vs EQ+cut (doc19 H1),B indices 8..14 (next 7 attempts after legacy 1..7),0.4332879991595003,-0.9034474709471887,1,7,False
+vs EQ+cut (doc19 H1),B indices 1..7 (if legacy were not reserved),0.4332879991595003,-0.3311923262091622,2,7,False
+vs EQ+cut (doc19 H1),A1 Bonferroni K=7,0.4332879991595003,-0.24380562485067728,2,7,False
+vs per-dataset strongest reference,B indices 8..14 (next 7 attempts after legacy 1..7),0.37480133539530286,-1.4818900973119649,1,7,False
+vs per-dataset strongest reference,B indices 1..7 (if legacy were not reserved),0.37480133539530286,-0.7507550263397402,2,7,False
+vs per-dataset strongest reference,A1 Bonferroni K=7,0.37480133539530286,-0.5754829402609994,2,7,False

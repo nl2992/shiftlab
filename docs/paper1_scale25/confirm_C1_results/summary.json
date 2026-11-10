@@ -1,0 +1,148 @@
+{
+ "datasets": [
+  "boston_311",
+  "philly_311",
+  "sacramento_311",
+  "baltimore_311",
+  "louisville_311",
+  "chicago_311",
+  "chicago_traffic_crashes",
+  "bts_ontime",
+  "dc_311",
+  "sandiego_311",
+  "edmonton_311",
+  "winnipeg_311",
+  "mc311_montgomery",
+  "calgary_311",
+  "nyc_ems_response",
+  "nyc_fire_response",
+  "montgomery_police_dispatch",
+  "divvy_chicago",
+  "epa_aqi_county",
+  "ghcn_us_rain",
+  "eia930_pooled"
+ ],
+ "K": 21,
+ "seeds": 10,
+ "primary": {
+  "K": 21,
+  "mean": 0.36204958459450803,
+  "lo": 0.22834776066470552,
+  "hi": 0.49575140852431054,
+  "p": 7.890213046900333e-06,
+  "t": 5.648555699273393,
+  "n_pos": 18,
+  "n_neg": 1,
+  "n_zero": 2,
+  "mean_dL_pp": 0.01647963258968862,
+  "dJ_pp_mean": -0.06346157764455111,
+  "accuracy_constraint_dL_le_0.1pp": true,
+  "passes": true
+ },
+ "primary_org_merged": {
+  "K": 19,
+  "mean": 0.35440119164967293,
+  "lo": 0.21094207411297952,
+  "hi": 0.49786030918636637,
+  "p": 3.081825901587966e-05,
+  "t": 5.190114698942316,
+  "note": "within-organisation pairs averaged first: nyc_ems_response+nyc_fire_response; divvy_chicago+capitalbikeshare_dc; mc311_montgomery+montgomery_police_dispatch"
+ },
+ "certify_cohort": {
+  "success": false,
+  "integrity_problems": [],
+  "counts": {
+   "registered": 28,
+   "legacy_reserved": 7,
+   "opened": 21,
+   "positive_r": 18,
+   "supported_L_gt_0": 0,
+   "selected": 0,
+   "distinct_selected": 0
+  },
+  "selected_R_lower": NaN,
+  "selected_R_hat": NaN,
+  "all_opened_mean_r_hat": 0.3620495845945091,
+  "all_opened_mean_simultaneous_lower": -Infinity,
+  "all_opened_mean_cross_dataset_t95": [
+   0.22834776066470672,
+   0.49575140852431143
+  ],
+  "criteria": {
+   "min_datasets": 25,
+   "min_R": 2.5,
+   "distinct_by": "parent"
+  },
+  "note": "simultaneous lower bounds (mean of L_i) are valid for any selection by the union bound; R_hat of a selected cohort is subject to winner's curse"
+ },
+ "ledger_problems": [],
+ "n_L_gt_0": 0,
+ "secondary": {
+  "v1_vs_EQcut": {
+   "K": 21,
+   "mean": 0.3568180536583358,
+   "lo": 0.2233475722428242,
+   "hi": 0.4902885350738474,
+   "p": 9.270270963543015e-06,
+   "t": 5.576584495403912,
+   "n_pos": 18,
+   "n_neg": 1,
+   "mean_dL_pp": 0.016020875286267017,
+   "p_holm": 1.2291600757338336e-05
+  },
+  "Wpair_vs_Wcut": {
+   "K": 21,
+   "mean": 0.3765788423042638,
+   "lo": 0.24021703257964877,
+   "hi": 0.5129406520288788,
+   "p": 6.145800378669168e-06,
+   "t": 5.760628299424747,
+   "n_pos": 18,
+   "n_neg": 1,
+   "mean_dL_pp": 0.012695213801827518,
+   "p_holm": 1.2291600757338336e-05
+  }
+ },
+ "geq_sota_counts": {
+  "raw25": 18,
+  "armR": 19,
+  "cut25": 12,
+  "ports_raw": 19,
+  "ports_cut": 21,
+  "raw25_and_cut25": 11
+ },
+ "best_of_panel": {
+  "K": 21,
+  "mean": -0.8069658750002133,
+  "lo": -1.4458423616123801,
+  "hi": -0.16808938838804655,
+  "p": 0.9920584197664098,
+  "t": -2.6347836455330618,
+  "n_pos": 3,
+  "n_neg": 18,
+  "best_policy": {
+   "boston_311": "chalgse_l1.0_g0.2_H1100",
+   "philly_311": "econF_mo5_m5_H1100",
+   "sacramento_311": "econF_mo5_m0_H1100",
+   "baltimore_311": "econF_mo5_m0_H1100",
+   "louisville_311": "econF_mo5_m5_H1100",
+   "chicago_311": "econF_mo5_m5_H1100",
+   "chicago_traffic_crashes": "chalgse_l1.0_g0.2_H1100",
+   "bts_ontime": "wald_l0.97_g0.2_H1100",
+   "dc_311": "econF_mo5_m0_H1100",
+   "sandiego_311": "econF_mo5_m5_H1100",
+   "edmonton_311": "econF_mo5_m0_H1100",
+   "winnipeg_311": "s2armr_H1100",
+   "mc311_montgomery": "wald_l0.9_g0.2_H1100",
+   "calgary_311": "hoef_l0.97_g0.3_H1100",
+   "nyc_ems_response": "econF_mo5_m0_H1100",
+   "nyc_fire_response": "econF_mo5_m0_H1100",
+   "montgomery_police_dispatch": "economic_replacement_H1100",
+   "divvy_chicago": "econF_mo5_m0_H1100",
+   "epa_aqi_county": "econF_mo5_m5",
+   "ghcn_us_rain": "econF_mo5_m0",
+   "eia930_pooled": "econF_mo5_m0_H1100"
+  },
+  "label": "OPTIMISTIC: per-dataset best of all panel/control/port policies selected after the results"
+ }
+}

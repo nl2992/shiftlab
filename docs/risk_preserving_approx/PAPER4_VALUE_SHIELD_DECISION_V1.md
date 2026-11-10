@@ -137,3 +137,34 @@ The script refuses to overwrite its output. Runner hash is recorded inside the J
 **Stop** the value-shielded solver line for Paper 4 at this cell. **Pivot** only if a belief-based
 lower bound can be certified without history enumeration. That is a separate, pre-registered
 research question, not a Paper 4 implementation. The mass-envelope route is closed.
+
+## 10. Addendum (2026-11-09): source-matched novelty audit and replacement direction
+
+The external audit `PAPER4_NOVELTY_AUDIT_NEGATIVE_INFLUENCE_V1.md` reaches the same verdict as
+§3 and closes value-sensitive pruning as a standalone theorem: it is admissible-bound
+branch-and-bound plus pathwise monotonicity. It proposes a replacement direction, an
+**inversion-frontier (negative-influence) risk certificate**, rated CONDITIONAL GO, theory-first.
+
+**Independent verification** (`scripts/research_risk_approx/check_negative_influence_identity.py`,
+exact `Fraction` arithmetic, Opus-verified):
+
+- Proposition A (surcharge identity `R_causal - R_IID = sum_t 2^-t sum_h [v(h0)-v(h1)]_+`) and
+  Proposition B (`R_IID <= R_causal <= P_IID(upward hull)`) hold for all 4 + 16 + 256 Boolean events at
+  T = 1, 2, 3. There are zero failures.
+- The hull is exact in 4/4, 16/16 and 248/256 events. The largest gap is 1/8, at `A = {010, 101}`
+  (IID 1/4, causal 1/2, hull 5/8).
+- Randomized counterexample: the true robust risk is 3/4, but the marginal promotion map's hull
+  certificate gives 1/2. Marginalising learner randomness is therefore unsound when public queries
+  leak the coin. The checker hand-codes this two-branch case; it is not a generic randomized evaluator.
+
+**Correction to the audit:** Proposition C (IID-relaxed optimizer + root mixture with a never-promote
+arm, `q = min(1, alpha / r_bar)`, cost gap `eps_opt + (1-q)(C_0 - C_alt(pi))`) is already implemented
+in ShiftLab. See `IID_RELAXATION_CERTIFIED_PIPELINE_RESULTS_V1.md`, where the root-mixture activation is
+`q`. The only new element would be a tighter, cheaper `r_bar` from an inversion-frontier
+certificate in place of the full-null recursion.
+
+**Status of the gates:** G1 (formal reduction to Krale et al. NeurIPS 2025 robust-POMDP evaluation
+plus pruning) is the hard exit and has **not** been run. Propositions A–B are a case split of the
+standard robust Bellman evaluator: where `v(h0) <= v(h1)` the adversary plays IID. A novelty claim
+therefore rests entirely on an output-sensitive resource theorem in terms of inversion-frontier
+size. Neither this note nor the audit has proved that theorem yet.

@@ -77,3 +77,13 @@
   was the label-rich limit, the theorem attempt studied only the degenerate t = 1 chain, and a claim that t < 1 would
   also fail was unsupported and contradicted by committed data (relative premium flat in T for t = 3/4, 9/10).
 - Decision reopened; salvage protocol `SALVAGE_PLAN.md` locked before any new work.
+
+## 2026-11-11 ~01:50 — P3 run re-prioritised (order only; criteria unchanged)
+- After 156 cells the partial data showed ρΓ identical at α = 1/20 and 1/10 (α-free) and B = 2 trends: t = 2/3
+  0.25 → 0.200 (flat from T ≈ 12); t = 3/4 → 0.144 at T = 14, still drifting down slowly; t = 9/10 → 0.18 at T = 14,
+  still falling. The original order would have spent the remaining budget on α = 1/4 and k = 1/50 before any
+  B ≥ 3 cell.
+- Lead stopped the run (finished cells kept in the partial file), added `WPM_PRI=v2` ordering to
+  `wpM_scaling.py` (finish k = 0, d = 1, B ≤ 2; then B = 3, 4 at α = 1/10 for t ∈ {2/3, 3/4}; then t = 9/10; then
+  d = 3 at B ≤ 2; then the rest) and relaunched with a 3 h budget, 2 workers, nice 10. The P3 agent was stopped; the
+  lead runs the summariser.

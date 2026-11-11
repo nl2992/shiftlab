@@ -50,3 +50,13 @@ prior 1/2, any c, k ≥ 0 in the stated ranges, α ≤ 1/2.
   family), or a certified counterexample to S-1 at B = 1 or B = 2, or P4 finds the two-regime result already
   published.
 - If none applies cleanly, the lead reports the exact state and the remaining obligation; no outcome is softened.
+
+## Erratum (2026-11-11, after P4; criteria unchanged)
+
+The "Interpretation" line "consistent with zero asymptotic exponent gaps for adaptive adversaries" is withdrawn.
+P4 (`PRIOR_ART_TWO_REGIME.md`) read Modak et al. in full: their converses use i.i.d. adversaries with both hypotheses
+worst-case convex sets; our alternative is a single fixed hidden-Markov law, for which the adaptive null halves the
+exponent on fixed schedules (cf. Lemma A; Grünwald–de Heide–Koolen RIPr). The label-rich vanishing in S-2 is a
+t = 1 statement (Thm A/V), not an asymptotic-exponent corollary. P4's novelty conditions for S-1 are added to the
+GO criterion's "no prior statement" clause: uniform in T, valid for the adaptive (re-timing) learner, explicit
+dependence on r, and not a consequence of first-order controlled-sensing exponents.

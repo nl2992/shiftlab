@@ -19,3 +19,5 @@
 | CE-15 | "Even delay d ⇒ Γ = 0" beyond B = 1 (true at B = 1, SP1) | T=4,B=2,d=2,t01=t10=3/4,e=(1/10,9/10),prior 1/2,c=k=0,α=1/10: Γ(1)=0, Γ(2)=1/500 | theory_v2 WP-C; lead re-computed |
 | CE-16 | "Switching cost lowers Γ" | t=3/5,e=1/10,d=1,T=60,c=0,B=1: Γ/α 0.05333 (k=0) → 0.054 (k=1/50) | theory_v2 WP-C (closed form, SP1) |
 | CE-17 | "Γ monotone in B" (stochastic anti-persistent) | T=4,d=1,t=3/5,e=1/10,c=0,k=1/50: Γ(1)=0.0054 > Γ(2)=0.00412 < Γ(3) | theory_v2 WP-C |
+| CE-18 | SP1-D "g ≤ 2k ⇒ Γ = 0" at T = d+1 | T=2,d=1,t=1,e=1/10,c=0,k=2/5,α=1/10: Γ = 3/250 | theory_v2 SP1 reviewer; lead re-computed |
+| CE-19 | "Γ decreases in d for k > 0" at fixed small T | T=8,t=99/100,e=1/4,c=1/100,k=1/10,α=1/4: Γ ≈ 0.0054 (d=5) < 0.0121 (d=7) | theory_v2 SP1 reviewer (closed form + exact DP) |

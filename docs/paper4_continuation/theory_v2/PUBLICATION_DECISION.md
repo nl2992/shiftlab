@@ -59,3 +59,24 @@ The NO-GO above rested on a mis-framed theorem target. Recorded errors:
    at fixed B (e.g. t = 3/4, B = 1: 0.25 for T = 5–10; t = 9/10, B = 6: 0.62–0.63 for T = 7–9;
    `results/wpC2_relative_premium_v1_compact.json`).
 **Status: decision REOPENED** pending the locked salvage protocol `SALVAGE_PLAN.md`.
+
+---
+
+## Salvage outcome under the locked criteria (2026-11-11 04:55)
+
+Inputs: `MIXING_PREMIUM_THEOREM.md` (P1), `REVIEW_MIXING.md` (P5), `REVIEW_GENERAL_B.md` (P2),
+`PRIOR_ART_TWO_REGIME.md` (P4), `MIXING_SCALING.md` + `results/wpM_scaling_v1_compact.json` (P3: 926 ok, 576 not run
+at the wall budget, 9 timeouts, 1 error without message at t=2/3, d=3, k=1/50, B=4, T=9). Lead re-computed
+t=3/4, B=3, T=9, α=1/10: ρΓ = 0.18346 (run: 0.183).
+
+| Clause (`SALVAGE_PLAN.md`) | Status |
+|---|---|
+| CONDITIONAL GO (a): S-1 proved and reviewed for B = 1 and B = 2, uniform in T | **Met with qualifications.** M1 (B = 1): accepted; ρΓ α-free for α ≤ 1/2, uniform in T, limit (1−r)/2. M4 (B = 2): accepted with corrections; holds only for k = 0, odd d, c < g r^d/(16(1+r)) and T ≥ T₀ (T₀ = 6, 10, 21, 37 at t = 2/3, 3/4, 0.85, 9/10) |
+| CONDITIONAL GO (b): S-2 reviewed | **Met** (Thm A/V accepted with fixable gaps) |
+| CONDITIONAL GO (c): P3 shows ρΓ flat in T for B ≤ 4 in all three t | **Not met.** B = 1 flat; B = 2 flat for t = 2/3, 3/4, still falling at t = 9/10 (0.173 at T = 15); B = 3, 4 at k = 0, d = 1 still falling at T = 12 in every t (e.g. t = 3/4: B = 3 0.275 → 0.149, B = 4 0.29 → 0.229). Some k = 1/50 cells plateau over T = 7–9 only |
+| NO-GO triggers | **Not met**: no certified collapse beyond T = 12 (B ≥ 3 reach only T = 12), no counterexample at B ≤ 2, no prior publication |
+
+**Outcome: neither CONDITIONAL GO nor NO-GO applies cleanly; the decision remains open.** Per the plan, no outcome
+is softened. The single obligation that would settle it: **a lower bound on ρΓ for general B that is uniform in T**
+(equivalently, Γ/α bounded away from 0 as T → ∞ at B ≥ 3, by M2). If proved and reviewed, clause (c) becomes moot
+and the CONDITIONAL GO proof side extends to general B; if B ≥ 3 data at larger T show ρΓ → 0, NO-GO.

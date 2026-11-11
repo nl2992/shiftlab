@@ -76,3 +76,9 @@ c < g r^d/(16(1+r)), T ≥ T₀ — T₀ = 6 at t = 2/3, 10 at 3/4, 21 at 0.85, 
 M1 needs α ≤ 1/2 (ρΓ drops at α = 3/4). M3 holds only in the symmetric stationary family. 312 certified cells, no
 counterexample. Remaining: the P3 summary, then the decision (step 3 of "How to finish"), stating M4 with these
 qualifiers.
+
+## Update 2026-11-11 04:55 (all steps done)
+P3 finished; summary and compact results committed. Outcome under the locked criteria recorded in
+`PUBLICATION_DECISION.md`: **open** (CONDITIONAL GO clause (c) unmet; NO-GO not triggered). Next work, if the user
+approves: the general-B uniform-in-T lower bound on ρΓ, and/or certified B = 3, 4 cells at T = 13–16 (each cell
+takes several minutes; ≤ 3 processes).

@@ -45,3 +45,10 @@ PRIOR ART · BLOCKED · NOT STARTED.
 | G-V | t=1: Γ ≤ ((1−2e)/2)(K_α + T·π_B); sup_T ρΓ → 0 as B → ∞ at fixed α | PROVED (agent, unreviewed) | same |
 | G-R | Causal-risk recursion for fixed-calendar events; pattern risk 2^−#ones; fixed calendars not WLOG for V*_causal | PROVED / NUMERICALLY VERIFIED; PRIOR ART in substance | same |
 | Decision | theory_v2 publication decision | main-track NO-GO (too narrow) | `theory_v2/PUBLICATION_DECISION.md` |
+| M1 | Mixing chain, B=1, odd d, α ≤ 1/2: ρΓ α-free, uniform in T, lim (1−r)/2 (k=c=0) | PROVED; reviewed (accepted) | `theory_v2/MIXING_PREMIUM_THEOREM.md`, `REVIEW_MIXING.md` |
+| M2 | VOI nondecreasing in T, ≤ α·U_B; ρΓ → 0 iff Γ/α → 0 | PROVED; reviewed (accepted) | same |
+| M3 | First-label relaxation lower bound on Γ (symmetric stationary family) | PROVED; reviewed (accepted; scope corrected) | same |
+| M4 | B=2, k=0, odd d, small c, T ≥ T₀: liminf ρΓ ≥ (1−r)/(2(3+r)) | PROVED; reviewed (accepted with corrections) | same |
+| M5 | ρΓ ≤ 1 − H_∅/S_I | PROVED; reviewed (accepted) | same |
+| M-gen | General B: ρΓ bounded below uniformly in T | CONJECTURED; B=3,4 data still falling at T=12 | `MIXING_SCALING.md` |
+| Salvage | Locked-criteria outcome | OPEN (neither CONDITIONAL GO nor NO-GO applies) | `theory_v2/PUBLICATION_DECISION.md` |

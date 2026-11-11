@@ -92,3 +92,8 @@
 - `wpM_supervise.sh` started in its own process session (survives agent sessions): relaunches `wpM_scaling.py` from
   the partial file if it dies, writes `MIXING_SCALING.md` when outputs exist, never commits. P5 review was
   interrupted by a network drop and resumed. Handoff for Codex: `HANDOFF_CODEX.md`.
+
+## 2026-11-11 04:55 — salvage outcome recorded
+- P3 finished (926 ok); supervisor wrote `MIXING_SCALING.md` and exited. P5 accepted M1–M3, M5; M4 with scope
+  corrections. Locked criteria: CONDITIONAL GO clause (c) not met (B = 3, 4 still falling at T = 12; t = 9/10, B = 2
+  still falling); NO-GO not triggered. Decision OPEN; single obligation: general-B uniform-in-T lower bound.

@@ -25,3 +25,19 @@ PRIOR ART · BLOCKED · NOT STARTED.
 | C-7 | Theorem S1: static alternative ⇒ W ⇒ Γ = 0 for B=1 (any prior, d, c, k, α) | PROVED (agent); static general B,d CONJECTURED (5,592 + 49 cells Γ = 0) | same |
 | C-8 | Lemma Zc: promotion event monotone in queried labels in query order ⇒ causal risk = IID risk (strictly larger class than tape-monotone) | PROVED (agent); 0 violations in 1,233 plans | same |
 | C-9 | "TP2 or (M) violated ⇒ Γ > 0" | FALSIFIED (Γ>0 in only 6.6% of TP2-violating B=1 cells; 1.3% of (M)-violating B≥2 cells) | same |
+
+## theory_v2 status update (2026-11-10, appended; rows above unchanged)
+
+| ID | Statement | Status after theory_v2 | Evidence |
+|---|---|---|---|
+| R / R′ / Zc / P | Lagrangian reduction; query-order coupling; promote only at q > 1/2 | PROVED (re-audited); PRIOR ART in substance (LP duality + sequential stochastic domination) | `theory_v2/THEOREM_PROOF_AUDIT.md`, `PRIOR_ART_AUDIT.md` |
+| Z1 / W / W* | B=1 zero premium | PROVED (re-audited; W* sharpening) | same |
+| N1 | Exact Γ, B=1, any HMM, α ≤ 1/2 | PROVED (independent re-implementation 1,905/1,905); α ≤ 1/2 necessary | same |
+| N1-cap | Γ ≤ (C₀ − V*_IID)/2 at B=1 | PROVED (elementary corollary; lead-verified) | `theory_v2/REVIEW_SIGNIFICANCE.md` |
+| C3″ | Alternation: Γ = α·min{(g−k)/2−c, g−2k} (even T ≥ 4); α((g−k)/2−c) at T=2; odd T ⇒ 0 | PROVED; C3′ FALSIFIED at T=2 (CE-13) | `THEOREM_PROOF_AUDIT.md` |
+| S0 | Static alternative, c = 0, any T,B,d,k,α ⇒ Γ = 0 | PROVED (reviewed, minor corrections) | `MULTILABEL_ZERO_PREMIUM.md`, `REVIEW_S0.md` |
+| S+ | Static, c > 0, B ≥ 2 ⇒ Γ = 0 | CONJECTURED (0 counterexamples, ≈42k cells); irreducible lemma stated | `MULTILABEL_ZERO_PREMIUM.md` |
+| Z2 / U-M | Symmetric stationary persistent (or TP2 + M_marg) ⇒ Γ = 0 | FALSIFIED for every α (CE-12) and at α ≤ 1/2 (CE-14, B ≥ 4) | same |
+| SP1 | Exact closed-form Γ, symmetric anti-persistent, B=1, any d,c,k | PROVED (reviewed; SP1-D corrected at T=d+1, CE-18) | `STOCHASTIC_POSITIVE_PREMIUM.md`, `REVIEW_SP1.md` |
+| SP1 corollaries | even d ⇒ 0 (B=1); open region for odd d; horizon-uniform lower bound; decay r^d; mixing limit | PROVED (B=1); "even d ⇒ 0" FALSIFIED at B=2 (CE-15) | same |
+| Struct | Four-mechanism characterisation | PROVED components + NUMERICALLY VERIFIED taxonomy; not a theorem | `STRUCTURAL_CHARACTERIZATION.md` |

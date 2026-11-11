@@ -41,3 +41,7 @@ PRIOR ART · BLOCKED · NOT STARTED.
 | SP1 | Exact closed-form Γ, symmetric anti-persistent, B=1, any d,c,k | PROVED (reviewed; SP1-D corrected at T=d+1, CE-18) | `STOCHASTIC_POSITIVE_PREMIUM.md`, `REVIEW_SP1.md` |
 | SP1 corollaries | even d ⇒ 0 (B=1); open region for odd d; horizon-uniform lower bound; decay r^d; mixing limit | PROVED (B=1); "even d ⇒ 0" FALSIFIED at B=2 (CE-15) | same |
 | Struct | Four-mechanism characterisation | PROVED components + NUMERICALLY VERIFIED taxonomy; not a theorem | `STRUCTURAL_CHARACTERIZATION.md` |
+| G-A | t=1, d=1, c=k=0, T ≥ 2B: Γ ≤ (1−2e)(B+1); ρΓ → 0 as T → ∞ at fixed B | PROVED (agent, unreviewed); Γ constant 0.032 in T at B=2 lead-verified | `theory_v2/GENERAL_B_PREMIUM.md` |
+| G-V | t=1: Γ ≤ ((1−2e)/2)(K_α + T·π_B); sup_T ρΓ → 0 as B → ∞ at fixed α | PROVED (agent, unreviewed) | same |
+| G-R | Causal-risk recursion for fixed-calendar events; pattern risk 2^−#ones; fixed calendars not WLOG for V*_causal | PROVED / NUMERICALLY VERIFIED; PRIOR ART in substance | same |
+| Decision | theory_v2 publication decision | main-track NO-GO (too narrow) | `theory_v2/PUBLICATION_DECISION.md` |

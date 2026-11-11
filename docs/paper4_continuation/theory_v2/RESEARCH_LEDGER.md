@@ -65,3 +65,9 @@
 - Reading: the wpC2 rise of ρ in B is a finite-resource effect (T−B small and B·I_e ≲ 2 log 1/α); no B- or
   T-uniform positive lower bound at t = 1. t < 1: CONJECTURED same, not proved. Verdict PIVOT; no main-track
   positive theorem from this attempt.
+
+## 2026-11-11 — decision recorded
+- Bounded general-B attempt: no positive theorem; at t = 1 the relative premium vanishes as T or B grows
+  (Thm A/V, unreviewed); lead verified Γ = 0.032 constant in T (B = 2).
+- **Publication decision: main-track NO-GO (existing results too narrow).** `PUBLICATION_DECISION.md`,
+  `NEXT_ACTION.md` written. The programme's mandatory work packages are closed with verified outcomes.

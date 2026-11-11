@@ -481,3 +481,151 @@ All cells below have the symmetric stationary prior. Data are in `wpB_symce_*.js
   α ≤ 1/2 is the regime of N1 and of any practical promotion-error level; it is not added to exclude this cell but
   is recorded because every failure found so far has α > 1/2 (smallest 69/128). Follow-up: hull-targeted search at
   α ≤ 1/2 (requested from WP-B).
+
+## Follow-up: α ≤ 1/2 (Z2≤½ and static c > 0), 2026-11-10
+
+**Verdict.**
+- **Z2≤½ is FALSIFIED.** In symmetric stationary persistent cells the causal-safety premium is certified positive
+  (Γ > 0, exact rationals) at α = 1/2 and down to α = 21/128 ≈ 0.164. Even B = 4 suffices.
+- **Static with c > 0 and α ≤ 1/2: no counterexample.** In 6,480 static cells no Lagrangian hull vertex at any risk
+  level lacked a z-monotone optimal plan. So Γ = 0 at every α in those cells, up to float location of the hull.
+  This remains NUMERICALLY VERIFIED, not PROVED. The open lemma is still Lemma S+ (§3).
+
+### F.1 Method (hull-targeted, no α grid)
+
+Script: `wpB2_halfscan.py`. For each cell:
+1. Find every Lagrangian breakpoint, i.e. every vertex of the lower hull of `{(R_IID, C)}` over pure plans, with the
+   exact-DP solver (float location).
+2. Test each vertex at an interior λ. The DP-optimal plan is checked under four tie-breaks: prefer continue, prefer
+   promote, least risk among optimal plans, largest risk among optimal plans. The static solver uses the first two.
+3. A vertex counts as monotone if one of those optimal plans is z-monotone. The vertices that matter for α ≤ 1/2 are
+   those with R ≤ 1/2, plus the lowest vertex above 1/2, which closes the edge crossing 1/2.
+4. If all relevant vertices are monotone, then Γ = 0 for every α ≤ 1/2, by Lemma R remark 2 and Lemma Zc.
+5. Otherwise run the repo's certified `gamma_cell` (exact rationals) at three kinds of α:
+   - every relevant vertex risk ≤ 1/2;
+   - every relevant edge midpoint, capped at 1/2;
+   - α = 1/2.
+
+**The parameter grid.**
+
+| Parameter | Values |
+|---|---|
+| Horizon and budget | T 4..8, B ∈ {4, 5, 6}, B ≤ T |
+| Delay d | 1 or 2 |
+| Transition t | 1/50, 1/20, 1/10, 1/4, 1/2 |
+| e1 | 51/100, 3/5, 9/10, 99/100, 999/1000 |
+| Costs c and k | each 0, 1/100, or a large value (c: 1/5; k: 1/2) |
+| Static priors | 1/10, 1/2, 9/10 |
+| Static e0 | 1/100, 2/5 |
+
+At most 6 processes ran, each capped at 3,000 s.
+
+| Run | Cells done | Relevant vertex flagged | Certified Γ > 0 at α ≤ 1/2 |
+|---|---|---|---|
+| sym, 5 shards (`wpB2_halfscan_sym_shard{0..4}of5.json`) | 5,142 / 5,400 (time cap) | 103 cells | **53 cells, 300 (cell, α) pairs**; smallest α 9/32 |
+| static, 1 shard (`wpB2_halfscan_static_shard0of1.json`) | 6,480 / 6,480 | **0** (no non-monotone vertex at any R) | 0 |
+| symbig: T ∈ {9, 10}, B ∈ {6, 7}, d = 1, accurate and persistent (`wpB2_halfscan_symbig_shard0of3.json`) | 4 / 16 of shard 0 | 2 | 25 pairs; **smallest α = 21/128** (T=9, B=6, t=1/10, e=1/100, c=0, k=1/100; Γ ≥ 0.00576), Γ up to 0.052 |
+
+Symbig shards 1 and 2 of 3 were not run. They are not needed, because the verdict is already settled.
+
+**Flagged does not mean positive.** A flag can still give Γ = 0, as happened in 50 of the 103 flagged cells. z-monotone
+is sufficient for causal safety but not necessary. Example: T=7, B=4, t=1/4, e=1/10, k=1/2, at the vertex R = 7/16.
+Every optimal plan there is non-z-monotone, yet its causal risk equals its IID risk.
+
+So the sharper sufficient condition is **causal-safe optimal support**: every needed vertex has an optimal plan with
+`R_causal = R_IID`. Mixtures of such plans are causal-safe, because the sup of an average is at most the average of
+the sups.
+
+### F.2 Exact counterexamples at α ≤ 1/2 (`wpB2_record_v1.json`)
+
+**CE-B2 (B = 4).** The cell:
+- T=8, B=4, d=2;
+- t01 = t10 = 1/4;
+- e = (1/1000, 999/1000);
+- stationary prior 1/2;
+- c = k = 0.
+
+Hull vertices:
+
+| R | 15/16 | 7/8 | 13/16 | 3/4 | 5/8 | 9/16 | 5/16 | 1/4 | 1/8 | 1/16 | 0 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Optimal plan monotone? | yes | yes | **no** | yes | yes | yes | **no** | yes | yes | yes | yes |
+
+At the vertex R = 5/16:
+- every Lagrangian-optimal pure plan has R = 5/16, confirmed exactly by the least-risk and largest-risk tie-breaks;
+- that plan's causal risk is 3/8;
+- its promotion event, in query order, is {11\*\*} ∪ {0011}.
+
+Certified Γ (`gamma_cell`, exact rationals):
+
+| α | 9/32 | 5/16 | 1/2 |
+|---|---|---|---|
+| Γ | 6.4229e-5 | 1.28457e-4 | 3.2114e-5 |
+
+**T=7, B=6, d=1, t = 1/4, e = (1/100, 99/100), c = 0, k = 1/100.**
+- The non-monotone vertices at or below 1/2 are R = 3/8 (causal risk 1/2) and R = 11/32 (causal risk 3/8).
+- Witness: the plan promotes after 001100 but not after 101100.
+- Certified Γ: 7.524e-4 at α = 21/64, 2.1064e-3 at α = 3/8, and 2.1064e-3 at α = 1/2.
+
+### F.3 Mechanism: why the 25/32 edge exists, and why it is not a high-risk phenomenon
+
+**The 25/32 edge in CE-B1.** The edge joins two vertices: v₂ (R = 3/4) and v₁ (R = 13/16). Both promote at once on
+z₁ = 1. They differ after z₁ = 0:
+- **v₂ (z-monotone).** Its event after z₁ = 0 is {01\*\*}, i.e. promote when the second label is 1. Causal risk 3/4.
+- **v₁ (not monotone).** Its event after z₁ = 0 is {0001} ∪ {001\*} ∪ {011\*}: it waits for z₃, and after 000 it
+  spends a fourth query. Causal risk 7/8.
+  - It promotes after 0001: one switch, a likely history under the alternative.
+  - It does not promote after 0101.
+
+**Why v₁ cannot be made monotone cheaply.** Under persistent, accurate labels, 0101 needs about three switches or label
+errors, so `P_A(0101)` is tiny. Adding it buys almost no alternative gain for the same null price λ·2⁻⁴. The monotone
+closure of v₁ is the vertex R = 15/16 (event {0001, 001\*, 010\*, 011\*}), which sits on a different edge.
+
+So the v₂–v₁ edge is a Neyman–Pearson ranking of leaf histories by `P_A(h)·G(h)/2^{-m}`. That ranking is not
+monotone under interior flips, because a flip that creates an isolated 1 lowers `P_A(h)`. At α = 25/32, every
+IID-optimal mixture needs weight 1/2 on v₁. The causal null then plays p = 0 on the second label after z₁ = 0.
+
+**No structural risk threshold.** The same mechanism occurs at whatever risk level the obvious monotone core runs out:
+- In CE-B2 the core is {z₁z₂ = 11} at R = 1/4. The next-best increment is the single clean-switch history 0011, worth
+  2⁻⁴ of null risk. Its monotone closure would need 1011 and 0111, which are unlikely under the alternative.
+- Larger B makes the core smaller, so the onset α falls: 9/32 at B ≤ 6, T ≤ 8, and 21/128 at T=9, B=6.
+- The lowest non-monotone vertex seen is R = 5/32, at T=9, B=6.
+
+This differs from the B = 1 "risk-1/2 ray" of N1. There a non-monotone design has IID risk exactly 1/2 per
+activation. Here a non-monotone increment costs only 2⁻ᴮ of null risk, so no α-level barrier follows from risk
+accounting.
+
+**What remains possible (CONJECTURED, not proved).** Γ = 0 for α below the risk of the smallest positive-risk hull
+vertex. That vertex is the most selective plan and was monotone in every cell inspected. This is only an observation
+on the scanned cells.
+
+### F.4 Status update
+
+| Statement | Status |
+|---|---|
+| Z2≤½: symmetric stationary persistent with α ≤ 1/2 ⇒ Γ = 0 | **FALSIFIED** (CE-B2 at B = 4; certified Γ > 0 down to α = 21/128) |
+| The 25/32 failure is a high-risk artefact | FALSIFIED. The mechanism is a 2⁻ᴮ Neyman–Pearson leaf increment whose monotone closure contains low-likelihood histories |
+| Static, c > 0, any α (including α ≤ 1/2) ⇒ Γ = 0 | NUMERICALLY VERIFIED: 6,480 grid cells with 0 non-monotone vertices, plus 29,297 earlier cells. **UNRESOLVED**; the irreducible lemma is S+ (§3) |
+| Causal-safe optimal support (weaker than z-monotone support) | Noted as the correct sufficient condition. 50 of the 103 flagged symmetric cells were rescued by it or by U3 |
+
+**Continue / pivot / stop.**
+- **Stop** zero-premium claims for persistent, non-static alternatives at any α.
+- Paper 4's multi-label zero-premium statement should be limited to Theorem S0: static, free labels.
+- Static c > 0 remains a bounded open lemma.
+- **Positive-premium side.** The symmetric family gives Γ up to 0.052 at α ≤ 1/2, at T=9, B=6. WP C or WP D can use
+  this as a natural, (M)-satisfying positive-premium family.
+
+Commands, run from the repo root:
+- `uv run --no-sync python scripts/paper4_continuation/theory_v2/wpB2_halfscan.py <out> {sym|static|symbig} SHARD NSHARDS 3000`
+- `uv run --no-sync python scripts/paper4_continuation/theory_v2/wpB2_record.py docs/paper4_continuation/theory_v2/results/wpB2_record_v1.json`
+
+Nothing committed.
+
+## Lead verification of the α ≤ 1/2 counterexample (2026-11-10)
+
+Re-computed with the repo `gamma_cell` (FCG-fast, exact): T=8, B=4, d=2, t01=t10=1/4, e=(1/1000, 999/1000),
+stationary prior 1/2, c=k=0.
+- α = 5/16: certified Γ ∈ [1.28457281e-4, 1.28457282e-4]; the IID optimum has IID risk 5/16 and causal risk 3/8.
+- α = 1/2: certified Γ ∈ [3.2114320e-5, 3.2114320e-5]; IID optimum causal risk 33/64.
+- α = 1/10: Γ ∈ [−2.7e-14, 2.7e-14] (zero).
+**Z2≤½ is FALSIFIED.** The symmetric stationary persistent conjecture fails at practical α once B ≥ 4.

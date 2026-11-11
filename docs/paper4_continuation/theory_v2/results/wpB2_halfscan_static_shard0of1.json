@@ -1,0 +1,15 @@
+{
+ "script": "scripts/paper4_continuation/theory_v2/wpB2_halfscan.py",
+ "family": "static",
+ "shard": 0,
+ "nshards": 1,
+ "n_cells_in_shard": 6480,
+ "n_cells_done": 6480,
+ "seconds": 92.08878803253174,
+ "n_flagged_relevant": 0,
+ "n_certified_positive_alpha_le_half": 0,
+ "positives": [],
+ "flagged": [],
+ "lowest_nonmonotone_vertex_R": [],
+ "n_cells_with_any_nonmonotone_vertex": 0
+}

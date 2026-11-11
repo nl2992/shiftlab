@@ -22,3 +22,34 @@
 | D3, D4 | — | D3 closed (prior art; tree-free LB is the open problem); D4 drafted, pending-asymmetry value test queued after A3 | D3 COMPLETE WITH NEGATIVE RESULT; D4 IN PROGRESS | `FALLBACK_SCREENS.md` |
 | WP E (survivors) | — | Source-grounded novelty audit of surviving results: none proved+distinct at main-track level; best = Γ characterisation (UNRESOLVED / PARTIAL OVERLAP) | COMPLETE | `NOVELTY_AUDIT_SURVIVORS.md` |
 | H (skeleton) | — | HKUSTDial tech-paper-template: 2 CRITICAL chain breaks (multi-label case unproved; contributions exceed B=1 methodology) → no main-track skeleton | COMPLETE | `PAPER_SKELETON_CHECK.md` |
+
+## Corrections and theory_v2 continuation (appended 2026-11-10; rows above unchanged)
+
+Corrections (from `theory_v2/ENGINEERING_COMPLETION.md` §E4):
+- Commits for the rows above: meta/D1/D2 `b3e74c25`; A2 `a09683f9`; A3 harness + A4 `9c803de8`; literature `e7964dd8`;
+  WP C `bf5a3c7d`; idea-eval C `870553e4`; WP B `ded27a0d`; lint note `76b9f744`; WP G `d30b3af0`; WP C follow-up
+  `075a963d`; D3/D4 `ddd957c2`; WP E survivors `510aad8d`; H `b1215242`; A1 `affd5077`.
+- Row "A2, A3/A4, B, C, E — IN PROGRESS" is SUPERSEDED by the later COMPLETE rows.
+- A2: activations — LP candidates 1; e-process gate baselines 2/5 and 4/5 (deterministic). Root-mixture test file has
+  11 tests, not 9. A1 evidence script (`a1_recheck.py`) was session scratch: not reproducible from the repo.
+- A3 campaign: FINISHED (04:10 EST) in worktree `failure-atlas-v2-sota-195428`; read-only summary in
+  `theory_v2/ENGINEERING_COMPLETION.md` (E2 addendum): no runtime gain attributable to FCG cut generation.
+- D4 (pending-asymmetry value test) is no longer blocked by the campaign; carried over as an open fallback item.
+- "WP E" names three different things across phases (literature; novelty survivors; theory_v2 engineering). In
+  theory_v2 the letters follow the 2026-11-10 directive (A audit, B multi-label, C stochastic, D structure,
+  E engineering, F prior art, G review, H publication).
+
+| Task | Branch @ commit | Description | Status | Evidence |
+|---|---|---|---|---|
+| branch | `research/paper4-causal-premium-theory-2026-11-10` @ `a7a1673f` | theory_v2 continuation cut from `b1215242` | ACTIVE | `theory_v2/MASTER_PLAN.md` |
+| v2-E | `18076429` | Root-mixture audit, ledger reconciliation, A3 read | COMPLETE | `theory_v2/ENGINEERING_COMPLETION.md` |
+| v2-F | `447126a8`, `a40a2727` | Prior-art retrieval and novelty audit | COMPLETE | `PRIOR_ART_SOURCES.md`, `PRIOR_ART_AUDIT.md` |
+| v2-A | `96dd637a` | Independent proof audit; C3′ falsified at T=2 → C3″ | COMPLETE | `THEOREM_PROOF_AUDIT.md` |
+| v2-B | `6051f2b6`, `67d2d4ce` | S0 proved; Z2 falsified (incl. α ≤ 1/2); S+ open | COMPLETE | `MULTILABEL_ZERO_PREMIUM.md` |
+| v2-G (S0) | `fe7d9a35` | S0 correctness review | COMPLETE | `REVIEW_S0.md` |
+| v2-C | `df2ffcd6` | SP1 closed form (B=1, stochastic anti-persistent) | COMPLETE | `STOCHASTIC_POSITIVE_PREMIUM.md` |
+| v2-D | `5be00d76` | Structural characterisation | COMPLETE | `STRUCTURAL_CHARACTERIZATION.md` |
+| v2-G | `f29f8f8b`, `0d0427b2`, `813e7b1b` | Significance, SP1 correctness, consolidated report | COMPLETE | `REVIEW_*.md` |
+| rule | `2e32258f` (branch), `a2bf3b21` (main) | Publication-outcome rule in `AGENTS.md` | COMPLETE | `AGENTS.md` |
+| v2-C2 | — | Relative-premium scaling run (descriptive), 3 workers | IN PROGRESS | `scripts/paper4_continuation/theory_v2/wpC2_relative_premium.py` |
+| v2-H | — | Publication decision | PENDING (after scaling) | `theory_v2/PUBLICATION_DECISION.md` |

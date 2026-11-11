@@ -26,6 +26,15 @@ current scientific direction; paper folders and reports record implementation st
 - CRSP is a retrospective stress-test dataset. Its market dates are not verified causal change
   labels or point-in-time feature publication timestamps. Respect the CRSP execution guide.
 
+## Publication-outcome rule (user directive, 2026-11-10)
+
+- **Never suggest, recommend or plan a workshop paper, short note or other non-main-track venue** as an outcome
+  of any research line in this repository. Publication decisions are main-track only: GO, CONDITIONAL GO (one
+  stated obligation), or NO-GO with its reason. If a result does not support a main-track paper, say NO-GO.
+- **A falsified conjecture, counterexample to our own hypothesis, or other negative result is not a finding.**
+  Record it as evidence in the relevant ledger and use it to close or redirect a candidate; never present it as a
+  contribution, a strength, or "the most valuable result".
+
 ## Implementation practice
 
 - Inspect the existing implementation, tests, configuration, data contracts, and Git state before

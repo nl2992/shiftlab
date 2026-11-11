@@ -200,7 +200,7 @@ All are already implemented and frozen.
   - Claim S fails **and** E2 explains less than half the variance, leaving the benchmark without
     a mechanism.
 
-  The decision then moves to NO_GO, with the findings folded into a workshop or technical report.
+  The decision then moves to NO_GO, with the evidence recorded in the repository's research logs.
 
 ## Separately gated track (not part of Claim A)
 

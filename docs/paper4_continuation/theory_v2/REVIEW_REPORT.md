@@ -1,5 +1,8 @@
 # WP-G — Review report (theory_v2)
 
+> **Lead edit, 2026-11-10 (user directive):** workshop / short-note recommendations are removed — this project never suggests workshop papers; the only outcomes are main-track GO / CONDITIONAL GO / NO-GO. Falsified conjectures and counterexamples to our own hypotheses are recorded as evidence, never counted as findings or strengths. See `AGENTS.md` (Publication-outcome rule).
+
+
 All reviews are fresh-context native Opus 5.5 subagents: `review_independence: same-family`,
 `acceptance_status: provisional`. No cross-family reviewer was available (BL-1: no Codex/Grok/Antigravity/
 claude-review backend loaded). No external reviewer identities are claimed. A review does not replace a proof.
@@ -10,7 +13,7 @@ claude-review backend loaded). No external reviewer identities are claimed. A re
 | R1a | Correctness | Theorem S0 | `REVIEW_S0.md` | PROVED with minor corrections (post-promotion queries also greedy; "any c" remark not established) |
 | R1b | Correctness | Theorem SP1 and corollaries | `REVIEW_SP1.md` | SP1 ACCEPTED (2,420/2,420 adversarial certified cells); SP1-D bullet wrong at T=d+1 (CE-18); d-monotonicity fails at small T (CE-19); minor text errors |
 | R2 | Novelty (reduce to literature) | all results | `PRIOR_ART_AUDIT.md` | No result is a main-track-level new theorem: zero side = sequential stochastic domination (Doerr §1.8) + LP duality (Walraven–Spaan); B=1 results = single-observation composite tests + an LP over query times; Γ definition an instance of Fauß–Zoubir–Poor rectangular laws; S0's G/D induction the only untraced step |
-| R3 | Significance (skeptical ML reviewer; HKUSTDial idea-evaluator; ARIS research-review rubric) | whole package | `REVIEW_SIGNIFICANCE.md` | Main track NO-GO (too restrictive / routine corollary), 3/10 as is, 5–6/10 best realistic; workshop/short note CONDITIONAL GO |
+| R3 | Significance (skeptical ML reviewer; HKUSTDial idea-evaluator; ARIS research-review rubric) | whole package | `REVIEW_SIGNIFICANCE.md` | Main track NO-GO (too restrictive / routine corollary), 3/10 as is, 5–6/10 best realistic |
 
 ## Major objections and disposition
 

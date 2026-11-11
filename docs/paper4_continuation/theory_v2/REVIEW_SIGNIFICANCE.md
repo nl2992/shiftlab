@@ -1,5 +1,8 @@
 # Review 3: scientific significance of the causal-safety premium Γ programme (theory_v2)
 
+> **Lead edit, 2026-11-10 (user directive):** workshop / short-note recommendations are removed — this project never suggests workshop papers; the only outcomes are main-track GO / CONDITIONAL GO / NO-GO. Falsified conjectures and counterexamples to our own hypotheses are recorded as evidence, never counted as findings or strengths. See `AGENTS.md` (Publication-outcome rule).
+
+
 **Date:** 2026-11-10. **Reviewer:** Reviewer 3 (scientific significance). Fresh-context Opus 5.5 subagent acting as a
 skeptical ICML/NeurIPS/ICLR theory reviewer.
 `review_independence: same-family` · `acceptance_status: provisional`.
@@ -63,7 +66,7 @@ Experiments are exact certified computations on synthetic cells with T ≤ 10 (m
 3. **Verification discipline is unusually high.** There are independent re-implementations, exact rational
    certificates, a lead re-computation of every headline counterexample, and corrections recorded rather than hidden
    (C3′ → C3″, the false "tape ⊂ z" claim, the old root-mixture defect in E1).
-4. **The negative results are scientifically informative.** The natural conjecture "persistence (TP2) + balanced
+4. *(Not counted as a strength — see lead edit note.)* **Falsifications recorded.** The natural conjecture "persistence (TP2) + balanced
    marginals ⇒ IID calibration is free" is false once B ≥ 4, at practical α (CE-B2: Γ > 0 at α = 9/32, 5/16, 1/2;
    symbig: down to α = 21/128). The mechanism is identified concretely: persistence lowers the likelihood of histories
    with isolated flips, so the Neyman–Pearson leaf ranking is not an up-set. This is a real "the intuition is wrong"
@@ -161,7 +164,6 @@ review, and `REVIEW_SP1.md` does not exist. This does not change significance, b
 |---|---|---|---|
 | Main track, as it stands | **3 (reject)** | 4 | Well-verified but routine or B = 1-restricted theorems; a taxonomy instead of a multi-label theorem; tiny synthetic magnitudes; narrow audience |
 | Best realistic version | **5 (borderline reject)**, up to 6 if Q1 and Q2 both resolve positively | 3 | A general-B theorem with matching rates plus a SAVI connection would make it a legitimate but niche theory paper |
-| Workshop (e.g. a theory workshop on safe or anytime-valid decision-making) | Acceptable as is, with SP1's independent review done | 3 | Clean question, exact B = 1 answer, surprising falsification of the persistence conjecture |
 
 **What would move toward accept (mock-review form):** a multi-label theorem, in priority order:
 1. a Θ-tight scaling law for Γ/(information value) in the symmetric persistent and anti-persistent families as T and
@@ -187,7 +189,7 @@ conjecture, organised by four score-monotonicity mechanisms."
 
 | # | Flaw | Severity | Defense |
 |---|---|---|---|
-| 1 | **Insufficient significance / restrictive scope.** Every non-routine exact theorem is B = 1 or static-with-free-labels. The multi-label phenomenon (M3) is witnessed, not proved. Absolute Γ is ≤ ~0.2% of value in the multi-label witnesses (W2) | MAJOR for a workshop note; effectively CRITICAL for main track unless a general-B theorem is added | Prove a scaling law for Γ relative to the information value at general B (§7), or reposition as a short note |
+| 1 | **Insufficient significance / restrictive scope.** Every non-routine exact theorem is B = 1 or static-with-free-labels. The multi-label phenomenon (M3) is witnessed, not proved. Absolute Γ is ≤ ~0.2% of value in the multi-label witnesses (W2) | CRITICAL for main track unless a general-B theorem is added | Prove a scaling law for Γ relative to the information value at general B (§7), or reposition as a short note |
 | 2 | **Novelty (F1), provisional.** Retrieval (`PRIOR_ART_SOURCES.md`) finds the null family reducing to rectangular robust sets (Iyengar; Nilim–El Ghaoui; Fauss–Zoubir–Poor Thm 6) and the zero-side mechanisms reducing to NP/TP2 structure (Krishnamurthy). No retrieved source computes Γ. This is "no directly overlapping work retrieved under these keywords", searched 1–3 times per sub-topic. `PRIOR_ART_AUDIT.md` not yet available | MAJOR (unresolved) | Await the novelty reviewer. Position as "the gap to a nominal member of a rectangular family", which WP F did not find stated |
 
 There is no data-refuted *core* mechanism. The refuted conjecture (persistence ⇒ free) was a hypothesis inside the
@@ -238,8 +240,8 @@ Disruptive potential: **none to possible** (one yes).
 
 ### 6.7 Verdict
 
-**Accept with Revisions**, scoped to a workshop or short theory note, and worth pursuing toward main track only
-pending the validation step below. As a main-track paper in its current form the verdict is **Reject and Pivot**.
+As a main-track paper in its current form the verdict is **Reject and Pivot**; worth pursuing only if the
+validation step below succeeds.
 
 Top three actions:
 1. Prove or refute a **general-B scaling law** for `Γ / (C_0 − V*_IID)` in the symmetric stationary families
@@ -254,13 +256,13 @@ Top three actions:
 | Question | Answer |
 |---|---|
 | Is the problem significant to the ML community? | **Moderately interesting, narrowly relevant.** The question is clean and, per retrieval, unstudied in this form. But the model is a stylised two-state switching game, and the measured premiums are small in absolute terms. Without a link to practical gates (e-processes, deployment streams) it is a niche robust-sequential-decision question, not a mainstream ML one |
-| Is any theorem new or a routine corollary? | R, R′, Zc, Z1, S1 and P are routine (audit's own labels). N1 is elementary but is the only *complete* characterisation and plausibly new as a statement (provisional). SP1 is a closed-form specialisation of N1. S0 is a clean restricted proposition, about 80% routine. The newest scientific content is the certified **counterexamples** (persistence ⇒ free fails at B ≥ 4 and practical α) and their mechanism |
+| Is any theorem new or a routine corollary? | R, R′, Zc, Z1, S1 and P are routine (audit's own labels). N1 is elementary but is the only *complete* characterisation and plausibly new as a statement (provisional). SP1 is a closed-form specialisation of N1. S0 is a clean restricted proposition, about 80% routine. The certified counterexamples (persistence ⇒ free fails at B ≥ 4 and practical α) falsify our own conjecture; they are evidence, not a contribution |
 | Are the assumptions natural? | α ≤ 1/2, the adaptive null class and static exchangeable evidence are natural. B = 1 is degenerate for budgeted sensing, and conclusions provably do not transfer to B ≥ 2. Symmetric stationary chains are a reasonable canonical family, but anti-persistence with odd lag (the proved positive driver) lacks a practical motivation. Free labels (c = 0) in S0 is a convenience assumption |
 | Stronger than special-case constructions? | **At B = 1, yes:** N1 covers every HMM, not a hand-built family, and supersedes C3. **At B ≥ 2, no:** the evidence there is witnesses plus identity bounds |
 | Does it explain a meaningful phenomenon? | Partly. Score monotonicity of `P_A(y)G(y)⁺` organises every positive cell found, and M3 (persistence penalises isolated flips) is a genuine non-obvious explanation. But it is a taxonomy: not necessary (50/103), not exhaustive, and M2/M3 are unproved |
 | Matching bounds / examples? | Exact at B = 1, with a sharp α ≤ 1/2 scope. None at B ≥ 2 beyond loose identity and monotone-restriction bounds. Examples are plentiful and certified |
 | Are the experiments sufficient? | For falsification and verification, yes, and they are exemplary. For significance, no: all synthetic, T ≤ 10, no asymptotics, no deployment-like stream, some scans time-capped |
-| Main track / workshop / neither? | **Not main track as it stands. A workshop paper or short theory note: yes**, after the SP1 independent review and with novelty claims held provisional |
+| Main track? | **Not main track as it stands.** |
 | Single additional result that would most change the verdict? | A **general-B theorem giving tight (Θ) asymptotics of the relative premium Γ/(C_0 − V*_IID)** in the symmetric stationary families as T, B → ∞. It should show a non-vanishing relative premium under persistence (M3) or anti-persistence (M1), with a primitive controlling parameter. It would turn the taxonomy into a theorem, answer the "tiny Γ" objection, and remove the B = 1 restriction in one step |
 
 ## 8. Recommendation
@@ -270,12 +272,6 @@ contribution that is proved in general is routine (R, Zc, Z1, S1). The non-routi
 B = 1 (N1, SP1) or to static, free-label evidence (S0). The multi-label phenomenon is supported by certified
 counterexamples and a taxonomy, not by a theorem. Novelty is **not** the NO-GO reason: retrieval found no source
 computing Γ, but this stays provisional pending `PRIOR_ART_AUDIT.md`.
-
-**Workshop or short theory note: CONDITIONAL GO.** The conditions are:
-1. an independent review of SP1 (Lemmas W, K, Pre);
-2. the novelty audit does not find Γ (or N1) in prior art;
-3. claims are scoped exactly as in `STRUCTURAL_CHARACTERIZATION.md` §4–5: no general equivalence, the taxonomy
-   labelled as empirical, and magnitudes reported with their relative size.
 
 Upgrading to a main-track CONDITIONAL GO requires the §7 general-B asymptotic result.
 

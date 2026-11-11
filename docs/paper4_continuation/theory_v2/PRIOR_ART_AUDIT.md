@@ -1,5 +1,8 @@
 # WP F: Prior-art audit of the causal-safety premium results (Reviewer 2, novelty)
 
+> **Lead edit, 2026-11-10 (user directive):** workshop / short-note recommendations are removed — this project never suggests workshop papers; the only outcomes are main-track GO / CONDITIONAL GO / NO-GO. Falsified conjectures and counterexamples to our own hypotheses are recorded as evidence, never counted as findings or strengths. See `AGENTS.md` (Publication-outcome rule).
+
+
 **Date:** 2026-11-10. **Branch:** `research/paper4-causal-premium-theory-2026-11-10` (uncommitted).
 **Reviewer:** fresh-context Opus 5.5 subagent, acting as the substitute for the unavailable ARIS/Codex reviewer slot (BL-1).
 `review_independence: same-family` · `acceptance_status: provisional`.
@@ -386,8 +389,7 @@ sequential design. Three formulations each found nothing; absence of a hit is no
 delayed-label promotion rule pays for being calibrated against every adapted null p_t ≤ 1/2 rather than the
 IID(1/2) null. We show it vanishes whenever the IID-optimal promotion region is an up-set (via sequential stochastic
 domination), compute it exactly for single-label designs (where it reduces to a composite-null Neyman–Pearson LP),
-and exhibit certified positive premia in persistent multi-label cells." That is a solid workshop or applied-section
-contribution. It is not a main-track theory paper as it stands.
+and exhibit certified positive premia in persistent multi-label cells." It is not a main-track theory paper as it stands.
 
 **Novelty-check report summary.** Score **3/10 as a theory contribution**: the mechanisms are known, though no
 named paper contains the results, so this is not the 1–3 "already published" band in spirit. Score **5/10 as a

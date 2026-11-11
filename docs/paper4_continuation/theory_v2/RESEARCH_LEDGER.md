@@ -51,3 +51,17 @@
   Γ > 0); F_persist: 0 up to B = 3, 0.029 at B = 6; F_coin flat ≈ 0.18. Two F_anti cells re-computed exactly by the lead.
 - Rule fires for F_anti only ⇒ one bounded general-B theorem attempt (anti-persistent family). See
   `RELATIVE_PREMIUM_SCALING.md`.
+
+## 2026-11-11 — wpG bounded general-B attempt (anti-persistent family), agent report
+- Scope: one bounded attempt (~3 h, ≤ 3 processes, nice 10) triggered by the locked wpC2 rule. Write-up:
+  `GENERAL_B_PREMIUM.md`; scripts `wpG_*.py`; outputs `results/wpG_*.json`. Nothing committed.
+- PROVED: fixed-calendar causal-risk recursion (T1; pattern risk 2^-#ones; single least-favourable null per α);
+  IID calendar reduction at t = 1 (CAL-t1); Lemma A (≤ ⌊B/2⌋ informative labels against the RIPr null);
+  Prop L (calendar long-horizon slope limit), Prop P (calendar ρ_∞ → 1 for α ≤ 2^{1−B});
+  Thm A (t = 1: Γ ≤ (1−2e)(B+1) for T ≥ 2B, so ρ → 0 in T); Thm V (t = 1: sup_T ρ → 0 as B → ∞ at fixed α).
+- NEGATIVE / corrections: the fixed calendar is NOT WLOG for V*_causal (exact: T=8,B=2 calendar Γ 0.048 vs exact
+  0.032; calendar exact only for T−B ≤ 4 where checked). Causal upper probability is not 2-alternating at B = 3
+  (Huber–Strassen inapplicable). FCG-fast failed to terminate at (T,B)=(9,6), t=1, α=1/20.
+- Reading: the wpC2 rise of ρ in B is a finite-resource effect (T−B small and B·I_e ≲ 2 log 1/α); no B- or
+  T-uniform positive lower bound at t = 1. t < 1: CONJECTURED same, not proved. Verdict PIVOT; no main-track
+  positive theorem from this attempt.

@@ -69,3 +69,10 @@ d = 3 reproduces d = 1 shifted by two steps. ρΓ is identical at α = 1/20 and 
      general-B gap). Do not soften the outcome.
 4. Update `NEXT_ACTION.md`, `RESEARCH_LEDGER.md` (append-only), `THEOREM_REGISTRY.md` (append rows for M1–M5) and
    `EXPERIMENT_RESULTS.md`; commit and push after each finished piece.
+
+## Update 2026-11-11 (P5 finished)
+`REVIEW_MIXING.md` exists: M1, M2, M3, M5 ACCEPTED; M4 ACCEPTED WITH CORRECTIONS (scope: k = 0, odd d,
+c < g r^d/(16(1+r)), T ≥ T₀ — T₀ = 6 at t = 2/3, 10 at 3/4, 21 at 0.85, 37 at 9/10; not "uniform in T" outright).
+M1 needs α ≤ 1/2 (ρΓ drops at α = 3/4). M3 holds only in the symmetric stationary family. 312 certified cells, no
+counterexample. Remaining: the P3 summary, then the decision (step 3 of "How to finish"), stating M4 with these
+qualifiers.

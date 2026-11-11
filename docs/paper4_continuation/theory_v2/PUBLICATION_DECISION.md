@@ -43,3 +43,19 @@ finite-resource effect.
 | H | No manuscript (no main-track candidate survived); `tech-paper-template` / `pre-submission-reviewer` not run for that reason | this file |
 
 **Not done, with reasons:** a cross-family review (BL-1, no backend loaded); a manuscript (decision is NO-GO).
+
+---
+
+## Reopened 2026-11-11 (lead correction; the decision above is suspended, not deleted)
+
+The NO-GO above rested on a mis-framed theorem target. Recorded errors:
+1. **Wrong limit.** The locked scaling rule targeted a premium bounded away from 0 as B → ∞, the label-rich limit,
+   where asymptotic theory already predicts no adversary advantage. Paper 4's setting is budgeted (label-scarce).
+2. **Wrong family for the attempt.** The bounded attempt analysed deterministic alternation (t = 1), the degenerate
+   case where one label reveals the whole future, so the value of information grows like T and the relative premium
+   must vanish (Thm A). That does not transfer to mixing chains.
+3. **Unsupported claim.** The lead stated in conversation (and `NEXT_ACTION.md` item 1 said) that t < 1 was
+   "expected to fail". The committed data contradict this: at t = 3/4 and t = 9/10 the relative premium is flat in T
+   at fixed B (e.g. t = 3/4, B = 1: 0.25 for T = 5–10; t = 9/10, B = 6: 0.62–0.63 for T = 7–9;
+   `results/wpC2_relative_premium_v1_compact.json`).
+**Status: decision REOPENED** pending the locked salvage protocol `SALVAGE_PLAN.md`.

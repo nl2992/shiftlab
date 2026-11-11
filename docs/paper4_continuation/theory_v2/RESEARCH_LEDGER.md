@@ -71,3 +71,9 @@
   (Thm A/V, unreviewed); lead verified Γ = 0.032 constant in T (B = 2).
 - **Publication decision: main-track NO-GO (existing results too narrow).** `PUBLICATION_DECISION.md`,
   `NEXT_ACTION.md` written. The programme's mandatory work packages are closed with verified outcomes.
+
+## 2026-11-11 — correction and reopening
+- The user challenged the NO-GO as setting the bar in the wrong place. On review the lead agrees: the locked target
+  was the label-rich limit, the theorem attempt studied only the degenerate t = 1 chain, and a claim that t < 1 would
+  also fail was unsupported and contradicted by committed data (relative premium flat in T for t = 3/4, 9/10).
+- Decision reopened; salvage protocol `SALVAGE_PLAN.md` locked before any new work.

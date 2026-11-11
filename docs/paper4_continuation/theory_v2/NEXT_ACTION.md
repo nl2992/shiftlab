@@ -16,3 +16,7 @@ Housekeeping if the branch is kept:
 - The full exact scaling output is at `outputs/paper4_theory_v2/wpC2_relative_premium_v1.json` (gitignored, local
   only).
 - Do not merge this branch into `main` automatically.
+
+## Superseded 2026-11-11
+Item 1's "expected to fail" for t < 1 is withdrawn: the committed data show a T-flat relative premium in mixing
+anti-persistent chains. The live plan is `SALVAGE_PLAN.md`; the decision is reopened.

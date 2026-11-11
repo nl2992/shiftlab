@@ -20,3 +20,7 @@ Housekeeping if the branch is kept:
 ## Superseded 2026-11-11
 Item 1's "expected to fail" for t < 1 is withdrawn: the committed data show a T-flat relative premium in mixing
 anti-persistent chains. The live plan is `SALVAGE_PLAN.md`; the decision is reopened.
+
+## Current (2026-11-11 04:05)
+See `HANDOFF_CODEX.md`: a detached supervisor finishes the P3 run; remaining steps are the P5 review (if not done),
+the scaling summary, and applying the locked `SALVAGE_PLAN.md` criteria.

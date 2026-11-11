@@ -87,3 +87,8 @@
   `wpM_scaling.py` (finish k = 0, d = 1, B ≤ 2; then B = 3, 4 at α = 1/10 for t ∈ {2/3, 3/4}; then t = 9/10; then
   d = 3 at B ≤ 2; then the rest) and relaunched with a 3 h budget, 2 workers, nice 10. The P3 agent was stopped; the
   lead runs the summariser.
+
+## 2026-11-11 04:05 — detached supervisor and Codex handoff
+- `wpM_supervise.sh` started in its own process session (survives agent sessions): relaunches `wpM_scaling.py` from
+  the partial file if it dies, writes `MIXING_SCALING.md` when outputs exist, never commits. P5 review was
+  interrupted by a network drop and resumed. Handoff for Codex: `HANDOFF_CODEX.md`.

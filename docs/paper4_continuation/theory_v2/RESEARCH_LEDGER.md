@@ -45,3 +45,9 @@
   - Otherwise: **no theorem attempt; publication decision is main-track NO-GO** (too restrictive / reduces to known
     mechanisms), with the scaling data recorded as evidence.
   - Either way, outcomes are main-track GO / CONDITIONAL GO / NO-GO only (`AGENTS.md` publication-outcome rule).
+
+## 2026-11-11 00:10 — scaling run finished; locked rule applied
+- 1,762/1,808 cells ok (46 dropped at T=10, B=6 by the wall cap). F_anti: max ρΓ rises 0.32 → 0.72 with B (all cells
+  Γ > 0); F_persist: 0 up to B = 3, 0.029 at B = 6; F_coin flat ≈ 0.18. Two F_anti cells re-computed exactly by the lead.
+- Rule fires for F_anti only ⇒ one bounded general-B theorem attempt (anti-persistent family). See
+  `RELATIVE_PREMIUM_SCALING.md`.

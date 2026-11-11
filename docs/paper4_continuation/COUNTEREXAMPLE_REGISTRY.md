@@ -16,3 +16,6 @@
 | CE-12 | "Symmetric stationary persistent ⇒ Γ = 0" (Z2) and "TP2 + M_marg ⇒ Γ = 0" (U-M), for every α | T=5,B=4,d=1,t01=t10=1/10, em (1/100,99/100), prior 1/2, c=k=0, α=25/32: Γ ≈ 0.0020925 (certified); Γ = 0 at every other α tested in [1/20, 7/8] | theory_v2 WP-B agent (`wpB_ce_record_v1.json`); lead re-computed with `gamma_cell` |
 | CE-13 | C3′ formula at T = 2 | e=1/4,k=1/10,c=0,α=1/10,T=2: Γ = 3/400 vs C3′ 1/200 (correct: α((g−k)/2−c) at T=2) | theory_v2 WP-A auditor; lead re-computed |
 | CE-14 | "Symmetric stationary persistent and α ≤ 1/2 ⇒ Γ = 0" (Z2≤½) | T=8,B=4,d=2,t01=t10=1/4, em (1/1000,999/1000), prior 1/2, c=k=0: Γ ≈ 1.2846e-4 at α=5/16, 3.21e-5 at α=1/2 (certified); smallest α with Γ>0 seen 21/128 (T∈{9,10}, B∈{6,7}) | theory_v2 WP-B (`wpB2_record_v1.json`); lead re-computed with `gamma_cell` |
+| CE-15 | "Even delay d ⇒ Γ = 0" beyond B = 1 (true at B = 1, SP1) | T=4,B=2,d=2,t01=t10=3/4,e=(1/10,9/10),prior 1/2,c=k=0,α=1/10: Γ(1)=0, Γ(2)=1/500 | theory_v2 WP-C; lead re-computed |
+| CE-16 | "Switching cost lowers Γ" | t=3/5,e=1/10,d=1,T=60,c=0,B=1: Γ/α 0.05333 (k=0) → 0.054 (k=1/50) | theory_v2 WP-C (closed form, SP1) |
+| CE-17 | "Γ monotone in B" (stochastic anti-persistent) | T=4,d=1,t=3/5,e=1/10,c=0,k=1/50: Γ(1)=0.0054 > Γ(2)=0.00412 < Γ(3) | theory_v2 WP-C |

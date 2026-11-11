@@ -97,3 +97,12 @@
 - P3 finished (926 ok); supervisor wrote `MIXING_SCALING.md` and exited. P5 accepted M1–M3, M5; M4 with scope
   corrections. Locked criteria: CONDITIONAL GO clause (c) not met (B = 3, 4 still falling at T = 12; t = 9/10, B = 2
   still falling); NO-GO not triggered. Decision OPEN; single obligation: general-B uniform-in-T lower bound.
+
+## 2026-11-11 — general-B attempt launched (user approved); criteria are the locked SALVAGE_PLAN.md ones
+- GO requires S-1 PROVED for general B (label-scarce range, explicit open set of t < 1, uniform in T), accepted by an
+  independent review, S-2 reviewed (done), no certified cell below the proved bound, novelty conditions of P4.
+- NO-GO if the attempt proves ρΓ → 0 in T at some B ≥ 3 for t < 1, or certified B = 3 cells at T = 13–15 show a
+  collapse (below half of the T = 12 value).
+- Otherwise the decision stays OPEN with the obligation restated.
+- Work: one Opus prover (1 process); certified B = 3 extension (t ∈ {2/3, 3/4}, d = 1, k = c = 0, α = 1/10,
+  T = 13–15; 2 workers, detached, partial file). Then an independent review of whatever is proved.

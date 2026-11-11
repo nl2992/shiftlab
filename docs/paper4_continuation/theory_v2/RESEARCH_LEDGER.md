@@ -31,3 +31,17 @@
   was written to a temporary path that could not be recovered, so it restarts fresh at 22:02 with 3 workers and a
   partial file in the session scratchpad. The script is committed with that restart.
 - Remaining: scaling results, PUBLICATION_DECISION.md, EXPERIMENT_RESULTS.md, NEXT_ACTION.md.
+
+## 2026-11-10 ~20:50 EST — scaling run restarted; decision rule locked before seeing its data
+- Run: `wpC2_relative_premium.py`, 1,808 cells, 3 workers, `nice 10`, 2.5 h wall cap, partial file in the session
+  scratchpad. Descriptive only.
+- Relative premium ρΓ := Γ / (C₀ − V*_IID) (Γ per unit of IID value of information). Family-level statistic:
+  max over α ≤ 1/2 of ρΓ at each (T, B).
+- **Rule (stated before any scaling output was read):**
+  - **Launch one bounded general-B theorem attempt** (target: ρΓ ≥ c > 0 uniformly along a growing (T, B) sequence
+    in a named symmetric stationary family, or a matching Θ-rate) **only if** in at least one family (F_persist or
+    F_anti) the max-over-α ρΓ at the largest completed B is ≥ 0.05 and is not lower than at B = 2 by more than a
+    factor 2 (i.e. no clear decay with B), and certified Γ > 0 in at least 3 of the largest-B cells.
+  - Otherwise: **no theorem attempt; publication decision is main-track NO-GO** (too restrictive / reduces to known
+    mechanisms), with the scaling data recorded as evidence.
+  - Either way, outcomes are main-track GO / CONDITIONAL GO / NO-GO only (`AGENTS.md` publication-outcome rule).

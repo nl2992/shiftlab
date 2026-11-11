@@ -23,3 +23,11 @@
   independently by the wpB_dual_check lower bound.
 - OPEN: static with c > 0 (Lemma S+). 0 failures in 29,297 cells.
 - Details: `MULTILABEL_ZERO_PREMIUM.md`. Nothing committed.
+
+## 2026-11-10 20:28 EST — paused at the user's request
+- Done and pushed: WP-A audit, WP-B (S0 proved; Z2 falsified incl. α ≤ 1/2), WP-C (SP1), WP-D, WP-E, WP-F audit,
+  reviews (S0, SP1, novelty, significance), REVIEW_REPORT, registry update.
+- The relative-premium scaling run (`wpC2_relative_premium.py`, descriptive) was stopped mid-run; its partial file
+  was written to a temporary path that could not be recovered, so it restarts fresh at 22:02 with 3 workers and a
+  partial file in the session scratchpad. The script is committed with that restart.
+- Remaining: scaling results, PUBLICATION_DECISION.md, EXPERIMENT_RESULTS.md, NEXT_ACTION.md.

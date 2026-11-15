@@ -167,6 +167,15 @@ def generate_tape(regime: Regime, seed: int, T: int) -> tuple[Tape, Truth]:
     elif dl["kind"] == "informative":
         favours = disagree & challenger_correct
         delay = int(dl["d"]) + int(dl["extra"]) * favours.astype(int)
+    elif dl["kind"] == "informative_adverse":
+        adverse = disagree & ~challenger_correct  # labels unfavourable to the challenger
+        delay = int(dl["d"]) + int(dl["extra"]) * adverse.astype(int)
+    elif dl["kind"] in ("dropout", "dropout_adverse"):
+        # drawn after every other draw so existing regimes' tapes stay bit-identical
+        drop = rng.random(T) < float(dl["p_drop"])
+        if dl["kind"] == "dropout_adverse":
+            drop &= disagree & ~challenger_correct
+        delay = np.where(drop, T + 1, int(dl["d"]))
     else:
         raise ValueError(f"unknown delay kind {dl['kind']}")
     tape = Tape(

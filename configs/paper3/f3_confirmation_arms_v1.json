@@ -1,0 +1,331 @@
+{
+ "version": "f3_confirmation_arms_v1",
+ "note": "Frozen arm specs for 04F registration. Do not edit after the registering commit.",
+ "arms": [
+  {
+   "name": "never",
+   "type": "policy",
+   "policy": {
+    "kind": "never"
+   }
+  },
+  {
+   "name": "wald_cut",
+   "type": "policy",
+   "policy": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   }
+  },
+  {
+   "name": "cusum",
+   "type": "policy",
+   "policy": {
+    "kind": "cusum",
+    "params": {
+     "delta": 0.3024615825674508,
+     "h": 2.9046679229740726,
+     "stop": 0.15
+    },
+    "name": "cusum"
+   }
+  },
+  {
+   "name": "gate_wald",
+   "type": "policy",
+   "policy": {
+    "kind": "gate_wald",
+    "params": {
+     "lam": 0.9051721294809497,
+     "gamma": 0.41434769334714366,
+     "acq": "paced",
+     "stop": 0.1,
+     "alpha": 0.2,
+     "lam_g": 0.5
+    },
+    "name": "gate_wald"
+   }
+  },
+  {
+   "name": "cusum_rb_h4",
+   "type": "cusum_rb",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "h": 4.0
+  },
+  {
+   "name": "cusum_rb_h8",
+   "type": "cusum_rb",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "h": 8.0
+  },
+  {
+   "name": "stoploss_R12",
+   "type": "stoploss",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 12
+  },
+  {
+   "name": "stoploss_R20",
+   "type": "stoploss",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 20
+  },
+  {
+   "name": "stoploss_R30",
+   "type": "stoploss",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 30
+  },
+  {
+   "name": "f3_pi1_R12",
+   "type": "f3",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 12,
+   "shield": {
+    "pi_menu": [
+     1.0
+    ],
+    "delta": 0.0,
+    "label_reserve_frac": 0.25
+   }
+  },
+  {
+   "name": "f3_pi1_R20",
+   "type": "f3",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 20,
+   "shield": {
+    "pi_menu": [
+     1.0
+    ],
+    "delta": 0.0,
+    "label_reserve_frac": 0.25
+   }
+  },
+  {
+   "name": "f3_pi1_R30",
+   "type": "f3",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 30,
+   "shield": {
+    "pi_menu": [
+     1.0
+    ],
+    "delta": 0.0,
+    "label_reserve_frac": 0.25
+   }
+  },
+  {
+   "name": "f3v2d_R20",
+   "type": "f3v2",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 20,
+   "shield": {
+    "delta": 0.05,
+    "label_reserve_frac": 0.25,
+    "pi_min": 0.5,
+    "blind_margin": null,
+    "default_window": 10
+   }
+  },
+  {
+   "name": "f3v2d_R30",
+   "type": "f3v2",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 30,
+   "shield": {
+    "delta": 0.05,
+    "label_reserve_frac": 0.25,
+    "pi_min": 0.5,
+    "blind_margin": null,
+    "default_window": 10
+   }
+  },
+  {
+   "name": "f3v2_R20_blind8",
+   "type": "f3v2",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9704465221249233,
+     "gamma": 0.2833892656009369,
+     "acq": "paced",
+     "stop": 0.05
+    },
+    "name": "wald_cut"
+   },
+   "R": 20,
+   "shield": {
+    "delta": 0.05,
+    "label_reserve_frac": 0.32540427083492857,
+    "pi_min": 1.0,
+    "blind_margin": 8.0,
+    "default_window": 5
+   }
+  },
+  {
+   "name": "f3_pi1_R12_nopending",
+   "type": "f3",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 12,
+   "shield": {
+    "pi_menu": [
+     1.0
+    ],
+    "delta": 0.0,
+    "use_pending_reserve": false
+   }
+  },
+  {
+   "name": "f3_pi1_R12_norollback",
+   "type": "f3",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 12,
+   "shield": {
+    "pi_menu": [
+     1.0
+    ],
+    "delta": 0.0,
+    "use_rollback_reserve": false
+   }
+  },
+  {
+   "name": "f3_pi25_R12_noconf",
+   "type": "f3",
+   "inner": {
+    "kind": "wald",
+    "params": {
+     "lam": 0.9320934923645325,
+     "gamma": 0.21880260984011501,
+     "acq": "paced",
+     "stop": 0.3
+    },
+    "name": "wald_cut"
+   },
+   "R": 12,
+   "shield": {
+    "pi_menu": [
+     0.25,
+     1.0
+    ],
+    "delta": 0.05,
+    "margin": 2.0,
+    "use_conf_width": false
+   }
+  }
+ ]
+}

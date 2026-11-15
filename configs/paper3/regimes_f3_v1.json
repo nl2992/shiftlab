@@ -1,0 +1,137 @@
+{
+ "version": "regimes_f3_v1",
+ "defaults": {
+  "r": 0.3,
+  "e_both": 0.1,
+  "rho": 0.0,
+  "x_scale": 1.0,
+  "B": 60,
+  "delay": {
+   "kind": "fixed",
+   "d": 5
+  },
+  "costs": {
+   "c_q": 0.05,
+   "k": 3.0,
+   "c_compute": 0.01,
+   "c_retrain": 0.0
+  }
+ },
+ "regimes": [
+  {
+   "id": "adverse_informative_delay",
+   "description": "labels unfavourable to the challenger arrive much later",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.3,
+      0.3
+     ]
+    ]
+   },
+   "delay": {
+    "kind": "informative_adverse",
+    "d": 3,
+    "extra": 40
+   }
+  },
+  {
+   "id": "label_dropout",
+   "description": "30% of requested labels never arrive",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.3,
+      0.3
+     ]
+    ]
+   },
+   "delay": {
+    "kind": "dropout",
+    "d": 5,
+    "p_drop": 0.3
+   }
+  },
+  {
+   "id": "dropout_adverse",
+   "description": "unfavourable labels dropped w.p. .6",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.6
+     ],
+     [
+      0.3,
+      0.25
+     ]
+    ]
+   },
+   "delay": {
+    "kind": "dropout_adverse",
+    "d": 5,
+    "p_drop": 0.6
+   }
+  },
+  {
+   "id": "bait_reversal",
+   "description": "challenger strongly better first quarter then strongly worse",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.85
+     ],
+     [
+      0.25,
+      0.15
+     ]
+    ]
+   }
+  },
+  {
+   "id": "dep_harmful_rho_0.95",
+   "description": "worse challenger, strong dependence",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.35
+     ]
+    ]
+   },
+   "rho": 0.95
+  },
+  {
+   "id": "dep_bait_rho_0.95",
+   "description": "bait then harm, strong dependence",
+   "path": {
+    "type": "steps",
+    "knots": [
+     [
+      0,
+      0.8
+     ],
+     [
+      0.3,
+      0.2
+     ]
+    ]
+   },
+   "rho": 0.95
+  }
+ ]
+}

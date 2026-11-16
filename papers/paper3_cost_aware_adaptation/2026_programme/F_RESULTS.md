@@ -72,8 +72,8 @@ simulation, budgets R = 10 + h. Tables: `results/riskbudget/real_tables.md`,
 - **Where it pays.** On the two harmful streams under corrupted feedback: f3_pi1 vs wald_cut pooled
   over airlines and bank is -33 to -55 (dropout) and -46 to -88 (delay). In the clean condition it
   is +1 to +6 there.
-- **Reading.** Full sampling needs a label on every exposed round; these streams have 120-860
-  exposed rounds per episode against 200 labels, so the shield runs out of labels, books rounds
+- **Reading.** Full sampling needs a label on every exposed round; these streams have 120-1,560
+  disagreement rounds per episode (disagreement rate .06-.78) against 200 labels, so the shield runs out of labels, books rounds
   blind and is forced back (1.3 forced rollbacks per episode at h = 14). Paced sampling removes
   much of that at large budgets but pays the confidence width. The simulation price of safety
   (0.4-2.7%) does not carry over to this label-scarce setting: here it is 7-46% of J(wald_cut).

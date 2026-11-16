@@ -25,13 +25,15 @@ class CoinMixture:
         lams=None,
         lam_max: float = 2.0,
         use_cap: bool = True,
+        v_targets=None,
     ):
         if not 0.0 < delta < 1.0:
             raise ValueError("delta must be in (0, 1)")
         self.delta, self.use_cap = float(delta), use_cap
         if lams is None:
-            L = np.log(len(V_TARGETS) / delta)
-            lams = np.minimum(np.sqrt(2.0 * L / np.array(V_TARGETS)), lam_max)
+            vt = np.asarray(V_TARGETS if v_targets is None else v_targets, float)
+            L = np.log(len(vt) / delta)
+            lams = np.minimum(np.sqrt(2.0 * L / vt), lam_max)
         self.lams = np.asarray(lams, float)
         if np.any(self.lams <= 0):
             raise ValueError("lams must be positive")

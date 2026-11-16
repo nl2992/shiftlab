@@ -35,6 +35,7 @@ class RiskBudgetShieldV2(PolicyAdapter):
         ride_out: bool = True,
         paced: bool = True,
         name: str | None = None,
+        v_targets=None,
     ):
         if R < 0 or not 0.0 < pi_min <= 1.0:
             raise ValueError("need R >= 0 and pi_min in (0, 1]")
@@ -44,6 +45,7 @@ class RiskBudgetShieldV2(PolicyAdapter):
         self.window, self.default_window = window, default_window
         self.blind_margin, self.label_reserve_frac = blind_margin, label_reserve_frac
         self.ride_out, self.paced = ride_out, paced
+        self.v_targets = None if v_targets is None else tuple(float(v) for v in v_targets)
         self.name = name or f"rbshield2[{inner.name}|R={R:g}]"
 
     # ------------------------------------------------------------------ lifecycle
@@ -53,7 +55,7 @@ class RiskBudgetShieldV2(PolicyAdapter):
         self.w = max(1, int(self.window or spec.delay_known or self.default_window))
         self.inner.reset(spec, np.random.default_rng(int(rng.integers(2**63))))
         self.rng = np.random.default_rng(int(rng.integers(2**63)))
-        self.mix = CoinMixture(self.delta if self.delta > 0 else 0.05)
+        self.mix = CoinMixture(self.delta if self.delta > 0 else 0.05, v_targets=self.v_targets)
         self.A1 = 0.0  # pi=1 rounds: released x
         self.P1 = 0  # pi=1 rounds: pending count
         self.As = 0.0  # sampled, settled: queried & released x/pi

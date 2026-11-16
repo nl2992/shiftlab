@@ -77,3 +77,30 @@ simulation, budgets R = 10 + h. Tables: `results/riskbudget/real_tables.md`,
   blind and is forced back (1.3 forced rollbacks per episode at h = 14). Paced sampling removes
   much of that at large budgets but pays the confidence width. The simulation price of safety
   (0.4-2.7%) does not carry over to this label-scarce setting: here it is 7-46% of J(wald_cut).
+
+## Label-scarce fix attempt (v3; 03F section 7, selection `03F_V3_SELECTION.md`)
+Exploratory. v3 = v2 shield with a lower pacing floor and a wider mixture grid (new `v_targets`
+option; the default reproduces v2 exactly, pinned by a test). Selected on a new 47-regime
+label-scarce family (`regimes_f3_scarce_v1.json`, T = 2000, B = 200, k = 5) on dev seeds
+70000-70199; frozen in `configs/paper3/f3_v3_frozen.json` (pi_min .25, label_reserve_frac .25,
+no optional blind rounds). Tables: `results/riskbudget/v3_{scarce,orig30}_tables.md`,
+`real_v3_tables.md`.
+
+- **Selection did not beat the earlier paced arm.** At h = 50 on its own selection family the best
+  v3 candidate scored 395.5 against 388.3 for f3v2d and 340.8 for wald_cut. The pacing floor barely
+  mattered (scores within 1.5 across pi_min .05-.25): the look-ahead guard keeps pi = 1 almost
+  always.
+- **Fresh scarce seeds (71000-71499).** v3 vs wald_cut: +54.0 [+53.4, +54.7] at h = 50, +14.5
+  [+14.0, +15.0] at h = 100; f3v2d +46.8 and +16.7. The cost grows with disagreement rate and delay
+  (h = 50: +2 at r = .1, +40 at r = .25, +125 at r = .4; +31 at d = 24, +75 at d = 144) and is
+  near zero on harmful paths. Violations: 1 in 23,500 for v3_h24, 0 elsewhere.
+- **Original 30 regimes (72000-72299).** v3 matches f3v2d at R = 20 and 30 (within .02) and is
+  worse at R = 12 (+4.74 vs wald_cut, worse than never). 0 violations.
+- **Real streams, SECOND LOOK** (streams seen once before; v3 designed after that run and selected
+  on simulation only). Clean, pooled 14: v3 vs wald_cut +40.8 at h = 50 and +17.6 at h = 100,
+  against f3v2d +46.7 and +30.1; the gain over f3v2d comes mostly from metro (-44.1 [-73.1, -18.9])
+  and uci_occupancy. At h <= 24 v3 is worse than f3v2d. 1 violation in 4,600 (dropout, h = 50,
+  within delta); 0 elsewhere.
+- **Reading.** The fix narrows the gap only at large headroom and does not close it. The cost
+  tracks exposure inside one delay window (r*d) relative to headroom h, as Proposition 3 predicts;
+  the remaining gap looks structural for any controller with this guarantee, not a tuning defect.

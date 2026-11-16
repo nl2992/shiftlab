@@ -1,0 +1,40 @@
+{
+ "version": "f3_v3_frozen_v1",
+ "note": "Frozen before any evaluation on fresh seeds or real streams (03F section 7).",
+ "selected_candidate": "v3c_pm0.25_lr0.25_bmnone",
+ "shield": {
+  "pi_min": 0.25,
+  "label_reserve_frac": 0.25,
+  "blind_margin": null,
+  "v_targets": [
+   4.0,
+   16.0,
+   64.0,
+   256.0,
+   1024.0,
+   4096.0
+  ],
+  "delta": 0.05,
+  "paced": true,
+  "ride_out": true
+ },
+ "inner": "tuned wald_cut of configs/paper3/f3_confirmation_arms_v1.json",
+ "budget_rule": "R = 2k + h",
+ "window": "declared delay (None in the shield => spec.delay_known; explicit in real runs)",
+ "selection": {
+  "seeds": [
+   5301070000,
+   5301070199
+  ],
+  "score": "pooled equal-weight mean J over 47 scarce regimes at h = 50 (R = 60)",
+  "best_score": 395.53506382978725,
+  "tied_within_0.5pct": [
+   "v3c_pm0.05_lr0.25_bmnone",
+   "v3c_pm0.1_lr0.1_bmnone",
+   "v3c_pm0.1_lr0.25_bmnone",
+   "v3c_pm0.25_lr0.1_bmnone",
+   "v3c_pm0.25_lr0.25_bmnone"
+  ],
+  "rule": "lowest score; ties within 0.5% -> larger pi_min, then lower score"
+ }
+}

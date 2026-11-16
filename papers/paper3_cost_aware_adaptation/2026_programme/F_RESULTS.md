@@ -104,3 +104,34 @@ no optional blind rounds). Tables: `results/riskbudget/v3_{scarce,orig30}_tables
 - **Reading.** The fix narrows the gap only at large headroom and does not close it. The cost
   tracks exposure inside one delay window (r*d) relative to headroom h, as Proposition 3 predicts;
   the remaining gap looks structural for any controller with this guarantee, not a tuning defect.
+
+## Exposure-ratio test (script committed with its prediction before the first run, 5f1cdae2)
+`scripts/paper3/riskbudget/exposure_ratio_test.py`, existing outputs only:
+scarce-family fresh seeds and the 14 real streams (clean). Unit = (regime or stream, F3 arm,
+headroom h), kept where wald_cut gains at least 10% of J(never). x = r d / h (disagreement rate x
+label delay / headroom); L = (J_F3 - J_wald) / (J_never - J_wald), the share of wald_cut's
+improvement that F3 gives up. Results: `results/riskbudget/exposure_ratio_test.json`.
+
+- **Primary (6 tests, all supported).** Spearman(x, L) with regime/stream-bootstrap 95% CI:
+  scarce f3_pi1 .69 [.55, .81], f3v2d .73 [.62, .82], v3 .78 [.71, .83]; real f3_pi1 .83
+  [.64, .95], f3v2d .80 [.63, .92], v3 .83 [.67, .94] (scarce 32 regimes, real 10 streams).
+- **Regime map (median L by x).**
+
+| x = r d / h | scarce f3v2d | scarce v3 | real f3v2d | real v3 | real f3_pi1 |
+|---|---|---|---|---|---|
+| < .5 | .12 | .12 | .05 | .04 | .33 |
+| .5 - 1 | .61 | .81 | .50 | .50 | .58 |
+| 1 - 2 | 1.18 | 1.15 | .98 | 1.00 | .90 |
+| >= 2 | 1.12 | 1.14 | 1.08 | 1.08 | 1.10 |
+
+  With paced sampling, F3 keeps about 90-96% of wald_cut's improvement when one delay window holds
+  less than half the headroom in exposure, and keeps none of it (as costly as never switching) once
+  the window exceeds the headroom, as Proposition 3 says it must. Full sampling loses a third even
+  at small x, because it spends one label per exposed round.
+- **Confounding check.** OLS of L on log x and log(labels per exposed round): the log x
+  coefficient is positive in all six fits (.13-.31); the label coefficient is small with mixed sign.
+- **Post-hoc (not pre-stated): holding h fixed,** Spearman(r d, L) is positive at every h for every
+  arm and source (+.07 to +.83), so the effect is not only "more headroom costs less".
+- **Caveats.** Within a source, the units for one regime share tapes across h and arms; the
+  bootstrap resamples regimes/streams to account for this. Real streams: 10 of 14 pass the 10% gain
+  filter, all were seen before. No PaperBanana figure yet (PaperBanana is not installed here).

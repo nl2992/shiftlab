@@ -18,6 +18,7 @@ log(B/(r T)) (labels per exposed round); report whether log x keeps a positive c
 import glob
 import json
 import os
+from pathlib import Path
 
 import numpy as np
 from scipy.stats import spearmanr
@@ -61,7 +62,7 @@ def real_units():
     out = []
     for f in sorted(glob.glob(str(O / "real" / "clean" / "*.json"))):
         name = os.path.basename(f)[:-5]
-        d = json.loads(open(f).read())
+        d = json.loads(Path(f).read_text())
         d3 = json.loads((O / "real_v3" / "clean" / f"{name}.json").read_text())
         l0, l1 = rs.load_stream(name)
         r = float(np.mean(np.asarray(l0) != np.asarray(l1)))
@@ -81,17 +82,17 @@ def main():
         if Jn - Jw < MIN_GAIN * Jn:
             continue
         rows.append(
-            dict(
-                source=s,
-                unit=u,
-                arm=a,
-                h=h,
-                r=r,
-                d=dl,
-                x=r * dl / h,
-                labels_per_exposure=lab,
-                L=(J - Jw) / (Jn - Jw),
-            )
+            {
+                "source": s,
+                "unit": u,
+                "arm": a,
+                "h": h,
+                "r": r,
+                "d": dl,
+                "x": r * dl / h,
+                "labels_per_exposure": lab,
+                "L": (J - Jw) / (Jn - Jw),
+            }
         )
     rng = np.random.default_rng(0)
     res = {"n_units": len(rows), "tests": {}, "bins": {}, "ols": {}}

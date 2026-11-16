@@ -261,3 +261,34 @@ original regimes with the same objective (mean over regimes of J / J_never), at 
 config is then frozen and used at every R. Evaluation of v2 uses FRESH dev seeds, offsets
 40000-40999, with v1 arms and baselines re-run on the same tapes; the stress regimes are not used
 for tuning.
+
+## 7. Label-scarce regime (designed 2026-11-16 after the real-stream check; exploratory)
+
+Finding (`F_RESULTS.md`, real-stream check): with T = 2000, B = 200 and 120-1,560 disagreement
+rounds per episode, the frozen arms cost 7-46% more than Wald+cutoff. Diagnosis to be confirmed on
+simulation, not on the real streams: (a) full sampling spends one label per exposed round, runs out,
+books the rest blind and is forced back with no labels left to re-enter; (b) the frozen paced arm
+has pi_min = .5, so its pacing target L_rem / n_rem (about .2-.3 here) is floored at .5 and it also
+runs out; (c) when the exposure inside one delay window r*d exceeds the headroom h, Proposition 3
+forces every valid controller to cycle (deploy, roll back, wait, re-enter) until banked gains cover
+the window; that part is not removable.
+
+Why a fix should exist for (a)-(b): at sampling rate pi the width after n sampled rounds is about
+sqrt(2 ln(1/delta) n (1/pi - 1)) while a challenger with advantage mu per exposed round banks mu n,
+so the bound falls once n > 2 ln(1/delta)(1/pi - 1)/mu^2. Labels spread over the whole horizon can
+therefore certify a clearly better challenger; a weakly better one (mu below about .3 at these
+sizes) cannot be certified from 200 labels by any IPW bound of this kind.
+
+v3 = the v2 controller with no change to its validity argument (6.1-6.3): pacing floor lowered
+(pi_min candidates .05, .1, .25), mixture grid extended to V = 4096 for the larger variance, and the
+existing look-ahead guard keeping pi = 1 while headroom is thin (exact-first). Candidates also vary
+label_reserve_frac (.1, .25) and blind_margin (None, 8).
+
+Development data: a new label-scarce simulation family `configs/paper3/regimes_f3_scarce_v1.json`
+(T = 2000, B = 200, k = 5, c_q = .05; disagreement r in {.1, .25, .4}; delay in {24, 100, 144};
+beneficial, harmful and reversal paths; rho in {0, .8}). Selection on dev seeds offsets
+70000-70199 by pooled mean J at h = 50 (ties: larger pi_min); the chosen config is frozen and
+evaluated on fresh dev seeds 71000-71499, on the original 30 regimes (offsets 72000-72299) to check
+it does not cost anything where labels are plentiful, and then once more on the 14 real streams.
+That last run is a SECOND LOOK at streams already seen once with the earlier arms and is reported
+as such next to the first.

@@ -107,16 +107,65 @@ k N_t + k a_t is unchanged, and no other term grows, hence I_t <= I_{t-1}. By in
 for all t. On the Lemma 1 event H_t <= U_t <= I_t. Ride-out replaces the reserve k by the
 remaining-horizon count, which each later round decrements while adding at most 1. QED.
 
-**Proposition 3 (the reserves are necessary).** Let labels have delay >= d. Any controller that
-promotes at some round tau with probability > delta and satisfies (F3) for all sequences needs
-R >= 2k + e_d - (T-horizon effects), where e_d is the number of exposed rounds in [tau, tau+d):
-against Z = -1 on every exposed round the first evidence arrives at tau + d, by then the harm is
-k + e_d, and stopping it costs a further k. (Sketch; to be written out with the horizon case.)
+**Proposition 3 (the reserves are necessary).** (Proved 2026-11-16; replaces the earlier sketch.)
+Suppose every label requested at round s is released no earlier than s + d (d >= 1). Let a
+controller satisfy (F3) for every loss sequence. Fix any environment E and rounds j, m with
+1 <= m <= d, and let A be the event that the first promotion is at round j and a_s = 1 for
+s = j, ..., j+m-1. Write e for the number of disagreement rounds in [j, j+m-1] and n for the number
+in [j, T]. If P_E(A) > delta then
 
-**Proposition 4 (price of safety).** If E[Z_s | past] >= mu > 0 on exposed rounds and pi = 1, the
-shield forces a rollback with probability <= exp(-2 mu m), m = R - 2k - (max pending worst case):
-exp(-2 mu S_n) is a supermartingale for S_n = partial sums of -x (Hoeffding lemma, range 2).
-To be checked numerically in the dev run.
+    R >= min( 2k + e,  k + n ).
+
+Proof. Let E' agree with E before round j and have Z_s = -1 on every disagreement round s >= j.
+Any label visible at a round s <= j+d-1 was requested at or before s - d <= j - 1, where E and E'
+coincide, so with the same coins the controller takes the same actions through round j+d-1 in both
+environments; hence P_E'(A) = P_E(A) > delta. On A under E', H_{j-1} = 0 (no earlier promotion) and
+H_{j+m-1} = k + e. If the controller later rolls back at some round rho, H_rho >= k + e + k. If it
+never rolls back, H_T = k + n. Since n >= e, sup_t H_t >= min(2k + e, k + n) on A, and (F3) forces
+this to be <= R. QED.
+
+Reading. The three terms of W_t on a first promotion are exactly these: k for the promotion, k
+reserved for the rollback, and one unit for every exposed round whose label cannot yet have
+arrived. With labels that may never arrive (d = infinity) the bound covers every hold length, which
+is the blind accounting. The shield meets the bound with equality: on an all-harm tape it holds a
+first promotion for exactly floor(R - 2k) rounds (`results/riskbudget/props_check.json`, 12 of 12
+(d, R) cells), so it permits every feedback-blind hold that any valid controller could make. The
+ride-out branch corresponds to the k + n term (it uses the remaining round count, an upper bound
+on n, because future flags are unknown). The proposition is about the feedback-blind window only;
+it says nothing about how well a controller uses labels once they arrive.
+
+**Proposition 4 (price of safety).** (Proved 2026-11-16; replaces the earlier sketch.)
+Consider the full-sampling shield (pi = 1) with fixed delay d, during its first deployment spell,
+while labels remain and the inner policy keeps proposing action 1. Let y_1, y_2, ... be the values
+of Z on the exposed rounds of the spell, in order, and suppose E[y_i | everything before exposed
+round i] >= mu > 0. Let m = R - 2k - d. Then
+
+    P( the shield forces a rollback during the spell ) <= exp(-2 mu m),
+
+and if y_i takes values in {-1, +1} with P(y_i = +1 | past) >= p > 1/2, the probability is at most
+((1-p)/p)^(floor(m)+1).
+
+Proof. During the spell N = 1 and W_t = 2k + (sum of x over released exposed rounds) + (pending
+count) + g_t. With fixed delay d the pending rounds and the current round lie in the last d rounds,
+so their count is at most d, and the released rounds are a prefix of the exposed sequence. Hence
+W_t <= 2k + d - S_n for some n, where S_n = y_1 + ... + y_n. A forced rollback needs W_t > R, that
+is S_n < -m for some n. For theta = 2 mu, Hoeffding's lemma (y_i in [-1,1]) gives
+E[exp(-theta y_i) | past] <= exp(-theta mu + theta^2/2) = 1, so exp(-theta S_n) is a nonnegative
+supermartingale and Ville's inequality gives P(inf_n S_n <= -m) <= exp(-2 mu m). For +-1 steps,
+(q/p)^{S_n} with q = 1 - p is a supermartingale and S_n < -m means S_n <= -(floor(m)+1), which gives
+the second bound. QED.
+
+Numerical check (`scripts/paper3/riskbudget/check_props.py`, dev seeds offsets 50000-51999, 2000
+runs per cell, inner = always-challenger, label budget not binding, no ride-out): the forced-
+rollback frequency is at or below the ruin bound in all 24 cells (p in {.6,.7,.8}, d in {1,5},
+R in {10,12,15,20}). At d = 1 the bound is tight: p = .6, R = 10 gives .204 against .198 (within
+Monte Carlo error); p = .7, R = 10 gives .035 against .034. At d = 5 it is loose by 2-6x, because
+the pending count is usually well below d.
+
+Scope. The proposition covers the first spell with labels available. The forced rollbacks seen in
+the dev and confirmation runs in beneficial regimes (e.g. 13% at R = 20 in `stationary_better`) are
+mostly outside it: there the label budget B = 60 runs out and rounds are booked blind, and the
+Wald inner policy starts further spells, each costing another 2k of budget.
 
 Honest novelty note: Lemma 1 is IPW + Bennett + Ville, all standard. What is specific to F3 is the
 target (realised harm, not future payback), the design-based validity that survives dependence,

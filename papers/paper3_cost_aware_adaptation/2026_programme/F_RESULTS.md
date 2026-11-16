@@ -45,5 +45,8 @@ Raw: `outputs/paper3/riskbudget/confirm/`; statistics: `results/riskbudget/confi
 - Simulation only (exogenous outcomes, two frozen models, T = 300). No real stream was run.
 - The sampled variants' bound is conservative (2 violations in 60,000 against delta = .05) and
   sampling saves few labels at R <= 20.
-- 03F Propositions 3 and 4 are sketches; Theorem 2 and Lemma 1/1' are proved in 03F.
+- Theory: Theorem 2, Lemma 1/1' and Propositions 3-4 are proved in 03F (Propositions 3-4 added
+  2026-11-16, after the confirmation run, with a numerical check in `results/riskbudget/props_check.json`).
+  Proposition 4 covers the first deployment spell with labels available; it does not bound the
+  forced rollbacks caused by label exhaustion or repeated spells.
 - Baselines are in-house or documented adapters, not native-source reproductions.

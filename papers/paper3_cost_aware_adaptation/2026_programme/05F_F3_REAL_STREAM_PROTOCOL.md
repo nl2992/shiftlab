@@ -17,8 +17,10 @@ when their losses differ; the disagreement flag g_t = 1{l0 != l1} is observable 
 
 ## Problem instance (the repo's existing real-stream scenario, `transfer.sim.PRIMARY`)
 One episode = one run. T = 2000, B = 200, c_q = 0.05, switch fee k = 5. Label delay per stream as
-used by earlier work: 24 (metro, beijing_pm25, bike_hour), 144 (appliances, household_power), 100
-(all others). Features x are zeros. 20 policy seeds per episode (dev block offsets 60000-60019).
+used by earlier work: 24 (metro, beijing_pm25, bike_hour), 144 (appliances, household_power); for
+the atlas streams `REAL_DELAYS` of `scripts/failure_atlas_v2/run_atlas_v2.py`: spam 50, weather 1,
+elec2 48, and 100 for the rest (corrected 2026-11-16 before any run: the first version of this
+file said 100 for all atlas streams). Features x are zeros. 20 policy seeds per episode (dev block offsets 60000-60019).
 
 ## Arms (frozen; nothing tuned on these streams)
 The arm specs of `configs/paper3/f3_confirmation_arms_v1.json` with their simulation-tuned

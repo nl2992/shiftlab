@@ -1,15 +1,30 @@
-\begin{tabular}{@{}l r r r r r r l l@{}}
+\begin{tabular}{@{}p{3.7cm} r r r@{}}
 \toprule
-Controller & $J$ & vs never (\%) & labels & $q_{99}$ harm & max harm & pooled viol.\ (\%) & worst-regime rate [Wilson] & worst regime \\
+Controller & $J$ & vs never (\%) & labels \\
 \midrule
-Never switch & 71.53 & +0.0 & 0.0 & 0 & 0 & 0.0 & 0.000 & -- \\
-Wald+cutoff (tuned) & 68.47 & $-$4.3 & 38.8 & 37 & 59 & 6.6 & 0.852 [0.829, 0.873] & dropout\_adverse \\
-CUSUM (tuned) & 68.97 & $-$3.6 & 47.0 & 34 & 117 & 7.9 & 0.987 [0.978, 0.992] & expensive\_switch \\
-E-process gate (tuned) & 71.89 & +0.5 & 49.7 & 33 & 57 & 4.3 & 0.635 [0.605, 0.664] & dropout\_adverse \\
-CUSUM rollback, $h=8$ & 68.62 & $-$4.1 & 49.8 & 35 & 71 & 4.4 & 0.830 [0.805, 0.852] & dropout\_adverse \\
-Stop-loss, $R=20$ & 68.79 & $-$3.8 & 49.8 & 34 & 59 & 4.2 & 0.841 [0.817, 0.862] & dropout\_adverse \\
+Never switch & 71.53 & +0.0 & 0.0 \\
+Wald+cutoff (tuned) & 68.47 & $-$4.3 & 38.8 \\
+CUSUM (tuned) & 68.97 & $-$3.6 & 47.0 \\
+E-process gate (tuned) & 71.89 & +0.5 & 49.7 \\
+CUSUM rollback, $h=8$ & 68.62 & $-$4.1 & 49.8 \\
+Stop-loss, $R=20$ & 68.79 & $-$3.8 & 49.8 \\
 \midrule
-Shield, full sampling, $R=20$ & 69.43 & $-$2.9 & 44.2 & 20 & 20 & 0.000 & 0.000 [0.000, 0.004] & -- \\
-Shield, paced, $R=20$, $\delta=.05$ & 69.80 & $-$2.4 & 37.8 & 16 & 22 & 0.003 & 0.001 [0.000, 0.006] & bait\_reversal \\
+Shield, full sampling, $R=20$ & 69.43 & $-$2.9 & 44.2 \\
+Shield, paced, $R=20$, $\delta=.05$ & 69.80 & $-$2.4 & 37.8 \\
+\bottomrule
+\end{tabular}\par\smallskip
+\begin{tabular}{@{}p{3.7cm} r r r p{3.3cm} p{2.3cm}@{}}
+\toprule
+Controller & $q_{99}$ harm & max harm & pooled viol. (\%) & worst-regime rate [Wilson] & worst regime \\
+\midrule
+Never switch & 0 & 0 & 0.0 & 0.000 & -- \\
+Wald+cutoff (tuned) & 37 & 59 & 6.6 & 0.852 [0.829, 0.873] & Adverse dropout \\
+CUSUM (tuned) & 34 & 117 & 7.9 & 0.987 [0.978, 0.992] & High switch fee \\
+E-process gate (tuned) & 33 & 57 & 4.3 & 0.635 [0.605, 0.664] & Adverse dropout \\
+CUSUM rollback, $h=8$ & 35 & 71 & 4.4 & 0.830 [0.805, 0.852] & Adverse dropout \\
+Stop-loss, $R=20$ & 34 & 59 & 4.2 & 0.841 [0.817, 0.862] & Adverse dropout \\
+\midrule
+Shield, full sampling, $R=20$ & 20 & 20 & 0.000 & 0.000 [0.000, 0.004] & -- \\
+Shield, paced, $R=20$, $\delta=.05$ & 16 & 22 & 0.003 & 0.001 [0.000, 0.006] & Bait reversal \\
 \bottomrule
 \end{tabular}

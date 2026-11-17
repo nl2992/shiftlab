@@ -22,6 +22,9 @@ sel = json.load(open(RES / "v3_select_summary.json"))
 # ---------------------------------------------------------------- helpers
 def tex(s):
     s = str(s)
+    for name, label in [("dropout_adverse", "Adverse dropout"), ("delay_adverse", "Adverse delay"),
+                        ("expensive_switch", "High switch fee"), ("bait_reversal", "Bait reversal")]:
+        s = s.replace(name, label)
     for a, b in [("\\", "\\textbackslash{}"), ("_", r"\_"), ("%", r"\%"), ("&", r"\&"), ("#", r"\#")]:
         s = s.replace(a, b)
     return s
@@ -151,18 +154,26 @@ def arm_row(label, a, viol_pooled, viol_worst, worst_reg):
     d = D[a]
     return (label, num(d["J"]), f"{100*(d['J']-D['never']['J'])/D['never']['J']:+.1f}".replace("-", "$-$"),
             f"{d['labels']:.1f}", f"{d['sup_q99']:.0f}", f"{d['sup_max']:.0f}", viol_pooled, viol_worst, worst_reg)
-def c3(a): v = conf["C3"]["arms"][a]; return f"{100*v['pooled']:.1f}", f"{r3(v['worst_stats']['rate'])} [{r3(v['worst_stats']['lo'])}, {r3(v['worst_stats']['hi'])}]", tex(v["worst"])
+def regime_label(name):
+    return {"dropout_adverse": "Adverse dropout", "expensive_switch": "High switch fee", "bait_reversal": "Bait reversal"}.get(name, tex(name))
+def c3(a): v = conf["C3"]["arms"][a]; return f"{100*v['pooled']:.1f}", f"{r3(v['worst_stats']['rate'])} [{r3(v['worst_stats']['lo'])}, {r3(v['worst_stats']['hi'])}]", regime_label(v["worst"])
 arms = [("Never switch", "never", ("0.0", "0.000", "--")),
         ("Wald+cutoff (tuned)", "wald_cut", c3("wald_cut")), ("CUSUM (tuned)", "cusum", c3("cusum")),
         ("E-process gate (tuned)", "gate_wald", c3("gate_wald")), ("CUSUM rollback, $h=8$", "cusum_rb_h8", c3("cusum_rb_h8")),
         ("Stop-loss, $R=20$", "stoploss_R20", c3("stoploss_R20"))]
 for lab, a, R in [("Shield, full sampling, $R=20$", "f3_pi1_R20", "C1"), ("Shield, paced, $R=20$, $\\delta=.05$", "f3v2d_R20", "C2")]:
     v = conf[R]["arms"][a]
-    arms.append((lab, a, (f"{100*v['pooled']:.3f}", f"{r3(v['worst_stats']['rate'])} [{r3(v['worst_stats']['lo'])}, {r3(v['worst_stats']['hi'])}]", tex(v["worst"]) if v["worst_stats"]["k"] > 0 else "--")))
-body = "\\begin{tabular}{@{}l r r r r r r l l@{}}\n\\toprule\nController & $J$ & vs never (\\%) & labels & $q_{99}$ harm & max harm & pooled viol.\\ (\\%) & worst-regime rate [Wilson] & worst regime \\\\\n\\midrule\n"
+    arms.append((lab, a, (f"{100*v['pooled']:.3f}", f"{r3(v['worst_stats']['rate'])} [{r3(v['worst_stats']['lo'])}, {r3(v['worst_stats']['hi'])}]", regime_label(v["worst"]) if v["worst_stats"]["k"] > 0 else "--")))
+body = "\\begin{tabular}{@{}p{3.7cm} r r r@{}}\n\\toprule\nController & $J$ & vs never (\\%) & labels \\\\\n\\midrule\n"
 for lab, a, (vp, vw, wr) in arms:
     r = arm_row(lab, a, vp, vw, wr)
-    body += " & ".join(r) + " \\\\\n"
+    body += " & ".join(r[:4]) + " \\\\\n"
+    if a == "stoploss_R20": body += "\\midrule\n"
+body += "\\bottomrule\n\\end{tabular}\\par\\smallskip\n"
+body += "\\begin{tabular}{@{}p{3.7cm} r r r p{3.3cm} p{2.3cm}@{}}\n\\toprule\nController & $q_{99}$ harm & max harm & pooled viol. (\\%) & worst-regime rate [Wilson] & worst regime \\\\\n\\midrule\n"
+for lab, a, (vp, vw, wr) in arms:
+    r = arm_row(lab, a, vp, vw, wr)
+    body += " & ".join((r[0], r[4], r[5], r[6], r[7], r[8])) + " \\\\\n"
     if a == "stoploss_R20": body += "\\midrule\n"
 body += "\\bottomrule\n\\end{tabular}\n"
 write("tab_sim.tex", body)
@@ -298,7 +309,7 @@ write("app_stream.tex", body)
 bins = ["[0,0.5)", "[0.5,1)", "[1,2)", "[2,inf)"]
 SRC = [("scarce/f3_pi1", "simulation, full"), ("scarce/f3v2d", "simulation, paced"), ("scarce/v3", "simulation, v3"),
        ("real/f3_pi1", "real, full"), ("real/f3v2d", "real, paced"), ("real/v3", "real, v3")]
-body = "\\begin{tabular}{@{}l r l r r r r@{}}\n\\toprule\n & units & Spearman$(x,L)$ [95\\% CI] & \\multicolumn{4}{c}{median $L$ by $x=rd/h$} \\\\\n\\cmidrule(lr){4-7}\n"
+body = "\\begin{tabular}{@{}l r l r r r r@{}}\n\\toprule\n & clusters & Spearman$(x,L)$ [95\\% CI] & \\multicolumn{4}{c}{median $L$ by $x=rd/h$} \\\\\n\\cmidrule(lr){4-7}\n"
 body += "Arm & & & $<.5$ & $.5$--$1$ & $1$--$2$ & $\\ge 2$ \\\\\n\\midrule\n"
 for k, lab in SRC:
     t = expo["tests"][k]; b = expo["bins"][k]

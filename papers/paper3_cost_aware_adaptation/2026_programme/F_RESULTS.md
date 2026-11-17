@@ -135,3 +135,18 @@ improvement that F3 gives up. Results: `results/riskbudget/exposure_ratio_test.j
 - **Caveats.** Within a source, the units for one regime share tapes across h and arms; the
   bootstrap resamples regimes/streams to account for this. Real streams: 10 of 14 pass the 10% gain
   filter, all were seen before. No PaperBanana figure yet (PaperBanana is not installed here).
+
+## Calibrated comparators (2026-11-17; `results/riskbudget/calib_{summary.json,tables.md}`)
+Stop-loss with margin c and CUSUM rollback with threshold h_c plus a resolved-harm stop, each
+calibrated on dev seeds 80000-80199 to the shield's standard (violation <= .05 in every one of 30
+regimes); frozen in `configs/paper3/f3_calibrated_comparators_v1.json`; evaluated on dev seeds
+81000-81999 and on the real streams (THIRD LOOK; transferred by headroom).
+- Stop-loss: the smallest margin meeting the standard (c = 7, 15, 25 at R = 12, 20, 30) blocks every
+  promotion (c > R - 2k). Deployed fraction 0; J 73.53 against never 71.59 and shield 69.51 (R=20).
+  Same on real streams (J 603.6, never 597.9).
+- CUSUM rollback: standard not reachable at R = 12, 20 (fresh worst-regime .535, .671 in
+  dropout_adverse; J above never by 8.5 and 12.1). At R = 30 it met the standard on calibration
+  seeds (.040) but not on fresh seeds (.099 [.082, .119]). Real streams, clean h = 14: cheaper than
+  the shield by 50.2 [19.8, 91.9] per episode but 443 / 4,600 runs over budget (1,872 adverse
+  dropout, 1,115 adverse delay).
+- Not tried: a comparator combining a margin with a CUSUM threshold.

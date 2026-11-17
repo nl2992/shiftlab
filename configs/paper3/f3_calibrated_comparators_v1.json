@@ -1,0 +1,831 @@
+{
+ "version": "f3_calibrated_comparators_v1",
+ "standard": {
+  "violation_rate_max_every_regime": 0.05,
+  "seeds": [
+   5301080000,
+   5301080199
+  ],
+  "n_seeds": 200,
+  "T": 300,
+  "k": 3.0,
+  "n_regimes": 30,
+  "inner": "wald_cut (frozen, f3_confirmation_arms_v1.json)",
+  "c_grid": "0..R (smallest meeting standard)",
+  "h_grid": [
+   0.5,
+   1,
+   2,
+   3,
+   4,
+   6,
+   8,
+   12
+  ],
+  "h_rule": "largest meeting standard"
+ },
+ "calibration": {
+  "R12": {
+   "stoploss_cal": {
+    "chosen": 7.0,
+    "standard_reached": true,
+    "chosen_stats": {
+     "value": 7.0,
+     "pooled_J": 73.36135833333334,
+     "worst_viol": 0.0,
+     "worst_regime": "stationary_null",
+     "pooled_viol": 0.0,
+     "meets": true
+    },
+    "frontier": [
+     {
+      "value": 0.0,
+      "pooled_J": 69.33759166666667,
+      "worst_viol": 0.965,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.10733333333333334,
+      "meets": false
+     },
+     {
+      "value": 1.0,
+      "pooled_J": 69.40809166666666,
+      "worst_viol": 0.965,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.09983333333333332,
+      "meets": false
+     },
+     {
+      "value": 2.0,
+      "pooled_J": 69.56252500000001,
+      "worst_viol": 0.965,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.083,
+      "meets": false
+     },
+     {
+      "value": 3.0,
+      "pooled_J": 69.98334166666666,
+      "worst_viol": 0.965,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.06766666666666667,
+      "meets": false
+     },
+     {
+      "value": 4.0,
+      "pooled_J": 70.71844999999999,
+      "worst_viol": 0.95,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.06016666666666666,
+      "meets": false
+     },
+     {
+      "value": 5.0,
+      "pooled_J": 71.9929,
+      "worst_viol": 0.91,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.05449999999999999,
+      "meets": false
+     },
+     {
+      "value": 6.0,
+      "pooled_J": 73.75876666666666,
+      "worst_viol": 0.71,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.043,
+      "meets": false
+     },
+     {
+      "value": 7.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 8.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 9.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 10.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 11.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 12.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     }
+    ]
+   },
+   "cusumrb_cal": {
+    "chosen": 0.5,
+    "standard_reached": false,
+    "chosen_stats": {
+     "value": 0.5,
+     "pooled_J": 79.9589,
+     "worst_viol": 0.595,
+     "worst_regime": "adverse_informative_delay",
+     "pooled_viol": 0.11016666666666668,
+     "meets": false
+    },
+    "frontier": [
+     {
+      "value": 0.5,
+      "pooled_J": 79.9589,
+      "worst_viol": 0.595,
+      "worst_regime": "adverse_informative_delay",
+      "pooled_viol": 0.11016666666666668,
+      "meets": false
+     },
+     {
+      "value": 1.0,
+      "pooled_J": 75.81971666666666,
+      "worst_viol": 0.625,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.07166666666666664,
+      "meets": false
+     },
+     {
+      "value": 2.0,
+      "pooled_J": 72.39105833333333,
+      "worst_viol": 0.61,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.045000000000000005,
+      "meets": false
+     },
+     {
+      "value": 3.0,
+      "pooled_J": 70.43699166666667,
+      "worst_viol": 0.65,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.038,
+      "meets": false
+     },
+     {
+      "value": 4.0,
+      "pooled_J": 69.45921666666666,
+      "worst_viol": 0.785,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.050833333333333335,
+      "meets": false
+     },
+     {
+      "value": 6.0,
+      "pooled_J": 68.97015833333333,
+      "worst_viol": 0.94,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.08716666666666667,
+      "meets": false
+     },
+     {
+      "value": 8.0,
+      "pooled_J": 69.18210833333333,
+      "worst_viol": 0.955,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.1025,
+      "meets": false
+     },
+     {
+      "value": 12.0,
+      "pooled_J": 69.33605833333333,
+      "worst_viol": 0.965,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.10716666666666665,
+      "meets": false
+     }
+    ]
+   }
+  },
+  "R20": {
+   "stoploss_cal": {
+    "chosen": 15.0,
+    "standard_reached": true,
+    "chosen_stats": {
+     "value": 15.0,
+     "pooled_J": 73.36135833333334,
+     "worst_viol": 0.0,
+     "worst_regime": "stationary_null",
+     "pooled_viol": 0.0,
+     "meets": true
+    },
+    "frontier": [
+     {
+      "value": 0.0,
+      "pooled_J": 68.86898333333333,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.042499999999999996,
+      "meets": false
+     },
+     {
+      "value": 1.0,
+      "pooled_J": 68.89858333333333,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.039,
+      "meets": false
+     },
+     {
+      "value": 2.0,
+      "pooled_J": 68.95920833333334,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.03633333333333332,
+      "meets": false
+     },
+     {
+      "value": 3.0,
+      "pooled_J": 69.01641666666667,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.034166666666666665,
+      "meets": false
+     },
+     {
+      "value": 4.0,
+      "pooled_J": 69.18360833333332,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.03333333333333333,
+      "meets": false
+     },
+     {
+      "value": 5.0,
+      "pooled_J": 69.242175,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.033,
+      "meets": false
+     },
+     {
+      "value": 6.0,
+      "pooled_J": 69.30573333333334,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.033,
+      "meets": false
+     },
+     {
+      "value": 7.0,
+      "pooled_J": 69.31430833333333,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.03283333333333333,
+      "meets": false
+     },
+     {
+      "value": 8.0,
+      "pooled_J": 69.33759166666667,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0325,
+      "meets": false
+     },
+     {
+      "value": 9.0,
+      "pooled_J": 69.40809166666666,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.03233333333333333,
+      "meets": false
+     },
+     {
+      "value": 10.0,
+      "pooled_J": 69.56252500000001,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0315,
+      "meets": false
+     },
+     {
+      "value": 11.0,
+      "pooled_J": 69.98334166666666,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.030833333333333334,
+      "meets": false
+     },
+     {
+      "value": 12.0,
+      "pooled_J": 70.71844999999999,
+      "worst_viol": 0.81,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.02966666666666667,
+      "meets": false
+     },
+     {
+      "value": 13.0,
+      "pooled_J": 71.9929,
+      "worst_viol": 0.745,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.026833333333333334,
+      "meets": false
+     },
+     {
+      "value": 14.0,
+      "pooled_J": 73.75876666666666,
+      "worst_viol": 0.585,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0205,
+      "meets": false
+     },
+     {
+      "value": 15.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 16.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 17.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 18.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 19.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 20.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     }
+    ]
+   },
+   "cusumrb_cal": {
+    "chosen": 0.5,
+    "standard_reached": false,
+    "chosen_stats": {
+     "value": 0.5,
+     "pooled_J": 83.59895833333333,
+     "worst_viol": 0.68,
+     "worst_regime": "dropout_adverse",
+     "pooled_viol": 0.06366666666666666,
+     "meets": false
+    },
+    "frontier": [
+     {
+      "value": 0.5,
+      "pooled_J": 83.59895833333333,
+      "worst_viol": 0.68,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.06366666666666666,
+      "meets": false
+     },
+     {
+      "value": 1.0,
+      "pooled_J": 75.861625,
+      "worst_viol": 0.29,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.023000000000000003,
+      "meets": false
+     },
+     {
+      "value": 2.0,
+      "pooled_J": 71.70836666666666,
+      "worst_viol": 0.25,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.012166666666666666,
+      "meets": false
+     },
+     {
+      "value": 3.0,
+      "pooled_J": 69.71364166666666,
+      "worst_viol": 0.365,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.016166666666666666,
+      "meets": false
+     },
+     {
+      "value": 4.0,
+      "pooled_J": 68.85694166666666,
+      "worst_viol": 0.535,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.023000000000000003,
+      "meets": false
+     },
+     {
+      "value": 6.0,
+      "pooled_J": 68.5108,
+      "worst_viol": 0.765,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.036000000000000004,
+      "meets": false
+     },
+     {
+      "value": 8.0,
+      "pooled_J": 68.716425,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.04083333333333334,
+      "meets": false
+     },
+     {
+      "value": 12.0,
+      "pooled_J": 68.8675,
+      "worst_viol": 0.845,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.042166666666666665,
+      "meets": false
+     }
+    ]
+   }
+  },
+  "R30": {
+   "stoploss_cal": {
+    "chosen": 25.0,
+    "standard_reached": true,
+    "chosen_stats": {
+     "value": 25.0,
+     "pooled_J": 73.36135833333334,
+     "worst_viol": 0.0,
+     "worst_regime": "stationary_null",
+     "pooled_viol": 0.0,
+     "meets": true
+    },
+    "frontier": [
+     {
+      "value": 0.0,
+      "pooled_J": 68.84140000000001,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.015166666666666667,
+      "meets": false
+     },
+     {
+      "value": 1.0,
+      "pooled_J": 68.841925,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.015000000000000001,
+      "meets": false
+     },
+     {
+      "value": 2.0,
+      "pooled_J": 68.84173333333334,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014833333333333334,
+      "meets": false
+     },
+     {
+      "value": 3.0,
+      "pooled_J": 68.84072499999999,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014833333333333334,
+      "meets": false
+     },
+     {
+      "value": 4.0,
+      "pooled_J": 68.83749166666666,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014666666666666666,
+      "meets": false
+     },
+     {
+      "value": 5.0,
+      "pooled_J": 68.83949166666667,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0145,
+      "meets": false
+     },
+     {
+      "value": 6.0,
+      "pooled_J": 68.84109166666667,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0145,
+      "meets": false
+     },
+     {
+      "value": 7.0,
+      "pooled_J": 68.84388333333334,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0145,
+      "meets": false
+     },
+     {
+      "value": 8.0,
+      "pooled_J": 68.84538333333334,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014333333333333333,
+      "meets": false
+     },
+     {
+      "value": 9.0,
+      "pooled_J": 68.85141666666667,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014333333333333333,
+      "meets": false
+     },
+     {
+      "value": 10.0,
+      "pooled_J": 68.86898333333333,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014333333333333333,
+      "meets": false
+     },
+     {
+      "value": 11.0,
+      "pooled_J": 68.89858333333333,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014333333333333333,
+      "meets": false
+     },
+     {
+      "value": 12.0,
+      "pooled_J": 68.95920833333334,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014333333333333333,
+      "meets": false
+     },
+     {
+      "value": 13.0,
+      "pooled_J": 69.01641666666667,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014333333333333333,
+      "meets": false
+     },
+     {
+      "value": 14.0,
+      "pooled_J": 69.18360833333332,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014333333333333333,
+      "meets": false
+     },
+     {
+      "value": 15.0,
+      "pooled_J": 69.242175,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014166666666666666,
+      "meets": false
+     },
+     {
+      "value": 16.0,
+      "pooled_J": 69.30573333333334,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014166666666666666,
+      "meets": false
+     },
+     {
+      "value": 17.0,
+      "pooled_J": 69.31430833333333,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014166666666666666,
+      "meets": false
+     },
+     {
+      "value": 18.0,
+      "pooled_J": 69.33759166666667,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014166666666666666,
+      "meets": false
+     },
+     {
+      "value": 19.0,
+      "pooled_J": 69.40809166666666,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014166666666666666,
+      "meets": false
+     },
+     {
+      "value": 20.0,
+      "pooled_J": 69.56252500000001,
+      "worst_viol": 0.405,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.013500000000000002,
+      "meets": false
+     },
+     {
+      "value": 21.0,
+      "pooled_J": 69.98334166666666,
+      "worst_viol": 0.395,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.013166666666666667,
+      "meets": false
+     },
+     {
+      "value": 22.0,
+      "pooled_J": 70.71844999999999,
+      "worst_viol": 0.385,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.012833333333333334,
+      "meets": false
+     },
+     {
+      "value": 23.0,
+      "pooled_J": 71.9929,
+      "worst_viol": 0.35,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.011666666666666665,
+      "meets": false
+     },
+     {
+      "value": 24.0,
+      "pooled_J": 73.75876666666666,
+      "worst_viol": 0.26,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.008666666666666666,
+      "meets": false
+     },
+     {
+      "value": 25.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 26.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 27.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 28.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 29.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     },
+     {
+      "value": 30.0,
+      "pooled_J": 73.36135833333334,
+      "worst_viol": 0.0,
+      "worst_regime": "stationary_null",
+      "pooled_viol": 0.0,
+      "meets": true
+     }
+    ]
+   },
+   "cusumrb_cal": {
+    "chosen": 1.0,
+    "standard_reached": true,
+    "chosen_stats": {
+     "value": 1.0,
+     "pooled_J": 75.80816666666666,
+     "worst_viol": 0.04,
+     "worst_regime": "dropout_adverse",
+     "pooled_viol": 0.0023333333333333335,
+     "meets": true
+    },
+    "frontier": [
+     {
+      "value": 0.5,
+      "pooled_J": 86.02931666666666,
+      "worst_viol": 0.51,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0355,
+      "meets": false
+     },
+     {
+      "value": 1.0,
+      "pooled_J": 75.80816666666666,
+      "worst_viol": 0.04,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0023333333333333335,
+      "meets": true
+     },
+     {
+      "value": 2.0,
+      "pooled_J": 71.67714166666666,
+      "worst_viol": 0.065,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0021666666666666666,
+      "meets": false
+     },
+     {
+      "value": 3.0,
+      "pooled_J": 69.70105833333334,
+      "worst_viol": 0.115,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.0038333333333333336,
+      "meets": false
+     },
+     {
+      "value": 4.0,
+      "pooled_J": 68.83643333333333,
+      "worst_viol": 0.18,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.006166666666666667,
+      "meets": false
+     },
+     {
+      "value": 6.0,
+      "pooled_J": 68.49180833333332,
+      "worst_viol": 0.335,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.011666666666666667,
+      "meets": false
+     },
+     {
+      "value": 8.0,
+      "pooled_J": 68.69465833333332,
+      "worst_viol": 0.405,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.014333333333333335,
+      "meets": false
+     },
+     {
+      "value": 12.0,
+      "pooled_J": 68.84041666666667,
+      "worst_viol": 0.42,
+      "worst_regime": "dropout_adverse",
+      "pooled_viol": 0.015166666666666667,
+      "meets": false
+     }
+    ]
+   }
+  }
+ }
+}

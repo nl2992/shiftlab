@@ -1,0 +1,12 @@
+\begin{tabular}{@{}p{2.3cm}p{3.2cm}p{5.6cm}p{4.0cm}@{}}
+\toprule
+name & label & tuned or fixed parameters (frozen) & tuning space (32 random draws)\\
+\midrule
+never & in-house reference & none & none \\
+wald\_cut & documented adapter & $\lambda=0.932$, $\gamma=0.219$, paced acquisition, cutoff 0.3$T$ & $\lambda\in[.9,.999]$, $\gamma\in[.05,.5]$, cutoff $\in\{.05,.1,.15,.2,.3\}T$ \\
+cusum & in-house heuristic & $\delta=0.302$, $h=2.905$, paced acquisition, cutoff 0.15$T$ & $\delta\in[.02,.4]$, $h\in[1,12]$ (log-uniform), cutoff $\in\{\text{none},.05,\dots,.3\}T$ \\
+gate\_wald & in-house heuristic & Wald part $\lambda=0.905$, $\gamma=0.414$, cutoff 0.1$T$; gate $\alpha=0.2$, $\lambda_g=0.5$ & Wald space, $\alpha\in\{.05,.1,.2\}$, $\lambda_g\in\{.1,.25,.5\}$ \\
+cusum\_rb\_h4, \_h8 & in-house heuristic & inner: wald\_cut above; rollback threshold $h\in\{4,8\}$, drift $0.1$ & threshold fixed by arm, not tuned \\
+stoploss\_R12, \_R20, \_R30 & in-house heuristic & inner: wald\_cut above; budget $R\in\{12,20,30\}$ & $R$ set by the user, not tuned \\
+\bottomrule
+\end{tabular}

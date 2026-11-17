@@ -1,0 +1,10 @@
+\begin{tabular}{@{}p{3.0cm}p{2.5cm}p{4.2cm}p{5.3cm}@{}}
+\toprule
+arm & variant & inner rule (tuned) & shield settings \\
+\midrule
+f3\_pi1\_R20 & full sampling & $\lambda=0.932$, $\gamma=0.219$, cutoff 0.3$T$ & $\pi=1$ on every exposed round, $\delta=0$, label reserve 0.25$B$; $R\in\{12,20,30\}$ \\
+f3v2d\_R20 & paced, settlement & $\lambda=0.932$, $\gamma=0.219$, cutoff 0.3$T$ & $\pi_{\min}=0.5$, $\delta=0.05$, label reserve 0.25$B$, settlement window = declared delay (else 10); $R\in\{20,30\}$ \\
+f3v2\_R20\_blind8 & blind-round & $\lambda=0.970$, $\gamma=0.283$, cutoff 0.05$T$ & $\pi_{\min}=1$ (so $\pi\in\{1,\text{blind}\}$), blind margin 8, label reserve 0.325$B$, window 5; $R=20$ \\
+v3 (frozen in \texttt{f3\_v3\_frozen.json}) & label-scarce & wald\_cut as above & $\pi_{\min}=0.25$, label reserve 0.25$B$, no blind rounds, mixture grid up to total variance 4096, $\delta=0.05$ \\
+\bottomrule
+\end{tabular}

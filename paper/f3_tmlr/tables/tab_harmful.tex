@@ -1,0 +1,14 @@
+\begin{tabular}{@{}l l r r r r r @{}}
+\toprule
+ & & \multicolumn{5}{c}{headroom $h$ ($R=10+h$)} \\
+\cmidrule(lr){3-7}
+Feedback & vs & 6 & 14 & 24 & 50 & 100 \\
+\midrule
+Clean & wald\_cut & +2.2 & +2.3 & +0.9 & +2.6 & +6.2 \\
+ & never & +10.9 & +11.0 & +9.6 & +11.3 & +14.9 \\
+Adverse dropout & wald\_cut & $-$54.5 & $-$52.6 & $-$51.5 & $-$42.0 & $-$32.9 \\
+ & never & +13.4 & +15.3 & +16.4 & +25.9 & +35.0 \\
+Adverse delay & wald\_cut & $-$87.5 & $-$84.3 & $-$81.2 & $-$66.8 & $-$45.5 \\
+ & never & +16.9 & +20.0 & +23.2 & +37.6 & +58.8 \\
+\bottomrule
+\end{tabular}

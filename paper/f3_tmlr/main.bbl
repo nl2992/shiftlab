@@ -1,0 +1,172 @@
+\begin{thebibliography}{23}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Badanidiyuru et~al.(2013)Badanidiyuru, Kleinberg, and
+  Slivkins]{badanidiyuru2013bandits}
+Ashwinkumar Badanidiyuru, Robert Kleinberg, and Aleksandrs Slivkins.
+\newblock Bandits with knapsacks.
+\newblock In \emph{2013 IEEE 54th Annual Symposium on Foundations of Computer
+  Science}, pp.\  207--216, 2013.
+\newblock \doi{10.1109/FOCS.2013.30}.
+
+\bibitem[Badanidiyuru et~al.(2018)Badanidiyuru, Kleinberg, and
+  Slivkins]{badanidiyuru2018bandits}
+Ashwinkumar Badanidiyuru, Robert Kleinberg, and Aleksandrs Slivkins.
+\newblock Bandits with knapsacks.
+\newblock \emph{Journal of the ACM}, 65\penalty0 (3):\penalty0 1--55, 2018.
+\newblock \doi{10.1145/3164539}.
+
+\bibitem[Cesa-Bianchi et~al.(2013)Cesa-Bianchi, Dekel, and
+  Shamir]{cesabianchi2013switching}
+Nicol{\`o} Cesa-Bianchi, Ofer Dekel, and Ohad Shamir.
+\newblock Online learning with switching costs and other adaptive adversaries.
+\newblock In \emph{Advances in Neural Information Processing Systems 26}, pp.\
+  1160--1168, 2013.
+
+\bibitem[Cheng et~al.(2023)Cheng, Zhou, and Ji]{cheng2023feedback}
+Duo Cheng, Xingyu Zhou, and Bo~Ji.
+\newblock Understanding the role of feedback in online learning with switching
+  costs.
+\newblock In \emph{Proceedings of the 40th International Conference on Machine
+  Learning}, volume 202 of \emph{PMLR}, pp.\  5521--5543, 2023.
+
+\bibitem[Digalakis et~al.(2025)Digalakis, P{\'e}rignon, Saurin, and
+  Sentenac]{digalakis2025challenger}
+Vassilis Digalakis, Jr., Christophe P{\'e}rignon, S{\'e}bastien Saurin, and
+  Flore Sentenac.
+\newblock The challenger: When do new data sources justify switching machine
+  learning models?
+\newblock arXiv:2512.18390, 2025.
+
+\bibitem[Garcelon et~al.(2020)Garcelon, Ghavamzadeh, Lazaric, and
+  Pirotta]{garcelon2020conservative}
+Evrard Garcelon, Mohammad Ghavamzadeh, Alessandro Lazaric, and Matteo Pirotta.
+\newblock Conservative exploration in reinforcement learning.
+\newblock In \emph{International Conference on Artificial Intelligence and
+  Statistics}, 2020.
+
+\bibitem[Howard et~al.(2021)Howard, Ramdas, McAuliffe, and
+  Sekhon]{howard2021time}
+Steven~R. Howard, Aaditya Ramdas, Jon McAuliffe, and Jasjeet Sekhon.
+\newblock Time-uniform, nonparametric, nonasymptotic confidence sequences.
+\newblock \emph{The Annals of Statistics}, 49\penalty0 (2), 2021.
+
+\bibitem[Hu et~al.(2026)Hu, Cai, and Vlatakis-Gkaragkounis]{hu2026prudent}
+Ting Hu, Luanda Cai, and Emmanouil-Vasileios Vlatakis-Gkaragkounis.
+\newblock Prudent-banker: No extra fees for baseline safety in adversarial
+  bandits with and without delays.
+\newblock arXiv:2605.23351, 2026.
+
+\bibitem[Johari et~al.(2017)Johari, Koomen, Pekelis, and
+  Walsh]{johari2017peeking}
+Ramesh Johari, Pete Koomen, Leonid Pekelis, and David Walsh.
+\newblock Peeking at {A/B} tests: Why it matters, and what to do about it.
+\newblock In \emph{Proceedings of the 23rd ACM SIGKDD International Conference
+  on Knowledge Discovery and Data Mining}, pp.\  1517--1525, 2017.
+\newblock \doi{10.1145/3097983.3097992}.
+
+\bibitem[Johari et~al.(2022)Johari, Koomen, Pekelis, and
+  Walsh]{johari2022always}
+Ramesh Johari, Pete Koomen, Leonid Pekelis, and David Walsh.
+\newblock Always valid inference: Continuous monitoring of {A/B} tests.
+\newblock \emph{Operations Research}, 70\penalty0 (3):\penalty0 1806--1821,
+  2022.
+\newblock \doi{10.1287/opre.2021.2135}.
+
+\bibitem[Joulani et~al.(2013)Joulani, Gy{\"o}rgy, and
+  Szepesv{\'a}ri]{joulani2013delayed}
+Pooria Joulani, Andr{\'a}s Gy{\"o}rgy, and Csaba Szepesv{\'a}ri.
+\newblock Online learning under delayed feedback.
+\newblock In \emph{Proceedings of the 30th International Conference on Machine
+  Learning}, volume~28 of \emph{PMLR}, pp.\  1453--1461, 2013.
+
+\bibitem[Karampatziakis et~al.(2021)Karampatziakis, Mineiro, and
+  Ramdas]{karampatziakis2021offpolicy}
+Nikos Karampatziakis, Paul Mineiro, and Aaditya Ramdas.
+\newblock Off-policy confidence sequences.
+\newblock In \emph{Proceedings of the 38th International Conference on Machine
+  Learning}, volume 139 of \emph{PMLR}, pp.\  5301--5310, 2021.
+
+\bibitem[Karimi et~al.(2021)Karimi, G{\"u}rel, Karla{\v s}, Rausch, Zhang, and
+  Krause]{karimi2021online}
+Mohammad~Reza Karimi, Nezihe~Merve G{\"u}rel, Bojan Karla{\v s}, Johannes
+  Rausch, Ce~Zhang, and Andreas Krause.
+\newblock Online active model selection for pre-trained classifiers.
+\newblock In \emph{Proceedings of the 24th International Conference on
+  Artificial Intelligence and Statistics}, volume 130 of \emph{PMLR}, pp.\
+  307--315, 2021.
+
+\bibitem[Katariya et~al.(2019)Katariya, Kveton, Wen, and
+  Potluru]{katariya2019conservative}
+Sumeet Katariya, Branislav Kveton, Zheng Wen, and Vamsi~K. Potluru.
+\newblock Conservative exploration using interleaving.
+\newblock In \emph{Proceedings of the 22nd International Conference on
+  Artificial Intelligence and Statistics}, volume~89 of \emph{PMLR}, pp.\
+  954--963, 2019.
+
+\bibitem[Kazerouni et~al.(2017)Kazerouni, Ghavamzadeh, Abbasi-Yadkori, and
+  Van~Roy]{kazerouni2017conservative}
+Abbas Kazerouni, Mohammad Ghavamzadeh, Yasin Abbasi-Yadkori, and Benjamin
+  Van~Roy.
+\newblock Conservative contextual linear bandits.
+\newblock In \emph{Advances in Neural Information Processing Systems 30}, 2017.
+
+\bibitem[Lamaakal et~al.(2026)Lamaakal, Yahyati, El~Makkaoui, Ouahbi, and
+  Maleh]{lamaakal2026drift2act}
+Ismail Lamaakal, Chaymae Yahyati, Khalid El~Makkaoui, Ibrahim Ouahbi, and
+  Yassine Maleh.
+\newblock Drift-to-action controllers: Budgeted interventions with online risk
+  certificates.
+\newblock arXiv:2603.08578; ICLR 2026 CAO Workshop, 2026.
+
+\bibitem[Lindon \& Kallus(2026)Lindon and Kallus]{lindon2026design}
+Michael Lindon and Nathan Kallus.
+\newblock Design-based anytime-valid inference for randomized experiments with
+  delayed outcomes and staggered entry.
+\newblock arXiv:2603.25971, 2026.
+
+\bibitem[Liu et~al.(2022)Liu, Xia, Stevens, and Chen]{liu2024cams}
+Xuefeng Liu, Fangfang Xia, Rick~L. Stevens, and Yuxin Chen.
+\newblock Contextual active model selection.
+\newblock arXiv:2207.06030, 2022.
+
+\bibitem[Podkopaev \& Ramdas(2022)Podkopaev and Ramdas]{podkopaev2022tracking}
+Aleksandr Podkopaev and Aaditya Ramdas.
+\newblock Tracking the risk of a deployed model and detecting harmful
+  distribution shifts.
+\newblock In \emph{International Conference on Learning Representations}, 2022.
+
+\bibitem[Thomas et~al.(2015{\natexlab{a}})Thomas, Theocharous, and
+  Ghavamzadeh]{thomas2015hcope}
+Philip~S. Thomas, Georgios Theocharous, and Mohammad Ghavamzadeh.
+\newblock High-confidence off-policy evaluation.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}, volume~29, pp.\  3000--3006, 2015{\natexlab{a}}.
+
+\bibitem[Thomas et~al.(2015{\natexlab{b}})Thomas, Theocharous, and
+  Ghavamzadeh]{thomas2015hcpi}
+Philip~S. Thomas, Georgios Theocharous, and Mohammad Ghavamzadeh.
+\newblock High confidence policy improvement.
+\newblock In \emph{Proceedings of the 32nd International Conference on Machine
+  Learning}, volume~37 of \emph{PMLR}, pp.\  2380--2388, 2015{\natexlab{b}}.
+
+\bibitem[Waudby-Smith \& Ramdas(2024)Waudby-Smith and
+  Ramdas]{waudbysmith2024betting}
+Ian Waudby-Smith and Aaditya Ramdas.
+\newblock Estimating means of bounded random variables by betting.
+\newblock \emph{Journal of the Royal Statistical Society: Series B},
+  86\penalty0 (1), 2024.
+\newblock \doi{10.1093/jrsssb/qkad009}.
+
+\bibitem[Wu et~al.(2016)Wu, Shariff, Lattimore, and
+  Szepesv{\'a}ri]{wu2016conservative}
+Yifan Wu, Roshan Shariff, Tor Lattimore, and Csaba Szepesv{\'a}ri.
+\newblock Conservative bandits.
+\newblock In \emph{Proceedings of the 33rd International Conference on Machine
+  Learning}, volume~48 of \emph{PMLR}, pp.\  1254--1262, 2016.
+
+\end{thebibliography}

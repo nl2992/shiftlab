@@ -78,7 +78,7 @@ ax.text(14.0, 5.8, "shield harm $H_t$", color=P["blue_main"], fontsize=8, rotati
 from matplotlib.lines import Line2D
 ax.legend(handles=[
     Line2D([], [], color=P["blue_main"], lw=2.0, label=f"shield, realised $H_t$: peak {Hs.max():.0f} = $R$, rolls back at $t$={roll_s}"),
-    Line2D([], [], color=P["blue_secondary"], lw=1.1, ls=(0, (1, 1.2)), label="shield, verified bound $I_t$ (reaches $R$ at the check)"),
+    Line2D([], [], color=P["blue_secondary"], lw=1.1, ls=(0, (1, 1.2)), label="shield's check (fees + rollback reserve + resolved and pending harm), cf. $W_t$"),
     Line2D([], [], color=P["red_strong"], lw=1.8, ls=(0, (5, 1.8)), label=f"naive stop-loss, realised $H_t$: peak {Hl.max():.0f} > $R$, rolls back at $t$={roll_l}"),
 ], loc="lower right", fontsize=7.5, bbox_to_anchor=(1.0, 0.0), handlelength=2.6, borderaxespad=0.2)
 panel_label(ax, "(a)", -0.07, 1.0)

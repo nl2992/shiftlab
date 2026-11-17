@@ -17,5 +17,5 @@ Notes and limits
 - Real-stream counts match `real_tables.md` (clean: Wald 475, stop-loss 311, CUSUM rollback 517 at R=24).
 - "CUSUM rollback" is `cusum_rb_h8` (as in the paper's C3 set); `cusum_rb_h4` is not plotted in fig. violations.
 - Fig. cost_tail uses q99 of sup-harm pooled over all regimes and seeds, taken from the summary (not recomputed).
-- In fig. mechanism the "verified bound" is the shield's invariant functional I_t (delta = 0, so no confidence width); the in-transit reserve is shown as the pending count P_t in panel (b), not as a separate band in panel (a).
+- In fig. mechanism the dotted "shield's check" is the shield's internal functional `_I(t)` after round t (the quantity that W_t in Section 3 compares with R ; delta = 0, so no confidence width); the in-transit reserve is shown as the pending count P_t in panel (b), not as a separate band in panel (a).
 - Calibrated comparators (calib_summary.json) are not used; all figures use the registered, tuned comparators.

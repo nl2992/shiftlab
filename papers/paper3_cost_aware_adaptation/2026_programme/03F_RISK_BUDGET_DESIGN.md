@@ -36,7 +36,9 @@ O2 On each round with a_t = 1 and g_t = 1 ("exposed round") the controller picks
    q_t ~ Bernoulli(pi_t). The coin is independent of the tape (losses, flags, delays) given the past.
    pi_t = 0 is a "blind" round (e.g. label budget exhausted).
 O3 A queried label is released at some later round, or never. The delay may be random, depend on
-   the outcome (informative), or be chosen adversarially. No assumption.
+   the outcome (informative), or be chosen adversarially. No assumption. (Added 2026-11-17 while drafting: the delay
+   and loss of round s may depend on the past and on the outcome, but not on round s's own query
+   coin, which O2 already requires to be independent of the tape given the past.)
 O4 Losses in [0,1]; agreement rounds have Z_t = 0.
 
 No assumption on the law of (Z_t): arbitrary drift, reversals and serial dependence are allowed.
@@ -157,7 +159,7 @@ the second bound. QED.
 
 Numerical check (`scripts/paper3/riskbudget/check_props.py`, dev seeds offsets 50000-51999, 2000
 runs per cell, inner = always-challenger, label budget not binding, no ride-out): the forced-
-rollback frequency is at or below the ruin bound in all 24 cells (p in {.6,.7,.8}, d in {1,5},
+rollback frequency is within Monte Carlo error of the ruin bound or below it in all 24 cells (corrected 2026-11-17: 5 of 24 cells exceed it at the point estimate, by at most 0.7 binomial standard errors) (p in {.6,.7,.8}, d in {1,5},
 R in {10,12,15,20}). At d = 1 the bound is tight: p = .6, R = 10 gives .204 against .198 (within
 Monte Carlo error); p = .7, R = 10 gives .035 against .034. At d = 5 it is loose by 2-6x, because
 the pending count is usually well below d.

@@ -1,0 +1,28 @@
+{
+ "n_cand": 2,
+ "id": "p02_binance_agg_ethusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:11:55",
+ "fetch": {
+  "id": "p02_binance_agg_ethusdt",
+  "ok": true,
+  "first_id": 2122443585,
+  "last_id": 2122446584,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 3000,
+  "n_changes_available": 2341,
+  "pages": 3,
+  "n": 2000,
+  "n_ones": 1098,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=ETHUSDT&limit=1000 (+2 paged requests)",
+  "retrieved_utc": "2026-11-16T22:11:57Z",
+  "bytes": 361778,
+  "sha256": "fea7462b4b651b52ccee7a72c41af3b4aa17b724b420527743fb1a71b7144a3d"
+ },
+ "n": 2000,
+ "n_ones": 1098,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.6969663282445371,
+ "outcome": "screened out",
+ "reason": "r1=0.6970 > -0.15"
+}

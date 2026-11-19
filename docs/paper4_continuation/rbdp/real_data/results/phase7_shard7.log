@@ -1,0 +1,32 @@
+23:54:33 A:screen100/FOREX_chfsgd-hour-Close x=1 n 3000 r1 -0.012 pos False None
+23:56:51 A:screen100/FOREX_chfsgd-hour-Close 1-x n 3000 r1 -0.012 pos False None
+23:56:51 DONE A:screen100/FOREX_chfsgd-hour-Close evaluated positive False TALLY 25
+23:59:07 A:screen100/FOREX_eurnok-hour-Close x=1 n 3000 r1 -0.024 pos False None
+00:01:21 A:screen100/FOREX_eurnok-hour-Close 1-x n 3000 r1 -0.024 pos False None
+00:01:21 DONE A:screen100/FOREX_eurnok-hour-Close evaluated positive False TALLY 25
+00:03:20 A:screen100/FOREX_nzdusd-hour-Close x=1 n 2051 r1 -0.010 pos False None
+00:05:19 A:screen100/FOREX_nzdusd-hour-Close 1-x n 2051 r1 -0.010 pos False None
+00:05:19 DONE A:screen100/FOREX_nzdusd-hour-Close evaluated positive False TALLY 25
+00:05:56 A:screen100/air_Dongsi x=1 n 2580 r1 0.559 pos False None
+00:06:32 A:screen100/air_Dongsi 1-x n 2580 r1 0.559 pos False None
+00:06:32 DONE A:screen100/air_Dongsi evaluated positive False TALLY 25
+00:06:36 A:screen100/air_quality_co x=1 n 467 r1 0.246 pos False None
+00:06:41 A:screen100/air_quality_co 1-x n 467 r1 0.246 pos False None
+00:06:41 DONE A:screen100/air_quality_co evaluated positive False TALLY 25
+00:07:35 A:screen100/elec_MT_008 x=1 n 2430 r1 0.342 pos False None
+00:08:29 A:screen100/elec_MT_008 1-x n 2430 r1 0.342 pos False None
+00:08:29 DONE A:screen100/elec_MT_008 evaluated positive False TALLY 25
+00:10:43 A:screen100/elec_MT_017 x=1 n 2327 r1 0.307 pos False None
+00:13:09 A:screen100/elec_MT_017 1-x n 2327 r1 0.307 pos False None
+00:13:09 DONE A:screen100/elec_MT_017 evaluated positive False TALLY 25
+00:14:53 A:screen100/elec_MT_026 x=1 n 3000 r1 0.270 pos False None
+00:16:22 A:screen100/elec_MT_026 1-x n 3000 r1 0.270 pos False None
+00:16:22 DONE A:screen100/elec_MT_026 evaluated positive False TALLY 25
+00:17:31 A:screen100/elec_MT_035 x=1 n 3000 r1 0.345 pos False None
+00:18:30 A:screen100/elec_MT_035 1-x n 3000 r1 0.345 pos False None
+00:18:30 DONE A:screen100/elec_MT_035 evaluated positive False TALLY 25
+00:19:00 A:screen100/pm_Chengdu x=1 n 3000 r1 0.799 pos False None
+00:19:25 A:screen100/pm_Chengdu 1-x n 3000 r1 0.799 pos False None
+00:19:25 DONE A:screen100/pm_Chengdu evaluated positive False TALLY 25
+00:19:25 family A finished; tally 25
+00:19:25 lists exhausted; final tally 25

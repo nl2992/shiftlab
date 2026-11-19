@@ -1,0 +1,28 @@
+{
+ "n_cand": 20,
+ "id": "p20_bitstamp_ethusd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:15:12",
+ "fetch": {
+  "id": "p20_bitstamp_ethusd",
+  "ok": true,
+  "first_tid": "674477173",
+  "last_tid": "675098716",
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 22973,
+  "n_changes_available": 18155,
+  "pages": 1,
+  "n": 2000,
+  "n_ones": 973,
+  "url": "https://www.bitstamp.net/api/v2/transactions/ethusd/?time=day (+0 paged requests)",
+  "retrieved_utc": "2026-11-16T22:15:12Z",
+  "bytes": 2274594,
+  "sha256": "53aaa6956077951945e53c37d5f0027e28866c3d96f8e3e8ed7b55aa818b64e3"
+ },
+ "n": 2000,
+ "n_ones": 973,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.204021753686619,
+ "outcome": "screened out",
+ "reason": "r1=0.2040 > -0.15"
+}

@@ -1,0 +1,28 @@
+{
+ "n_cand": 9,
+ "id": "p09_binance_agg_linkusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:35",
+ "fetch": {
+  "id": "p09_binance_agg_linkusdt",
+  "ok": true,
+  "first_id": 302268708,
+  "last_id": 302273707,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 5000,
+  "n_changes_available": 2184,
+  "pages": 5,
+  "n": 2000,
+  "n_ones": 1029,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=LINKUSDT&limit=1000 (+4 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:39Z",
+  "bytes": 575148,
+  "sha256": "8fbe321ef6232b6e370cd35182f88ae614e3e91d0ad604fc06d6aed2484bdd4f"
+ },
+ "n": 2000,
+ "n_ones": 1029,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.4773138927737063,
+ "outcome": "screened out",
+ "reason": "r1=0.4773 > -0.15"
+}

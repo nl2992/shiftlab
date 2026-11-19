@@ -1,0 +1,28 @@
+{
+ "n_cand": 12,
+ "id": "p12_coinbase_eth-usd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:44",
+ "fetch": {
+  "id": "p12_coinbase_eth-usd",
+  "ok": true,
+  "first_id": 855907241,
+  "last_id": 855911240,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 4000,
+  "n_changes_available": 2441,
+  "pages": 4,
+  "n": 2000,
+  "n_ones": 1142,
+  "url": "https://api.exchange.coinbase.com/products/ETH-USD/trades?limit=1000 (+3 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:46Z",
+  "bytes": 470299,
+  "sha256": "8ae42ede1bcb4c62ea213c04ac878b1cd184f22822e01b7fb1b5a084a9ffe395"
+ },
+ "n": 2000,
+ "n_ones": 1142,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.33321516927464123,
+ "outcome": "screened out",
+ "reason": "r1=0.3332 > -0.15"
+}

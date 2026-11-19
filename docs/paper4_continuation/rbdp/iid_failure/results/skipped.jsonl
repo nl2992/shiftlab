@@ -1,0 +1,35 @@
+[
+ {
+  "chain_id": "c01_faithful__shuf3",
+  "reason": "refit emissions do not straddle 1/2; solver requires it",
+  "solver_params": {
+   "t01": 0.999999,
+   "t10": 0.999999,
+   "e0": 0.5661738128257573,
+   "e1": 0.72059081598324,
+   "prior1": 0.5
+  }
+ },
+ {
+  "chain_id": "p24_geyser_waiting__shuf1",
+  "reason": "refit emissions do not straddle 1/2; solver requires it",
+  "solver_params": {
+   "t01": 0.027190525724338523,
+   "t10": 0.033127780995472644,
+   "e0": 0.5111832656231873,
+   "e1": 0.7741832229633631,
+   "prior1": 0.450783969295477
+  }
+ },
+ {
+  "chain_id": "p24_geyser_waiting__shuf3",
+  "reason": "refit emissions do not straddle 1/2; solver requires it",
+  "solver_params": {
+   "t01": 0.999999,
+   "t10": 0.8894212206332905,
+   "e0": 0.5180544017083167,
+   "e1": 0.7400096200445517,
+   "prior1": 0.5292623573515176
+  }
+ }
+]

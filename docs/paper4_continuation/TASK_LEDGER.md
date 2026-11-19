@@ -53,3 +53,23 @@ Corrections (from `theory_v2/ENGINEERING_COMPLETION.md` §E4):
 | rule | `2e32258f` (branch), `a2bf3b21` (main) | Publication-outcome rule in `AGENTS.md` | COMPLETE | `AGENTS.md` |
 | v2-C2 | — | Relative-premium scaling run (descriptive), 3 workers | IN PROGRESS | `scripts/paper4_continuation/theory_v2/wpC2_relative_premium.py` |
 | v2-H | — | Publication decision | PENDING (after scaling) | `theory_v2/PUBLICATION_DECISION.md` |
+
+## Codex continuation (2026-11-13)
+
+| Task | Branch | Description | Status | Evidence |
+|---|---|---|---|---|
+| M-gen proof | `codex/paper4-causal-premium-continuation` | Arbitrary fixed-budget open-region lower bound and simultaneous finite-budget corollary | PROVED as stated; same-family adversarial audit PASS (provisional) | `theory_v2/B_GENERAL_FIXED_PREMIUM_PROOF.md`; audit |
+| M6/M10 numerics | same | B=3, T=16 cell at r=1/125, g=49/100, inside M6/M10 but outside M11's B=3 radius | TIMED OUT at 3,600 s; no certified value | `theory_v2/results/wpM_b3_open_rect_t504_e15_T16_v1.json` |
+| M-gen numerics | same | B=3, T=9, r=1/100000, g=49/100, inside M11 and simultaneous Bbar=3 region | First default 100-cut attempt stopped before certification; resumed with 1,000-cut cap, one low-priority worker | `theory_v2/results/wpM_b3_general_B_T9_r1e5_g49_v1.json` (expected) |
+| M-gen novelty | same | Focused source-grounded review of the new B-dependent general-budget corollary | IN PROGRESS | `theory_v2/NOVELTY_REVIEW_2026-11-13.md` (expected) |
+| publication decision | same | Apply locked salvage GO/NO-GO/open criteria after proof, novelty, and data reconciliation | OPEN; no threshold changes | `theory_v2/SALVAGE_PLAN.md`; `theory_v2/PUBLICATION_DECISION.md` |
+
+## RB-DP continuation (2026-11-13)
+
+| Task | Branch | Description | Status | Evidence |
+|---|---|---|---|---|
+| RB-DP core | `codex/paper4-causal-premium-continuation` (uncommitted) | Risk-budget DP solver, exact policy evaluation, tests | COMPLETE | `src/shiftlab/paper4/risk_budget_dp.py`; `tests/paper4/test_risk_budget_dp.py` |
+| RB-DP fast | same | Infimal-convolution split, dyadic-lattice exact mode | COMPLETE (lattice lemma: proof sketch) | `src/shiftlab/paper4/risk_budget_dp_fast.py` |
+| E1, E4 | same | Validation on 190 certified cells; baselines on 40 cells | COMPLETE | `rbdp/E1_E4_VALIDATION_BASELINES.md` |
+| E2, E3 | same | Scaling; long-horizon premium; theorem checks | COMPLETE (B=7,8 partial) | `rbdp/E2_E3_SCALING_PREMIUM.md` |
+| Proofs | same | Write and review the reduction and lattice proofs; d>=2 extension | OPEN | `rbdp/RESULTS.md` caveats |

@@ -1,0 +1,28 @@
+{
+ "n_cand": 22,
+ "id": "p22_bitstamp_xrpusd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:15:13",
+ "fetch": {
+  "id": "p22_bitstamp_xrpusd",
+  "ok": true,
+  "first_tid": "674477266",
+  "last_tid": "675101429",
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 16449,
+  "n_changes_available": 12711,
+  "pages": 1,
+  "n": 2000,
+  "n_ones": 956,
+  "url": "https://www.bitstamp.net/api/v2/transactions/xrpusd/?time=day (+0 paged requests)",
+  "retrieved_utc": "2026-11-16T22:15:13Z",
+  "bytes": 1686361,
+  "sha256": "55be1af009fdf69bd98dcebd4ae32742536c7935900f7f127b5a2a5394fd2f2d"
+ },
+ "n": 2000,
+ "n_ones": 956,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.09679920255267212,
+ "outcome": "screened out",
+ "reason": "r1=0.0968 > -0.15"
+}

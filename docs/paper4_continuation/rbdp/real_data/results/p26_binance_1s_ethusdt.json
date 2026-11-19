@@ -1,0 +1,28 @@
+{
+ "n_cand": 26,
+ "id": "p26_binance_1s_ethusdt",
+ "family": "exchange_1s_kline",
+ "started": "2026-11-16T23:17:41",
+ "fetch": {
+  "id": "p26_binance_1s_ethusdt",
+  "ok": true,
+  "first_open_ms": 1794863461000,
+  "last_open_ms": 1794867460000,
+  "n_seconds": 4000,
+  "rule": "1s klines, close > open, zero-move seconds dropped, last 1000 non-zero",
+  "n_nonzero_available": 1147,
+  "pages": 4,
+  "n": 1000,
+  "n_ones": 506,
+  "url": "https://api.binance.com/api/v3/klines (interval=1s, paged by endTime)",
+  "retrieved_utc": "2026-11-16T22:17:44Z",
+  "bytes": 617804,
+  "sha256": "6e3da6af3b832947773c34512e2a758e4d2c087f4cebd71069228e85a37ba0d0"
+ },
+ "n": 1000,
+ "n_ones": 506,
+ "binarisation": "1s klines, close > open, zero-move seconds dropped, last 1000 non-zero",
+ "r1": 0.3672602201573009,
+ "outcome": "screened out",
+ "reason": "r1=0.3673 > -0.15"
+}

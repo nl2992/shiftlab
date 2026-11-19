@@ -1,0 +1,28 @@
+{
+ "n_cand": 8,
+ "id": "p08_binance_agg_ltcusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:32",
+ "fetch": {
+  "id": "p08_binance_agg_ltcusdt",
+  "ok": true,
+  "first_id": 338201620,
+  "last_id": 338206619,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 5000,
+  "n_changes_available": 2038,
+  "pages": 5,
+  "n": 2000,
+  "n_ones": 1007,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=LTCUSDT&limit=1000 (+4 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:35Z",
+  "bytes": 578152,
+  "sha256": "4319320c61b5b3c4e05316e3d5caef49aff9c00bd2ec3a9ad1a24bd1283d6a27"
+ },
+ "n": 2000,
+ "n_ones": 1007,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.037478052130319774,
+ "outcome": "screened out",
+ "reason": "r1=0.0375 > -0.15"
+}

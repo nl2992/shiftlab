@@ -1,0 +1,90 @@
+{
+ "n_cand": 9,
+ "id": "c09_discoveries",
+ "started": "2026-11-16T22:44:48",
+ "fetch": {
+  "id": "c09_discoveries",
+  "ok": true,
+  "n_raw": 100,
+  "n_used_series": 100,
+  "rule": "count > 3",
+  "column": "value",
+  "note": "strict inequality; ties -> 0",
+  "n": 100,
+  "n_ones": 33,
+  "url": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/discoveries.csv",
+  "retrieved_utc": "2026-11-16T21:44:48Z",
+  "bytes": 1014,
+  "sha256": "02bb14a10cd308044c8b0427ce6ced50e06b1423b9624cd027473c1c4e7ffc8b"
+ },
+ "n": 100,
+ "n_ones": 33,
+ "binarisation": "count > 3",
+ "fit": {
+  "t01": 0.02979674781647915,
+  "t10": 0.03195287433261816,
+  "e0": 0.1607452946886105,
+  "e1": 0.4538417567041665,
+  "loglik": -62.459171661761786,
+  "loglik_em": -62.50696908895875,
+  "polished": true,
+  "restart_loglik_min": -63.417926378311336,
+  "restart_loglik_max": -62.50696908895875,
+  "n_restarts_at_best": 4,
+  "n": 100,
+  "stationary1": 0.4825413788692266
+ },
+ "g1": {
+  "pass_": false,
+  "split_pass": false,
+  "bic_pass": false,
+  "n_first": 50,
+  "n_second": 50,
+  "hmm_test_mean_ll": -0.6583837548721241,
+  "iid_test_mean_ll": -0.6280704524218018,
+  "markov_test_mean_ll": -0.6586455263476446,
+  "split_margin": -0.030313302450322266,
+  "first_half_fit": {
+   "t01": 0.999999,
+   "t10": 0.5783049238676558,
+   "e0": 1e-06,
+   "e1": 0.5337625411811275
+  },
+  "loglik_hmm": -62.459171661761786,
+  "loglik_iid": -63.418503144843825,
+  "loglik_markov": -63.40943751251218,
+  "bic_hmm": 143.33902406747595,
+  "bic_iid": 131.44217647567575,
+  "bic_markov": 136.02921539700054,
+  "bic_margin": -11.896847591800196,
+  "full_fit": {
+   "t01": 0.02979674781647915,
+   "t10": 0.03195287433261816,
+   "e0": 0.1607452946886105,
+   "e1": 0.4538417567041665,
+   "loglik": -62.459171661761786,
+   "loglik_em": -62.50696908895875,
+   "polished": true,
+   "restart_loglik_min": -63.417926378311336,
+   "restart_loglik_max": -62.50696908895875,
+   "n_restarts_at_best": 4,
+   "n": 100,
+   "stationary1": 0.4825413788692266
+  }
+ },
+ "g2": {
+  "pass_": false,
+  "emissions_straddle_half": false,
+  "transitions_in_range": true,
+  "at_bounds": {
+   "t01": false,
+   "t10": false,
+   "e0": false,
+   "e1": false
+  }
+ },
+ "time_fit_s": 3.2733339999977034,
+ "outcome": "not applicable",
+ "reason": "G2 failed and G1 failed ({'pass_': False, 'emissions_straddle_half': False, 'transitions_in_range': True, 'at_bounds': {'t01': False, 't10': False, 'e0': False, 'e1': False}})",
+ "runtime_s": 3.4691138339985628
+}

@@ -20,12 +20,20 @@ Write Ḡ_0^∞ := g r^d/(1 − r²), Ḡ_1^∞ := r Ḡ_0^∞, v₁ := g r^d/(2
 | **M3** | Any B, T, c, k, d: first-label relaxation. Γ ≥ α[ζ − max(H_∅⁺, s₁⁺, (s₀⁺ + s₁⁺)/2)] for any IID plan of IID risk ≥ α and ratio ζ; s_y = IID slope of the branch after Y_first = y, H_∅ = best unconditional-promotion gain | PROVED (reduces to N1's lower half at B = 1) |
 | **M4** | B = 2, k = 0, d odd, c ≥ 0, α ≤ 1/2: Γ(T)/α ≥ ζ(T) − 4c − (s₀^∞ + s₁^∞)/2 with closed forms s₀^∞ = g r^d(3 + r)/(2(1 − r²)), s₁^∞ = g r^d/(1 − r); **liminf_T ρΓ ≥ (1 − r)/(2(3 + r)) − 8c(1 − r²)/(g r^d(3 + r))**, and an explicit T₀ beyond which the bound is uniform | PROVED; certified cells below |
 | M5 | Any B, α ≤ 1: ρΓ ≤ 1 − H_∅/S_I with S_I the IID slope | PROVED |
-| General B | Uniform-in-T lower bound for B ≥ 3 | **NOT PROVED.** Obstruction identified (§5); M3 alone is too weak from B ≈ 3–4 at t = 3/4 |
+| **M6** | B = 3, d = 1, c = k = 0, α = 1/10, r ∈ (1/200,1/100), g ∈ (2/5,1/2): **ρΓ(T) ≥ 19/101 > 0.18 for every T ≥ 16** | PROVED; independent adversarial review |
+| **M7** | B = 4 on the same parameter rectangle and costs/delay/risk: **ρΓ(T) ≥ 13/84 > 0.15 for every T ≥ 16** | PROVED; independent adversarial review |
+| **M8** | B = 5 on the same parameter rectangle and costs/delay/risk: **ρΓ(T) ≥ 40/303 > 0.13 for every T ≥ 16** | PROVED; independent adversarial review |
+| **M9** | B = 6 on the same parameter rectangle and costs/delay/risk: **ρΓ(T) ≥ 13/118 > 0.10 for every T ≥ 20** | PROVED; independent adversarial review |
+| **M10** | On the same open rectangle, every integer **1 ≤ B ≤ 6** and **T ≥ 20** has **ρΓ(T) ≥ 0.10** | Corollary of M1, M4, M6–M9; independently reviewed |
+| **M11** | For each fixed B≥1, `rho_Gamma>=3/[8(B+2)]` for `T>=3B` on `2/5<g<1/2`, `0<r<1/[16(B+2)(6B^3+3B+2)]`; simultaneously, for `0<r<1/1056`, all `B<=Bbar(r):=floor((1056r)^(-1/4))` and `T>=3Bbar(r)` satisfy `rho_Gamma>=3/[8(Bbar(r)+2)]` | PROVED; fresh same-family adversarial review PASS (provisional); see §11 |
+| General B, common region | A single parameter rectangle and a positive constant uniform over unbounded B | **NOT PROVED.** M11's radius shrinks as `B^-4` and its relative lower bound as `B^-1`; M3 alone is insufficient, see §5 |
 
 **Answer to the NO-GO trigger.** No proof and no certified datum shows ρΓ → 0 in T for t < 1 at B = 1 or B = 2;
-M1 and M4 prove the opposite there (k = 0 for B = 2). For B ≥ 3 nothing is proved: the committed data at
+M1 and M4 prove the opposite there (k = 0 for B = 2), and M6–M9 prove it on an open mixing-parameter rectangle at B = 3, 4, 5, and 6. For B ≥ 7 nothing is proved: the committed data at
 t = 3/4 show ρΓ **decreasing** over T = 4..10 (B = 3: 0.275 → 0.165; B = 4: 0.29 → 0.26), and by M2 that decrease
-is a vanishing premium only if Γ/α itself goes to 0, which T ≤ 10 cannot decide. The salvage plan's phrase "flat in
+is a vanishing premium only if Γ/α itself goes to 0, which T ≤ 10 cannot decide. M11 now proves a positive premium
+for all fixed budgets on a smaller B-dependent open region and supplies a simultaneous finite range; outside those
+regions, finite trends alone do not decide the limit. The salvage plan's phrase "flat in
 T at fixed B" is accurate for B = 1 only; at B = 2 the ratio falls from 0.231 (T = 4) to 0.149 (T = 10) while Γ/α
 stays ≈ 0.107 and VOI/α saturates (M2), consistent with M4's positive limit.
 
@@ -232,6 +240,8 @@ t = 9/10, d = 1, T = 12 / 14: Γ/α 0.480 / 0.428, ρΓ 0.210 / 0.180 (M4 vacuou
 
 ## 5. General B: what fails, and the exact obstruction
 
+This section describes the limits of the **first-label relaxation M3**, not an obstruction to the multi-null path certificates in Theorems M6–M9 or M11. M6–M9 close B = 3–6 on one rectangle; M11 extends to every fixed B on a radius that shrinks with B.
+
 **Proposition M5 (upper bound) — PROVED.** For any B, T, α ∈ (0, 1]: ρΓ ≤ 1 − H_∅/S_I (when S_I > 0).
 *Proof.* Promoting unconditionally at the start with private probability α has causal risk α, so
 VOI_causal ≥ αH_∅; and VOI_IID ≤ αS_I (M3(ii)). ∎
@@ -266,7 +276,179 @@ t = 3/4 (Γ/α ≈ 0.17 and 0.35 at T = 10, still falling slowly at B = 3).
 
 ---
 
-## 6. Verification record
+## 6. Theorem M6 (B = 3 open-rectangle uniform bound) — PROVED
+
+**Statement.** In the symmetric stationary anti-persistent HMM, take `B=3`, `d=1`, `c=k=0`, `alpha=1/10`, `r=2t-1 in (1/200,1/100)`, and `g=(1-2e)^2 in (2/5,1/2)`. For every integer `T>=16`,
+\[
+\Gamma(T)\ge0.38\alpha gr,\qquad \rho_\Gamma(T)\ge19/101>0.18.
+\]
+This is uniform on the stated open parameter rectangle and in the horizon. It claims nothing for other budgets, delays, costs, risk levels, or parameter regions.
+
+**Proof.** Let `a=sqrt(g)`. Given hidden-spin mean `x`, a query sign `S` has probability `(1+a S x)/2` and posterior mean `psi_S(x)=(x+aS)/(1+aSx)`. Direct calculation gives `E[psi_S(x)]=x`, `E|psi_S(x)|=max(|x|,a)`, and
+\[
+E[(a(-r)^j\psi_S(x))^+]-(a(-r)^jx)^+
+=\tfrac12gr^j(1-|x|/a)^+.
+\]
+Thus an additional query contributes at most `v1=gr/[2(1-r)]` to future positive-part action value. The finite-horizon potential `F_t(x)=sum_{j=0}^{T-t}(a(-r)^jx)^+` and backward induction on remaining time, simultaneously over remaining query budgets, bound any adaptive post-promotion continuation by `F_t(x)+b v1`. Zero switching and query costs make actions irrelevant to future observations; this Bellman value includes rollback and re-promotion.
+
+For a first-promotion history `h` with `m` released labels `y_i`, signs `s_i=2y_i-1`, and query times `u_i`, its alternative mass is `2^-m D_m`, where `D_m=1+g sum_{i<j}s_i s_j(-r)^(u_j-u_i)`. Use the four causal nulls IID and `nu_j` (`j=1,2,3`), where `nu_j` forces the jth queried label to zero and uses probability one half at the other query indices. They are admissible because query index is public and every conditional probability is in `[0,1/2]`. Their equal mixture has `Q(h)=2^-m(4-m+2z)/4`, where `z` is the zero count: under `nu_j`, the history mass is twice fair-label mass if `j<=m` and `y_j=0`, zero if `j<=m` and `y_j=1`, and equal to fair-label mass if `j>m`. On a deterministic plan leaf the adaptive query schedule is fixed by the label prefix and adds no probability factor. Hence `P_A(h)/Q(h)=4D_m/(4-m+2z)` and causal feasibility implies `R_Q<=alpha`.
+
+With no further labels, after the latest query release the posterior action value has latest-label term `L_v=g s_m(-r)^(v-u_m)`. For `m=2`, its remainder is `g s_1(-r)^(v-u_1)`; for `m=3`, it is
+`g[s_1(-r)^(v-u_1)+s_2(-r)^(v-u_2)]+g^2s_1s_2s_3(-r)^(u_2-u_1+v-u_3)`.
+The last term uses the four-spin moment of the HMM. Set `D_*=1-g(2r+r^2)`. Summing the remainder's absolute value over all future steps gives at most `[g(r^2+r^3)+g^2r^2]/(1-r)`; the latest-label positive tail is `G_0=gr/(1-r^2)` or `G_1=gr^2/(1-r^2)`. Therefore, for `m=2,3`, the no-more-query continuation is at most `G_{y_m}+E`, where
+\[
+E=\frac{G_0g(2r+r^2)+g(r^2+r^3)/(1-r)+g^2r^2/(1-r)}{D_*}.
+\]
+At delay one, every query from an earlier step has released before action; a same-step query belongs to the remaining budget. The total continuation envelopes are `3v1` for `m=0`, `G_{y_1}+2v1` for `m=1`, and `G_{y_m}+E+(3-m)v1` for `m=2,3`.
+
+Exact rational endpoint arithmetic and enumeration of all histories yield `max_h [P_A(h)/Q(h)]V(h) <= (5360/3333)gr < 1.61gr` and `max_h D_mV(h) <= (6700/3333)gr < 2.02gr`. For uniformity, normalized envelope terms increase in `r,g`; bound `D_m` by `1`, `1`, `1+gr`, `1+g(2r+r^2)` for `m=0,1,2,3`. Thus `VOI_causal<=1.61alpha gr` and `VOI_IID<=2.02alpha gr`, first for deterministic plans and then for mixtures by linearity. The detailed derivation is in [`B3_UNIFORM_PREMIUM_PROOF.md`](B3_UNIFORM_PREMIUM_PROOF.md).
+
+For an IID witness, query at times `1,5,8` and promote at time `2` iff `Y_1=0`. Its IID risk is `1/2`, and its gain/risk ratio satisfies `zeta_T>=gr[2-(r^4+r^3)/2]>1.99gr` for `T>=16`. Mixing with never-promote to risk `alpha` gives `VOI_IID>=1.99alpha gr`. Therefore `Gamma>=0.38alpha gr` and `rho_Gamma>=0.38/2.02=19/101>0.18`. The proof and independent review are linked from [`B3_UNIFORM_PREMIUM_PROOF.md`](B3_UNIFORM_PREMIUM_PROOF.md). ∎
+
+## 7. Theorem M7 (B = 4 open-rectangle uniform bound) — PROVED
+
+**Statement.** Under the same HMM rectangle and `d=1`, `c=k=0`, `alpha=1/10` as M6, but with `B=4`, every
+integer `T>=16` satisfies
+\[
+\Gamma(T)\ge0.39\alpha gr,\qquad
+\rho_\Gamma(T)\ge13/84>0.15.
+\]
+
+**Proof.** Use the five-null mixture `(IID+nu_1+...+nu_4)/5`. For a prefix of `m` released labels with `z` zeros,
+its mass is `2^-m(5-m+2z)/5`. Expanding the HMM emission likelihood, `D_m` contains pair moments for `m<=3`; at
+`m=4` it also contains `g^2 s_1s_2s_3s_4(-r)^(u_2-u_1+u_4-u_3)`. In the posterior numerator after the last
+release, the singleton terms and all four triple-label terms must be retained. Their minimum powers are
+`r^3,r^2,r^3,r^2`, yielding the error tails `error_2`, `error_3`, `error_4` in the full proof
+[`B4_UNIFORM_PREMIUM_PROOF.md`](B4_UNIFORM_PREMIUM_PROOF.md). The one-query Bellman envelope from M6 bounds every
+adaptive post-promotion continuation.
+
+Exact rational enumeration at `(r,g)=(1/100,1/2)` gives maximum causal coefficient `62875/29997 < 2.10` and
+maximum IID coefficient `25150/9999 < 2.52`; monotonicity of the normalized envelopes extends them over the open
+rectangle. Hence `VOI_causal<=2.10 alpha gr` and `VOI_IID<=2.52 alpha gr` uniformly in `T`.
+
+The fixed IID witness queries at `1,5,8,11`, promotes at `2` iff the first label is zero, and otherwise never
+promotes. Its risk is `1/2`; its gain/risk ratio is at least
+`gr[5/2-(r^4+2r^3)/2] > 2.49gr` for `T>=16`. Mixing it with never-promote to risk `alpha` gives
+`VOI_IID>=2.49 alpha gr`. Thus `Gamma>=0.39 alpha gr` and
+`rho_Gamma>=0.39/2.52=13/84>0.15`. The proof is independently reviewed; detailed calculations and the review
+record are in `B4_UNIFORM_PREMIUM_PROOF.md` and `prompts/26111216-2/independent-review.md`. ∎
+
+## 8. Theorem M8 (B = 5 open-rectangle uniform bound) — PROVED
+
+**Statement.** On the same open rectangle and with the same `d=1`, `c=k=0`, `alpha=1/10` as M6/M7, but with
+`B=5`, every integer `T>=16` satisfies
+\[
+\Gamma(T)\ge0.40\alpha gr,\qquad
+\rho_\Gamma(T)\ge40/303>0.13.
+\]
+
+**Proof.** Mix IID with the five causal nulls `nu_j` that force query position j to zero. For a prefix of m labels
+with z zeros, the mixture history mass is `2^-m(6-m+2z)/6`. Expanding the alternative density over even spin
+moments gives pair terms and, for m=4,5, the four-spin terms; for m=5 all five such terms are retained. In the
+posterior numerator after the latest release, the odd label subsets of sizes 1, 3, and (at m=5) 5 contribute.
+The final term is the six-spin interaction. The minimum powers and geometric remainder sums yield the no-query
+envelopes `G_y+E_m`; with `d=1`, all earlier queries are released and the one-query Bellman bound adds at most
+`(5-m)v1` for remaining labels. These calculations, including all subset exponents, are detailed in
+[`B5_UNIFORM_PREMIUM_PROOF.md`](B5_UNIFORM_PREMIUM_PROOF.md).
+
+The exact rational endpoint enumeration gives causal coefficient `60400/23331<2.59` and IID coefficient
+`30200/9999<3.03`. Every normalized remainder and likelihood envelope is coefficientwise increasing on the
+rectangle, so these upper bounds hold throughout it and uniformly in T. The disjoint first-promotion-leaf
+reduction then gives `VOI_causal<=2.59 alpha gr` and `VOI_IID<=3.03 alpha gr` for all deterministic plans and
+their mixtures.
+
+For a feasible IID witness, query at `1,5,8,11,14`; promote at 2 iff the first label is zero, otherwise never
+promote. Its IID risk is `1/2`; the conditional branch gain/risk ratio satisfies
+`zeta_T>=gr[3-(r^4+3r^3)/2]>2.99gr` for `T>=16`. Mixing with never-promote to risk alpha gives
+`VOI_IID>=2.99 alpha gr`. Thus `Gamma>=0.40 alpha gr` and `rho_Gamma>=0.40/3.03=40/303>0.13`.
+Independent adversarial review is recorded with the full proof. ∎
+
+## 9. Theorem M9 (B = 6 open-rectangle uniform bound) — PROVED
+
+**Statement.** On the same HMM rectangle and with `d=1`, `c=k=0`, `alpha=1/10` as M6–M8, but with `B=6`,
+every integer `T>=20` satisfies
+\[
+\Gamma(T)\ge0.39\alpha gr,\qquad
+\rho_\Gamma(T)\ge13/118>0.10.
+\]
+
+**Proof.** Use the equal mixture of IID and six causal nulls `nu_j` that force the jth queried label to zero. On a
+prefix of m released labels with z zeros it assigns mass `2^-m(7-m+2z)/7`. Expand the alternative transcript law
+over all even subsets of the six labels, retaining the unique six-spin moment. Expand the posterior action value
+over odd subsets of size one, three, and five, retaining the six-spin term produced by five emissions. Pair-gap
+factorization of stationary HMM spin moments bounds the absolute density perturbation and every posterior tail by
+the explicit coefficientwise envelopes `delta_m` and `posterior_error(m)` in [`B6_UNIFORM_PREMIUM_PROOF.md`](B6_UNIFORM_PREMIUM_PROOF.md).
+
+At delay one every query from an earlier step has released. The finite-horizon potential and one-query information
+identity from M6 give an adaptive continuation increment at most `v1=gr/[2(1-r)]` per remaining query, including
+rollback/re-promotion. First-promotion leaves are disjoint; the null mixture bounds causal gain by its largest
+pathwise likelihood ratio times `alpha`, while the IID row gives the analogous IID upper bound. Exact rational
+enumeration yields causal coefficient `41125/13332<3.10` and IID coefficient `11750/3333<3.54`. Their normalized
+envelopes increase over the rectangle, so `VOI_causal<=3.10alpha gr` and `VOI_IID<=3.54alpha gr` uniformly in T.
+
+For the IID witness, query at `1,5,8,11,14,17`; promote at 2 iff the first label is zero, otherwise never promote.
+Its risk is `1/2`; the conditional gain/risk ratio is at least
+`gr[7/2-(r^4+4r^3)/2]>3.49gr` for `T>=20`. Mixing to risk alpha gives `VOI_IID>=3.49alpha gr`, hence
+`Gamma>=0.39alpha gr` and `rho_Gamma>=0.39/3.54=13/118>0.10`. Independent same-family adversarial review is
+recorded with the full proof. ∎
+
+## 10. Corollary M10 (explicit bounded-budget S-1 range)
+
+**Statement.** Let `alpha=1/10`, `d=1`, `c=k=0`, `r in (1/200,1/100)`, `g in (2/5,1/2)`, and any integer
+`1<=B<=6`. Then for every `T>=20`,
+\[
+\rho_\Gamma(T,B,\alpha)\ge 1/10.
+\]
+Equivalently, this gives the locked S-1 form on the explicit bounded-budget range `Bbar=6`, with `T0=20` and
+`c(t,e,d,alpha)=0.10` on this open rectangle. Calling this range “label-scarce” is an interpretation; no separate
+scarcity threshold is asserted here.
+
+**Proof.** For `B=1`, Theorem M1 with `c=k=0,d=1` gives the stronger bound
+`rho_Gamma >= (1-r)/2 > 99/200`.
+For `B=2`, in M4 choose the second query offset `delta=2`; its finite-horizon truncation bound gives
+\[
+\rho_\Gamma\ge
+\frac{\displaystyle \frac1{4(1+r)}-\frac{r^2/2+r^{T-3}}{1-r}}
+{\displaystyle \frac{3+r}{2(1-r^2)}}.
+\]
+The numerator decreases and denominator increases with `r` on the rectangle. Its value at the upper endpoint
+`r=1/100`, `T=20` is positive, so the numerator remains positive throughout; for fixed `r` the expression
+increases with `T` because the subtracted `r^(T-3)` term decreases. Thus for `T>=20` it is bounded below by its
+value at `r=1/100`, `T=20`, exactly
+`35349928571428571428571428571428557/215000000000000000000000000000000000 > 0.10`. For `B=3,4,5,6`, apply M6–M9 respectively: their lower bounds
+are `19/101`, `13/84`, `40/303`, and `13/118`, each strictly above `0.10`. Taking the minimum proves the result.
+The component bounds are reviewed individually; the independent corollary audit is recorded in
+`prompts/26111216-5/independent-review.md`.
+
+## 11. Theorem M11 (arbitrary fixed budget and simultaneous finite range) — PROVED
+
+For each integer `B>=1`, set `H_B=6B^3+3B+2` and
+`r_0(B)=1/[16(B+2)H_B]`. Under the stationary symmetric anti-persistent HMM with `d=1`, `c=k=0`,
+`alpha=1/10`, `2/5<g<1/2`, and `0<r<r_0(B)`, for every `T>=3B`,
+
+\[
+\Gamma(T)\ge\alpha gr\frac{3(B+1)}{8(B+2)},\qquad
+\rho_\Gamma(T)\ge\frac{3}{8(B+2)}.
+\]
+
+Moreover, for `0<r<1/1056`, let
+`Bbar(r)=floor((1056r)^(-1/4))`. Every `1<=B<=Bbar(r)` and `T>=3Bbar(r)` then satisfies
+`rho_Gamma(T,B)>=3/[8(Bbar(r)+2)]`. Thus the simultaneous range grows as `r` decreases, while the common lower
+bound weakens. This is not a common positive constant on a fixed rectangle for unbounded budgets.
+
+**Review status.** Fresh same-family adversarial review returned PASS with no identified mathematical issue;
+model/query timing was checked against the source game. The runtime did not expose reviewer model-family identity,
+so acceptance remains provisional under the repository's assurance rule. Full obligation and counterexample
+record: `B_GENERAL_FIXED_PREMIUM_PROOF_AUDIT_2026-11-13.md`; complete derivation:
+`B_GENERAL_FIXED_PREMIUM_PROOF.md`.
+
+**Evidence status.** The B=3, T=16 cell at `r=1/125`, `g=49/100` timed out at 3,600 seconds. It lies in the
+M6/M10 rectangle but outside M11's B=3 region `r<1/13840`, so it does not test M11. A targeted B=3, T=9 cell
+at `r=1/100000`, `g=49/100` is now running inside M11 and its simultaneous `Bbar=3` region. The default
+100-cut attempt did not certify, so the retry uses a bounded 1,000-cut cap. Until a certificate is
+written, no numerical coverage is claimed inside M11's region.
+
+## 12. Verification record
 
 All from the repo root with `uv run --no-sync python`, one process, `nice 10`. Outputs refuse to overwrite.
 
@@ -278,14 +460,15 @@ All from the repo root with `uv run --no-sync python`, one process, `nice 10`. O
 | `wpM_b3_explore.py OUT 22` | `results/wpM_proof_b3explore_v1.json` | B = 3 explicit plans; B = 2 finite-T slopes; T₀ table |
 | `wpM_b2_check.py OUT` | `results/wpM_proof_b2_v1.json` | 111/111 cells, 0 failures; relaxation LP tight (57/57) |
 
-## 7. Limitations
+## 13. Limitations
 
 - M1 inherits N1 (α ≤ 1/2) and SP1 (symmetric stationary chain, symmetric emissions); both are same-family reviewed
   only (REVIEW_SP1). The ratio is α-free only at B = 1.
 - M4 is for k = 0 and d odd. With k > 0 the post-promotion value is not a sum of positive parts and Lemma M4.1 does
   not apply; with d even the roles of E_d and O_d swap and the first-label gap changes sign (not analysed).
 - M4's bound is a relaxation: it keeps only the first-label null move and loses about half of the observed premium.
-- General B (≥ 3) is open; §5 gives the obstruction and the needed ingredient. Under the locked criteria this is the
-  CONDITIONAL-GO situation at best (B = 1 and B = 2 proved, general B the remaining obligation), subject to P5 review
-  and P3 numerics; the lead applies the criteria.
-- All evidence is synthetic, T ≤ 14.
+- Theorems M6–M9 and Corollary M10 cover B = 3–6 and B≤6 on one common rectangle. M11 covers each fixed budget
+  and a growing finite range, but with a B-dependent parameter radius and a relative bound that decreases with B.
+  A common rectangle and positive constant uniform over unbounded B remain open.
+- The evidence is synthetic. The B=3, T=16 in-region consistency check timed out, so M11 lacks a certified
+  numerical check inside its parameter region; no numerical result is inferred from that timeout.

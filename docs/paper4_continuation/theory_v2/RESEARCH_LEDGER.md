@@ -106,3 +106,223 @@
 - Otherwise the decision stays OPEN with the obligation restated.
 - Work: one Opus prover (1 process); certified B = 3 extension (t ∈ {2/3, 3/4}, d = 1, k = c = 0, α = 1/10,
   T = 13–15; 2 workers, detached, partial file). Then an independent review of whatever is proved.
+
+## 2026-11-11 — user-approved acceptance-range amendment, before prover launch
+- The bounded continuation requested today is one proof process alongside the already-running certified B=3
+  extension (two numeric workers). The numerical run is `wpM_b3ext.py`, B=3, t ∈ {2/3, 3/4}, d=1, c=k=0,
+  α=1/10, T=13–15; it resumes from `outputs/paper4_theory_v2/wpM_b3ext_partial.jsonl` and refuses to overwrite
+  its compact result.
+- The user is willing to accept looser criteria. For this bounded attempt, a rigorous **uniform-in-T lower bound
+  for B=3** over an explicit nonempty open parameter family is an acceptable narrower positive milestone; a bound
+  for a finite explicit label-scarce budget range is also acceptable if its dependence and scope are stated. Such
+  a result does not by itself change the publication decision to GO. GO still requires independent review and no
+  certified cell below the proved bound. General B remains open unless the proof actually covers it.
+- NO-GO remains reserved for a proof of vanishing premium for B=3 at t<1, or certified extension data showing a
+  collapse under the previously locked threshold (below half the T=12 value). If neither condition is established,
+  keep the decision open and restate the remaining obligation. Finite-horizon decreases alone are not proof of a
+  zero limit.
+
+## 2026-11-11 — bounded B=3 proof attempt completed
+- The single bounded attempt is documented in `B3_UNIFORM_PREMIUM_ATTEMPT.md`. It proves an algebraic comparison
+  between two explicit infinite-horizon B=3 continuation witnesses on a nonempty open parameter region, but both
+  are lower bounds on optimal branch slopes; the comparison does not upper-bound all adaptive continuations and
+  cannot close the M3 relaxation. No uniform-in-T lower bound or counterexample was established.
+- Status remains OPEN. The conjecture is neither supported nor falsified by this proof attempt; the certified
+  T=13–15 extension is still running and its result is not yet available. No publication decision follows from this
+  partial proof attempt.
+
+## 2026-11-11 — interim certified B=3 horizon extension (2/6 cells)
+- `wpM_b3ext_partial.jsonl` now contains the certified T=13 cells. For t=2/3, rho_Gamma ∈
+  [0.1443847942775929, 0.14438479428105994], versus the T=12 interval
+  [0.1454202838934605, 0.14542028389690626]. For t=3/4, the T=13 interval is
+  [0.1360924381080214, 0.1360924381097912], versus T=12
+  [0.148754586060125, 0.14875458606138808]. Both exceed half their respective T=12 values, so the locked
+  collapse trigger has not fired. These two cells do not establish the horizon limit; four planned cells at T=14,15
+  remain in progress under the same two-worker run.
+
+## 2026-11-11 — bounded B=4 horizon extension queued before launch
+- To continue the handoff's suggested B=3/4 horizon extension with a looser, narrow first pass, run only B=4,
+  T=13, t ∈ {2/3, 3/4}, d=1, c=k=0, α=1/10. Use one additional solver worker at nice 18, at most 1,800 s
+  per cell, while the existing B=3 run uses two workers at nice 15 (three solver workers total, within the cap).
+- Script: `scripts/paper4_continuation/theory_v2/wpM_b4ext.py`; resumable partial:
+  `outputs/paper4_theory_v2/wpM_b4ext_partial.jsonl`; compact output refuses overwrite at
+  `docs/paper4_continuation/theory_v2/results/wpM_b4ext_v1.json`. Exact certificates are descriptive.
+- This B=4 slice is exploratory and does not change the locked B=3 collapse rule or any publication decision. If a
+  cell times out, retain the timeout and report incomplete coverage rather than infer a value.
+
+## 2026-11-11 — B=4 T=13 extension started
+- Started `wpM_b4ext.py` in one worker. Script SHA-256: `87dd74d5e03252190b7dbc7ad692b7aa3988e0d7836a135b7aae8a59330691ca`.
+  The runner has a 1,800 s per-cell cap, records each result/timeout to its JSONL partial, and writes the compact
+  output only after both cells certify. The run is active in this Codex session; no B=4 result is available yet.
+
+## 2026-11-11 — interim certified B=3 horizon extension (4/6 cells)
+- Both T=14 cells completed. For t=2/3, rho_Gamma ∈ [0.1440419976786119, 0.14404199768317]; for t=3/4,
+  rho_Gamma ∈ [0.1317882147057557, 0.13178821470773688]. Together with T=13, all four new B=3 cells are
+  certified positive and above half their matching T=12 baseline. The locked collapse trigger remains unmet.
+  T=15 (two cells) and the separate exploratory B=4 T=13 run are still in progress.
+
+## 2026-11-11 — B=3 horizon extension completed; B=4 first pass timed out
+- All six B=3 cells at T=13–15 certified positive. T=15 rho_Gamma intervals: t=2/3,
+  [0.14370167398436476, 0.14370167399043238]; t=3/4,
+  [0.1254796164388513, 0.12547961644230946]. Relative to the matching T=12 lower endpoints, these are 98.8%
+  and 84.4%, respectively; every new B=3 cell is above half the T=12 value. This finite extension does not establish
+  a positive limit or any uniform-in-T theorem. Compact result: `results/wpM_b3ext_v1.json` (script SHA-256
+  `a716a8dd60d5a5746edecfba4616d422a02c247b9be8f4e016c4e87f650dae43`).
+- Both B=4, T=13 cells (t=2/3 and 3/4) timed out at 1,800 s; no certified value was produced and no premium claim
+  follows. At the user's request to continue more loosely, raise only this small run's per-cell cap to 3,600 s;
+  keep one worker at nice 18. The original timeout rows remain in the partial; the runner retries non-success cells.
+  Updated runner SHA-256: `f4f28b54a0dcf2b1f3fc4df054f23aaf545920789ba64ede9891f7be1dafacfd`.
+
+## 2026-11-11 — B=4 T=13 retry started with relaxed runtime cap
+- Restarted the two T=13 cells from the timeout partial using the updated 3,600 s/cell cap, sequentially, one
+  worker at nice 18. Script SHA-256 is recorded above. The retry is active; no result is available yet.
+
+## 2026-11-11 — ratio-interval reporting correction from secondary review
+- The first B=3 extension runner used `C0 - U_IID` for both relative-premium endpoints. This is the lower VOI
+  endpoint; the upper rho endpoint can use it, but a certified lower rho endpoint needs an upper VOI endpoint. The
+  reported Gamma positivity is unaffected.
+- Corrected enclosure: `Gamma_hi - Gamma_lo` upper-bounds the IID value-interval width because the Gamma interval
+  width is the sum of the causal and IID value widths. Widen the stored float endpoints outward by one ULP, set
+  `VOI_upper <= nextafter(VOI_lower,+inf) + Gamma_width_upper`, and use `rho ∈ [Gamma_lower/VOI_upper,
+  Gamma_upper/VOI_lower]`. The deterministic sidecar `results/wpM_b3ext_rho_corrected_v1.json` contains the
+  corrected enclosures; they are less than 1e-12 below the originally displayed T=15 lower endpoints. This does
+  not change the conclusion: all six B=3 cells remain positive and above half their T=12 baselines.
+- Fixed both extension runners to compute the ratio from `L_IID` and `U_IID` directly and retain exact rational
+  fields. The B=4 retry stopped before producing a result; restart it with the corrected runner (SHA-256
+  `0c48b14c84209f62a4410ef8cd046ebbe28f21ec48130a20adc0ae97c25b893a`), still one worker at nice 18 and
+  3,600 s/cell. Keep the earlier timeout rows as evidence; they are not premium values.
+
+## 2026-11-11 — corrected B=4 T=13 retry running
+- Restarted the B=4 T=13 cells with the corrected `L_IID/U_IID` denominator formula. Two cells, sequential, one
+  worker at nice 18, 3,600 s per cell; the partial currently contains only the two prior timeout rows. Script SHA-256:
+  `0c48b14c84209f62a4410ef8cd046ebbe28f21ec48130a20adc0ae97c25b893a`. No B=4 value has been produced yet.
+
+## 2026-11-11 — B=2 T=16 extension queued
+- To extend the reviewed B=2 horizon series at the lowest cost, evaluate T=16 at t ∈ {2/3, 3/4, 9/10},
+  d=1, c=k=0, alpha=1/10, e=(1/10,9/10), prior=1/2. Run sequentially on one additional worker at nice 18;
+  the existing B=4 retry remains on its single low-priority worker (two numeric workers total).
+- Runner `scripts/paper4_continuation/theory_v2/wpM_b2_t16.py` uses exact `gamma_cell` bounds, computes rho from
+  separate `L_IID/U_IID` bounds, resumes from `outputs/paper4_theory_v2/wpM_b2_t16_partial.jsonl`, and refuses
+  overwrite of `results/wpM_b2_t16_v1.json`. This is confirmatory finite-horizon evidence for B=2 only; it cannot
+  establish uniformity in T or upgrade the theorem's scope.
+
+## 2026-11-11 — B=2 T=16 extension started
+- Started the three cells sequentially with one solver worker at nice 18 in exec session 96725; the existing B=4
+  retry remains the other numeric worker. The first B=2 cell is computing; no T=16 output is available yet.
+- Runner SHA-256: `0a8459ba7da95e541e6847934e6abdeb94d76ff958fef2f2874b9d9a6556b629`.
+
+## 2026-11-12 — B=2 T=16 extension completed; B=4 retry outcome
+- All three certified B=2 T=16 cells completed with corrected ratio intervals: rho=0.2000487961 (t=2/3),
+  0.1435819915 (t=3/4), and 0.1514228628 (t=9/10). Each remains above half its T=12 baseline. The t=9/10 series
+  declined 12.66% from T=15 to T=16 and remains below the reviewed M4 activation horizon T₀=37. Full exact output:
+  `results/wpM_b2_t16_v1.json`.
+- The B=4 retry timed out again at t=2/3 after 3,600 s; the t=3/4 cell did not run. This is incomplete compute,
+  not evidence of zero premium. See `outputs/paper4_theory_v2/wpM_b4ext_partial.jsonl`.
+- Next bounded experiment: one B=2, T=17, t=9/10 cell (same other settings), one low-priority worker, 3,600 s cap.
+  This targets the only B=2 series still declining materially; it tests a finite-horizon trend, not the asymptotic
+  theorem. Runner `scripts/paper4_continuation/theory_v2/wpM_b2_t17_t9.py`.
+
+## 2026-11-12 — targeted B=2 T=17 cell started
+- Running in exec session 38924, one worker at nice 18. Runner SHA-256:
+  `b011c4c367524d091e270da2ff9705e888916ca80349c5d6c4aeeb28d879270b`. No certified value is available yet.
+
+## 2026-11-12 — B=3 open-family uniform theorem proved and reviewed
+- Proved Theorem M6 for `B=3`, `d=1`, `c=k=0`, `alpha=1/10`, `r in (1/200,1/100)`, and `g in (2/5,1/2)`:
+  for every `T>=16`, `Gamma >= 0.38 alpha g r` and `rho_Gamma >= 19/101 > 0.18`.
+- The proof uses a four-null dual mixture (IID plus one null per query position), a uniform posterior continuation
+  envelope, exact rational path enumeration, and a fixed IID witness. Full proof: `B3_UNIFORM_PREMIUM_PROOF.md`;
+  arithmetic: `prompts/26111216-1/constant_audit.py`.
+- A fresh adversarial reviewer found no fatal gap, requested four wording fixes, then accepted the revised proof.
+  This was a separate agent from the same model family, not external or independent-model review. The corrected
+  witness limit is `G0 + v1(2-r^4-r^3)`; the earlier `G0+2v1` sentence was inaccurate but did not affect the lower bound.
+- This establishes the requested narrow B=3 theorem, not a general-budget result. `SALVAGE_PLAN.md` is unchanged;
+  the locked general-budget GO criterion remains unmet and the publication decision remains open. B>=4 and growing-B
+  uniformity are the next proof obligations. The certified B=2 T=17, t=9/10 cell remains active in session 38924.
+
+## 2026-11-12 — B=4 open-family uniform theorem proved and reviewed
+- Extended the multi-position-null certificate to four labels, retaining the fourth-spin term in the transcript
+  density and all four triple-label interactions in the posterior numerator. For the same open rectangle,
+  `B=4`, `d=1`, `c=k=0`, `alpha=1/10`, every `T>=16` has `Gamma>=0.39 alpha g r` and
+  `rho_Gamma>=13/84>0.15`.
+- Exact rational audit maxima are `62875/29997<2.10` for causal VOI and `25150/9999<2.52` for IID VOI. An
+  independent same-family adversarial reviewer accepted the proof; see `B4_UNIFORM_PREMIUM_PROOF.md` and its review.
+- This strengthens the fixed-budget evidence but still does not meet the locked general-budget GO criterion.
+  B>=5 and growing-B behavior remain open. Do not change `SALVAGE_PLAN.md` or the publication decision on this basis.
+
+## 2026-11-12 — B=5 open-family uniform theorem proved and reviewed
+- Extended the certificate to five labels, retaining all even-subset terms in the history density and all odd-subset
+  terms through the six-spin posterior interaction. For the same open rectangle, `B=5`, `d=1`, `c=k=0`,
+  `alpha=1/10`, every `T>=16` has `Gamma>=0.40 alpha g r` and `rho_Gamma>=40/303>0.13`.
+- Exact rational audit maxima are `60400/23331<2.59` causal and `30200/9999<3.03` IID. A fresh same-family
+  adversarial reviewer accepted the derivation after a self-contained Bellman/leaf/witness clarification.
+  Full proof: `B5_UNIFORM_PREMIUM_PROOF.md`; exact audit: `prompts/26111216-3/b5_constant_audit.py`.
+- The general-budget criterion still remains open: B>=6 and growing-B uniformity are unproved. `SALVAGE_PLAN.md`
+  and the publication decision are unchanged.
+
+## 2026-11-12 — targeted B=2 T=17 cell certified
+- The low-priority `t=9/10`, `T=17`, `B=2` `gamma_cell` run completed in 2,717.2 seconds. Exact interval output:
+  `Gamma in [0.035743913556156436,0.03574391355626086]`, `VOI_IID in
+  [0.2487942405962072,0.24879424059626085]`, `rho_Gamma in [0.1436685731570493,0.1436685731575]`.
+- Compared with T=16, the rho lower endpoint declined 5.12% and Gamma declined 3.55%. T=17 is below M4's reviewed
+  `T0=37`; this is finite-horizon trend evidence only. Output: `results/wpM_b2_t17_t9_v1.json`.
+- No sleep settings were changed. The general-budget proof obligation remains open notwithstanding the B=3,4,5
+  fixed-budget theorems.
+
+## 2026-11-12 — B=6 open-family uniform theorem proved and reviewed
+- Extended the subset-moment certificate through six labels, including the six-spin transcript term and the
+  five-emission posterior term. On the same open rectangle, `B=6`, `d=1`, `c=k=0`, `alpha=1/10`, every `T>=20`
+  has `Gamma>=0.39 alpha g r` and `rho_Gamma>=13/118>0.10`.
+- A fresh same-family reviewer accepted after small clarity edits. The independently checked endpoint maxima are
+  `41125/13332<3.10` causal and `11750/3333<3.54` IID. Full proof: `B6_UNIFORM_PREMIUM_PROOF.md`.
+- This now covers each fixed budget B=3,4,5,6 on the chosen rectangle, but still does not prove the locked
+  general-budget S-1 for a label-scarce range or growing B. Do not change the salvage criteria or publication
+  decision; continue with B>=7 or derive an explicit bounded-budget theorem.
+
+## 2026-11-12 — explicit B<=6 S-1 corollary drafted; in-region numeric cell started
+- M1, M4, and M6–M9 imply `rho_Gamma>=0.10` for every `1<=B<=6`, `T>=20` on the shared open rectangle. M10 states
+  this as the explicit bounded-budget range `Bbar=6`; a separate reviewer accepted the combination. Calling it
+  “label-scarce” is interpretive; no other scarcity threshold is asserted.
+- Started one certified consistency cell at `B=3`, `T=16`, `t=63/125` (`r=0.008`), `e=3/20` (`g=0.49`),
+  `alpha=1/10`, `d=1`, `c=k=0`. One sequential worker at nice 18; runner has a 3,600 s cap, resumable partial,
+  and refuses overwrite of the final result. It is a consistency check, not a proof premise.
+
+## 2026-11-12 — continuation moved to isolated Codex worktree; consistency cell restarted
+- The documented Codex lane checkout was absent. Created `/Users/nigelli/Desktop/ICML/shift-codex-paper4`
+  on branch `codex/paper4-causal-premium-continuation`, based on the current Paper 4 branch HEAD, and copied
+  the uncommitted Paper 4 proof/docs/review state into it. No files were changed in the Claude worktree.
+- The prior cell process was stopped after 13m with no result or resumable row written. A fresh `.venv` was
+  installed from the locked project environment; the same registered cell was restarted there at nice 18.
+  At ledger update it was live as PID 69170. Output and partial paths are now local to this Codex worktree.
+- Reviewed code SHA-256: `aee5fc8f7743be8886ea443b29719d010a287ce33792baacd89a1c4a41e105dd`.
+  This cell remains a consistency check only. Sleep remains enabled; no sleep setting was changed.
+
+## 2026-11-12 — focused novelty review completed; arbitrary-fixed-B proof reopened
+- Fresh-context novelty review returned **PROCEED, 6/10**: no exact published result was identified for the
+  stated uniform-in-horizon HMM decision-value gap. Closest foundations are rectangular minimax sequential
+  testing and dual mixtures of stopped null laws; neither gives the nominal-versus-causal VOI premium.
+  Caveats: the current certificate does not isolate outcome-reactive adversary value, the parameter region is
+  narrow, and the 10% is relative to VOI. Full record: `NOVELTY_REVIEW_2026-11-12.md` and its ARIS trace.
+- An algebraic arbitrary-fixed-`B` lead suggests the same certificate has a normalized separation of order
+  `1/(B+2)` as `r -> 0`, with the admissible open `r` region depending on `B`. This is conjectural pending a
+  fresh proof attempt of all remainder, adaptivity, and witness-timing steps. It would not provide a common
+  rectangle or constant for growing `B`.
+- Keep the locked salvage plan unchanged. The in-region B=3 numeric consistency cell is still pending; the
+  publication decision remains open until its certificate is reconciled with M6 and remaining criteria.
+
+## 2026-11-13 — B=3 consistency timeout; arbitrary-fixed-B candidate drafted
+- The one-worker B=3, T=16 cell at `r=1/125`, `g=49/100` reached its 3,600 s cap. The final artifact records
+  `status=timeout`; there is no certified value to compare with M6. This is a compute limitation, not a
+  contradiction of the theorem. No further sleep-setting changes were made; macOS still reports `sleep 1`.
+- A complete theorem proof is now recorded in `B_GENERAL_FIXED_PREMIUM_PROOF.md`. For each fixed
+  `B>=1`, it proposes `rho_Gamma>=3/[8(B+2)]` for `T>=3B`, on `2/5<g<1/2` and
+  `0<r<1/[16(B+2)(6B^3+3B+2)]`. It also derives a finite simultaneous range `B<=floor((1056r)^(-1/4))`.
+  The radius shrinks with B, so this is not a common open rectangle or a constant lower bound for unbounded B.
+- The candidate is explicitly **not yet a theorem**. A fresh same-family adversarial review is in progress;
+  the earlier reviewer request hit a provider usage limit and produced no verdict. A subsequent fresh
+  adversarial review returned **PASS**, with no mathematical issues and a match to the repository's query/null
+  timing; a separate fresh arithmetic/witness check also passed. The full audit is in
+  `B_GENERAL_FIXED_PREMIUM_PROOF_AUDIT_2026-11-13.md`. This is same-family and provisional, not cross-family
+  verification or formal proof-assistant verification; keep it out of the theorem registry pending assurance
+  requirements and consistency/claim review.
+- The publication decision and `SALVAGE_PLAN.md` remain open/unchanged. The timeout does not trigger NO-GO,
+  and the candidate proof alone does not satisfy the overall GO criteria.

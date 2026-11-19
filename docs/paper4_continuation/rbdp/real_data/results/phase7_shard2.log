@@ -1,0 +1,30 @@
+23:54:24 A:screen100/FOREX_eurdkk-hour-Close x=1 n 3000 r1 0.010 pos False None
+23:56:38 A:screen100/FOREX_eurdkk-hour-Close 1-x n 3000 r1 0.010 pos False None
+23:56:38 DONE A:screen100/FOREX_eurdkk-hour-Close evaluated positive False TALLY 25
+23:58:52 A:screen100/FOREX_eursek-hour-Close x=1 n 3000 r1 -0.018 pos False None
+00:01:06 A:screen100/FOREX_eursek-hour-Close 1-x n 3000 r1 -0.018 pos False None
+00:01:06 DONE A:screen100/FOREX_eursek-hour-Close evaluated positive False TALLY 25
+00:03:06 A:screen100/FOREX_usdjpy-hour-Close x=1 n 3000 r1 -0.023 pos False None
+00:05:06 A:screen100/FOREX_usdjpy-hour-Close 1-x n 3000 r1 -0.023 pos False None
+00:05:06 DONE A:screen100/FOREX_usdjpy-hour-Close evaluated positive False TALLY 25
+00:05:51 A:screen100/air_Nongzhanguan x=1 n 2805 r1 0.524 pos False None
+00:06:37 A:screen100/air_Nongzhanguan 1-x n 2805 r1 0.524 pos False None
+00:06:37 DONE A:screen100/air_Nongzhanguan evaluated positive False TALLY 25
+00:06:37 DONE A:screen100/elec_MT_003 evaluated positive False TALLY 25
+00:08:41 A:screen100/elec_MT_012 x=1 n 2419 r1 0.254 pos False None
+00:10:44 A:screen100/elec_MT_012 1-x n 2419 r1 0.254 pos False None
+00:10:44 DONE A:screen100/elec_MT_012 evaluated positive False TALLY 25
+00:12:27 A:screen100/elec_MT_021 x=1 n 2658 r1 0.317 pos False None
+00:14:25 A:screen100/elec_MT_021 1-x n 2658 r1 0.317 pos False None
+00:14:25 DONE A:screen100/elec_MT_021 evaluated positive False TALLY 25
+00:15:15 A:screen100/elec_MT_030 x=1 n 3000 r1 0.372 pos False None
+00:16:03 A:screen100/elec_MT_030 1-x n 3000 r1 0.372 pos False None
+00:16:03 DONE A:screen100/elec_MT_030 evaluated positive False TALLY 25
+00:17:37 A:screen100/elec_MT_039 x=1 n 1674 r1 0.286 pos False None
+00:19:02 A:screen100/elec_MT_039 1-x n 1674 r1 0.286 pos False None
+00:19:02 DONE A:screen100/elec_MT_039 evaluated positive False TALLY 25
+00:19:54 A:screen100/seoul_bike x=1 n 1216 r1 0.397 pos False None
+00:20:46 A:screen100/seoul_bike 1-x n 1216 r1 0.397 pos False None
+00:20:46 DONE A:screen100/seoul_bike evaluated positive False TALLY 25
+00:20:46 family A finished; tally 25
+00:20:46 lists exhausted; final tally 25

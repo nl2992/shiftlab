@@ -1,0 +1,28 @@
+{
+ "n_cand": 1,
+ "id": "p01_binance_agg_btcusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:11:53",
+ "fetch": {
+  "id": "p01_binance_agg_btcusdt",
+  "ok": true,
+  "first_id": 4120548284,
+  "last_id": 4120551283,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 3000,
+  "n_changes_available": 2369,
+  "pages": 3,
+  "n": 2000,
+  "n_ones": 1231,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=BTCUSDT&limit=1000 (+2 paged requests)",
+  "retrieved_utc": "2026-11-16T22:11:55Z",
+  "bytes": 364709,
+  "sha256": "d2fa98ebaeb12ebb04ec3ba4d236cabc0473bcf0dc17e62da2012f5fa6d4087d"
+ },
+ "n": 2000,
+ "n_ones": 1231,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.715679048973606,
+ "outcome": "screened out",
+ "reason": "r1=0.7157 > -0.15"
+}

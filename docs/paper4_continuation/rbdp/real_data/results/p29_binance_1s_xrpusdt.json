@@ -1,0 +1,28 @@
+{
+ "n_cand": 29,
+ "id": "p29_binance_1s_xrpusdt",
+ "family": "exchange_1s_kline",
+ "started": "2026-11-16T23:17:54",
+ "fetch": {
+  "id": "p29_binance_1s_xrpusdt",
+  "ok": true,
+  "first_open_ms": 1794860474000,
+  "last_open_ms": 1794867473000,
+  "n_seconds": 7000,
+  "rule": "1s klines, close > open, zero-move seconds dropped, last 1000 non-zero",
+  "n_nonzero_available": 1116,
+  "pages": 7,
+  "n": 1000,
+  "n_ones": 493,
+  "url": "https://api.binance.com/api/v3/klines (interval=1s, paged by endTime)",
+  "retrieved_utc": "2026-11-16T22:17:58Z",
+  "bytes": 1000368,
+  "sha256": "082a19138b9e122190c138c1b071b7f849774b8519be3d2aa39d06141754f5eb"
+ },
+ "n": 1000,
+ "n_ones": 493,
+ "binarisation": "1s klines, close > open, zero-move seconds dropped, last 1000 non-zero",
+ "r1": 0.06087768742550298,
+ "outcome": "screened out",
+ "reason": "r1=0.0609 > -0.15"
+}

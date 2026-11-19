@@ -1,0 +1,28 @@
+{
+ "n_cand": 11,
+ "id": "p11_coinbase_btc-usd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:41",
+ "fetch": {
+  "id": "p11_coinbase_btc-usd",
+  "ok": true,
+  "first_id": 1132468985,
+  "last_id": 1132472984,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 4000,
+  "n_changes_available": 2375,
+  "pages": 4,
+  "n": 2000,
+  "n_ones": 706,
+  "url": "https://api.exchange.coinbase.com/products/BTC-USD/trades?limit=1000 (+3 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:44Z",
+  "bytes": 477387,
+  "sha256": "a0a70a971e6fa28ffaf8134c76a6db45a1603237aceb32665cfc11444aba8c14"
+ },
+ "n": 2000,
+ "n_ones": 706,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.4941502402345164,
+ "outcome": "screened out",
+ "reason": "r1=0.4942 > -0.15"
+}

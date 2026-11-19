@@ -1,0 +1,28 @@
+{
+ "n_cand": 14,
+ "id": "p14_coinbase_ltc-usd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:52",
+ "fetch": {
+  "id": "p14_coinbase_ltc-usd",
+  "ok": true,
+  "first_id": 202062967,
+  "last_id": 202065966,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 3000,
+  "n_changes_available": 2270,
+  "pages": 3,
+  "n": 2000,
+  "n_ones": 923,
+  "url": "https://api.exchange.coinbase.com/products/LTC-USD/trades?limit=1000 (+2 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:54Z",
+  "bytes": 347290,
+  "sha256": "c3901ae06e2a2247b12409dbe68eaf4e8429b8f9060ac7ac960284ee8815d6e3"
+ },
+ "n": 2000,
+ "n_ones": 923,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.18079379911151214,
+ "outcome": "screened out",
+ "reason": "r1=0.1808 > -0.15"
+}

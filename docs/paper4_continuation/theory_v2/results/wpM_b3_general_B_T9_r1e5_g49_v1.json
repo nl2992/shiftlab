@@ -1,0 +1,19 @@
+{
+ "script_sha256": "828f98ec87184dac91094c65f6e59f82ede7b4ef28025ff5a1c438192c81419f",
+ "timeout_s": 1800,
+ "cells": [
+  {
+   "t": "100001/200000",
+   "r": "1/100000",
+   "e": "3/20",
+   "g": "49/100",
+   "T": 9,
+   "B": 3,
+   "d": 1,
+   "alpha": "1/10",
+   "status": "error",
+   "runtime_s": 681.8,
+   "detail": "ValueError: risk-row duals have the wrong sign"
+  }
+ ]
+}

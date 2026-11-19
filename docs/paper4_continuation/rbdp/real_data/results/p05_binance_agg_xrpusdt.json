@@ -1,0 +1,28 @@
+{
+ "n_cand": 5,
+ "id": "p05_binance_agg_xrpusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:12:03",
+ "fetch": {
+  "id": "p05_binance_agg_xrpusdt",
+  "ok": true,
+  "first_id": 735157661,
+  "last_id": 735161660,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 4000,
+  "n_changes_available": 2041,
+  "pages": 4,
+  "n": 2000,
+  "n_ones": 1047,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=XRPUSDT&limit=1000 (+3 paged requests)",
+  "retrieved_utc": "2026-11-16T22:12:05Z",
+  "bytes": 472312,
+  "sha256": "f42bdef52aed5c294c5af24445bb8c5ede932192f0d65e2e4cf978f138209dfc"
+ },
+ "n": 2000,
+ "n_ones": 1047,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.16273120461592772,
+ "outcome": "screened out",
+ "reason": "r1=0.1627 > -0.15"
+}

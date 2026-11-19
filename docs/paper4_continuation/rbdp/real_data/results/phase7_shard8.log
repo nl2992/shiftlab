@@ -1,0 +1,30 @@
+23:54:32 A:screen100/FOREX_euraud-hour-Close x=1 n 3000 r1 -0.059 pos False None
+23:56:51 A:screen100/FOREX_euraud-hour-Close 1-x n 3000 r1 -0.059 pos False None
+23:56:51 DONE A:screen100/FOREX_euraud-hour-Close evaluated positive False TALLY 25
+23:58:51 A:screen100/FOREX_eurnzd-hour-Close x=1 n 3000 r1 -0.023 pos False None
+00:01:11 A:screen100/FOREX_eurnzd-hour-Close 1-x n 3000 r1 -0.023 pos False None
+00:01:11 DONE A:screen100/FOREX_eurnzd-hour-Close evaluated positive False TALLY 25
+00:03:24 A:screen100/FOREX_usdcad-hour-Close x=1 n 3000 r1 -0.003 pos False None
+00:05:34 A:screen100/FOREX_usdcad-hour-Close 1-x n 3000 r1 -0.003 pos False None
+00:05:34 DONE A:screen100/FOREX_usdcad-hour-Close evaluated positive False TALLY 25
+00:06:10 A:screen100/air_Guanyuan x=1 n 2103 r1 0.527 pos False None
+00:06:48 A:screen100/air_Guanyuan 1-x n 2103 r1 0.527 pos False None
+00:06:48 DONE A:screen100/air_Guanyuan evaluated positive False TALLY 25
+00:06:48 DONE A:screen100/creditcard too short (54) positive False TALLY 25
+00:07:27 A:screen100/elec_MT_009 x=1 n 3000 r1 0.471 pos False None
+00:08:07 A:screen100/elec_MT_009 1-x n 3000 r1 0.471 pos False None
+00:08:07 DONE A:screen100/elec_MT_009 evaluated positive False TALLY 25
+00:10:30 A:screen100/elec_MT_018 x=1 n 2106 r1 0.366 pos False None
+00:13:04 A:screen100/elec_MT_018 1-x n 2106 r1 0.366 pos False None
+00:13:04 DONE A:screen100/elec_MT_018 evaluated positive False TALLY 25
+00:14:30 A:screen100/elec_MT_027 x=1 n 3000 r1 0.330 pos False None
+00:15:33 A:screen100/elec_MT_027 1-x n 3000 r1 0.330 pos False None
+00:15:33 DONE A:screen100/elec_MT_027 evaluated positive False TALLY 25
+00:16:07 A:screen100/elec_MT_036 x=1 n 3000 r1 0.637 pos False None
+00:16:40 A:screen100/elec_MT_036 1-x n 3000 r1 0.637 pos False None
+00:16:40 DONE A:screen100/elec_MT_036 evaluated positive False TALLY 25
+00:17:09 A:screen100/pm_Guangzhou x=1 n 3000 r1 0.737 pos False None
+00:17:40 A:screen100/pm_Guangzhou 1-x n 3000 r1 0.737 pos False None
+00:17:40 DONE A:screen100/pm_Guangzhou evaluated positive False TALLY 25
+00:17:40 family A finished; tally 25
+00:17:40 lists exhausted; final tally 25

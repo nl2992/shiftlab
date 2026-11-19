@@ -80,3 +80,39 @@ t=3/4, B=3, T=9, α=1/10: ρΓ = 0.18346 (run: 0.183).
 is softened. The single obligation that would settle it: **a lower bound on ρΓ for general B that is uniform in T**
 (equivalently, Γ/α bounded away from 0 as T → ∞ at B ≥ 3, by M2). If proved and reviewed, clause (c) becomes moot
 and the CONDITIONAL GO proof side extends to general B; if B ≥ 3 data at larger T show ρΓ → 0, NO-GO.
+
+## Proof progress addendum (2026-11-12)
+
+Theorems M6–M9 now give independently adversarially reviewed uniform-in-horizon lower bounds for B=3 through B=6
+on the same explicit open rectangle (`r in (1/200,1/100)`, `g in (2/5,1/2)`, `d=1`, `c=k=0`, `alpha=1/10`):
+`rho_Gamma>=19/101` for B=3, `>=13/84` for B=4, `>=40/303` for B=5 (each for `T>=16`), and `>=13/118` for B=6
+for `T>=20`. Corollary M10 combines these with M1/M4 to establish S-1's explicit bounded-budget form `Bbar=6`,
+`T0=20`, and `rho_Gamma>=0.10` on this rectangle. B>=7 and growing-budget behavior remain outside this result.
+The overall publication decision remains open: one certified cell inside the new region is still running, and the
+prior-art review has not specifically audited the M6–M10 multi-position-null proof route against the relevant
+active-testing literature. The criteria in `SALVAGE_PLAN.md` are unchanged. The B=2 T=17 result is finite-horizon
+context only.
+
+## Focused P4 novelty update (2026-11-12)
+
+A fresh-context focused review of the M6–M10 route returned **PROCEED, 6/10** and found no published paper
+containing the stated uniform-in-horizon HMM decision-value separation. The closest work supplies established
+minimax and null-mixture foundations but does not compare the IID-fair and causal-null constrained VOI values.
+The exact scope and caveats are recorded in `NOVELTY_REVIEW_2026-11-12.md`. In particular, the current certificate
+does not show that outcome-reactive adversary adaptation itself causes the gap; it proves a premium for requiring
+causal-null validity. Reviewer model identity was not exposed, so the novelty review remains provisional.
+
+The decision stays open pending the certified in-region consistency cell and full application of the locked
+criteria. This update does not amend `SALVAGE_PLAN.md` or assert ICML main-track sufficiency.
+
+## Arbitrary-budget proof update (2026-11-13)
+
+The new M11 proof gives a positive lower bound for each fixed budget on an open region whose radius depends on B,
+and an explicit simultaneous range `B<=floor((1056r)^(-1/4))`. A fresh same-family adversarial proof audit
+returned PASS; this remains provisional under the review-assurance rule. A focused novelty review of M11 is
+underway.
+
+The earlier B=3, T=16 cell (`r=0.008`, `g=0.49`) timed out at 3,600 seconds. That point lies in the M6/M10
+rectangle but is outside M11's B=3 radius `r<1/13840`, so it is not an M11 consistency check. A new cell at
+B=3, T=9, `r=1/100000`, `g=0.49` is running inside both M11 regions. Until it produces a certified result and
+the novelty review finishes, the decision remains open; the GO/NO-GO criteria are unchanged.

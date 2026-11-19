@@ -1,0 +1,28 @@
+{
+ "n_cand": 30,
+ "id": "p30_binance_1s_dogeusdt",
+ "family": "exchange_1s_kline",
+ "started": "2026-11-16T23:17:58",
+ "fetch": {
+  "id": "p30_binance_1s_dogeusdt",
+  "ok": true,
+  "first_open_ms": 1794854479000,
+  "last_open_ms": 1794867478000,
+  "n_seconds": 13000,
+  "rule": "1s klines, close > open, zero-move seconds dropped, last 1000 non-zero",
+  "n_nonzero_available": 1000,
+  "pages": 13,
+  "n": 1000,
+  "n_ones": 492,
+  "url": "https://api.binance.com/api/v3/klines (interval=1s, paged by endTime)",
+  "retrieved_utc": "2026-11-16T22:18:07Z",
+  "bytes": 1844665,
+  "sha256": "14de9082bfe7b8117d1920e1653e64ba21a662dd7cc6e52cd44531bbd8ad6bf2"
+ },
+ "n": 1000,
+ "n_ones": 492,
+ "binarisation": "1s klines, close > open, zero-move seconds dropped, last 1000 non-zero",
+ "r1": 0.09286149558168492,
+ "outcome": "screened out",
+ "reason": "r1=0.0929 > -0.15"
+}

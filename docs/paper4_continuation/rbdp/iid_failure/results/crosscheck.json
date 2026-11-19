@@ -1,0 +1,605 @@
+{
+ "a_bruteforce": [
+  {
+   "cell": {
+    "t01": 0.75,
+    "t10": 0.75,
+    "e0": 0.1,
+    "T": 4,
+    "B": 2,
+    "alpha": 0.1
+   },
+   "policy": "P1_fixed_sample",
+   "param": {
+    "k": 3,
+    "theta": 0.4
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.75,
+    "t10": 0.75,
+    "e0": 0.1,
+    "T": 4,
+    "B": 2,
+    "alpha": 0.1
+   },
+   "policy": "P2_count_sprt",
+   "param": {
+    "tau_llr": 1.1755733298,
+    "theta": 0.4
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.75,
+    "t10": 0.75,
+    "e0": 0.1,
+    "T": 4,
+    "B": 2,
+    "alpha": 0.1
+   },
+   "policy": "P3_hmm_filter",
+   "param": {
+    "tau_beta": 0.7272727273,
+    "theta": 0.4
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.2,
+   "brute_force_max": 0.2,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.75,
+    "t10": 0.75,
+    "e0": 0.1,
+    "T": 4,
+    "B": 2,
+    "alpha": 0.1
+   },
+   "policy": "P4_myopic_voi",
+   "param": {
+    "tau_beta": 0.7272727273,
+    "theta": 0.4
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.2,
+   "brute_force_max": 0.2,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.6,
+    "e0": 0.2,
+    "T": 5,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "policy": "P1_fixed_sample",
+   "param": {
+    "k": 3,
+    "theta": 0.2
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.05,
+   "evaluator_causal": 0.05,
+   "brute_force_max": 0.05,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.6,
+    "e0": 0.2,
+    "T": 5,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "policy": "P2_count_sprt",
+   "param": {
+    "tau_llr": 0.9400072585,
+    "theta": 0.2
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.05,
+   "evaluator_causal": 0.05,
+   "brute_force_max": 0.05,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.6,
+    "e0": 0.2,
+    "T": 5,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "policy": "P3_hmm_filter",
+   "param": {
+    "tau_beta": 0.808839779,
+    "theta": 0.2
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.05,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.6,
+    "e0": 0.2,
+    "T": 5,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "policy": "P4_myopic_voi",
+   "param": {
+    "tau_beta": 0.7636363636,
+    "theta": 0.1
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.05,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.6,
+    "t10": 0.9,
+    "e0": 0.1,
+    "T": 5,
+    "B": 1,
+    "alpha": 0.1
+   },
+   "policy": "P1_fixed_sample",
+   "param": {
+    "k": 2,
+    "theta": 0.2
+   },
+   "K_query_nodes": 1,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.6,
+    "t10": 0.9,
+    "e0": 0.1,
+    "T": 5,
+    "B": 1,
+    "alpha": 0.1
+   },
+   "policy": "P2_count_sprt",
+   "param": {
+    "tau_llr": 0.5877866649,
+    "theta": 0.2
+   },
+   "K_query_nodes": 1,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.6,
+    "t10": 0.9,
+    "e0": 0.1,
+    "T": 5,
+    "B": 1,
+    "alpha": 0.1
+   },
+   "policy": "P3_hmm_filter",
+   "param": {
+    "tau_beta": 0.5655172414,
+    "theta": 0.2
+   },
+   "K_query_nodes": 1,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.2,
+   "brute_force_max": 0.2,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.6,
+    "t10": 0.9,
+    "e0": 0.1,
+    "T": 5,
+    "B": 1,
+    "alpha": 0.1
+   },
+   "policy": "P4_myopic_voi",
+   "param": {
+    "tau_beta": 0.5655172414,
+    "theta": 0.2
+   },
+   "K_query_nodes": 1,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.2,
+   "brute_force_max": 0.2,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.25,
+    "t10": 0.1,
+    "e0": 0.1,
+    "T": 4,
+    "B": 2,
+    "alpha": 0.1
+   },
+   "policy": "P1_fixed_sample",
+   "param": {
+    "k": 3,
+    "theta": 0.4
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.25,
+    "t10": 0.1,
+    "e0": 0.1,
+    "T": 4,
+    "B": 2,
+    "alpha": 0.1
+   },
+   "policy": "P2_count_sprt",
+   "param": {
+    "tau_llr": 1.1755733298,
+    "theta": 0.4
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.25,
+    "t10": 0.1,
+    "e0": 0.1,
+    "T": 4,
+    "B": 2,
+    "alpha": 0.1
+   },
+   "policy": "P3_hmm_filter",
+   "param": {
+    "tau_beta": 0.8896,
+    "theta": 0.4
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.25,
+    "t10": 0.1,
+    "e0": 0.1,
+    "T": 4,
+    "B": 2,
+    "alpha": 0.1
+   },
+   "policy": "P4_myopic_voi",
+   "param": {
+    "tau_beta": 0.884217956,
+    "theta": 0.4
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.1,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.9,
+    "e0": 0.2,
+    "T": 3,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "policy": "P1_fixed_sample",
+   "param": {
+    "k": 3,
+    "theta": 0.2
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.05,
+   "evaluator_causal": 0.05,
+   "brute_force_max": 0.05,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.9,
+    "e0": 0.2,
+    "T": 3,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "policy": "P2_count_sprt",
+   "param": {
+    "tau_llr": 0.9400072585,
+    "theta": 0.2
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.05,
+   "evaluator_causal": 0.05,
+   "brute_force_max": 0.05,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.9,
+    "e0": 0.2,
+    "T": 3,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "policy": "P3_hmm_filter",
+   "param": {
+    "tau_beta": 0.8354037267,
+    "theta": 0.2
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.05,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  },
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.9,
+    "e0": 0.2,
+    "T": 3,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "policy": "P4_myopic_voi",
+   "param": {
+    "tau_beta": 0.8354037267,
+    "theta": 0.2
+   },
+   "K_query_nodes": 3,
+   "risk_iid": 0.05,
+   "evaluator_causal": 0.1,
+   "brute_force_max": 0.1,
+   "abs_diff": 0.0,
+   "ok": true
+  }
+ ],
+ "gate_vs_planner": [
+  {
+   "cell": {
+    "t01": "3/4",
+    "t10": "3/4",
+    "e0": "1/10",
+    "T": 5,
+    "B": 2
+   },
+   "th": 2,
+   "mine": 2.325000000000002,
+   "planner": 2.325,
+   "abs_diff": 1.7763568394002505e-15,
+   "err": null
+  },
+  {
+   "cell": {
+    "t01": "3/4",
+    "t10": "3/4",
+    "e0": "1/10",
+    "T": 5,
+    "B": 2
+   },
+   "th": 4,
+   "mine": 2.464999999999989,
+   "planner": 2.465,
+   "abs_diff": 1.0658141036401503e-14,
+   "err": null
+  },
+  {
+   "cell": {
+    "t01": "9/10",
+    "t10": "3/5",
+    "e0": "1/5",
+    "T": 6,
+    "B": 3
+   },
+   "th": 2,
+   "mine": 3.046546880000016,
+   "planner": 3.04654688,
+   "abs_diff": 1.5987211554602254e-14,
+   "err": null
+  },
+  {
+   "cell": {
+    "t01": "9/10",
+    "t10": "3/5",
+    "e0": "1/5",
+    "T": 6,
+    "B": 3
+   },
+   "th": 4,
+   "mine": 3.259330240000013,
+   "planner": 3.25933024,
+   "abs_diff": 1.2878587085651816e-14,
+   "err": null
+  },
+  {
+   "cell": {
+    "t01": "9/10",
+    "t10": "3/5",
+    "e0": "1/5",
+    "T": 6,
+    "B": 3
+   },
+   "th": 8,
+   "mine": 3.3412624000000157,
+   "planner": 3.3412624,
+   "abs_diff": 1.554312234475219e-14,
+   "err": null
+  },
+  {
+   "cell": {
+    "t01": "1/4",
+    "t10": "1/10",
+    "e0": "1/10",
+    "T": 5,
+    "B": 2
+   },
+   "th": 2,
+   "mine": 2.0351520000000827,
+   "planner": 2.035152,
+   "abs_diff": 8.260059303211165e-14,
+   "err": null
+  },
+  {
+   "cell": {
+    "t01": "1/4",
+    "t10": "1/10",
+    "e0": "1/10",
+    "T": 5,
+    "B": 2
+   },
+   "th": 4,
+   "mine": 2.5114034285714855,
+   "planner": 2.5114034285714286,
+   "abs_diff": 5.684341886080802e-14,
+   "err": null
+  }
+ ],
+ "cost_mc": {
+  "exact": 3.9430600000000027,
+  "mc_mean": 3.9435546875156806,
+  "mc_se": 0.0024278512186689926,
+  "z": 0.2037552844564908,
+  "n": 200000
+ },
+ "p5_order_and_C0": [
+  {
+   "cell": {
+    "t01": 0.9,
+    "t10": 0.9,
+    "e0": 0.1,
+    "T": 12,
+    "B": 3,
+    "alpha": 0.1
+   },
+   "C5": 5.640263976738815,
+   "C1_4": {
+    "P1_fixed_sample": 6.015735596769277,
+    "P2_count_sprt": 6.015735596769277,
+    "P3_hmm_filter": 5.655239976738773,
+    "P4_myopic_voi": 5.655239976738773
+   },
+   "ok": true,
+   "C0_mine": 6.0,
+   "C0_solver": 6.0,
+   "C7": 5.763774294937601,
+   "risk7_causal": 0.1,
+   "risk5_iid": 0.1,
+   "risk5_causal": 0.4
+  },
+  {
+   "cell": {
+    "t01": 0.75,
+    "t10": 0.6,
+    "e0": 0.2,
+    "T": 12,
+    "B": 2,
+    "alpha": 0.05
+   },
+   "C5": 6.357787333333333,
+   "C1_4": {
+    "P1_fixed_sample": 6.389632827724958,
+    "P2_count_sprt": 6.389632827724958,
+    "P3_hmm_filter": 6.376029812715453,
+    "P4_myopic_voi": 6.376029812715453
+   },
+   "ok": true,
+   "C0_mine": 6.40000000000002,
+   "C0_solver": 6.3999999999999995,
+   "C7": 6.357787333333333,
+   "risk7_causal": 0.05,
+   "risk5_iid": 0.05,
+   "risk5_causal": 0.05
+  },
+  {
+   "cell": {
+    "t01": 0.1,
+    "t10": 0.25,
+    "e0": 0.1,
+    "T": 12,
+    "B": 3,
+    "alpha": 0.1
+   },
+   "C5": 3.8991383794285728,
+   "C1_4": {
+    "P1_fixed_sample": 3.9251914971429245,
+    "P2_count_sprt": 3.9251914971429245,
+    "P3_hmm_filter": 3.9251914971429245,
+    "P4_myopic_voi": 3.925191497143146
+   },
+   "ok": true,
+   "C0_mine": 3.9428571428571755,
+   "C0_solver": 3.9428571428571435,
+   "C7": 3.8991383794285728,
+   "risk7_causal": 0.09999999999999999,
+   "risk5_iid": 0.09999999999999999,
+   "risk5_causal": 0.09999999999999999
+  }
+ ]
+}

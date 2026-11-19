@@ -1,0 +1,32 @@
+23:54:14 A:screen100/FOREX_eurcad-hour-Close x=1 n 3000 r1 -0.009 pos False None
+23:56:14 A:screen100/FOREX_eurcad-hour-Close 1-x n 3000 r1 -0.009 pos False None
+23:56:14 DONE A:screen100/FOREX_eurcad-hour-Close evaluated positive False TALLY 25
+23:58:15 A:screen100/FOREX_eurpln-hour-Close x=1 n 3000 r1 -0.027 pos False None
+00:00:15 A:screen100/FOREX_eurpln-hour-Close 1-x n 3000 r1 -0.027 pos False None
+00:00:15 DONE A:screen100/FOREX_eurpln-hour-Close evaluated positive False TALLY 25
+00:02:15 A:screen100/FOREX_usdchf-hour-Close x=1 n 3000 r1 -0.021 pos False None
+00:04:16 A:screen100/FOREX_usdchf-hour-Close 1-x n 3000 r1 -0.021 pos False None
+00:04:16 DONE A:screen100/FOREX_usdchf-hour-Close evaluated positive False TALLY 25
+00:04:58 A:screen100/air_Gucheng x=1 n 2532 r1 0.504 pos False None
+00:05:40 A:screen100/air_Gucheng 1-x n 2532 r1 0.504 pos False None
+00:05:40 DONE A:screen100/air_Gucheng evaluated positive False TALLY 25
+00:06:20 A:screen100/elec_MT_001 x=1 n 3000 r1 0.523 pos False None
+00:06:58 A:screen100/elec_MT_001 1-x n 3000 r1 0.523 pos False None
+00:06:58 DONE A:screen100/elec_MT_001 evaluated positive False TALLY 25
+00:07:33 A:screen100/elec_MT_010 x=1 n 3000 r1 0.755 pos False None
+00:18:26 A:screen100/elec_MT_010 1-x n 3000 r1 0.755 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.0938341547197261, 'C0': 4.168302820973663, 'U_iid': 4.021890310550052, 'risk_causal_of_iid_policy': 0.25}
+00:18:26 DONE A:screen100/elec_MT_010 evaluated positive True TALLY 26
+00:19:21 A:screen100/elec_MT_019 x=1 n 3000 r1 0.365 pos False None
+00:20:10 A:screen100/elec_MT_019 1-x n 3000 r1 0.365 pos False None
+00:20:10 DONE A:screen100/elec_MT_019 evaluated positive False TALLY 26
+00:20:46 A:screen100/elec_MT_028 x=1 n 3000 r1 0.468 pos False None
+00:21:18 A:screen100/elec_MT_028 1-x n 3000 r1 0.468 pos False None
+00:21:18 DONE A:screen100/elec_MT_028 evaluated positive False TALLY 26
+00:21:48 A:screen100/elec_MT_037 x=1 n 2721 r1 0.509 pos False None
+00:22:16 A:screen100/elec_MT_037 1-x n 2721 r1 0.509 pos False None
+00:22:16 DONE A:screen100/elec_MT_037 evaluated positive False TALLY 26
+00:22:41 A:screen100/pm_Shanghai x=1 n 3000 r1 0.689 pos False None
+00:33:19 A:screen100/pm_Shanghai 1-x n 3000 r1 0.689 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.01233059820412037, 'C0': 11.110441830033102, 'U_iid': 10.700819247069635, 'risk_causal_of_iid_policy': 0.3000000000000001}
+00:33:19 DONE A:screen100/pm_Shanghai evaluated positive True TALLY 27
+00:33:19 family A finished; tally 27
+00:33:19 lists exhausted; final tally 27

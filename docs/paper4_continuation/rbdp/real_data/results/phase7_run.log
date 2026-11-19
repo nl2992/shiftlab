@@ -1,0 +1,153 @@
+22:30:10 A:atlas_v2/airlines x=1 n 3000 r1 0.083 pos False None
+22:31:03 A:atlas_v2/airlines 1-x n 3000 r1 0.083 pos False None
+22:31:03 DONE A:atlas_v2/airlines evaluated positive False TALLY 25
+22:31:12 A:atlas_v2/bank x=1 n 3000 r1 0.178 pos False None
+22:31:20 A:atlas_v2/bank 1-x n 3000 r1 0.178 pos False None
+22:31:20 DONE A:atlas_v2/bank evaluated positive False TALLY 25
+22:33:20 A:atlas_v2/criteo x=1 n 3000 r1 0.012 pos False None
+22:35:20 A:atlas_v2/criteo 1-x n 3000 r1 0.012 pos False None
+22:35:20 DONE A:atlas_v2/criteo evaluated positive False TALLY 25
+22:35:39 A:atlas_v2/elec2 x=1 n 478 r1 0.394 pos False None
+22:35:57 A:atlas_v2/elec2 1-x n 478 r1 0.394 pos False None
+22:35:57 DONE A:atlas_v2/elec2 evaluated positive False TALLY 25
+22:36:18 A:atlas_v2/openml_ldpa x=1 n 3000 r1 0.598 pos False None
+22:46:48 A:atlas_v2/openml_ldpa 1-x n 3000 r1 0.598 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.11362177528383756, 'C0': 5.046723178870186, 'U_iid': 4.891142679463543, 'risk_causal_of_iid_policy': 0.25}
+22:46:48 DONE A:atlas_v2/openml_ldpa evaluated positive True TALLY 26
+22:47:08 A:atlas_v2/rialto x=1 n 2633 r1 0.201 pos False None
+22:47:34 A:atlas_v2/rialto 1-x n 2633 r1 0.201 pos False None
+22:47:34 DONE A:atlas_v2/rialto evaluated positive False TALLY 26
+22:47:51 A:atlas_v2/spam x=1 n 703 r1 0.578 pos False None
+22:48:05 A:atlas_v2/spam 1-x n 703 r1 0.578 pos False None
+22:48:05 DONE A:atlas_v2/spam evaluated positive False TALLY 26
+22:48:07 A:atlas_v2/uci_occupancy x=1 n 1816 r1 0.969 pos False None
+22:48:08 A:atlas_v2/uci_occupancy 1-x n 1816 r1 0.969 pos False None
+22:48:08 DONE A:atlas_v2/uci_occupancy evaluated positive False TALLY 26
+22:48:35 A:atlas_v2/weather x=1 n 682 r1 0.069 pos False None
+22:49:03 A:atlas_v2/weather 1-x n 682 r1 0.069 pos False None
+22:49:03 DONE A:atlas_v2/weather evaluated positive False TALLY 26
+22:49:26 A:sprint_fresh/appliances x=1 n 3000 r1 0.706 pos False None
+23:00:08 A:sprint_fresh/appliances 1-x n 3000 r1 0.706 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.03881121761610363, 'C0': 9.608203037110378, 'U_iid': 9.219578384936394, 'risk_causal_of_iid_policy': 0.30000000000000004}
+23:00:08 DONE A:sprint_fresh/appliances evaluated positive True TALLY 27
+23:00:29 A:sprint_fresh/beijing_pm25 x=1 n 3000 r1 0.662 pos False None
+23:10:51 A:sprint_fresh/beijing_pm25 1-x n 3000 r1 0.662 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.012928741722284788, 'C0': 11.017380619094789, 'U_iid': 10.649304472303282, 'risk_causal_of_iid_policy': 0.29999999999999993}
+23:10:51 DONE A:sprint_fresh/beijing_pm25 evaluated positive True TALLY 28
+23:12:17 A:sprint_fresh/bike_hour x=1 n 3000 r1 0.358 pos False None
+23:13:36 A:sprint_fresh/bike_hour 1-x n 3000 r1 0.358 pos False None
+23:13:36 DONE A:sprint_fresh/bike_hour evaluated positive False TALLY 28
+23:14:10 A:sprint_fresh/household_power x=1 n 3000 r1 0.678 pos False None
+23:14:43 A:sprint_fresh/household_power 1-x n 3000 r1 0.678 pos False None
+23:14:43 DONE A:sprint_fresh/household_power evaluated positive False TALLY 28
+23:16:35 A:sprint_fresh/metro x=1 n 3000 r1 0.309 pos False None
+23:18:21 A:sprint_fresh/metro 1-x n 3000 r1 0.309 pos False None
+23:18:21 DONE A:sprint_fresh/metro evaluated positive False TALLY 28
+23:18:21 DONE A:screen100/BAF_base too short (16) positive False TALLY 28
+23:18:47 A:screen100/BitcoinHeist_Ransomware x=1 n 3000 r1 0.598 pos False None
+23:19:11 A:screen100/BitcoinHeist_Ransomware 1-x n 3000 r1 0.598 pos False None
+23:19:11 DONE A:screen100/BitcoinHeist_Ransomware evaluated positive False TALLY 28
+23:21:22 A:screen100/FOREX_audcad-hour-Close x=1 n 3000 r1 0.009 pos False None
+23:23:29 A:screen100/FOREX_audcad-hour-Close 1-x n 3000 r1 0.009 pos False None
+23:23:29 DONE A:screen100/FOREX_audcad-hour-Close evaluated positive False TALLY 28
+23:25:38 A:screen100/FOREX_audchf-hour-Close x=1 n 3000 r1 -0.013 pos False None
+23:27:44 A:screen100/FOREX_audchf-hour-Close 1-x n 3000 r1 -0.013 pos False None
+23:27:44 DONE A:screen100/FOREX_audchf-hour-Close evaluated positive False TALLY 28
+23:29:44 A:screen100/FOREX_audjpy-hour-Close x=1 n 3000 r1 0.019 pos False None
+23:31:45 A:screen100/FOREX_audjpy-hour-Close 1-x n 3000 r1 0.019 pos False None
+23:31:45 DONE A:screen100/FOREX_audjpy-hour-Close evaluated positive False TALLY 28
+23:33:45 A:screen100/FOREX_audnzd-hour-Close x=1 n 3000 r1 -0.011 pos False None
+23:35:46 A:screen100/FOREX_audnzd-hour-Close 1-x n 3000 r1 -0.011 pos False None
+23:35:46 DONE A:screen100/FOREX_audnzd-hour-Close evaluated positive False TALLY 28
+23:48:13 A:screen100/FOREX_audsgd-hour-Close x=1 n 3000 r1 -0.055 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.024741188854772705, 'C0': 16.511486646646585, 'U_iid': 16.40292286632579, 'risk_causal_of_iid_policy': 0.3}
+23:50:21 A:screen100/FOREX_audsgd-hour-Close 1-x n 3000 r1 -0.055 pos False None
+23:50:21 DONE A:screen100/FOREX_audsgd-hour-Close evaluated positive True TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_audusd-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_cadchf-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_cadjpy-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_chfjpy-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_chfsgd-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_euraud-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurcad-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurchf-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurdkk-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurgbp-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurhkd-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurhuf-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurjpy-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurnok-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurnzd-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurpln-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurrub-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eursek-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eursgd-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurtry-hour-Close evaluated positive False TALLY 29
+00:35:47 DONE(merge) A:screen100/FOREX_eurusd-hour-Close evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/FOREX_gbpusd-hour-Close evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/FOREX_nzdusd-hour-Close evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/FOREX_usdcad-hour-Close evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/FOREX_usdchf-hour-Close evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/FOREX_usddkk-hour-Close evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/FOREX_usdjpy-hour-Close evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/Homesite_Quote_Conversion evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Aotizhongxin evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Changping evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Dingling evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Dongsi evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Guanyuan evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Gucheng evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Huairou evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Nongzhanguan evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Shunyi evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Tiantan evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Wanliu evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_Wanshouxigong evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/air_quality_co evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/creditcard too short (54) positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/elec_MT_001 evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/elec_MT_002 evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/elec_MT_003 evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/elec_MT_004 evaluated positive False TALLY 29
+00:35:48 DONE(merge) A:screen100/elec_MT_005 evaluated positive True TALLY 30
+00:35:48 DONE(merge) A:screen100/elec_MT_006 evaluated positive False TALLY 30
+00:35:48 DONE(merge) A:screen100/elec_MT_007 evaluated positive False TALLY 30
+00:35:48 DONE(merge) A:screen100/elec_MT_008 evaluated positive False TALLY 30
+00:35:48 DONE(merge) A:screen100/elec_MT_009 evaluated positive False TALLY 30
+00:35:48 DONE(merge) A:screen100/elec_MT_010 evaluated positive True TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_011 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_012 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_013 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_014 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_015 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_016 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_017 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_018 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_019 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_020 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_021 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_022 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_023 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_024 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_025 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_026 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_027 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_028 evaluated positive False TALLY 31
+00:35:48 DONE(merge) A:screen100/elec_MT_029 evaluated positive True TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_030 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_031 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_032 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_033 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_034 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_035 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_036 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_037 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_038 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_039 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_040 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_041 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_042 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/elec_MT_043 evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/pm_Chengdu evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/pm_Guangzhou evaluated positive False TALLY 32
+00:35:48 DONE(merge) A:screen100/pm_Shanghai evaluated positive True TALLY 33
+00:35:48 DONE(merge) A:screen100/pm_Shenyang evaluated positive True TALLY 34
+00:35:48 DONE(merge) A:screen100/seoul_bike evaluated positive False TALLY 34
+00:35:48 DONE(merge) A:screen100/tetouan_z1 evaluated positive True TALLY 35
+00:35:48 TARGET reached in merge; stopping

@@ -1,0 +1,28 @@
+{
+ "n_cand": 16,
+ "id": "p16_kraken_ethusd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:58",
+ "fetch": {
+  "id": "p16_kraken_ethusd",
+  "ok": true,
+  "first_time": 1794860968.2737608,
+  "last_time": 1794867296.1885917,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 3499,
+  "n_changes_available": 2424,
+  "pages": 8,
+  "n": 2000,
+  "n_ones": 1101,
+  "url": "https://api.kraken.com/0/public/Trades?pair=ETHUSD (+7 paged requests)",
+  "retrieved_utc": "2026-11-16T22:15:02Z",
+  "bytes": 534579,
+  "sha256": "39b5ac147c3d6af72e5b13fdb83a1730f4f3eb8b2f1e9572bcfc49cd7f63c2bb"
+ },
+ "n": 2000,
+ "n_ones": 1101,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.26513275333776476,
+ "outcome": "screened out",
+ "reason": "r1=0.2651 > -0.15"
+}

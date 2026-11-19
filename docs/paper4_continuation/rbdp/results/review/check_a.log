@@ -1,0 +1,90 @@
+d=1 T=2 B=1 seed=0 K= 2 rec=0.711111111111 brute=0.711111111111 exact_eq=True cont_max=0.711110 iid_ok=True OK
+d=1 T=2 B=1 seed=1 K= 1 rec=0.500000000000 brute=0.500000000000 exact_eq=True cont_max=0.500000 iid_ok=True OK
+d=1 T=2 B=1 seed=2 K= 2 rec=0.527777777778 brute=0.527777777778 exact_eq=True cont_max=0.527777 iid_ok=True OK
+d=1 T=2 B=1 seed=3 K= 2 rec=0.888888888889 brute=0.888888888889 exact_eq=True cont_max=0.888877 iid_ok=True OK
+d=1 T=2 B=1 seed=4 K= 2 rec=0.270833333333 brute=0.270833333333 exact_eq=True cont_max=0.270833 iid_ok=True OK
+d=1 T=2 B=1 seed=5 K= 2 rec=0.777777777778 brute=0.777777777778 exact_eq=True cont_max=0.777778 iid_ok=True OK
+d=1 T=2 B=1 seed=6 K= 2 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=1 T=2 B=1 seed=7 K= 2 rec=0.578125000000 brute=0.578125000000 exact_eq=True cont_max=0.578123 iid_ok=True OK
+d=1 T=3 B=1 seed=0 K= 2 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=1 T=3 B=1 seed=1 K= 3 rec=0.694444444444 brute=0.694444444444 exact_eq=True cont_max=0.694231 iid_ok=True OK
+d=1 T=3 B=1 seed=2 K= 2 rec=0.695833333333 brute=0.695833333333 exact_eq=True cont_max=0.695833 iid_ok=True OK
+d=1 T=3 B=1 seed=3 K= 3 rec=0.893402777778 brute=0.893402777778 exact_eq=True cont_max=0.893402 iid_ok=True OK
+d=1 T=3 B=1 seed=4 K= 3 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=0.999998 iid_ok=True OK
+d=1 T=3 B=1 seed=5 K= 2 rec=0.750000000000 brute=0.750000000000 exact_eq=True cont_max=0.750000 iid_ok=True OK
+d=1 T=3 B=1 seed=6 K= 3 rec=0.660185185185 brute=0.660185185185 exact_eq=True cont_max=0.659745 iid_ok=True OK
+d=1 T=3 B=1 seed=7 K= 2 rec=0.750000000000 brute=0.750000000000 exact_eq=True cont_max=0.749495 iid_ok=True OK
+d=1 T=3 B=2 seed=0 K= 9 rec=0.780864197531 brute=0.780864197531 exact_eq=True cont_max=0.780651 iid_ok=True OK
+d=1 T=3 B=2 seed=1 K= 9 rec=0.875000000000 brute=0.875000000000 exact_eq=True cont_max=0.874635 iid_ok=True OK
+d=1 T=3 B=2 seed=2 K= 9 rec=0.513888888889 brute=0.513888888889 exact_eq=True cont_max=0.513125 iid_ok=True OK
+d=1 T=3 B=2 seed=3 K= 9 rec=0.888888888889 brute=0.888888888889 exact_eq=True cont_max=0.888889 iid_ok=True OK
+d=1 T=3 B=2 seed=4 K= 6 rec=0.644444444444 brute=0.644444444444 exact_eq=True cont_max=0.644155 iid_ok=True OK
+d=1 T=3 B=2 seed=5 K= 7 rec=0.770833333333 brute=0.770833333333 exact_eq=True cont_max=0.770799 iid_ok=True OK
+d=1 T=3 B=2 seed=6 K= 8 rec=0.775000000000 brute=0.775000000000 exact_eq=True cont_max=0.772353 iid_ok=True OK
+d=1 T=3 B=2 seed=7 K= 8 rec=0.452777777778 brute=0.452777777778 exact_eq=True cont_max=0.452233 iid_ok=True OK
+d=1 T=4 B=1 seed=0 K= 4 rec=0.968437500000 brute=0.968437500000 exact_eq=True cont_max=0.968351 iid_ok=True OK
+d=1 T=4 B=1 seed=1 K= 4 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=1 T=4 B=1 seed=2 K= 2 rec=0.836111111111 brute=0.836111111111 exact_eq=True cont_max=0.836111 iid_ok=True OK
+d=1 T=4 B=1 seed=3 K= 4 rec=0.812500000000 brute=0.812500000000 exact_eq=True cont_max=0.812498 iid_ok=True OK
+d=1 T=4 B=1 seed=4 K= 4 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=1 T=4 B=1 seed=5 K= 3 rec=0.451080246914 brute=0.451080246914 exact_eq=True cont_max=0.448035 iid_ok=True OK
+d=1 T=4 B=1 seed=6 K= 2 rec=0.900000000000 brute=0.900000000000 exact_eq=True cont_max=0.899969 iid_ok=True OK
+d=1 T=4 B=1 seed=7 K= 4 rec=0.927083333333 brute=0.927083333333 exact_eq=True cont_max=0.926788 iid_ok=True OK
+d=1 T=4 B=2 seed=0 K=13 rec=0.902777777778 brute=0.902777777778 exact_eq=True cont_max=0.902258 iid_ok=True OK
+d=1 T=4 B=2 seed=1 K=15 rec=0.850000000000 brute=0.850000000000 exact_eq=True cont_max=0.848025 iid_ok=True OK
+d=1 T=4 B=2 seed=2 K=14 rec=0.855555555556 brute=0.855555555556 exact_eq=True cont_max=0.853042 iid_ok=True OK
+d=1 T=4 B=2 seed=3 K=12 rec=0.757187500000 brute=0.757187500000 exact_eq=True cont_max=0.756520 iid_ok=True OK
+d=1 T=5 B=1 seed=0 K= 5 rec=0.783873456790 brute=0.783873456790 exact_eq=True cont_max=0.783861 iid_ok=True OK
+d=1 T=5 B=1 seed=1 K= 5 rec=0.897325102881 brute=0.897325102881 exact_eq=True cont_max=0.897052 iid_ok=True OK
+d=1 T=5 B=1 seed=2 K= 5 rec=0.458687500000 brute=0.458687500000 exact_eq=True cont_max=0.458687 iid_ok=True OK
+d=1 T=5 B=1 seed=3 K= 4 rec=0.971875000000 brute=0.971875000000 exact_eq=True cont_max=0.971873 iid_ok=True OK
+d=1 T=5 B=1 seed=4 K= 5 rec=0.959375000000 brute=0.959375000000 exact_eq=True cont_max=0.959373 iid_ok=True OK
+d=1 T=5 B=1 seed=5 K= 4 rec=0.460000000000 brute=0.460000000000 exact_eq=True cont_max=0.459997 iid_ok=True OK
+d=1 T=5 B=1 seed=6 K= 4 rec=0.940972222222 brute=0.940972222222 exact_eq=True cont_max=0.940286 iid_ok=True OK
+d=1 T=5 B=1 seed=7 K= 4 rec=0.966250000000 brute=0.966250000000 exact_eq=True cont_max=0.965553 iid_ok=True OK
+d=2 T=2 B=1 seed=0 K= 2 rec=0.750000000000 brute=0.750000000000 exact_eq=True cont_max=0.750000 iid_ok=True OK
+d=2 T=2 B=1 seed=1 K= 1 rec=0.100000000000 brute=0.100000000000 exact_eq=True cont_max=0.100000 iid_ok=True OK
+d=2 T=2 B=1 seed=2 K= 2 rec=0.700000000000 brute=0.700000000000 exact_eq=True cont_max=0.700000 iid_ok=True OK
+d=2 T=2 B=1 seed=3 K= 2 rec=0.533333333333 brute=0.533333333333 exact_eq=True cont_max=0.533333 iid_ok=True OK
+d=2 T=2 B=1 seed=4 K= 2 rec=0.887500000000 brute=0.887500000000 exact_eq=True cont_max=0.887500 iid_ok=True OK
+d=2 T=2 B=1 seed=5 K= 2 rec=0.250000000000 brute=0.250000000000 exact_eq=True cont_max=0.250000 iid_ok=True OK
+d=2 T=2 B=1 seed=6 K= 2 rec=0.666666666667 brute=0.666666666667 exact_eq=True cont_max=0.666667 iid_ok=True OK
+d=2 T=2 B=1 seed=7 K= 2 rec=0.666666666667 brute=0.666666666667 exact_eq=True cont_max=0.666667 iid_ok=True OK
+d=2 T=3 B=1 seed=0 K= 3 rec=0.444444444444 brute=0.444444444444 exact_eq=True cont_max=0.444433 iid_ok=True OK
+d=2 T=3 B=1 seed=1 K= 3 rec=0.754166666667 brute=0.754166666667 exact_eq=True cont_max=0.754166 iid_ok=True OK
+d=2 T=3 B=1 seed=2 K= 3 rec=0.898437500000 brute=0.898437500000 exact_eq=True cont_max=0.898438 iid_ok=True OK
+d=2 T=3 B=1 seed=3 K= 1 rec=0.625000000000 brute=0.625000000000 exact_eq=True cont_max=0.624999 iid_ok=True OK
+d=2 T=3 B=1 seed=4 K= 3 rec=0.752500000000 brute=0.752500000000 exact_eq=True cont_max=0.752499 iid_ok=True OK
+d=2 T=3 B=1 seed=5 K= 3 rec=0.954166666667 brute=0.954166666667 exact_eq=True cont_max=0.954165 iid_ok=True OK
+d=2 T=3 B=1 seed=6 K= 2 rec=0.812500000000 brute=0.812500000000 exact_eq=True cont_max=0.812498 iid_ok=True OK
+d=2 T=3 B=1 seed=7 K= 2 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=2 T=3 B=2 seed=0 K= 9 rec=0.853888888889 brute=0.853888888889 exact_eq=True cont_max=0.853889 iid_ok=True OK
+d=2 T=3 B=2 seed=1 K= 5 rec=0.437500000000 brute=0.437500000000 exact_eq=True cont_max=0.437491 iid_ok=True OK
+d=2 T=3 B=2 seed=2 K= 7 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=2 T=3 B=2 seed=3 K= 9 rec=0.662500000000 brute=0.662500000000 exact_eq=True cont_max=0.662500 iid_ok=True OK
+d=2 T=3 B=2 seed=4 K= 8 rec=0.546875000000 brute=0.546875000000 exact_eq=True cont_max=0.546873 iid_ok=True OK
+d=2 T=3 B=2 seed=5 K= 7 rec=0.857500000000 brute=0.857500000000 exact_eq=True cont_max=0.857500 iid_ok=True OK
+d=2 T=3 B=2 seed=6 K= 8 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=2 T=3 B=2 seed=7 K= 5 rec=0.888888888889 brute=0.888888888889 exact_eq=True cont_max=0.888889 iid_ok=True OK
+d=2 T=4 B=1 seed=0 K= 3 rec=0.891666666667 brute=0.891666666667 exact_eq=True cont_max=0.891623 iid_ok=True OK
+d=2 T=4 B=1 seed=1 K= 4 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=2 T=4 B=1 seed=2 K= 4 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=2 T=4 B=1 seed=3 K= 2 rec=0.918333333333 brute=0.918333333333 exact_eq=True cont_max=0.918333 iid_ok=True OK
+d=2 T=4 B=1 seed=4 K= 4 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+d=2 T=4 B=1 seed=5 K= 4 rec=0.888888888889 brute=0.888888888889 exact_eq=True cont_max=0.888888 iid_ok=True OK
+d=2 T=4 B=1 seed=6 K= 3 rec=0.946913580247 brute=0.946913580247 exact_eq=True cont_max=0.946648 iid_ok=True OK
+d=2 T=4 B=1 seed=7 K= 3 rec=0.888888888889 brute=0.888888888889 exact_eq=True cont_max=0.888889 iid_ok=True OK
+d=2 T=4 B=2 seed=0 K=16 rec=0.775839843750 brute=0.775839843750 exact_eq=True cont_max=0.775803 iid_ok=True OK
+d=2 T=4 B=2 seed=1 K=15 rec=0.626244212963 brute=0.626244212963 exact_eq=True cont_max=0.625936 iid_ok=True OK
+d=2 T=4 B=2 seed=2 K=16 rec=0.955000000000 brute=0.955000000000 exact_eq=True cont_max=0.954955 iid_ok=True OK
+d=2 T=4 B=2 seed=3 K=15 rec=0.939453125000 brute=0.939453125000 exact_eq=True cont_max=0.939420 iid_ok=True OK
+d=2 T=5 B=1 seed=0 K= 5 rec=0.944444444444 brute=0.944444444444 exact_eq=True cont_max=0.944441 iid_ok=True OK
+d=2 T=5 B=1 seed=1 K= 5 rec=0.662500000000 brute=0.662500000000 exact_eq=True cont_max=0.662492 iid_ok=True OK
+d=2 T=5 B=1 seed=2 K= 4 rec=0.726666666667 brute=0.726666666667 exact_eq=True cont_max=0.726667 iid_ok=True OK
+d=2 T=5 B=1 seed=3 K= 4 rec=0.939631558642 brute=0.939631558642 exact_eq=True cont_max=0.939495 iid_ok=True OK
+d=2 T=5 B=1 seed=4 K= 4 rec=0.937650462963 brute=0.937650462963 exact_eq=True cont_max=0.937650 iid_ok=True OK
+d=2 T=5 B=1 seed=5 K= 4 rec=0.869015775034 brute=0.869015775034 exact_eq=True cont_max=0.868779 iid_ok=True OK
+d=2 T=5 B=1 seed=6 K= 4 rec=0.978437500000 brute=0.978437500000 exact_eq=True cont_max=0.978389 iid_ok=True OK
+d=2 T=5 B=1 seed=7 K= 5 rec=1.000000000000 brute=1.000000000000 exact_eq=True cont_max=1.000000 iid_ok=True OK
+runs 88 all exact-equal: True any continuous null exceeding recursion: False max |brute-rec| (float): 2.220446049250313e-16
+plan-seeing example (q0=q1=1/2): behavioural risk 1/2 plan-observing null risk 5/8

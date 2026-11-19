@@ -1,0 +1,1719 @@
+{
+ "regex": "(?i)(time series|monthly|quarterly|annual|yearly|daily|weekly|hourly|per year|per month)",
+ "regex_applied_to": "index Title column",
+ "datasets_ts_fixed_list": [
+  "AirPassengers",
+  "BJsales",
+  "BJsales.lead",
+  "EuStockMarkets",
+  "JohnsonJohnson",
+  "LakeHuron",
+  "Nile",
+  "Seatbelts",
+  "UKDriverDeaths",
+  "UKgas",
+  "USAccDeaths",
+  "WWWusage",
+  "airmiles",
+  "austres",
+  "co2",
+  "discoveries",
+  "fdeaths",
+  "ldeaths",
+  "lh",
+  "lynx",
+  "mdeaths",
+  "nhtemp",
+  "nottem",
+  "presidents",
+  "sunspot.month",
+  "sunspot.year",
+  "sunspots",
+  "treering",
+  "uspop"
+ ],
+ "excluded_used": [
+  [
+   "MASS",
+   "geyser"
+  ],
+  [
+   "datasets",
+   "AirPassengers"
+  ],
+  [
+   "datasets",
+   "EuStockMarkets"
+  ],
+  [
+   "datasets",
+   "LakeHuron"
+  ],
+  [
+   "datasets",
+   "Nile"
+  ],
+  [
+   "datasets",
+   "UKgas"
+  ],
+  [
+   "datasets",
+   "USAccDeaths"
+  ],
+  [
+   "datasets",
+   "airquality"
+  ],
+  [
+   "datasets",
+   "co2"
+  ],
+  [
+   "datasets",
+   "discoveries"
+  ],
+  [
+   "datasets",
+   "faithful"
+  ],
+  [
+   "datasets",
+   "lynx"
+  ],
+  [
+   "datasets",
+   "nhtemp"
+  ],
+  [
+   "datasets",
+   "nottem"
+  ],
+  [
+   "datasets",
+   "presidents"
+  ],
+  [
+   "datasets",
+   "sunspot.year"
+  ]
+ ],
+ "order": "sorted by (Package, Item), plain string order",
+ "index_rows": 3648,
+ "n_after_title_rows_unused": 97,
+ "n_final": 97,
+ "candidates": [
+  {
+   "package": "AER",
+   "item": "NYSESW",
+   "title": "Daily NYSE Composite Index",
+   "rows": 4003,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/AER/NYSESW.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 24412
+  },
+  {
+   "package": "AER",
+   "item": "USMacroSWM",
+   "title": "Monthly US Macroeconomic Data (1947-2004, Stock & Watson)",
+   "rows": 696,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/AER/USMacroSWM.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 6263
+  },
+  {
+   "package": "AER",
+   "item": "USMacroSWQ",
+   "title": "Quarterly US Macroeconomic Data (1947-2004, Stock & Watson)",
+   "rows": 232,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/AER/USMacroSWQ.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1865
+  },
+  {
+   "package": "AER",
+   "item": "USStocksSW",
+   "title": "Monthly US Stock Returns (1931-2002, Stock & Watson)",
+   "rows": 864,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/AER/USStocksSW.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 8571
+  },
+  {
+   "package": "DAAG",
+   "item": "bomregions",
+   "title": "Australian and Related Historical Annual Climate Data, by Region",
+   "rows": 109,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/bomregions.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 11195
+  },
+  {
+   "package": "DAAG",
+   "item": "bomregions2018",
+   "title": "Australian and Related Historical Annual Climate Data, by Region",
+   "rows": 119,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/bomregions2018.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 12170
+  },
+  {
+   "package": "DAAG",
+   "item": "bomregions2021",
+   "title": "Australian and Related Historical Annual Climate Data, by Region",
+   "rows": 122,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/bomregions2021.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 12929
+  },
+  {
+   "package": "DAAG",
+   "item": "greatLakes",
+   "title": "Yearly averages of Great Lake heights: 1918 - 2009",
+   "rows": 92,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/greatLakes.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1622
+  },
+  {
+   "package": "DAAG",
+   "item": "mdbAVtJtoD",
+   "title": "Murray-Darling basin monthly temperatures",
+   "rows": 867,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/DAAG/mdbAVtJtoD.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 5977
+  },
+  {
+   "package": "Ecdat",
+   "item": "CRSPday",
+   "title": "Daily Returns from the CRSP Database",
+   "rows": 2528,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/CRSPday.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 43532
+  },
+  {
+   "package": "Ecdat",
+   "item": "CRSPmon",
+   "title": "Monthly Returns from the CRSP Database",
+   "rows": 360,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/CRSPmon.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 5935
+  },
+  {
+   "package": "Ecdat",
+   "item": "Consumption",
+   "title": "Quarterly Data on Consumption and Expenditure",
+   "rows": 200,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/Consumption.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1891
+  },
+  {
+   "package": "Ecdat",
+   "item": "Garch",
+   "title": "Daily Observations on Exchange Rates of the US Dollar Against Other Currencies",
+   "rows": 1867,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/Garch.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 48302
+  },
+  {
+   "package": "Ecdat",
+   "item": "Irates",
+   "title": "Monthly Interest Rates",
+   "rows": 531,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/Irates.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 13369
+  },
+  {
+   "package": "Ecdat",
+   "item": "Macrodat",
+   "title": "Macroeconomic Time Series for the United States",
+   "rows": 168,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/Macrodat.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 3563
+  },
+  {
+   "package": "Ecdat",
+   "item": "nkill.byCountryYr",
+   "title": "Global Terrorism Database yearly summaries",
+   "rows": 204,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/nkill.byCountryYr.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 6582
+  },
+  {
+   "package": "HistData",
+   "item": "CholeraDeaths1849",
+   "title": "Daily Deaths from Cholera and Diarrhaea in England, 1849",
+   "rows": 730,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/HistData/CholeraDeaths1849.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 6702
+  },
+  {
+   "package": "ISLR",
+   "item": "Weekly",
+   "title": "Weekly S&P Stock Market Data",
+   "rows": 1089,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/ISLR/Weekly.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 16412
+  },
+  {
+   "package": "MedDataSets",
+   "item": "colmozzie_tbl_df",
+   "title": "Weekly Notified Dengue Cases in Sri Lanka",
+   "rows": 279,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/MedDataSets/colmozzie_tbl_df.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 8731
+  },
+  {
+   "package": "Stat2Data",
+   "item": "CO2",
+   "title": "Daily CO2 Measurements in Germany",
+   "rows": 237,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Stat2Data/CO2.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1614
+  },
+  {
+   "package": "Stat2Data",
+   "item": "CO2Germany",
+   "title": "Daily CO2 Measurements in Germany",
+   "rows": 237,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Stat2Data/CO2Germany.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1614
+  },
+  {
+   "package": "Stat2Data",
+   "item": "Inflation",
+   "title": "Monthly Consumer Price Index (2009-2016)",
+   "rows": 96,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Stat2Data/Inflation.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1139
+  },
+  {
+   "package": "Stat2Data",
+   "item": "Marathon",
+   "title": "Daily Training for a Marathon Runner",
+   "rows": 1127,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Stat2Data/Marathon.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 18993
+  },
+  {
+   "package": "Stat2Data",
+   "item": "PeaceBridge2003",
+   "title": "Monthly Peace Bridge Traffic ( 2003-2015)",
+   "rows": 156,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Stat2Data/PeaceBridge2003.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1384
+  },
+  {
+   "package": "Stat2Data",
+   "item": "ResidualOil",
+   "title": "US Residual Oil Production (Quarterly 1983-2016)",
+   "rows": 136,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Stat2Data/ResidualOil.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 2205
+  },
+  {
+   "package": "Stat2Data",
+   "item": "TechStocks",
+   "title": "Daily Prices of Three Tech Stocks",
+   "rows": 504,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/Stat2Data/TechStocks.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 7667
+  },
+  {
+   "package": "agridat",
+   "item": "lambert.soiltemp",
+   "title": "Average monthly soil temperature near Zurich",
+   "rows": 84,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/agridat/lambert.soiltemp.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 480
+  },
+  {
+   "package": "agridat",
+   "item": "minnesota.barley.weather",
+   "title": "Monthly weather at 6 sites in Minnesota 1927-1936.",
+   "rows": 719,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/agridat/minnesota.barley.weather.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 10271
+  },
+  {
+   "package": "camerondata",
+   "item": "incpanel",
+   "title": "Hourly wages",
+   "rows": 4856,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/camerondata/incpanel.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 55761
+  },
+  {
+   "package": "datasets",
+   "item": "BJsales",
+   "title": "Sales Data with Leading Indicator",
+   "rows": 150,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/BJsales.csv",
+   "reasons": [
+    "datasets-package ts object (fixed list)"
+   ],
+   "content_length": 865
+  },
+  {
+   "package": "datasets",
+   "item": "JohnsonJohnson",
+   "title": "Quarterly Earnings per Johnson & Johnson Share",
+   "rows": 84,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/JohnsonJohnson.csv",
+   "reasons": [
+    "title matches regex",
+    "datasets-package ts object (fixed list)"
+   ],
+   "content_length": 503
+  },
+  {
+   "package": "datasets",
+   "item": "Seatbelts",
+   "title": "Road Casualties in Great Britain 1969-84",
+   "rows": 192,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/Seatbelts.csv",
+   "reasons": [
+    "datasets-package ts object (fixed list)"
+   ],
+   "content_length": 4486
+  },
+  {
+   "package": "datasets",
+   "item": "UKDriverDeaths",
+   "title": "Road Casualties in Great Britain 1969-84",
+   "rows": 192,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/UKDriverDeaths.csv",
+   "reasons": [
+    "datasets-package ts object (fixed list)"
+   ],
+   "content_length": 1356
+  },
+  {
+   "package": "datasets",
+   "item": "WWWusage",
+   "title": "Internet Usage per Minute",
+   "rows": 100,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/WWWusage.csv",
+   "reasons": [
+    "datasets-package ts object (fixed list)"
+   ],
+   "content_length": 485
+  },
+  {
+   "package": "datasets",
+   "item": "austres",
+   "title": "Quarterly Time Series of the Number of Australian Residents",
+   "rows": 89,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/austres.csv",
+   "reasons": [
+    "title matches regex",
+    "datasets-package ts object (fixed list)"
+   ],
+   "content_length": 666
+  },
+  {
+   "package": "datasets",
+   "item": "sunspot.m2014 (sunspot.month)",
+   "title": "Monthly Sunspot Data, from 1749 to \"Present\"",
+   "rows": 3177,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/sunspot.m2014.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 22104
+  },
+  {
+   "package": "datasets",
+   "item": "sunspot.month",
+   "title": "Monthly Sunspot Data, from 1749 to \"Present\"",
+   "rows": 3310,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/sunspot.month.csv",
+   "reasons": [
+    "title matches regex",
+    "datasets-package ts object (fixed list)"
+   ],
+   "content_length": 23269
+  },
+  {
+   "package": "datasets",
+   "item": "sunspots",
+   "title": "Monthly Sunspot Numbers, 1749-1983",
+   "rows": 2820,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/sunspots.csv",
+   "reasons": [
+    "title matches regex",
+    "datasets-package ts object (fixed list)"
+   ],
+   "content_length": 23673
+  },
+  {
+   "package": "dslabs",
+   "item": "pr_death_counts (pr-death-counts)",
+   "title": "Puerto Rico daily mortality",
+   "rows": 1201,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/dslabs/pr_death_counts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 6642
+  },
+  {
+   "package": "fivethirtyeight",
+   "item": "daily_show_guests",
+   "title": "Every Guest Jon Stewart Ever Had On 'The Daily Show'",
+   "rows": 2693,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fivethirtyeight/daily_show_guests.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 43765
+  },
+  {
+   "package": "forecast",
+   "item": "gas",
+   "title": "Australian monthly gas production",
+   "rows": 476,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/forecast/gas.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 3608
+  },
+  {
+   "package": "forecast",
+   "item": "gold",
+   "title": "Daily morning gold prices",
+   "rows": 1108,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/forecast/gold.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 6692
+  },
+  {
+   "package": "forecast",
+   "item": "taylor",
+   "title": "Half-hourly electricity demand",
+   "rows": 4032,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/forecast/taylor.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 19526
+  },
+  {
+   "package": "forecast",
+   "item": "woolyrnq",
+   "title": "Quarterly production of woollen yarn in Australia",
+   "rows": 119,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/forecast/woolyrnq.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 770
+  },
+  {
+   "package": "fpp2",
+   "item": "a10",
+   "title": "Monthly anti-diabetic drug subsidy in Australia from 1991 to 2008.",
+   "rows": 204,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/a10.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 2143
+  },
+  {
+   "package": "fpp2",
+   "item": "ausbeer",
+   "title": "Quarterly Australian Beer production",
+   "rows": 218,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/ausbeer.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1249
+  },
+  {
+   "package": "fpp2",
+   "item": "auscafe",
+   "title": "Monthly expenditure on eating out in Australia",
+   "rows": 426,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/auscafe.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 3209
+  },
+  {
+   "package": "fpp2",
+   "item": "departures",
+   "title": "Total monthly departures from Australia",
+   "rows": 498,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/departures.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 6574
+  },
+  {
+   "package": "fpp2",
+   "item": "elecdaily",
+   "title": "Half-hourly and daily electricity demand for Victoria, Australia, in 2014",
+   "rows": 365,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/elecdaily.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 4219
+  },
+  {
+   "package": "fpp2",
+   "item": "goog",
+   "title": "Daily closing stock prices of Google Inc",
+   "rows": 1000,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/goog.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 8283
+  },
+  {
+   "package": "fpp2",
+   "item": "goog200",
+   "title": "Daily closing stock prices of Google Inc",
+   "rows": 200,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/goog200.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1799
+  },
+  {
+   "package": "fpp2",
+   "item": "h02",
+   "title": "Monthly corticosteroid drug subsidy in Australia from 1991 to 2008.",
+   "rows": 204,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/h02.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1914
+  },
+  {
+   "package": "fpp2",
+   "item": "hyndsight",
+   "title": "Daily pageviews for the Hyndsight blog. 30 April 2014 to 29 April 2015.",
+   "rows": 365,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/hyndsight.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 2540
+  },
+  {
+   "package": "fpp2",
+   "item": "melsyd",
+   "title": "Total weekly air passenger numbers on Ansett airline flights between Melbourne and Sydney, 1987-1992.",
+   "rows": 283,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/melsyd.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 2539
+  },
+  {
+   "package": "fpp2",
+   "item": "qauselec",
+   "title": "Quarterly Australian Electricity production",
+   "rows": 218,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/qauselec.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1591
+  },
+  {
+   "package": "fpp2",
+   "item": "qcement",
+   "title": "Quarterly Australian Portland Cement production",
+   "rows": 233,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/qcement.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1467
+  },
+  {
+   "package": "fpp2",
+   "item": "qgas",
+   "title": "Quarterly Australian Gas Production",
+   "rows": 218,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/qgas.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1544
+  },
+  {
+   "package": "fpp2",
+   "item": "sunspotarea",
+   "title": "Annual average sunspot area (1875-2015)",
+   "rows": 141,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/sunspotarea.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1140
+  },
+  {
+   "package": "fpp2",
+   "item": "usmelec",
+   "title": "Electricity monthly total net generation. January 1973 - June 2013.",
+   "rows": 486,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp2/usmelec.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 4151
+  },
+  {
+   "package": "fpp3",
+   "item": "canadian_gas",
+   "title": "Monthly Canadian gas production",
+   "rows": 542,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp3/canadian_gas.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 4299
+  },
+  {
+   "package": "fpp3",
+   "item": "melb_walkers",
+   "title": "Average daily total pedestrian count in Melbourne",
+   "rows": 1976,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/fpp3/melb_walkers.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 18754
+  },
+  {
+   "package": "ggplot2",
+   "item": "economics",
+   "title": "US economic time series",
+   "rows": 574,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/ggplot2/economics.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 10118
+  },
+  {
+   "package": "ggplot2",
+   "item": "economics_long",
+   "title": "US economic time series",
+   "rows": 2870,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/ggplot2/economics_long.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 41208
+  },
+  {
+   "package": "gt",
+   "item": "sza",
+   "title": "Twice hourly solar zenith angles by month & latitude",
+   "rows": 816,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/gt/sza.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 4867
+  },
+  {
+   "package": "ipsRdbs",
+   "item": "cfail",
+   "title": "Weekly number of failures of a university computer system over a period of two years. This is a data vector containing 104 values.",
+   "rows": 104,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/ipsRdbs/cfail.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 281
+  },
+  {
+   "package": "modeldata",
+   "item": "drinks",
+   "title": "Sample time series data",
+   "rows": 309,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/modeldata/drinks.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 2141
+  },
+  {
+   "package": "openintro",
+   "item": "unempl",
+   "title": "Annual unemployment since 1890",
+   "rows": 121,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/openintro/unempl.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 730
+  },
+  {
+   "package": "quantreg",
+   "item": "MelTemp",
+   "title": "Daily maximum temperatures in Melbourne, Australia",
+   "rows": 3650,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/quantreg/MelTemp.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 24953
+  },
+  {
+   "package": "quantreg",
+   "item": "gasprice",
+   "title": "Time Series of US Gasoline Prices",
+   "rows": 695,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/quantreg/gasprice.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 4791
+  },
+  {
+   "package": "robustbase",
+   "item": "ambientNOxCH",
+   "title": "Daily Means of NOx (mono-nitrogen oxides) in air",
+   "rows": 366,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/robustbase/ambientNOxCH.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 37867
+  },
+  {
+   "package": "stevedata",
+   "item": "commodity_prices",
+   "title": "Select World Bank Commodity Price Data (Monthly)",
+   "rows": 756,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/stevedata/commodity_prices.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 32293
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "AirPassengers_ts",
+   "title": "Monthly Airline Passenger Numbers from 1949 to 1960.",
+   "rows": 144,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/AirPassengers_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 961
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "JohnsonJohnson_ts",
+   "title": "Quarterly Earnings per Johnson & Johnson Share (1960-1981).",
+   "rows": 84,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/JohnsonJohnson_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 503
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "USgas_ts",
+   "title": "US Monthly Natural Gas Consumption",
+   "rows": 238,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/USgas_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1836
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "a10_ts",
+   "title": "Monthly Anti-Diabetic Drug Subsidy in Australia from 1991 to 2008.",
+   "rows": 204,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/a10_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 2143
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "airpass_ts",
+   "title": "Monthly Airline Passenger Numbers from 1949 to 1960.",
+   "rows": 144,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/airpass_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 956
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "ausbeer_ts",
+   "title": "Quarterly Australian Beer Production.",
+   "rows": 218,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/ausbeer_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1249
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "auscafe_ts",
+   "title": "Monthly Expenditure on Eating Out in Australia.",
+   "rows": 426,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/auscafe_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 3209
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "bricksq_ts",
+   "title": "Quarterly Clay Brick Production.",
+   "rows": 155,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/bricksq_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 900
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "discoveries_ts",
+   "title": "Yearly Numbers of Important Discoveries.",
+   "rows": 100,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/discoveries_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 460
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "economics_df_ts",
+   "title": "US Economic Time Series.",
+   "rows": 574,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/economics_df_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 10118
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "elecdaily_mts",
+   "title": "Half-Hourly and Daily Electricity Demand for Victoria, Australia, in 2014.",
+   "rows": 365,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/elecdaily_mts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 4219
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "goog200_ts",
+   "title": "Daily Closing Stock Prices of Google Inc. (200 Days).",
+   "rows": 200,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/goog200_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1799
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "h02_ts",
+   "title": "Monthly Corticosteroid Drug Subsidy in Australia (1991-2008).",
+   "rows": 204,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/h02_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1914
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "hyndsight_ts",
+   "title": "Daily Pageviews for the Hyndsight Blog (April 2014 - April 2015).",
+   "rows": 365,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/hyndsight_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 2540
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "ibmclose_ts",
+   "title": "Daily Closing Stock Prices of IBM.",
+   "rows": 369,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/ibmclose_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1810
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "jj_ts",
+   "title": "Johnson & Johnson Quarterly Earnings Per Share (1960-1981).",
+   "rows": 84,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/jj_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 507
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "milk_ts",
+   "title": "Monthly Milk Production per Cow",
+   "rows": 168,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/milk_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1135
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "qauselec_ts",
+   "title": "Quarterly Australian Electricity Production",
+   "rows": 218,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/qauselec_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1591
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "qcement_ts",
+   "title": "Quarterly Australian Portland Cement Production",
+   "rows": 233,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/qcement_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1467
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "qgas_ts",
+   "title": "Quarterly Australian Gas Production",
+   "rows": 218,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/qgas_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1544
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "sunspotarea_ts",
+   "title": "Annual Average Sunspot Area",
+   "rows": 141,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/sunspotarea_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 1140
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "taylor_30_min_df_ts",
+   "title": "Half-Hourly Electricity Demand",
+   "rows": 4032,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/taylor_30_min_df_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 31115
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "usmelec_ts",
+   "title": "Monthly Total Net Electricity Generation in the USA",
+   "rows": 486,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/usmelec_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 4151
+  },
+  {
+   "package": "timeSeriesDataSets",
+   "item": "woolyrnq_ts",
+   "title": "Quarterly Production of Woollen Yarn in Australia",
+   "rows": 119,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/timeSeriesDataSets/woolyrnq_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 770
+  },
+  {
+   "package": "tsibbledata",
+   "item": "aus_production",
+   "title": "Quarterly production of selected commodities in Australia.",
+   "rows": 218,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/tsibbledata/aus_production.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 3803
+  },
+  {
+   "package": "usdatasets",
+   "item": "presidents_ts",
+   "title": "Quarterly Approval Ratings of US Presidents",
+   "rows": 120,
+   "csv": "https://vincentarelbundock.github.io/Rdatasets/csv/usdatasets/presidents_ts.csv",
+   "reasons": [
+    "title matches regex"
+   ],
+   "content_length": 633
+  }
+ ],
+ "rejected": [
+  {
+   "key": [
+    "agridat",
+    "harvey.lsmeans"
+   ],
+   "reason": "rows=65 outside 80..5000"
+  },
+  {
+   "key": [
+    "agridat",
+    "zuidhof.broiler"
+   ],
+   "reason": "rows=59 outside 80..5000"
+  },
+  {
+   "key": [
+    "boot",
+    "acme"
+   ],
+   "reason": "rows=60 outside 80..5000"
+  },
+  {
+   "key": [
+    "carData",
+    "Hartnagel"
+   ],
+   "reason": "rows=38 outside 80..5000"
+  },
+  {
+   "key": [
+    "crimedatasets",
+    "crimestatewide_tbl_df"
+   ],
+   "reason": "rows=51 outside 80..5000"
+  },
+  {
+   "key": [
+    "crimedatasets",
+    "Hartnagel_df"
+   ],
+   "reason": "rows=38 outside 80..5000"
+  },
+  {
+   "key": [
+    "crimedatasets",
+    "TerrorismGlobal_table"
+   ],
+   "reason": "rows=10200 outside 80..5000"
+  },
+  {
+   "key": [
+    "crimedatasets",
+    "wmurders_ts"
+   ],
+   "reason": "rows=55 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "airmiles"
+   ],
+   "reason": "rows=24 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "AirPassengers"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "co2"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "discoveries"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "EuStockMarkets"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "fdeaths (UKLungDeaths)"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "LakeHuron"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "ldeaths (UKLungDeaths)"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "lh"
+   ],
+   "reason": "rows=48 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "lynx"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "mdeaths (UKLungDeaths)"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "nhtemp"
+   ],
+   "reason": "rows=60 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "Nile"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "nottem"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "precip"
+   ],
+   "reason": "rows=70 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "presidents"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "sunspot.year"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "treering"
+   ],
+   "reason": "rows=7980 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "UKgas"
+   ],
+   "reason": "already used / shared-source exclusion"
+  },
+  {
+   "key": [
+    "datasets",
+    "USAccDeaths"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "datasets",
+    "uspop"
+   ],
+   "reason": "rows=19 outside 80..5000"
+  },
+  {
+   "key": [
+    "Ecdat",
+    "incidents.byCountryYr"
+   ],
+   "reason": "rows=10200 outside 80..5000"
+  },
+  {
+   "key": [
+    "Ecdat",
+    "IncomeUK"
+   ],
+   "reason": "rows=58 outside 80..5000"
+  },
+  {
+   "key": [
+    "Ecdat",
+    "terrorism"
+   ],
+   "reason": "rows=51 outside 80..5000"
+  },
+  {
+   "key": [
+    "evir",
+    "bmw"
+   ],
+   "reason": "rows=6146 outside 80..5000"
+  },
+  {
+   "key": [
+    "evir",
+    "siemens"
+   ],
+   "reason": "rows=6146 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp2",
+    "elecdemand"
+   ],
+   "reason": "rows=17520 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp2",
+    "euretail"
+   ],
+   "reason": "rows=64 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp2",
+    "maxtemp"
+   ],
+   "reason": "rows=46 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp2",
+    "oil"
+   ],
+   "reason": "rows=49 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp2",
+    "visnights"
+   ],
+   "reason": "rows=76 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp2",
+    "wmurders"
+   ],
+   "reason": "rows=55 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp3",
+    "aus_inbound"
+   ],
+   "reason": "rows=20748 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp3",
+    "aus_outbound"
+   ],
+   "reason": "rows=11700 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp3",
+    "nsw_offences"
+   ],
+   "reason": "rows=7308 outside 80..5000"
+  },
+  {
+   "key": [
+    "fpp3",
+    "us_employment"
+   ],
+   "reason": "rows=143412 outside 80..5000"
+  },
+  {
+   "key": [
+    "gt",
+    "countrypops"
+   ],
+   "reason": "rows=13975 outside 80..5000"
+  },
+  {
+   "key": [
+    "gt",
+    "sp500"
+   ],
+   "reason": "rows=16607 outside 80..5000"
+  },
+  {
+   "key": [
+    "itsadug",
+    "simdat"
+   ],
+   "reason": "rows=75600 outside 80..5000"
+  },
+  {
+   "key": [
+    "MASS",
+    "deaths"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "MedDataSets",
+    "fdeaths_ts"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "MedDataSets",
+    "ldeaths_ts"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "MedDataSets",
+    "mdeaths_ts"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "modeldata",
+    "hotel_rates"
+   ],
+   "reason": "rows=15402 outside 80..5000"
+  },
+  {
+   "key": [
+    "modeldata",
+    "stackoverflow"
+   ],
+   "reason": "rows=5594 outside 80..5000"
+  },
+  {
+   "key": [
+    "nycflights13",
+    "weather"
+   ],
+   "reason": "rows=26115 outside 80..5000"
+  },
+  {
+   "key": [
+    "openintro",
+    "sp500_1950_2018"
+   ],
+   "reason": "rows=17346 outside 80..5000"
+  },
+  {
+   "key": [
+    "openintro",
+    "stocks_18"
+   ],
+   "reason": "rows=36 outside 80..5000"
+  },
+  {
+   "key": [
+    "plyr",
+    "baseball"
+   ],
+   "reason": "rows=21699 outside 80..5000"
+  },
+  {
+   "key": [
+    "plyr",
+    "ozone"
+   ],
+   "reason": "rows=24 outside 80..5000"
+  },
+  {
+   "key": [
+    "Stat2Data",
+    "AppleStock"
+   ],
+   "reason": "rows=66 outside 80..5000"
+  },
+  {
+   "key": [
+    "Stat2Data",
+    "Markets"
+   ],
+   "reason": "rows=56 outside 80..5000"
+  },
+  {
+   "key": [
+    "Stat2Data",
+    "PeaceBridge2012"
+   ],
+   "reason": "rows=48 outside 80..5000"
+  },
+  {
+   "key": [
+    "Stat2Data",
+    "Retirement"
+   ],
+   "reason": "rows=16 outside 80..5000"
+  },
+  {
+   "key": [
+    "Stat2Data",
+    "Speed"
+   ],
+   "reason": "rows=21 outside 80..5000"
+  },
+  {
+   "key": [
+    "Stat2Data",
+    "YouthRisk"
+   ],
+   "reason": "rows=13387 outside 80..5000"
+  },
+  {
+   "key": [
+    "stevedata",
+    "clemson_temps"
+   ],
+   "reason": "rows=33148 outside 80..5000"
+  },
+  {
+   "key": [
+    "stevedata",
+    "nesarc_drinkspd"
+   ],
+   "reason": "rows=43093 outside 80..5000"
+  },
+  {
+   "key": [
+    "timeSeriesDataSets",
+    "beer_ts"
+   ],
+   "reason": "rows=56 outside 80..5000"
+  },
+  {
+   "key": [
+    "timeSeriesDataSets",
+    "elecdemand_msts"
+   ],
+   "reason": "rows=17520 outside 80..5000"
+  },
+  {
+   "key": [
+    "timeSeriesDataSets",
+    "euretail_ts"
+   ],
+   "reason": "rows=64 outside 80..5000"
+  },
+  {
+   "key": [
+    "timeSeriesDataSets",
+    "ldeaths_ts"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "timeSeriesDataSets",
+    "maxtemp_ts"
+   ],
+   "reason": "rows=46 outside 80..5000"
+  },
+  {
+   "key": [
+    "timeSeriesDataSets",
+    "mdeaths_ts"
+   ],
+   "reason": "rows=72 outside 80..5000"
+  },
+  {
+   "key": [
+    "timeSeriesDataSets",
+    "wmurders_ts"
+   ],
+   "reason": "rows=55 outside 80..5000"
+  },
+  {
+   "key": [
+    "tsibbledata",
+    "PBS"
+   ],
+   "reason": "rows=67596 outside 80..5000"
+  },
+  {
+   "key": [
+    "tsibbledata",
+    "vic_elec"
+   ],
+   "reason": "rows=52608 outside 80..5000"
+  },
+  {
+   "key": [
+    "usdatasets",
+    "precip_numeric"
+   ],
+   "reason": "rows=70 outside 80..5000"
+  },
+  {
+   "key": [
+    "usdatasets",
+    "sp500_1950_2018_tbl_df"
+   ],
+   "reason": "rows=17346 outside 80..5000"
+  }
+ ]
+}

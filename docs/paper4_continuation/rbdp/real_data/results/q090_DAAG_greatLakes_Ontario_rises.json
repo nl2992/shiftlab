@@ -1,0 +1,92 @@
+{
+ "fit": {
+  "t01": 0.4189552659115913,
+  "t10": 0.999999,
+  "e0": 0.28230276471826904,
+  "e1": 0.999999,
+  "loglik": -61.52978929346465,
+  "loglik_em": -61.537686383420336,
+  "polished": true,
+  "restart_loglik_min": -63.07089881837568,
+  "restart_loglik_max": -61.537686383420336,
+  "n_restarts_at_best": 15,
+  "n": 91,
+  "stationary1": 0.29525635601964817,
+  "time_cap_hit": false,
+  "n_restarts_done": 20
+ },
+ "g1": {
+  "pass_": false,
+  "split_pass": false,
+  "bic_pass": false,
+  "n_first": 45,
+  "n_second": 46,
+  "hmm_test_mean_ll": -0.6943611314232621,
+  "iid_test_mean_ll": -0.6943288598292802,
+  "markov_test_mean_ll": -0.6742005190439643,
+  "split_margin": -0.020160612379297782,
+  "first_half_fit": {
+   "t01": 8.429256774207988e-05,
+   "t10": 0.999999,
+   "e0": 0.511075435174853,
+   "e1": 0.9916813866350291,
+   "time_cap_hit": false
+  },
+  "loglik_hmm": -61.52978929346465,
+  "loglik_iid": -63.070899464109665,
+  "loglik_markov": -61.643031790294515,
+  "bic_hmm": 141.1030166129967,
+  "bic_iid": 130.65265843473617,
+  "bic_markov": 132.30778259362273,
+  "bic_margin": -10.45035817826053,
+  "full_fit": {
+   "t01": 0.4189552659115913,
+   "t10": 0.999999,
+   "e0": 0.28230276471826904,
+   "e1": 0.999999,
+   "loglik": -61.52978929346465,
+   "loglik_em": -61.537686383420336,
+   "polished": true,
+   "restart_loglik_min": -63.07089881837568,
+   "restart_loglik_max": -61.537686383420336,
+   "n_restarts_at_best": 15,
+   "n": 91,
+   "stationary1": 0.29525635601964817,
+   "time_cap_hit": false,
+   "n_restarts_done": 20
+  }
+ },
+ "g2": {
+  "pass_": false,
+  "emissions_straddle_half": true,
+  "transitions_in_range": false,
+  "at_bounds": {
+   "t01": false,
+   "t10": true,
+   "e0": false,
+   "e1": true
+  }
+ },
+ "eigenvalue": -0.41895426591159135,
+ "time_fit_s": 1.6175256670103408,
+ "fit_time_cap_hit": false,
+ "positive_any_cell": false,
+ "nondegenerate_positive": false,
+ "degeneracy_flags": [
+  "param_at_bound:t10,e1",
+  "near_deterministic_emission",
+  "t01+t10>1_with_t_near_1"
+ ],
+ "tag": "DAAG/greatLakes:Ontario:rises",
+ "runtime_s": 1.6175322920025792,
+ "seq": 90,
+ "package": "DAAG",
+ "item": "greatLakes",
+ "item_key": "DAAG/greatLakes",
+ "column": "Ontario",
+ "rule": "rises",
+ "n": 91,
+ "r1": -0.1778216897897548,
+ "n_ones": 45,
+ "qualifies": false
+}

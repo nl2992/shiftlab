@@ -1,0 +1,456 @@
+{
+ "order": [
+  "T:en",
+  "G:NC_001422.1",
+  "T:fr",
+  "G:NC_001416.1",
+  "T:de",
+  "G:NC_001604.1",
+  "T:es",
+  "G:NC_001417.2",
+  "T:it",
+  "G:NC_001802.1",
+  "T:pt",
+  "G:NC_045512.2",
+  "T:nl",
+  "G:NC_001669.1",
+  "T:sv",
+  "G:NC_003977.2",
+  "T:da",
+  "G:NC_012920.1",
+  "T:fi",
+  "G:NC_005089.1",
+  "T:hu",
+  "G:NC_001224.1",
+  "T:pl",
+  "G:NC_001879.2",
+  "T:cs",
+  "G:NC_000913.3",
+  "T:la",
+  "G:NC_000964.3",
+  "T:ru",
+  "G:NC_001133.9",
+  "T:el",
+  "G:NC_001477.1",
+  "T:ro",
+  "T:ca",
+  "T:eo",
+  "T:tr"
+ ],
+ "items": [
+  {
+   "family": "T",
+   "key": "en",
+   "resolved": {
+    "ok": true,
+    "book_id": 1342,
+    "title": "Pride and Prejudice",
+    "download_count": 208430,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/1342.txt.utf-8",
+    "languages": [
+     "en"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_001422.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "fr",
+   "resolved": {
+    "ok": true,
+    "book_id": 78027,
+    "title": "Les enchantements de la forêt",
+    "download_count": 47001,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/78027.txt.utf-8",
+    "languages": [
+     "fr"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_001416.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "de",
+   "resolved": {
+    "ok": true,
+    "book_id": 78079,
+    "title": "Allgemeine Physiologie",
+    "download_count": 24849,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/78079.txt.utf-8",
+    "languages": [
+     "de"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_001604.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "es",
+   "resolved": {
+    "ok": true,
+    "book_id": 61851,
+    "title": "El crimen y el castigo",
+    "download_count": 29958,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/61851.txt.utf-8",
+    "languages": [
+     "es"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_001417.2",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "it",
+   "resolved": {
+    "ok": true,
+    "book_id": 61885,
+    "title": "Ricordi d'infanzia e di scuola: seguìti da Bambole e marionette, Gente minima, Piccoli studenti, Adolescenti, Due di spade e due di cuori",
+    "download_count": 9700,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/61885.txt.utf-8",
+    "languages": [
+     "it"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_001802.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "pt",
+   "resolved": {
+    "ok": true,
+    "book_id": 62383,
+    "title": "A Biblia Sagrada, Contendo o Velho e o Novo Testamento",
+    "download_count": 47118,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/62383.txt.utf-8",
+    "languages": [
+     "pt"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_045512.2",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "nl",
+   "resolved": {
+    "ok": true,
+    "book_id": 76280,
+    "title": "Mathias Sandorf [1] : $b Een verijdelde samenzwering; Dokter Antekirrt",
+    "download_count": 4939,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/76280.txt.utf-8",
+    "languages": [
+     "nl"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_001669.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "sv",
+   "resolved": {
+    "ok": true,
+    "book_id": 65580,
+    "title": "Carl Svenske: Historisk berättelse från frihetstiden",
+    "download_count": 3458,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/65580.txt.utf-8",
+    "languages": [
+     "sv"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_003977.2",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "da",
+   "resolved": {
+    "ok": true,
+    "book_id": 24747,
+    "title": "Samlede Værker, Andet Bind",
+    "download_count": 1553,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/24747.txt.utf-8",
+    "languages": [
+     "da"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_012920.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "fi",
+   "resolved": {
+    "ok": true,
+    "book_id": 78071,
+    "title": "Kaksi morsianta : $b Yksinäytöksinen pila",
+    "download_count": 24413,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/78071.txt.utf-8",
+    "languages": [
+     "fi"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_005089.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "hu",
+   "resolved": {
+    "ok": true,
+    "book_id": 41504,
+    "title": "Petőfi Sándor összes költeményei: Hazai művészek rajzaival díszített negyedik népies kiadás",
+    "download_count": 834,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/41504.txt.utf-8",
+    "languages": [
+     "hu"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿőœű",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_001224.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "pl",
+   "resolved": {
+    "ok": true,
+    "book_id": 31536,
+    "title": "Pan Tadeusz: Czyli Ostatni Zajazd na Litwie. Historja Szlachecka z r. 1811 i 1812 we Dwunastu Księgach Wierszem",
+    "download_count": 1165,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/31536.txt.utf-8",
+    "languages": [
+     "pl"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_001879.2",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "cs",
+   "resolved": {
+    "ok": true,
+    "book_id": 13083,
+    "title": "R.U.R.",
+    "download_count": 1403,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/13083.txt.utf-8",
+    "languages": [
+     "cs"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_000913.3",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "la",
+   "resolved": {
+    "ok": true,
+    "book_id": 227,
+    "title": "Aeneidos",
+    "download_count": 8361,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/227.txt.utf-8",
+    "languages": [
+     "la"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "G",
+   "key": "NC_000964.3",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "ru",
+   "resolved": {
+    "ok": true,
+    "book_id": 19681,
+    "title": "Детство",
+    "download_count": 4503,
+    "format": "text/plain; charset=us-ascii",
+    "url": "https://www.gutenberg.org/files/19681/19681.txt",
+    "languages": [
+     "ru"
+    ]
+   },
+   "vowels": "аеиоуыэюяё",
+   "script": "CYRILLIC"
+  },
+  {
+   "family": "G",
+   "key": "NC_001133.9",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "el",
+   "resolved": {
+    "ok": true,
+    "book_id": 40935,
+    "title": "A Greek-English Lexicon to the New Testament",
+    "download_count": 1404,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/40935.txt.utf-8",
+    "languages": [
+     "el",
+     "en"
+    ]
+   },
+   "vowels": "ΐάέήίΰαεηιουωϊϋόύώ",
+   "script": "GREEK"
+  },
+  {
+   "family": "G",
+   "key": "NC_001477.1",
+   "url_template": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=<acc>&rettype=fasta&retmode=text&seq_start=1001&seq_stop=4000"
+  },
+  {
+   "family": "T",
+   "key": "ro",
+   "resolved": {
+    "ok": true,
+    "book_id": 35323,
+    "title": "Poezii",
+    "download_count": 1029,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/35323.txt.utf-8",
+    "languages": [
+     "ro"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿăœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "T",
+   "key": "ca",
+   "resolved": {
+    "ok": true,
+    "book_id": 78123,
+    "title": "Un pis al ensanche : $b Comedia en un acte y en prosa",
+    "download_count": 23965,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/78123.txt.utf-8",
+    "languages": [
+     "ca"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "T",
+   "key": "eo",
+   "resolved": {
+    "ok": true,
+    "book_id": 78054,
+    "title": "Mallonga biografio de Henry Fawcett la blinda ĉefpoŝtestro de Anglujo : $b Por ĉiuj infanoj, ĉie",
+    "download_count": 23979,
+    "format": "text/plain; charset=utf-8",
+    "url": "https://www.gutenberg.org/ebooks/78054.txt.utf-8",
+    "languages": [
+     "eo"
+    ]
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿœ",
+   "script": "LATIN"
+  },
+  {
+   "family": "T",
+   "key": "tr",
+   "resolved": {
+    "ok": false,
+    "error": "no plain-text book on first Gutendex page"
+   },
+   "vowels": "aeiouyàáâãäåæèéêëìíîïòóôõöøùúûüýÿıœ",
+   "script": "LATIN"
+  }
+ ]
+}

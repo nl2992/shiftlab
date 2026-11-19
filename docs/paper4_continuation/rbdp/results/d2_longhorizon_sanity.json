@@ -1,0 +1,68 @@
+[
+ {
+  "T": 5,
+  "B": 2,
+  "t": "3/4",
+  "mode": "iid",
+  "U": 2.474,
+  "exact": 2.474,
+  "diff": 0.0,
+  "belief_grid": "reach",
+  "risk_causal": 0.09999999999999999
+ },
+ {
+  "T": 5,
+  "B": 2,
+  "t": "3/4",
+  "mode": "causal",
+  "U": 2.474,
+  "exact": 2.474,
+  "diff": 0.0,
+  "belief_grid": "reach",
+  "risk_causal": 0.09999999999999999
+ },
+ {
+  "T": 6,
+  "B": 3,
+  "t": "2/3",
+  "mode": "iid",
+  "U": 2.985514403292181,
+  "exact": 2.985514403292181,
+  "diff": 0.0,
+  "belief_grid": "reach",
+  "risk_causal": 0.1
+ },
+ {
+  "T": 6,
+  "B": 3,
+  "t": "2/3",
+  "mode": "causal",
+  "U": 2.985514403292181,
+  "exact": 2.985514403292181,
+  "diff": 0.0,
+  "belief_grid": "reach",
+  "risk_causal": 0.1
+ },
+ {
+  "T": 7,
+  "B": 2,
+  "t": "9/10",
+  "mode": "iid",
+  "U": 3.3790860800000004,
+  "exact": 3.37908608,
+  "diff": 4.440892098500626e-16,
+  "belief_grid": "reach",
+  "risk_causal": 0.2
+ },
+ {
+  "T": 7,
+  "B": 2,
+  "t": "9/10",
+  "mode": "causal",
+  "U": 3.3844600320000002,
+  "exact": 3.384460032,
+  "diff": 4.440892098500626e-16,
+  "belief_grid": "reach",
+  "risk_causal": 0.1
+ }
+]

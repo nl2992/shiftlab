@@ -1,0 +1,134 @@
+12:57:36 F:faithful eruptions>3|x=1 n 272 r1 -0.461 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.12976515595111404, 'C0': 10.08859815718125, 'U_iid': 9.161950524028867, 'risk_causal_of_iid_policy': 0.2}
+12:57:53 F:faithful eruptions>3|1-x n 272 r1 -0.461 pos False None
+12:59:51 F:faithful waiting>70|x=1 n 272 r1 -0.498 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.3097752992769924, 'C0': 9.55260041665689, 'U_iid': 8.780139751921984, 'risk_causal_of_iid_policy': 0.32500000000000007}
+13:00:14 F:faithful waiting>70|1-x n 272 r1 -0.498 pos False None
+13:00:14 DONE F:faithful evaluated positive True TALLY 11
+13:00:15 F:geyser duration>3|x=1 n 299 r1 -0.556 pos False None
+13:00:15 F:geyser duration>3|1-x n 299 r1 -0.556 pos False None
+13:02:53 F:geyser waiting>70|x=1 n 299 r1 -0.562 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.07001770300561454, 'C0': 9.997717334655752, 'U_iid': 8.664386727680656, 'risk_causal_of_iid_policy': 0.325}
+13:05:13 F:geyser waiting>70|1-x n 299 r1 -0.562 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.4403285694744267, 'C0': 6.002282538107498, 'U_iid': 5.748969742098866, 'risk_causal_of_iid_policy': 0.8}
+13:05:13 DONE F:geyser evaluated positive True TALLY 12
+13:05:51 S:P15502 x=1 n 786 r1 -0.130 pos False None
+13:10:10 S:P15502 1-x n 786 r1 -0.130 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.09154002626404156, 'C0': 8.922766376485031, 'U_iid': 8.719418765829401, 'risk_causal_of_iid_policy': 0.30000000000000004}
+13:10:10 DONE S:P15502 evaluated positive True TALLY 13
+13:10:39 S:Q9NT22 x=1 n 766 r1 -0.036 pos False None
+13:11:09 S:Q9NT22 1-x n 766 r1 -0.036 pos False None
+13:11:09 DONE S:Q9NT22 evaluated positive False TALLY 13
+13:11:57 S:Q9Y6C2 x=1 n 1016 r1 -0.032 pos False None
+13:12:50 S:Q9Y6C2 1-x n 1016 r1 -0.032 pos False None
+13:12:50 DONE S:Q9Y6C2 evaluated positive False TALLY 13
+13:13:39 S:Q9BXX0 x=1 n 1053 r1 -0.081 pos False None
+13:14:34 S:Q9BXX0 1-x n 1053 r1 -0.081 pos False None
+13:14:34 DONE S:Q9BXX0 evaluated positive False TALLY 13
+13:15:03 S:Q9H8L6 x=1 n 949 r1 -0.079 pos False None
+13:15:32 S:Q9H8L6 1-x n 949 r1 -0.079 pos False None
+13:15:32 DONE S:Q9H8L6 evaluated positive False TALLY 13
+13:16:00 S:Q99372 x=1 n 870 r1 -0.095 pos False None
+13:16:29 S:Q99372 1-x n 870 r1 -0.095 pos False None
+13:16:29 DONE S:Q99372 evaluated positive False TALLY 13
+13:16:55 S:P04985 x=1 n 747 r1 -0.218 pos False None
+13:20:11 S:P04985 1-x n 747 r1 -0.218 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2339178606906329, 'C0': 8.8061689758884, 'U_iid': 8.567486948849597, 'risk_causal_of_iid_policy': 0.32500000000000007}
+13:20:11 DONE S:P04985 evaluated positive True TALLY 14
+13:20:25 S:P54320 x=1 n 860 r1 -0.133 pos False None
+13:20:40 S:P54320 1-x n 860 r1 -0.133 pos False None
+13:20:40 DONE S:P54320 evaluated positive False TALLY 14
+13:21:16 S:P16278 x=1 n 677 r1 -0.004 pos False None
+13:21:57 S:P16278 1-x n 677 r1 -0.004 pos False None
+13:21:57 DONE S:P16278 evaluated positive False TALLY 14
+13:22:54 S:Q13201 x=1 n 1228 r1 -0.069 pos False None
+13:23:55 S:Q13201 1-x n 1228 r1 -0.069 pos False None
+13:23:55 DONE S:Q13201 evaluated positive False TALLY 14
+13:24:40 S:Q99K41 x=1 n 1017 r1 -0.009 pos False None
+13:25:27 S:Q99K41 1-x n 1017 r1 -0.009 pos False None
+13:25:27 DONE S:Q99K41 evaluated positive False TALLY 14
+13:26:18 S:Q8K482 x=1 n 1074 r1 -0.080 pos False None
+13:27:14 S:Q8K482 1-x n 1074 r1 -0.080 pos False None
+13:27:14 DONE S:Q8K482 evaluated positive False TALLY 14
+13:27:38 Y:noise0 x=1 n 60 r1 -0.183 pos False None
+13:27:55 Y:noise0 1-x n 60 r1 -0.183 pos False None
+13:27:56 Y:noise1 x=1 n 60 r1 -0.069 pos False None
+13:27:57 Y:noise1 1-x n 60 r1 -0.069 pos False None
+13:28:10 Y:noise2 x=1 n 60 r1 -0.379 pos False None
+13:29:00 Y:noise2 1-x n 60 r1 -0.379 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.21489781165986774, 'C0': 9.550221310251384, 'U_iid': 8.980954895928981, 'risk_causal_of_iid_policy': 0.325}
+13:29:14 Y:noise3 x=1 n 60 r1 -0.278 pos False None
+13:30:05 Y:noise3 1-x n 60 r1 -0.278 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2451847339703021, 'C0': 9.031478443481905, 'U_iid': 8.711092049810343, 'risk_causal_of_iid_policy': 0.32499999999999996}
+13:30:19 Y:noise4 x=1 n 60 r1 -0.297 pos False None
+13:31:30 Y:noise4 1-x n 60 r1 -0.297 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2726474660503492, 'C0': 8.714904909486021, 'U_iid': 8.464563406405926, 'risk_causal_of_iid_policy': 0.325}
+13:31:44 Y:noise5 x=1 n 60 r1 -0.264 pos False None
+13:32:40 Y:noise5 1-x n 60 r1 -0.264 pos True {'T': 16, 'B': 3, 'rho_Gamma': 0.12317488710387195, 'C0': 9.493089702252151, 'U_iid': 9.089102921610419, 'risk_causal_of_iid_policy': 0.2}
+13:32:51 Y:noise6 x=1 n 60 r1 -0.139 pos False None
+13:33:09 Y:noise6 1-x n 60 r1 -0.139 pos False {'T': 16, 'B': 4, 'rho_Gamma': 0.07131890863262778, 'C0': 9.028202441793585, 'U_iid': 8.803200025887534, 'risk_causal_of_iid_policy': 0.25}
+13:33:18 Y:noise7 x=1 n 60 r1 -0.211 pos False None
+13:33:34 Y:noise7 1-x n 60 r1 -0.211 pos False {'T': 16, 'B': 3, 'rho_Gamma': 0.0712022158620178, 'C0': 9.590269464792144, 'U_iid': 9.185533847553913, 'risk_causal_of_iid_policy': 0.2}
+13:33:44 Y:noise8 x=1 n 60 r1 -0.211 pos False None
+13:34:01 Y:noise8 1-x n 60 r1 -0.211 pos False {'T': 16, 'B': 3, 'rho_Gamma': 0.07120247253100973, 'C0': 9.59026902577109, 'U_iid': 9.18553341109785, 'risk_causal_of_iid_policy': 0.19999999999999996}
+13:34:10 Y:noise9 x=1 n 60 r1 -0.305 pos False None
+13:34:52 Y:noise9 1-x n 60 r1 -0.305 pos True {'T': 16, 'B': 3, 'rho_Gamma': 0.05741171601644461, 'C0': 10.004063878397883, 'U_iid': 9.410019912087165, 'risk_causal_of_iid_policy': 0.2}
+13:35:05 Y:noise10 x=1 n 60 r1 -0.335 pos False None
+13:36:37 Y:noise10 1-x n 60 r1 -0.335 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.19223387943930353, 'C0': 9.484454320565968, 'U_iid': 8.991128802059343, 'risk_causal_of_iid_policy': 0.325}
+13:36:49 Y:noise11 x=1 n 60 r1 -0.151 pos False None
+13:37:07 Y:noise11 1-x n 60 r1 -0.151 pos False {'T': 16, 'B': 3, 'rho_Gamma': 0.05375919973961769, 'C0': 9.285653166110789, 'U_iid': 8.99355796443714, 'risk_causal_of_iid_policy': 0.2}
+13:37:16 Y:noise12 x=1 n 60 r1 -0.280 pos False None
+13:37:55 Y:noise12 1-x n 60 r1 -0.280 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.029899542299306466, 'C0': 10.063103638582712, 'U_iid': 9.433332568456116, 'risk_causal_of_iid_policy': 0.15416666666666667}
+13:38:10 Y:noise13 x=1 n 60 r1 -0.319 pos False None
+13:38:47 Y:noise13 1-x n 60 r1 -0.319 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.24874616698016686, 'C0': 9.228203979674571, 'U_iid': 8.819596500582897, 'risk_causal_of_iid_policy': 0.325}
+13:39:02 Y:noise14 x=1 n 60 r1 -0.335 pos False None
+13:40:30 Y:noise14 1-x n 60 r1 -0.335 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.19223420746807665, 'C0': 9.484453732905688, 'U_iid': 8.991128163288606, 'risk_causal_of_iid_policy': 0.325}
+13:40:44 Y:noise15 x=1 n 60 r1 -0.500 pos False None
+13:41:40 Y:noise15 1-x n 60 r1 -0.500 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.14584322242033534, 'C0': 10.071061572774054, 'U_iid': 9.152368769570735, 'risk_causal_of_iid_policy': 0.2}
+13:41:50 Y:noise16 x=1 n 60 r1 -0.237 pos False None
+13:42:06 Y:noise16 1-x n 60 r1 -0.237 pos False {'T': 16, 'B': 3, 'rho_Gamma': 0.09754198933581157, 'C0': 9.545908022409026, 'U_iid': 9.140942996847048, 'risk_causal_of_iid_policy': 0.2}
+13:42:18 Y:noise17 x=1 n 60 r1 -0.134 pos False None
+13:42:38 Y:noise17 1-x n 60 r1 -0.134 pos False None
+13:42:47 Y:noise18 x=1 n 60 r1 -0.237 pos False None
+13:43:02 Y:noise18 1-x n 60 r1 -0.237 pos False {'T': 16, 'B': 3, 'rho_Gamma': 0.09754174286703864, 'C0': 9.545908360076309, 'U_iid': 9.140943368737728, 'risk_causal_of_iid_policy': 0.2}
+13:43:16 Y:noise19 x=1 n 60 r1 -0.264 pos False None
+13:43:55 Y:noise19 1-x n 60 r1 -0.264 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.16512590606752955, 'C0': 9.34320356969038, 'U_iid': 8.956127599108001, 'risk_causal_of_iid_policy': 0.325}
+13:44:09 Y:noise20 x=1 n 60 r1 -0.291 pos False None
+13:45:37 Y:noise20 1-x n 60 r1 -0.291 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.207716429083321, 'C0': 9.28970879539467, 'U_iid': 8.89052700586575, 'risk_causal_of_iid_policy': 0.32500000000000007}
+13:45:51 Y:noise21 x=1 n 60 r1 -0.264 pos False None
+13:46:15 Y:noise21 1-x n 60 r1 -0.264 pos True {'T': 16, 'B': 3, 'rho_Gamma': 0.1231750100083484, 'C0': 9.493089461641485, 'U_iid': 9.089102664031936, 'risk_causal_of_iid_policy': 0.2}
+13:46:25 Y:noise22 x=1 n 60 r1 -0.194 pos False None
+13:46:41 Y:noise22 1-x n 60 r1 -0.194 pos False {'T': 16, 'B': 3, 'rho_Gamma': 0.08826271748342705, 'C0': 9.32905134198393, 'U_iid': 9.00772352511946, 'risk_causal_of_iid_policy': 0.2}
+13:46:56 Y:noise23 x=1 n 60 r1 -0.379 pos False None
+13:47:53 Y:noise23 1-x n 60 r1 -0.379 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2148977693875399, 'C0': 9.550221366249378, 'U_iid': 8.980954979817955, 'risk_causal_of_iid_policy': 0.32500000000000007}
+13:47:53 Y noise control: 14 of 24 qualify; family counts: False
+13:47:53 DONE Y:olive:Spain family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:olive:Greece family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:olive:Italy family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:pistachio:United States of America family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:pistachio:Türkiye family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:pistachio:Iran (Islamic Republic of) family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:pecan no FAOSTAT item positive False TALLY 14
+13:47:53 DONE Y:apple:China, mainland family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:apple:United States of America family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:apple:Türkiye family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:avocado:Mexico family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:avocado:Colombia family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:avocado:Peru family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:mango:India family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:mango:China, mainland family void (noise control) positive False TALLY 14
+13:47:53 DONE Y:mango:Indonesia family void (noise control) positive False TALLY 14
+13:58:50 L:hu vowel=1 n 3000 r1 -0.554 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.31100663892857516, 'C0': 6.509710194659619, 'U_iid': 6.391954318927135, 'risk_causal_of_iid_policy': 0.4}
+14:09:47 L:hu consonant=1 n 3000 r1 -0.554 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.3480267487361562, 'C0': 9.490289806360837, 'U_iid': 8.649285862742692, 'risk_causal_of_iid_policy': 0.325}
+14:09:47 DONE L:hu evaluated positive True TALLY 15
+14:10:19 L:pl vowel=1 n 3000 r1 -0.398 pos False None
+14:21:38 L:pl consonant=1 n 3000 r1 -0.398 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2030657527908566, 'C0': 9.647477476895848, 'U_iid': 9.02623338197931, 'risk_causal_of_iid_policy': 0.32499999999999996}
+14:21:38 DONE L:pl evaluated positive True TALLY 16
+14:22:59 L:cs vowel=1 n 3000 r1 -0.384 pos False None
+14:34:35 L:cs consonant=1 n 3000 r1 -0.384 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.16176873844992387, 'C0': 9.77577258437688, 'U_iid': 9.126631693382524, 'risk_causal_of_iid_policy': 0.32499999999999996}
+14:34:35 DONE L:cs evaluated positive True TALLY 17
+14:45:33 L:la vowel=1 n 3000 r1 -0.503 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2757956463882226, 'C0': 7.0819937384840195, 'U_iid': 6.942823774523336, 'risk_causal_of_iid_policy': 0.3999999999999999}
+14:56:34 L:la consonant=1 n 3000 r1 -0.503 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.4253589024469633, 'C0': 8.918006748066656, 'U_iid': 8.368309726865201, 'risk_causal_of_iid_policy': 0.32499999999999996}
+14:56:34 DONE L:la evaluated positive True TALLY 18
+14:56:37 DONE L:ru too few letters (0) positive False TALLY 18
+14:58:54 L:el vowel=1 n 3000 r1 -0.138 pos False None
+15:01:04 L:el consonant=1 n 3000 r1 -0.138 pos False None
+15:01:04 DONE L:el evaluated positive False TALLY 18
+15:02:36 L:ro vowel=1 n 3000 r1 -0.383 pos False None
+15:14:32 L:ro consonant=1 n 3000 r1 -0.383 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.15940246377624837, 'C0': 9.78053714716435, 'U_iid': 9.131667357445156, 'risk_causal_of_iid_policy': 0.325}
+15:14:32 DONE L:ro evaluated positive True TALLY 19
+15:25:23 L:ca vowel=1 n 3000 r1 -0.485 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.25117691760890304, 'C0': 7.3240072795868505, 'U_iid': 7.1861204172805095, 'risk_causal_of_iid_policy': 0.4}
+15:36:26 L:ca consonant=1 n 3000 r1 -0.485 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.4173539442566711, 'C0': 8.675992744095563, 'U_iid': 8.25752337496842, 'risk_causal_of_iid_policy': 0.32499999999999996}
+15:36:26 DONE L:ca evaluated positive True TALLY 20
+15:36:27 TARGET reached; stopping

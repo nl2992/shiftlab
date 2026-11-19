@@ -1,0 +1,92 @@
+{
+ "fit": {
+  "t01": 0.999999,
+  "t10": 0.4692484727822632,
+  "e0": 1e-06,
+  "e1": 0.8130215867668856,
+  "loglik": -323.1300686232714,
+  "loglik_em": -323.13062681663416,
+  "polished": true,
+  "restart_loglik_min": -341.6628123532063,
+  "restart_loglik_max": -323.13062681663416,
+  "n_restarts_at_best": 14,
+  "n": 497,
+  "stationary1": 0.680619853717588,
+  "time_cap_hit": false,
+  "n_restarts_done": 20
+ },
+ "g1": {
+  "pass_": true,
+  "split_pass": false,
+  "bic_pass": true,
+  "n_first": 248,
+  "n_second": 249,
+  "hmm_test_mean_ll": -0.7306830334485603,
+  "iid_test_mean_ll": -0.6901147160813871,
+  "markov_test_mean_ll": -0.7044359489637123,
+  "split_margin": -0.04056831736717326,
+  "first_half_fit": {
+   "t01": 0.999999,
+   "t10": 0.6213767165109358,
+   "e0": 1e-06,
+   "e1": 0.825760714253963,
+   "time_cap_hit": false
+  },
+  "loglik_hmm": -323.1300686232714,
+  "loglik_iid": -341.66282386158855,
+  "loglik_markov": -329.5564517943957,
+  "bic_hmm": 671.0944973509294,
+  "bic_iid": 689.5342377492738,
+  "bic_markov": 671.5300836409846,
+  "bic_margin": 0.43558629005519833,
+  "full_fit": {
+   "t01": 0.999999,
+   "t10": 0.4692484727822632,
+   "e0": 1e-06,
+   "e1": 0.8130215867668856,
+   "loglik": -323.1300686232714,
+   "loglik_em": -323.13062681663416,
+   "polished": true,
+   "restart_loglik_min": -341.6628123532063,
+   "restart_loglik_max": -323.13062681663416,
+   "n_restarts_at_best": 14,
+   "n": 497,
+   "stationary1": 0.680619853717588,
+   "time_cap_hit": false,
+   "n_restarts_done": 20
+  }
+ },
+ "g2": {
+  "pass_": false,
+  "emissions_straddle_half": true,
+  "transitions_in_range": false,
+  "at_bounds": {
+   "t01": true,
+   "t10": false,
+   "e0": true,
+   "e1": false
+  }
+ },
+ "eigenvalue": -0.4692474727822632,
+ "time_fit_s": 2.1409415410016663,
+ "fit_time_cap_hit": false,
+ "positive_any_cell": false,
+ "nondegenerate_positive": false,
+ "degeneracy_flags": [
+  "param_at_bound:t01,e0",
+  "near_deterministic_emission",
+  "t01+t10>1_with_t_near_1"
+ ],
+ "tag": "fpp2/departures:visshort:rises",
+ "runtime_s": 2.1409521250025136,
+ "seq": 144,
+ "package": "fpp2",
+ "item": "departures",
+ "item_key": "fpp2/departures",
+ "column": "visshort",
+ "rule": "rises",
+ "n": 497,
+ "r1": -0.21956697232775677,
+ "n_ones": 275,
+ "qualifies": false
+}

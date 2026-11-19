@@ -1,0 +1,28 @@
+{
+ "n_cand": 21,
+ "id": "p21_bitstamp_ltcusd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:15:12",
+ "fetch": {
+  "id": "p21_bitstamp_ltcusd",
+  "ok": true,
+  "first_tid": "674477827",
+  "last_tid": "675098310",
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 1070,
+  "n_changes_available": 833,
+  "pages": 1,
+  "n": 833,
+  "n_ones": 376,
+  "url": "https://www.bitstamp.net/api/v2/transactions/ltcusd/?time=day (+0 paged requests)",
+  "retrieved_utc": "2026-11-16T22:15:13Z",
+  "bytes": 107335,
+  "sha256": "799d00a53e6cbabd0fb0b54837e4c0586f1d622248f632b88765d8cc3468bfca"
+ },
+ "n": 833,
+ "n_ones": 376,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.07801418439716314,
+ "outcome": "screened out",
+ "reason": "r1=0.0780 > -0.15"
+}

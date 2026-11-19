@@ -1,0 +1,28 @@
+{
+ "n_cand": 3,
+ "id": "p03_binance_agg_bnbusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:11:57",
+ "fetch": {
+  "id": "p03_binance_agg_bnbusdt",
+  "ok": true,
+  "first_id": 876094856,
+  "last_id": 876098855,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 4000,
+  "n_changes_available": 2159,
+  "pages": 4,
+  "n": 2000,
+  "n_ones": 1037,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=BNBUSDT&limit=1000 (+3 paged requests)",
+  "retrieved_utc": "2026-11-16T22:11:59Z",
+  "bytes": 474435,
+  "sha256": "3dddf6f395b6bfca300ea1d465c23e329383d8ed3f366b25dff39b091887425a"
+ },
+ "n": 2000,
+ "n_ones": 1037,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.5531810181342892,
+ "outcome": "screened out",
+ "reason": "r1=0.5532 > -0.15"
+}

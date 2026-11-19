@@ -1,0 +1,92 @@
+{
+ "fit": {
+  "t01": 0.3788933664278772,
+  "t10": 0.999999,
+  "e0": 0.2708635725006849,
+  "e1": 0.999999,
+  "loglik": -188.3663366087299,
+  "loglik_em": -188.36754463689272,
+  "polished": true,
+  "restart_loglik_min": -192.2342300136031,
+  "restart_loglik_max": -188.36754463689272,
+  "n_restarts_at_best": 12,
+  "n": 278,
+  "stationary1": 0.2747809587266253,
+  "time_cap_hit": false,
+  "n_restarts_done": 20
+ },
+ "g1": {
+  "pass_": true,
+  "split_pass": true,
+  "bic_pass": false,
+  "n_first": 139,
+  "n_second": 139,
+  "hmm_test_mean_ll": -0.6861602483239513,
+  "iid_test_mean_ll": -0.7014524416936921,
+  "markov_test_mean_ll": -0.6863656532618787,
+  "split_margin": 0.00020540493792742254,
+  "first_half_fit": {
+   "t01": 0.3456007900846991,
+   "t10": 0.999999,
+   "e0": 0.24587367443684155,
+   "e1": 0.999999,
+   "time_cap_hit": false
+  },
+  "loglik_hmm": -188.3663366087299,
+  "loglik_iid": -192.23423594476375,
+  "loglik_markov": -189.02714376950402,
+  "bic_hmm": 399.24315767222237,
+  "bic_iid": 390.09609300321813,
+  "bic_markov": 389.30952976638935,
+  "bic_margin": -9.93362790583302,
+  "full_fit": {
+   "t01": 0.3788933664278772,
+   "t10": 0.999999,
+   "e0": 0.2708635725006849,
+   "e1": 0.999999,
+   "loglik": -188.3663366087299,
+   "loglik_em": -188.36754463689272,
+   "polished": true,
+   "restart_loglik_min": -192.2342300136031,
+   "restart_loglik_max": -188.36754463689272,
+   "n_restarts_at_best": 12,
+   "n": 278,
+   "stationary1": 0.2747809587266253,
+   "time_cap_hit": false,
+   "n_restarts_done": 20
+  }
+ },
+ "g2": {
+  "pass_": false,
+  "emissions_straddle_half": true,
+  "transitions_in_range": false,
+  "at_bounds": {
+   "t01": false,
+   "t10": true,
+   "e0": false,
+   "e1": true
+  }
+ },
+ "eigenvalue": -0.37889236642787716,
+ "time_fit_s": 10.169208291990799,
+ "fit_time_cap_hit": false,
+ "positive_any_cell": false,
+ "nondegenerate_positive": false,
+ "degeneracy_flags": [
+  "param_at_bound:t10,e1",
+  "near_deterministic_emission",
+  "t01+t10>1_with_t_near_1"
+ ],
+ "tag": "MedDataSets/colmozzie_tbl_df:Cases:rises",
+ "runtime_s": 10.169214208988706,
+ "seq": 120,
+ "package": "MedDataSets",
+ "item": "colmozzie_tbl_df",
+ "item_key": "MedDataSets/colmozzie_tbl_df",
+ "column": "Cases",
+ "rule": "rises",
+ "n": 278,
+ "r1": -0.15184644074499948,
+ "n_ones": 131,
+ "qualifies": false
+}

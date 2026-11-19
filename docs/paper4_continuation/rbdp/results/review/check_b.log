@@ -1,0 +1,30 @@
+anti9_T5B2_a.1 {"secs": 0.249275922775, "dU_causal": 8.882e-16, "dL_causal": 4.441e-16, "dU_iid": -4.441e-16, "dL_iid": -8.882e-16, "gamma_lp": 0.0589824}
+   exact {'learner_seqs': 1901, 'V_iid': 2.3488576000000005, 'V_causal_dual': 2.4078399999999993, 'null_seqs': 71}
+   rbdp causal {'L': 2.4078399999999998, 'U': 2.40784, 'risk_causal': 0.1, 'risk_iid': 0.1}  iid {'L': 2.3488575999999997, 'U': 2.3488576, 'risk_causal': 0.2, 'risk_iid': 0.1}
+anti9_T5B2_a.2 {"secs": 0.178753852844, "dU_causal": -8.882e-16, "dL_causal": -1.332e-15, "dU_iid": 4.441e-16, "dL_iid": 4.441e-16, "gamma_lp": 0.1179648}
+   exact {'learner_seqs': 1901, 'V_iid': 2.1977151999999998, 'V_causal_dual': 2.315680000000001, 'null_seqs': 71}
+   rbdp causal {'L': 2.3156799999999995, 'U': 2.31568, 'risk_causal': 0.2, 'risk_iid': 0.2}  iid {'L': 2.1977152, 'U': 2.1977152, 'risk_causal': 0.4, 'risk_iid': 0.2}
+anti9_T4B2_ck {"secs": 5.225785017014, "dU_causal": 0.0, "dL_causal": 0.0, "dU_iid": -2.22e-16, "dL_iid": 0.0, "gamma_lp": 0.019944, "enum_minus_dual": 0.0}
+   exact {'learner_seqs': 557, 'V_iid': 1.9214, 'V_causal_dual': 1.941344, 'null_seqs': 45, 'V_causal_enum': 1.941344, 'n_null_rows': 240, 'n_reduced_nulls': 17280}
+   rbdp causal {'L': 1.941344, 'U': 1.941344, 'risk_causal': 0.1, 'risk_iid': 0.1}  iid {'L': 1.9214, 'U': 1.9213999999999998, 'risk_causal': 0.2, 'risk_iid': 0.1}
+asym_T4B2_a1/7 {"secs": 5.36078119278, "dU_causal": 6.661e-16, "dL_causal": 2.22e-16, "dU_iid": 0.0, "dL_iid": 0.0, "gamma_lp": 0.0007126, "enum_minus_dual": 2.22e-16}
+   exact {'learner_seqs': 557, 'V_iid': 1.660896714285714, 'V_causal_dual': 1.6616092857142852, 'null_seqs': 45, 'V_causal_enum': 1.6616092857142855, 'n_null_rows': 240, 'n_reduced_nulls': 17280}
+   rbdp causal {'L': 1.6616092857142855, 'U': 1.661609285714286, 'risk_causal': 0.14285714285714285, 'risk_iid': 0.14285714285714285}  iid {'L': 1.660896714285714, 'U': 1.660896714285714, 'risk_causal': 0.2857142857142857, 'risk_iid': 0.14285714285714285}
+t.75_T5B1_a3/20 {"secs": 0.122079849243, "dU_causal": 0.0, "dL_causal": 0.0, "dU_iid": -4.441e-16, "dL_iid": -4.441e-16, "gamma_lp": 0.0045, "enum_minus_dual": 0.0}
+   exact {'learner_seqs': 517, 'V_iid': 2.491, 'V_causal_dual': 2.4955, 'null_seqs': 11, 'V_causal_enum': 2.4955, 'n_null_rows': 16, 'n_reduced_nulls': 32}
+   rbdp causal {'L': 2.4955, 'U': 2.4955, 'risk_causal': 0.15, 'risk_iid': 0.075}  iid {'L': 2.4909999999999997, 'U': 2.4909999999999997, 'risk_causal': 0.29999999999999993, 'risk_iid': 0.14999999999999997}
+anti_T3B2_a1/3 {"secs": 0.095462083817, "dU_causal": 0.0, "dL_causal": 0.0, "dU_iid": 0.0, "dL_iid": 0.0, "gamma_lp": 0.0, "enum_minus_dual": 0.0}
+   exact {'learner_seqs': 141, 'V_iid': 1.4980666666666669, 'V_causal_dual': 1.4980666666666669, 'null_seqs': 25, 'V_causal_enum': 1.4980666666666669, 'n_null_rows': 12, 'n_reduced_nulls': 240}
+   rbdp causal {'L': 1.4980666666666669, 'U': 1.4980666666666669, 'risk_causal': 0.3333333333333333, 'risk_iid': 0.3333333333333333}  iid {'L': 1.4980666666666669, 'U': 1.4980666666666669, 'risk_causal': 0.3333333333333333, 'risk_iid': 0.3333333333333333}
+antiasym_T5B2_a1/7 {"secs": 0.178369045258, "dU_causal": 8.882e-16, "dL_causal": 8.882e-16, "dU_iid": 8.882e-16, "dL_iid": 8.882e-16, "gamma_lp": 0.0}
+   exact {'learner_seqs': 1901, 'V_iid': 2.5961002306547614, 'V_causal_dual': 2.5961002306547614, 'null_seqs': 71}
+   rbdp causal {'L': 2.5961002306547623, 'U': 2.5961002306547623, 'risk_causal': 0.14285714285714285, 'risk_iid': 0.14285714285714285}  iid {'L': 2.5961002306547623, 'U': 2.5961002306547623, 'risk_causal': 0.14285714285714285, 'risk_iid': 0.14285714285714285}
+persist_T5B2_a.1 {"secs": 0.214234828949, "dU_causal": 4.441e-16, "dL_causal": 4.441e-16, "dU_iid": 4.441e-16, "dL_iid": 4.441e-16, "gamma_lp": 0.0}
+   exact {'learner_seqs': 1901, 'V_iid': 2.4255999999999998, 'V_causal_dual': 2.4255999999999998, 'null_seqs': 71}
+   rbdp causal {'L': 2.4256, 'U': 2.4256, 'risk_causal': 0.1, 'risk_iid': 0.1}  iid {'L': 2.4256, 'U': 2.4256, 'risk_causal': 0.1, 'risk_iid': 0.1}
+anti9_T6B1_a.1 {"secs": 0.160104036331, "dU_causal": -4.441e-16, "dL_causal": -8.882e-16, "dU_iid": 0.0, "dL_iid": 4.441e-16, "gamma_lp": 0.01888256, "enum_minus_dual": 0.0}
+   exact {'learner_seqs': 1285, 'V_iid': 2.8950604799999997, 'V_causal_dual': 2.9139430400000004, 'null_seqs': 13, 'V_causal_enum': 2.9139430400000004, 'n_null_rows': 32, 'n_reduced_nulls': 64}
+   rbdp causal {'L': 2.9139430399999995, 'U': 2.91394304, 'risk_causal': 0.1, 'risk_iid': 0.1}  iid {'L': 2.89506048, 'U': 2.8950604799999997, 'risk_causal': 0.19999999999999998, 'risk_iid': 0.09999999999999999}
+anti9_T4B3_a.2 {"secs": 0.288264751434, "dU_causal": -2.22e-16, "dL_causal": -2.22e-16, "dU_iid": 2.22e-16, "dL_iid": 0.0, "gamma_lp": 0.0904164}
+   exact {'learner_seqs': 909, 'V_iid': 1.7619836, 'V_causal_dual': 1.8524000000000003, 'null_seqs': 117}
+   rbdp causal {'L': 1.8524, 'U': 1.8524, 'risk_causal': 0.2, 'risk_iid': 0.17500000000000002}  iid {'L': 1.7619836, 'U': 1.7619836000000002, 'risk_causal': 0.5, 'risk_iid': 0.2}

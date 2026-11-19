@@ -1,0 +1,28 @@
+{
+ "n_cand": 10,
+ "id": "p10_binance_agg_avaxusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:39",
+ "fetch": {
+  "id": "p10_binance_agg_avaxusdt",
+  "ok": true,
+  "first_id": 247661468,
+  "last_id": 247665467,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 4000,
+  "n_changes_available": 2604,
+  "pages": 4,
+  "n": 2000,
+  "n_ones": 987,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=AVAXUSDT&limit=1000 (+3 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:41Z",
+  "bytes": 459485,
+  "sha256": "81400e6257bd9b202ed0b87efe89f56af90f0bd4ae167fb19aab9b0a5f297f94"
+ },
+ "n": 2000,
+ "n_ones": 987,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.45263412933548547,
+ "outcome": "screened out",
+ "reason": "r1=0.4526 > -0.15"
+}

@@ -1,0 +1,91 @@
+{
+ "fit": {
+  "t01": 0.999999,
+  "t10": 0.999999,
+  "e0": 0.4285714595034291,
+  "e1": 0.8048780087466759,
+  "loglik": -49.61154105556137,
+  "loglik_em": -49.61154105556137,
+  "polished": false,
+  "restart_loglik_min": -55.33711429072602,
+  "restart_loglik_max": -49.61154105556137,
+  "n_restarts_at_best": 7,
+  "n": 83,
+  "stationary1": 0.5,
+  "time_cap_hit": false,
+  "n_restarts_done": 20
+ },
+ "g1": {
+  "pass_": true,
+  "split_pass": true,
+  "bic_pass": false,
+  "n_first": 41,
+  "n_second": 42,
+  "hmm_test_mean_ll": -0.6292290076317946,
+  "iid_test_mean_ll": -0.6977853372876985,
+  "markov_test_mean_ll": -0.6881425221636641,
+  "split_margin": 0.05891351453186955,
+  "first_half_fit": {
+   "t01": 0.999999,
+   "t10": 0.999999,
+   "e0": 0.4761903472073162,
+   "e1": 0.8499999126155633,
+   "time_cap_hit": false
+  },
+  "loglik_hmm": -49.61154105556137,
+  "loglik_iid": -55.33743925409868,
+  "loglik_markov": -52.79267061810116,
+  "bic_hmm": 116.89844454230914,
+  "bic_iid": 115.09371911599396,
+  "bic_markov": 114.42302245179552,
+  "bic_margin": -2.475422090513618,
+  "full_fit": {
+   "t01": 0.999999,
+   "t10": 0.999999,
+   "e0": 0.4285714595034291,
+   "e1": 0.8048780087466759,
+   "loglik": -49.61154105556137,
+   "loglik_em": -49.61154105556137,
+   "polished": false,
+   "restart_loglik_min": -55.33711429072602,
+   "restart_loglik_max": -49.61154105556137,
+   "n_restarts_at_best": 7,
+   "n": 83,
+   "stationary1": 0.5,
+   "time_cap_hit": false,
+   "n_restarts_done": 20
+  }
+ },
+ "g2": {
+  "pass_": false,
+  "emissions_straddle_half": true,
+  "transitions_in_range": false,
+  "at_bounds": {
+   "t01": true,
+   "t10": true,
+   "e0": false,
+   "e1": false
+  }
+ },
+ "eigenvalue": -0.9999979999999999,
+ "time_fit_s": 0.5747067909978796,
+ "fit_time_cap_hit": false,
+ "positive_any_cell": false,
+ "nondegenerate_positive": false,
+ "degeneracy_flags": [
+  "param_at_bound:t01,t10",
+  "t01+t10>1_with_t_near_1"
+ ],
+ "tag": "timeSeriesDataSets/JohnsonJohnson_ts:value:rises",
+ "runtime_s": 0.5747149160015397,
+ "seq": 147,
+ "package": "timeSeriesDataSets",
+ "item": "JohnsonJohnson_ts",
+ "item_key": "timeSeriesDataSets/JohnsonJohnson_ts",
+ "column": "value",
+ "rule": "rises",
+ "n": 83,
+ "r1": -0.24478178368121437,
+ "n_ones": 51,
+ "qualifies": false
+}

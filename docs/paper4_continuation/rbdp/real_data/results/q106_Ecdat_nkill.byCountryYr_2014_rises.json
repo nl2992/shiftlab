@@ -1,0 +1,92 @@
+{
+ "fit": {
+  "t01": 0.26289905021270576,
+  "t10": 0.999999,
+  "e0": 0.07976197660030089,
+  "e1": 0.999999,
+  "loglik": -114.70935639656945,
+  "loglik_em": -114.71012338823205,
+  "polished": true,
+  "restart_loglik_min": -118.59007205333674,
+  "restart_loglik_max": -114.71012338823205,
+  "n_restarts_at_best": 13,
+  "n": 203,
+  "stationary1": 0.20817123770871807,
+  "time_cap_hit": false,
+  "n_restarts_done": 20
+ },
+ "g1": {
+  "pass_": false,
+  "split_pass": false,
+  "bic_pass": false,
+  "n_first": 101,
+  "n_second": 102,
+  "hmm_test_mean_ll": -0.6199042647201848,
+  "iid_test_mean_ll": -0.6108033338247543,
+  "markov_test_mean_ll": -0.6117931362169233,
+  "split_margin": -0.009100930895430515,
+  "first_half_fit": {
+   "t01": 0.3265111423299411,
+   "t10": 0.9162368664526821,
+   "e0": 1e-06,
+   "e1": 0.9455565487344079,
+   "time_cap_hit": false
+  },
+  "loglik_hmm": -114.70935639656945,
+  "loglik_iid": -118.59071878906687,
+  "loglik_markov": -115.26056005813902,
+  "bic_hmm": 250.67153670930605,
+  "bic_iid": 242.49464355717552,
+  "bic_markov": 241.1475320743616,
+  "bic_margin": -9.524004634944447,
+  "full_fit": {
+   "t01": 0.26289905021270576,
+   "t10": 0.999999,
+   "e0": 0.07976197660030089,
+   "e1": 0.999999,
+   "loglik": -114.70935639656945,
+   "loglik_em": -114.71012338823205,
+   "polished": true,
+   "restart_loglik_min": -118.59007205333674,
+   "restart_loglik_max": -114.71012338823205,
+   "n_restarts_at_best": 13,
+   "n": 203,
+   "stationary1": 0.20817123770871807,
+   "time_cap_hit": false,
+   "n_restarts_done": 20
+  }
+ },
+ "g2": {
+  "pass_": false,
+  "emissions_straddle_half": true,
+  "transitions_in_range": false,
+  "at_bounds": {
+   "t01": false,
+   "t10": true,
+   "e0": false,
+   "e1": true
+  }
+ },
+ "eigenvalue": -0.26289805021270574,
+ "time_fit_s": 6.135752792004496,
+ "fit_time_cap_hit": false,
+ "positive_any_cell": false,
+ "nondegenerate_positive": false,
+ "degeneracy_flags": [
+  "param_at_bound:t10,e1",
+  "near_deterministic_emission",
+  "t01+t10>1_with_t_near_1"
+ ],
+ "tag": "Ecdat/nkill.byCountryYr:2014:rises",
+ "runtime_s": 6.135768292006105,
+ "seq": 106,
+ "package": "Ecdat",
+ "item": "nkill.byCountryYr",
+ "item_key": "Ecdat/nkill.byCountryYr",
+ "column": "2014",
+ "rule": "rises",
+ "n": 203,
+ "r1": -0.17427334570191716,
+ "n_ones": 55,
+ "qualifies": false
+}

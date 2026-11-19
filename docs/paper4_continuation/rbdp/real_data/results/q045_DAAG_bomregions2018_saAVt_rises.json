@@ -1,0 +1,90 @@
+{
+ "fit": {
+  "t01": 0.9932971770956784,
+  "t10": 0.7606657690534618,
+  "e0": 0.11671803214257519,
+  "e1": 0.8574638324749958,
+  "loglik": -62.23437601082933,
+  "loglik_em": -62.234644128605424,
+  "polished": true,
+  "restart_loglik_min": -74.56332764905173,
+  "restart_loglik_max": -62.234644128605424,
+  "n_restarts_at_best": 1,
+  "n": 108,
+  "stationary1": 0.5663159414379201,
+  "time_cap_hit": false,
+  "n_restarts_done": 20
+ },
+ "g1": {
+  "pass_": false,
+  "split_pass": false,
+  "bic_pass": false,
+  "n_first": 54,
+  "n_second": 54,
+  "hmm_test_mean_ll": -0.7370184432423107,
+  "iid_test_mean_ll": -0.6897665887500565,
+  "markov_test_mean_ll": -0.7549037074366005,
+  "split_margin": -0.04725185449225422,
+  "first_half_fit": {
+   "t01": 0.9189222806471368,
+   "t10": 0.7713346516492755,
+   "e0": 1e-06,
+   "e1": 0.9547411844880838,
+   "time_cap_hit": false
+  },
+  "loglik_hmm": -62.23437601082933,
+  "loglik_iid": -74.56335272088879,
+  "loglik_markov": -64.47079319319741,
+  "bic_hmm": 143.19727693015554,
+  "bic_iid": 153.8088366689018,
+  "bic_markov": 138.30584884064325,
+  "bic_margin": -4.891428089512289,
+  "full_fit": {
+   "t01": 0.9932971770956784,
+   "t10": 0.7606657690534618,
+   "e0": 0.11671803214257519,
+   "e1": 0.8574638324749958,
+   "loglik": -62.23437601082933,
+   "loglik_em": -62.234644128605424,
+   "polished": true,
+   "restart_loglik_min": -74.56332764905173,
+   "restart_loglik_max": -62.234644128605424,
+   "n_restarts_at_best": 1,
+   "n": 108,
+   "stationary1": 0.5663159414379201,
+   "time_cap_hit": false,
+   "n_restarts_done": 20
+  }
+ },
+ "g2": {
+  "pass_": false,
+  "emissions_straddle_half": true,
+  "transitions_in_range": false,
+  "at_bounds": {
+   "t01": false,
+   "t10": false,
+   "e0": false,
+   "e1": false
+  }
+ },
+ "eigenvalue": -0.7539629461491403,
+ "time_fit_s": 2.745060207991628,
+ "fit_time_cap_hit": false,
+ "positive_any_cell": false,
+ "nondegenerate_positive": false,
+ "degeneracy_flags": [
+  "t01+t10>1_with_t_near_1"
+ ],
+ "tag": "DAAG/bomregions2018:saAVt:rises",
+ "runtime_s": 2.7450676250009565,
+ "seq": 45,
+ "package": "DAAG",
+ "item": "bomregions2018",
+ "item_key": "DAAG/bomregions2018",
+ "column": "saAVt",
+ "rule": "rises",
+ "n": 108,
+ "r1": -0.4266666666666667,
+ "n_ones": 58,
+ "qualifies": false
+}

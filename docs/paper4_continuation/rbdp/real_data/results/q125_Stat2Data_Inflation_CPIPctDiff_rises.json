@@ -1,0 +1,92 @@
+{
+ "fit": {
+  "t01": 0.3681659923114112,
+  "t10": 0.999999,
+  "e0": 0.26311324570184935,
+  "e1": 0.999999,
+  "loglik": -64.3405941694579,
+  "loglik_em": -64.35047419205006,
+  "polished": true,
+  "restart_loglik_min": -65.59085354488093,
+  "restart_loglik_max": -64.35047419205006,
+  "n_restarts_at_best": 15,
+  "n": 95,
+  "stationary1": 0.26909473227305913,
+  "time_cap_hit": false,
+  "n_restarts_done": 20
+ },
+ "g1": {
+  "pass_": false,
+  "split_pass": false,
+  "bic_pass": false,
+  "n_first": 47,
+  "n_second": 48,
+  "hmm_test_mean_ll": -0.7093888550105624,
+  "iid_test_mean_ll": -0.6898889992640965,
+  "markov_test_mean_ll": -0.6937695923473269,
+  "split_margin": -0.019499855746465844,
+  "first_half_fit": {
+   "t01": 0.8346833683283229,
+   "t10": 0.8234340920196397,
+   "e0": 0.15778364542809098,
+   "e1": 0.7655692186380215,
+   "time_cap_hit": false
+  },
+  "loglik_hmm": -64.3405941694579,
+  "loglik_iid": -65.59088167471367,
+  "loglik_markov": -64.42577729565032,
+  "bic_hmm": 146.89669590531796,
+  "bic_iid": 135.73564024102788,
+  "bic_markov": 137.95930837450172,
+  "bic_margin": -11.161055664290075,
+  "full_fit": {
+   "t01": 0.3681659923114112,
+   "t10": 0.999999,
+   "e0": 0.26311324570184935,
+   "e1": 0.999999,
+   "loglik": -64.3405941694579,
+   "loglik_em": -64.35047419205006,
+   "polished": true,
+   "restart_loglik_min": -65.59085354488093,
+   "restart_loglik_max": -64.35047419205006,
+   "n_restarts_at_best": 15,
+   "n": 95,
+   "stationary1": 0.26909473227305913,
+   "time_cap_hit": false,
+   "n_restarts_done": 20
+  }
+ },
+ "g2": {
+  "pass_": false,
+  "emissions_straddle_half": true,
+  "transitions_in_range": false,
+  "at_bounds": {
+   "t01": false,
+   "t10": true,
+   "e0": false,
+   "e1": true
+  }
+ },
+ "eigenvalue": -0.3681649923114112,
+ "time_fit_s": 2.6195161670038942,
+ "fit_time_cap_hit": false,
+ "positive_any_cell": false,
+ "nondegenerate_positive": false,
+ "degeneracy_flags": [
+  "param_at_bound:t10,e1",
+  "near_deterministic_emission",
+  "t01+t10>1_with_t_near_1"
+ ],
+ "tag": "Stat2Data/Inflation:CPIPctDiff:rises",
+ "runtime_s": 2.619523792003747,
+ "seq": 125,
+ "package": "Stat2Data",
+ "item": "Inflation",
+ "item_key": "Stat2Data/Inflation",
+ "column": "CPIPctDiff",
+ "rule": "rises",
+ "n": 95,
+ "r1": -0.15731874145006836,
+ "n_ones": 44,
+ "qualifies": false
+}

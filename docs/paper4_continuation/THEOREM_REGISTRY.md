@@ -50,5 +50,5 @@ PRIOR ART · BLOCKED · NOT STARTED.
 | M3 | First-label relaxation lower bound on Γ (symmetric stationary family) | PROVED; reviewed (accepted; scope corrected) | same |
 | M4 | B=2, k=0, odd d, small c, T ≥ T₀: liminf ρΓ ≥ (1−r)/(2(3+r)) | PROVED; reviewed (accepted with corrections) | same |
 | M5 | ρΓ ≤ 1 − H_∅/S_I | PROVED; reviewed (accepted) | same |
-| M-gen | General B: ρΓ bounded below uniformly in T | CONJECTURED; B=3,4 data still falling at T=12 | `MIXING_SCALING.md` |
+| M-gen | For each fixed B>=1, ρΓ>=3/[8(B+2)] uniformly for T>=3B on the open region 2/5<g<1/2, 0<r<1/[16(B+2)(6B^3+3B+2)]; simultaneous range B<=floor((1056r)^(-1/4)) has ρΓ>=3/[8(Bbar(r)+2)] for T>=3Bbar(r) | PROVED as stated; fresh adversarial same-family review PASS (provisional); consistency cell timed out; novelty review of this extension pending | `theory_v2/B_GENERAL_FIXED_PREMIUM_PROOF.md`, `theory_v2/B_GENERAL_FIXED_PREMIUM_PROOF_AUDIT_2026-11-13.md` |
 | Salvage | Locked-criteria outcome | OPEN (neither CONDITIONAL GO nor NO-GO applies) | `theory_v2/PUBLICATION_DECISION.md` |

@@ -1,0 +1,21 @@
+anti9_T5B2_a.1 causal 2.40784 {'rows': 65, 'chord_tests': 180, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 1, 'increasing': 0}
+anti9_T5B2_a.1 iid 2.3488576 {'rows': 65, 'chord_tests': 180, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 2, 'increasing': 0}
+anti9_T5B2_a.2 causal 2.31568 {'rows': 65, 'chord_tests': 180, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 1, 'increasing': 0}
+anti9_T5B2_a.2 iid 2.1977152 {'rows': 65, 'chord_tests': 180, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 2, 'increasing': 0}
+anti9_T4B2_ck causal 1.941344 {'rows': 32, 'chord_tests': 120, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 9, 'increasing': 0}
+anti9_T4B2_ck iid 1.9214 {'rows': 32, 'chord_tests': 120, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 9, 'increasing': 0}
+asym_T4B2_a1/7 causal 1.6616092857142857 {'rows': 32, 'chord_tests': 120, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 0, 'increasing': 0}
+asym_T4B2_a1/7 iid 1.6608967142857143 {'rows': 32, 'chord_tests': 120, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 0, 'increasing': 0}
+t.75_T5B1_a3/20 causal 2.4955 {'rows': 25, 'chord_tests': 30, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 1, 'increasing': 0}
+t.75_T5B1_a3/20 iid 2.491 {'rows': 25, 'chord_tests': 30, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 1, 'increasing': 0}
+anti_T3B2_a1/3 causal 1.4980666666666667 {'rows': 13, 'chord_tests': 72, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 4, 'increasing': 0}
+anti_T3B2_a1/3 iid 1.4980666666666667 {'rows': 13, 'chord_tests': 72, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 4, 'increasing': 0}
+antiasym_T5B2_a1/7 causal 2.596100230654762 {'rows': 65, 'chord_tests': 180, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 11, 'increasing': 0}
+antiasym_T5B2_a1/7 iid 2.596100230654762 {'rows': 65, 'chord_tests': 180, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 15, 'increasing': 0}
+persist_T5B2_a.1 causal 2.4256 {'rows': 65, 'chord_tests': 180, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 16, 'increasing': 0}
+persist_T5B2_a.1 iid 2.4256 {'rows': 65, 'chord_tests': 180, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 16, 'increasing': 0}
+anti9_T6B1_a.1 causal 2.91394304 {'rows': 36, 'chord_tests': 36, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 0, 'increasing': 0}
+anti9_T6B1_a.1 iid 2.89506048 {'rows': 36, 'chord_tests': 36, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 0, 'increasing': 0}
+anti9_T4B3_a.2 causal 1.8524 {'rows': 40, 'chord_tests': 336, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 13, 'increasing': 0}
+anti9_T4B3_a.2 iid 1.7619836 {'rows': 40, 'chord_tests': 336, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 15, 'increasing': 0}
+random cells: 60 x 2 modes {'rows': 8356, 'chord_tests': 28848, 'chord_fail': 0, 'offlattice_vertices': 0, 'crossings': 720, 'increasing': 0} 6.7s

@@ -1,0 +1,31 @@
+20 text candidates
+T:en en vowel=1 r1 -0.383 pos False None
+T:en en consonant=1 r1 -0.383 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.20005880319047703, 'C0': 9.61452574449967, 'U_iid': 9.022923037290964, 'risk_causal_of_iid_policy': 0.325}
+TALLY positive 1
+T:fr fr vowel=1 r1 -0.366 pos False None
+T:fr fr consonant=1 r1 -0.366 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.3464517394807441, 'C0': 8.807691502968593, 'U_iid': 8.4756598754097, 'risk_causal_of_iid_policy': 0.32500000000000007}
+TALLY positive 2
+T:de de vowel=1 r1 -0.347 pos False None
+T:de de consonant=1 r1 -0.347 pos True {'T': 16, 'B': 3, 'rho_Gamma': 0.1499166187121451, 'C0': 9.71415773432952, 'U_iid': 9.179924299256724, 'risk_causal_of_iid_policy': 0.2}
+TALLY positive 3
+T:es es vowel=1 r1 -0.534 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.28321253062936685, 'C0': 7.556238717909463, 'U_iid': 7.347336719577372, 'risk_causal_of_iid_policy': 0.4}
+T:es es consonant=1 r1 -0.534 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.41519284885671814, 'C0': 16.887522599750117, 'U_iid': 16.214829916830276, 'risk_causal_of_iid_policy': 0.32499999999999996}
+TALLY positive 4
+T:it it vowel=1 r1 -0.488 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.24607517519833705, 'C0': 7.590309231598567, 'U_iid': 7.4220023688406025, 'risk_causal_of_iid_policy': 0.3999999999999999}
+T:it it consonant=1 r1 -0.488 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.41388998399650984, 'C0': 16.819381481159716, 'U_iid': 16.261132841113238, 'risk_causal_of_iid_policy': 0.325}
+TALLY positive 5
+T:pt pt vowel=1 r1 -0.432 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.19979905514413746, 'C0': 7.998432481322652, 'U_iid': 7.831228736008689, 'risk_causal_of_iid_policy': 0.39999999999999997}
+T:pt pt consonant=1 r1 -0.432 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.20031784041647732, 'C0': 8.001567449141833, 'U_iid': 7.833863188942647, 'risk_causal_of_iid_policy': 0.4}
+TALLY positive 6
+T:nl nl vowel=1 r1 -0.346 pos False None
+T:nl nl consonant=1 r1 -0.346 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.20056565963327172, 'C0': 9.499079224411773, 'U_iid': 8.985677747582772, 'risk_causal_of_iid_policy': 0.325}
+TALLY positive 7
+T:sv sv vowel=1 r1 -0.489 pos False None
+T:sv sv consonant=1 r1 -0.489 pos True {'T': 16, 'B': 3, 'rho_Gamma': 0.11080651099660992, 'C0': 10.236261798814855, 'U_iid': 9.372504110996463, 'risk_causal_of_iid_policy': 0.2}
+TALLY positive 8
+T:da da vowel=1 r1 -0.398 pos False None
+T:da da consonant=1 r1 -0.398 pos True {'T': 16, 'B': 3, 'rho_Gamma': 0.13923701981771247, 'C0': 9.898414843115308, 'U_iid': 9.257447160199034, 'risk_causal_of_iid_policy': 0.2}
+TALLY positive 9
+T:fi fi vowel=1 r1 -0.423 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.18423898458091553, 'C0': 7.819238277954096, 'U_iid': 7.680291276766958, 'risk_causal_of_iid_policy': 0.4}
+T:fi fi consonant=1 r1 -0.423 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.33996948361293977, 'C0': 16.361523261839526, 'U_iid': 16.08017002435267, 'risk_causal_of_iid_policy': 0.325}
+TALLY positive 10

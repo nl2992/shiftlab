@@ -1,0 +1,28 @@
+{
+ "n_cand": 28,
+ "id": "p28_binance_1s_solusdt",
+ "family": "exchange_1s_kline",
+ "started": "2026-11-16T23:17:49",
+ "fetch": {
+  "id": "p28_binance_1s_solusdt",
+  "ok": true,
+  "first_open_ms": 1794859469000,
+  "last_open_ms": 1794867468000,
+  "n_seconds": 8000,
+  "rule": "1s klines, close > open, zero-move seconds dropped, last 1000 non-zero",
+  "n_nonzero_available": 1059,
+  "pages": 8,
+  "n": 1000,
+  "n_ones": 482,
+  "url": "https://api.binance.com/api/v3/klines (interval=1s, paged by endTime)",
+  "retrieved_utc": "2026-11-16T22:17:54Z",
+  "bytes": 1168931,
+  "sha256": "8db2bb9d1ff2c4f4e592fb61e88af849d5e94ed7dd977bfc50a7ea5717175d7f"
+ },
+ "n": 1000,
+ "n_ones": 482,
+ "binarisation": "1s klines, close > open, zero-move seconds dropped, last 1000 non-zero",
+ "r1": 0.051822808110300475,
+ "outcome": "screened out",
+ "reason": "r1=0.0518 > -0.15"
+}

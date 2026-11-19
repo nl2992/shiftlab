@@ -1,0 +1,22 @@
+21:34:06 S2:P05790 x=1 n 3000 r1 -0.416 pos False None
+21:34:11 S2:P05790 1-x n 3000 r1 -0.416 pos False None
+21:34:11 DONE S2:P05790 evaluated positive False TALLY 20
+21:36:58 S2:P46804 x=1 n 627 r1 0.530 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.1755810866107296, 'C0': 8.62498793557236, 'U_iid': 8.516388741662649, 'risk_causal_of_iid_policy': 0.5}
+21:37:17 S2:P46804 1-x n 627 r1 0.530 pos False None
+21:37:17 DONE S2:P46804 evaluated positive True TALLY 21
+21:37:36 S2:P19837 x=1 n 748 r1 0.171 pos False None
+21:37:57 S2:P19837 1-x n 748 r1 0.171 pos False None
+21:37:57 DONE S2:P19837 evaluated positive False TALLY 21
+21:38:30 S3:P07916 x=1 n 750 r1 -0.227 pos False None
+21:42:26 S3:P07916 1-x n 750 r1 -0.227 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.17002931031297722, 'C0': 9.203397858537803, 'U_iid': 8.866499936024498, 'risk_causal_of_iid_policy': 0.32500000000000007}
+21:42:26 DONE S3:P07916 evaluated positive True TALLY 22
+21:42:44 S3:P11547 x=1 n 100 r1 -0.224 pos False None
+21:43:50 S3:P11547 1-x n 100 r1 -0.224 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.14283810256996313, 'C0': 9.233316630623845, 'U_iid': 8.909427326589121, 'risk_causal_of_iid_policy': 0.32500000000000007}
+21:43:50 DONE S3:P11547 evaluated positive True TALLY 23
+21:54:34 L2:eo vowel=1 n 3000 r1 -0.544 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.29480290130600556, 'C0': 7.035401528499854, 'U_iid': 6.880215164339677, 'risk_causal_of_iid_policy': 0.4}
+22:05:23 L2:eo consonant=1 n 3000 r1 -0.544 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.4273216222579143, 'C0': 8.964598501390524, 'U_iid': 8.353402237783019, 'risk_causal_of_iid_policy': 0.325}
+22:05:23 DONE L2:eo evaluated positive True TALLY 24
+22:07:26 L2:cy vowel=1 n 3000 r1 -0.335 pos False None
+22:19:52 L2:cy consonant=1 n 3000 r1 -0.335 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.23959817834512043, 'C0': 9.321153692546137, 'U_iid': 8.86839496158522, 'risk_causal_of_iid_policy': 0.32499999999999996}
+22:19:52 DONE L2:cy evaluated positive True TALLY 25
+22:19:55 TARGET reached; stopping

@@ -1,0 +1,32 @@
+23:54:23 A:screen100/FOREX_chfjpy-hour-Close x=1 n 3000 r1 -0.018 pos False None
+23:56:38 A:screen100/FOREX_chfjpy-hour-Close 1-x n 3000 r1 -0.018 pos False None
+23:56:38 DONE A:screen100/FOREX_chfjpy-hour-Close evaluated positive False TALLY 25
+23:58:38 A:screen100/FOREX_eurjpy-hour-Close x=1 n 3000 r1 -0.004 pos False None
+00:00:39 A:screen100/FOREX_eurjpy-hour-Close 1-x n 3000 r1 -0.004 pos False None
+00:00:39 DONE A:screen100/FOREX_eurjpy-hour-Close evaluated positive False TALLY 25
+00:02:40 A:screen100/FOREX_gbpusd-hour-Close x=1 n 3000 r1 0.002 pos False None
+00:04:53 A:screen100/FOREX_gbpusd-hour-Close 1-x n 3000 r1 0.002 pos False None
+00:04:53 DONE A:screen100/FOREX_gbpusd-hour-Close evaluated positive False TALLY 25
+00:05:24 A:screen100/air_Dingling x=1 n 2097 r1 0.572 pos False None
+00:05:57 A:screen100/air_Dingling 1-x n 2097 r1 0.572 pos False None
+00:05:57 DONE A:screen100/air_Dingling evaluated positive False TALLY 25
+00:06:33 A:screen100/air_Wanshouxigong x=1 n 3000 r1 0.642 pos False None
+00:07:08 A:screen100/air_Wanshouxigong 1-x n 3000 r1 0.642 pos False None
+00:07:08 DONE A:screen100/air_Wanshouxigong evaluated positive False TALLY 25
+00:07:58 A:screen100/elec_MT_007 x=1 n 3000 r1 0.395 pos False None
+00:08:47 A:screen100/elec_MT_007 1-x n 3000 r1 0.395 pos False None
+00:08:47 DONE A:screen100/elec_MT_007 evaluated positive False TALLY 25
+00:09:52 A:screen100/elec_MT_016 x=1 n 3000 r1 0.386 pos False None
+00:11:00 A:screen100/elec_MT_016 1-x n 3000 r1 0.386 pos False None
+00:11:00 DONE A:screen100/elec_MT_016 evaluated positive False TALLY 25
+00:12:46 A:screen100/elec_MT_025 x=1 n 2932 r1 0.378 pos False None
+00:14:40 A:screen100/elec_MT_025 1-x n 2932 r1 0.378 pos False None
+00:14:40 DONE A:screen100/elec_MT_025 evaluated positive False TALLY 25
+00:16:07 A:screen100/elec_MT_034 x=1 n 3000 r1 0.356 pos False None
+00:17:38 A:screen100/elec_MT_034 1-x n 3000 r1 0.356 pos False None
+00:17:38 DONE A:screen100/elec_MT_034 evaluated positive False TALLY 25
+00:18:18 A:screen100/elec_MT_043 x=1 n 2505 r1 0.330 pos False None
+00:19:00 A:screen100/elec_MT_043 1-x n 2505 r1 0.330 pos False None
+00:19:00 DONE A:screen100/elec_MT_043 evaluated positive False TALLY 25
+00:19:00 family A finished; tally 25
+00:19:00 lists exhausted; final tally 25

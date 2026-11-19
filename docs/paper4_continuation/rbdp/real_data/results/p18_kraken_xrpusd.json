@@ -1,0 +1,28 @@
+{
+ "n_cand": 18,
+ "id": "p18_kraken_xrpusd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:15:07",
+ "fetch": {
+  "id": "p18_kraken_xrpusd",
+  "ok": true,
+  "first_time": 1794860374.0607016,
+  "last_time": 1794867305.971403,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 2898,
+  "n_changes_available": 2278,
+  "pages": 8,
+  "n": 2000,
+  "n_ones": 1032,
+  "url": "https://api.kraken.com/0/public/Trades?pair=XRPUSD (+7 paged requests)",
+  "retrieved_utc": "2026-11-16T22:15:11Z",
+  "bytes": 548064,
+  "sha256": "858ca2ee9cc1df2637e5d4a8a871e2aa3b42b23e530075e86a5a0efa27b61ec4"
+ },
+ "n": 2000,
+ "n_ones": 1032,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.23583533083059363,
+ "outcome": "screened out",
+ "reason": "r1=0.2358 > -0.15"
+}

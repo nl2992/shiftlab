@@ -1,0 +1,28 @@
+{
+ "n_cand": 19,
+ "id": "p19_bitstamp_btcusd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:15:11",
+ "fetch": {
+  "id": "p19_bitstamp_btcusd",
+  "ok": true,
+  "first_tid": "674477171",
+  "last_tid": "675098718",
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 35997,
+  "n_changes_available": 26485,
+  "pages": 1,
+  "n": 2000,
+  "n_ones": 1022,
+  "url": "https://www.bitstamp.net/api/v2/transactions/btcusd/?time=day (+0 paged requests)",
+  "retrieved_utc": "2026-11-16T22:15:12Z",
+  "bytes": 3671694,
+  "sha256": "1d5cd80dac5c614241009f07a8373126648855b0b9ab1270005b7de620658b69"
+ },
+ "n": 2000,
+ "n_ones": 1022,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.3803904995935882,
+ "outcome": "screened out",
+ "reason": "r1=0.3804 > -0.15"
+}

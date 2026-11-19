@@ -1,0 +1,12 @@
+{
+ "n_cand": 24,
+ "id": "c24_co2",
+ "started": "2026-11-16T23:04:01",
+ "fetch": {
+  "id": "c24_co2",
+  "ok": false,
+  "error": "FetchError: HTTP 404 for https://vincentarelbundock.github.io/Rdatasets/csv/datasets/co2.csv"
+ },
+ "outcome": "fetch failed",
+ "reason": "FetchError: HTTP 404 for https://vincentarelbundock.github.io/Rdatasets/csv/datasets/co2.csv"
+}

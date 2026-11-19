@@ -27,10 +27,16 @@ def run(cell):
     t, T = cell["t"], cell["T"]
     t0 = time.time()
     o = g.gamma_cell(T, 3, 1, t, t, F(1, 10), F(9, 10), prior=F(1, 2), c=F(0), k=F(0), alpha=F(1, 10))
-    voi = F(T, 2) - F(o["U_IID"])
+    voi_lo = F(T, 2) - F(o["U_IID"])
+    voi_hi = F(T, 2) - F(o["L_IID"])
     lo, hi = F(o["Gamma_lo"]), F(o["Gamma_hi"])
-    return dict(t=str(t), T=T, B=3, d=1, alpha="1/10", Gamma=[float(lo), float(hi)], VOI=float(voi),
-                rho=[float(lo / voi), float(hi / voi)], certified_positive=lo > 0, source=o.get("V_causal_source"),
+    assert 0 < voi_lo <= voi_hi
+    return dict(t=str(t), T=T, B=3, d=1, alpha="1/10", Gamma=[float(lo), float(hi)],
+                Gamma_exact=[str(lo), str(hi)], VOI=float(voi_lo),
+                VOI_interval_exact=[str(voi_lo), str(voi_hi)],
+                rho=[float(lo / voi_hi), float(hi / voi_lo)],
+                rho_exact=[str(lo / voi_hi), str(hi / voi_lo)],
+                certified_positive=lo > 0, source=o.get("V_causal_source"),
                 runtime_s=round(time.time() - t0, 1), status="ok")
 
 

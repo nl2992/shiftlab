@@ -1,0 +1,28 @@
+{
+ "n_cand": 13,
+ "id": "p13_coinbase_sol-usd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:46",
+ "fetch": {
+  "id": "p13_coinbase_sol-usd",
+  "ok": true,
+  "first_id": 361197162,
+  "last_id": 361207161,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 10000,
+  "n_changes_available": 2071,
+  "pages": 10,
+  "n": 2000,
+  "n_ones": 1039,
+  "url": "https://api.exchange.coinbase.com/products/SOL-USD/trades?limit=1000 (+9 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:52Z",
+  "bytes": 1156700,
+  "sha256": "77241c305963701cecf1a09354122b146d74e66c2ba7f1dc158e675dfb31d5f7"
+ },
+ "n": 2000,
+ "n_ones": 1039,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.011000732855916955,
+ "outcome": "screened out",
+ "reason": "r1=0.0110 > -0.15"
+}

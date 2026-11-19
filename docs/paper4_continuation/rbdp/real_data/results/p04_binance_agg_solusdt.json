@@ -1,0 +1,28 @@
+{
+ "n_cand": 4,
+ "id": "p04_binance_agg_solusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:11:59",
+ "fetch": {
+  "id": "p04_binance_agg_solusdt",
+  "ok": true,
+  "first_id": 683786207,
+  "last_id": 683791206,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 5000,
+  "n_changes_available": 2154,
+  "pages": 5,
+  "n": 2000,
+  "n_ones": 1041,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=SOLUSDT&limit=1000 (+4 paged requests)",
+  "retrieved_utc": "2026-11-16T22:12:03Z",
+  "bytes": 589356,
+  "sha256": "29397d296ae2ef8746d6f20bf5303330db4748dc3334d40d6c52f5ac496d93c8"
+ },
+ "n": 2000,
+ "n_ones": 1041,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": -0.015214790867137205,
+ "outcome": "screened out",
+ "reason": "r1=-0.0152 > -0.15"
+}

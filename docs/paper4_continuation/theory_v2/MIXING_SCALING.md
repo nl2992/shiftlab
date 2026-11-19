@@ -845,3 +845,55 @@ Cell statuses: {'ok': 926, 'skipped_timeout': 9, 'error': 1, 'not_run_wall_budge
 | 9/10 | 3 | 1/50 | 4 | 1/20 | 7 | 9 | 1.068 | n/a | n/a |
 | 9/10 | 3 | 1/50 | 4 | 1/10 | 7 | 9 | 1.116 | n/a | n/a |
 | 9/10 | 3 | 1/50 | 4 | 1/4 | 7 | 9 | 1.151 | n/a | n/a |
+
+## Addendum — B=3 horizon extension, corrected ratio enclosures (2026-11-11)
+
+The B=3 extension evaluates the same symmetric stationary anti-persistent setting as the prior table, at
+`e=1/10`, `d=1`, `c=k=0`, `alpha=1/10`, and `t ∈ {2/3, 3/4}`. Every cell uses the certified `gamma_cell`
+solver (`FCG-fast`). The values below use the corrected ratio enclosure in
+`results/wpM_b3ext_rho_corrected_v1.json`; the original runner used the lower VOI endpoint for both ratio ends.
+
+| t | T=12 baseline | T=13 | T=14 | T=15 | Change T=12 to T=15 |
+|---|---:|---:|---:|---:|---:|
+| 2/3 | 0.145420284 | 0.144384794 | 0.144041998 | 0.143701674 | −1.18% |
+| 3/4 | 0.148754586 | 0.136092438 | 0.131788215 | 0.125479616 | −15.65% |
+
+All six new B=3 cells have certified `Gamma > 0`, and the corrected lower `rho_Gamma` endpoints are above half
+the corresponding T=12 baseline. This supports positive premiums over the tested finite horizons only. It neither
+establishes a positive limit nor rules out slower decay; the t=3/4 series declines noticeably.
+
+The first B=4 T=13 pass timed out at 1,800 seconds per cell. A one-worker retry with a 3,600-second cap is in
+progress. Those timeouts are not zero-premium evidence. See `results/wpM_b4ext_v1.json` when the retry completes.
+
+## Addendum — B=2 horizon extension at T=16 (2026-11-12)
+
+Three certified cells were added at `alpha=1/10`, `d=1`, `c=k=0`, `e=(1/10,9/10)`, and prior `1/2`, using
+`gamma_cell` and the corrected ratio enclosure from exact `L_IID/U_IID` bounds.
+
+| t | T=12 | T=15 | T=16 | T=12 to T=16 |
+|---|---:|---:|---:|---:|
+| 2/3 | 0.200440828 | 0.200073153 | 0.200048796 | −0.20% |
+| 3/4 | 0.145846679 | 0.143812709 | 0.143581991 | −1.55% |
+| 9/10 | 0.210096788 | 0.173359151 | 0.151422863 | −27.93% |
+
+All three T=16 cells certify `Gamma>0` and remain above half their T=12 values. The first two series are nearly
+flat at T=16; t=9/10 is still declining and T=16 is below the reviewed M4 threshold T₀=37 for that parameter.
+These results do not establish convergence or alter the theorem scope. Exact results are in
+`results/wpM_b2_t16_v1.json`.
+
+The corrected B=4 retry produced another timeout at (T,B,t)=(13,4,2/3) after 3,600 seconds; its t=3/4 cell was
+not reached before the process ended. No B=4 value is inferred. The targeted B=2, t=9/10, T=17 run was started
+to check whether the late-horizon decline continues; its certified result follows.
+
+## Addendum — B=2, t=9/10 horizon extension at T=17 (2026-11-12)
+
+The targeted cell completed with an exact `gamma_cell` certificate at `alpha=1/10`, `d=1`, `c=k=0`, `B=2`:
+
+| t | T | Gamma interval | rho_Gamma interval |
+|---|---:|---:|---:|
+| 9/10 | 16 | [0.03705938301154, 0.03705938301161] | [0.15142286282427, 0.15142286282457] |
+| 9/10 | 17 | [0.03574391355616, 0.03574391355626] | [0.14366857315705, 0.14366857315750] |
+
+From T=16 to T=17, the rho lower endpoint decreases by 5.12% and Gamma decreases by 3.55%. The decline persists,
+but T=17 remains below M4's reviewed `T0=37`; this is descriptive finite-horizon evidence, not evidence about the
+limit. Exact certificate: `results/wpM_b2_t17_t9_v1.json`.

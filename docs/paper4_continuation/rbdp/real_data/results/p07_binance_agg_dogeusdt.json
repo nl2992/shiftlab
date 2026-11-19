@@ -1,0 +1,28 @@
+{
+ "n_cand": 7,
+ "id": "p07_binance_agg_dogeusdt",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:29",
+ "fetch": {
+  "id": "p07_binance_agg_dogeusdt",
+  "ok": true,
+  "first_id": 723590567,
+  "last_id": 723595566,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 5000,
+  "n_changes_available": 2338,
+  "pages": 5,
+  "n": 2000,
+  "n_ones": 1000,
+  "url": "https://api.binance.com/api/v3/aggTrades?symbol=DOGEUSDT&limit=1000 (+4 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:32Z",
+  "bytes": 594744,
+  "sha256": "3abc214b8571dc612a665b182c29eca375bfe563e7baef6b6d66d76c9d3652fb"
+ },
+ "n": 2000,
+ "n_ones": 1000,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.06753353353353354,
+ "outcome": "screened out",
+ "reason": "r1=0.0675 > -0.15"
+}

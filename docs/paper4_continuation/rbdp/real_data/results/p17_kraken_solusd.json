@@ -1,0 +1,28 @@
+{
+ "n_cand": 17,
+ "id": "p17_kraken_solusd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:15:02",
+ "fetch": {
+  "id": "p17_kraken_solusd",
+  "ok": true,
+  "first_time": 1794855921.3428838,
+  "last_time": 1794867290.8347235,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 4680,
+  "n_changes_available": 2449,
+  "pages": 9,
+  "n": 2000,
+  "n_ones": 1026,
+  "url": "https://api.kraken.com/0/public/Trades?pair=SOLUSD (+8 paged requests)",
+  "retrieved_utc": "2026-11-16T22:15:07Z",
+  "bytes": 584860,
+  "sha256": "ad04d00dc8cbe09b8c5363a2ea039c9005383240f5ddf08b2d8e8afe4c937750"
+ },
+ "n": 2000,
+ "n_ones": 1026,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": -0.09531722992533294,
+ "outcome": "screened out",
+ "reason": "r1=-0.0953 > -0.15"
+}

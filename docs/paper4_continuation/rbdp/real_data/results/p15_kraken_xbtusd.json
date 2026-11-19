@@ -1,0 +1,28 @@
+{
+ "n_cand": 15,
+ "id": "p15_kraken_xbtusd",
+ "family": "exchange_tick",
+ "started": "2026-11-16T23:14:54",
+ "fetch": {
+  "id": "p15_kraken_xbtusd",
+  "ok": true,
+  "first_time": 1794865597.351754,
+  "last_time": 1794867290.8329835,
+  "rule": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+  "n_trades_fetched": 3773,
+  "n_changes_available": 2025,
+  "pages": 8,
+  "n": 2000,
+  "n_ones": 1021,
+  "url": "https://api.kraken.com/0/public/Trades?pair=XBTUSD (+7 paged requests)",
+  "retrieved_utc": "2026-11-16T22:14:58Z",
+  "bytes": 550217,
+  "sha256": "4f559b2fa4d8722019915322dbceeab8b20faca71bc7f5d71ce23b3e6b74367e"
+ },
+ "n": 2000,
+ "n_ones": 1021,
+ "binarisation": "x=1 when price rose vs previous trade, equal-price trades dropped, last 2000 changes",
+ "r1": 0.6126358083350916,
+ "outcome": "screened out",
+ "reason": "r1=0.6126 > -0.15"
+}

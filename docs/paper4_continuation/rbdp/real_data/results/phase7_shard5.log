@@ -1,0 +1,33 @@
+23:54:14 A:screen100/FOREX_cadjpy-hour-Close x=1 n 3000 r1 0.006 pos False None
+23:56:14 A:screen100/FOREX_cadjpy-hour-Close 1-x n 3000 r1 0.006 pos False None
+23:56:14 DONE A:screen100/FOREX_cadjpy-hour-Close evaluated positive False TALLY 25
+23:58:14 A:screen100/FOREX_eurhuf-hour-Close x=1 n 3000 r1 -0.002 pos False None
+00:00:14 A:screen100/FOREX_eurhuf-hour-Close 1-x n 3000 r1 -0.002 pos False None
+00:00:14 DONE A:screen100/FOREX_eurhuf-hour-Close evaluated positive False TALLY 25
+00:02:15 A:screen100/FOREX_eurusd-hour-Close x=1 n 3000 r1 0.006 pos False None
+00:04:16 A:screen100/FOREX_eurusd-hour-Close 1-x n 3000 r1 0.006 pos False None
+00:04:16 DONE A:screen100/FOREX_eurusd-hour-Close evaluated positive False TALLY 25
+00:04:48 A:screen100/air_Changping x=1 n 2385 r1 0.501 pos False None
+00:05:21 A:screen100/air_Changping 1-x n 2385 r1 0.501 pos False None
+00:05:21 DONE A:screen100/air_Changping evaluated positive False TALLY 25
+00:06:01 A:screen100/air_Wanliu x=1 n 3000 r1 0.580 pos False None
+00:06:43 A:screen100/air_Wanliu 1-x n 3000 r1 0.580 pos False None
+00:06:43 DONE A:screen100/air_Wanliu evaluated positive False TALLY 25
+00:08:17 A:screen100/elec_MT_006 x=1 n 2116 r1 0.265 pos False None
+00:09:49 A:screen100/elec_MT_006 1-x n 2116 r1 0.265 pos False None
+00:09:49 DONE A:screen100/elec_MT_006 evaluated positive False TALLY 25
+00:09:49 DONE A:screen100/elec_MT_015 evaluated positive False TALLY 25
+00:10:50 A:screen100/elec_MT_024 x=1 n 3000 r1 0.390 pos False None
+00:11:51 A:screen100/elec_MT_024 1-x n 3000 r1 0.390 pos False None
+00:11:51 DONE A:screen100/elec_MT_024 evaluated positive False TALLY 25
+00:13:41 A:screen100/elec_MT_033 x=1 n 2814 r1 0.310 pos False None
+00:15:08 A:screen100/elec_MT_033 1-x n 2814 r1 0.310 pos False None
+00:15:08 DONE A:screen100/elec_MT_033 evaluated positive False TALLY 25
+00:16:38 A:screen100/elec_MT_042 x=1 n 3000 r1 0.396 pos False None
+00:18:03 A:screen100/elec_MT_042 1-x n 3000 r1 0.396 pos False None
+00:18:03 DONE A:screen100/elec_MT_042 evaluated positive False TALLY 25
+00:18:31 A:screen100/tetouan_z3 x=1 n 3000 r1 0.830 pos False None
+00:29:09 A:screen100/tetouan_z3 1-x n 3000 r1 0.830 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.046419298274433834, 'C0': 6.528237994868712, 'U_iid': 6.224633655376595, 'risk_causal_of_iid_policy': 0.25}
+00:29:09 DONE A:screen100/tetouan_z3 evaluated positive True TALLY 26
+00:29:09 family A finished; tally 26
+00:29:09 lists exhausted; final tally 26

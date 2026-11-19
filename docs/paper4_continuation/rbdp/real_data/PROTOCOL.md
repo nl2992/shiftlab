@@ -369,3 +369,35 @@ each policy's exact causal risk on the fitted model (unchanged by the replay). N
 
 Outputs: `results/phase8_census.jsonl`, `results/phase8_replay.jsonl`, `results/phase8_summary.md`, `phase8_run.log`;
 script `run_phase8.py`.
+
+---
+
+# Addendum I (2026-11-19, lead; written before any Phase 9 computation)
+
+**Purpose.** Phase 9 adds three causal-safe baselines to the panel. Each is the standard fix a practitioner would apply to an
+existing panel policy once told that the labels may be adaptively dependent: keep the rule, recalibrate or repair it against
+the exact causal risk. No new planner is introduced. All three are causal-safe by construction, so on the fitted model their
+expected cost is at least RB-DP's; the replay measures them on real held-out labels.
+
+**New policies.**
+- **P3c, HMM-filter threshold, causal-calibrated.** P3's rule (query while budget lasts; promote when the filtered belief
+  exceeds a threshold, randomising on a tie), with the threshold and tie probability set so that the exact causal risk
+  (Lemma A, max branch) equals α, by the same bisection as P3 with the causal risk in place of the IID risk.
+- **P4c, myopic VOI, causal-calibrated.** P4's rule (query iff one-step VOI > 0.01), threshold calibrated to exact causal risk α
+  in the same way.
+- **P5r, IID-optimal planner, repaired.** The cheaper of two repairs of P5, chosen per setting on the fitted model:
+  (a) *deflated level*: the IID-mode solver re-solved at the largest α′ ≤ α whose solver causal risk is ≤ α (bisection on α′,
+  16 steps; the solver's causal risk is an upper bound when the plan randomises, so the repair is conservative);
+  (b) *mixing*: run P5 with probability a = min(1, α / causal risk of P5), otherwise never promote.
+
+**Where.** (1) The T16/32 panel: the 35 fitted chains, cells T ∈ {16, 32}, B ∈ {2, 3, 4}, α ∈ {0.05, 0.1}, exact causal risk and
+expected cost, compared with the existing P1–P7 rows in `results/phase7_baselines_T16_32/settings.jsonl`. (2) The Phase 8
+replay: the same 100 datasets, windows, cell (T = 32, B = 4, α = 0.1) and private-coin seeds as Addendum H, with P1–P7 recomputed
+in the same run so all comparisons are paired.
+
+**Reported.** Per setting and per dataset: causal risk / α for the new policies; P7's cost against the best of all safe baselines
+(P1, P2, P6, P3c, P4c, P5r); counts of cheaper / tie (|Δ| ≤ 1e-9 in-model) / dearer; replay pooled mean realised cost with the
+window-bootstrap CI of Addendum H and paired P7 differences. No result is excluded after it is seen.
+
+Outputs: `results/phase9_panel.jsonl`, `results/phase9_replay.jsonl`, `results/phase9_summary.md`, `phase9_run.log`;
+script `run_phase9.py`.

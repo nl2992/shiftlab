@@ -1,0 +1,77 @@
+{
+ "all_equal": true,
+ "datasets": [
+  {
+   "id": "atlas_v2/elec2",
+   "n_windows": 6,
+   "exactly_equal": {
+    "P1": true,
+    "P2": true,
+    "P3": true,
+    "P4": true,
+    "P5": true,
+    "P6": true,
+    "P7": true,
+    "never": true
+   },
+   "max_abs_diff": {
+    "P1": 0.0,
+    "P2": 0.0,
+    "P3": 0.0,
+    "P4": 0.0,
+    "P5": 0.0,
+    "P6": 0.0,
+    "P7": 0.0,
+    "never": 0.0
+   }
+  },
+  {
+   "id": "atlas_v2/spam",
+   "n_windows": 11,
+   "exactly_equal": {
+    "P1": true,
+    "P2": true,
+    "P3": true,
+    "P4": true,
+    "P5": true,
+    "P6": true,
+    "P7": true,
+    "never": true
+   },
+   "max_abs_diff": {
+    "P1": 0.0,
+    "P2": 0.0,
+    "P3": 0.0,
+    "P4": 0.0,
+    "P5": 0.0,
+    "P6": 0.0,
+    "P7": 0.0,
+    "never": 0.0
+   }
+  },
+  {
+   "id": "screen100/seoul_bike",
+   "n_windows": 11,
+   "exactly_equal": {
+    "P1": true,
+    "P2": true,
+    "P3": true,
+    "P4": true,
+    "P5": true,
+    "P6": true,
+    "P7": true,
+    "never": true
+   },
+   "max_abs_diff": {
+    "P1": 0.0,
+    "P2": 0.0,
+    "P3": 0.0,
+    "P4": 0.0,
+    "P5": 0.0,
+    "P6": 0.0,
+    "P7": 0.0,
+    "never": 0.0
+   }
+  }
+ ]
+}

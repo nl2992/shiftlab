@@ -1,0 +1,538 @@
+11-19 10:52:35 panel: 12 settings to do
+11-19 10:52:36 panel 1 / 12 T:en|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 0s
+11-19 10:52:36 panel 2 / 12 T:en|a=0.05|B=2|T=32 delta -1.066e-14 best P6 P5r deflated 1s
+11-19 10:52:49 panel 3 / 12 T:en|a=0.1|B=3|T=32 delta -9.237e-14 best P6 P5r mixing 14s
+11-19 10:53:03 panel 4 / 12 T:en|a=0.05|B=3|T=32 delta -5.684e-14 best P6 P5r mixing 28s
+11-19 10:53:04 panel 5 / 12 T:en|a=0.05|B=3|T=16 delta 3.078e-03 best P6 P5r mixing 14s
+11-19 10:53:08 panel 6 / 12 T:en|a=0.05|B=2|T=16 delta -2.132e-14 best P6 P5r mixing 5s
+11-19 10:53:10 panel 7 / 12 T:en|a=0.1|B=4|T=16 delta 2.836e-02 best P6 P5r mixing 34s
+11-19 10:53:11 panel 8 / 12 T:en|a=0.1|B=2|T=16 delta -1.776e-14 best P6 P5r mixing 3s
+11-19 10:53:11 panel 9 / 12 T:en|a=0.1|B=3|T=16 delta 6.157e-03 best P6 P5r mixing 8s
+11-19 10:53:20 panel 10 / 12 T:en|a=0.1|B=4|T=32 delta 1.401e-01 best P6 P5r deflated 45s
+11-19 10:53:40 panel 11 / 12 T:en|a=0.05|B=4|T=16 delta 1.418e-02 best P6 P5r mixing 65s
+11-19 10:53:53 panel 12 / 12 T:en|a=0.05|B=4|T=32 delta -2.132e-14 best P6 P5r mixing 77s
+11-19 10:53:58 panel: 408 settings to do
+11-19 10:54:41 validate screen100/FOREX_eurchf-hour-Close P3c mc 16.21895 se 0.01887 exact 16.24284 z -1.27
+11-19 10:54:45 validate screen100/FOREX_eurchf-hour-Close P4c mc 16.21895 se 0.01887 exact 16.24284 z -1.27
+11-19 10:54:46 validate screen100/FOREX_eurchf-hour-Close P5r mc 16.15210 se 0.01894 exact 16.17906 z -1.42
+11-19 10:54:55 panel 1 / 408 T:de|a=0.1|B=4|T=32 delta 1.386e-01 best P6 P5r deflated 56s
+11-19 10:55:06 panel 2 / 408 T:es|a=0.1|B=4|T=32 delta 2.496e-02 best P6 P5r mixing 68s
+11-19 10:55:12 panel 3 / 408 T:fr|a=0.1|B=4|T=32 delta 3.968e-02 best P6 P5r mixing 73s
+11-19 10:55:48 panel 4 / 408 T:de|a=0.05|B=4|T=32 delta -1.421e-14 best P6 P5r mixing 109s
+11-19 10:56:15 panel 5 / 408 T:it|a=0.1|B=4|T=32 delta 2.322e-02 best P6 P5r mixing 69s
+11-19 10:56:25 panel 6 / 408 T:es|a=0.05|B=4|T=32 delta 1.248e-02 best P6 P5r deflated 146s
+11-19 10:56:26 panel 7 / 408 T:pt|a=0.05|B=4|T=32 delta 7.456e-03 best P6 P5r deflated 75s
+11-19 10:56:29 validate screen100/FOREX_audnzd-hour-Close P3c mc 16.31500 se 0.01964 exact 16.32948 z -0.74
+11-19 10:56:31 panel 8 / 408 T:pt|a=0.1|B=4|T=32 delta 1.491e-02 best P6 P5r deflated 42s
+11-19 10:56:36 validate screen100/FOREX_audnzd-hour-Close P4c mc 16.26200 se 0.01963 exact 16.27221 z -0.52
+11-19 10:56:37 validate screen100/FOREX_audnzd-hour-Close P5r mc 16.23800 se 0.01967 exact 16.24328 z -0.27
+11-19 10:56:40 panel 9 / 408 T:fr|a=0.05|B=4|T=32 delta 1.248e-02 best P6 P5r mixing 161s
+11-19 10:56:52 validate screen100/FOREX_chfjpy-hour-Close P3c mc 15.82120 se 0.01947 exact 15.83689 z -0.81
+11-19 10:56:58 validate screen100/FOREX_chfjpy-hour-Close P4c mc 15.78545 se 0.01951 exact 15.79828 z -0.66
+11-19 10:56:59 validate screen100/FOREX_chfjpy-hour-Close P5r mc 15.78115 se 0.01948 exact 15.79701 z -0.81
+11-19 10:56:59 validation passed: True
+11-19 10:57:17 panel 10 / 408 T:it|a=0.05|B=4|T=32 delta 1.161e-02 best P6 P5r deflated 142s
+11-19 10:57:23 panel 11 / 408 T:nl|a=0.1|B=4|T=32 delta 1.048e-01 best P6 P5r deflated 58s
+11-19 10:57:32 panel 12 / 408 T:sv|a=0.1|B=4|T=32 delta 3.879e-01 best P6 P5r deflated 61s
+11-19 10:57:58 panel 13 / 408 T:nl|a=0.05|B=4|T=32 delta 1.563e-13 best P6 P5r mixing 103s
+11-19 10:58:19 panel 14 / 408 T:da|a=0.1|B=4|T=32 delta 2.015e-01 best P6 P5r deflated 62s
+11-19 10:58:22 panel 15 / 408 T:sv|a=0.05|B=4|T=32 delta 2.842e-14 best P6 P5r mixing 116s
+11-19 10:58:32 panel 16 / 408 T:da|a=0.05|B=4|T=32 delta -1.563e-13 best P6 P5r deflated 112s
+11-19 10:58:34 panel 17 / 408 T:fi|a=0.1|B=4|T=32 delta 1.396e-02 best P6 P5r mixing 62s
+11-19 10:59:17 panel 18 / 408 F:faithful|a=0.1|B=4|T=32 delta 2.266e-01 best P6 P5r deflated 58s
+11-19 10:59:32 panel 19 / 408 T:fi|a=0.05|B=4|T=32 delta 6.978e-03 best P6 P5r mixing 129s
+11-19 10:59:43 panel 20 / 408 F:faithful|a=0.05|B=4|T=32 delta -1.101e-13 best P6 P5r deflated 105s
+11-19 11:00:00 panel 21 / 408 S:P15502|a=0.05|B=4|T=32 delta 4.916e-03 best P6 P5r mixing 86s
+11-19 11:00:04 panel 22 / 408 S:P15502|a=0.1|B=4|T=32 delta 1.444e-02 best P6 P5r mixing 47s
+11-19 11:00:05 panel 23 / 408 F:geyser|a=0.1|B=4|T=32 delta 2.747e-02 best P6 P5r deflated 93s
+11-19 11:01:03 panel 24 / 408 S:P04985|a=0.1|B=4|T=32 delta 2.348e-02 best P6 P5r mixing 79s
+11-19 11:01:36 panel 25 / 408 L:hu|a=0.1|B=4|T=32 delta 2.574e-01 best P6 P5r mixing 92s
+11-19 11:01:42 panel 26 / 408 F:geyser|a=0.05|B=4|T=32 delta 1.374e-02 best P6 P5r deflated 200s
+11-19 11:01:57 panel 27 / 408 L:pl|a=0.05|B=4|T=32 delta -1.137e-13 best P6 P5r deflated 112s
+11-19 11:02:06 panel 28 / 408 L:pl|a=0.1|B=4|T=32 delta 1.564e-01 best P6 P5r deflated 63s
+11-19 11:02:22 panel 29 / 408 S:P04985|a=0.05|B=4|T=32 delta 7.726e-03 best P6 P5r deflated 170s
+11-19 11:02:41 panel 30 / 408 L:cs|a=0.1|B=4|T=32 delta 1.751e-01 best P6 P5r deflated 59s
+11-19 11:03:19 panel 31 / 408 L:hu|a=0.05|B=4|T=32 delta -8.882e-14 best P6 P5r deflated 199s
+11-19 11:03:27 panel 32 / 408 L:cs|a=0.05|B=4|T=32 delta -1.990e-13 best P6 P5r deflated 110s
+11-19 11:03:29 panel 33 / 408 L:la|a=0.1|B=4|T=32 delta 9.564e-02 best P6 P5r mixing 83s
+11-19 11:03:43 panel 34 / 408 L:ro|a=0.1|B=4|T=32 delta 1.751e-01 best P6 P5r deflated 62s
+11-19 11:03:58 check8 atlas_v2/elec2 windows 6 all equal: True max diff 0.0
+11-19 11:04:15 panel 35 / 408 L:ro|a=0.05|B=4|T=32 delta 2.487e-14 best P6 P5r deflated 113s
+11-19 11:04:45 panel 36 / 408 L:ca|a=0.1|B=4|T=32 delta 4.475e-02 best P6 P5r mixing 78s
+11-19 11:04:51 panel 37 / 408 L:la|a=0.05|B=4|T=32 delta 8.647e-03 best P6 P5r deflated 175s
+11-19 11:05:09 panel 38 / 408 S2:P46804|a=0.1|B=4|T=32 delta 5.421e-03 best P6 P5r deflated 87s
+11-19 11:05:42 panel 39 / 408 S3:P07916|a=0.1|B=4|T=32 delta 4.898e-02 best P6 P5r deflated 57s
+11-19 11:05:55 panel 40 / 408 S3:P07916|a=0.05|B=4|T=32 delta 4.619e-14 best P6 P5r deflated 100s
+11-19 11:06:04 panel 41 / 408 L:ca|a=0.05|B=4|T=32 delta 1.360e-02 best P6 P5r deflated 165s
+11-19 11:06:06 panel 42 / 408 S3:P11547|a=0.1|B=4|T=32 delta 4.350e-02 best P6 P5r deflated 57s
+11-19 11:06:36 panel 43 / 408 S3:P11547|a=0.05|B=4|T=32 delta -1.243e-13 best P6 P5r mixing 105s
+11-19 11:06:47 panel 44 / 408 S2:P46804|a=0.05|B=4|T=32 delta 2.711e-03 best P6 P5r deflated 199s
+11-19 11:07:01 panel 45 / 408 L2:cy|a=0.1|B=4|T=32 delta 7.759e-02 best P6 P5r deflated 55s
+11-19 11:07:11 panel 46 / 408 A:sprint_fresh/appliances|a=0.05|B=4|T=32 delta -4.015e-13 best P6 P5r deflated 10s
+11-19 11:07:15 panel 47 / 408 L2:eo|a=0.1|B=4|T=32 delta 1.205e-01 best P6 P5r mixing 80s
+11-19 11:07:25 panel 48 / 408 A:sprint_fresh/beijing_pm25|a=0.05|B=4|T=32 delta -2.665e-14 best P6 P5r deflated 10s
+11-19 11:07:30 panel 49 / 408 A:sprint_fresh/beijing_pm25|a=0.1|B=4|T=32 delta 0.000e+00 best P5r P5r deflated 5s
+11-19 11:07:34 panel 50 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=4|T=32 delta 0.000e+00 best P5r P5r deflated 4s
+11-19 11:07:36 panel 51 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=4|T=32 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:07:44 panel 52 / 408 A:atlas_v2/openml_ldpa|a=0.1|B=4|T=32 delta 5.365e-13 best P6 P5r deflated 57s
+11-19 11:07:46 panel 53 / 408 L2:cy|a=0.05|B=4|T=32 delta -2.842e-14 best P6 P5r deflated 102s
+11-19 11:08:11 panel 54 / 408 A:sprint_fresh/appliances|a=0.1|B=4|T=32 delta 1.897e-03 best P6 P5r deflated 60s
+11-19 11:08:26 panel 55 / 408 A:atlas_v2/openml_ldpa|a=0.05|B=4|T=32 delta 4.317e-13 best P6 P5r deflated 110s
+11-19 11:08:36 panel 56 / 408 A:screen100/elec_MT_029|a=0.05|B=4|T=32 delta -5.045e-13 best P6 P5r deflated 10s
+11-19 11:08:40 panel 57 / 408 L2:eo|a=0.05|B=4|T=32 delta 6.939e-03 best P6 P5r mixing 178s
+11-19 11:08:51 panel 58 / 408 A:screen100/pm_Shanghai|a=0.05|B=4|T=32 delta -4.583e-13 best P6 P5r deflated 11s
+11-19 11:08:56 panel 59 / 408 A:screen100/pm_Shanghai|a=0.1|B=4|T=32 delta 0.000e+00 best P5r P5r deflated 5s
+11-19 11:09:07 panel 60 / 408 A:screen100/pm_Shenyang|a=0.05|B=4|T=32 delta -9.237e-14 best P6 P5r deflated 11s
+11-19 11:09:12 panel 61 / 408 A:screen100/pm_Shenyang|a=0.1|B=4|T=32 delta 0.000e+00 best P5r P5r deflated 5s
+11-19 11:09:15 panel 62 / 408 A:screen100/elec_MT_010|a=0.1|B=4|T=32 delta 3.406e-03 best P6 P5r mixing 64s
+11-19 11:09:18 panel 63 / 408 A:screen100/elec_MT_005|a=0.1|B=4|T=32 delta 3.627e-03 best P6 P5r mixing 94s
+11-19 11:09:21 panel 64 / 408 A:screen100/tetouan_z1|a=0.1|B=4|T=32 delta 0.000e+00 best P5r P5r deflated 5s
+11-19 11:09:22 panel 65 / 408 A:screen100/tetouan_z1|a=0.05|B=4|T=32 delta 0.000e+00 best P5r P5r deflated 10s
+11-19 11:09:28 check8 atlas_v2/spam windows 11 all equal: True max diff 0.0
+11-19 11:09:36 panel 66 / 408 A:screen100/elec_MT_029|a=0.1|B=4|T=32 delta 1.607e-02 best P6 P5r deflated 60s
+11-19 11:09:38 panel 67 / 408 T:fr|a=0.1|B=3|T=32 delta 1.103e-02 best P6 P5r mixing 17s
+11-19 11:09:48 panel 68 / 408 A:screen100/elec_MT_010|a=0.05|B=4|T=32 delta 1.703e-03 best P6 P5r mixing 122s
+11-19 11:09:49 panel 69 / 408 T:fr|a=0.05|B=3|T=32 delta 5.516e-03 best P6 P5r mixing 31s
+11-19 11:09:54 panel 70 / 408 T:de|a=0.05|B=3|T=32 delta 6.750e-14 best P6 P5r mixing 32s
+11-19 11:09:56 panel 71 / 408 T:de|a=0.1|B=3|T=32 delta 1.634e-13 best P6 P5r mixing 19s
+11-19 11:10:14 panel 72 / 408 T:es|a=0.1|B=3|T=32 delta 1.859e-02 best P6 P5r deflated 26s
+11-19 11:10:18 panel 73 / 408 T:it|a=0.1|B=3|T=32 delta 1.783e-02 best P6 P5r deflated 24s
+11-19 11:10:23 panel 74 / 408 T:pt|a=0.05|B=3|T=32 delta 7.461e-03 best P6 P5r deflated 27s
+11-19 11:10:25 panel 75 / 408 T:es|a=0.05|B=3|T=32 delta 9.294e-03 best P6 P5r deflated 47s
+11-19 11:10:28 panel 76 / 408 T:pt|a=0.1|B=3|T=32 delta 1.492e-02 best P6 P5r deflated 14s
+11-19 11:10:37 panel 77 / 408 T:it|a=0.05|B=3|T=32 delta 8.913e-03 best P6 P5r deflated 48s
+11-19 11:10:41 panel 78 / 408 T:nl|a=0.1|B=3|T=32 delta 4.228e-13 best P6 P5r mixing 18s
+11-19 11:10:48 panel 79 / 408 T:sv|a=0.1|B=3|T=32 delta 5.684e-14 best P6 P5r mixing 20s
+11-19 11:10:50 panel 80 / 408 T:nl|a=0.05|B=3|T=32 delta 1.990e-13 best P6 P5r mixing 32s
+11-19 11:10:57 panel 81 / 408 A:screen100/elec_MT_005|a=0.05|B=4|T=32 delta 1.814e-03 best P6 P5r mixing 201s
+11-19 11:11:00 panel 82 / 408 T:da|a=0.1|B=3|T=32 delta -1.172e-13 best P6 P5r deflated 19s
+11-19 11:11:03 panel 83 / 408 T:sv|a=0.05|B=3|T=32 delta 1.776e-14 best P6 P5r mixing 38s
+11-19 11:11:12 panel 84 / 408 T:fi|a=0.1|B=3|T=32 delta 1.458e-02 best P6 P5r mixing 22s
+11-19 11:11:12 panel 85 / 408 T:da|a=0.05|B=3|T=32 delta -4.263e-14 best P6 P5r deflated 35s
+11-19 11:11:17 panel 86 / 408 F:faithful|a=0.1|B=3|T=32 delta -1.208e-13 best P6 P5r deflated 17s
+11-19 11:11:31 panel 87 / 408 T:fi|a=0.05|B=3|T=32 delta 7.288e-03 best P6 P5r mixing 43s
+11-19 11:11:31 panel 88 / 408 F:faithful|a=0.05|B=3|T=32 delta -4.974e-14 best P6 P5r deflated 34s
+11-19 11:11:34 panel 89 / 408 S:P15502|a=0.1|B=3|T=32 delta -3.304e-13 best P6 P5r mixing 17s
+11-19 11:11:38 panel 90 / 408 F:geyser|a=0.1|B=3|T=32 delta 1.508e-02 best P6 P5r deflated 27s
+11-19 11:11:41 panel 91 / 408 S:P15502|a=0.05|B=3|T=32 delta -1.776e-13 best P6 P5r mixing 29s
+11-19 11:11:47 panel 92 / 408 S:P04985|a=0.1|B=3|T=32 delta 4.823e-03 best P6 P5r deflated 16s
+11-19 11:11:52 panel 93 / 408 F:geyser|a=0.05|B=3|T=32 delta 7.539e-03 best P6 P5r deflated 50s
+11-19 11:11:56 panel 94 / 408 L:hu|a=0.1|B=3|T=32 delta -1.634e-13 best P6 P5r deflated 17s
+11-19 11:11:59 panel 95 / 408 S:P04985|a=0.05|B=3|T=32 delta 2.411e-03 best P6 P5r deflated 28s
+11-19 11:12:04 panel 96 / 408 L:hu|a=0.05|B=3|T=32 delta -6.395e-14 best P6 P5r deflated 30s
+11-19 11:12:04 panel 97 / 408 L:pl|a=0.1|B=3|T=32 delta -3.553e-14 best P6 P5r deflated 17s
+11-19 11:12:13 panel 98 / 408 L:pl|a=0.05|B=3|T=32 delta -1.776e-14 best P6 P5r mixing 31s
+11-19 11:12:13 panel 99 / 408 L:cs|a=0.1|B=3|T=32 delta -3.197e-13 best P6 P5r deflated 17s
+11-19 11:12:20 panel 100 / 408 L:la|a=0.1|B=3|T=32 delta 1.029e-02 best P6 P5r deflated 17s
+11-19 11:12:23 panel 101 / 408 L:cs|a=0.05|B=3|T=32 delta -1.492e-13 best P6 P5r deflated 31s
+11-19 11:12:26 panel 102 / 408 S2:P46804|a=0.05|B=3|T=32 delta -3.020e-14 best P6 P5r deflated 3s
+11-19 11:12:27 panel 103 / 408 L:la|a=0.05|B=3|T=32 delta 5.147e-03 best P6 P5r deflated 28s
+11-19 11:12:28 panel 104 / 408 S2:P46804|a=0.1|B=3|T=32 delta -1.936e-13 best P6 P5r deflated 2s
+11-19 11:12:31 panel 105 / 408 L:ro|a=0.1|B=3|T=32 delta 7.105e-15 best P6 P5r deflated 18s
+11-19 11:12:35 panel 106 / 408 L:ro|a=0.05|B=3|T=32 delta 1.066e-14 best P6 P5r deflated 30s
+11-19 11:12:35 panel 107 / 408 L:ca|a=0.1|B=3|T=32 delta 1.935e-02 best P6 P5r deflated 15s
+11-19 11:12:39 panel 108 / 408 L:ca|a=0.05|B=3|T=32 delta 9.675e-03 best P6 P5r deflated 26s
+11-19 11:12:45 panel 109 / 408 S3:P07916|a=0.1|B=3|T=32 delta 7.816e-14 best P6 P5r deflated 16s
+11-19 11:12:53 panel 110 / 408 S3:P11547|a=0.1|B=3|T=32 delta 0.000e+00 best P6 P5r mixing 18s
+11-19 11:12:55 panel 111 / 408 S3:P07916|a=0.05|B=3|T=32 delta 4.619e-14 best P6 P5r deflated 28s
+11-19 11:12:57 panel 112 / 408 L2:eo|a=0.1|B=3|T=32 delta 7.334e-03 best P6 P5r mixing 18s
+11-19 11:12:59 panel 113 / 408 A:atlas_v2/openml_ldpa|a=0.05|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 4s
+11-19 11:12:59 panel 114 / 408 A:atlas_v2/openml_ldpa|a=0.1|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:13:00 panel 115 / 408 S3:P11547|a=0.05|B=3|T=32 delta -3.553e-15 best P6 P5r mixing 29s
+11-19 11:13:01 panel 116 / 408 A:sprint_fresh/appliances|a=0.1|B=3|T=32 delta -4.992e-13 best P6 P5r deflated 2s
+11-19 11:13:02 panel 117 / 408 A:sprint_fresh/appliances|a=0.05|B=3|T=32 delta -3.162e-13 best P6 P5r deflated 3s
+11-19 11:13:02 panel 118 / 408 A:sprint_fresh/beijing_pm25|a=0.1|B=3|T=32 delta -2.309e-14 best P6 P5r deflated 2s
+11-19 11:13:03 panel 119 / 408 A:sprint_fresh/beijing_pm25|a=0.05|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 3s
+11-19 11:13:03 panel 120 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:03 panel 121 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:13:03 panel 122 / 408 L2:eo|a=0.05|B=3|T=32 delta 3.667e-03 best P6 P5r mixing 28s
+11-19 11:13:05 panel 123 / 408 A:screen100/elec_MT_005|a=0.1|B=3|T=32 delta -1.030e-13 best P6 P5r deflated 2s
+11-19 11:13:05 panel 124 / 408 A:screen100/elec_MT_010|a=0.1|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:13:06 panel 125 / 408 A:screen100/elec_MT_005|a=0.05|B=3|T=32 delta -8.349e-14 best P6 P5r deflated 3s
+11-19 11:13:06 panel 126 / 408 A:screen100/elec_MT_010|a=0.05|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 3s
+11-19 11:13:07 panel 127 / 408 A:screen100/elec_MT_029|a=0.1|B=3|T=32 delta -4.885e-13 best P6 P5r deflated 2s
+11-19 11:13:07 panel 128 / 408 A:screen100/elec_MT_029|a=0.05|B=3|T=32 delta -2.300e-13 best P6 P5r deflated 3s
+11-19 11:13:08 panel 129 / 408 A:screen100/pm_Shanghai|a=0.1|B=3|T=32 delta -4.761e-13 best P6 P5r deflated 2s
+11-19 11:13:08 panel 130 / 408 A:screen100/pm_Shanghai|a=0.05|B=3|T=32 delta -2.807e-13 best P6 P5r deflated 3s
+11-19 11:13:09 panel 131 / 408 L2:cy|a=0.1|B=3|T=32 delta 4.263e-14 best P6 P5r deflated 16s
+11-19 11:13:09 panel 132 / 408 A:screen100/pm_Shenyang|a=0.1|B=3|T=32 delta -3.553e-14 best P6 P5r deflated 2s
+11-19 11:13:10 panel 133 / 408 A:screen100/pm_Shenyang|a=0.05|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 3s
+11-19 11:13:10 panel 134 / 408 A:screen100/tetouan_z1|a=0.1|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:13:10 panel 135 / 408 A:screen100/tetouan_z1|a=0.05|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 3s
+11-19 11:13:11 panel 136 / 408 T:de|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:11 panel 137 / 408 T:de|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:13 panel 138 / 408 L2:cy|a=0.05|B=3|T=32 delta 1.776e-14 best P6 P5r mixing 28s
+11-19 11:13:14 panel 139 / 408 T:fr|a=0.1|B=2|T=32 delta 7.388e-03 best P6 P5r mixing 5s
+11-19 11:13:16 panel 140 / 408 T:es|a=0.1|B=2|T=32 delta 1.651e-02 best P6 P5r deflated 5s
+11-19 11:13:17 panel 141 / 408 T:fr|a=0.05|B=2|T=32 delta 3.694e-03 best P6 P5r mixing 8s
+11-19 11:13:17 panel 142 / 408 T:nl|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:18 panel 143 / 408 T:it|a=0.1|B=2|T=32 delta 1.373e-02 best P6 P5r deflated 5s
+11-19 11:13:18 panel 144 / 408 T:nl|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:18 panel 145 / 408 T:es|a=0.05|B=2|T=32 delta 8.255e-03 best P6 P5r deflated 8s
+11-19 11:13:19 panel 146 / 408 T:sv|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:19 panel 147 / 408 T:sv|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:19 panel 148 / 408 T:da|a=0.05|B=2|T=32 delta -4.974e-14 best P6 P5r deflated 1s
+11-19 11:13:19 panel 149 / 408 T:it|a=0.05|B=2|T=32 delta 6.867e-03 best P6 P5r deflated 8s
+11-19 11:13:19 panel 150 / 408 T:da|a=0.1|B=2|T=32 delta -1.350e-13 best P6 P5r deflated 1s
+11-19 11:13:20 panel 151 / 408 F:faithful|a=0.1|B=2|T=32 delta -8.882e-14 best P6 P5r deflated 1s
+11-19 11:13:20 panel 152 / 408 F:faithful|a=0.05|B=2|T=32 delta -3.553e-14 best P6 P5r deflated 1s
+11-19 11:13:20 panel 153 / 408 T:pt|a=0.1|B=2|T=32 delta 1.493e-02 best P6 P5r deflated 5s
+11-19 11:13:21 panel 154 / 408 S:P15502|a=0.05|B=2|T=32 delta -8.527e-14 best P6 P5r deflated 1s
+11-19 11:13:21 panel 155 / 408 T:pt|a=0.05|B=2|T=32 delta 7.465e-03 best P6 P5r deflated 8s
+11-19 11:13:22 panel 156 / 408 S:P15502|a=0.1|B=2|T=32 delta -1.421e-13 best P6 P5r deflated 1s
+11-19 11:13:23 panel 157 / 408 T:fi|a=0.1|B=2|T=32 delta 1.519e-02 best P6 P5r mixing 4s
+11-19 11:13:24 panel 158 / 408 L:hu|a=0.05|B=2|T=32 delta -7.105e-15 best P6 P5r deflated 1s
+11-19 11:13:25 panel 159 / 408 L:hu|a=0.1|B=2|T=32 delta -4.619e-14 best P6 P5r deflated 1s
+11-19 11:13:25 panel 160 / 408 F:geyser|a=0.1|B=2|T=32 delta 4.651e-03 best P6 P5r deflated 5s
+11-19 11:13:26 panel 161 / 408 L:pl|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:26 panel 162 / 408 L:pl|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:26 panel 163 / 408 S:P04985|a=0.1|B=2|T=32 delta -6.040e-14 best P6 P5r deflated 5s
+11-19 11:13:27 panel 164 / 408 L:cs|a=0.1|B=2|T=32 delta -6.395e-14 best P6 P5r deflated 1s
+11-19 11:13:27 panel 165 / 408 T:fi|a=0.05|B=2|T=32 delta 7.596e-03 best P6 P5r mixing 8s
+11-19 11:13:27 panel 166 / 408 L:cs|a=0.05|B=2|T=32 delta -2.132e-14 best P6 P5r deflated 1s
+11-19 11:13:27 panel 167 / 408 F:geyser|a=0.05|B=2|T=32 delta 2.326e-03 best P6 P5r deflated 7s
+11-19 11:13:27 panel 168 / 408 L:ro|a=0.1|B=2|T=32 delta -1.172e-13 best P6 P5r deflated 1s
+11-19 11:13:28 panel 169 / 408 L:ro|a=0.05|B=2|T=32 delta -4.974e-14 best P6 P5r deflated 1s
+11-19 11:13:29 panel 170 / 408 S:P04985|a=0.05|B=2|T=32 delta -2.487e-14 best P6 P5r deflated 7s
+11-19 11:13:29 panel 171 / 408 S2:P46804|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:29 panel 172 / 408 S2:P46804|a=0.1|B=2|T=32 delta -2.132e-14 best P6 P5r deflated 1s
+11-19 11:13:30 panel 173 / 408 S3:P07916|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:30 panel 174 / 408 S3:P07916|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:30 panel 175 / 408 S3:P11547|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:31 panel 176 / 408 S3:P11547|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:31 panel 177 / 408 L:la|a=0.1|B=2|T=32 delta 5.890e-03 best P6 P5r deflated 5s
+11-19 11:13:32 panel 178 / 408 L:ca|a=0.1|B=2|T=32 delta 1.413e-02 best P6 P5r deflated 5s
+11-19 11:13:32 panel 179 / 408 L2:cy|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:33 panel 180 / 408 L2:cy|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:33 panel 181 / 408 A:atlas_v2/openml_ldpa|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:33 panel 182 / 408 A:atlas_v2/openml_ldpa|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:34 panel 183 / 408 L:la|a=0.05|B=2|T=32 delta 2.945e-03 best P6 P5r deflated 8s
+11-19 11:13:34 panel 184 / 408 A:sprint_fresh/appliances|a=0.1|B=2|T=32 delta -3.197e-13 best P6 P5r deflated 1s
+11-19 11:13:34 panel 185 / 408 A:sprint_fresh/appliances|a=0.05|B=2|T=32 delta -2.274e-13 best P6 P5r deflated 1s
+11-19 11:13:34 panel 186 / 408 A:sprint_fresh/beijing_pm25|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:35 panel 187 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:35 panel 188 / 408 L:ca|a=0.05|B=2|T=32 delta 7.063e-03 best P6 P5r deflated 7s
+11-19 11:13:35 panel 189 / 408 A:sprint_fresh/beijing_pm25|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:35 panel 190 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 0s
+11-19 11:13:35 panel 191 / 408 A:screen100/elec_MT_005|a=0.1|B=2|T=32 delta -9.237e-14 best P6 P5r deflated 1s
+11-19 11:13:35 panel 192 / 408 A:screen100/elec_MT_010|a=0.1|B=2|T=32 delta -5.196e-13 best P6 P5r deflated 1s
+11-19 11:13:36 panel 193 / 408 A:screen100/elec_MT_005|a=0.05|B=2|T=32 delta -7.638e-14 best P6 P5r deflated 1s
+11-19 11:13:36 panel 194 / 408 L2:eo|a=0.1|B=2|T=32 delta 3.433e-03 best P6 P5r mixing 5s
+11-19 11:13:36 panel 195 / 408 A:screen100/elec_MT_010|a=0.05|B=2|T=32 delta -3.686e-13 best P6 P5r deflated 1s
+11-19 11:13:36 panel 196 / 408 A:screen100/elec_MT_029|a=0.1|B=2|T=32 delta -2.283e-13 best P6 P5r deflated 1s
+11-19 11:13:36 panel 197 / 408 A:screen100/pm_Shanghai|a=0.1|B=2|T=32 delta -3.109e-13 best P6 P5r deflated 1s
+11-19 11:13:36 panel 198 / 408 A:screen100/elec_MT_029|a=0.05|B=2|T=32 delta -9.859e-14 best P6 P5r deflated 1s
+11-19 11:13:36 panel 199 / 408 A:screen100/pm_Shanghai|a=0.05|B=2|T=32 delta -1.972e-13 best P6 P5r deflated 1s
+11-19 11:13:37 panel 200 / 408 A:screen100/pm_Shenyang|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:37 panel 201 / 408 A:screen100/pm_Shenyang|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:37 panel 202 / 408 A:screen100/tetouan_z1|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:37 panel 203 / 408 A:screen100/tetouan_z1|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:13:38 panel 204 / 408 L2:eo|a=0.05|B=2|T=32 delta 1.716e-03 best P6 P5r mixing 8s
+11-19 11:14:12 panel 205 / 408 T:fr|a=0.1|B=4|T=16 delta 6.614e-03 best P6 P5r mixing 35s
+11-19 11:14:15 panel 206 / 408 T:es|a=0.1|B=4|T=16 delta 1.533e-02 best P6 P5r mixing 37s
+11-19 11:14:18 panel 207 / 408 T:de|a=0.1|B=4|T=16 delta 2.949e-02 best P6 P5r mixing 41s
+11-19 11:14:44 panel 208 / 408 T:fr|a=0.05|B=4|T=16 delta 3.307e-03 best P6 P5r mixing 68s
+11-19 11:14:50 panel 209 / 408 T:it|a=0.1|B=4|T=16 delta 1.413e-02 best P6 P5r mixing 35s
+11-19 11:14:51 panel 210 / 408 T:es|a=0.05|B=4|T=16 delta 7.667e-03 best P6 P5r deflated 74s
+11-19 11:14:59 panel 211 / 408 T:pt|a=0.05|B=4|T=16 delta 7.456e-03 best P6 P5r deflated 41s
+11-19 11:15:02 panel 212 / 408 T:de|a=0.05|B=4|T=16 delta 1.474e-02 best P6 P5r mixing 85s
+11-19 11:15:09 panel 213 / 408 T:pt|a=0.1|B=4|T=16 delta 1.491e-02 best P6 P5r deflated 25s
+11-19 11:15:25 panel 214 / 408 T:it|a=0.05|B=4|T=16 delta 7.067e-03 best P6 P5r deflated 73s
+11-19 11:15:33 panel 215 / 408 T:nl|a=0.1|B=4|T=16 delta 2.375e-02 best P6 P5r mixing 42s
+11-19 11:15:33 panel 216 / 408 T:sv|a=0.1|B=4|T=16 delta 7.932e-02 best P6 P5r deflated 31s
+11-19 11:15:55 panel 217 / 408 T:sv|a=0.05|B=4|T=16 delta 1.066e-14 best P6 P5r mixing 56s
+11-19 11:15:57 panel 218 / 408 T:fi|a=0.1|B=4|T=16 delta 1.482e-02 best P6 P5r mixing 24s
+11-19 11:16:05 check8 screen100/seoul_bike windows 11 all equal: True max diff 0.0
+11-19 11:16:09 panel 219 / 408 T:da|a=0.1|B=4|T=16 delta 4.121e-02 best P6 P5r mixing 44s
+11-19 11:16:13 panel 220 / 408 T:fi|a=0.05|B=4|T=16 delta 7.411e-03 best P6 P5r mixing 40s
+11-19 11:16:13 panel 221 / 408 T:nl|a=0.05|B=4|T=16 delta 1.188e-02 best P6 P5r mixing 83s
+11-19 11:16:20 replay: 100 datasets to do
+11-19 11:16:46 panel 222 / 408 T:da|a=0.05|B=4|T=16 delta 8.925e-03 best P6 P5r deflated 97s
+11-19 11:16:47 panel 223 / 408 F:faithful|a=0.1|B=4|T=16 delta 2.171e-02 best P6 P5r mixing 50s
+11-19 11:16:59 panel 224 / 408 S:P15502|a=0.05|B=4|T=16 delta 1.897e-03 best P6 P5r mixing 45s
+11-19 11:17:13 panel 225 / 408 S:P15502|a=0.1|B=4|T=16 delta 3.794e-03 best P6 P5r mixing 27s
+11-19 11:17:16 panel 226 / 408 F:geyser|a=0.1|B=4|T=16 delta 2.772e-02 best P6 P5r deflated 64s
+11-19 11:17:38 panel 227 / 408 F:faithful|a=0.05|B=4|T=16 delta 7.706e-03 best P6 P5r deflated 103s
+11-19 11:17:42 panel 228 / 408 S:P04985|a=0.1|B=4|T=16 delta 5.324e-03 best P6 P5r mixing 43s
+11-19 11:18:10 panel 229 / 408 L:hu|a=0.1|B=4|T=16 delta 1.298e-02 best P6 P5r mixing 53s
+11-19 11:18:15 panel 230 / 408 S:P04985|a=0.05|B=4|T=16 delta 2.662e-03 best P6 P5r deflated 89s
+11-19 11:18:20 panel 231 / 408 F:geyser|a=0.05|B=4|T=16 delta 1.386e-02 best P6 P5r deflated 130s
+11-19 11:18:40 panel 232 / 408 L:pl|a=0.1|B=4|T=16 delta 2.987e-02 best P6 P5r mixing 58s
+11-19 11:19:07 panel 233 / 408 L:hu|a=0.05|B=4|T=16 delta 2.865e-03 best P6 P5r deflated 114s
+11-19 11:19:12 panel 234 / 408 L:cs|a=0.1|B=4|T=16 delta 3.465e-02 best P6 P5r mixing 56s
+11-19 11:19:28 panel 235 / 408 L:la|a=0.1|B=4|T=16 delta 9.831e-03 best P6 P5r mixing 49s
+11-19 11:19:30 panel 236 / 408 L:pl|a=0.05|B=4|T=16 delta 1.465e-02 best P6 P5r mixing 113s
+11-19 11:19:59 panel 237 / 408 L:la|a=0.05|B=4|T=16 delta 4.916e-03 best P6 P5r deflated 99s
+11-19 11:20:00 panel 238 / 408 L:cs|a=0.05|B=4|T=16 delta 1.196e-02 best P6 P5r deflated 110s
+11-19 11:20:01 panel 239 / 408 L:ro|a=0.1|B=4|T=16 delta 3.479e-02 best P6 P5r mixing 49s
+11-19 11:20:15 panel 240 / 408 L:ca|a=0.1|B=4|T=16 delta 1.213e-02 best P6 P5r mixing 45s
+11-19 11:20:35 panel 241 / 408 S2:P46804|a=0.1|B=4|T=16 delta 4.530e-14 best P6 P5r deflated 35s
+11-19 11:20:52 panel 242 / 408 L:ro|a=0.05|B=4|T=16 delta 1.191e-02 best P6 P5r deflated 105s
+11-19 11:20:57 panel 243 / 408 L:ca|a=0.05|B=4|T=16 delta 6.066e-03 best P6 P5r deflated 88s
+11-19 11:20:57 panel 244 / 408 S3:P07916|a=0.1|B=4|T=16 delta 1.486e-02 best P6 P5r mixing 42s
+11-19 11:20:59 panel 245 / 408 S2:P46804|a=0.05|B=4|T=16 delta 9.059e-14 best P6 P5r deflated 61s
+11-19 11:21:26 panel 246 / 408 S3:P07916|a=0.05|B=4|T=16 delta 7.429e-03 best P6 P5r deflated 85s
+11-19 11:21:29 panel 247 / 408 S3:P11547|a=0.1|B=4|T=16 delta 1.365e-02 best P6 P5r mixing 37s
+11-19 11:21:33 panel 248 / 408 A:atlas_v2/openml_ldpa|a=0.05|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 4s
+11-19 11:21:35 panel 249 / 408 A:atlas_v2/openml_ldpa|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:21:36 panel 250 / 408 L2:eo|a=0.1|B=4|T=16 delta 1.212e-02 best P6 P5r mixing 39s
+11-19 11:21:38 panel 251 / 408 A:sprint_fresh/appliances|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:21:39 panel 252 / 408 A:sprint_fresh/appliances|a=0.05|B=4|T=16 delta -1.172e-13 best P6 P5r deflated 4s
+11-19 11:21:41 panel 253 / 408 A:sprint_fresh/beijing_pm25|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:21:42 panel 254 / 408 A:sprint_fresh/beijing_pm25|a=0.05|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 4s
+11-19 11:21:43 panel 255 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:21:43 panel 256 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:21:45 panel 257 / 408 A:screen100/elec_MT_005|a=0.1|B=4|T=16 delta -1.599e-14 best P6 P5r deflated 2s
+11-19 11:21:47 panel 258 / 408 A:screen100/elec_MT_005|a=0.05|B=4|T=16 delta -4.086e-14 best P6 P5r deflated 4s
+11-19 11:21:50 panel 259 / 408 A:screen100/elec_MT_010|a=0.1|B=4|T=16 delta -6.217e-15 best P6 P5r deflated 3s
+11-19 11:21:50 panel 260 / 408 A:screen100/elec_MT_010|a=0.05|B=4|T=16 delta -1.070e-13 best P6 P5r deflated 4s
+11-19 11:21:50 panel 261 / 408 S3:P11547|a=0.05|B=4|T=16 delta 6.823e-03 best P6 P5r mixing 75s
+11-19 11:21:52 panel 262 / 408 A:screen100/elec_MT_029|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:21:54 panel 263 / 408 A:screen100/elec_MT_029|a=0.05|B=4|T=16 delta -5.662e-13 best P6 P5r deflated 4s
+11-19 11:21:54 panel 264 / 408 A:screen100/pm_Shanghai|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:21:55 panel 265 / 408 A:screen100/pm_Shanghai|a=0.05|B=4|T=16 delta -2.318e-13 best P6 P5r deflated 5s
+11-19 11:21:57 panel 266 / 408 A:screen100/pm_Shenyang|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:21:58 panel 267 / 408 A:screen100/pm_Shenyang|a=0.05|B=4|T=16 delta -7.283e-14 best P6 P5r deflated 5s
+11-19 11:21:59 panel 268 / 408 A:screen100/tetouan_z1|a=0.05|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 4s
+11-19 11:21:59 panel 269 / 408 A:screen100/tetouan_z1|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:22:01 panel 270 / 408 L2:cy|a=0.1|B=4|T=16 delta 2.209e-02 best P6 P5r mixing 35s
+11-19 11:22:07 panel 271 / 408 T:fr|a=0.1|B=3|T=16 delta 7.874e-03 best P6 P5r mixing 8s
+11-19 11:22:09 panel 272 / 408 T:de|a=0.1|B=3|T=16 delta 4.257e-03 best P6 P5r mixing 8s
+11-19 11:22:12 panel 273 / 408 T:fr|a=0.05|B=3|T=16 delta 3.937e-03 best P6 P5r mixing 13s
+11-19 11:22:13 panel 274 / 408 T:de|a=0.05|B=3|T=16 delta 2.128e-03 best P6 P5r mixing 14s
+11-19 11:22:14 panel 275 / 408 L2:eo|a=0.05|B=4|T=16 delta 6.058e-03 best P6 P5r mixing 77s
+11-19 11:22:14 panel 276 / 408 L2:cy|a=0.05|B=4|T=16 delta 1.104e-02 best P6 P5r mixing 75s
+11-19 11:22:20 panel 277 / 408 T:es|a=0.1|B=3|T=16 delta 1.554e-02 best P6 P5r deflated 11s
+11-19 11:22:22 panel 278 / 408 T:pt|a=0.1|B=3|T=16 delta 1.493e-02 best P6 P5r deflated 8s
+11-19 11:22:24 panel 279 / 408 T:it|a=0.1|B=3|T=16 delta 1.569e-02 best P6 P5r deflated 11s
+11-19 11:22:27 panel 280 / 408 T:pt|a=0.05|B=3|T=16 delta 7.464e-03 best P6 P5r deflated 13s
+11-19 11:22:29 panel 281 / 408 T:es|a=0.05|B=3|T=16 delta 7.769e-03 best P6 P5r deflated 22s
+11-19 11:22:30 panel 282 / 408 T:nl|a=0.1|B=3|T=16 delta 1.249e-02 best P6 P5r mixing 8s
+11-19 11:22:34 panel 283 / 408 T:it|a=0.05|B=3|T=16 delta 7.847e-03 best P6 P5r deflated 22s
+11-19 11:22:34 panel 284 / 408 T:nl|a=0.05|B=3|T=16 delta 6.245e-03 best P6 P5r mixing 14s
+11-19 11:22:35 panel 285 / 408 T:sv|a=0.1|B=3|T=16 delta 7.105e-14 best P6 P5r mixing 8s
+11-19 11:22:38 panel 286 / 408 T:da|a=0.1|B=3|T=16 delta -8.882e-15 best P6 P5r deflated 8s
+11-19 11:22:40 panel 287 / 408 T:sv|a=0.05|B=3|T=16 delta 2.309e-14 best P6 P5r mixing 15s
+11-19 11:22:42 panel 288 / 408 T:fi|a=0.1|B=3|T=16 delta 1.539e-02 best P6 P5r mixing 8s
+11-19 11:22:44 panel 289 / 408 T:da|a=0.05|B=3|T=16 delta 1.421e-14 best P6 P5r deflated 15s
+11-19 11:22:46 panel 290 / 408 F:faithful|a=0.1|B=3|T=16 delta -4.974e-14 best P6 P5r deflated 8s
+11-19 11:22:48 panel 291 / 408 T:fi|a=0.05|B=3|T=16 delta 7.696e-03 best P6 P5r mixing 13s
+11-19 11:22:50 panel 292 / 408 F:faithful|a=0.05|B=3|T=16 delta -1.421e-14 best P6 P5r deflated 15s
+11-19 11:22:53 panel 293 / 408 S:P15502|a=0.1|B=3|T=16 delta 3.794e-03 best P6 P5r mixing 7s
+11-19 11:22:54 panel 294 / 408 F:geyser|a=0.1|B=3|T=16 delta 1.508e-02 best P6 P5r deflated 12s
+11-19 11:22:56 panel 295 / 408 S:P15502|a=0.05|B=3|T=16 delta 1.897e-03 best P6 P5r mixing 12s
+11-19 11:22:57 panel 296 / 408 S:P04985|a=0.1|B=3|T=16 delta 5.761e-03 best P6 P5r deflated 8s
+11-19 11:23:01 panel 297 / 408 S:P04985|a=0.05|B=3|T=16 delta 2.881e-03 best P6 P5r deflated 13s
+11-19 11:23:03 panel 298 / 408 L:hu|a=0.1|B=3|T=16 delta -3.197e-14 best P6 P5r deflated 9s
+11-19 11:23:04 panel 299 / 408 F:geyser|a=0.05|B=3|T=16 delta 7.539e-03 best P6 P5r deflated 25s
+11-19 11:23:05 panel 300 / 408 L:pl|a=0.1|B=3|T=16 delta 3.530e-03 best P6 P5r mixing 8s
+11-19 11:23:08 panel 301 / 408 L:hu|a=0.05|B=3|T=16 delta 0.000e+00 best P6 P5r deflated 15s
+11-19 11:23:11 panel 302 / 408 L:cs|a=0.1|B=3|T=16 delta -6.928e-14 best P6 P5r deflated 8s
+11-19 11:23:11 panel 303 / 408 L:pl|a=0.05|B=3|T=16 delta 1.765e-03 best P6 P5r mixing 15s
+11-19 11:23:16 panel 304 / 408 L:cs|a=0.05|B=3|T=16 delta -2.309e-14 best P6 P5r deflated 15s
+11-19 11:23:17 panel 305 / 408 L:la|a=0.1|B=3|T=16 delta 8.184e-03 best P6 P5r deflated 12s
+11-19 11:23:19 panel 306 / 408 S2:P46804|a=0.05|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-19 11:23:19 panel 307 / 408 L:ro|a=0.1|B=3|T=16 delta 1.776e-15 best P6 P5r deflated 9s
+11-19 11:23:20 panel 308 / 408 S2:P46804|a=0.1|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:24 panel 309 / 408 L:ro|a=0.05|B=3|T=16 delta 7.105e-15 best P6 P5r deflated 16s
+11-19 11:23:28 panel 310 / 408 S3:P07916|a=0.1|B=3|T=16 delta 1.053e-02 best P6 P5r deflated 9s
+11-19 11:23:28 panel 311 / 408 L:ca|a=0.1|B=3|T=16 delta 1.318e-02 best P6 P5r deflated 12s
+11-19 11:23:30 panel 312 / 408 L:la|a=0.05|B=3|T=16 delta 4.092e-03 best P6 P5r deflated 26s
+11-19 11:23:34 panel 313 / 408 S3:P07916|a=0.05|B=3|T=16 delta 5.264e-03 best P6 P5r deflated 15s
+11-19 11:23:36 panel 314 / 408 L:ca|a=0.05|B=3|T=16 delta 6.590e-03 best P6 P5r deflated 25s
+11-19 11:23:36 panel 315 / 408 S3:P11547|a=0.1|B=3|T=16 delta 9.358e-03 best P6 P5r mixing 8s
+11-19 11:23:38 panel 316 / 408 S3:P11547|a=0.05|B=3|T=16 delta 4.679e-03 best P6 P5r mixing 14s
+11-19 11:23:38 panel 317 / 408 A:atlas_v2/openml_ldpa|a=0.05|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:39 panel 318 / 408 A:atlas_v2/openml_ldpa|a=0.1|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:39 panel 319 / 408 A:sprint_fresh/appliances|a=0.05|B=3|T=16 delta -1.688e-13 best P6 P5r deflated 1s
+11-19 11:23:40 panel 320 / 408 A:sprint_fresh/appliances|a=0.1|B=3|T=16 delta -2.167e-13 best P6 P5r deflated 1s
+11-19 11:23:41 panel 321 / 408 A:sprint_fresh/beijing_pm25|a=0.1|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:41 panel 322 / 408 A:sprint_fresh/beijing_pm25|a=0.05|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:41 panel 323 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:41 panel 324 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:42 panel 325 / 408 L2:eo|a=0.1|B=3|T=16 delta 7.096e-03 best P6 P5r mixing 12s
+11-19 11:23:42 panel 326 / 408 A:screen100/elec_MT_005|a=0.1|B=3|T=16 delta -3.908e-14 best P6 P5r deflated 1s
+11-19 11:23:43 panel 327 / 408 A:screen100/elec_MT_005|a=0.05|B=3|T=16 delta -5.240e-14 best P6 P5r deflated 2s
+11-19 11:23:43 panel 328 / 408 A:screen100/elec_MT_010|a=0.1|B=3|T=16 delta -1.350e-13 best P6 P5r deflated 1s
+11-19 11:23:44 panel 329 / 408 A:screen100/elec_MT_010|a=0.05|B=3|T=16 delta -1.723e-13 best P6 P5r deflated 2s
+11-19 11:23:44 panel 330 / 408 L2:cy|a=0.1|B=3|T=16 delta 1.602e-02 best P6 P5r mixing 8s
+11-19 11:23:44 panel 331 / 408 A:screen100/elec_MT_029|a=0.1|B=3|T=16 delta -5.640e-13 best P6 P5r deflated 1s
+11-19 11:23:45 panel 332 / 408 A:screen100/elec_MT_029|a=0.05|B=3|T=16 delta -2.669e-13 best P6 P5r deflated 1s
+11-19 11:23:45 panel 333 / 408 A:screen100/pm_Shanghai|a=0.1|B=3|T=16 delta -2.478e-13 best P6 P5r deflated 1s
+11-19 11:23:45 panel 334 / 408 A:screen100/pm_Shanghai|a=0.05|B=3|T=16 delta -1.643e-13 best P6 P5r deflated 1s
+11-19 11:23:45 panel 335 / 408 A:screen100/pm_Shenyang|a=0.1|B=3|T=16 delta -1.048e-13 best P6 P5r deflated 1s
+11-19 11:23:46 panel 336 / 408 A:screen100/pm_Shenyang|a=0.05|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:46 panel 337 / 408 A:screen100/tetouan_z1|a=0.1|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:46 panel 338 / 408 A:screen100/tetouan_z1|a=0.05|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:46 panel 339 / 408 T:de|a=0.1|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 0s
+11-19 11:23:47 panel 340 / 408 T:de|a=0.05|B=2|T=16 delta -1.243e-14 best P6 P5r deflated 1s
+11-19 11:23:48 panel 341 / 408 L2:cy|a=0.05|B=3|T=16 delta 8.012e-03 best P6 P5r mixing 14s
+11-19 11:23:48 panel 342 / 408 T:fr|a=0.1|B=2|T=16 delta 9.144e-03 best P6 P5r mixing 3s
+11-19 11:23:49 panel 343 / 408 T:es|a=0.1|B=2|T=16 delta 1.759e-02 best P6 P5r deflated 3s
+11-19 11:23:50 panel 344 / 408 T:fr|a=0.05|B=2|T=16 delta 4.572e-03 best P6 P5r mixing 4s
+11-19 11:23:51 replay atlas_v2/spam replayed windows 11
+11-19 11:23:51 panel 345 / 408 T:es|a=0.05|B=2|T=16 delta 8.795e-03 best P6 P5r deflated 4s
+11-19 11:23:51 panel 346 / 408 T:it|a=0.1|B=2|T=16 delta 1.728e-02 best P6 P5r deflated 3s
+11-19 11:23:52 panel 347 / 408 T:it|a=0.05|B=2|T=16 delta 8.640e-03 best P6 P5r deflated 5s
+11-19 11:23:53 panel 348 / 408 T:pt|a=0.1|B=2|T=16 delta 1.493e-02 best P6 P5r deflated 3s
+11-19 11:23:53 panel 349 / 408 L2:eo|a=0.05|B=3|T=16 delta 3.548e-03 best P6 P5r mixing 24s
+11-19 11:23:53 panel 350 / 408 T:sv|a=0.05|B=2|T=16 delta -1.776e-15 best P6 P5r deflated 1s
+11-19 11:23:53 panel 351 / 408 T:sv|a=0.1|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 0s
+11-19 11:23:53 panel 352 / 408 T:da|a=0.1|B=2|T=16 delta -5.329e-15 best P6 P5r deflated 0s
+11-19 11:23:53 panel 353 / 408 T:da|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:23:54 panel 354 / 408 T:pt|a=0.05|B=2|T=16 delta 7.465e-03 best P6 P5r deflated 4s
+11-19 11:23:54 panel 355 / 408 T:nl|a=0.1|B=2|T=16 delta 0.000e+00 best P6 P5r mixing 3s
+11-19 11:23:55 panel 356 / 408 T:nl|a=0.05|B=2|T=16 delta -1.421e-14 best P6 P5r mixing 4s
+11-19 11:23:56 panel 357 / 408 T:fi|a=0.1|B=2|T=16 delta 1.469e-02 best P5r P5r mixing 3s
+11-19 11:23:57 panel 358 / 408 F:faithful|a=0.1|B=2|T=16 delta -3.197e-14 best P6 P5r deflated 3s
+11-19 11:23:58 panel 359 / 408 T:fi|a=0.05|B=2|T=16 delta 7.347e-03 best P5r P5r mixing 5s
+11-19 11:23:59 panel 360 / 408 F:geyser|a=0.1|B=2|T=16 delta 4.651e-03 best P6 P5r deflated 3s
+11-19 11:23:59 panel 361 / 408 F:faithful|a=0.05|B=2|T=16 delta -5.329e-15 best P6 P5r deflated 6s
+11-19 11:23:59 panel 362 / 408 F:geyser|a=0.05|B=2|T=16 delta 2.326e-03 best P6 P5r deflated 6s
+11-19 11:24:01 panel 363 / 408 S:P15502|a=0.1|B=2|T=16 delta 3.794e-03 best P6 P5r mixing 4s
+11-19 11:24:02 panel 364 / 408 S:P15502|a=0.05|B=2|T=16 delta 1.897e-03 best P6 P5r mixing 6s
+11-19 11:24:03 panel 365 / 408 S:P04985|a=0.1|B=2|T=16 delta 6.311e-03 best P6 P5r deflated 4s
+11-19 11:24:04 panel 366 / 408 L:cs|a=0.05|B=2|T=16 delta -5.329e-15 best P6 P5r deflated 1s
+11-19 11:24:04 panel 367 / 408 L:hu|a=0.1|B=2|T=16 delta -8.882e-15 best P6 P5r deflated 5s
+11-19 11:24:05 panel 368 / 408 L:cs|a=0.1|B=2|T=16 delta -3.375e-14 best P6 P5r deflated 1s
+11-19 11:24:05 panel 369 / 408 S:P04985|a=0.05|B=2|T=16 delta 3.156e-03 best P6 P5r deflated 7s
+11-19 11:24:06 panel 370 / 408 L:ro|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:07 panel 371 / 408 L:ro|a=0.1|B=2|T=16 delta 0.000e+00 best P6 P5r deflated 1s
+11-19 11:24:07 panel 372 / 408 L:hu|a=0.05|B=2|T=16 delta 1.243e-14 best P6 P5r deflated 7s
+11-19 11:24:07 panel 373 / 408 L:pl|a=0.1|B=2|T=16 delta -8.882e-15 best P6 P5r mixing 5s
+11-19 11:24:08 panel 374 / 408 S2:P46804|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:08 panel 375 / 408 L:pl|a=0.05|B=2|T=16 delta -7.105e-15 best P6 P5r mixing 7s
+11-19 11:24:09 panel 376 / 408 S2:P46804|a=0.1|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 0s
+11-19 11:24:09 panel 377 / 408 L:la|a=0.1|B=2|T=16 delta 1.051e-02 best P6 P5r deflated 4s
+11-19 11:24:11 panel 378 / 408 L:ca|a=0.1|B=2|T=16 delta 1.527e-02 best P6 P5r deflated 4s
+11-19 11:24:11 panel 379 / 408 L:la|a=0.05|B=2|T=16 delta 5.254e-03 best P6 P5r deflated 7s
+11-19 11:24:14 panel 380 / 408 S3:P07916|a=0.1|B=2|T=16 delta 1.776e-15 best P6 P5r deflated 5s
+11-19 11:24:14 panel 381 / 408 L:ca|a=0.05|B=2|T=16 delta 7.637e-03 best P6 P5r deflated 8s
+11-19 11:24:17 panel 382 / 408 S3:P07916|a=0.05|B=2|T=16 delta 1.066e-14 best P6 P5r deflated 8s
+11-19 11:24:17 panel 383 / 408 S3:P11547|a=0.1|B=2|T=16 delta 1.066e-14 best P6 P5r mixing 6s
+11-19 11:24:17 panel 384 / 408 S3:P11547|a=0.05|B=2|T=16 delta 3.553e-15 best P6 P5r mixing 9s
+11-19 11:24:18 panel 385 / 408 A:atlas_v2/openml_ldpa|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:19 panel 386 / 408 A:atlas_v2/openml_ldpa|a=0.1|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:19 panel 387 / 408 A:sprint_fresh/appliances|a=0.05|B=2|T=16 delta -1.474e-13 best P6 P5r deflated 1s
+11-19 11:24:19 panel 388 / 408 A:sprint_fresh/appliances|a=0.1|B=2|T=16 delta -1.732e-13 best P6 P5r deflated 1s
+11-19 11:24:19 panel 389 / 408 L2:eo|a=0.1|B=2|T=16 delta 7.804e-03 best P6 P5r mixing 6s
+11-19 11:24:20 panel 390 / 408 A:sprint_fresh/beijing_pm25|a=0.1|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:20 panel 391 / 408 A:sprint_fresh/beijing_pm25|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:20 panel 392 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:20 panel 393 / 408 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 0s
+11-19 11:24:20 panel 394 / 408 L2:eo|a=0.05|B=2|T=16 delta 3.902e-03 best P6 P5r mixing 9s
+11-19 11:24:20 panel 395 / 408 A:screen100/elec_MT_005|a=0.05|B=2|T=16 delta -6.217e-14 best P6 P5r deflated 1s
+11-19 11:24:21 panel 396 / 408 A:screen100/elec_MT_005|a=0.1|B=2|T=16 delta -5.862e-14 best P6 P5r deflated 1s
+11-19 11:24:21 panel 397 / 408 A:screen100/elec_MT_010|a=0.1|B=2|T=16 delta -2.651e-13 best P6 P5r deflated 1s
+11-19 11:24:21 panel 398 / 408 A:screen100/elec_MT_010|a=0.05|B=2|T=16 delta -2.363e-13 best P6 P5r deflated 1s
+11-19 11:24:21 panel 399 / 408 L2:cy|a=0.1|B=2|T=16 delta -5.329e-15 best P6 P5r mixing 4s
+11-19 11:24:21 panel 400 / 408 A:screen100/elec_MT_029|a=0.1|B=2|T=16 delta -2.691e-13 best P6 P5r deflated 0s
+11-19 11:24:21 panel 401 / 408 A:screen100/elec_MT_029|a=0.05|B=2|T=16 delta -1.199e-13 best P6 P5r deflated 1s
+11-19 11:24:21 panel 402 / 408 A:screen100/pm_Shanghai|a=0.1|B=2|T=16 delta -1.972e-13 best P6 P5r deflated 0s
+11-19 11:24:21 panel 403 / 408 A:screen100/pm_Shanghai|a=0.05|B=2|T=16 delta -1.386e-13 best P6 P5r deflated 1s
+11-19 11:24:22 panel 404 / 408 A:screen100/pm_Shenyang|a=0.1|B=2|T=16 delta -1.599e-14 best P6 P5r deflated 1s
+11-19 11:24:22 panel 405 / 408 A:screen100/pm_Shenyang|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:22 panel 406 / 408 L2:cy|a=0.05|B=2|T=16 delta -7.105e-15 best P6 P5r mixing 8s
+11-19 11:24:22 panel 407 / 408 A:screen100/tetouan_z1|a=0.1|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:22 panel 408 / 408 A:screen100/tetouan_z1|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-19 11:24:42 replay atlas_v2/openml_ldpa replayed windows 210
+11-19 11:25:18 replay atlas_v2/elec2 replayed windows 6
+11-19 11:25:27 summary written
+11-19 11:25:28 replay atlas_v2/airlines replayed windows 259
+11-19 11:28:16 replay sprint_fresh/bike_hour replayed windows 47
+11-19 11:29:14 replay sprint_fresh/appliances replayed windows 81
+11-19 11:29:51 replay sprint_fresh/beijing_pm25 replayed windows 89
+11-19 11:29:56 replay screen100/FOREX_audjpy-hour-Close replayed windows 147
+11-19 11:30:26 replay screen100/FOREX_audcad-hour-Close replayed windows 202
+11-19 11:30:27 replay screen100/BitcoinHeist_Ransomware replayed windows 64
+11-19 11:31:14 replay screen100/FOREX_audchf-hour-Close replayed windows 119
+11-19 11:31:36 replay screen100/FOREX_cadchf-hour-Close replayed windows 152
+11-19 11:32:02 replay screen100/FOREX_audnzd-hour-Close replayed windows 309
+11-19 11:32:10 replay screen100/FOREX_chfjpy-hour-Close replayed windows 205
+11-19 11:34:41 replay sprint_fresh/household_power replayed windows 145
+11-19 11:34:51 replay sprint_fresh/metro replayed windows 178
+11-19 11:35:52 replay screen100/FOREX_euraud-hour-Close replayed windows 145
+11-19 11:36:14 replay screen100/FOREX_eurchf-hour-Close replayed windows 403
+11-19 11:37:29 replay screen100/FOREX_cadjpy-hour-Close replayed windows 103
+11-19 11:38:39 replay screen100/FOREX_chfsgd-hour-Close replayed windows 139
+11-19 11:38:47 replay screen100/FOREX_eurjpy-hour-Close replayed windows 204
+11-19 11:39:33 replay screen100/FOREX_eurnok-hour-Close replayed windows 46
+11-19 11:39:59 replay screen100/FOREX_eurcad-hour-Close replayed windows 309
+11-19 11:40:27 replay screen100/FOREX_eurnzd-hour-Close replayed windows 79
+11-19 11:40:34 replay screen100/FOREX_eursek-hour-Close replayed windows 66
+11-19 11:41:40 replay screen100/FOREX_eursgd-hour-Close replayed windows 168
+11-19 11:42:36 replay screen100/FOREX_eurtry-hour-Close replayed windows 144
+11-19 11:42:50 replay screen100/FOREX_eurdkk-hour-Close replayed windows 141
+11-19 11:44:43 replay screen100/FOREX_eurgbp-hour-Close replayed windows 93
+11-19 11:44:48 replay screen100/FOREX_usdcad-hour-Close replayed windows 277
+11-19 11:48:01 replay screen100/FOREX_eurpln-hour-Close replayed windows 116
+11-19 11:49:47 replay screen100/FOREX_usdchf-hour-Close replayed windows 163
+11-19 11:51:50 replay screen100/FOREX_gbpusd-hour-Close replayed windows 14
+11-19 11:52:11 replay screen100/FOREX_eurusd-hour-Close replayed windows 73
+11-19 12:05:03 replay screen100/air_Aotizhongxin replayed windows 41
+11-19 12:05:34 replay screen100/Homesite_Quote_Conversion replayed windows 33
+11-19 12:07:37 replay screen100/air_Changping replayed windows 38
+11-19 12:09:00 replay screen100/FOREX_usddkk-hour-Close replayed windows 120
+11-19 12:09:16 replay screen100/FOREX_usdjpy-hour-Close replayed windows 335
+11-19 12:13:19 replay screen100/air_Dingling replayed windows 32
+11-19 12:13:39 replay screen100/air_Dongsi replayed windows 38
+11-19 12:15:19 replay screen100/air_Guanyuan replayed windows 29
+11-19 12:16:15 replay screen100/air_Gucheng replayed windows 40
+11-19 12:19:31 replay screen100/air_Huairou replayed windows 25
+11-19 12:20:00 replay screen100/air_Nongzhanguan replayed windows 45
+11-19 12:21:31 replay screen100/air_Shunyi replayed windows 31
+11-19 12:22:42 replay screen100/air_Tiantan replayed windows 50
+11-19 12:27:55 replay screen100/air_Wanshouxigong replayed windows 56
+11-19 12:29:45 replay screen100/air_Wanliu replayed windows 55
+11-19 12:29:53 replay screen100/elec_MT_002 replayed windows 26
+11-19 12:31:23 replay screen100/elec_MT_001 replayed windows 185
+11-19 12:33:28 replay screen100/elec_MT_003 replayed windows 191
+11-19 12:33:54 replay screen100/elec_MT_006 replayed windows 32
+11-19 12:34:25 replay screen100/elec_MT_004 replayed windows 77
+11-19 12:34:35 replay screen100/elec_MT_005 replayed windows 145
+11-19 12:39:26 replay screen100/elec_MT_007 replayed windows 65
+11-19 12:39:55 replay screen100/elec_MT_008 replayed windows 28
+11-19 12:40:23 replay screen100/elec_MT_009 replayed windows 142
+11-19 12:40:45 replay screen100/elec_MT_010 replayed windows 207
+11-19 12:44:47 replay screen100/elec_MT_011 replayed windows 76
+11-19 12:45:00 replay screen100/elec_MT_015 replayed windows 357
+11-19 12:45:09 replay screen100/elec_MT_013 replayed windows 85
+11-19 12:45:29 replay screen100/elec_MT_014 replayed windows 68
+11-19 12:49:27 replay screen100/elec_MT_016 replayed windows 51
+11-19 12:49:27 replay screen100/elec_MT_012 replayed windows 34
+11-19 12:49:44 replay screen100/elec_MT_018 replayed windows 28
+11-19 12:49:55 replay screen100/elec_MT_020 replayed windows 60
+11-19 12:51:30 replay screen100/elec_MT_017 replayed windows 35
+11-19 12:54:11 replay screen100/elec_MT_019 replayed windows 74
+11-19 12:54:31 replay screen100/elec_MT_021 replayed windows 39
+11-19 12:54:39 replay screen100/elec_MT_022 replayed windows 60
+11-19 12:57:20 replay screen100/elec_MT_023 replayed windows 41
+11-19 12:59:31 replay screen100/elec_MT_024 replayed windows 61
+11-19 12:59:39 replay screen100/elec_MT_026 replayed windows 73
+11-19 12:59:50 replay screen100/elec_MT_028 replayed windows 53
+11-19 13:02:15 replay screen100/elec_MT_027 replayed windows 46
+11-19 13:04:28 replay screen100/elec_MT_025 replayed windows 49
+11-19 13:04:43 replay screen100/elec_MT_029 replayed windows 64
+11-19 13:05:31 replay screen100/elec_MT_030 replayed windows 57
+11-19 13:07:07 replay screen100/elec_MT_031 replayed windows 63
+11-19 13:09:44 replay screen100/elec_MT_033 replayed windows 32
+11-19 13:10:50 replay screen100/elec_MT_036 replayed windows 67
+11-19 13:11:04 replay screen100/elec_MT_032 replayed windows 32
+11-19 13:11:58 replay screen100/elec_MT_035 replayed windows 61
+11-19 13:14:56 replay screen100/elec_MT_037 replayed windows 48
+11-19 13:16:02 replay screen100/elec_MT_034 replayed windows 53
+11-19 13:16:07 replay screen100/elec_MT_038 replayed windows 21
+11-19 13:17:45 replay screen100/elec_MT_041 replayed windows 19
+11-19 13:19:53 replay screen100/elec_MT_039 replayed windows 24
+11-19 13:21:18 replay screen100/elec_MT_043 replayed windows 33
+11-19 13:21:59 replay screen100/elec_MT_042 replayed windows 39
+11-19 13:22:33 replay screen100/elec_MT_040 replayed windows 51
+11-19 13:25:26 replay screen100/pm_Chengdu replayed windows 107
+11-19 13:27:06 replay screen100/pm_Guangzhou replayed windows 88
+11-19 13:27:16 replay screen100/pm_Shanghai replayed windows 72
+11-19 13:27:45 replay screen100/pm_Shenyang replayed windows 41
+11-19 13:30:54 replay screen100/seoul_bike replayed windows 11
+11-19 13:33:09 replay screen100/tetouan_z3 replayed windows 135
+11-19 13:33:10 replay screen100/tetouan_z1 replayed windows 47
+11-19 13:33:55 replay screen100/tetouan_z2 replayed windows 97
+11-19 14:05:12 summary written

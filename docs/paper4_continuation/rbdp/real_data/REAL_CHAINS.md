@@ -201,3 +201,30 @@ Lead recomputed the pooled costs and per-dataset tallies from `phase8_replay.jso
 - The IID-calibrated policies that match RB-DP's cost do so while breaking the causal budget on 21 (P3) and 5 (P5) datasets.
 - Per dataset, RB-DP's mean cost is below all three safe baselines on 33 of 100; the unweighted mean of its advantage over the
   per-dataset best safe baseline is −0.114 (the best of three, chosen per dataset).
+
+## Phase 9: stronger causal-safe baselines (PROTOCOL.md Addendum I)
+
+Three new baselines, each an existing panel rule made causal-safe: P3c (HMM-filter threshold recalibrated to exact causal
+risk α), P4c (myopic VOI recalibrated the same way), and P5r (IID-optimal planner repaired, the cheaper of a deflated level
+α′ on the grid α·p/q, q ≤ 8, and mixing with never-promote). Script `run_phase9.py`; results `results/phase9_*`.
+
+**Panel (35 chains, T ∈ {16, 32}, B ∈ {2, 3, 4}, α ∈ {0.05, 0.1}; 420 settings, exact in-model).** Against the best safe
+baseline (P1, P2, P6, P3c, P4c, P5r) per setting, RB-DP is cheaper in 186, ties in 234, and is dearer in 0. Causal-risk
+violations: P3c, P4c, P5r 0 each (the unrepaired P3, P4, P5: 300, 280, 262). Median share of RB-DP's value of information
+captured: P3c 0.29, P4c 0.34, P5r 0.60. P5r chose the deflated repair in 299 settings and mixing in 121.
+
+**Replay (same 100 datasets, 9,525 windows, T = 32, B = 4, α = 0.1; P1–P7 recomputed and equal to Phase 8 on the check
+datasets).** Pooled mean realised cost [95% window-bootstrap CI]; paired difference RB-DP − X (negative = RB-DP cheaper):
+
+| policy | mean realised cost | RB-DP − X |
+|---|---|---|
+| P5r repaired IID-optimal | 13.799 [13.665, 13.938] | +0.0005 [−0.009, 0.009] |
+| **P7 RB-DP** | **13.799 [13.664, 13.936]** | – |
+| P3c recalibrated filter | 13.850 [13.713, 13.987] | −0.051 [−0.108, 0.006] |
+| P1 fixed-sample | 13.918 | −0.119 [−0.176, −0.063] |
+| P6 e-process gate | 14.173 | −0.374 [−0.443, −0.301] |
+| P4c recalibrated VOI | 15.834 | −2.035 [−2.190, −1.890] |
+
+RB-DP ties P5r and is cheaper than every other safe baseline (significantly for P1, P6, P4c). Per dataset, against the
+lowest of the six safe baselines' realised means chosen after the fact, RB-DP is below on 1, tied on 40, above on 59.
+Executor validation: 9 Monte Carlo comparisons, all |z| ≤ 1.42.

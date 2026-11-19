@@ -1,0 +1,239 @@
+11-19 01:24:41 census: 114 datasets to do
+11-19 01:24:53 census atlas_v2/bank fit not evaluable (emissions do not straddle 1/2) n_fit 4797 best rho None
+11-19 01:25:02 census atlas_v2/elec2 evaluated n_fit 264 best rho 0.0
+11-19 01:25:11 census atlas_v2/rialto fit not evaluable (emissions do not straddle 1/2) n_fit 1350 best rho None
+11-19 01:25:21 census atlas_v2/openml_ldpa evaluated n_fit 7414 best rho 0.0
+11-19 01:25:26 census atlas_v2/airlines evaluated n_fit 8515 best rho 0.0
+11-19 01:25:28 census atlas_v2/spam evaluated n_fit 351 best rho 0.0
+11-19 01:25:38 census atlas_v2/weather fit not evaluable (emissions do not straddle 1/2) n_fit 355 best rho None
+11-19 01:25:38 census atlas_v2/uci_occupancy evaluated n_fit 1757 best rho 0.0
+11-19 01:25:49 census sprint_fresh/appliances evaluated n_fit 2530 best rho 0.0
+11-19 01:25:59 census sprint_fresh/beijing_pm25 evaluated n_fit 2779 best rho 0.0
+11-19 01:26:01 census sprint_fresh/bike_hour evaluated n_fit 1547 best rho 0.0
+11-19 01:26:01 census screen100/BAF_base too few fit rounds n_fit 10 best rho None
+11-19 01:26:20 census screen100/BitcoinHeist_Ransomware evaluated n_fit 1371 best rho 0.0
+11-19 01:26:21 census sprint_fresh/household_power evaluated n_fit 5040 best rho 0.0
+11-19 01:26:22 census atlas_v2/criteo fit not evaluable (emissions do not straddle 1/2) n_fit 3311 best rho None
+11-19 01:26:53 census sprint_fresh/metro evaluated n_fit 5703 best rho 0.0
+11-19 01:28:12 census screen100/FOREX_audjpy-hour-Close evaluated n_fit 5549 best rho 0.0
+11-19 01:28:13 census screen100/FOREX_audcad-hour-Close evaluated n_fit 8280 best rho 0.1297890152956983
+11-19 01:28:14 census screen100/FOREX_audchf-hour-Close evaluated n_fit 6200 best rho 0.030841126806440324
+11-19 01:28:45 census screen100/FOREX_audnzd-hour-Close evaluated n_fit 12155 best rho 0.0
+11-19 01:29:13 census screen100/FOREX_audusd-hour-Close fit not evaluable (emissions do not straddle 1/2) n_fit 2368 best rho None
+11-19 01:29:52 census screen100/FOREX_audsgd-hour-Close fit not evaluable (emissions do not straddle 1/2) n_fit 3536 best rho None
+11-19 01:30:07 census screen100/FOREX_cadchf-hour-Close evaluated n_fit 5900 best rho 0.0
+11-19 01:30:37 census screen100/FOREX_cadjpy-hour-Close evaluated n_fit 3782 best rho 0.0
+11-19 01:31:05 census screen100/FOREX_chfjpy-hour-Close evaluated n_fit 11155 best rho 0.5000000000445415
+11-19 01:31:45 census screen100/FOREX_chfsgd-hour-Close evaluated n_fit 5767 best rho 0.0
+11-19 01:32:01 census screen100/FOREX_euraud-hour-Close evaluated n_fit 6639 best rho 0.48674729888991275
+11-19 01:32:33 census screen100/FOREX_eurcad-hour-Close evaluated n_fit 8651 best rho 0.0
+11-19 01:32:57 census screen100/FOREX_eurchf-hour-Close evaluated n_fit 12313 best rho 0.06318852569526176
+11-19 01:33:35 census screen100/FOREX_eurdkk-hour-Close evaluated n_fit 4968 best rho 0.0
+11-19 01:33:53 census screen100/FOREX_eurgbp-hour-Close evaluated n_fit 5197 best rho 0.0
+11-19 01:34:14 census screen100/FOREX_eurhkd-hour-Close fit not evaluable (emissions do not straddle 1/2) n_fit 5480 best rho None
+11-19 01:34:37 census screen100/FOREX_eurhuf-hour-Close fit not evaluable (emissions do not straddle 1/2) n_fit 6394 best rho None
+11-19 01:35:24 census screen100/FOREX_eurjpy-hour-Close evaluated n_fit 8570 best rho 0.0
+11-19 01:35:38 census screen100/FOREX_eurrub-hour-Close fit not evaluable (emissions do not straddle 1/2) n_fit 567 best rho None
+11-19 01:35:45 census screen100/FOREX_eurnok-hour-Close evaluated n_fit 3998 best rho 0.0
+11-19 01:36:07 census screen100/FOREX_eurnzd-hour-Close evaluated n_fit 4809 best rho 0.08581619278812672
+11-19 01:36:27 census screen100/FOREX_eurpln-hour-Close evaluated n_fit 4965 best rho 0.0
+11-19 01:37:25 census screen100/FOREX_eursek-hour-Close evaluated n_fit 3862 best rho 0.0
+11-19 01:37:39 census screen100/FOREX_eursgd-hour-Close evaluated n_fit 7505 best rho 0.5000000000004424
+11-19 01:37:59 census screen100/FOREX_eurtry-hour-Close evaluated n_fit 5133 best rho 0.500000000000447
+11-19 01:38:14 census screen100/FOREX_eurusd-hour-Close evaluated n_fit 2926 best rho 0.0
+11-19 01:38:49 census screen100/FOREX_nzdusd-hour-Close evaluated n_fit 1988 best rho 0.0
+11-19 01:39:20 census screen100/FOREX_gbpusd-hour-Close evaluated n_fit 3722 best rho 0.0
+11-19 01:39:49 census screen100/FOREX_usdcad-hour-Close evaluated n_fit 9398 best rho 0.0
+11-19 01:40:03 census screen100/FOREX_usdchf-hour-Close evaluated n_fit 5967 best rho 0.0
+11-19 01:40:22 census screen100/air_Aotizhongxin evaluated n_fit 1414 best rho 0.0
+11-19 01:40:35 census screen100/Homesite_Quote_Conversion evaluated n_fit 961 best rho 0.0
+11-19 01:40:41 census screen100/air_Changping evaluated n_fit 1099 best rho 0.0
+11-19 01:40:43 census screen100/FOREX_usddkk-hour-Close evaluated n_fit 5480 best rho 0.5071676072627199
+11-19 01:40:54 census screen100/air_Dingling evaluated n_fit 993 best rho 0.0
+11-19 01:41:03 census screen100/air_Dongsi evaluated n_fit 1248 best rho 0.0
+11-19 01:41:04 census screen100/air_Guanyuan evaluated n_fit 1048 best rho 0.0
+11-19 01:41:09 census screen100/FOREX_usdjpy-hour-Close evaluated n_fit 10386 best rho 0.0
+11-19 01:41:17 census screen100/air_Gucheng evaluated n_fit 1178 best rho 0.0
+11-19 01:41:24 census screen100/air_Huairou evaluated n_fit 903 best rho 0.0
+11-19 01:41:27 census screen100/air_Nongzhanguan evaluated n_fit 1263 best rho 0.0
+11-19 01:41:34 census screen100/air_Shunyi evaluated n_fit 1356 best rho 0.0
+11-19 01:41:35 census screen100/air_quality_co fit not evaluable (emissions do not straddle 1/2) n_fit 297 best rho None
+11-19 01:41:35 census screen100/creditcard too few fit rounds n_fit 20 best rho None
+11-19 01:41:36 census screen100/air_Tiantan evaluated n_fit 1363 best rho 0.0
+11-19 01:41:47 census screen100/air_Wanshouxigong evaluated n_fit 1456 best rho 0.0
+11-19 01:41:47 census screen100/air_Wanliu evaluated n_fit 1660 best rho 0.0
+11-19 01:41:58 census screen100/elec_MT_002 evaluated n_fit 1909 best rho 0.0
+11-19 01:42:00 census screen100/elec_MT_001 evaluated n_fit 5874 best rho 0.0
+11-19 01:42:09 census screen100/elec_MT_003 evaluated n_fit 5064 best rho 0.0
+11-19 01:42:18 census screen100/elec_MT_004 evaluated n_fit 1995 best rho 0.0
+11-19 01:42:20 census screen100/elec_MT_005 evaluated n_fit 2665 best rho 0.0
+11-19 01:42:33 census screen100/elec_MT_006 evaluated n_fit 966 best rho 0.0
+11-19 01:42:37 census screen100/elec_MT_007 evaluated n_fit 3066 best rho 0.0
+11-19 01:42:42 census screen100/elec_MT_008 evaluated n_fit 1393 best rho 0.0
+11-19 01:42:43 census screen100/elec_MT_009 evaluated n_fit 2385 best rho 0.0
+11-19 01:42:54 census screen100/elec_MT_010 evaluated n_fit 5010 best rho 0.0
+11-19 01:43:01 census screen100/elec_MT_011 evaluated n_fit 1558 best rho 0.0
+11-19 01:43:09 census screen100/elec_MT_013 evaluated n_fit 1949 best rho 0.0
+11-19 01:43:17 census screen100/elec_MT_014 evaluated n_fit 1456 best rho 0.0
+11-19 01:43:23 census screen100/elec_MT_015 evaluated n_fit 3160 best rho 0.0
+11-19 01:43:40 census screen100/elec_MT_016 evaluated n_fit 1554 best rho 0.0
+11-19 01:43:41 census screen100/elec_MT_012 evaluated n_fit 1205 best rho 0.0
+11-19 01:44:05 census screen100/elec_MT_020 evaluated n_fit 1955 best rho 0.0
+11-19 01:44:07 census screen100/elec_MT_018 evaluated n_fit 1071 best rho 0.0
+11-19 01:44:14 census screen100/elec_MT_017 evaluated n_fit 1100 best rho 0.0
+11-19 01:44:24 census screen100/elec_MT_019 evaluated n_fit 1916 best rho 0.0
+11-19 01:44:35 census screen100/elec_MT_021 evaluated n_fit 1216 best rho 0.0
+11-19 01:44:36 census screen100/elec_MT_022 evaluated n_fit 1274 best rho 0.0
+11-19 01:44:50 census screen100/elec_MT_023 evaluated n_fit 1986 best rho 0.0
+11-19 01:44:51 census screen100/elec_MT_024 evaluated n_fit 1326 best rho 0.0
+11-19 01:45:13 census screen100/elec_MT_026 evaluated n_fit 1594 best rho 0.0
+11-19 01:45:14 census screen100/elec_MT_028 evaluated n_fit 1671 best rho 0.0
+11-19 01:45:18 census screen100/elec_MT_027 evaluated n_fit 1878 best rho 0.0
+11-19 01:45:33 census screen100/elec_MT_029 evaluated n_fit 1908 best rho 0.0
+11-19 01:45:36 census screen100/elec_MT_025 evaluated n_fit 1221 best rho 0.0
+11-19 01:45:39 census screen100/elec_MT_030 evaluated n_fit 2340 best rho 0.0
+11-19 01:45:44 census screen100/elec_MT_031 evaluated n_fit 1356 best rho 0.0
+11-19 01:45:55 census screen100/elec_MT_032 evaluated n_fit 4259 best rho 0.021630941482774654
+11-19 01:46:05 census screen100/elec_MT_033 evaluated n_fit 1623 best rho 0.0
+11-19 01:46:15 census screen100/elec_MT_036 evaluated n_fit 1450 best rho 0.0
+11-19 01:46:20 census screen100/elec_MT_035 evaluated n_fit 2200 best rho 0.0
+11-19 01:46:28 census screen100/elec_MT_037 evaluated n_fit 1055 best rho 0.0
+11-19 01:46:36 census screen100/elec_MT_034 evaluated n_fit 1262 best rho 0.0
+11-19 01:46:45 census screen100/elec_MT_038 evaluated n_fit 1054 best rho 0.0
+11-19 01:47:01 census screen100/elec_MT_041 evaluated n_fit 2444 best rho 0.0
+11-19 01:47:07 census screen100/elec_MT_039 evaluated n_fit 811 best rho 0.0
+11-19 01:47:23 census screen100/elec_MT_042 evaluated n_fit 1712 best rho 0.0
+11-19 01:47:25 census screen100/elec_MT_043 evaluated n_fit 1261 best rho 0.0
+11-19 01:47:29 census screen100/elec_MT_040 evaluated n_fit 1221 best rho 0.0
+11-19 01:47:29 census screen100/pm_Chengdu evaluated n_fit 3717 best rho 0.0
+11-19 01:47:43 census screen100/pm_Guangzhou evaluated n_fit 3834 best rho 0.0
+11-19 01:47:47 census screen100/pm_Shanghai evaluated n_fit 2536 best rho 0.0
+11-19 01:47:48 census screen100/pm_Shenyang evaluated n_fit 2180 best rho 0.0
+11-19 01:47:49 census screen100/seoul_bike evaluated n_fit 843 best rho 0.0
+11-19 01:48:07 census screen100/tetouan_z1 evaluated n_fit 2236 best rho 0.0
+11-19 01:48:07 census screen100/tetouan_z2 evaluated n_fit 3748 best rho 0.024296226207098707
+11-19 01:48:13 census screen100/tetouan_z3 evaluated n_fit 2591 best rho 0.0
+11-19 01:51:55 validate screen100/FOREX_eurchf-hour-Close P1 mc 16.18385 se 0.01873 exact 16.22422 z -2.16
+11-19 01:51:57 validate screen100/FOREX_eurchf-hour-Close P2 mc 16.18755 se 0.01876 exact 16.22344 z -1.91
+11-19 01:52:00 validate screen100/FOREX_eurchf-hour-Close P3 mc 16.17835 se 0.01896 exact 16.20418 z -1.36
+11-19 01:52:03 validate screen100/FOREX_eurchf-hour-Close P4 mc 16.17835 se 0.01896 exact 16.20418 z -1.36
+11-19 01:52:04 validate screen100/FOREX_eurchf-hour-Close P5 mc 16.13429 se 0.01897 exact 16.16686 z -1.72
+11-19 01:52:04 validate screen100/FOREX_eurchf-hour-Close P6 mc 16.14285 se 0.01885 exact 16.17250 z -1.57
+11-19 01:52:05 validate screen100/FOREX_eurchf-hour-Close P7 mc 16.14519 se 0.01894 exact 16.16748 z -1.18
+11-19 01:53:21 validate screen100/FOREX_audnzd-hour-Close P1 mc 16.27660 se 0.01947 exact 16.29016 z -0.70
+11-19 01:53:22 validate screen100/FOREX_audnzd-hour-Close P2 mc 16.29182 se 0.01950 exact 16.28851 z 0.17
+11-19 01:53:25 validate screen100/FOREX_audnzd-hour-Close P3 mc 16.28268 se 0.01969 exact 16.28539 z -0.14
+11-19 01:53:30 validate screen100/FOREX_audnzd-hour-Close P4 mc 16.26200 se 0.01963 exact 16.27221 z -0.52
+11-19 01:53:31 validate screen100/FOREX_audnzd-hour-Close P5 mc 16.23800 se 0.01967 exact 16.24328 z -0.27
+11-19 01:53:32 validate screen100/FOREX_audnzd-hour-Close P6 mc 16.21892 se 0.01958 exact 16.24755 z -1.46
+11-19 01:53:33 validate screen100/FOREX_audnzd-hour-Close P7 mc 16.23800 se 0.01967 exact 16.24328 z -0.27
+11-19 01:53:42 validate screen100/FOREX_chfjpy-hour-Close P1 mc 15.82515 se 0.01953 exact 15.83948 z -0.73
+11-19 01:53:44 validate screen100/FOREX_chfjpy-hour-Close P2 mc 15.82527 se 0.01953 exact 15.83906 z -0.71
+11-19 01:53:46 validate screen100/FOREX_chfjpy-hour-Close P3 mc 15.82268 se 0.01948 exact 15.83612 z -0.69
+11-19 01:53:52 validate screen100/FOREX_chfjpy-hour-Close P4 mc 15.78545 se 0.01951 exact 15.79828 z -0.66
+11-19 01:53:52 validate screen100/FOREX_chfjpy-hour-Close P5 mc 15.78115 se 0.01948 exact 15.79701 z -0.81
+11-19 01:53:53 validate screen100/FOREX_chfjpy-hour-Close P6 mc 15.78115 se 0.01948 exact 15.79701 z -0.81
+11-19 01:53:54 validate screen100/FOREX_chfjpy-hour-Close P7 mc 15.78115 se 0.01948 exact 15.79701 z -0.81
+11-19 01:53:54 validation passed: True
+11-19 01:54:12 replay: 100 datasets to do
+11-19 01:58:24 replay atlas_v2/spam replayed windows 11
+11-19 01:58:50 replay atlas_v2/openml_ldpa replayed windows 210
+11-19 01:59:29 replay atlas_v2/elec2 replayed windows 6
+11-19 01:59:31 replay atlas_v2/airlines replayed windows 259
+11-19 02:02:04 replay sprint_fresh/bike_hour replayed windows 47
+11-19 02:02:59 replay sprint_fresh/appliances replayed windows 81
+11-19 02:03:20 replay sprint_fresh/beijing_pm25 replayed windows 89
+11-19 02:03:22 replay screen100/FOREX_audjpy-hour-Close replayed windows 147
+11-19 02:03:39 replay screen100/FOREX_audcad-hour-Close replayed windows 202
+11-19 02:03:41 replay screen100/BitcoinHeist_Ransomware replayed windows 64
+11-19 02:04:13 replay screen100/FOREX_audchf-hour-Close replayed windows 119
+11-19 02:04:29 replay screen100/FOREX_cadchf-hour-Close replayed windows 152
+11-19 02:04:51 replay screen100/FOREX_audnzd-hour-Close replayed windows 309
+11-19 02:04:58 replay screen100/FOREX_chfjpy-hour-Close replayed windows 205
+11-19 02:06:47 replay sprint_fresh/household_power replayed windows 145
+11-19 02:07:00 replay sprint_fresh/metro replayed windows 178
+11-19 02:07:28 replay screen100/FOREX_euraud-hour-Close replayed windows 145
+11-19 02:07:37 replay screen100/FOREX_eurchf-hour-Close replayed windows 403
+11-19 02:09:18 replay screen100/FOREX_cadjpy-hour-Close replayed windows 103
+11-19 02:10:22 replay screen100/FOREX_chfsgd-hour-Close replayed windows 139
+11-19 02:10:28 replay screen100/FOREX_eurjpy-hour-Close replayed windows 204
+11-19 02:10:59 replay screen100/FOREX_eurnok-hour-Close replayed windows 46
+11-19 02:11:36 replay screen100/FOREX_eurcad-hour-Close replayed windows 309
+11-19 02:11:42 replay screen100/FOREX_eurnzd-hour-Close replayed windows 79
+11-19 02:11:47 replay screen100/FOREX_eursek-hour-Close replayed windows 66
+11-19 02:12:25 replay screen100/FOREX_eursgd-hour-Close replayed windows 168
+11-19 02:12:43 replay screen100/FOREX_eurtry-hour-Close replayed windows 144
+11-19 02:12:54 replay screen100/FOREX_eurdkk-hour-Close replayed windows 141
+11-19 02:14:28 replay screen100/FOREX_eurgbp-hour-Close replayed windows 93
+11-19 02:14:31 replay screen100/FOREX_usdcad-hour-Close replayed windows 277
+11-19 02:16:53 replay screen100/FOREX_eurpln-hour-Close replayed windows 116
+11-19 02:17:08 replay screen100/FOREX_usdchf-hour-Close replayed windows 163
+11-19 02:17:45 replay screen100/FOREX_gbpusd-hour-Close replayed windows 14
+11-19 02:17:50 replay screen100/FOREX_eurusd-hour-Close replayed windows 73
+11-19 02:21:18 replay screen100/Homesite_Quote_Conversion replayed windows 33
+11-19 02:21:41 replay screen100/air_Aotizhongxin replayed windows 41
+11-19 02:22:24 replay screen100/air_Changping replayed windows 38
+11-19 02:23:10 replay screen100/FOREX_usddkk-hour-Close replayed windows 120
+11-19 02:23:14 replay screen100/FOREX_usdjpy-hour-Close replayed windows 335
+11-19 02:26:01 replay screen100/air_Dingling replayed windows 32
+11-19 02:26:24 replay screen100/air_Dongsi replayed windows 38
+11-19 02:27:06 replay screen100/air_Guanyuan replayed windows 29
+11-19 02:27:41 replay screen100/air_Gucheng replayed windows 40
+11-19 02:30:20 replay screen100/air_Huairou replayed windows 25
+11-19 02:30:55 replay screen100/air_Nongzhanguan replayed windows 45
+11-19 02:31:28 replay screen100/air_Shunyi replayed windows 31
+11-19 02:32:20 replay screen100/air_Tiantan replayed windows 50
+11-19 02:34:52 replay screen100/air_Wanshouxigong replayed windows 56
+11-19 02:35:46 replay screen100/elec_MT_002 replayed windows 26
+11-19 02:36:02 replay screen100/air_Wanliu replayed windows 55
+11-19 02:36:47 replay screen100/elec_MT_001 replayed windows 185
+11-19 02:39:16 replay screen100/elec_MT_006 replayed windows 32
+11-19 02:39:27 replay screen100/elec_MT_003 replayed windows 191
+11-19 02:40:09 replay screen100/elec_MT_004 replayed windows 77
+11-19 02:40:35 replay screen100/elec_MT_005 replayed windows 145
+11-19 02:43:53 replay screen100/elec_MT_008 replayed windows 28
+11-19 02:44:01 replay screen100/elec_MT_007 replayed windows 65
+11-19 02:44:32 replay screen100/elec_MT_009 replayed windows 142
+11-19 02:45:00 replay screen100/elec_MT_010 replayed windows 207
+11-19 02:48:19 replay screen100/elec_MT_011 replayed windows 76
+11-19 02:48:29 replay screen100/elec_MT_013 replayed windows 85
+11-19 02:48:41 replay screen100/elec_MT_015 replayed windows 357
+11-19 02:48:53 replay screen100/elec_MT_014 replayed windows 68
+11-19 02:52:40 replay screen100/elec_MT_016 replayed windows 51
+11-19 02:52:40 replay screen100/elec_MT_012 replayed windows 34
+11-19 02:52:51 replay screen100/elec_MT_018 replayed windows 28
+11-19 02:53:12 replay screen100/elec_MT_020 replayed windows 60
+11-19 02:54:38 replay screen100/elec_MT_017 replayed windows 35
+11-19 02:57:02 replay screen100/elec_MT_019 replayed windows 74
+11-19 02:57:06 replay screen100/elec_MT_021 replayed windows 39
+11-19 02:57:25 replay screen100/elec_MT_022 replayed windows 60
+11-19 02:59:39 replay screen100/elec_MT_023 replayed windows 41
+11-19 03:01:18 replay screen100/elec_MT_026 replayed windows 73
+11-19 03:01:19 replay screen100/elec_MT_024 replayed windows 61
+11-19 03:01:45 replay screen100/elec_MT_028 replayed windows 53
+11-19 03:03:56 replay screen100/elec_MT_027 replayed windows 46
+11-19 03:05:28 replay screen100/elec_MT_025 replayed windows 49
+11-19 03:05:48 replay screen100/elec_MT_029 replayed windows 64
+11-19 03:06:42 replay screen100/elec_MT_030 replayed windows 57
+11-19 03:08:04 replay screen100/elec_MT_031 replayed windows 63
+11-19 03:10:10 replay screen100/elec_MT_033 replayed windows 32
+11-19 03:10:28 replay screen100/elec_MT_032 replayed windows 32
+11-19 03:11:15 replay screen100/elec_MT_036 replayed windows 67
+11-19 03:12:16 replay screen100/elec_MT_035 replayed windows 61
+11-19 03:14:36 replay screen100/elec_MT_037 replayed windows 48
+11-19 03:14:53 replay screen100/elec_MT_034 replayed windows 53
+11-19 03:15:27 replay screen100/elec_MT_038 replayed windows 21
+11-19 03:17:17 replay screen100/elec_MT_041 replayed windows 19
+11-19 03:18:53 replay screen100/elec_MT_039 replayed windows 24
+11-19 03:19:55 replay screen100/elec_MT_043 replayed windows 33
+11-19 03:20:06 replay screen100/elec_MT_042 replayed windows 39
+11-19 03:21:25 replay screen100/elec_MT_040 replayed windows 51
+11-19 03:23:39 replay screen100/pm_Chengdu replayed windows 107
+11-19 03:24:39 replay screen100/pm_Shanghai replayed windows 72
+11-19 03:24:47 replay screen100/pm_Guangzhou replayed windows 88
+11-19 03:25:51 replay screen100/pm_Shenyang replayed windows 41
+11-19 03:28:34 replay screen100/seoul_bike replayed windows 11
+11-19 03:29:40 replay screen100/tetouan_z1 replayed windows 47
+11-19 03:29:55 replay screen100/tetouan_z2 replayed windows 97
+11-19 03:30:21 replay screen100/tetouan_z3 replayed windows 135
+11-19 03:41:29 summary written

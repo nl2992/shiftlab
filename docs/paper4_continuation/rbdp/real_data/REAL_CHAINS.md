@@ -168,3 +168,36 @@ Same panel and chains, horizons matched to the positivity cells (α ∈ {0.05, 0
   stay at α on beijing_pm25, PM2.5 Shanghai and Shenyang, and Tetouan z1.
 - **RB-DP is never more expensive than the best safe baseline:** cheaper in 210 of 420 settings, equal within 1e-9 in 210,
   more expensive in 0. Strictly cheaper in every setting on 10 chains (fr, es, it, pt, fi, geyser, la, ca, eo, FOREX aud/sgd).
+
+## Phase 8: promotion-stream census and held-out replay (2026-11-19, Addendum H)
+
+Challenger-wins orientation only; fit on the first half of each dataset's episodes, replay on the rest. Files:
+`results/phase8_census.jsonl`, `phase8_validation.json`, `phase8_replay.jsonl`, `phase8_summary.md`; script `run_phase8.py`.
+Lead recomputed the pooled costs and per-dataset tallies from `phase8_replay.jsonl`.
+
+**Census (114 datasets; 102 evaluable).** Value of information is large (median 1.29, q90 8.5), the premium is mostly zero
+(median ρΓ 0; 11 of 102 above 1e-3, mostly FOREX pairs), and the IID-optimal policy's causal risk sits at α for most datasets
+(q75 0.10, q90 0.145, max 0.40). This matches the theory for persistent regimes (median r1 +0.30).
+
+**Executor check.** Step-by-step executors of all 7 policies match their exact costs on 3 datasets × 20,000 simulated windows
+(all |z| ≤ 2.16).
+
+**Replay (100 datasets, 9,525 real held-out windows, T = 32, B = 4, α = 0.1, c = 0.01).**
+
+| Policy | mean realised cost [95% CI] | share of RB-DP's VOI | datasets where exact causal risk > α |
+|---|---|---|---|
+| never promote | 17.964 [17.808, 18.123] | 0 | 0 |
+| P1 fixed-sample | 13.918 [13.784, 14.050] | 0.971 | 0 |
+| P2 count SPRT | 13.838 [13.701, 13.971] | 0.991 | 0 |
+| P3 HMM-filter threshold | 13.849 [13.713, 13.982] | 0.988 | 21 |
+| P4 myopic VOI | 15.763 [15.615, 15.915] | 0.528 | 12 |
+| P5 IID-optimal | 13.803 [13.672, 13.939] | 0.999 | 5 |
+| P6 e-process gate | 14.173 [14.039, 14.310] | 0.910 | 0 |
+| **P7 RB-DP** | **13.799 [13.667, 13.936]** | 1.000 | **0** |
+
+- RB-DP has the lowest realised cost and is never over the causal budget. Paired differences (policy − RB-DP): P1 +0.119
+  [0.062, 0.175], P6 +0.374 [0.302, 0.443] (both significant); P2 +0.039 [−0.019, 0.097], P3 +0.050 [−0.009, 0.105], P5 +0.004
+  [−0.003, 0.011] (not distinguishable).
+- The IID-calibrated policies that match RB-DP's cost do so while breaking the causal budget on 21 (P3) and 5 (P5) datasets.
+- Per dataset, RB-DP's mean cost is below all three safe baselines on 33 of 100; the unweighted mean of its advantage over the
+  per-dataset best safe baseline is −0.114 (the best of three, chosen per dataset).

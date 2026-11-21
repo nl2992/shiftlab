@@ -1,0 +1,148 @@
+\begin{thebibliography}{21}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Altman(1999)]{altman1999constrained}
+Eitan Altman.
+\newblock \emph{Constrained {M}arkov Decision Processes}.
+\newblock Chapman and Hall/CRC, 1999.
+
+\bibitem[Azzalini \& Bowman(1990)Azzalini and Bowman]{azzalini1990faithful}
+Adelchi Azzalini and Adrian~W. Bowman.
+\newblock A look at some data on the {O}ld {F}aithful geyser.
+\newblock \emph{Journal of the Royal Statistical Society Series C}, 39\penalty0
+  (3):\penalty0 357--365, 1990.
+\newblock verify.
+
+\bibitem[Bo{\v{s}}ansk{\'y} et~al.(2014)Bo{\v{s}}ansk{\'y}, Kiekintveld,
+  Lis{\'y}, and P{\v{e}}chou{\v{c}}ek]{bosansky2014exact}
+Branislav Bo{\v{s}}ansk{\'y}, Christopher Kiekintveld, Viliam Lis{\'y}, and
+  Michal P{\v{e}}chou{\v{c}}ek.
+\newblock An exact double-oracle algorithm for zero-sum extensive-form games
+  with imperfect information.
+\newblock \emph{Journal of Artificial Intelligence Research}, 51:\penalty0
+  829--866, 2014.
+
+\bibitem[Fau{\ss} et~al.(2020)Fau{\ss}, Zoubir, and Poor]{fauss2020minimax}
+Michael Fau{\ss}, Abdelhak~M. Zoubir, and H.~Vincent Poor.
+\newblock Minimax optimal sequential hypothesis tests for {M}arkov processes.
+\newblock \emph{The Annals of Statistics}, 48\penalty0 (5):\penalty0
+  2599--2621, 2020.
+
+\bibitem[Hor{\'a}k et~al.(2023)Hor{\'a}k, Bo{\v{s}}ansk{\'y},
+  Kov{\v{a}}{\v{r}}{\'\i}k, and Kiekintveld]{horak2023solving}
+Karel Hor{\'a}k, Branislav Bo{\v{s}}ansk{\'y}, Vojt{\v{e}}ch
+  Kov{\v{a}}{\v{r}}{\'\i}k, and Christopher Kiekintveld.
+\newblock Solving zero-sum one-sided partially observable stochastic games.
+\newblock \emph{Artificial Intelligence}, 2023.
+\newblock verify volume.
+
+\bibitem[Howard et~al.(2021)Howard, Ramdas, McAuliffe, and
+  Sekhon]{howard2021timeuniform}
+Steven~R. Howard, Aaditya Ramdas, Jon McAuliffe, and Jasjeet Sekhon.
+\newblock Time-uniform, nonparametric, nonasymptotic confidence sequences.
+\newblock \emph{The Annals of Statistics}, 49\penalty0 (2), 2021.
+
+\bibitem[Iyengar(2005)]{iyengar2005robust}
+Garud~N. Iyengar.
+\newblock Robust dynamic programming.
+\newblock \emph{Mathematics of Operations Research}, 30\penalty0 (2):\penalty0
+  257--280, 2005.
+\newblock verify.
+
+\bibitem[Krale et~al.(2025)Krale, Bovy, Galesloot, Sim{\~a}o, and
+  Jansen]{krale2025evaluating}
+Merlijn Krale, Eline~M. Bovy, Maris F.~L. Galesloot, Thiago~D. Sim{\~a}o, and
+  Nils Jansen.
+\newblock On evaluating policies for robust {POMDP}s.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2025.
+
+\bibitem[Krishnamurthy(2016)]{krishnamurthy2016pomdp}
+Vikram Krishnamurthy.
+\newblock \emph{Partially Observed {M}arkov Decision Processes: From Filtering
+  to Controlled Sensing}.
+\newblock Cambridge University Press, 2016.
+
+\bibitem[Kuhn(1953)]{kuhn1953extensive}
+Harold~W. Kuhn.
+\newblock Extensive games and the problem of information.
+\newblock In \emph{Contributions to the Theory of Games, Volume {II}},
+  number~28 in Annals of Mathematics Studies, pp.\  193--216. Princeton
+  University Press, 1953.
+
+\bibitem[Naghshvar \& Javidi(2013)Naghshvar and Javidi]{naghshvar2013active}
+Mohammad Naghshvar and Tara Javidi.
+\newblock Active sequential hypothesis testing.
+\newblock \emph{The Annals of Statistics}, 41\penalty0 (6):\penalty0
+  2703--2738, 2013.
+
+\bibitem[Nilim \& El~Ghaoui(2005)Nilim and El~Ghaoui]{nilim2005robust}
+Arnab Nilim and Laurent El~Ghaoui.
+\newblock Robust control of {M}arkov decision processes with uncertain
+  transition matrices.
+\newblock \emph{Operations Research}, 53\penalty0 (5):\penalty0 780--798, 2005.
+\newblock verify.
+
+\bibitem[Nitinawarat et~al.(2013)Nitinawarat, Atia, and
+  Veeravalli]{nitinawarat2013controlled}
+Sirin Nitinawarat, George~K. Atia, and Venugopal~V. Veeravalli.
+\newblock Controlled sensing for multihypothesis testing.
+\newblock \emph{IEEE Transactions on Automatic Control}, 58\penalty0 (10),
+  2013.
+
+\bibitem[Ramdas et~al.(2023)Ramdas, Gr{\"u}nwald, Vovk, and
+  Shafer]{ramdas2023gametheoretic}
+Aaditya Ramdas, Peter Gr{\"u}nwald, Vladimir Vovk, and Glenn Shafer.
+\newblock Game-theoretic statistics and safe anytime-valid inference.
+\newblock \emph{Statistical Science}, 38\penalty0 (4), 2023.
+
+\bibitem[Thomas et~al.(2015)Thomas, Theocharous, and
+  Ghavamzadeh]{thomas2015high}
+Philip~S. Thomas, Georgios Theocharous, and Mohammad Ghavamzadeh.
+\newblock High confidence policy improvement.
+\newblock In \emph{Proceedings of the 32nd International Conference on Machine
+  Learning}, 2015.
+\newblock verify.
+
+\bibitem[Ville(1939)]{ville1939etude}
+Jean Ville.
+\newblock \emph{{\'E}tude critique de la notion de collectif}.
+\newblock Gauthier-Villars, Paris, 1939.
+
+\bibitem[Wald(1945)]{wald1945sequential}
+Abraham Wald.
+\newblock Sequential tests of statistical hypotheses.
+\newblock \emph{The Annals of Mathematical Statistics}, 16\penalty0
+  (2):\penalty0 117--186, 1945.
+
+\bibitem[Walraven \& Spaan(2018)Walraven and Spaan]{walraven2018column}
+Erwin Walraven and Matthijs T.~J. Spaan.
+\newblock Column generation algorithms for constrained {POMDP}s.
+\newblock \emph{Journal of Artificial Intelligence Research}, 62:\penalty0
+  489--533, 2018.
+
+\bibitem[Waudby-Smith \& Ramdas(2024)Waudby-Smith and
+  Ramdas]{waudbysmith2024betting}
+Ian Waudby-Smith and Aaditya Ramdas.
+\newblock Estimating means of bounded random variables by betting.
+\newblock \emph{Journal of the Royal Statistical Society Series B}, 2024.
+\newblock verify volume and pages.
+
+\bibitem[Wu et~al.(2016)Wu, Shariff, Lattimore, and
+  Szepesv{\'a}ri]{wu2016conservative}
+Yifan Wu, Roshan Shariff, Tor Lattimore, and Csaba Szepesv{\'a}ri.
+\newblock Conservative bandits.
+\newblock In \emph{Proceedings of the 33rd International Conference on Machine
+  Learning}, 2016.
+\newblock verify.
+
+\bibitem[Yost \& Washburn(2000)Yost and Washburn]{yost2000lp}
+Kirk~A. Yost and Alan~R. Washburn.
+\newblock The {LP/POMDP} marriage: Optimization with imperfect information.
+\newblock \emph{Naval Research Logistics}, 47\penalty0 (8):\penalty0 607--619,
+  2000.
+
+\end{thebibliography}

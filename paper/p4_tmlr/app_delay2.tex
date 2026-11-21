@@ -1,0 +1,56 @@
+% Appendix G: delay two. Ported 2026-11-21 from docs/paper4_continuation/rbdp/DELAY2.md (sections 1-8)
+% and rbdp/PROOF_REVIEW.md. Status: derivation, not a complete proof (see the last paragraph).
+\section{Delay two}
+\label{app:delay2}
+
+At $d=2$ a label queried at $t$ is released before the decision at $t+2$. At the decision at $t$, the label queried at $t-1$ (if any) is \emph{pending}: the null has seen it and the learner has not. The null's choice of $p$ for a query at $t$ may depend on the pending value $z\in\{0,1\}$, so the worst-case risk-to-go lives on null-side states $(h,z)$, and the learner must carry one risk budget per pending value.
+
+\paragraph{Risk recursion.} With $\pi(h)$, $\kappa(h)$ as in Lemma~\ref{lem:risk} (functions of the learner history only; the learner does not know $z$), $m$ as before, and $R(h',y)$ the risk-to-go at the next learner history $h'$ when the label just queried has value $y$, the worst-case risk-to-go satisfies,
+with a label of value $z$ pending,
+\[
+R(h,z)=\pi(h)+(1-\pi(h))\Big[(1-\kappa(h))R((h,\varnothing,z))+\kappa(h)\,m\big(R((h,q,z),0),R((h,q,z),1)\big)\Big],
+\]
+and with no label pending,
+\[
+R(h)=\pi(h)+(1-\pi(h))\Big[(1-\kappa(h))R((h,\varnothing))+\kappa(h)\,m\big(R((h,q),0),R((h,q),1)\big)\Big].
+\]
+The proof is the backward induction of Lemma~\ref{lem:risk} on null-side states; Kuhn's theorem for the learner does not depend on the null's information. An independent check confirmed the recursion by brute force over up to 65{,}536 deterministic nulls that see the pending label, on 44 random policies: the recursion equalled the brute-force worst case in all 44.
+
+\paragraph{Bellman equations.} With a pending label, the joint law of $(S_t,z)$ given released labels is determined by the scalar $\mu=\PP(S_{t-1}=1\mid\text{labels queried at times}\le t-2)$; without one, by $\beta=\PP(S_t=1\mid\text{released labels})$. Write $\mathrm{prop}$ for one transition step, $\mathrm{post}(\mu,z)$ for the Bayes update on a label, and $P^0,P^1$ for the optimal post-promotion costs without and with a pending label. The value without a pending label, $V^0(t,\beta,n,\cdot)$, is the lower convex hull on $[0,1]$ of
+\begin{align*}
+&\text{no query:}&& \pos(\beta)+V^0(t+1,\mathrm{prop}(\beta),n,w'),\\
+&\text{query:}&& \pos(\beta)+c+\min\{V^1(t+1,\beta,n-1,a,b):m(a,b)\le w'\},\\
+&\text{promote:}&& \text{the point }(1,P^0(t,n,\beta)).
+\end{align*}
+The value with a pending label, $V^1(t,\mu,n,\cdot,\cdot)$, is the lower convex hull on $[0,1]^2$ of
+\begin{align*}
+&\text{no query:}&& \pos(\mathrm{prop}\,\mu)+\textstyle\sum_z\PP(z\mid\mu)\,V^0\big(t+1,\mathrm{prop}^2(\mathrm{post}(\mu,z)),n,w^z\big),\\
+&\text{query:}&& \pos(\mathrm{prop}\,\mu)+c+\textstyle\sum_z\PP(z\mid\mu)\min\{V^1(t+1,\mathrm{prop}(\mathrm{post}(\mu,z)),n-1,a,b):m(a,b)\le w^z\},\\
+&\text{promote:}&& \text{the point }((1,1),P^1(t,n,\mu)).
+\end{align*}
+The hull is two-dimensional because $\pi$ and $\kappa$ are shared across the two pending values, so the two budgets can only be mixed jointly. The answer is $V^0(1,\beta_1,B,\alpha)$. General $d$ would need $2^{d-1}$ budgets per state.
+
+\paragraph{Solver and validation.} The solver uses a uniform risk grid of $N=d_\alpha\cdot2^B$ cells per pending value ($d_\alpha$ the denominator of $\alpha$) and returns only an upper bound $U$: the extracted policy's cost, evaluated exactly, with its worst-case risk computed by the recursion above. Hull vertices of the same type are merged and their budgets averaged, which keeps risk within budget because $m$ is convex. Against the exact sequence-form solver at $d=2$, $|U-V^\star|\le9\times10^{-16}$ on 130 random cells ($T\le7$, $B\le3$, both modes) and $8.9\times10^{-16}$ on 36 further anti-persistent cells, 9 of them with a positive premium. Coarser grids ($N=d_\alpha$ or $2d_\alpha$) are not exact in general (12 of 130 cells, worst gap 0.053). Refining the grid three times on six long-horizon cells changed $U$ by at most $3.2\times10^{-13}$.
+
+\paragraph{Long-horizon premium at $d=2$.} Symmetric chains, $e=1/10$, $\alpha=1/10$, $c=k=0$, 401 belief points.
+\begin{center}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+$t$, $B$ & $T=8$ & 16 & 32 & 64 & 100\\
+\midrule
+any $t$, $B=1$ & 0 & 0 & 0 & 0 & 0\\
+2/3 and 3/4, $B=2$ & 0 & 0 & 0 & 0 & 0\\
+9/10, $B=2$ & 0.1355 & 0.0562 & 0 & 0 & 0\\
+2/3, $B=3$ & 0 & 0 & 0 & 0 & 0\\
+3/4, $B=3$ & 0.0426 & 0.0120 & 0 & 0 & 0\\
+9/10, $B=3$ & 0.2375 & 0.1495 & 0.0421 & 0.0399 & 0.0399\\
+2/3, $B=4$ & 0.0176 & 0 & 0 & 0 & 0\\
+3/4, $B=4$ & 0.1381 & 0.0678 & 0.0350 & 0.0331 & 0.0331\\
+9/10, $B=4$ & 0.4262 & 0.2435 & 0.1296 & 0.1231 & 0.1229\\
+\bottomrule
+\end{tabular}
+\end{center}
+In every cell the $d=2$ premium is below the $d=1$ premium of the same cell. Where it is positive, the i.i.d.-mode policy has adaptive risk $2\alpha$ or more; the adaptive-mode policy is at $\alpha$ in all cells. Values at $T\ge11$ are costs of feasible policies with no lower bound; values at $T\le10$ agree with the exact solver to $4.4\times10^{-16}$. One explanation, which we have not proved: a label queried at $t$ is used at $t+2$, and the two-step chain has eigenvalue $(1-t_{01}-t_{10})^2\ge0$, so it is persistent whatever the one-step chain is. A label 1 is then good news when it arrives, and with a single query the learner wants its risk on the branch the adaptive constraint never caps. A premium at $d=2$ needs at least two interacting labels.
+
+\paragraph{What is not established.} For a proof at $d=2$ we still need joint convexity of the value in $(w^0,w^1)$, the monotonicity that lets the budget constraint hold with equality, the post-promotion value $P^1$, and the edge cases. The dyadic-lattice argument of Theorem~\ref{thm:lattice} does not transfer, since a facet of a two-dimensional hull can meet the diagonal at a non-dyadic point. That the grid $d_\alpha\cdot2^B$ was exact on every cell tried is an empirical observation.

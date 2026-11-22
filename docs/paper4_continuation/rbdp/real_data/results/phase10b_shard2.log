@@ -1,0 +1,10 @@
+21:26:45 D:geyser/Riverside x=1 n 3000 r1 -0.149 pos False None
+21:27:57 D:geyser/Riverside 1-x n 3000 r1 -0.149 pos False None
+21:27:57 DONE D:geyser/Riverside evaluated positive False
+21:27:58 DONE D:tennis/atp fetch failed positive False
+21:29:14 D:heart/f1y02 x=1 n 3000 r1 0.364 pos False None
+21:30:23 D:heart/f1y02 1-x n 3000 r1 0.364 pos False None
+21:30:23 DONE D:heart/f1y02 evaluated positive False
+21:30:51 D:heart/f1o03 x=1 n 3000 r1 0.650 pos False None
+21:31:19 D:heart/f1o03 1-x n 3000 r1 0.650 pos False None
+21:31:19 DONE D:heart/f1o03 evaluated positive False

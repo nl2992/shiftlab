@@ -1,0 +1,22 @@
+20:59:29 B:covtype x=1 n 3000 r1 0.787 pos False None
+21:09:55 B:covtype 1-x n 3000 r1 0.787 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.022428733716703814, 'C0': 10.31965625745483, 'U_iid': 9.778354888010787, 'risk_causal_of_iid_policy': 0.15}
+21:09:55 DONE B:covtype evaluated positive True TALLY 36
+21:09:58 DONE B:ozone too short (0) positive False TALLY 36
+21:09:58 family B finished; tally 36
+21:12:04 Bext:Higgs x=1 n 3000 r1 0.002 pos False None
+21:14:04 Bext:Higgs 1-x n 3000 r1 0.002 pos False None
+21:14:04 DONE Bext:Higgs evaluated positive False TALLY 36
+21:15:12 Bext:bank-marketing x=1 n 1905 r1 0.046 pos False None
+21:15:58 Bext:bank-marketing 1-x n 1905 r1 0.046 pos False None
+21:15:58 DONE Bext:bank-marketing evaluated positive False TALLY 36
+21:16:05 Bext:gas-drift x=1 n 3000 r1 0.976 pos False None
+21:16:07 Bext:gas-drift 1-x n 3000 r1 0.976 pos False None
+21:16:07 DONE Bext:gas-drift evaluated positive False TALLY 36
+21:16:07 family Bext finished; tally 36
+21:16:19 DONE C:road-safety fetch failed positive False TALLY 36
+21:18:25 C:jannis x=1 n 3000 r1 -0.008 pos False None
+21:20:25 C:jannis 1-x n 3000 r1 -0.008 pos False None
+21:20:25 DONE C:jannis evaluated positive False TALLY 36
+21:20:27 DONE C:pc1 too short (0) positive False TALLY 36
+21:20:28 family C finished; tally 36
+21:20:28 lists exhausted; final tally 36

@@ -1,0 +1,12 @@
+21:26:05 D:geyser/Daisy x=1 n 3000 r1 0.198 pos False None
+21:26:37 D:geyser/Daisy 1-x n 3000 r1 0.198 pos False None
+21:26:37 DONE D:geyser/Daisy evaluated positive False
+21:27:13 D:geyser/Beehive x=1 n 3000 r1 0.296 pos False None
+21:27:49 D:geyser/Beehive 1-x n 3000 r1 0.296 pos False None
+21:27:49 DONE D:geyser/Beehive evaluated positive False
+21:29:15 D:heart/f1y01 x=1 n 3000 r1 0.389 pos False None
+21:30:34 D:heart/f1y01 1-x n 3000 r1 0.389 pos False None
+21:30:34 DONE D:heart/f1y01 evaluated positive False
+21:31:04 D:heart/f1o02 x=1 n 3000 r1 0.659 pos False None
+21:31:31 D:heart/f1o02 1-x n 3000 r1 0.659 pos False None
+21:31:31 DONE D:heart/f1o02 evaluated positive False

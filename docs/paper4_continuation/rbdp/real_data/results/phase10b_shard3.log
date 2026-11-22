@@ -1,0 +1,8 @@
+21:36:49 D:geyser/Grand x=1 n 3000 r1 -0.179 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2988867970083418, 'C0': 7.9785040175643465, 'U_iid': 7.81725613632873, 'risk_causal_of_iid_policy': 0.4}
+21:47:52 D:geyser/Grand 1-x n 3000 r1 -0.179 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2957086658143038, 'C0': 8.0214959046115, 'U_iid': 7.854701977952923, 'risk_causal_of_iid_policy': 0.4}
+21:47:52 DONE D:geyser/Grand evaluated positive True
+21:47:55 DONE D:tennis/wta fetch failed positive False
+21:48:43 D:heart/f1y03 x=1 n 3000 r1 0.650 pos False None
+21:49:32 D:heart/f1y03 1-x n 3000 r1 0.650 pos False None
+21:49:32 DONE D:heart/f1y03 evaluated positive False
+21:49:32 DONE D:dna_purine_pyrimidine already evaluated in Phase 4 positive False

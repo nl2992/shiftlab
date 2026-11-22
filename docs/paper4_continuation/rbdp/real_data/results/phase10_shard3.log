@@ -1,0 +1,16 @@
+20:59:07 DONE B:kdd99_10pct fetch failed positive False TALLY 35
+20:59:08 family B finished; tally 35
+20:59:55 DONE Bext:Bike_Sharing_Demand fetch failed positive False TALLY 35
+21:03:23 DONE Bext:SMSSpam fetch failed positive False TALLY 35
+21:03:38 DONE Bext:OnlineNewsPopularity fetch failed positive False TALLY 35
+21:03:44 family Bext finished; tally 35
+21:04:34 C:nomao x=1 n 3000 r1 0.741 pos False None
+21:04:57 C:nomao 1-x n 3000 r1 0.741 pos False None
+21:04:57 DONE C:nomao evaluated positive False TALLY 35
+21:07:42 DONE C:kdd_el_nino-small fetch failed positive False TALLY 35
+21:09:30 DONE C:credit-g too short (0) positive False TALLY 35
+21:10:49 C:elevators x=1 n 615 r1 0.106 pos False None
+21:11:28 C:elevators 1-x n 615 r1 0.106 pos False None
+21:11:28 DONE C:elevators evaluated positive False TALLY 35
+21:11:28 family C finished; tally 35
+21:11:28 lists exhausted; final tally 35

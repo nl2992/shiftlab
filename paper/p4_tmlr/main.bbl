@@ -15,7 +15,6 @@ Adelchi Azzalini and Adrian~W. Bowman.
 \newblock A look at some data on the {O}ld {F}aithful geyser.
 \newblock \emph{Journal of the Royal Statistical Society Series C}, 39\penalty0
   (3):\penalty0 357--365, 1990.
-\newblock verify.
 
 \bibitem[Bo{\v{s}}ansk{\'y} et~al.(2014)Bo{\v{s}}ansk{\'y}, Kiekintveld,
   Lis{\'y}, and P{\v{e}}chou{\v{c}}ek]{bosansky2014exact}
@@ -37,8 +36,7 @@ Michael Fau{\ss}, Abdelhak~M. Zoubir, and H.~Vincent Poor.
 Karel Hor{\'a}k, Branislav Bo{\v{s}}ansk{\'y}, Vojt{\v{e}}ch
   Kov{\v{a}}{\v{r}}{\'\i}k, and Christopher Kiekintveld.
 \newblock Solving zero-sum one-sided partially observable stochastic games.
-\newblock \emph{Artificial Intelligence}, 2023.
-\newblock verify volume.
+\newblock \emph{Artificial Intelligence}, 316:\penalty0 103838, 2023.
 
 \bibitem[Howard et~al.(2021)Howard, Ramdas, McAuliffe, and
   Sekhon]{howard2021timeuniform}
@@ -51,7 +49,6 @@ Garud~N. Iyengar.
 \newblock Robust dynamic programming.
 \newblock \emph{Mathematics of Operations Research}, 30\penalty0 (2):\penalty0
   257--280, 2005.
-\newblock verify.
 
 \bibitem[Krale et~al.(2025)Krale, Bovy, Galesloot, Sim{\~a}o, and
   Jansen]{krale2025evaluating}
@@ -84,7 +81,6 @@ Arnab Nilim and Laurent El~Ghaoui.
 \newblock Robust control of {M}arkov decision processes with uncertain
   transition matrices.
 \newblock \emph{Operations Research}, 53\penalty0 (5):\penalty0 780--798, 2005.
-\newblock verify.
 
 \bibitem[Nitinawarat et~al.(2013)Nitinawarat, Atia, and
   Veeravalli]{nitinawarat2013controlled}
@@ -104,8 +100,8 @@ Aaditya Ramdas, Peter Gr{\"u}nwald, Vladimir Vovk, and Glenn Shafer.
 Philip~S. Thomas, Georgios Theocharous, and Mohammad Ghavamzadeh.
 \newblock High confidence policy improvement.
 \newblock In \emph{Proceedings of the 32nd International Conference on Machine
-  Learning}, 2015.
-\newblock verify.
+  Learning}, volume~37 of \emph{Proceedings of Machine Learning Research}, pp.\
+   2380--2388, 2015.
 
 \bibitem[Ville(1939)]{ville1939etude}
 Jean Ville.
@@ -128,16 +124,16 @@ Erwin Walraven and Matthijs T.~J. Spaan.
   Ramdas]{waudbysmith2024betting}
 Ian Waudby-Smith and Aaditya Ramdas.
 \newblock Estimating means of bounded random variables by betting.
-\newblock \emph{Journal of the Royal Statistical Society Series B}, 2024.
-\newblock verify volume and pages.
+\newblock \emph{Journal of the Royal Statistical Society Series B}, 86\penalty0
+  (1):\penalty0 1--27, 2024.
 
 \bibitem[Wu et~al.(2016)Wu, Shariff, Lattimore, and
   Szepesv{\'a}ri]{wu2016conservative}
 Yifan Wu, Roshan Shariff, Tor Lattimore, and Csaba Szepesv{\'a}ri.
 \newblock Conservative bandits.
 \newblock In \emph{Proceedings of the 33rd International Conference on Machine
-  Learning}, 2016.
-\newblock verify.
+  Learning}, volume~48 of \emph{Proceedings of Machine Learning Research}, pp.\
+   1254--1262, 2016.
 
 \bibitem[Yost \& Washburn(2000)Yost and Washburn]{yost2000lp}
 Kirk~A. Yost and Alan~R. Washburn.

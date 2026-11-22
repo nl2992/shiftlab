@@ -1,0 +1,54 @@
+48 settings, 48 to run
+10/48 40s
+20/48 121s
+30/48 413s
+40/48 484s
+11-22 22:14:06 panel: 48 settings to do
+11-22 22:14:15 panel 1 / 48 Bext:electricity|a=0.05|B=4|T=32 delta -6.146e-13 best P6 P5r deflated 8s
+11-22 22:14:15 panel 2 / 48 B:covtype|a=0.05|B=4|T=32 delta 0.000e+00 best P5r P5r deflated 8s
+11-22 22:15:01 panel 3 / 48 B:covtype|a=0.1|B=4|T=32 delta 1.159e-02 best P6 P5r deflated 54s
+11-22 22:15:02 panel 4 / 48 Bext:electricity|a=0.1|B=4|T=32 delta 4.516e-03 best P6 P5r deflated 55s
+11-22 22:15:12 panel 5 / 48 D:geyser/Old_Faithful|a=0.1|B=4|T=32 delta 1.098e-02 best P6 P5r deflated 56s
+11-22 22:15:15 panel 6 / 48 B:covtype|a=0.05|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 3s
+11-22 22:15:16 panel 7 / 48 B:covtype|a=0.1|B=3|T=32 delta 0.000e+00 best P5r P5r deflated 2s
+11-22 22:15:19 panel 8 / 48 Bext:electricity|a=0.05|B=3|T=32 delta -2.114e-13 best P6 P5r deflated 3s
+11-22 22:15:21 panel 9 / 48 Bext:electricity|a=0.1|B=3|T=32 delta -6.324e-13 best P6 P5r deflated 2s
+11-22 22:15:37 panel 10 / 48 D:geyser/Grand|a=0.1|B=4|T=32 delta 7.581e-03 best P6 P5r mixing 35s
+11-22 22:15:43 panel 11 / 48 D:geyser/Old_Faithful|a=0.05|B=3|T=32 delta 5.681e-03 best P6 P5r deflated 22s
+11-22 22:15:50 panel 12 / 48 D:geyser/Old_Faithful|a=0.1|B=3|T=32 delta 1.136e-02 best P6 P5r deflated 13s
+11-22 22:16:03 panel 13 / 48 D:geyser/Grand|a=0.05|B=4|T=32 delta 3.791e-03 best P6 P5r mixing 62s
+11-22 22:16:03 panel 14 / 48 D:geyser/Grand|a=0.1|B=3|T=32 delta 7.441e-03 best P6 P5r mixing 14s
+11-22 22:16:04 panel 15 / 48 B:covtype|a=0.1|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-22 22:16:04 panel 16 / 48 B:covtype|a=0.05|B=2|T=32 delta 0.000e+00 best P5r P5r deflated 1s
+11-22 22:16:05 panel 17 / 48 D:geyser/Old_Faithful|a=0.05|B=4|T=32 delta 5.491e-03 best P6 P5r deflated 109s
+11-22 22:16:05 panel 18 / 48 Bext:electricity|a=0.05|B=2|T=32 delta -2.842e-14 best P6 P5r deflated 1s
+11-22 22:16:05 panel 19 / 48 Bext:electricity|a=0.1|B=2|T=32 delta -2.736e-13 best P6 P5r deflated 1s
+11-22 22:16:06 panel 20 / 48 D:geyser/Grand|a=0.05|B=3|T=32 delta 3.721e-03 best P6 P5r mixing 23s
+11-22 22:16:10 panel 21 / 48 D:geyser/Old_Faithful|a=0.1|B=2|T=32 delta 1.174e-02 best P6 P5r deflated 5s
+11-22 22:16:11 panel 22 / 48 D:geyser/Grand|a=0.1|B=2|T=32 delta 7.302e-03 best P6 P5r mixing 5s
+11-22 22:16:13 panel 23 / 48 D:geyser/Old_Faithful|a=0.05|B=2|T=32 delta 5.872e-03 best P6 P5r deflated 8s
+11-22 22:16:13 panel 24 / 48 B:covtype|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-22 22:16:13 panel 25 / 48 D:geyser/Grand|a=0.05|B=2|T=32 delta 3.651e-03 best P6 P5r mixing 8s
+11-22 22:16:13 panel 26 / 48 B:covtype|a=0.05|B=4|T=16 delta -4.530e-14 best P6 P5r deflated 4s
+11-22 22:16:15 panel 27 / 48 Bext:electricity|a=0.1|B=4|T=16 delta 0.000e+00 best P5r P5r deflated 2s
+11-22 22:16:16 panel 28 / 48 Bext:electricity|a=0.05|B=4|T=16 delta -2.167e-13 best P6 P5r deflated 4s
+11-22 22:16:31 panel 29 / 48 D:geyser/Old_Faithful|a=0.1|B=4|T=16 delta 1.185e-02 best P6 P5r deflated 18s
+11-22 22:16:32 panel 30 / 48 B:covtype|a=0.05|B=3|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-22 22:16:33 panel 31 / 48 B:covtype|a=0.1|B=3|T=16 delta -1.510e-14 best P6 P5r deflated 1s
+11-22 22:16:35 panel 32 / 48 Bext:electricity|a=0.05|B=3|T=16 delta -1.332e-14 best P6 P5r deflated 1s
+11-22 22:16:35 panel 33 / 48 Bext:electricity|a=0.1|B=3|T=16 delta -2.318e-13 best P6 P5r deflated 1s
+11-22 22:16:44 panel 34 / 48 D:geyser/Old_Faithful|a=0.05|B=4|T=16 delta 5.927e-03 best P6 P5r deflated 31s
+11-22 22:16:46 panel 35 / 48 D:geyser/Grand|a=0.1|B=4|T=16 delta 7.662e-03 best P6 P5r mixing 30s
+11-22 22:16:46 panel 36 / 48 D:geyser/Old_Faithful|a=0.05|B=3|T=16 delta 6.116e-03 best P6 P5r deflated 11s
+11-22 22:16:51 panel 37 / 48 D:geyser/Old_Faithful|a=0.1|B=3|T=16 delta 1.223e-02 best P6 P5r deflated 7s
+11-22 22:16:52 panel 38 / 48 B:covtype|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-22 22:16:52 panel 39 / 48 B:covtype|a=0.1|B=2|T=16 delta -1.599e-14 best P6 P5r deflated 0s
+11-22 22:16:52 panel 40 / 48 Bext:electricity|a=0.05|B=2|T=16 delta 0.000e+00 best P5r P5r deflated 1s
+11-22 22:16:53 panel 41 / 48 Bext:electricity|a=0.1|B=2|T=16 delta -3.908e-14 best P6 P5r deflated 0s
+11-22 22:16:53 panel 42 / 48 D:geyser/Grand|a=0.1|B=3|T=16 delta 7.380e-03 best P6 P5r mixing 7s
+11-22 22:16:56 panel 43 / 48 D:geyser/Old_Faithful|a=0.1|B=2|T=16 delta 1.181e-02 best P5r P5r deflated 2s
+11-22 22:16:57 panel 44 / 48 D:geyser/Old_Faithful|a=0.05|B=2|T=16 delta 5.904e-03 best P5r P5r deflated 4s
+11-22 22:16:59 panel 45 / 48 D:geyser/Grand|a=0.05|B=3|T=16 delta 3.690e-03 best P6 P5r mixing 13s
+11-22 22:17:00 panel 46 / 48 D:geyser/Grand|a=0.05|B=2|T=16 delta 3.685e-03 best P6 P5r mixing 4s
+11-22 22:17:00 panel 47 / 48 D:geyser/Grand|a=0.1|B=2|T=16 delta 7.371e-03 best P6 P5r mixing 3s
+11-22 22:17:10 panel 48 / 48 D:geyser/Grand|a=0.05|B=4|T=16 delta 3.831e-03 best P6 P5r mixing 55s

@@ -1,0 +1,92 @@
+{
+ "old": {
+  "label": "old 35",
+  "chains": 35,
+  "settings": 420,
+  "p7settings": 420,
+  "cheaper": 186,
+  "tie": 234,
+  "dearer": 0,
+  "min_delta": -5.662137425588298e-13,
+  "cheaper3": 210,
+  "tie3": 210,
+  "dearer3": 0,
+  "min_delta3": -5.662137425588298e-13,
+  "iid_break_datasets": 31,
+  "max_ratio": {
+   "P1": 1.0,
+   "P2": 1.0,
+   "P3": 4.0,
+   "P4": 4.0,
+   "P5": 8.0,
+   "P6": 1.0,
+   "P7": 1.0000000000000002
+  },
+  "violations": {
+   "P3": 300,
+   "P4": 280,
+   "P5": 262
+  },
+  "violating_chains_p7_p1_p2_p6": []
+ },
+ "new": {
+  "label": "new 39",
+  "chains": 39,
+  "settings": 468,
+  "p7settings": 468,
+  "cheaper": 212,
+  "tie": 256,
+  "dearer": 0,
+  "min_delta": -6.323830348264892e-13,
+  "cheaper3": 238,
+  "tie3": 230,
+  "dearer3": 0,
+  "min_delta3": -6.323830348264892e-13,
+  "iid_break_datasets": 35,
+  "max_ratio": {
+   "P1": 1.0,
+   "P2": 1.0,
+   "P3": 4.0,
+   "P4": 8.0,
+   "P5": 8.0,
+   "P6": 1.0,
+   "P7": 1.0000000000000002
+  },
+  "violations": {
+   "P3": 324,
+   "P4": 304,
+   "P5": 288
+  },
+  "violating_chains_p7_p1_p2_p6": []
+ },
+ "added": {
+  "label": "4 new only",
+  "chains": 4,
+  "settings": 48,
+  "p7settings": 48,
+  "cheaper": 26,
+  "tie": 22,
+  "dearer": 0,
+  "min_delta": -6.323830348264892e-13,
+  "cheaper3": 28,
+  "tie3": 20,
+  "dearer3": 0,
+  "min_delta3": -6.323830348264892e-13,
+  "iid_break_datasets": 4,
+  "max_ratio": {
+   "P1": 1.0,
+   "P2": 1.0,
+   "P3": 4.0,
+   "P4": 8.0,
+   "P5": 4.0,
+   "P6": 1.0,
+   "P7": 1.0
+  },
+  "violations": {
+   "P5": 26,
+   "P3": 24,
+   "P4": 24
+  },
+  "violating_chains_p7_p1_p2_p6": []
+ }
+}

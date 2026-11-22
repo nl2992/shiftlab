@@ -1,0 +1,12 @@
+21:27:52 D:geyser/Old_Faithful x=1 n 3000 r1 -0.267 pos False None
+21:41:05 D:geyser/Old_Faithful 1-x n 3000 r1 -0.267 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.27938054901155074, 'C0': 16.37314636004062, 'U_iid': 16.174099939493704, 'risk_causal_of_iid_policy': 0.325}
+21:41:05 DONE D:geyser/Old_Faithful evaluated positive True
+21:41:35 D:geyser/Castle x=1 n 3000 r1 0.208 pos False None
+21:42:03 D:geyser/Castle 1-x n 3000 r1 0.208 pos False None
+21:42:03 DONE D:geyser/Castle evaluated positive False
+21:43:18 D:bach_chorales x=1 n 3000 r1 0.451 pos False None
+21:44:27 D:bach_chorales 1-x n 3000 r1 0.451 pos False None
+21:44:27 DONE D:bach_chorales evaluated positive False
+21:44:50 D:heart/f1o01 x=1 n 3000 r1 0.781 pos False None
+21:45:14 D:heart/f1o01 1-x n 3000 r1 0.781 pos False None
+21:45:14 DONE D:heart/f1o01 evaluated positive False

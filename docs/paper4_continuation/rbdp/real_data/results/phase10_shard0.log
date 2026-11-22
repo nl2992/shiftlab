@@ -1,0 +1,16 @@
+20:58:58 DONE B:INSECTS fetch failed positive False TALLY 35
+20:59:09 B:intel_sensor x=1 n 3000 r1 0.983 pos False None
+20:59:11 B:intel_sensor 1-x n 3000 r1 0.983 pos False None
+20:59:11 DONE B:intel_sensor evaluated positive False TALLY 35
+20:59:12 family B finished; tally 35
+21:00:34 DONE Bext:MagicTelescope too short (0) positive False TALLY 35
+21:03:34 DONE Bext:adult fetch failed positive False TALLY 35
+21:03:48 DONE Bext:occupancy fetch failed positive False TALLY 35
+21:04:34 family Bext finished; tally 35
+21:06:51 DONE C:Click_prediction_small too short (28) positive False TALLY 35
+21:07:47 DONE C:electricity-normalized fetch failed positive False TALLY 35
+21:10:05 C:mozilla4 x=1 n 1577 r1 0.191 pos False None
+21:10:36 C:mozilla4 1-x n 1577 r1 0.191 pos False None
+21:10:36 DONE C:mozilla4 evaluated positive False TALLY 35
+21:10:37 family C finished; tally 35
+21:10:37 lists exhausted; final tally 35

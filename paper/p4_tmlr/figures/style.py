@@ -31,7 +31,7 @@ PALETTE = {
 WIDTH = 6.5  # inches, TMLR text width
 
 
-def apply_style(font_size: float = 8.5, axes_linewidth: float = 0.9) -> None:
+def apply_style(font_size: float = 8.5, axes_linewidth: float = 1.25) -> None:
     plt.rcParams.update({
         "font.family": "sans-serif",
         "font.sans-serif": ["Helvetica", "Arial", "DejaVu Sans"],
@@ -46,8 +46,8 @@ def apply_style(font_size: float = 8.5, axes_linewidth: float = 0.9) -> None:
         "axes.spines.right": False,
         "legend.frameon": False,
         "xtick.major.width": axes_linewidth, "ytick.major.width": axes_linewidth,
-        "xtick.major.size": 3, "ytick.major.size": 3,
-        "lines.linewidth": 1.5,
+        "xtick.major.size": 4, "ytick.major.size": 4,
+        "lines.linewidth": 1.8,
         "pdf.fonttype": 42, "ps.fonttype": 42, "svg.fonttype": "none",
         "mathtext.default": "regular",
         "figure.dpi": 100, "savefig.dpi": 300,
@@ -67,3 +67,9 @@ def save(fig, name: str, pad: float = 0.3) -> None:
 
 def read_jsonl(p):
     return [json.loads(line) for line in Path(p).read_text().splitlines() if line.strip()]
+
+
+# darker shades used for schematic titles (title colour = darker shade of the glyph fill)
+PASTEL = {"pink": "#F6CFCB", "blue": "#CFE3F6", "grey": "#E3E2E2", "lav": "#E6DAEE", "butter": "#FCEFC7",
+          "sage": "#DDE5C8"}
+DARK = {"blue": "#1B3A6B", "lav": "#4B2A6B", "red": "#8B1E1E", "sage": "#3E5A2A"}

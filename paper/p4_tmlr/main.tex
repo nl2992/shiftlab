@@ -46,7 +46,7 @@
 \maketitle
 
 \begin{abstract}
-A deployed model is to be replaced by a challenger only if the challenger is better, and the evidence comes from a small budget of purchased labels on rounds where the two models disagree. We require that the probability of promoting a challenger that is no better stays below $\alpha$ for every \emph{adaptive} null, in which the challenger's chance of winning a disagreement may change from round to round with the history, as long as it never exceeds one half. Calibrating against the usual i.i.d.\ null is not enough: in our synthetic grid of two-state hidden-Markov alternatives, wherever the two optima differ, the policy that is optimal under the i.i.d.\ null has worst-case risk $2\alpha$ to $4\alpha$ under adaptive nulls. We show that, with one-round label delay, the adaptive-null problem is exactly a dynamic programme on (time, belief, remaining labels, risk budget), where the risk budget is the worst-case probability of ever promoting from the current point. The i.i.d.\ and adaptive problems differ by one constraint: the risk budget may not increase after a label that favours the incumbent. We prove that the value is piecewise linear in the risk budget with breakpoints on the dyadic grid $\{k/2^n\}$, so a finite grid solves the programme exactly, with run time linear in the horizon and exponential in the label budget. The solver (RB-DP) matches 190 certified optima, solves in 0.4\,s a cell on which the previous exact method ran out of time after 3{,}600\,s, and runs to horizon 256. It also measures the cost of adaptive-null safety at long horizons: as a share of the value of information, the premium levels off at 0.05 to 0.37 for label budgets up to 7. On 35 real binary streams (texts, proteins, a geyser and ten model-promotion streams), the fitted models have a positive premium, the i.i.d.-optimal policy breaks the adaptive budget, and RB-DP is never more expensive than six causal-safe baselines in 420 panel settings. In a held-out replay on 9{,}525 real windows from 100 promotion datasets, RB-DP has the lowest mean realised cost among safe policies, tied with a repaired i.i.d.\ planner.
+A deployed model is to be replaced by a challenger only if the challenger is better, and the evidence comes from a small budget of purchased labels on rounds where the two models disagree. We require that the probability of promoting a challenger that is no better stays below $\alpha$ for every \emph{adaptive} null, in which the challenger's chance of winning a disagreement may change from round to round with the history, as long as it never exceeds one half. Calibrating against the usual i.i.d.\ null is not enough: in our synthetic grid of two-state hidden-Markov alternatives, wherever the two optima differ, the policy that is optimal under the i.i.d.\ null has worst-case risk $2\alpha$ to $4\alpha$ under adaptive nulls. We show that, with one-round label delay, the adaptive-null problem is exactly a dynamic programme on (time, belief, remaining labels, risk budget), where the risk budget is the worst-case probability of ever promoting from the current point. The i.i.d.\ and adaptive problems differ by one constraint: the risk budget may not increase after a label that favours the incumbent. We prove that the value is piecewise linear in the risk budget with breakpoints on the dyadic grid $\{k/2^n\}$, so a finite grid solves the programme exactly, with run time linear in the horizon and exponential in the label budget. The solver (RB-DP) matches 190 certified optima, solves in 0.4\,s a cell on which the previous exact method ran out of time after 3{,}600\,s, and runs to horizon 256. It also measures the cost of adaptive-null safety at long horizons: as a share of the value of information, the premium levels off at 0.05 to 0.37 for label budgets up to 7. On 39 real binary streams (texts, proteins, geysers and twelve model-promotion streams), the fitted models have a positive premium, the i.i.d.-optimal policy breaks the adaptive budget, and RB-DP is never more expensive than six causal-safe baselines in 468 panel settings. In a held-out replay on 9{,}525 real windows from 100 promotion datasets, RB-DP has the lowest mean realised cost among safe policies, tied with a repaired i.i.d.\ planner.
 \end{abstract}
 
 %=====================================================================
@@ -69,9 +69,9 @@ Two things were missing to make this usable. First, there was no algorithm that 
 \begin{enumerate}
 \item \textbf{Exact reduction (Theorem~\ref{thm:reduction}).} For one-round label delay and a two-state hidden-Markov alternative, the adaptive-null problem is a Markov decision problem on $(t,\beta,n,w)$: time, alternative belief, remaining labels, and a risk budget $w$, the worst-case probability of ever promoting from here on. The i.i.d.\ problem is the same programme with one constraint removed (Corollary~\ref{cor:oneconstraint}): after a label that favours the incumbent the risk budget may not increase.
 \item \textbf{Dyadic lattice (Theorem~\ref{thm:lattice}).} The value is convex and piecewise linear in $w$ with all breakpoints in $\{k/2^n\}$, $n$ the remaining labels. A grid of $2^B+1$ points is therefore exact (Corollary~\ref{cor:finite}). The only approximation left is belief interpolation, which gives a certified sandwich $L\le V^\star\le U$. Cost is $O(T\,B\,G\,2^B\log 2^B)$ for $G$ belief points.
-\item \textbf{The i.i.d.\ design is unsafe.} Wherever the two optima differ in our synthetic grid, the i.i.d.-optimal policy has worst-case adaptive risk $2\alpha$ to $4\alpha$ (Table~\ref{tab:e4}). On fitted real streams, i.i.d.-calibrated policies break the adaptive budget on 31 of 35 datasets, by up to $8\alpha$ (Section~\ref{sec:real}).
+\item \textbf{The i.i.d.\ design is unsafe.} Wherever the two optima differ in our synthetic grid, the i.i.d.-optimal policy has worst-case adaptive risk $2\alpha$ to $4\alpha$ (Table~\ref{tab:e4}). On fitted real streams, i.i.d.-calibrated policies break the adaptive budget on 35 of 39 datasets, by up to $8\alpha$ (Section~\ref{sec:real}).
 \item \textbf{The premium at long horizons.} RB-DP follows $\rhoG(T)$ to $T=100$ and $T=200$. For every label budget $B\le 6$ and the three anti-persistent chains studied, the premium falls and then levels off at a positive value between 0.05 and 0.33 (Table~\ref{tab:e3}); at $B=7$ ($t=3/4$) it levels at 0.37. These levels agree with closed forms for $B=1$ and respect proved lower bounds for $B\le 6$ and for every fixed $B$ on a small parameter region (Section~\ref{sec:premium}).
-\item \textbf{Real streams.} On 35 real binary streams the fitted models have a positive premium. RB-DP is never more expensive than any of six causal-safe baselines in 420 in-model settings. In a held-out replay on 9{,}525 real windows it has the lowest realised cost of the safe policies, tied with a repaired i.i.d.\ planner (Table~\ref{tab:replay}).
+\item \textbf{Real streams.} On 39 real binary streams the fitted models have a positive premium. RB-DP is never more expensive than any of six causal-safe baselines in 468 in-model settings. In a held-out replay on 9{,}525 real windows it has the lowest realised cost of the safe policies, tied with a repaired i.i.d.\ planner (Table~\ref{tab:replay}).
 \end{enumerate}
 
 \paragraph{Scope.} The exact theory is for label delay $d=1$ and a two-state alternative. We give a $d=2$ extension with a matching upper bound but no lattice theorem (Section~\ref{sec:delay2}). The real-data results are computed under fitted two-state models and in replay of real label sequences; the adversarial null is a safety requirement, not a claim about how any dataset was generated.
@@ -110,6 +110,13 @@ The learner may randomise. Randomisation matters here, as in any chance-constrai
 \label{sec:method}
 
 Throughout this section $d=1$, so at every decision the learner has seen every label it has queried. A \emph{pre-promotion history} $h$ at time $t$ lists past query decisions and released labels; it determines the belief $\beta(h)$ and remaining budget $n(h)$.
+
+\begin{figure}[!tbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_overview.pdf}
+\caption{How RB-DP works (schematic, except where noted). (a) An incumbent and a challenger score the same inputs. Rounds where they agree are dropped. On the disagreements, up to $B$ labels can be bought, which gives a stream such as $Y=0\,0\,?\,?\,1\,?$, where ? means not queried. (b) RB-DP filters a two-state hidden regime with switching probabilities $t_{01}$ and $t_{10}$ and carries the state $(t,\beta,n,w)$, where $w$ is the risk budget. After a query the adversary picks $p\in\{0,1/2\}$ and the budget $w'$ splits into $w_0$ and $w_1$ for the two label branches. The adaptive null adds the cap $w_0\le w'$ (Theorem~\ref{thm:reduction}). The extracted policy gives the sandwich $L\le V^\star\le U$ (Corollary~\ref{cor:sandwich}). (c) Computed: the value of information at $t=1$ with $n=3$ labels left over a grid of beliefs $\beta$ and budgets $w$, from the lattice solver (same cell as Figure~\ref{fig:lattice}). The solid surface is the adaptive null and the pale layer above it the i.i.d.\ null; the gap is the premium. The green path is one simulated run of the extracted policy, with $s_t=(\beta_t,w_t)$ drawn on the surface at $t=1$, $n=3$; the strip in (a) is that run. (d) Computed from the baseline panel (Section~\ref{sec:real}): the i.i.d.-calibrated rules P3, P4 and P5 reach $4\alpha$, $8\alpha$ and $8\alpha$ in the worst case, while P1, P2, P6 and RB-DP (P7) stay within $\alpha$, and RB-DP is never dearer than the six causal-safe baselines in 468 settings. The adversary paths in (d) are drawn for illustration.}
+\label{fig:overview}
+\end{figure}
 
 \subsection{The worst-case risk-to-go}
 
@@ -171,6 +178,13 @@ Let $D_n=\{k/2^n:k=0,\dots,2^n\}$. For $X\in\{\mathrm{causal},\mathrm{IID}\}$ an
 \end{theorem}
 
 The proof (Appendix~\ref{app:lattice}) is a backward induction with three steps. The no-query branch inherits breakpoints from the next layer. In the i.i.d.\ query branch the constraint is tight and $C_Q(w')$ is an infimal convolution of two convex piecewise-linear functions evaluated at $2w'$; its breakpoints are partial sums of piece lengths, all multiples of $2^{-(n-1)}$, so after halving they lie in $D_n$: one query adds one bit. In the adaptive branch the extra cap $w_0\le w'$ binds on a set whose boundary is where the minimising staircase crosses the diagonal $w_0=w_1$, which happens only at points of $D_{n-1}$. Finally, a lower convex hull introduces no new breakpoints.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_lattice.pdf}
+\caption{The value is piecewise linear in $w$ with breakpoints on the dyadic grid. Each curve is the value of information $C_0-W_X(1,\beta_1,n,w)$ from the lattice solver on one cell ($T=6$, $B=3$, both transition probabilities $19/20$, $e_1=1-e_0=49/50$, $\alpha=1/10$, $G=401$), for $n=1,2,3$ labels remaining under the i.i.d.\ null (blue, filled markers) and the adaptive null (red dashed, open markers). Markers are the kinks of each curve. Every kink lies on $\{k/2^n\}$ (grey lines), and the script asserts this. The gap between the curves is the cost of the extra cap $w_0\le w'$. Computed by \texttt{risk\_budget\_dp\_fast.py}.}
+\label{fig:lattice}
+\end{figure}
 
 \begin{corollary}[Exact finite programme]
 \label{cor:finite}
@@ -351,30 +365,37 @@ The real-data study asks two questions. Under models fitted to real binary strea
 
 \paragraph{Streams and fitting.} We fit the two-state model of Section~\ref{sec:setup} by maximum likelihood to each stream and evaluate it with the solver at $d=1$, $T\in\{16,32\}$, $B\in\{1,\dots,4\}$, $\alpha=0.1$, in both label orientations. A dataset counts as supporting when some cell has $\rhoG>10^{-3}$, value of information $C_0-\Vi\ge0.1$, and at most one of five time-shuffles of the stream is also positive. The shuffle control removes temporal structure while keeping the marginal rate. Streams built by differencing a series (``did it rise?'') were excluded after a white-noise control showed that they pass the screen at the same rate as i.i.d.\ Gaussian noise (Appendix~\ref{app:realdetails}).
 
-\subsection{Thirty-five datasets with a positive premium}
+\begin{figure}[!tbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_screen.pdf}
+\caption{Of the 48 sources screened in Phases 10 and 10b, 4 pass and join 35 from earlier phases, giving 39 supporting datasets. (a) Each source becomes one binary stream built from levels only: differenced series are dropped, because white noise passes the screen as often as real streams (2 of 24 against 13 of 150). The icons and snippets are illustrative, but the bit rules are the pipeline's (vowels, hydrophobic residues, gaps above the median). Streams then pass a length and availability check (at least 200 rounds; 35 remain), the two-state fit gates $G_1$ and $G_2$ (17), a premium in some cell (4) and a time-shuffle control (4). $G_1$ requires the fit to beat an i.i.d.\ model on held-out data and $G_2$ requires a valid chain ($e_0<1/2<e_1$, transitions in $[0.01,0.99]$). The 39 datasets give 468 panel settings. (b) Outcome of the 48 sources. (c) The 39 supporting datasets by type. Sources: \texttt{LEDGER\_PHASE10.md}, \texttt{REAL\_CHAINS.md}, \texttt{attempts*.jsonl}, \texttt{phase9\_replay.jsonl}.}
+\label{fig:screen}
+\end{figure}
+
+\subsection{Thirty-nine datasets with a positive premium}
 
 % Source: docs/paper4_continuation/rbdp/real_data/REAL_CHAINS.md (Phases 4b-7).
-The study found 35 supporting datasets (Table~\ref{tab:real35} in Appendix~\ref{app:realdetails}): 18 texts in 18 languages read as vowel/consonant streams, five protein sequences read as hydrophobic/polar streams (four elastins and a spider-silk spidroin), the Old Faithful geyser in two recordings \citep{azzalini1990faithful}, and ten model-promotion streams. In a promotion stream $Y_t=1$ when the challenger is right and the incumbent wrong on a disagreement round, computed from cached paired losses of chronologically trained incumbent and challenger models on standard drift benchmarks (air quality, energy, electricity meters, exchange rates, activity recognition). This is the paper's own setting. All 35 pass the shuffle control with zero of five shuffles positive. The best-cell $\rhoG$ ranges from 0.001 (Tetouan power) to 0.44 (geyser), and in the best cell the i.i.d.-optimal policy's adaptive risk is 0.15 to 0.8 against $\alpha=0.1$. Most supporting streams are anti-persistent ($r_1$ from $-0.56$ to $-0.13$); the spidroin and nine of the ten promotion streams are persistent with noisy emissions and still have a positive premium at $T=32$, $B=4$.
+The study found 39 supporting datasets (Table~\ref{tab:real35} in Appendix~\ref{app:realdetails}): 18 texts in 18 languages read as vowel/consonant streams, five protein sequences read as hydrophobic/polar streams (four elastins and a spider-silk spidroin), the Old Faithful geyser in three recordings \citep{azzalini1990faithful} and the Grand geyser, and twelve model-promotion streams. In a promotion stream $Y_t=1$ when the challenger is right and the incumbent wrong on a disagreement round, computed from cached paired losses of chronologically trained incumbent and challenger models on standard drift benchmarks (air quality, energy, electricity meters and prices, exchange rates, activity recognition, forest cover). This is the paper's own setting. All 39 pass the shuffle control with zero of five shuffles positive. The best-cell $\rhoG$ ranges from 0.001 (Tetouan power) to 0.44 (geyser), and in the best cell the i.i.d.-optimal policy's adaptive risk is 0.15 to 0.8 against $\alpha=0.1$. Most supporting streams are anti-persistent ($r_1$ from $-0.56$ to $-0.13$); the spidroin and eleven of the twelve promotion streams are persistent with noisy emissions and still have a positive premium at $T=32$, $B=4$. Under the same rule we screened 48 further benchmark and alternation sources (drift benchmarks, further OpenML tables, further geysers), and 4 qualified; the covtype, Elec2 and two geyser rows above are those 4. The other 44 were null, too short, rejected by the two-state fit, or unavailable. Streams with $r_1$ near zero show no premium, as Section~\ref{sec:premium} predicts. The screening record for all 48 is in the supplementary material (\texttt{LEDGER\_PHASE10.md}).
 
-\paragraph{Baseline panel.} On each of the 35 fitted chains we ran seven policies over 12 settings ($T\in\{16,32\}$, $B\in\{2,3,4\}$, $\alpha\in\{0.05,0.1\}$; 420 settings), with exact cost and exact worst-case adaptive risk: P1 fixed-sample test, P2 count SPRT \citep{wald1945sequential}, P3 HMM-filter threshold, P4 myopic value-of-information rule, P5 i.i.d.-optimal planner, P6 e-process gate, and P7 RB-DP. P3 to P5 are calibrated to the i.i.d.\ null as a practitioner would. We then added causal-safe versions of the three i.i.d.-calibrated rules: P3c and P4c recalibrated to exact adaptive risk $\alpha$, and P5r, the cheaper of a deflated-level re-solve and mixing with never-promote.
+\paragraph{Baseline panel.} On each of the 39 fitted chains we ran seven policies over 12 settings ($T\in\{16,32\}$, $B\in\{2,3,4\}$, $\alpha\in\{0.05,0.1\}$; 468 settings), with exact cost and exact worst-case adaptive risk: P1 fixed-sample test, P2 count SPRT \citep{wald1945sequential}, P3 HMM-filter threshold, P4 myopic value-of-information rule, P5 i.i.d.-optimal planner, P6 e-process gate, and P7 RB-DP. P3 to P5 are calibrated to the i.i.d.\ null as a practitioner would. We then added causal-safe versions of the three i.i.d.-calibrated rules: P3c and P4c recalibrated to exact adaptive risk $\alpha$, and P5r, the cheaper of a deflated-level re-solve and mixing with never-promote.
 
 % Source: REAL_CHAINS.md, Phase 7 T16/32 panel and Phase 9 panel.
 \begin{itemize}
-\item \textbf{Safety.} RB-DP, P1, P2, P6 and the repaired P3c, P4c, P5r are causal-safe in all 420 settings. The i.i.d.-calibrated P3, P4, P5 break the adaptive budget on 31 of 35 datasets, with worst cases $4\alpha$, $4\alpha$ and $8\alpha$ (geyser); they violate it in 300, 280 and 262 settings.
-\item \textbf{Cost.} Against the best of the six safe baselines per setting, RB-DP is cheaper in 186, ties in 234 and is more expensive in 0. The median share of RB-DP's value of information captured by the recalibrated rules is 0.29 (P3c), 0.34 (P4c) and 0.60 (P5r).
+\item \textbf{Safety.} RB-DP, P1, P2, P6 and the repaired P3c, P4c, P5r are causal-safe in all 468 settings. The i.i.d.-calibrated P3, P4, P5 break the adaptive budget on 35 of 39 datasets, with worst cases $4\alpha$, $8\alpha$ and $8\alpha$ (geysers); they violate it in 324, 304 and 288 settings.
+\item \textbf{Cost.} Against the best of the six safe baselines per setting, RB-DP is cheaper in 212, ties in 256 and is more expensive in 0. The median share of RB-DP's value of information captured by the recalibrated rules is 0.29 (P3c), 0.35 (P4c) and 0.60 (P5r).
 \end{itemize}
 Since RB-DP is optimal in the fitted model, it cannot lose in-model; the panel measures by how much the alternatives fall short. Figure~\ref{fig:real}(a) shows the worst adaptive risk per dataset for each policy.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_real.pdf}
-\caption{Real streams. (a) For each of the 35 fitted chains, the largest worst-case adaptive risk over the 12 panel settings, in units of $\alpha$ (log scale, points jittered). RB-DP (P7, blue) and the safe baselines P1, P2, P6 sit at $\alpha$; the i.i.d.-calibrated rules P3, P4, P5 exceed it on 31 of 35 datasets, by up to $8\alpha$. (b) Held-out replay: pooled mean realised cost per window of the safe policies with 95\% window-bootstrap intervals (2{,}000 resamples, seed 20261119). P4c (15.83) is off the scale and omitted. Sources: \texttt{phase7\_baselines\_T16\_32/settings.jsonl}, \texttt{phase9\_replay.jsonl}.}
+\caption{Real streams. (a) For each of the 39 fitted chains, the largest worst-case adaptive risk over the 12 panel settings, in units of $\alpha$ (log scale, points jittered). RB-DP (P7, blue) and the safe baselines P1, P2, P6 sit at $\alpha$; the i.i.d.-calibrated rules P3, P4, P5 exceed it on 35 of 39 datasets, by up to $8\alpha$. (b) Held-out replay: pooled mean realised cost per window of the safe policies with 95\% window-bootstrap intervals (2{,}000 resamples, seed 20261119). P4c (15.83) is off the scale and omitted. Sources: \texttt{phase7\_baselines\_T16\_32/settings.jsonl}, \texttt{phase10\_baselines/settings.jsonl}, \texttt{phase9\_replay.jsonl}.}
 \label{fig:real}
 \end{figure}
 
 \subsection{Census and held-out replay on promotion streams}
 
-The 35 datasets were selected by the premium screen. To see what happens on promotion streams in general, we ran two further analyses over the whole inventory of 114 cached promotion datasets, fitting each model on the first half of each dataset's episodes only.
+The 39 datasets were selected by the premium screen. To see what happens on promotion streams in general, we ran two further analyses over the whole inventory of 114 cached promotion datasets, fitting each model on the first half of each dataset's episodes only.
 
 \paragraph{Census.} Of the 102 datasets with enough fit-set rounds, the value of information is large (median 1.29, 90th percentile 8.5), the premium is mostly zero (median $\rhoG=0$; 11 of 102 above $10^{-3}$, mostly exchange-rate pairs), and the i.i.d.-optimal policy's adaptive risk is at $\alpha$ for most datasets (75th percentile 0.10, 90th percentile 0.145, maximum 0.40). Promotion streams are mostly persistent (median $r_1=+0.30$): the challenger's advantage comes in runs, and Section~\ref{sec:premium} predicts little premium for such regimes.
 
@@ -613,13 +634,13 @@ $T$ & chain & $B$ & $c,k$ & VOI RB-DP & repair & e-gate & i.i.d.-opt VOI & risk$
 \section{Real-stream details}
 \label{app:realdetails}
 
-\paragraph{Sources.} Texts are public-domain books from Project Gutenberg, read as vowel (1) / consonant (0) streams of 3{,}000 letters. Proteins are UniProt sequences read as hydrophobic/polar streams. The geyser streams are waiting times above 70 minutes in the \texttt{faithful} and \texttt{geyser} datasets. Promotion streams are challenger-wins indicators on disagreement rounds of cached paired 0/1 losses from chronological incumbent/challenger runs (3{,}000 disagreement rounds each). \draftnote{add exact Gutenberg ids for all texts, UniProt accessions, and dataset citations for the promotion benchmarks; recover provenance for openml\_ldpa}
+\paragraph{Sources.} Texts are public-domain books from Project Gutenberg (ebook numbers in parentheses), read as vowel (1) / consonant (0) streams of 3{,}000 letters: English (1342), French (78027), German (78079), Spanish (61851), Italian (61885), Portuguese (62383), Dutch (76280), Swedish (65580), Danish (24747), Finnish (78071), Hungarian (41504), Polish (31536), Czech (13083), Latin (227), Romanian (35323), Catalan (78123), Esperanto (78054) and Welsh (9842). Proteins are UniProt sequences read as hydrophobic/polar streams: elastin from human (P15502), cow (P04985), chicken (P07916) and sheep (P11547), and spidroin-2 from \emph{Trichonephila clavipes} (P46804). The geyser streams are waiting times above 70 minutes in the \texttt{faithful} \citep{azzalini1990faithful} and \texttt{geyser} datasets of the R packages \texttt{datasets} and \texttt{MASS}. The two further geyser streams come from the GeyserTimes archive (\texttt{geysertimes.org/archive/geysers}, per-geyser eruption files for Old Faithful and Grand): the stream is 1 when an inter-eruption interval exceeds the median of the first 3{,}000 used intervals. We keep only eruptions whose primary ID equals the eruption ID, that are not approximated (A=0) and not questionable (q=0), and we drop intervals longer than three times the geyser's median interval, since they span unobserved eruptions; Old Faithful is restricted to eruptions from 1 January 2020 on, an independent recent recording of the same geyser. Promotion streams are challenger-wins indicators on disagreement rounds of cached paired 0/1 losses from chronological incumbent/challenger runs (3{,}000 disagreement rounds each). The underlying tables are public: \texttt{openml\_ldpa} is OpenML data id 1483 (localisation data for person activity); \texttt{appliances} is the UCI Appliances Energy Prediction data; \texttt{beijing\_pm25} is UCI Beijing PM2.5 (id 381); PM2.5 Shanghai and Shenyang come from UCI PM2.5 Data of Five Chinese Cities (id 394); the electricity meters come from UCI ElectricityLoadDiagrams20112014 (id 321); Tetouan power zone 1 is UCI Tetouan City Power Consumption (id 849); \texttt{FOREX aud/sgd} is the hourly close series on OpenML (data id 41762); \texttt{covtype} is the UCI Covertype data (\texttt{covtype.data.gz}) in its published row order; and Elec2 is the New South Wales electricity data on OpenML (\texttt{electricity}, data id 151).
 
 \paragraph{The white-noise control.} An earlier screen of 640 streams from public R datasets found 13 qualifying streams, all of the form ``did the series rise?''. The sign of the increment of an i.i.d.\ series is anti-persistent by construction (lag-1 autocorrelation near $-1/3$). We formed the same streams from 24 i.i.d.\ Gaussian series and ran the identical screen: 8\% were positive and non-degenerate, against 8.7\% for the real streams. Those 13 streams are therefore not counted.
 
-% Source: docs/paper4_continuation/rbdp/real_data/REAL_CHAINS.md, Phases 4b, 5, 6, 7.
+% Source: generated by make_tables.py from docs/paper4_continuation/rbdp/real_data/results/attempts*.jsonl.
 \begin{longtable}{llrrrr}
-\caption{The 35 supporting datasets. $r_1$: lag-1 autocorrelation of the stream; best $\rhoG$ over the evaluated cells (cell in parentheses); adaptive risk of the i.i.d.-optimal policy in that cell ($\alpha=0.1$; a range means it differs across the cells shown). All 35 have 0 of 5 positive shuffles.}
+\caption{The 39 supporting datasets. $r_1$: lag-1 autocorrelation of the stream; best $\rhoG$ over the evaluated cells (cell in parentheses); adaptive risk of the i.i.d.-optimal policy in that cell ($\alpha=0.1$). Rows are generated by \texttt{make\_tables.py} from the Phase 4b--10 result files. All 39 have 0 of 5 positive shuffles.}
 \label{tab:real35}\\
 \toprule
 dataset & type & $n$ & $r_1$ & best $\rhoG$ (cell) & i.i.d.-opt risk\\
@@ -629,16 +650,17 @@ dataset & type & $n$ & $r_1$ & best $\rhoG$ (cell) & i.i.d.-opt risk\\
 dataset & type & $n$ & $r_1$ & best $\rhoG$ (cell) & i.i.d.-opt risk\\
 \midrule
 \endhead
+% BEGIN real35 (generated by make_tables.py --write)
 English & text & 3000 & $-0.383$ & 0.200 (T16 B4) & 0.325\\
 French & text & 3000 & $-0.366$ & 0.346 (T16 B4) & 0.325\\
 German & text & 3000 & $-0.347$ & 0.150 (T16 B3) & 0.2\\
-Spanish & text & 3000 & $-0.534$ & 0.415 (T32 B4) & 0.325--0.4\\
-Italian & text & 3000 & $-0.488$ & 0.414 (T32 B4) & 0.325--0.4\\
+Spanish & text & 3000 & $-0.534$ & 0.415 (T32 B4) & 0.325\\
+Italian & text & 3000 & $-0.488$ & 0.414 (T32 B4) & 0.325\\
 Portuguese & text & 3000 & $-0.432$ & 0.200 (T16 B4) & 0.4\\
 Dutch & text & 3000 & $-0.346$ & 0.201 (T16 B4) & 0.325\\
 Swedish & text & 3000 & $-0.489$ & 0.111 (T16 B3) & 0.2\\
 Danish & text & 3000 & $-0.398$ & 0.139 (T16 B3) & 0.2\\
-Finnish & text & 3000 & $-0.423$ & 0.340 (T32 B4) & 0.325--0.4\\
+Finnish & text & 3000 & $-0.423$ & 0.340 (T32 B4) & 0.325\\
 Hungarian & text & 3000 & $-0.554$ & 0.348 (T16 B4) & 0.325\\
 Polish & text & 3000 & $-0.398$ & 0.203 (T16 B4) & 0.325\\
 Czech & text & 3000 & $-0.384$ & 0.162 (T16 B4) & 0.325\\
@@ -656,6 +678,8 @@ Spidroin-2 & protein & 627 & $+0.530$ & 0.176 (T32 B4) & 0.5\\
 \midrule
 faithful, waiting $>70$ & geyser & 272 & $-0.498$ & 0.310 (T16 B4) & 0.325\\
 geyser, waiting $>70$ & geyser & 299 & $-0.562$ & 0.440 (T16 B4) & 0.8\\
+Old Faithful, 2020 on, interval $>$ median & geyser & 3000 & $-0.267$ & 0.279 (T32 B4) & 0.325\\
+Grand geyser, interval $>$ median & geyser & 3000 & $-0.179$ & 0.299 (T16 B4) & 0.4\\
 \midrule
 openml\_ldpa & promotion & 3000 & $+0.598$ & 0.114 (T32 B4) & 0.25\\
 appliances & promotion & 3000 & $+0.706$ & 0.039 (T32 B4) & 0.3\\
@@ -667,6 +691,9 @@ electricity MT\_029 & promotion & 3000 & $+0.682$ & 0.024 (T32 B4) & 0.15\\
 PM2.5 Shanghai & promotion & 3000 & $+0.689$ & 0.012 (T32 B4) & 0.3\\
 PM2.5 Shenyang & promotion & 3000 & $+0.664$ & 0.012 (T32 B4) & 0.3\\
 Tetouan power, zone 1 & promotion & 3000 & $+0.802$ & 0.001 (T32 B4) & 0.15\\
+covtype & promotion & 3000 & $+0.787$ & 0.022 (T32 B4) & 0.15\\
+Elec2 (NSW electricity) & promotion & 3000 & $+0.697$ & 0.029 (T32 B4) & 0.3\\
+% END real35
 \bottomrule
 \end{longtable}
 

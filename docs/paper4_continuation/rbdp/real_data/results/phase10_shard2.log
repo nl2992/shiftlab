@@ -1,0 +1,24 @@
+21:01:06 B:poker x=1 n 3000 r1 -0.015 pos False None
+21:03:07 B:poker 1-x n 3000 r1 -0.015 pos False None
+21:03:07 DONE B:poker evaluated positive False TALLY 35
+21:03:10 family B finished; tally 35
+21:03:37 Bext:electricity x=1 n 3000 r1 0.697 pos False None
+21:14:08 Bext:electricity 1-x n 3000 r1 0.697 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.02867728647421541, 'C0': 10.010141943445658, 'U_iid': 9.543795896561633, 'risk_causal_of_iid_policy': 0.30000000000000004}
+21:14:08 DONE Bext:electricity evaluated positive True TALLY 36
+21:14:14 Bext:PhishingWebsites x=1 n 575 r1 0.176 pos False None
+21:14:15 Bext:PhishingWebsites 1-x n 575 r1 0.176 pos False None
+21:14:15 DONE Bext:PhishingWebsites evaluated positive False TALLY 36
+21:15:22 Bext:default-of-credit-card-clients x=1 n 937 r1 -0.027 pos False None
+21:16:06 Bext:default-of-credit-card-clients 1-x n 937 r1 -0.027 pos False None
+21:16:06 DONE Bext:default-of-credit-card-clients evaluated positive False TALLY 36
+21:16:13 family Bext finished; tally 36
+21:16:16 DONE C:numerai28.6 fetch failed positive False TALLY 36
+21:16:25 DONE C:Amazon_employee_access fetch failed positive False TALLY 36
+21:18:32 C:Diabetes130US x=1 n 3000 r1 0.020 pos False None
+21:20:32 C:Diabetes130US 1-x n 3000 r1 0.020 pos False None
+21:20:32 DONE C:Diabetes130US evaluated positive False TALLY 36
+21:20:39 C:ailerons x=1 n 430 r1 0.042 pos False None
+21:20:45 C:ailerons 1-x n 430 r1 0.042 pos False None
+21:20:45 DONE C:ailerons evaluated positive False TALLY 36
+21:20:45 family C finished; tally 36
+21:20:45 lists exhausted; final tally 36

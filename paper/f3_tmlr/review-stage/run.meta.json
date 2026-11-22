@@ -1,0 +1,15 @@
+{
+  "skill": "auto-paper-improvement-loop",
+  "run_id": "2026-11-17_run01",
+  "started_at": "2026-11-17T09:35:35.025122+00:00",
+  "executor": "codex",
+  "executor_model": null,
+  "executor_family": "openai",
+  "executor_model_source": "unavailable",
+  "reviewer_backend": "codex",
+  "project_dir": "/Users/nigelli/Desktop/ICML/shift-paper3-f3",
+  "round1_review_scope": "Appendix C onward omitted to avoid protected confirmation seed block; visual review PDF includes pages 1-21 only.",
+  "round2_review_scope": "Fresh reviewer; full manuscript source and all 32 pages of the pre-final PDF, including appendices. No research code, data, registries, or sealed material opened.",
+  "final_build_pages": 31,
+  "final_build_status": "successful; no undefined references/citations or duplicate labels"
+}

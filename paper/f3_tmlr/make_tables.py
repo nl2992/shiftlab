@@ -565,13 +565,17 @@ import csv
 inv = {r["name"]: r for r in csv.DictReader(open(PROG / "02_DATASET_INVENTORY.csv"))}
 order = ["airlines", "bank", "criteo", "elec2", "openml_ldpa", "rialto", "spam", "uci_occupancy", "weather",
          "metro", "beijing_pm25", "bike_hour", "appliances", "household_power"]
-src_atlas = {"airlines": "OpenML 1169", "bank": "UCI 222", "criteo": "not in the inventory", "elec2": "OpenML electricity-normalized",
+src_atlas = {"airlines": "OpenML 1169", "bank": "UCI 222", "criteo": "Criteo attribution", "elec2": "OpenML electricity-normalized",
              "openml_ldpa": "not in the inventory", "rialto": "Losing mirror", "spam": "Katakis spam stream",
              "uci_occupancy": "not in the inventory", "weather": "Elwell-Polikar Offutt AFB"}
+task_atlas = {"criteo": "click prediction"}
+models_atlas = {"airlines": "LR / HGB", "bank": "LR / LR", "criteo": "LR / gradient boosting",
+                "elec2": "LR / gradient boosting", "rialto": "LR / HGB", "spam": "LR / LR",
+                "weather": "LR / HGB"}
 task_sprint = {"metro": "traffic volume above median", "beijing_pm25": "PM2.5 above median",
                "bike_hour": "rental count above median", "appliances": "appliance energy use above median",
                "household_power": "global active power above median"}
-rows, tot_ep = [], 0
+prov_rows, stats_rows, tot_ep = [], [], 0
 for n in order:
     d, dv = dl_map[n]
     z = np.load(ROOT / "data" / ("atlas_v2_losses" if d == "ATLAS_DIR" else "sprint_fresh_losses") / f"{n}.npz")
@@ -579,19 +583,24 @@ for n in order:
     K = l0.shape[0]; tot_ep += K
     assert l0.shape[1] == 2000
     if d == "ATLAS_DIR":
-        task = inv[n]["task"] if n in inv else "not in the inventory"
+        task = task_atlas.get(n, inv[n]["task"] if n in inv else "not recorded")
         source = src_atlas[n]
-        models = "not documented"
+        models = models_atlas.get(n, "not recorded")
     else:
         task = task_sprint[n]; source = f"UCI {sprint_id[n]}"
         models = "LR / HGB"
-    rows.append(f"{tex(n)} & {tex(task)} & {tex(source)} & {models} & {K} & {dv} & {l0.mean():.3f} & {l1.mean():.3f} & {(l0 != l1).mean():.3f} & {'worse' if l1.mean() > l0.mean() else 'better'} \\\\")
+    prov_rows.append(f"{tex(n)} & {tex(task)} & {tex(source)} & {models} \\\\")
+    stats_rows.append(f"{tex(n)} & {K} & {dv} & {l0.mean():.3f} & {l1.mean():.3f} & {(l0 != l1).mean():.3f} & {'worse' if l1.mean() > l0.mean() else 'better'} \\\\")
 assert tot_ep == 230, tot_ep
 mac("NStreamEpisodes", tot_ep)
-body = ("\\begin{tabular}{@{}p{2.2cm}p{3.0cm}p{2.5cm}lrrrrrl@{}}\n\\toprule\n"
-        "stream & task (binary) & source & models (inc. / chall.) & ep. & delay & inc. err. & chall. err. & disagr. & challenger \\\\\n\\midrule\n"
-        + "\n".join(rows[:9]) + "\n\\midrule\n" + "\n".join(rows[9:]) + "\n\\bottomrule\n\\end{tabular}\n")
-write("app_streams_desc.tex", body)
+prov = ("\\begin{tabular}{@{}p{2.5cm}p{4.1cm}p{3.6cm}p{3.4cm}@{}}\n\\toprule\n"
+        "Stream & Task & Source & Incumbent / challenger \\\\\n\\midrule\n"
+        + "\n".join(prov_rows[:9]) + "\n\\midrule\n" + "\n".join(prov_rows[9:]) + "\n\\bottomrule\n\\end{tabular}\n")
+stats = ("\\begin{tabular}{@{}l r r r r r l@{}}\n\\toprule\n"
+         "Stream & Episodes & Delay & Inc. err. & Chall. err. & Disagr. & Better loss \\\\\n\\midrule\n"
+         + "\n".join(stats_rows[:9]) + "\n\\midrule\n" + "\n".join(stats_rows[9:]) + "\n\\bottomrule\n\\end{tabular}\n")
+write("app_stream_provenance.tex", prov)
+write("app_streams_desc.tex", stats)
 
 # ---- compute (ledger wall-clock per stage)
 led = [json.loads(l) for l in open(PROG / "ledger/riskbudget.jsonl")]

@@ -1,0 +1,25 @@
+{
+  "call_number": 1,
+  "purpose": "round-1-review",
+  "tool": "collaboration.spawn_agent",
+  "backend": "codex",
+  "requested_reviewer_model": "gpt-6-astra",
+  "reported_reviewer_model": null,
+  "reviewer_model_source": "unknown",
+  "requested_effort": "xhigh",
+  "reported_effort": null,
+  "review_independence": "unknown",
+  "acceptance_status": "provisional",
+  "review_completed": true,
+  "review_scope_complete": false,
+  "review_positive": false,
+  "verdict": "Almost",
+  "files_referenced": [
+    "paper/f3_tmlr/review-stage/main_for_review.tex",
+    "paper/f3_tmlr/review-stage/main_visual_review.pdf (pages 1-21, numeric order)",
+    "paper/f3_tmlr/tables/",
+    "paper/f3_tmlr/figures/"
+  ],
+  "review_scope_note": "Appendix protocol material and PDF pages 22 onward were excluded by explicit user constraint.",
+  "prompt": "Review the Paper 3 TMLR draft as a senior ML reviewer. Read only the supplied sanitized source, included tables, and visual-review PDF pages 1-21; inspect figures as needed. Do not open the original main.tex, original main.pdf, or omitted appendix material, especially any seed/protocol material. Return score, summary, ranked strengths and weaknesses, actionable major fixes, missing references, visual review, and Yes/Almost/No verdict. Judge claim calibration both ways; flag overclaims, narrative/repetition, self-containedness, notation and visual presentation. Do not propose new experiments or numerical changes; record new evidence requests as open items."
+}

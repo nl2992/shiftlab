@@ -1,0 +1,41 @@
+{
+  "round": 4,
+  "requested_model": "gpt-6-astra",
+  "requested_reasoning_effort": "xhigh",
+  "review_mode": "fresh manuscript-only review",
+  "fresh_context": true,
+  "bias_guard": "Do not use, seek, or infer any earlier review or revision context; judge only the current paper source and compiled PDF.",
+  "scope": {
+    "manuscript_source": "paper/f3_tmlr/main.tex",
+    "included_material": "All files input from tables/ and figures/ that form part of the manuscript, plus the bibliography as needed",
+    "compiled_pdf": "paper/f3_tmlr/main.pdf",
+    "pdf_inspection": "Every page, including appendices",
+    "review_type": "Writing and visual review only"
+  },
+  "restrictions": {
+    "excluded_file": "paper/f3_tmlr/table_real48.tex",
+    "research_code_access": false,
+    "underlying_data_access": false,
+    "experiments_or_protected_confirmation_seeds": false,
+    "sealed_group_access": false,
+    "sealed_group": "civic_records_sealed",
+    "preserve": "All negative results, scope limitations, facts and numerics",
+    "unknown_reporting_details": "Record as open items rather than inferring that the manuscript fails to specify them",
+    "new_experiments_as_fixes": false
+  },
+  "requested_output": [
+    "Overall score from 1 to 10, with 6 weak accept and 7 accept",
+    "Verdict: Ready, Almost, or No",
+    "Brief summary",
+    "Ranked strengths",
+    "Ranked critical, major, and minor weaknesses",
+    "Actionable writing-only fixes for critical and major weaknesses",
+    "Missing references, if any, without speculative citation changes",
+    "Visual review of figure readability, caption match, layout, float placement, table sizing, and style",
+    "Claim calibration in both directions",
+    "Specific opportunities in calibration documentation, stream provenance wording, visual polish, float placement, and repetition",
+    "File, section, and page anchors"
+  ],
+  "reviewer_independence": "same-family",
+  "acceptance_status": "provisional"
+}

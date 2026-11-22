@@ -1,0 +1,36 @@
+{
+  "call_number": 3,
+  "purpose": "round-3-review",
+  "timestamp": "2026-11-18T23:38:59Z",
+  "tool": "collaboration.spawn_agent",
+  "backend": "codex",
+  "route_source": "host-default",
+  "transport": "native",
+  "requested_reviewer_model": "gpt-6-astra",
+  "reported_reviewer_model": null,
+  "reviewer_model_source": "unknown",
+  "requested_effort": "xhigh",
+  "reported_effort": null,
+  "review_independence": "unknown",
+  "acceptance_status": "provisional",
+  "review_completed": true,
+  "review_scope_complete": true,
+  "review_positive": true,
+  "verdict": "Almost",
+  "score": 6,
+  "files_referenced": [
+    "paper/f3_tmlr/main.tex",
+    "paper/f3_tmlr/main.pdf",
+    "paper/f3_tmlr/refs.bib",
+    "paper/f3_tmlr/math_commands.tex",
+    "paper/f3_tmlr/tables/ (included manuscript sources)",
+    "paper/f3_tmlr/figures/ (included wrappers and exports)"
+  ],
+  "exclusions": [
+    "paper/f3_tmlr/table_real48.tex",
+    "protected confirmation block (seeds 5303...)",
+    "civic_records_sealed data",
+    "implementation code, experiment outputs, prior reviews, logs, and Git history"
+  ],
+  "prompt": "You are a senior machine-learning reviewer evaluating a TMLR manuscript. This is a fresh, zero-context review. Read the complete LaTeX manuscript and compiled PDF directly, including appendices, tables, figures, and bibliography. Do not inspect prior review rounds, improvement logs/state, Git history, implementation code, or experiment outputs. Do not open paper/f3_tmlr/table_real48.tex. Do not run any code, experiments, or access data; in particular do not open the protected confirmation block (seeds 5303...) or the sealed group civic_records_sealed. The paper text may be read, including discussion of seed ranges.\n\nReview claim calibration in both directions, theory/assumptions, evidence alignment, clarity, self-containedness, notation, citations (do not browse), and visual presentation. Preserve unfavorable evidence. Flag unsupported claims and required writing-only fixes. Do not ask for new experiments as a prerequisite; list any needed evidence separately as open. Assess every PDF page visually, including appendices.\n\nRead directly: main.tex, main.pdf, refs.bib, math_commands.tex, all included table source files under tables/, and included figure wrappers/exports under figures/. Return a complete structured review: score (1-10; 6 weak accept, 7 accept), verdict (Ready / Almost / No), summary, ranked strengths, ranked CRITICAL/MAJOR/MINOR weaknesses with exact locations and actionable writing fixes, missing references if any, page-specific visual review, and whether complete scope was reviewed. Do not report model identity unless runtime exposes it."
+}

@@ -1,0 +1,22 @@
+{
+  "call_number": 3,
+  "purpose": "round-3-review",
+  "agent_name": "/root/round3_reviewer",
+  "requested_reviewer_model": "gpt-6-astra",
+  "reported_reviewer_model": null,
+  "reviewer_model_source": "unknown",
+  "requested_effort": "xhigh",
+  "reported_effort": null,
+  "model_family": null,
+  "executor_model": null,
+  "executor_model_source": "unavailable",
+  "review_independence": "unknown",
+  "acceptance_status": "provisional",
+  "review_completed": true,
+  "review_scope_complete": true,
+  "review_positive": true,
+  "verdict": "Almost",
+  "score": 6,
+  "status": "ok",
+  "scope_note": "Fresh zero-context Codex native review. Reviewer read full source and all 31 PDF pages including appendices. Protected data and excluded table were not opened or run. Runtime model identity unavailable."
+}

@@ -1,0 +1,32 @@
+{
+  "current_round": 6,
+  "last_score": 7,
+  "status": "completed",
+  "timestamp": "2026-11-21T08:41:18Z",
+  "run_id": "2026-11-17_run01",
+  "round1_verdict": "Almost",
+  "round2_verdict": "Almost",
+  "round3_verdict": "Almost",
+  "round4_score": 7,
+  "round4_verdict": "Almost",
+  "round5_score": 7,
+  "round5_verdict": "Almost",
+  "review_independence": "same-family",
+  "acceptance_status": "provisional",
+  "review_scope_complete": true,
+  "final_pdf_pages": 35,
+  "reviewer_backend": "codex",
+  "requested_reviewer_model": "gpt-6-astra",
+  "reported_reviewer_model": null,
+  "requested_effort": "xhigh",
+  "reported_effort": null,
+  "round6_score": 7,
+  "round6_verdict": "Almost",
+  "pre_fix_review_pdf_pages": 36,
+  "build_method": "latexmk direct compile from existing generated tables; build.sh skipped because make_tables.py reads protected confirmation summary",
+  "round6_review_artifacts": {
+    "request": "review-stage/round6.request.json",
+    "response": "review-stage/round6.response.md",
+    "metadata": "review-stage/round6.meta.json"
+  }
+}

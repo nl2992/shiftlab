@@ -9,8 +9,18 @@ Scope: writing and presentation changes under `paper/f3_tmlr/` only. No experime
 |---|---|---|---|
 | 1 | **6/10 — weak accept; Almost** | Sanitized source and PDF pages 1–21; appendix omitted. | `review_independence: unknown`; `acceptance_status: provisional` (reviewer model identity unavailable). |
 | 2 | **6/10 — weak accept; Almost** | Fresh-context review of the full manuscript source and all 32 pages of the then-current PDF, including appendices, tables, figures, and bibliography. No research code, data, registries, or sealed material was opened. | Bias guard used; `review_independence: unknown`; `acceptance_status: provisional` (reviewer model identity unavailable). |
+| 3 | **6/10 — weak accept; Almost** | Fresh zero-context review of full source, included tables/figures, bibliography, and all 31 pages of the pre-fix PDF. No code, results, data, prohibited table, or protected resource was opened. | Bias guard used; `review_independence: unknown`; `acceptance_status: provisional` (runtime reviewer identity unavailable). |
+| 4 | **7/10 — accept; Almost** | Fresh zero-context review of full manuscript, all included table/figure sources, bibliography, and all 33 pages of the pre-fix PDF. No research code, data, protected confirmation block, sealed group, or excluded table was opened. | Bias guard used; `review_independence: same-family`; `acceptance_status: provisional` (reviewer model identity unavailable). |
+| 5 | **7/10 — accept; Almost** | Fresh zero-context review of the full manuscript, included sources, and all 34 pages of the pre-fix PDF, including appendices. No code, data, protected confirmation block, sealed group, or excluded table was opened. | Bias guard used; `review_independence: same-family`; `acceptance_status: provisional`. |
+| 6 | **7/10 — weak accept; Almost** | Fresh bias-guarded review of the full manuscript source, 30 direct TeX inputs, bibliography, and all 36 pre-fix PDF pages, including appendices and references. No prior-round material or research artifacts were opened. | `review_independence: same-family`; `acceptance_status: provisional` (runtime reviewer identity not independently verified; not an external acceptance review). |
 
-Round 2 was the final review round. The final rebuilt PDF is 31 pages after float and layout adjustments; this is distinct from the 32-page PDF read by the reviewer.
+Round 3 was run as an explicitly requested extension beyond the original two-round loop. The reviewer saw no prior-round context. Its complete response and metadata are in `review-stage/round3.response.md` and `review-stage/round3.meta.json`. The reviewer returned 6/10, Almost; identity was unavailable, so independence and acceptance remain unknown/provisional.
+
+Round 4 was run as the requested continuation. The fresh reviewer had no earlier-round context and reviewed the entire manuscript and PDF. Its full response and request/metadata are in `review-stage/round4.response.md`, `review-stage/round4.request.json`, and `review-stage/round4.meta.json`. The reviewer returned 7/10, Almost, with no critical flaw identified. Reviewer identity was unavailable; the review is classified same-family and acceptance remains provisional.
+
+Round 5 was run with the bias guard enabled and no earlier-round context in the reviewer prompt. The reviewer read the full manuscript, included source files, and all 34 pre-fix PDF pages. The full report and request/metadata are in `review-stage/round5.response.md`, `review-stage/round5.request.json`, and `review-stage/round5.meta.json`. The reviewer returned 7/10 — accept; Almost, with no critical flaw. The requested reviewer was GPT-6-Astra at xhigh; runtime identity is not independently verifiable. Independence is classified same-family and acceptance remains provisional.
+
+Round 6 used a fresh reviewer prompt with bias guard enabled and no earlier-round context. The reviewer read the entire pre-fix source and PDF. The report and request/metadata are in `review-stage/round6.response.md`, `review-stage/round6.request.json`, and `review-stage/round6.meta.json`. The reviewer returned 7/10 — weak accept; Almost. The requested model and effort were GPT-6-Astra and xhigh; runtime identity is not independently verifiable. The review is same-family and acceptance remains provisional, not an external acceptance judgment.
 
 ## Fixes applied
 
@@ -35,15 +45,81 @@ Round 2 was the final review round. The final rebuilt PDF is 31 pages after floa
 - Removed the unsupported low-misuse-risk claim; clarified exposure-ratio criteria, adverse-delay scope, and captions for the mechanism, regime-map, and cost-tail figures.
 - Grouped appendix floats with their protocol/results discussion and revised generated regime labels and table captions for readability. The three duplicate appendix tables intentionally removed by the author between rounds remain removed.
 
-## Open items
+### Round 3 fixes
 
-- **Objective definition:** recover from the existing analysis record and document a complete equation for empirical `J`, including the charged compute quantity and fixed coefficient, and distinguish its components from shadow-model compute excluded from `H`. No missing coefficient or accounting rule was inferred from results.
-- **Exposure-ratio and calibration documentation:** document the 47-regime family, the six registered decision rules, cluster counts versus analysis-unit counts, calibration grids and acceptance rule, fallback when no threshold passes, and headroom transfer from existing records. These were not reconstructed from outcomes.
-- **Provenance evidence:** recover existing model identities, training windows, and task/source records for the legacy streams where available. Do not treat cached paired-loss replays as end-to-end reproducible model studies.
-- **Citations:** add dataset citations only after verifying the relevant public records. No citation was added in this writing-only run.
-- **Remaining visual polish:** further improve the legibility/density of appendix real-stream tables and small Figure 2/3 labels/comparators. The last-page table placement improved, but appendix table typography and figure readability remain possible presentation work.
+- Qualified the abstract's reserve lower bound by the first-promotion probability event, rollback-branch condition, sufficient horizon, feedback-blind window, and all-harm/full-sampling attainment; retained the plain-language abstract rewrite.
+- Preserved the author's edits defining the empirical objective `J`, its label and switching charges, optional compute fee, and exclusion of shadow-model serving cost. The existing writing gap in `J` is resolved in the manuscript.
+- Recast calibration claims as results for the tested settings against a nominal per-regime target; replaced class-wide CUSUM impossibility language with a statement about tested thresholds. The unspecified selection rule and search details remain explicit limitations.
+- Clarified that the real-stream disagreement rate in the exposure map is the stream-wide fraction used as a proxy for deployed exposure. Stated that the 47-regime family, v3 grid/selection rule, and exposure-regression aggregation are not fully specified in the paper.
+- Added the registered C4 cost tolerance to the confirmation-table caption; corrected pooled real-stream captions to identify equal-stream cost summaries and raw run counts at both comparator thresholds.
+- Reframed the discounted Wald statistic as a nominal heuristic score, clarified that observed gains can free budget while no future gain is assumed, and narrowed the small-headroom statement to evaluated settings.
 
-No new evidence was requested from or generated by running experiments. Existing unfavorable results and limitations remain in the manuscript.
+### Round 4 fixes
+
+- Reconciled the real-stream provenance table with the seven model pairs and Criteo task/source already documented in the appendix. Kept `openml_ldpa` and `uci_occupancy` provenance unknown, and described the SHA-256 match as file identity with the linked script serving as construction documentation.
+- Replaced the obsolete conclusion sentence that understated Appendix C documentation with a pointer to its 47-regime family, v3 candidate grid and selection rule, exposure-analysis quantities, and OLS specification. Preserved the actual stream reuse, feedback, comparator, outcome, second-look, and correlational limitations.
+- Added operational definitions for calibrated stop-loss and CUSUM variants, including inherited acquisition/promotion, stopping statistics and inequalities, fee treatment, permanent cumulative-harm safeguard, and repromotion behavior. Distinguished empirical per-regime point-estimate calibration from the shield theorem.
+- Tightened the h=6 allowance, Proposition 2 regime-map interpretation, and reserve-necessity wording to retain their formal conditions. Clarified signed cost differences, the simulation-table aggregation columns, displayed rounded zeros, regression covariate, and table references; shortened repeated prose and softened the subsection heading.
+- Improved float order by moving the calibration table into its subsection and the real-stream summary after its opening paragraph. Split provenance from numeric stream summaries, enlarged the calibration table by removing wholesale scaling, and kept proposition statements together. At that round, the final appendix comparison table remained alone on the last page; Round 5 grouped the comparison tables, though sparse appendix float pages remained.
+- Retained the author’s post-round-3 edits to the abstract, Section 3 labels, objective `J`, compute fee, and conservative-bandit analogy. No experimental values or citations were added or changed.
+
+### Round 5 fixes
+
+- Aligned the abstract, formal definition, theorem and proof setup: quantify over fixed loss/disagreement sequences and admissible nonanticipating delay rules, without conditioning on future realized delays; specify that a delay cannot depend on the current query coin.
+- Clarified the high-fee override (`k=30`) and the interpretation of the CUSUM worst-regime rate at `R=20`; identified the other worst cases as adverse dropout and scoped headrooms to the default regime.
+- Split the Proposition 2 table checks into first-spell identity and the delay condition for feedback-blind rollback tightness. Kept the horizon qualification and all displayed values.
+- Consolidated comparator calibration documentation, including the per-regime empirical threshold, tested grids, selection directions, fallback and headroom transfer. Kept the 47-regime scarce family, v3 grid/selection rule, exposure quantities/OLS specification, lemma domains and Proposition 3 filtration documentation.
+- Recorded in this log that the seven atlas model descriptions are documented by `scripts/promising_directions/b3_real_data.py` (committed in `475bf474`); this script path was not added to the paper.
+- Added the existing simulation comparison to the introduction; clarified label-exhaustion behavior for full sampling, the meaning of above-never regime-map values, and that the v3 real-stream evaluation is a second look. Removed progress-report/repetitive wording and retained all adverse comparisons and limitations.
+- Moved the two proposition tables next to their proofs, clarified their captions, improved float order, and replaced “original 30 regimes” with “registered 30 regimes.” The final-page comparison tables now share a page. Some appendix float pages and dense/small tables remain; Figure 2 label polish still depends on PaperBanana, unavailable in this environment.
+- No citations, numerical results, or experiments were added or changed. The author’s uncommitted edits to the abstract, Section 3 labels, `J`, compute fee and stop-loss analogy were preserved.
+
+### Round 6 fixes
+
+- Shortened the abstract’s lower-bound explanation while retaining the first-promotion probability condition, rollback-branch condition, sufficient horizon, and feedback-blind all-harm scope.
+- Clarified query ownership on promotion rounds, distinguished the common deployment acceptance inequality from the settlement-specific construction of its accounting check, and pointed the algorithm caption to the settlement appendix.
+- Clarified that the lower-bound count includes disagreements from promotion through the horizon; aligned the Proposition 2 table caption and column labels with the identity and feedback-blind rollback conditions.
+- Replaced repeated registered-run values with `tables/numbers.tex` macros, including pooled simulation costs and seed/regime counts. The prose now states that the `R=20` costs are pooled over the simulated regimes.
+- Replaced code-like arm identifiers with reader-facing labels in included appendix result tables; retained identifiers in the frozen-arm specification table. Moved the exposure-regression and v3 scarce-family tables beside their protocol descriptions. The compiled PDF is 35 pages, one page shorter than the prior 36-page draft.
+- No citations, experiments, or numerical results were added. Negative results, data limitations, and the author’s uncommitted edits remain.
+
+## Round 4 review and build record
+
+The full fresh review scored **7/10 — accept; Almost**. It found no critical flaw. Its complete report is retained in `review-stage/round4.response.md`. The pre-fix review covered 33 PDF pages; the post-fix PDF has 34 pages. The reviewer did not inspect code, data, protected confirmation runs, the sealed group, or the excluded `table_real48.tex`.
+
+The requested `build.sh` was not run: it invokes `make_tables.py`, which reads cached loss/result inputs, including protected confirmation artifacts. To respect the no-opening/no-running constraint, the existing generated tables were left intact and the manuscript was rebuilt with `latexmk -pdf -file-line-error -interaction=nonstopmode -halt-on-error main.tex`. The compile succeeded; the final log has no undefined or multiply-defined references/citations and no overfull boxes. No experiment, result regeneration, or tests were run. The final rendered file is `main_round4.pdf`.
+
+### Round 5 review and build record
+
+The fresh review scored **7/10 — accept; Almost**, with no critical weakness. It reviewed the full manuscript and all 34 pre-fix PDF pages; its response and metadata are retained under `review-stage/round5.*`. It did not inspect research code or data, the protected confirmation block, the sealed group, or `table_real48.tex`.
+
+`build.sh` was not run because it invokes `make_tables.py`, which reads cached result inputs including the protected confirmation summary. To honor the explicit no-open/no-run restriction, the existing generated table sources were preserved. The PDF was rebuilt with `latexmk -pdf -file-line-error -interaction=nonstopmode -halt-on-error main.tex`; compilation succeeded and the resulting PDF has 36 pages. The log has no undefined references/citations or multiply defined labels, and no overfull boxes were reported. A visual spot-check confirmed that the final comparison tables no longer sit alone on the last page; some sparse appendix float pages and dense tables remain. No experiments or tests were run.
+
+## Round 5 open items
+
+- Figure 2’s regime heatmap labels and method abbreviations remain dense. The repository requires PaperBanana for research visual edits; it was unavailable in this active environment, so the figure was not altered or replaced.
+- The calibration/evaluation seed-block registry mapping remains to be verified from permissible public supplement/registry records. The seven atlas model descriptions are documented in the script path recorded above. No protected confirmation block was opened.
+- Provenance for `openml_ldpa` and `uci_occupancy`, and machine identity absent from the run ledger, remain unknown.
+- The Proposition 3 and Proposition 4 tables are now placed beside their proof discussions. Some appendix tables still occupy sparse float pages; the Proposition 3 table remains on a relatively sparse page after its proof.
+- Full regeneration through `build.sh` remains pending a workflow that does not open or reprocess protected confirmation data. The PDF compile verifies the current generated table sources only.
+
+## Round 6 review and build record
+
+The fresh review scored **7/10 — weak accept; Almost**, with seven focused writing and layout recommendations and no request for new evidence. It read `main.tex`, all 30 directly included TeX files, `refs.bib`, and all 36 pages of the pre-fix PDF. The bias guard was enabled; no prior-round reports, logs, state, code, configuration, results, registries, or datasets were opened. It did not access the protected confirmation block, `civic_records_sealed`, or `table_real48.tex`, and made no edits. The complete review is in `review-stage/round6.response.md`; request and metadata are in `review-stage/round6.request.json` and `review-stage/round6.meta.json`. The reviewer is same-family; the recommendation is provisional and is not an external acceptance review.
+
+The specified external skill path `/Users/nigelli/Desktop/shift-codex-paper4/.agents/skills/auto-paper-improvement-loop/SKILL.md` was unavailable in this environment, and its shared-references directory was also absent. Round conventions were recorded from this run's existing review artifacts. The current log had no separate `Round 4 open items` heading or Round 3 bullets beneath one; the Round 3 history remains under `Round 3 fixes`.
+
+The requested `./build.sh` was not run because it invokes `make_tables.py`, which reads `confirm_summary.json` from the protected confirmation results. Instead, the manuscript was rebuilt from the existing generated table sources with `cd paper/f3_tmlr && latexmk -pdf -file-line-error -interaction=nonstopmode -halt-on-error main.tex`. Compilation succeeded; `main.pdf` has 35 pages (down from 36), and `main.log` contains no undefined references or citations, duplicate labels, or overfull boxes. The final PDF is saved as `main_round6.pdf`. A visual check of affected theory and appendix pages found no clipped text; the crowded appendix result tables remain readable at page scale with zoom.
+
+## Round 6 open items
+
+- Figure 2's heatmap labels and annotations remain dense. PaperBanana was not available in the active tool set, so the research visual was not edited or replaced with another generator.
+- The seed-block registry mapping still needs verification against permissible registry records; the protected confirmation block was not opened or run.
+- Provenance for `openml_ldpa` and `uci_occupancy` and the missing machine identity in the run ledger remain unknown.
+- Several appendix tables remain dense, and some float pages retain excess whitespace. The final PDF is one page shorter, and the last comparison table no longer sits alone on the final page.
+- Full `build.sh` regeneration remains pending a workflow that does not read or regenerate from protected confirmation results.
+
+The objective-definition item from Round 2 was resolved by the author's intervening edits: `J` now has an explicit deployed-loss, label-fee and switching-fee equation, with optional compute and shadow serving cost addressed in prose. No new evidence was requested or generated through experiments. Existing unfavorable results and limitations remain in the manuscript.
 
 ## Build record
 
@@ -53,7 +129,21 @@ No new evidence was requested from or generated by running experiments. Existing
 - LaTeX reports some underfull boxes in dense tables and page layouts; no build-stopping errors were reported.
 - Final PDF snapshot: `main_round2.pdf`.
 
+### Round 3 build record
+
+- Command: `cd paper/f3_tmlr && ./build.sh`
+- Result: successful; `main.pdf` is 31 pages and was saved as `main_round3.pdf`.
+- Reference check: no undefined citations/references or multiply-defined labels in `main.log`; no overfull boxes were reported. Dense tables and page layouts still produce underfull-box warnings.
+- Visual check: rendered and inspected a contact sheet of all 31 rebuilt pages. No clipping, broken glyphs, or missing figures were visible; appendix table density and small figure labels remain open.
+
 ## Full reviewer reports
+
+<details>
+<summary>Round 3 — 6/10, Almost (full manuscript and PDF)</summary>
+
+Full raw response: [`review-stage/round3.response.md`](review-stage/round3.response.md). The report identifies no critical issue; its main writing concerns are lower-bound scope, calibration selection details, the 47-regime/exposure analysis specification, analytical-filtration clarity, pooled-table captions, and appendix-table/figure legibility. Its page-by-page assessment and all actionable findings are preserved in the linked response.
+
+</details>
 
 <details>
 <summary>Round 1 — 6/10, Almost (partial manuscript scope)</summary>

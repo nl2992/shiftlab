@@ -1,0 +1,41 @@
+{
+  "round": 4,
+  "saved_at_utc": "2026-11-20 15:24:33 UTC",
+  "requested_model": "gpt-6-astra",
+  "requested_reasoning_effort": "xhigh",
+  "actual_model_verification": "The requested model and effort are recorded as requested; this reviewer cannot independently verify the runtime model identifier or effort.",
+  "reviewer_agent": "/root/round4_fresh_review",
+  "independence": {
+    "classification": "same-family",
+    "fresh_context_bias_guard": true,
+    "prior_reviews_or_revision_context_used": false,
+    "independent_external_acceptance_review": false
+  },
+  "completion": {
+    "full_main_tex_read": true,
+    "included_tex_files_read": 29,
+    "bibliography_read": true,
+    "pdf_pages_visually_inspected": 33,
+    "appendices_included": true,
+    "research_code_or_underlying_data_accessed": false,
+    "protected_confirmation_seeds_accessed_or_run": false,
+    "sealed_group_accessed": false,
+    "excluded_table_real48_accessed": false,
+    "experiments_run": false,
+    "manuscript_files_edited_by_reviewer": false
+  },
+  "result": {
+    "overall_score": 7,
+    "score_label": "accept",
+    "verdict": "Almost",
+    "critical_weaknesses_identified": 0,
+    "acceptance": "provisional",
+    "acceptance_note": "This is a same-family manuscript-only review recommendation, not independent external acceptance. Writing, documentation, and layout revisions remain."
+  },
+  "artifacts": {
+    "request": "paper/f3_tmlr/review-stage/round4.request.json",
+    "response": "paper/f3_tmlr/review-stage/round4.response.md",
+    "metadata": "paper/f3_tmlr/review-stage/round4.meta.json",
+    "response_preservation": "Exact full final review response previously returned to the parent, without added metadata or editorial changes"
+  }
+}

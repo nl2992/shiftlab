@@ -1,0 +1,21 @@
+{
+  "call_number": 2,
+  "purpose": "round-2-review",
+  "agent_name": "/root/review_round2",
+  "requested_reviewer_model": "gpt-6-astra",
+  "reported_reviewer_model": null,
+  "reviewer_model_source": "unknown",
+  "requested_effort": "xhigh",
+  "reported_effort": null,
+  "model_family": null,
+  "executor_model": null,
+  "executor_model_source": "unavailable",
+  "review_independence": "unknown",
+  "acceptance_status": "provisional",
+  "review_completed": true,
+  "review_scope_complete": true,
+  "review_positive": true,
+  "verdict": "Almost",
+  "status": "ok",
+  "scope_note": "Full source and all 32 PDF pages, including appendices, were reviewed. No data, code, registries, or sealed material was opened."
+}

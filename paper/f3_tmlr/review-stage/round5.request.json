@@ -1,0 +1,13 @@
+{
+  "skill": "auto-paper-improvement-loop",
+  "run_id": "2026-11-17_run01",
+  "round": 5,
+  "reviewer_backend": "codex",
+  "requested_model": "gpt-6-astra",
+  "requested_reasoning_effort": "xhigh",
+  "bias_guard": true,
+  "review_prompt_context": "Fresh reviewer with no prior-round reports, revision summary, or earlier-round context. Full manuscript review for TMLR; read source and compiled PDF; writing/presentation review only; do not inspect research code, data, protected confirmation seeds, sealed group, or table_real48.tex.",
+  "source": "paper/f3_tmlr/main.tex and all included sources",
+  "pdf": "paper/f3_tmlr/main.pdf",
+  "scope": "Full manuscript including appendices, bibliography, figures and tables; all 34 pre-fix PDF pages. No research code, underlying data, protected confirmation block, sealed group, or excluded table_real48.tex accessed."
+}

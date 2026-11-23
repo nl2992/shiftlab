@@ -401,3 +401,39 @@ window-bootstrap CI of Addendum H and paired P7 differences. No result is exclud
 
 Outputs: `results/phase9_panel.jsonl`, `results/phase9_replay.jsonl`, `results/phase9_summary.md`, `phase9_run.log`;
 script `run_phase9.py`.
+
+---
+
+# Addendum J (2026-11-23, lead; written before any confirmatory Phase 11 run; a one-chain smoke run of the panel stage, deleted, preceded it)
+
+**Purpose.** Phase 11 adds the industry-standard always-valid A/B test as a baseline: the one-sided mixture SPRT (Robbins; Johari,
+Pekelis and Walsh). Results are reported whatever they are; no setting, dataset or variant is excluded after it is seen.
+
+**Statistic.** On queried labels with k wins and j losses, Lambda(k, j) = integral over theta in [1/2, 1] of (2 theta)^k
+(2(1 - theta))^j pi(theta) d theta, pi uniform on [1/2, 1] (density 2), computed exactly (rational). For every theta >= 1/2 each factor has
+conditional mean <= 1 when P(Y_t = 1 | history) <= 1/2, so Lambda is a nonnegative supermartingale under every adaptive null.
+
+**Query rule (both variants).** The same as P2: query every disagreement round until the budget B is spent; decisions only while labels
+arrive (t <= B + 1).
+
+**Variants.**
+- **P8, textbook:** promote iff Lambda >= 1/alpha, no calibration. Reported: whether Lambda can reach 1/alpha for B <= 4
+  (max Lambda = (2^(B+1) - 1)/(B+1) <= 6.2 < 10, so it cannot for alpha <= 0.1), and exact cost and risk.
+- **P8c, calibrated:** promote iff Lambda > tau, randomised (probability theta) on Lambda = tau, with (tau, theta) set so that the exact
+  worst-case adaptive risk (Lemma A, max branch) is <= alpha: the smallest feasible level tau with theta tie-randomised to alpha, as
+  in calibrate_threshold_causal (run_phase9.py), and additionally every higher level at its largest feasible theta; the cheapest of these
+  candidates by exact expected cost is P8c (ties go to the smallest level). The number of settings where a higher level is cheaper is reported.
+
+**Where.** (1) The T16/32 panel on the 44 chains (35 of Phases 4b-7 plus 9 of Phases 10 and 10c; same chain files as the
+Phase 7 / 10 / 10c baseline panels), T in {16, 32}, B in {2, 3, 4}, alpha in {0.05, 0.1}: 528 settings, exact cost and risks, P7 from the
+existing settings.jsonl files. (2) The Phase 8 replay: the same 100 datasets, windows, cell (T = 32, B = 4, alpha = 0.1, c = 0.01, k = 0)
+and private-coin seeds (seed + window index) as Addenda H and I; P7 recomputed in the same run so differences are paired.
+
+**Metrics.** (1) Safety: settings with exact risk_causal > alpha, per variant (unit check: P8c risk_causal <= alpha + 1e-12 in every setting).
+(2) Panel: P7 cheaper / tied (|Delta| <= 1e-9, absolute, as in tally_phase10_baselines.py) / dearer than P8c, and median share of P7's
+value of information (C0 - cost) / (C0 - P7 cost) captured by P8c over settings with C0 - P7 cost > 1e-9. (3) Replay: pooled mean realised cost
+with the 95% window-bootstrap CI (2000 resamples, seed 20261119) and the paired difference P7 - P8c with its 95% CI. (4) Whether textbook P8 ever
+promotes. Executor validation: Monte Carlo (20000 simulated windows) against the exact cost on the 3 replay datasets with the most fit rounds, as in Phase 9.
+
+Outputs: `results/phase11_msprt_panel.jsonl`, `results/phase11_msprt_replay.jsonl`, `results/phase11_msprt_summary.md`,
+`results/phase11_msprt_unit.json`, `results/phase11_msprt_validation.json`, `results/phase11_msprt_run.log`; script `run_phase11_msprt.py`.

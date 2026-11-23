@@ -1,0 +1,14 @@
+{
+ "lambda_quadrature_max_abs_err": 4.440892098500626e-16,
+ "supermartingale_max_excess": 1.1102230246251565e-16,
+ "lambda_1_0_B1_to_4": {
+  "1": 1.5,
+  "2": 2.3333333333333335,
+  "3": 3.75,
+  "4": 6.2
+ },
+ "panel_rows": 528,
+ "p8c_max_risk_causal_minus_alpha": 0.0,
+ "p8c_violations_at_1e-12": 0,
+ "passed": true
+}

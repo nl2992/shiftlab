@@ -1,0 +1,639 @@
+11-23 18:42:13 panel: 528 settings to do; 44 chains
+11-23 18:42:14 panel 1 / 528 T:en|a=0.1|B=4|T=32 P8c-P7 7.008e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 2 / 528 T:en|a=0.05|B=4|T=32 P8c-P7 4.265e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 3 / 528 T:fr|a=0.1|B=4|T=32 P8c-P7 3.342e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 4 / 528 T:fr|a=0.05|B=4|T=32 P8c-P7 2.068e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 5 / 528 T:de|a=0.05|B=4|T=32 P8c-P7 3.993e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 6 / 528 T:de|a=0.1|B=4|T=32 P8c-P7 6.496e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 7 / 528 T:es|a=0.1|B=4|T=32 P8c-P7 3.601e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 8 / 528 T:es|a=0.05|B=4|T=32 P8c-P7 2.138e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 9 / 528 T:it|a=0.1|B=4|T=32 P8c-P7 2.960e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 10 / 528 T:it|a=0.05|B=4|T=32 P8c-P7 1.807e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 11 / 528 T:pt|a=0.05|B=4|T=32 P8c-P7 1.103e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 12 / 528 T:pt|a=0.1|B=4|T=32 P8c-P7 1.726e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 13 / 528 T:nl|a=0.05|B=4|T=32 P8c-P7 3.429e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 14 / 528 T:nl|a=0.1|B=4|T=32 P8c-P7 5.612e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 15 / 528 T:sv|a=0.05|B=4|T=32 P8c-P7 8.823e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 16 / 528 T:sv|a=0.1|B=4|T=32 P8c-P7 1.447e+00 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 17 / 528 T:da|a=0.05|B=4|T=32 P8c-P7 5.400e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 18 / 528 T:da|a=0.1|B=4|T=32 P8c-P7 8.787e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 19 / 528 T:fi|a=0.05|B=4|T=32 P8c-P7 1.248e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 20 / 528 T:fi|a=0.1|B=4|T=32 P8c-P7 1.950e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 21 / 528 F:faithful|a=0.05|B=4|T=32 P8c-P7 6.057e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 22 / 528 F:faithful|a=0.1|B=4|T=32 P8c-P7 1.042e+00 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 23 / 528 F:geyser|a=0.05|B=4|T=32 P8c-P7 1.079e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 24 / 528 F:geyser|a=0.1|B=4|T=32 P8c-P7 1.758e-01 P8c risk 0.062500 0.1s
+11-23 18:42:14 panel 25 / 528 S:P15502|a=0.05|B=4|T=32 P8c-P7 8.011e-02 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 26 / 528 S:P04985|a=0.05|B=4|T=32 P8c-P7 1.354e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 27 / 528 S:P15502|a=0.1|B=4|T=32 P8c-P7 1.112e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 28 / 528 S:P04985|a=0.1|B=4|T=32 P8c-P7 2.045e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 29 / 528 L:hu|a=0.1|B=4|T=32 P8c-P7 1.157e+00 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 30 / 528 L:hu|a=0.05|B=4|T=32 P8c-P7 6.614e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 31 / 528 L:pl|a=0.05|B=4|T=32 P8c-P7 4.598e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 32 / 528 L:pl|a=0.1|B=4|T=32 P8c-P7 7.590e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 33 / 528 L:cs|a=0.05|B=4|T=32 P8c-P7 4.927e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 34 / 528 L:la|a=0.05|B=4|T=32 P8c-P7 3.564e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 35 / 528 L:cs|a=0.1|B=4|T=32 P8c-P7 8.060e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 36 / 528 L:la|a=0.1|B=4|T=32 P8c-P7 6.223e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 37 / 528 L:ro|a=0.05|B=4|T=32 P8c-P7 4.924e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 38 / 528 L:ro|a=0.1|B=4|T=32 P8c-P7 8.049e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 39 / 528 L:ca|a=0.05|B=4|T=32 P8c-P7 2.492e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 40 / 528 S2:P46804|a=0.05|B=4|T=32 P8c-P7 4.139e-02 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 41 / 528 L:ca|a=0.1|B=4|T=32 P8c-P7 4.204e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 42 / 528 S2:P46804|a=0.1|B=4|T=32 P8c-P7 3.541e-02 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 43 / 528 S3:P07916|a=0.1|B=4|T=32 P8c-P7 2.923e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 44 / 528 S3:P07916|a=0.05|B=4|T=32 P8c-P7 1.822e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 45 / 528 S3:P11547|a=0.05|B=4|T=32 P8c-P7 1.609e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 46 / 528 S3:P11547|a=0.1|B=4|T=32 P8c-P7 2.565e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 47 / 528 L2:eo|a=0.05|B=4|T=32 P8c-P7 4.043e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 48 / 528 L2:eo|a=0.1|B=4|T=32 P8c-P7 7.152e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 49 / 528 L2:cy|a=0.1|B=4|T=32 P8c-P7 4.706e-01 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 50 / 528 L2:cy|a=0.05|B=4|T=32 P8c-P7 2.869e-01 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 51 / 528 A:atlas_v2/openml_ldpa|a=0.05|B=4|T=32 P8c-P7 3.564e-02 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 52 / 528 A:atlas_v2/openml_ldpa|a=0.1|B=4|T=32 P8c-P7 2.982e-02 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 53 / 528 A:sprint_fresh/appliances|a=0.05|B=4|T=32 P8c-P7 2.627e-02 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 54 / 528 A:sprint_fresh/appliances|a=0.1|B=4|T=32 P8c-P7 2.283e-02 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 55 / 528 A:sprint_fresh/beijing_pm25|a=0.05|B=4|T=32 P8c-P7 2.542e-02 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 56 / 528 A:sprint_fresh/beijing_pm25|a=0.1|B=4|T=32 P8c-P7 2.178e-02 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 57 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=4|T=32 P8c-P7 4.952e-02 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 58 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=4|T=32 P8c-P7 5.483e-02 P8c risk 0.100000 0.1s
+11-23 18:42:14 panel 59 / 528 A:screen100/elec_MT_005|a=0.05|B=4|T=32 P8c-P7 4.129e-02 P8c risk 0.050000 0.1s
+11-23 18:42:14 panel 60 / 528 A:screen100/elec_MT_005|a=0.1|B=4|T=32 P8c-P7 3.379e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 61 / 528 A:screen100/elec_MT_010|a=0.05|B=4|T=32 P8c-P7 3.283e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 62 / 528 A:screen100/elec_MT_010|a=0.1|B=4|T=32 P8c-P7 3.116e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 63 / 528 A:screen100/elec_MT_029|a=0.1|B=4|T=32 P8c-P7 3.437e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 64 / 528 A:screen100/pm_Shanghai|a=0.05|B=4|T=32 P8c-P7 2.531e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 65 / 528 A:screen100/elec_MT_029|a=0.05|B=4|T=32 P8c-P7 2.786e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 66 / 528 A:screen100/pm_Shanghai|a=0.1|B=4|T=32 P8c-P7 2.164e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 67 / 528 A:screen100/pm_Shenyang|a=0.05|B=4|T=32 P8c-P7 2.570e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 68 / 528 A:screen100/pm_Shenyang|a=0.1|B=4|T=32 P8c-P7 2.213e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 69 / 528 A:screen100/tetouan_z1|a=0.05|B=4|T=32 P8c-P7 2.463e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 70 / 528 A:screen100/tetouan_z1|a=0.1|B=4|T=32 P8c-P7 2.079e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 71 / 528 B:covtype|a=0.05|B=4|T=32 P8c-P7 2.549e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 72 / 528 B:covtype|a=0.1|B=4|T=32 P8c-P7 2.187e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 73 / 528 Bext:electricity|a=0.05|B=4|T=32 P8c-P7 2.595e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 74 / 528 D:geyser/Old_Faithful|a=0.05|B=4|T=32 P8c-P7 9.808e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 75 / 528 D:geyser/Grand|a=0.05|B=4|T=32 P8c-P7 1.103e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 76 / 528 D:geyser/Old_Faithful|a=0.1|B=4|T=32 P8c-P7 1.423e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 77 / 528 Bext:electricity|a=0.1|B=4|T=32 P8c-P7 2.243e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 78 / 528 D:geyser/Grand|a=0.1|B=4|T=32 P8c-P7 1.566e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 79 / 528 E:lang/af|a=0.05|B=4|T=32 P8c-P7 1.557e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 80 / 528 E:lang/af|a=0.1|B=4|T=32 P8c-P7 2.416e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 81 / 528 E:lang/br|a=0.1|B=4|T=32 P8c-P7 4.382e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 82 / 528 E:lang/br|a=0.05|B=4|T=32 P8c-P7 2.627e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 83 / 528 E:lang/gl/retry|a=0.05|B=4|T=32 P8c-P7 2.004e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 84 / 528 E:lang/gl/retry|a=0.1|B=4|T=32 P8c-P7 3.339e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 85 / 528 E:lang/ia/retry|a=0.05|B=4|T=32 P8c-P7 2.373e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 86 / 528 T:en|a=0.05|B=3|T=32 P8c-P7 2.803e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 87 / 528 E:lang/ia/retry|a=0.1|B=4|T=32 P8c-P7 3.994e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 88 / 528 E:lang/et/retry|a=0.1|B=4|T=32 P8c-P7 4.446e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 89 / 528 E:lang/et/retry|a=0.05|B=4|T=32 P8c-P7 2.624e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 90 / 528 T:en|a=0.1|B=3|T=32 P8c-P7 5.307e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 91 / 528 T:fr|a=0.1|B=3|T=32 P8c-P7 2.715e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 92 / 528 T:fr|a=0.05|B=3|T=32 P8c-P7 1.508e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 93 / 528 T:de|a=0.05|B=3|T=32 P8c-P7 2.595e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 94 / 528 T:de|a=0.1|B=3|T=32 P8c-P7 4.890e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 95 / 528 T:es|a=0.1|B=3|T=32 P8c-P7 2.866e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 96 / 528 T:es|a=0.05|B=3|T=32 P8c-P7 1.583e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 97 / 528 T:it|a=0.05|B=3|T=32 P8c-P7 1.371e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 98 / 528 T:it|a=0.1|B=3|T=32 P8c-P7 2.443e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 99 / 528 T:pt|a=0.1|B=3|T=32 P8c-P7 1.391e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 100 / 528 T:pt|a=0.05|B=3|T=32 P8c-P7 8.456e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 101 / 528 T:nl|a=0.1|B=3|T=32 P8c-P7 4.296e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 102 / 528 T:nl|a=0.05|B=3|T=32 P8c-P7 2.298e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 103 / 528 T:da|a=0.05|B=3|T=32 P8c-P7 3.412e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 104 / 528 T:sv|a=0.1|B=3|T=32 P8c-P7 1.030e+00 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 105 / 528 T:sv|a=0.05|B=3|T=32 P8c-P7 5.299e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 106 / 528 T:da|a=0.1|B=3|T=32 P8c-P7 6.524e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 107 / 528 T:fi|a=0.05|B=3|T=32 P8c-P7 9.754e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 108 / 528 T:fi|a=0.1|B=3|T=32 P8c-P7 1.651e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 109 / 528 F:faithful|a=0.05|B=3|T=32 P8c-P7 3.952e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 110 / 528 F:geyser|a=0.05|B=3|T=32 P8c-P7 7.955e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 111 / 528 F:faithful|a=0.1|B=3|T=32 P8c-P7 7.604e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 112 / 528 F:geyser|a=0.1|B=3|T=32 P8c-P7 1.291e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 113 / 528 S:P15502|a=0.1|B=3|T=32 P8c-P7 8.492e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 114 / 528 S:P15502|a=0.05|B=3|T=32 P8c-P7 5.746e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 115 / 528 S:P04985|a=0.05|B=3|T=32 P8c-P7 9.778e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 116 / 528 S:P04985|a=0.1|B=3|T=32 P8c-P7 1.656e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 117 / 528 L:hu|a=0.1|B=3|T=32 P8c-P7 8.315e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 118 / 528 L:hu|a=0.05|B=3|T=32 P8c-P7 4.307e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 119 / 528 L:pl|a=0.05|B=3|T=32 P8c-P7 3.005e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 120 / 528 L:pl|a=0.1|B=3|T=32 P8c-P7 5.710e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 121 / 528 L:cs|a=0.1|B=3|T=32 P8c-P7 6.030e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 122 / 528 L:cs|a=0.05|B=3|T=32 P8c-P7 3.165e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 123 / 528 L:la|a=0.05|B=3|T=32 P8c-P7 2.526e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 124 / 528 L:la|a=0.1|B=3|T=32 P8c-P7 4.751e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 125 / 528 L:ro|a=0.05|B=3|T=32 P8c-P7 3.161e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 126 / 528 L:ro|a=0.1|B=3|T=32 P8c-P7 6.023e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 127 / 528 L:ca|a=0.05|B=3|T=32 P8c-P7 1.856e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 128 / 528 S2:P46804|a=0.05|B=3|T=32 P8c-P7 3.067e-02 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 129 / 528 L:ca|a=0.1|B=3|T=32 P8c-P7 3.413e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 130 / 528 S3:P07916|a=0.05|B=3|T=32 P8c-P7 1.277e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 131 / 528 S2:P46804|a=0.1|B=3|T=32 P8c-P7 3.135e-02 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 132 / 528 S3:P07916|a=0.1|B=3|T=32 P8c-P7 2.255e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 133 / 528 S3:P11547|a=0.05|B=3|T=32 P8c-P7 1.137e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 134 / 528 S3:P11547|a=0.1|B=3|T=32 P8c-P7 1.973e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 135 / 528 L2:eo|a=0.05|B=3|T=32 P8c-P7 2.823e-01 P8c risk 0.050000 0.1s
+11-23 18:42:15 panel 136 / 528 L2:cy|a=0.1|B=3|T=32 P8c-P7 3.652e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 137 / 528 L2:eo|a=0.1|B=3|T=32 P8c-P7 5.345e-01 P8c risk 0.100000 0.1s
+11-23 18:42:15 panel 138 / 528 L2:cy|a=0.05|B=3|T=32 P8c-P7 1.976e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 139 / 528 A:atlas_v2/openml_ldpa|a=0.1|B=3|T=32 P8c-P7 2.514e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 140 / 528 A:sprint_fresh/appliances|a=0.05|B=3|T=32 P8c-P7 2.387e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 141 / 528 A:sprint_fresh/appliances|a=0.1|B=3|T=32 P8c-P7 1.775e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 142 / 528 A:sprint_fresh/beijing_pm25|a=0.1|B=3|T=32 P8c-P7 1.712e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 143 / 528 A:atlas_v2/openml_ldpa|a=0.05|B=3|T=32 P8c-P7 2.757e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 144 / 528 A:sprint_fresh/beijing_pm25|a=0.05|B=3|T=32 P8c-P7 2.356e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 145 / 528 A:screen100/elec_MT_005|a=0.05|B=3|T=32 P8c-P7 3.116e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 146 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=3|T=32 P8c-P7 3.721e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 147 / 528 A:screen100/elec_MT_005|a=0.1|B=3|T=32 P8c-P7 3.232e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 148 / 528 A:screen100/elec_MT_010|a=0.1|B=3|T=32 P8c-P7 2.275e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 149 / 528 A:screen100/elec_MT_010|a=0.05|B=3|T=32 P8c-P7 2.638e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 150 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=3|T=32 P8c-P7 4.443e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 151 / 528 A:screen100/elec_MT_029|a=0.1|B=3|T=32 P8c-P7 1.896e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 152 / 528 A:screen100/elec_MT_029|a=0.05|B=3|T=32 P8c-P7 2.448e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 153 / 528 A:screen100/pm_Shanghai|a=0.05|B=3|T=32 P8c-P7 2.353e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 154 / 528 A:screen100/pm_Shenyang|a=0.05|B=3|T=32 P8c-P7 2.367e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 155 / 528 A:screen100/pm_Shanghai|a=0.1|B=3|T=32 P8c-P7 1.705e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 156 / 528 A:screen100/pm_Shenyang|a=0.1|B=3|T=32 P8c-P7 1.734e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 157 / 528 A:screen100/tetouan_z1|a=0.05|B=3|T=32 P8c-P7 2.335e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 158 / 528 A:screen100/tetouan_z1|a=0.1|B=3|T=32 P8c-P7 1.669e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 159 / 528 B:covtype|a=0.05|B=3|T=32 P8c-P7 2.365e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 160 / 528 Bext:electricity|a=0.05|B=3|T=32 P8c-P7 2.377e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 161 / 528 B:covtype|a=0.1|B=3|T=32 P8c-P7 1.730e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 162 / 528 Bext:electricity|a=0.1|B=3|T=32 P8c-P7 1.754e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 163 / 528 D:geyser/Old_Faithful|a=0.05|B=3|T=32 P8c-P7 7.595e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 164 / 528 D:geyser/Old_Faithful|a=0.1|B=3|T=32 P8c-P7 1.219e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 165 / 528 D:geyser/Grand|a=0.05|B=3|T=32 P8c-P7 8.332e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 166 / 528 D:geyser/Grand|a=0.1|B=3|T=32 P8c-P7 1.366e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 167 / 528 E:lang/af|a=0.05|B=3|T=32 P8c-P7 1.106e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 168 / 528 E:lang/af|a=0.1|B=3|T=32 P8c-P7 1.912e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 169 / 528 E:lang/br|a=0.05|B=3|T=32 P8c-P7 1.879e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 170 / 528 E:lang/br|a=0.1|B=3|T=32 P8c-P7 3.458e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 171 / 528 E:lang/gl/retry|a=0.05|B=3|T=32 P8c-P7 1.498e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 172 / 528 E:lang/ia/retry|a=0.05|B=3|T=32 P8c-P7 1.781e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 173 / 528 E:lang/gl/retry|a=0.1|B=3|T=32 P8c-P7 2.696e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 174 / 528 E:lang/ia/retry|a=0.1|B=3|T=32 P8c-P7 3.262e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 175 / 528 E:lang/et/retry|a=0.1|B=3|T=32 P8c-P7 3.580e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 176 / 528 T:en|a=0.05|B=2|T=32 P8c-P7 1.434e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 177 / 528 E:lang/et/retry|a=0.05|B=3|T=32 P8c-P7 1.940e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 178 / 528 T:en|a=0.1|B=2|T=32 P8c-P7 2.668e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 179 / 528 T:fr|a=0.05|B=2|T=32 P8c-P7 9.105e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 180 / 528 T:fr|a=0.1|B=2|T=32 P8c-P7 1.621e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 181 / 528 T:de|a=0.05|B=2|T=32 P8c-P7 1.304e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 182 / 528 T:de|a=0.1|B=2|T=32 P8c-P7 2.409e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 183 / 528 T:es|a=0.1|B=2|T=32 P8c-P7 1.870e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 184 / 528 T:es|a=0.05|B=2|T=32 P8c-P7 1.035e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 185 / 528 T:it|a=0.05|B=2|T=32 P8c-P7 8.975e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 186 / 528 T:it|a=0.1|B=2|T=32 P8c-P7 1.595e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 187 / 528 T:pt|a=0.05|B=2|T=32 P8c-P7 5.947e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 188 / 528 T:pt|a=0.1|B=2|T=32 P8c-P7 9.894e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 189 / 528 T:nl|a=0.05|B=2|T=32 P8c-P7 1.200e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 190 / 528 T:nl|a=0.1|B=2|T=32 P8c-P7 2.199e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 191 / 528 T:sv|a=0.05|B=2|T=32 P8c-P7 2.457e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 192 / 528 T:sv|a=0.1|B=2|T=32 P8c-P7 4.714e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 193 / 528 T:da|a=0.1|B=2|T=32 P8c-P7 3.131e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 194 / 528 T:fi|a=0.1|B=2|T=32 P8c-P7 1.163e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 195 / 528 T:da|a=0.05|B=2|T=32 P8c-P7 1.665e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 196 / 528 T:fi|a=0.05|B=2|T=32 P8c-P7 6.813e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 197 / 528 F:faithful|a=0.1|B=2|T=32 P8c-P7 3.871e-01 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 198 / 528 F:faithful|a=0.05|B=2|T=32 P8c-P7 2.036e-01 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 199 / 528 F:geyser|a=0.05|B=2|T=32 P8c-P7 5.204e-02 P8c risk 0.050000 0.2s
+11-23 18:42:16 panel 200 / 528 S:P04985|a=0.05|B=2|T=32 P8c-P7 5.685e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 201 / 528 F:geyser|a=0.1|B=2|T=32 P8c-P7 8.407e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 202 / 528 S:P15502|a=0.05|B=2|T=32 P8c-P7 3.459e-02 P8c risk 0.050000 0.1s
+11-23 18:42:16 panel 203 / 528 S:P15502|a=0.1|B=2|T=32 P8c-P7 4.917e-02 P8c risk 0.100000 0.1s
+11-23 18:42:16 panel 204 / 528 S:P04985|a=0.1|B=2|T=32 P8c-P7 9.369e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 205 / 528 L:hu|a=0.05|B=2|T=32 P8c-P7 2.233e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 206 / 528 L:pl|a=0.05|B=2|T=32 P8c-P7 1.529e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 207 / 528 L:hu|a=0.1|B=2|T=32 P8c-P7 4.266e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 208 / 528 L:cs|a=0.05|B=2|T=32 P8c-P7 1.576e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 209 / 528 L:pl|a=0.1|B=2|T=32 P8c-P7 2.857e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 210 / 528 L:cs|a=0.1|B=2|T=32 P8c-P7 2.952e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 211 / 528 L:la|a=0.1|B=2|T=32 P8c-P7 2.722e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 212 / 528 L:la|a=0.05|B=2|T=32 P8c-P7 1.461e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 213 / 528 L:ro|a=0.05|B=2|T=32 P8c-P7 1.573e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 214 / 528 L:ro|a=0.1|B=2|T=32 P8c-P7 2.946e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 215 / 528 L:ca|a=0.05|B=2|T=32 P8c-P7 1.152e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 216 / 528 L:ca|a=0.1|B=2|T=32 P8c-P7 2.105e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 217 / 528 S2:P46804|a=0.05|B=2|T=32 P8c-P7 1.867e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 218 / 528 S2:P46804|a=0.1|B=2|T=32 P8c-P7 1.733e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 219 / 528 S3:P07916|a=0.05|B=2|T=32 P8c-P7 7.004e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 220 / 528 S3:P07916|a=0.1|B=2|T=32 P8c-P7 1.201e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 221 / 528 S3:P11547|a=0.05|B=2|T=32 P8c-P7 6.267e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 222 / 528 S3:P11547|a=0.1|B=2|T=32 P8c-P7 1.053e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 223 / 528 L2:eo|a=0.05|B=2|T=32 P8c-P7 1.609e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 224 / 528 L2:eo|a=0.1|B=2|T=32 P8c-P7 3.018e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 225 / 528 L2:cy|a=0.05|B=2|T=32 P8c-P7 1.066e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 226 / 528 L2:cy|a=0.1|B=2|T=32 P8c-P7 1.932e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 227 / 528 A:atlas_v2/openml_ldpa|a=0.05|B=2|T=32 P8c-P7 1.768e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 228 / 528 A:atlas_v2/openml_ldpa|a=0.1|B=2|T=32 P8c-P7 1.537e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 229 / 528 A:sprint_fresh/appliances|a=0.05|B=2|T=32 P8c-P7 1.740e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 230 / 528 A:sprint_fresh/appliances|a=0.1|B=2|T=32 P8c-P7 1.480e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 231 / 528 A:sprint_fresh/beijing_pm25|a=0.05|B=2|T=32 P8c-P7 1.731e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 232 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=2|T=32 P8c-P7 2.484e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 233 / 528 A:sprint_fresh/beijing_pm25|a=0.1|B=2|T=32 P8c-P7 1.462e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 234 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=2|T=32 P8c-P7 2.969e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 235 / 528 A:screen100/elec_MT_005|a=0.05|B=2|T=32 P8c-P7 1.789e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 236 / 528 A:screen100/elec_MT_005|a=0.1|B=2|T=32 P8c-P7 1.577e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 237 / 528 A:screen100/elec_MT_010|a=0.05|B=2|T=32 P8c-P7 1.774e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 238 / 528 A:screen100/elec_MT_029|a=0.05|B=2|T=32 P8c-P7 1.756e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 239 / 528 A:screen100/elec_MT_010|a=0.1|B=2|T=32 P8c-P7 1.548e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 240 / 528 A:screen100/elec_MT_029|a=0.1|B=2|T=32 P8c-P7 1.513e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 241 / 528 A:screen100/pm_Shanghai|a=0.05|B=2|T=32 P8c-P7 1.731e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 242 / 528 A:screen100/pm_Shanghai|a=0.1|B=2|T=32 P8c-P7 1.461e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 243 / 528 A:screen100/pm_Shenyang|a=0.05|B=2|T=32 P8c-P7 1.734e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 244 / 528 A:screen100/tetouan_z1|a=0.05|B=2|T=32 P8c-P7 1.728e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 245 / 528 A:screen100/pm_Shenyang|a=0.1|B=2|T=32 P8c-P7 1.468e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 246 / 528 A:screen100/tetouan_z1|a=0.1|B=2|T=32 P8c-P7 1.455e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 247 / 528 B:covtype|a=0.05|B=2|T=32 P8c-P7 1.736e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 248 / 528 B:covtype|a=0.1|B=2|T=32 P8c-P7 1.471e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 249 / 528 Bext:electricity|a=0.05|B=2|T=32 P8c-P7 1.737e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 250 / 528 Bext:electricity|a=0.1|B=2|T=32 P8c-P7 1.475e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 251 / 528 D:geyser/Old_Faithful|a=0.05|B=2|T=32 P8c-P7 5.250e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 252 / 528 D:geyser/Old_Faithful|a=0.1|B=2|T=32 P8c-P7 8.501e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 253 / 528 D:geyser/Grand|a=0.05|B=2|T=32 P8c-P7 5.744e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 254 / 528 D:geyser/Grand|a=0.1|B=2|T=32 P8c-P7 9.489e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 255 / 528 E:lang/af|a=0.05|B=2|T=32 P8c-P7 6.364e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 256 / 528 E:lang/af|a=0.1|B=2|T=32 P8c-P7 1.073e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 257 / 528 E:lang/br|a=0.05|B=2|T=32 P8c-P7 1.075e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 258 / 528 E:lang/br|a=0.1|B=2|T=32 P8c-P7 1.950e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 259 / 528 E:lang/gl/retry|a=0.05|B=2|T=32 P8c-P7 9.814e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 260 / 528 E:lang/gl/retry|a=0.1|B=2|T=32 P8c-P7 1.763e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 261 / 528 E:lang/ia/retry|a=0.05|B=2|T=32 P8c-P7 1.121e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 262 / 528 E:lang/ia/retry|a=0.1|B=2|T=32 P8c-P7 2.043e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 263 / 528 E:lang/et/retry|a=0.05|B=2|T=32 P8c-P7 1.190e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 264 / 528 E:lang/et/retry|a=0.1|B=2|T=32 P8c-P7 2.180e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 265 / 528 T:en|a=0.05|B=4|T=16 P8c-P7 1.606e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 266 / 528 T:en|a=0.1|B=4|T=16 P8c-P7 2.493e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 267 / 528 T:fr|a=0.05|B=4|T=16 P8c-P7 1.168e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 268 / 528 T:fr|a=0.1|B=4|T=16 P8c-P7 1.707e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 269 / 528 T:de|a=0.05|B=4|T=16 P8c-P7 1.439e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 270 / 528 T:de|a=0.1|B=4|T=16 P8c-P7 2.213e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 271 / 528 T:es|a=0.05|B=4|T=16 P8c-P7 1.528e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 272 / 528 T:es|a=0.1|B=4|T=16 P8c-P7 2.480e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 273 / 528 T:it|a=0.05|B=4|T=16 P8c-P7 1.371e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 274 / 528 T:it|a=0.1|B=4|T=16 P8c-P7 2.180e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 275 / 528 T:pt|a=0.05|B=4|T=16 P8c-P7 1.071e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 276 / 528 T:pt|a=0.1|B=4|T=16 P8c-P7 1.663e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 277 / 528 T:nl|a=0.05|B=4|T=16 P8c-P7 1.361e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 278 / 528 T:nl|a=0.1|B=4|T=16 P8c-P7 2.037e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 279 / 528 T:sv|a=0.05|B=4|T=16 P8c-P7 2.867e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 280 / 528 T:sv|a=0.1|B=4|T=16 P8c-P7 4.797e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 281 / 528 T:da|a=0.05|B=4|T=16 P8c-P7 1.834e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 282 / 528 T:da|a=0.1|B=4|T=16 P8c-P7 2.962e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 283 / 528 T:fi|a=0.05|B=4|T=16 P8c-P7 1.119e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 284 / 528 T:fi|a=0.1|B=4|T=16 P8c-P7 1.732e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 285 / 528 F:faithful|a=0.1|B=4|T=16 P8c-P7 3.681e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 286 / 528 F:faithful|a=0.05|B=4|T=16 P8c-P7 2.253e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 287 / 528 F:geyser|a=0.05|B=4|T=16 P8c-P7 1.078e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 288 / 528 F:geyser|a=0.1|B=4|T=16 P8c-P7 1.755e-01 P8c risk 0.062500 0.1s
+11-23 18:42:17 panel 289 / 528 S:P15502|a=0.05|B=4|T=16 P8c-P7 5.891e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 290 / 528 S:P15502|a=0.1|B=4|T=16 P8c-P7 6.788e-02 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 291 / 528 S:P04985|a=0.05|B=4|T=16 P8c-P7 8.434e-02 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 292 / 528 S:P04985|a=0.1|B=4|T=16 P8c-P7 1.119e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 293 / 528 L:hu|a=0.05|B=4|T=16 P8c-P7 2.450e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 294 / 528 L:hu|a=0.1|B=4|T=16 P8c-P7 4.061e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 295 / 528 L:pl|a=0.05|B=4|T=16 P8c-P7 1.707e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 296 / 528 L:pl|a=0.1|B=4|T=16 P8c-P7 2.680e-01 P8c risk 0.100000 0.1s
+11-23 18:42:17 panel 297 / 528 L:cs|a=0.05|B=4|T=16 P8c-P7 1.745e-01 P8c risk 0.050000 0.1s
+11-23 18:42:17 panel 298 / 528 L:cs|a=0.1|B=4|T=16 P8c-P7 2.771e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 299 / 528 L:la|a=0.1|B=4|T=16 P8c-P7 2.702e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 300 / 528 L:la|a=0.05|B=4|T=16 P8c-P7 1.695e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 301 / 528 L:ro|a=0.05|B=4|T=16 P8c-P7 1.741e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 302 / 528 L:ro|a=0.1|B=4|T=16 P8c-P7 2.764e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 303 / 528 L:ca|a=0.05|B=4|T=16 P8c-P7 1.450e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 304 / 528 L:ca|a=0.1|B=4|T=16 P8c-P7 2.278e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 305 / 528 S2:P46804|a=0.1|B=4|T=16 P8c-P7 2.999e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 306 / 528 S2:P46804|a=0.05|B=4|T=16 P8c-P7 3.868e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 307 / 528 S3:P07916|a=0.05|B=4|T=16 P8c-P7 8.803e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 308 / 528 S3:P07916|a=0.1|B=4|T=16 P8c-P7 1.179e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 309 / 528 S3:P11547|a=0.05|B=4|T=16 P8c-P7 8.032e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 310 / 528 S3:P11547|a=0.1|B=4|T=16 P8c-P7 1.043e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 311 / 528 L2:eo|a=0.1|B=4|T=16 P8c-P7 3.021e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 312 / 528 L2:eo|a=0.05|B=4|T=16 P8c-P7 1.862e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 313 / 528 L2:cy|a=0.05|B=4|T=16 P8c-P7 1.254e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 314 / 528 A:atlas_v2/openml_ldpa|a=0.05|B=4|T=16 P8c-P7 3.564e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 315 / 528 L2:cy|a=0.1|B=4|T=16 P8c-P7 1.833e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 316 / 528 A:atlas_v2/openml_ldpa|a=0.1|B=4|T=16 P8c-P7 2.982e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 317 / 528 A:sprint_fresh/appliances|a=0.05|B=4|T=16 P8c-P7 2.627e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 318 / 528 A:sprint_fresh/appliances|a=0.1|B=4|T=16 P8c-P7 2.283e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 319 / 528 A:sprint_fresh/beijing_pm25|a=0.05|B=4|T=16 P8c-P7 2.542e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 320 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=4|T=16 P8c-P7 4.903e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 321 / 528 A:sprint_fresh/beijing_pm25|a=0.1|B=4|T=16 P8c-P7 2.178e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 322 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=4|T=16 P8c-P7 5.449e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 323 / 528 A:screen100/elec_MT_005|a=0.05|B=4|T=16 P8c-P7 3.947e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 324 / 528 A:screen100/elec_MT_005|a=0.1|B=4|T=16 P8c-P7 3.016e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 325 / 528 A:screen100/elec_MT_010|a=0.05|B=4|T=16 P8c-P7 3.113e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 326 / 528 A:screen100/elec_MT_010|a=0.1|B=4|T=16 P8c-P7 2.776e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 327 / 528 A:screen100/elec_MT_029|a=0.05|B=4|T=16 P8c-P7 2.786e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 328 / 528 A:screen100/elec_MT_029|a=0.1|B=4|T=16 P8c-P7 2.482e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 329 / 528 A:screen100/pm_Shanghai|a=0.05|B=4|T=16 P8c-P7 2.531e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 330 / 528 A:screen100/pm_Shanghai|a=0.1|B=4|T=16 P8c-P7 2.164e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 331 / 528 A:screen100/pm_Shenyang|a=0.05|B=4|T=16 P8c-P7 2.570e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 332 / 528 A:screen100/tetouan_z1|a=0.05|B=4|T=16 P8c-P7 2.463e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 333 / 528 A:screen100/pm_Shenyang|a=0.1|B=4|T=16 P8c-P7 2.213e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 334 / 528 A:screen100/tetouan_z1|a=0.1|B=4|T=16 P8c-P7 2.079e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 335 / 528 B:covtype|a=0.05|B=4|T=16 P8c-P7 2.549e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 336 / 528 B:covtype|a=0.1|B=4|T=16 P8c-P7 2.187e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 337 / 528 Bext:electricity|a=0.05|B=4|T=16 P8c-P7 2.595e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 338 / 528 Bext:electricity|a=0.1|B=4|T=16 P8c-P7 2.243e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 339 / 528 D:geyser/Old_Faithful|a=0.05|B=4|T=16 P8c-P7 8.828e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 340 / 528 D:geyser/Old_Faithful|a=0.1|B=4|T=16 P8c-P7 1.265e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 341 / 528 D:geyser/Grand|a=0.05|B=4|T=16 P8c-P7 9.261e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 342 / 528 E:lang/af|a=0.05|B=4|T=16 P8c-P7 8.779e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 343 / 528 D:geyser/Grand|a=0.1|B=4|T=16 P8c-P7 1.254e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 344 / 528 E:lang/af|a=0.1|B=4|T=16 P8c-P7 1.163e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 345 / 528 E:lang/br|a=0.05|B=4|T=16 P8c-P7 1.311e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 346 / 528 E:lang/br|a=0.1|B=4|T=16 P8c-P7 1.950e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 347 / 528 E:lang/gl/retry|a=0.05|B=4|T=16 P8c-P7 1.454e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 348 / 528 E:lang/gl/retry|a=0.1|B=4|T=16 P8c-P7 2.336e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 349 / 528 E:lang/ia/retry|a=0.05|B=4|T=16 P8c-P7 1.451e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 350 / 528 E:lang/ia/retry|a=0.1|B=4|T=16 P8c-P7 2.294e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 351 / 528 E:lang/et/retry|a=0.05|B=4|T=16 P8c-P7 1.473e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 352 / 528 T:en|a=0.05|B=3|T=16 P8c-P7 1.165e-01 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 353 / 528 E:lang/et/retry|a=0.1|B=4|T=16 P8c-P7 2.312e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 354 / 528 T:en|a=0.1|B=3|T=16 P8c-P7 2.031e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 355 / 528 T:fr|a=0.05|B=3|T=16 P8c-P7 9.015e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 356 / 528 T:fr|a=0.1|B=3|T=16 P8c-P7 1.503e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 357 / 528 T:de|a=0.05|B=3|T=16 P8c-P7 1.035e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 358 / 528 T:de|a=0.1|B=3|T=16 P8c-P7 1.770e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 359 / 528 T:es|a=0.05|B=3|T=16 P8c-P7 1.196e-01 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 360 / 528 T:es|a=0.1|B=3|T=16 P8c-P7 2.092e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 361 / 528 T:it|a=0.05|B=3|T=16 P8c-P7 1.076e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 362 / 528 T:it|a=0.1|B=3|T=16 P8c-P7 1.852e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 363 / 528 T:pt|a=0.05|B=3|T=16 P8c-P7 8.375e-02 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 364 / 528 T:pt|a=0.1|B=3|T=16 P8c-P7 1.375e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 365 / 528 T:nl|a=0.05|B=3|T=16 P8c-P7 1.003e-01 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 366 / 528 T:nl|a=0.1|B=3|T=16 P8c-P7 1.707e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 367 / 528 T:sv|a=0.05|B=3|T=16 P8c-P7 2.029e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 368 / 528 T:sv|a=0.1|B=3|T=16 P8c-P7 3.758e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 369 / 528 T:da|a=0.05|B=3|T=16 P8c-P7 1.319e-01 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 370 / 528 T:da|a=0.1|B=3|T=16 P8c-P7 2.338e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 371 / 528 T:fi|a=0.05|B=3|T=16 P8c-P7 8.731e-02 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 372 / 528 T:fi|a=0.1|B=3|T=16 P8c-P7 1.446e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 373 / 528 F:faithful|a=0.05|B=3|T=16 P8c-P7 1.659e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 374 / 528 F:faithful|a=0.1|B=3|T=16 P8c-P7 3.018e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 375 / 528 F:geyser|a=0.05|B=3|T=16 P8c-P7 7.955e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 376 / 528 F:geyser|a=0.1|B=3|T=16 P8c-P7 1.291e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 377 / 528 S:P15502|a=0.05|B=3|T=16 P8c-P7 4.285e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 378 / 528 S:P15502|a=0.1|B=3|T=16 P8c-P7 5.570e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 379 / 528 S:P04985|a=0.05|B=3|T=16 P8c-P7 6.328e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 380 / 528 S:P04985|a=0.1|B=3|T=16 P8c-P7 9.655e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 381 / 528 L:hu|a=0.05|B=3|T=16 P8c-P7 1.834e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 382 / 528 L:hu|a=0.1|B=3|T=16 P8c-P7 3.367e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 383 / 528 L:pl|a=0.05|B=3|T=16 P8c-P7 1.232e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 384 / 528 L:pl|a=0.1|B=3|T=16 P8c-P7 2.164e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 385 / 528 L:cs|a=0.05|B=3|T=16 P8c-P7 1.248e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 386 / 528 L:cs|a=0.1|B=3|T=16 P8c-P7 2.196e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 387 / 528 L:la|a=0.05|B=3|T=16 P8c-P7 1.284e-01 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 388 / 528 L:la|a=0.1|B=3|T=16 P8c-P7 2.268e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 389 / 528 L:ro|a=0.05|B=3|T=16 P8c-P7 1.245e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 390 / 528 L:ro|a=0.1|B=3|T=16 P8c-P7 2.190e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 391 / 528 L:ca|a=0.05|B=3|T=16 P8c-P7 1.132e-01 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 392 / 528 L:ca|a=0.1|B=3|T=16 P8c-P7 1.963e-01 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 393 / 528 S2:P46804|a=0.05|B=3|T=16 P8c-P7 3.067e-02 P8c risk 0.050000 0.1s
+11-23 18:42:18 panel 394 / 528 S2:P46804|a=0.1|B=3|T=16 P8c-P7 3.135e-02 P8c risk 0.100000 0.1s
+11-23 18:42:18 panel 395 / 528 S3:P07916|a=0.05|B=3|T=16 P8c-P7 6.395e-02 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 396 / 528 S3:P07916|a=0.1|B=3|T=16 P8c-P7 9.789e-02 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 397 / 528 S3:P11547|a=0.05|B=3|T=16 P8c-P7 5.770e-02 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 398 / 528 S3:P11547|a=0.1|B=3|T=16 P8c-P7 8.540e-02 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 399 / 528 L2:eo|a=0.05|B=3|T=16 P8c-P7 1.387e-01 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 400 / 528 L2:eo|a=0.1|B=3|T=16 P8c-P7 2.474e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 401 / 528 L2:cy|a=0.05|B=3|T=16 P8c-P7 9.291e-02 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 402 / 528 L2:cy|a=0.1|B=3|T=16 P8c-P7 1.558e-01 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 403 / 528 A:atlas_v2/openml_ldpa|a=0.05|B=3|T=16 P8c-P7 2.757e-02 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 404 / 528 A:sprint_fresh/appliances|a=0.05|B=3|T=16 P8c-P7 2.387e-02 P8c risk 0.050000 0.0s
+11-23 18:42:18 panel 405 / 528 A:atlas_v2/openml_ldpa|a=0.1|B=3|T=16 P8c-P7 2.514e-02 P8c risk 0.100000 0.0s
+11-23 18:42:18 panel 406 / 528 A:sprint_fresh/appliances|a=0.1|B=3|T=16 P8c-P7 1.775e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 407 / 528 A:sprint_fresh/beijing_pm25|a=0.05|B=3|T=16 P8c-P7 2.356e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 408 / 528 A:sprint_fresh/beijing_pm25|a=0.1|B=3|T=16 P8c-P7 1.712e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 409 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=3|T=16 P8c-P7 3.715e-02 P8c risk 0.050000 0.1s
+11-23 18:42:19 panel 410 / 528 A:screen100/elec_MT_005|a=0.05|B=3|T=16 P8c-P7 3.116e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 411 / 528 A:screen100/elec_MT_005|a=0.1|B=3|T=16 P8c-P7 3.232e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 412 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=3|T=16 P8c-P7 4.430e-02 P8c risk 0.100000 0.1s
+11-23 18:42:19 panel 413 / 528 A:screen100/elec_MT_010|a=0.05|B=3|T=16 P8c-P7 2.515e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 414 / 528 A:screen100/elec_MT_010|a=0.1|B=3|T=16 P8c-P7 2.030e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 415 / 528 A:screen100/pm_Shanghai|a=0.05|B=3|T=16 P8c-P7 2.353e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 416 / 528 A:screen100/elec_MT_029|a=0.05|B=3|T=16 P8c-P7 2.448e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 417 / 528 A:screen100/pm_Shanghai|a=0.1|B=3|T=16 P8c-P7 1.705e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 418 / 528 A:screen100/elec_MT_029|a=0.1|B=3|T=16 P8c-P7 1.896e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 419 / 528 A:screen100/pm_Shenyang|a=0.05|B=3|T=16 P8c-P7 2.367e-02 P8c risk 0.050000 0.1s
+11-23 18:42:19 panel 420 / 528 A:screen100/pm_Shenyang|a=0.1|B=3|T=16 P8c-P7 1.734e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 421 / 528 A:screen100/tetouan_z1|a=0.05|B=3|T=16 P8c-P7 2.335e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 422 / 528 A:screen100/tetouan_z1|a=0.1|B=3|T=16 P8c-P7 1.669e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 423 / 528 B:covtype|a=0.05|B=3|T=16 P8c-P7 2.365e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 424 / 528 B:covtype|a=0.1|B=3|T=16 P8c-P7 1.730e-02 P8c risk 0.100000 0.1s
+11-23 18:42:19 panel 425 / 528 Bext:electricity|a=0.05|B=3|T=16 P8c-P7 2.377e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 426 / 528 Bext:electricity|a=0.1|B=3|T=16 P8c-P7 1.754e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 427 / 528 D:geyser/Old_Faithful|a=0.05|B=3|T=16 P8c-P7 6.866e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 428 / 528 D:geyser/Old_Faithful|a=0.1|B=3|T=16 P8c-P7 1.073e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 429 / 528 D:geyser/Grand|a=0.05|B=3|T=16 P8c-P7 7.334e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 430 / 528 D:geyser/Grand|a=0.1|B=3|T=16 P8c-P7 1.167e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 431 / 528 E:lang/af|a=0.05|B=3|T=16 P8c-P7 6.518e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 432 / 528 E:lang/af|a=0.1|B=3|T=16 P8c-P7 1.004e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 433 / 528 E:lang/br|a=0.1|B=3|T=16 P8c-P7 1.666e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 434 / 528 E:lang/br|a=0.05|B=3|T=16 P8c-P7 9.828e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 435 / 528 E:lang/gl/retry|a=0.1|B=3|T=16 P8c-P7 1.984e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 436 / 528 E:lang/gl/retry|a=0.05|B=3|T=16 P8c-P7 1.142e-01 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 437 / 528 E:lang/ia/retry|a=0.05|B=3|T=16 P8c-P7 1.137e-01 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 438 / 528 E:lang/ia/retry|a=0.1|B=3|T=16 P8c-P7 1.975e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 439 / 528 E:lang/et/retry|a=0.1|B=3|T=16 P8c-P7 1.980e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 440 / 528 T:en|a=0.05|B=2|T=16 P8c-P7 6.806e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 441 / 528 E:lang/et/retry|a=0.05|B=3|T=16 P8c-P7 1.140e-01 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 442 / 528 T:en|a=0.1|B=2|T=16 P8c-P7 1.161e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 443 / 528 T:fr|a=0.05|B=2|T=16 P8c-P7 6.019e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 444 / 528 T:de|a=0.05|B=2|T=16 P8c-P7 6.017e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 445 / 528 T:fr|a=0.1|B=2|T=16 P8c-P7 1.004e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 446 / 528 T:de|a=0.1|B=2|T=16 P8c-P7 1.003e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 447 / 528 T:es|a=0.05|B=2|T=16 P8c-P7 8.341e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 448 / 528 T:es|a=0.1|B=2|T=16 P8c-P7 1.468e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 449 / 528 T:it|a=0.05|B=2|T=16 P8c-P7 7.535e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 450 / 528 T:pt|a=0.05|B=2|T=16 P8c-P7 5.937e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 451 / 528 T:it|a=0.1|B=2|T=16 P8c-P7 1.307e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 452 / 528 T:pt|a=0.1|B=2|T=16 P8c-P7 9.874e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 453 / 528 T:nl|a=0.05|B=2|T=16 P8c-P7 5.801e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 454 / 528 T:nl|a=0.1|B=2|T=16 P8c-P7 9.602e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 455 / 528 T:sv|a=0.05|B=2|T=16 P8c-P7 1.083e-01 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 456 / 528 T:sv|a=0.1|B=2|T=16 P8c-P7 1.965e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 457 / 528 T:da|a=0.05|B=2|T=16 P8c-P7 7.523e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 458 / 528 T:da|a=0.1|B=2|T=16 P8c-P7 1.305e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 459 / 528 T:fi|a=0.1|B=2|T=16 P8c-P7 1.038e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 460 / 528 T:fi|a=0.05|B=2|T=16 P8c-P7 6.192e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 461 / 528 F:faithful|a=0.05|B=2|T=16 P8c-P7 9.871e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 462 / 528 F:faithful|a=0.1|B=2|T=16 P8c-P7 1.774e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 463 / 528 F:geyser|a=0.05|B=2|T=16 P8c-P7 5.204e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 464 / 528 F:geyser|a=0.1|B=2|T=16 P8c-P7 8.407e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 465 / 528 S:P15502|a=0.05|B=2|T=16 P8c-P7 2.686e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 466 / 528 S:P15502|a=0.1|B=2|T=16 P8c-P7 3.373e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 467 / 528 S:P04985|a=0.05|B=2|T=16 P8c-P7 4.100e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 468 / 528 S:P04985|a=0.1|B=2|T=16 P8c-P7 6.199e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 469 / 528 L:hu|a=0.1|B=2|T=16 P8c-P7 1.988e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 470 / 528 L:hu|a=0.05|B=2|T=16 P8c-P7 1.094e-01 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 471 / 528 L:pl|a=0.05|B=2|T=16 P8c-P7 7.226e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 472 / 528 L:pl|a=0.1|B=2|T=16 P8c-P7 1.245e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 473 / 528 L:cs|a=0.05|B=2|T=16 P8c-P7 7.270e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 474 / 528 L:cs|a=0.1|B=2|T=16 P8c-P7 1.254e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 475 / 528 L:la|a=0.1|B=2|T=16 P8c-P7 1.472e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 476 / 528 L:ro|a=0.05|B=2|T=16 P8c-P7 7.247e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 477 / 528 L:la|a=0.05|B=2|T=16 P8c-P7 8.361e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 478 / 528 L:ro|a=0.1|B=2|T=16 P8c-P7 1.249e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 479 / 528 L:ca|a=0.05|B=2|T=16 P8c-P7 7.817e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 480 / 528 L:ca|a=0.1|B=2|T=16 P8c-P7 1.363e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 481 / 528 S2:P46804|a=0.05|B=2|T=16 P8c-P7 1.867e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 482 / 528 S3:P07916|a=0.05|B=2|T=16 P8c-P7 3.628e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 483 / 528 S2:P46804|a=0.1|B=2|T=16 P8c-P7 1.733e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 484 / 528 S3:P07916|a=0.1|B=2|T=16 P8c-P7 5.256e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 485 / 528 S3:P11547|a=0.05|B=2|T=16 P8c-P7 3.231e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 486 / 528 S3:P11547|a=0.1|B=2|T=16 P8c-P7 4.462e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 487 / 528 L2:cy|a=0.05|B=2|T=16 P8c-P7 5.372e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 488 / 528 L2:eo|a=0.05|B=2|T=16 P8c-P7 8.968e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 489 / 528 L2:eo|a=0.1|B=2|T=16 P8c-P7 1.594e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 490 / 528 L2:cy|a=0.1|B=2|T=16 P8c-P7 8.744e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 491 / 528 A:atlas_v2/openml_ldpa|a=0.05|B=2|T=16 P8c-P7 1.768e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 492 / 528 A:atlas_v2/openml_ldpa|a=0.1|B=2|T=16 P8c-P7 1.537e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 493 / 528 A:sprint_fresh/appliances|a=0.1|B=2|T=16 P8c-P7 1.480e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 494 / 528 A:sprint_fresh/appliances|a=0.05|B=2|T=16 P8c-P7 1.740e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 495 / 528 A:sprint_fresh/beijing_pm25|a=0.05|B=2|T=16 P8c-P7 1.731e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 496 / 528 A:sprint_fresh/beijing_pm25|a=0.1|B=2|T=16 P8c-P7 1.462e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 497 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.05|B=2|T=16 P8c-P7 2.521e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 498 / 528 A:screen100/elec_MT_005|a=0.05|B=2|T=16 P8c-P7 1.789e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 499 / 528 A:screen100/FOREX_audsgd-hour-Close|a=0.1|B=2|T=16 P8c-P7 3.043e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 500 / 528 A:screen100/elec_MT_010|a=0.05|B=2|T=16 P8c-P7 1.774e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 501 / 528 A:screen100/elec_MT_005|a=0.1|B=2|T=16 P8c-P7 1.577e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 502 / 528 A:screen100/elec_MT_010|a=0.1|B=2|T=16 P8c-P7 1.548e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 503 / 528 A:screen100/elec_MT_029|a=0.05|B=2|T=16 P8c-P7 1.756e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 504 / 528 A:screen100/elec_MT_029|a=0.1|B=2|T=16 P8c-P7 1.513e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 505 / 528 A:screen100/pm_Shanghai|a=0.05|B=2|T=16 P8c-P7 1.731e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 506 / 528 A:screen100/pm_Shanghai|a=0.1|B=2|T=16 P8c-P7 1.461e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 507 / 528 A:screen100/pm_Shenyang|a=0.05|B=2|T=16 P8c-P7 1.734e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 508 / 528 A:screen100/pm_Shenyang|a=0.1|B=2|T=16 P8c-P7 1.468e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 509 / 528 A:screen100/tetouan_z1|a=0.05|B=2|T=16 P8c-P7 1.728e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 510 / 528 B:covtype|a=0.05|B=2|T=16 P8c-P7 1.736e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 511 / 528 A:screen100/tetouan_z1|a=0.1|B=2|T=16 P8c-P7 1.455e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 512 / 528 B:covtype|a=0.1|B=2|T=16 P8c-P7 1.471e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 513 / 528 Bext:electricity|a=0.05|B=2|T=16 P8c-P7 1.737e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 514 / 528 Bext:electricity|a=0.1|B=2|T=16 P8c-P7 1.475e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 515 / 528 D:geyser/Old_Faithful|a=0.05|B=2|T=16 P8c-P7 4.838e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 516 / 528 D:geyser/Old_Faithful|a=0.1|B=2|T=16 P8c-P7 7.677e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 517 / 528 D:geyser/Grand|a=0.1|B=2|T=16 P8c-P7 8.908e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 518 / 528 D:geyser/Grand|a=0.05|B=2|T=16 P8c-P7 5.454e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 519 / 528 E:lang/af|a=0.05|B=2|T=16 P8c-P7 4.124e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 520 / 528 E:lang/af|a=0.1|B=2|T=16 P8c-P7 6.248e-02 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 521 / 528 E:lang/br|a=0.05|B=2|T=16 P8c-P7 6.189e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 522 / 528 E:lang/gl/retry|a=0.05|B=2|T=16 P8c-P7 7.978e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 523 / 528 E:lang/br|a=0.1|B=2|T=16 P8c-P7 1.038e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 524 / 528 E:lang/gl/retry|a=0.1|B=2|T=16 P8c-P7 1.396e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 525 / 528 E:lang/ia/retry|a=0.05|B=2|T=16 P8c-P7 7.884e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 526 / 528 E:lang/ia/retry|a=0.1|B=2|T=16 P8c-P7 1.377e-01 P8c risk 0.100000 0.0s
+11-23 18:42:19 panel 527 / 528 E:lang/et/retry|a=0.05|B=2|T=16 P8c-P7 7.843e-02 P8c risk 0.050000 0.0s
+11-23 18:42:19 panel 528 / 528 E:lang/et/retry|a=0.1|B=2|T=16 P8c-P7 1.369e-01 P8c risk 0.100000 0.0s
+11-23 18:42:20 unit: {'lambda_quadrature_max_abs_err': 4.440892098500626e-16, 'supermartingale_max_excess': 1.1102230246251565e-16, 'lambda_1_0_B1_to_4': {1: 1.5, 2: 2.3333333333333335, 3: 3.75, 4: 6.2}, 'panel_rows': 528, 'p8c_max_risk_causal_minus_alpha': 0.0, 'p8c_violations_at_1e-12': 0, 'passed': True}
+11-23 18:42:29 validate screen100/FOREX_eurchf-hour-Close P8 mc 16.22275 se 0.01887 exact 16.25565 z -1.74
+11-23 18:42:31 validate screen100/FOREX_eurchf-hour-Close P8c mc 16.18755 se 0.01876 exact 16.22344 z -1.91
+11-23 18:42:36 validate screen100/FOREX_audnzd-hour-Close P8 mc 16.33060 se 0.01963 exact 16.34410 z -0.69
+11-23 18:42:38 validate screen100/FOREX_audnzd-hour-Close P8c mc 16.29182 se 0.01950 exact 16.28851 z 0.17
+11-23 18:42:41 validate screen100/FOREX_chfjpy-hour-Close P8 mc 15.82115 se 0.01948 exact 15.83701 z -0.81
+11-23 18:42:43 validate screen100/FOREX_chfjpy-hour-Close P8c mc 15.82455 se 0.01951 exact 15.83869 z -0.72
+11-23 18:42:43 validation passed: True
+11-23 18:42:47 replay: 100 datasets to do
+11-23 18:42:52 replay atlas_v2/airlines replayed windows 259
+11-23 18:42:55 replay atlas_v2/spam replayed windows 11
+11-23 18:42:55 replay atlas_v2/openml_ldpa replayed windows 210
+11-23 18:42:55 replay sprint_fresh/beijing_pm25 replayed windows 89
+11-23 18:42:55 replay sprint_fresh/appliances replayed windows 81
+11-23 18:42:55 replay atlas_v2/elec2 replayed windows 6
+11-23 18:42:57 replay screen100/FOREX_audjpy-hour-Close replayed windows 147
+11-23 18:42:57 replay sprint_fresh/bike_hour replayed windows 47
+11-23 18:42:58 replay screen100/FOREX_audcad-hour-Close replayed windows 202
+11-23 18:42:59 replay screen100/BitcoinHeist_Ransomware replayed windows 64
+11-23 18:42:59 replay sprint_fresh/metro replayed windows 178
+11-23 18:43:00 replay sprint_fresh/household_power replayed windows 145
+11-23 18:43:00 replay screen100/FOREX_audchf-hour-Close replayed windows 119
+11-23 18:43:00 replay screen100/FOREX_audnzd-hour-Close replayed windows 309
+11-23 18:43:01 replay screen100/FOREX_chfjpy-hour-Close replayed windows 205
+11-23 18:43:01 replay screen100/FOREX_cadchf-hour-Close replayed windows 152
+11-23 18:43:01 replay screen100/FOREX_cadjpy-hour-Close replayed windows 103
+11-23 18:43:02 replay screen100/FOREX_chfsgd-hour-Close replayed windows 139
+11-23 18:43:03 replay screen100/FOREX_euraud-hour-Close replayed windows 145
+11-23 18:43:04 replay screen100/FOREX_eurcad-hour-Close replayed windows 309
+11-23 18:43:04 replay screen100/FOREX_eurchf-hour-Close replayed windows 403
+11-23 18:43:04 replay screen100/FOREX_eurdkk-hour-Close replayed windows 141
+11-23 18:43:04 replay screen100/FOREX_eurgbp-hour-Close replayed windows 93
+11-23 18:43:04 replay screen100/FOREX_eurjpy-hour-Close replayed windows 204
+11-23 18:43:05 replay screen100/FOREX_eursek-hour-Close replayed windows 66
+11-23 18:43:05 replay screen100/FOREX_eurnok-hour-Close replayed windows 46
+11-23 18:43:06 replay screen100/FOREX_eurpln-hour-Close replayed windows 116
+11-23 18:43:07 replay screen100/FOREX_eurnzd-hour-Close replayed windows 79
+11-23 18:43:07 replay screen100/FOREX_eursgd-hour-Close replayed windows 168
+11-23 18:43:07 replay screen100/FOREX_eurtry-hour-Close replayed windows 144
+11-23 18:43:08 replay screen100/FOREX_usdcad-hour-Close replayed windows 277
+11-23 18:43:08 replay screen100/FOREX_eurusd-hour-Close replayed windows 73
+11-23 18:43:09 replay screen100/FOREX_usdchf-hour-Close replayed windows 163
+11-23 18:43:10 replay screen100/FOREX_gbpusd-hour-Close replayed windows 14
+11-23 18:43:11 replay screen100/FOREX_usddkk-hour-Close replayed windows 120
+11-23 18:43:12 replay screen100/Homesite_Quote_Conversion replayed windows 33
+11-23 18:43:12 replay screen100/air_Aotizhongxin replayed windows 41
+11-23 18:43:13 replay screen100/air_Changping replayed windows 38
+11-23 18:43:13 replay screen100/FOREX_usdjpy-hour-Close replayed windows 335
+11-23 18:43:13 replay screen100/air_Dingling replayed windows 32
+11-23 18:43:14 replay screen100/air_Dongsi replayed windows 38
+11-23 18:43:15 replay screen100/air_Guanyuan replayed windows 29
+11-23 18:43:16 replay screen100/air_Gucheng replayed windows 40
+11-23 18:43:16 replay screen100/air_Huairou replayed windows 25
+11-23 18:43:17 replay screen100/air_Nongzhanguan replayed windows 45
+11-23 18:43:17 replay screen100/air_Shunyi replayed windows 31
+11-23 18:43:18 replay screen100/air_Tiantan replayed windows 50
+11-23 18:43:19 replay screen100/air_Wanshouxigong replayed windows 56
+11-23 18:43:20 replay screen100/air_Wanliu replayed windows 55
+11-23 18:43:20 replay screen100/elec_MT_002 replayed windows 26
+11-23 18:43:21 replay screen100/elec_MT_001 replayed windows 185
+11-23 18:43:21 replay screen100/elec_MT_003 replayed windows 191
+11-23 18:43:22 replay screen100/elec_MT_004 replayed windows 77
+11-23 18:43:23 replay screen100/elec_MT_005 replayed windows 145
+11-23 18:43:23 replay screen100/elec_MT_006 replayed windows 32
+11-23 18:43:24 replay screen100/elec_MT_007 replayed windows 65
+11-23 18:43:24 replay screen100/elec_MT_008 replayed windows 28
+11-23 18:43:25 replay screen100/elec_MT_009 replayed windows 142
+11-23 18:43:25 replay screen100/elec_MT_010 replayed windows 207
+11-23 18:43:27 replay screen100/elec_MT_011 replayed windows 76
+11-23 18:43:27 replay screen100/elec_MT_013 replayed windows 85
+11-23 18:43:28 replay screen100/elec_MT_015 replayed windows 357
+11-23 18:43:28 replay screen100/elec_MT_014 replayed windows 68
+11-23 18:43:29 replay screen100/elec_MT_016 replayed windows 51
+11-23 18:43:30 replay screen100/elec_MT_012 replayed windows 34
+11-23 18:43:32 replay screen100/elec_MT_020 replayed windows 60
+11-23 18:43:32 replay screen100/elec_MT_018 replayed windows 28
+11-23 18:43:33 replay screen100/elec_MT_017 replayed windows 35
+11-23 18:43:33 replay screen100/elec_MT_019 replayed windows 74
+11-23 18:43:35 replay screen100/elec_MT_021 replayed windows 39
+11-23 18:43:36 replay screen100/elec_MT_022 replayed windows 60
+11-23 18:43:37 replay screen100/elec_MT_023 replayed windows 41
+11-23 18:43:38 replay screen100/elec_MT_024 replayed windows 61
+11-23 18:43:38 replay screen100/elec_MT_026 replayed windows 73
+11-23 18:43:38 replay screen100/elec_MT_028 replayed windows 53
+11-23 18:43:40 replay screen100/elec_MT_027 replayed windows 46
+11-23 18:43:41 replay screen100/elec_MT_029 replayed windows 64
+11-23 18:43:42 replay screen100/elec_MT_025 replayed windows 49
+11-23 18:43:43 replay screen100/elec_MT_031 replayed windows 63
+11-23 18:43:43 replay screen100/elec_MT_030 replayed windows 57
+11-23 18:43:44 replay screen100/elec_MT_032 replayed windows 32
+11-23 18:43:44 replay screen100/elec_MT_033 replayed windows 32
+11-23 18:43:46 replay screen100/elec_MT_036 replayed windows 67
+11-23 18:43:46 replay screen100/elec_MT_035 replayed windows 61
+11-23 18:43:47 replay screen100/elec_MT_037 replayed windows 48
+11-23 18:43:47 replay screen100/elec_MT_034 replayed windows 53
+11-23 18:43:47 replay screen100/elec_MT_038 replayed windows 21
+11-23 18:43:48 replay screen100/elec_MT_041 replayed windows 19
+11-23 18:43:49 replay screen100/elec_MT_039 replayed windows 24
+11-23 18:43:50 replay screen100/elec_MT_042 replayed windows 39
+11-23 18:43:51 replay screen100/elec_MT_040 replayed windows 51
+11-23 18:43:51 replay screen100/elec_MT_043 replayed windows 33
+11-23 18:43:51 replay screen100/pm_Chengdu replayed windows 107
+11-23 18:43:52 replay screen100/pm_Guangzhou replayed windows 88
+11-23 18:43:53 replay screen100/pm_Shanghai replayed windows 72
+11-23 18:43:54 replay screen100/pm_Shenyang replayed windows 41
+11-23 18:43:54 replay screen100/seoul_bike replayed windows 11
+11-23 18:43:54 replay screen100/tetouan_z1 replayed windows 47
+11-23 18:43:55 replay screen100/tetouan_z2 replayed windows 97
+11-23 18:43:55 replay screen100/tetouan_z3 replayed windows 135
+11-23 18:43:57 summary written

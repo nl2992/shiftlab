@@ -228,3 +228,15 @@ datasets).** Pooled mean realised cost [95% window-bootstrap CI]; paired differe
 RB-DP ties P5r and is cheaper than every other safe baseline (significantly for P1, P6, P4c). Per dataset, against the
 lowest of the six safe baselines' realised means chosen after the fact, RB-DP is below on 1, tied on 40, above on 59.
 Executor validation: 9 Monte Carlo comparisons, all |z| ≤ 1.42.
+
+## Phase 11: mSPRT always-valid A/B baseline (PROTOCOL.md Addendum J, 2026-11-23)
+
+Negative for the baseline, i.e. RB-DP keeps its lead. P8 is the one-sided mixture SPRT (uniform prior on theta in [1/2, 1], exact
+Lambda(k, j), P2's query rule). Textbook P8 (promote at Lambda >= 1/alpha) never promotes: max Lambda is (2^(B+1) - 1)/(B+1) <= 6.2 < 10
+for B <= 4, so in all 528 settings it queries B labels and never promotes (cost C0 + B c, risk 0); realised promotion rate on the replay 0.000.
+Calibrated P8c (exact causal risk <= alpha, cheapest feasible calibration-path member): 0 causal-risk violations in 528 settings
+(max risk/alpha 1.000000, unit check at 1e-12 passed). Panel (44 chains, 528 settings): RB-DP cheaper in 528, tied 0, dearer 0
+(min Delta 1.455e-02); median share of RB-DP's value of information captured by P8c 0.4509 (q25 0.1266, q75 0.7109). P8c never beats P2 by
+more than 3.0e-4 in 420 comparable settings. Replay (9,525 windows, 100 datasets): mean realised cost P7 13.7991 [13.6602, 13.9312],
+P8c 13.8379 [13.6982, 13.9738], P7 - P8c = -0.0388 [-0.0973, 0.0196] (CI contains 0 on the replay; P7 below P8c on 60 of 100 datasets).
+Executor validation: 6 Monte Carlo comparisons, all |z| <= 1.91. Files: `results/phase11_msprt_*`, `run_phase11_msprt.py`.

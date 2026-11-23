@@ -4,7 +4,7 @@
 Sources:
  (a) docs/paper4_continuation/rbdp/real_data/results/phase7_baselines_T16_32/settings.jsonl
      + phase10_baselines/settings.jsonl (4 chains) + phase10c_baselines/settings.jsonl (5 chains) (44 chains x 12 settings, T in {16,32}, B in {2,3,4}, alpha in {0.05,0.1}); per chain the max over settings.
- (b) docs/paper4_continuation/rbdp/real_data/results/phase9_replay.jsonl (100 datasets, 9,525 windows,
+ (b) docs/paper4_continuation/rbdp/real_data/results/phase9_replay.jsonl + phase11_msprt_replay.jsonl (P8c) (100 datasets, 9,525 windows,
      T = 32, B = 4, alpha = 0.1, c = 0.01); window bootstrap, 2,000 resamples, seed 20261119.
 Asserted against phase10c_baselines/tally.json (key new) and len(make_tables.ORDER): chains violated by P3/P4/P5 and their maxima; pooled means equal Table 4 to 1e-3.
 """
@@ -40,11 +40,16 @@ assert max(max(worst[p].values()) for p in ("P1", "P2", "P6", "P7")) <= 1 + 1e-9
 
 # ---- (b) replay pooled cost
 rep = [r for r in read_jsonl(REAL / "phase9_replay.jsonl") if r["status"] == "replayed"]
-SAFE = ["P7", "P5r", "P2", "P3c", "P1", "P6"]
-LAB = {"P7": "RB-DP", "P5r": "P5r", "P2": "P2", "P3c": "P3c", "P1": "P1", "P6": "P6"}
+SAFE = ["P7", "P5r", "P8c", "P2", "P3c", "P1", "P6"]
+LAB = {"P7": "RB-DP", "P5r": "P5r", "P8c": "P8c", "P2": "P2", "P3c": "P3c", "P1": "P1", "P6": "P6"}
+# Phase 11 calibrated mSPRT, aligned window by window with Phase 9 (same datasets; P7 costs must coincide exactly)
+m11 = {r["id"]: r for r in read_jsonl(REAL / "phase11_msprt_replay.jsonl") if r["status"] == "replayed"}
+for r in rep:
+    assert np.array_equal(np.asarray(m11[r["id"]]["cost"]["P7"], float), np.asarray(r["cost"]["P7"], float)), r["id"]
+    r["cost"]["P8c"] = m11[r["id"]]["cost"]["P8c"]
 cost = {p: np.concatenate([np.asarray(r["cost"][p], float) for r in rep]) for p in SAFE + ["P4c"]}
 n = len(cost["P7"]); assert n == 9525, n
-TABLE4 = {"P7": 13.799, "P5r": 13.799, "P2": 13.838, "P3c": 13.850, "P1": 13.918, "P6": 14.173, "P4c": 15.834}
+TABLE4 = {"P7": 13.799, "P5r": 13.799, "P8c": 13.838, "P2": 13.838, "P3c": 13.850, "P1": 13.918, "P6": 14.173, "P4c": 15.834}
 for p, v in TABLE4.items():
     assert abs(cost[p].mean() - v) < 1e-3, (p, cost[p].mean(), v)
 rng = np.random.default_rng(20261119)

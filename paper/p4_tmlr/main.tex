@@ -257,7 +257,7 @@ In every cell of the table the i.i.d.-mode policy, evaluated against the adaptiv
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.72\linewidth]{figures/fig_real.pdf}
-\caption{Real streams. (a) For each of the 44 fitted chains, the largest worst-case adaptive risk over the 12 panel settings, in units of $\alpha$ (log scale). RB-DP (P7, blue) and the safe baselines P1, P2, P6 sit at $\alpha$; the i.i.d.-calibrated rules P3, P4, P5 exceed it on 40 of 44 datasets, by up to $8\alpha$. P1 fixed-sample test; P2 count SPRT; P3c HMM filter, recalibrated; P5r i.i.d.-optimal planner, repaired for adaptive risk; P6 e-process gate. In (a), the number above a point counts the chains with that worst-case ratio. (b) Held-out replay: pooled mean realised cost per window of the safe policies with 95\% window-bootstrap intervals (2{,}000 resamples, seed 20261119). P4c (15.83) is off the scale and omitted.}
+\caption{Real streams. (a) For each of the 44 fitted chains, the largest worst-case adaptive risk over the 12 panel settings, in units of $\alpha$ (log scale). RB-DP (P7, blue) and the safe baselines P1, P2, P6 sit at $\alpha$; the i.i.d.-calibrated rules P3, P4, P5 exceed it on 40 of 44 datasets, by up to $8\alpha$. P1 fixed-sample test; P2 count SPRT; P3c HMM filter, recalibrated; P5r i.i.d.-optimal planner, repaired for adaptive risk; P6 e-process gate; P8c mixture SPRT (always-valid A/B test), recalibrated. In (a), the number above a point counts the chains with that worst-case ratio. (b) Held-out replay: pooled mean realised cost per window of the safe policies with 95\% window-bootstrap intervals (2{,}000 resamples, seed 20261119). P4c (15.83) is off the scale and omitted.}
 \label{fig:real}
 \end{figure*}
 

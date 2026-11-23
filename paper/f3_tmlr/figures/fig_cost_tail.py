@@ -29,5 +29,6 @@ ax.scatter(d["sup_q99"], d["J"], s=52, marker="o", facecolor="white", edgecolor=
 ax.annotate("stop-loss", (d["sup_q99"], d["J"]), xytext=(-8, -6), textcoords="offset points", ha="right", va="center", fontsize=8, color=P["red_strong"])
 ax.set_xlim(-2, 40); ax.set_ylim(68.4, 72.1)
 ax.set_xlabel("99th percentile of maximum harm (loss units)"); ax.set_ylabel("mean cost $J$ per episode")
-fig.subplots_adjust(left=0.13, right=0.985, top=0.97, bottom=0.17)
+ax.set_title("cost against tail harm, R = 20", loc="left", fontsize=8, pad=6, family=["Courier New","Menlo","DejaVu Sans Mono"], fontweight="bold")
+fig.subplots_adjust(left=0.13, right=0.985, top=0.9, bottom=0.17)
 save(fig, "cost_tail")

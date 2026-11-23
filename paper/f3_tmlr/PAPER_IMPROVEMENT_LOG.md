@@ -369,3 +369,6 @@ Pipeline, overview and mechanism figures were critiqued by Codex against the fig
 
 ## Round 15 - alignment with TMLR practice (57 TMLR-format papers from arXiv surveyed)
 Corpus medians: main text 13 pages (IQR 12-17), 30 pages in total, abstract ~190 words, Related Work present in 31/57, Conclusion in 54/57, Limitations section in 28/57, Figure 1 on page 2 in 22/57, contribution list on pages 1-2 in 24/57. Changes: abstract shortened (311 -> 260 words), contribution bullets added to the introduction, Related Work moved to Section 2, the ablation and harmful-stream tables and the calibration protocol moved to the appendix. Main text still about 19 pages.
+
+## Round 16 - deeper cut and data-figure restyle
+Main text cut from ~19.5 to ~17 pages: Table 1, the running-example table, the shield-variants table and the registered-confirmation table, three related-work paragraphs and the calibration protocol/results moved to the appendix. Data figures (violations, cost tail, regime map) restyled with bold panel letters and bold monospace panel titles, as in the scene figures. Figure survey of 57 TMLR-format papers: multi-panel figures with bold panel letters, a wide overview figure on page 1-2, direct labels, shaded bands for uncertainty.

@@ -62,21 +62,7 @@ Controllers not designed for this target can exceed the budget when feedback is 
 \item \emph{A matching lower bound.} No controller can certify a switch from delayed feedback alone, and the first promotion cannot be held through more than $R-2k$ unseen disagreements; the shield reaches this bound (Propositions~\ref{prop:nocert}, \ref{prop:reserves}).
 \item \emph{What the guarantee costs.} In a registered simulation, on 12 real streams and on a screen of \ScreenPool{} public streams, the shield keeps the budget and, in the regimes we study, retains most of the unconstrained rule's gain when one delay window is short relative to the headroom (Section~\ref{sec:exp}).
 \end{itemize}
-\begin{table}[!htbp]
-\caption{Contributions, supporting results and scope.}\label{tab:claims}
-\centering\small
-\begin{tabular}{@{}p{4.5cm} p{4.8cm} p{5.6cm}@{}}
-\toprule
-Contribution & Support & Scope \\
-\midrule
-Target and impossibility of unrestricted payback certification & Proposition~\ref{prop:nocert} & Labels arrive at least $d\ge1$ rounds after requests; two tapes are indistinguishable through the decision round \\
-Pathwise harm budget with pending-feedback and rollback reserves & Theorem~\ref{thm:main}; Tables~\ref{tab:confirm}, \ref{tab:real} & Every fixed loss and disagreement sequence and admissible delay rule under O1--O4; empirical results cover the registered simulation, 12 cached real streams and a screen of \ScreenPool{} public streams \\
-Exposure lower bound and first-spell risk & Propositions~\ref{prop:reserves}, \ref{prop:price}; Tables~\ref{tab:ablation}, \ref{tab:prop3}, \ref{tab:prop4} & Lower bound applies to first-promotion events with probability greater than $\delta$; ruin bound assumes positive conditional gain and fixed delay \\
-Safety and retained utility in evaluated settings & Tables~\ref{tab:sim}, \ref{tab:split}, \ref{tab:calib}, \ref{tab:real}, \ref{tab:regime} & Five tuned heuristics are in-house comparators or documented adapters; the exposure-ratio result is correlational \\
-\bottomrule
-\end{tabular}
-\end{table}
-
+Table~\ref{tab:claims} in Appendix~\ref{app:claims} lists each contribution with its supporting results and scope.
 At $R=20$, pooled over the \NRegimes{} simulation regimes, the full-sampling shield has mean cost $J=\JFthreeTwenty$, between never switching ($\JNever$) and tuned Wald with cutoff ($\JWald$). In the six stress regimes, it costs less than Wald with cutoff. The shield keeps most of the unconstrained rule's gain when one delay window holds less than half the headroom, and little when it holds the headroom or more (Section~\ref{sec:regimemap}). On the real streams with clean feedback at $h=14$, full sampling gains \RealPiVsNeverCleanHfourteen{} of the \RealWaldGain{} cost units that Wald with cutoff gains over never switching, about \RealPiShareFourteen\%.
 
 \section{Related work}
@@ -86,14 +72,7 @@ The differences are as follows. In conservative bandits the constraint is multip
 
 Prudent-Banker~\citep{hu2026prudent} treats $K$-armed adversarial bandits with and without arbitrary, unknown delays. It attains worst-case pseudo-regret $\tilde O(\sqrt T+\sqrt D)$, with $D$ the total delay, together with $\tilde O(1)$ pseudo-regret against a designated safe baseline policy, using a restart threshold calibrated to the worst-case distortion caused by unobserved feedback. Its guarantees concern expected pseudo-regret, not a pathwise high-probability harm budget. Feedback arrives passively for every played round, and there is no switching fee, rollback or label budget. Its lower bounds concern regret guarantees, not the reserve required by a pathwise budget.
 
-\paragraph{Bandits with knapsacks.}
-Bandits with knapsacks maximise reward subject to global resource budgets, and the process stops when a resource is exhausted~\citep{badanidiyuru2013bandits,badanidiyuru2018bandits}. The label budget $B$ here is a resource of that kind. The constrained quantity differs. In bandits with knapsacks, the resource consumption of a pulled arm is part of the feedback received when the arm is pulled. Our budget is on the harm of an action whose cost is learned only through delayed, sampled or missing labels. The requirement is a pathwise guarantee on that harm at every round, with reserves for what is in transit, not a regret bound on reward.
-
-\paragraph{Sequential testing in online experiments.}
-Always-valid $p$-values and confidence intervals control type I error under continuous monitoring of an A/B test, even with repeated peeking~\citep{johari2017peeking,johari2022always}. They are inference procedures for a treatment effect in a randomised experiment. Our budget is not a test of an effect. It bounds the realised harm of a sequence of interventions that a controller chooses and can reverse, under arbitrary drift and dependence, with delayed and sampled outcomes and switching fees. We use anytime-valid machinery for the same reason they do, to allow a decision at every round, but the target and the object bounded differ.
-
-\paragraph{Safe policy improvement and confidence sequences.}
-High-confidence off-policy evaluation and policy improvement give a lower confidence bound on a new policy's value before it is deployed~\citep{thomas2015hcope,thomas2015hcpi}. That is a one-shot certificate from logged data, with no sequential rollback and no pending feedback. Baseline bootstrapping falls back to the behaviour policy where data are scarce~\citep{laroche2019spibb}, and policy learning with abstention defers to a safe default where candidate policies disagree~\citep{sawarni2025abstention}. Both certify a policy from a fixed sample rather than control a live, reversible deployment. Update scheduling with a budget on the expected number of regressing updates plans switches offline from historical trajectories~\citep{zhou2026metapolicy}. Its budget is in expectation over updates, not a pathwise bound on realised harm. Off-policy confidence sequences supply time-uniform bounds for contextual bandits and apply them to gated deployment~\citep{karampatziakis2021offpolicy}. They assess the new policy's value, whereas we bound the cumulative harm of the deployed sequence, fees included. Our width uses Bennett and exact-coin mixtures in the manner of time-uniform confidence sequences~\citep{howard2021time,waudbysmith2024betting}; see \citet{ramdas2023savi} for a survey of anytime-valid inference. Design-based confidence sequences for delayed outcomes monitor a counterfactual cumulative reward in randomised experiments~\citep{lindon2026design}. They show that inverse-propensity error is a martingale only in a suitable event-time filtration. Our settlement accounting avoids that requirement by booking unsettled rounds at worst case. Those confidence sequences monitor reward without controlling the intervention.
+Further related work (bandits with knapsacks, sequential testing, safe policy improvement) is in Appendix~\ref{app:relwork}.
 
 \paragraph{Delayed feedback and switching costs.}
 Online learning under delayed feedback shows that delay multiplies regret in adversarial problems and adds to it in stochastic ones~\citep{joulani2013delayed}. We do not target regret; delay enters as a reserve. Switching costs change the achievable regret rate under bandit feedback~\citep{cesabianchi2013switching}, and observation budgets interact with switching costs~\citep{cheng2023feedback}. These works compare to the best fixed action and impose no constraint on realised harm.
@@ -197,12 +176,6 @@ Take $k=\ExK$, $R=\ExR$, $d=\ExD$, full sampling, every round exposed. At the fi
 
 \input{figures/fig_mechanism.tex}
 
-\begin{table}[!htbp]
-\caption{Running example ($k=\ExK$, $R=\ExR$, $d=\ExD$, full sampling, every round exposed, promotion at round 1): the check $W$ at the $n$-th exposed round on a tape where every round is harmful and on one where every round benefits the challenger.}\label{tab:example}
-\centering\small
-\input{tables/ex_w.tex}
-\end{table}
-
 \begin{algorithm}[t]
 \caption{One round of the risk-budget shield; paced settlement uses the accounting construction in Appendix~\ref{app:v2}.}\label{alg:shield}
 \begin{algorithmic}
@@ -225,20 +198,6 @@ Take $k=\ExK$, $R=\ExR$, $d=\ExD$, full sampling, every round exposed. At the fi
 \end{algorithmic}
 \end{algorithm}
 
-\begin{table}[!htbp]
-\caption{Variants of the shield. Each accepts deployment when its accounting check satisfies $W_t\le R$; the paced settlement variant changes how $W_t$ is constructed (Appendix~\ref{app:v2}). Frozen settings are in Appendix Table~\ref{tab:arms}.}\label{tab:variants}
-\centering\small
-\begin{tabular}{@{}p{2.5cm} p{5.3cm} p{2.6cm} p{3.9cm}@{}}
-\toprule
-Variant & What it changes & Guarantee & Use when \\
-\midrule
-Full sampling & $\pi=1$ on every exposed round while labels remain; pending rounds are booked at 1; no martingale term & $\sup_tH_t\le R$ surely ($\delta=0$) & labels cover the exposed rounds, or a deterministic guarantee is required \\
-Paced with settlement & $\pi$ from labels remaining per expected exposed round, floor $\pi_{\min}$; a sampled round is booked at 1 until a settlement window has passed, then enters the inverse-propensity sum and the exact-coin mixture & probability $\ge1-\delta$ & labels are fewer than exposed rounds and $\delta>0$ is acceptable \\
-Blind-round & $\pi\in\{1,\text{blind}\}$; a round is left without a query, booked at 1, when the headroom left after booking it is at least a margin & $\sup_tH_t\le R$ surely (with $\pi_{\min}=1$) & headroom is large relative to the exposure in one delay window, so blind rounds are affordable \\
-Label-scarce (v3) & paced variant with a lower floor $\pi_{\min}$, a wider mixture grid, and no blind rounds; simulation-selected for $T=2000$, $B=200$ & probability $\ge1-\delta$ & exposed rounds far outnumber labels and $h$ is large; it did not improve cost at the evaluated small headrooms \\
-\bottomrule
-\end{tabular}
-\end{table}
 When the label cap is exhausted, the full-sampling variant uses blind rounds when its check permits them and otherwise rolls back.
 
 \FloatBarrier
@@ -317,12 +276,6 @@ We evaluate 12 cached streams of paired 0/1 losses (\NStreamEpisodes{} episodes,
 Only the controllers' coins: the shield's query coins $q_t$ (assumption O2) and the paced-acquisition coins of the inner rule and the comparators. In the real-stream study the tape of an episode (losses, flags, delays and corruptions) is fixed, so its 20 policy seeds change nothing but these coins. Runs of one episode are therefore not independent evidence about the stream. In the simulation each tape gets one run, so changing the seed varies the tape and the controllers' coins together. All arms see the same tape.
 
 \begin{table}[!htbp]
-\caption{Registered confirmation C1--C6 (simulation, \NRunsPerArm{} runs per arm). C4 compares the $R=20$ shield with Wald using a 3\% cost tolerance and with never switching using a zero-cost tolerance.}\label{tab:confirm}
-\centering\small
-\resizebox{\linewidth}{!}{\input{tables/tab_confirm.tex}}
-\end{table}
-
-\begin{table}[!htbp]
 \caption{Simulation, $R=20$, pooled over \NRegimes{} regimes. $J$ is mean cost; ``vs never'' is the relative difference in $J$; harm quantiles are of $\sup_tH_t$. The exceedance columns report the mean of per-regime rates pooled across regimes and the rate in the worst regime, respectively. Full sampling has no violations; paced sampling has rare exceedances, while each heuristic comparator has a higher pooled rate.}\label{tab:sim}
 \centering\small
 \input{tables/tab_sim.tex}
@@ -349,19 +302,7 @@ The shield keeps the budget and costs less than never switching. At $R=20$ its p
 \end{table}
 
 \subsection{Calibrated comparators}\label{sec:calib}
-Can budget-aware comparators reach the shield's nominal $.05$ per-regime violation target with one calibrated safety parameter? We calibrated a stop-loss margin and a CUSUM rollback threshold on separate seeds, froze the selected values and evaluated them on fresh seeds and on the real streams (protocol in Appendix~\ref{app:calibproto}). Neither comparator was calibrated on the real streams.
-
-\emph{The stop-loss met the nominal target only by blocking promotion.} Its worst-regime violation rate stays high for every tested margin that still allows a promotion (at $R=20$, \CalStopLastViol{} with $c=\CalStopLastC$). The first margins that meet the target ($c=\CalStopCA$, \CalStopCB{} and \CalStopCC{} at $R=12,20,30$) block every promotion ($c>R-2k$). On fresh seeds the stop-loss is deployed in a fraction \CalStopDepB{} of rounds and keeps the budget. It costs \CalStopJB{}, against \CalNeverJ{} for never switching and \CalShieldJB{} for the shield at $R=20$. It costs more than never switching (\CalStopDNever) because the wrapped rule still buys labels. The same holds on the real streams (cost \RCalStopJ{} per episode, deployed fraction \RCalStopDep{}). A margin acts on resolved harm, so it cannot cover exposure whose labels are in transit.
-
-\emph{No tested CUSUM rollback threshold met the nominal target at $R=12$ or $R=20$.} The most conservative threshold leaves worst-regime violation rates of \CalCusWorstA{} and \CalCusWorstB{} on fresh seeds (Wilson lower bounds \CalCusWorstLoA{} and \CalCusWorstLoB), both in the adverse-dropout regime, at a cost above never switching (\CalCusDNeverA{} and \CalCusDNeverB). At $R=30$ the selected threshold $\theta_c=\CalCusHC{}$ met the calibration target but not on fresh seeds (worst-regime rate \CalCusWorstC, lower bound \CalCusWorstLoC). On beneficial real streams with clean feedback and $h=14$, its mean cost minus the shield's is \RCalCusVsShield{} units per episode ([\RCalCusVsShieldLo, \RCalCusVsShieldHi]). At $h=14$ it exceeds the budget in \RCalCusViolCleanFourteen{} of \RealRunsPerArm{} clean runs, and in \RCalCusViolDropFourteen{} and \RCalCusViolDelayFourteen{} runs under adverse dropout and adverse delay.
-
-Table~\ref{tab:calib} summarises the simulation results. Neither calibrated comparator is both within the budget and cheaper than the shield. Each has one calibrated parameter. A margin combined with a CUSUM threshold would still act on resolved harm only, while the shield's reserves add the in-transit term such a rule lacks.
-
-\begin{table}[!htbp]
-\caption{Calibrated comparators (fresh simulation seeds, \NRegimes{} regimes). Each comparator's safety parameter was selected on separate calibration seeds against a nominal per-regime violation target of $.05$; a setting qualified if its empirical rate was at most $.05$ in every regime. Selected margins $c=7,15,25$ at $R=12,20,30$; selected CUSUM thresholds $\theta_c=.5,.5,1$, of which only $R=30$ qualified (the others are the most conservative grid value). ``vs never'' is the pooled difference in $J$. Costs differ slightly from Table~\ref{tab:sim}, which uses the registered seeds.}\label{tab:calib}
-\centering
-{\setlength{\tabcolsep}{4pt}\footnotesize\input{tables/tab_calib.tex}}
-\end{table}
+Can budget-aware comparators reach the shield's nominal $.05$ per-regime violation target with one calibrated safety parameter? We calibrated a stop-loss margin and a CUSUM rollback threshold on separate seeds and froze them (protocol and full results in Appendix~\ref{app:calibres}). The stop-loss met the target only by blocking every promotion, so it keeps the budget but costs more than never switching. No tested CUSUM threshold met the target at $R=12$ or $R=20$, and the one that qualified at $R=30$ did not on fresh seeds. Neither comparator is both within the budget and cheaper than the shield (Table~\ref{tab:calib}).
 
 \subsection{Real streams}
 Table~\ref{tab:real} gives the pooled results. The shield had \RealShieldViolClean{} violations of its own budget in every arm, headroom and condition (\RealRunsPerArm{} runs each), as Theorem~\ref{thm:main} implies. With simulated delays and policy seeds that share a tape, this is a consistency check, not independent evidence.
@@ -409,6 +350,16 @@ The guarantee is relative to never switching and the stated observation model. I
 \bibliographystyle{tmlr}
 
 \appendix
+\section{Further related work}\label{app:relwork}
+\paragraph{Bandits with knapsacks.}
+Bandits with knapsacks maximise reward subject to global resource budgets, and the process stops when a resource is exhausted~\citep{badanidiyuru2013bandits,badanidiyuru2018bandits}. The label budget $B$ here is a resource of that kind. The constrained quantity differs. In bandits with knapsacks, the resource consumption of a pulled arm is part of the feedback received when the arm is pulled. Our budget is on the harm of an action whose cost is learned only through delayed, sampled or missing labels. The requirement is a pathwise guarantee on that harm at every round, with reserves for what is in transit, not a regret bound on reward.
+
+\paragraph{Sequential testing in online experiments.}
+Always-valid $p$-values and confidence intervals control type I error under continuous monitoring of an A/B test, even with repeated peeking~\citep{johari2017peeking,johari2022always}. They are inference procedures for a treatment effect in a randomised experiment. Our budget is not a test of an effect. It bounds the realised harm of a sequence of interventions that a controller chooses and can reverse, under arbitrary drift and dependence, with delayed and sampled outcomes and switching fees. We use anytime-valid machinery for the same reason they do, to allow a decision at every round, but the target and the object bounded differ.
+
+\paragraph{Safe policy improvement and confidence sequences.}
+High-confidence off-policy evaluation and policy improvement give a lower confidence bound on a new policy's value before it is deployed~\citep{thomas2015hcope,thomas2015hcpi}. That is a one-shot certificate from logged data, with no sequential rollback and no pending feedback. Baseline bootstrapping falls back to the behaviour policy where data are scarce~\citep{laroche2019spibb}, and policy learning with abstention defers to a safe default where candidate policies disagree~\citep{sawarni2025abstention}. Both certify a policy from a fixed sample rather than control a live, reversible deployment. Update scheduling with a budget on the expected number of regressing updates plans switches offline from historical trajectories~\citep{zhou2026metapolicy}. Its budget is in expectation over updates, not a pathwise bound on realised harm. Off-policy confidence sequences supply time-uniform bounds for contextual bandits and apply them to gated deployment~\citep{karampatziakis2021offpolicy}. They assess the new policy's value, whereas we bound the cumulative harm of the deployed sequence, fees included. Our width uses Bennett and exact-coin mixtures in the manner of time-uniform confidence sequences~\citep{howard2021time,waudbysmith2024betting}; see \citet{ramdas2023savi} for a survey of anytime-valid inference. Design-based confidence sequences for delayed outcomes monitor a counterfactual cumulative reward in randomised experiments~\citep{lindon2026design}. They show that inverse-propensity error is a martingale only in a suitable event-time filtration. Our settlement accounting avoids that requirement by booking unsettled rounds at worst case. Those confidence sequences monitor reward without controlling the intervention.
+
 \section{Remaining proofs}\label{app:proofs}
 \subsection{Proposition~\ref{prop:nocert}}
 Fix a certifier, which is a (possibly randomised) function $f$ of the observed history $\mathcal H_\tau$ through round $\tau$ and its private coins. We show that $\mathcal H_\tau$ has the same distribution under $\mathcal E^+$ and $\mathcal E^-$. Run the controller on both tapes with the same coins. A label requested at round $s$ is released at the start of round $s+d_s\ge s+d$, so a label visible at the start of round $\tau$ was requested at some $s\le\tau-d$, where the tapes agree in losses, flags and delays. The flags of every round up to $\tau$ coincide, and the controller's earlier actions and query decisions are functions of its past observations and coins. By induction over rounds, the actions, queries and released labels through $\tau$ coincide pathwise, hence $\mathcal H_\tau$ does. Therefore the probability of certifying is the same number $c$ under both tapes. The type I error on $\mathcal E^-$ is $c$ (since $P_{\tau,m}(\mathcal E^-)\le0$) and the type II error on $\mathcal E^+$ is $1-c$ (since $P_{\tau,m}(\mathcal E^+)>0$), so the sum is $1$. If the type I error is at most $\alpha$, then $c\le\alpha$, which is the probability of certifying on $\mathcal E^+$.
@@ -543,6 +494,19 @@ Both variants wrap the same tuned Wald-with-cutoff promotion and acquisition rul
 
 We froze the selected settings and evaluated them on 1{,}000 fresh seeds per regime. On the real streams we transferred the margin or threshold at equal headroom: settings selected at $R=12,20,30$ ($h=6,14,24$) are used with $R=10+h$, where $k=5$. Nothing was calibrated on these streams.
 
+\section{Calibrated comparators: full results}\label{app:calibres}
+\emph{The stop-loss met the nominal target only by blocking promotion.} Its worst-regime violation rate stays high for every tested margin that still allows a promotion (at $R=20$, \CalStopLastViol{} with $c=\CalStopLastC$). The first margins that meet the target ($c=\CalStopCA$, \CalStopCB{} and \CalStopCC{} at $R=12,20,30$) block every promotion ($c>R-2k$). On fresh seeds the stop-loss is deployed in a fraction \CalStopDepB{} of rounds and keeps the budget. It costs \CalStopJB{}, against \CalNeverJ{} for never switching and \CalShieldJB{} for the shield at $R=20$. It costs more than never switching (\CalStopDNever) because the wrapped rule still buys labels. The same holds on the real streams (cost \RCalStopJ{} per episode, deployed fraction \RCalStopDep{}). A margin acts on resolved harm, so it cannot cover exposure whose labels are in transit.
+
+\emph{No tested CUSUM rollback threshold met the nominal target at $R=12$ or $R=20$.} The most conservative threshold leaves worst-regime violation rates of \CalCusWorstA{} and \CalCusWorstB{} on fresh seeds (Wilson lower bounds \CalCusWorstLoA{} and \CalCusWorstLoB), both in the adverse-dropout regime, at a cost above never switching (\CalCusDNeverA{} and \CalCusDNeverB). At $R=30$ the selected threshold $\theta_c=\CalCusHC{}$ met the calibration target but not on fresh seeds (worst-regime rate \CalCusWorstC, lower bound \CalCusWorstLoC). On beneficial real streams with clean feedback and $h=14$, its mean cost minus the shield's is \RCalCusVsShield{} units per episode ([\RCalCusVsShieldLo, \RCalCusVsShieldHi]). At $h=14$ it exceeds the budget in \RCalCusViolCleanFourteen{} of \RealRunsPerArm{} clean runs, and in \RCalCusViolDropFourteen{} and \RCalCusViolDelayFourteen{} runs under adverse dropout and adverse delay.
+
+Table~\ref{tab:calib} summarises the simulation results. Neither calibrated comparator is both within the budget and cheaper than the shield. Each has one calibrated parameter. A margin combined with a CUSUM threshold would still act on resolved harm only, while the shield's reserves add the in-transit term such a rule lacks.
+
+\begin{table}[!htbp]
+\caption{Calibrated comparators (fresh simulation seeds, \NRegimes{} regimes). Each comparator's safety parameter was selected on separate calibration seeds against a nominal per-regime violation target of $.05$; a setting qualified if its empirical rate was at most $.05$ in every regime. Selected margins $c=7,15,25$ at $R=12,20,30$; selected CUSUM thresholds $\theta_c=.5,.5,1$, of which only $R=30$ qualified (the others are the most conservative grid value). ``vs never'' is the pooled difference in $J$. Costs differ slightly from Table~\ref{tab:sim}, which uses the registered seeds.}\label{tab:calib}
+\centering
+{\setlength{\tabcolsep}{4pt}\footnotesize\input{tables/tab_calib.tex}}
+\end{table}
+
 \section{Comparators, inner rule and shield arms}\label{app:comp}
 Every comparator and the inner rule is implemented in \texttt{baselines.py} and \texttt{comparators.py} of the supplement. Labels follow our fidelity registry: a \emph{documented adapter} is an arithmetic port of a rule from an earlier study of ours, re-expressed on the same interface and not the original code path; an \emph{in-house heuristic} is a textbook rule written for these experiments. None is a native-source reproduction. All comparators see the same information as the shield: the released labels, the flag $g_t$ and their own coins.
 
@@ -601,6 +565,45 @@ Per-regime exceedance rates are plotted in Figure~\ref{fig:violations_full}(a), 
 \begin{table}[!htbp]\caption{Real streams under adverse delay, pooled over 12 streams. Costs are equal-stream means; exceedance counts aggregate runs at comparator thresholds $R=24$ and $R=60$, and violations use each budget arm's own budget.}\centering\scriptsize\resizebox{\linewidth}{!}{\input{tables/app_real_delay.tex}}\end{table}
 \begin{table}[!htbp]\caption{Mean cost $J$ per stream on clean feedback, at $h=50$ ($R=60$); each row averages the available episodes for that stream.}\centering\scriptsize\input{tables/app_stream.tex}\end{table}
 
+\subsection*{Claims, supporting results and scope}\label{app:claims}
+\begin{table}[!htbp]
+\caption{Contributions, supporting results and scope.}\label{tab:claims}
+\centering\small
+\begin{tabular}{@{}p{4.5cm} p{4.8cm} p{5.6cm}@{}}
+\toprule
+Contribution & Support & Scope \\
+\midrule
+Target and impossibility of unrestricted payback certification & Proposition~\ref{prop:nocert} & Labels arrive at least $d\ge1$ rounds after requests; two tapes are indistinguishable through the decision round \\
+Pathwise harm budget with pending-feedback and rollback reserves & Theorem~\ref{thm:main}; Tables~\ref{tab:confirm}, \ref{tab:real} & Every fixed loss and disagreement sequence and admissible delay rule under O1--O4; empirical results cover the registered simulation, 12 cached real streams and a screen of \ScreenPool{} public streams \\
+Exposure lower bound and first-spell risk & Propositions~\ref{prop:reserves}, \ref{prop:price}; Tables~\ref{tab:ablation}, \ref{tab:prop3}, \ref{tab:prop4} & Lower bound applies to first-promotion events with probability greater than $\delta$; ruin bound assumes positive conditional gain and fixed delay \\
+Safety and retained utility in evaluated settings & Tables~\ref{tab:sim}, \ref{tab:split}, \ref{tab:calib}, \ref{tab:real}, \ref{tab:regime} & Five tuned heuristics are in-house comparators or documented adapters; the exposure-ratio result is correlational \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[!htbp]
+\caption{Running example ($k=\ExK$, $R=\ExR$, $d=\ExD$, full sampling, every round exposed, promotion at round 1): the check $W$ at the $n$-th exposed round on a tape where every round is harmful and on one where every round benefits the challenger.}\label{tab:example}
+\centering\small
+\input{tables/ex_w.tex}
+\end{table}
+\begin{table}[!htbp]
+\caption{Variants of the shield. Each accepts deployment when its accounting check satisfies $W_t\le R$; the paced settlement variant changes how $W_t$ is constructed (Appendix~\ref{app:v2}). Frozen settings are in Appendix Table~\ref{tab:arms}.}\label{tab:variants}
+\centering\small
+\begin{tabular}{@{}p{2.5cm} p{5.3cm} p{2.6cm} p{3.9cm}@{}}
+\toprule
+Variant & What it changes & Guarantee & Use when \\
+\midrule
+Full sampling & $\pi=1$ on every exposed round while labels remain; pending rounds are booked at 1; no martingale term & $\sup_tH_t\le R$ surely ($\delta=0$) & labels cover the exposed rounds, or a deterministic guarantee is required \\
+Paced with settlement & $\pi$ from labels remaining per expected exposed round, floor $\pi_{\min}$; a sampled round is booked at 1 until a settlement window has passed, then enters the inverse-propensity sum and the exact-coin mixture & probability $\ge1-\delta$ & labels are fewer than exposed rounds and $\delta>0$ is acceptable \\
+Blind-round & $\pi\in\{1,\text{blind}\}$; a round is left without a query, booked at 1, when the headroom left after booking it is at least a margin & $\sup_tH_t\le R$ surely (with $\pi_{\min}=1$) & headroom is large relative to the exposure in one delay window, so blind rounds are affordable \\
+Label-scarce (v3) & paced variant with a lower floor $\pi_{\min}$, a wider mixture grid, and no blind rounds; simulation-selected for $T=2000$, $B=200$ & probability $\ge1-\delta$ & exposed rounds far outnumber labels and $h$ is large; it did not improve cost at the evaluated small headrooms \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[!htbp]
+\caption{Registered confirmation C1--C6 (simulation, \NRunsPerArm{} runs per arm). C4 compares the $R=20$ shield with Wald using a 3\% cost tolerance and with never switching using a zero-cost tolerance.}\label{tab:confirm}
+\centering\small
+\resizebox{\linewidth}{!}{\input{tables/tab_confirm.tex}}
+\end{table}
 \subsection*{Tables moved from the main text}
 \begin{table}[!htbp]
 \caption{Ablations at $R=12$ (registered C6): worst-regime violation rate with the Wilson 95\% interval.}\label{tab:ablation}

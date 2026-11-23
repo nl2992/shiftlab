@@ -7,7 +7,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import matplotlib.pyplot as plt
-from style import ARM_STYLE, PALETTE as P, RES, WIDTH, apply_style, load_json, save
+from style import ARM_STYLE, PALETTE as P, RES, WIDTH, apply_style, load_json, panel_label, save
 
 ex = load_json(RES / "exposure_ratio_test.json")
 rows = ex["rows"]
@@ -31,7 +31,8 @@ for ax, (src, title) in zip(axes, (("scarce", "Simulation (label-scarce family)"
             ax.fill_between(bx, lo, hi, color=col, alpha=0.16, lw=0)
         ax.plot(bx, med, color=col, lw=1.8, marker=mk, ms=5.5, mfc="white", mew=1.5, zorder=4)
     ax.set_xscale("log"); ax.set_xlim(1.5e-2 if src == "scarce" else 1e-3, 12); ax.set_ylim(-0.1, 1.35)
-    ax.set_title(title, loc="left", fontsize=8.5)
+    ax.set_title(title.lower(), loc="left", fontsize=8, pad=8, family=["Courier New","Menlo","DejaVu Sans Mono"], fontweight="bold")
+    panel_label(ax, "a" if src == "scarce" else "b", -0.0, 1.12)
     ax.text(0.71, 1.3, "$0.5\\leq x<1$", ha="center", va="center", fontsize=7.5, color=P["grey"])
     ax.set_xlabel("exposure ratio $x = rd/h$")
 axes[0].set_ylabel("share of Wald's gain given up, $L$")

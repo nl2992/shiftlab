@@ -45,8 +45,8 @@ ax.tick_params(axis="y", length=0)
 ax.spines["left"].set_visible(False)
 ax.plot([], [], color=P["dark"], lw=1.6, label="mean over regimes")
 ax.legend(loc="lower right", fontsize=7, bbox_to_anchor=(1.0, 0.0), handlelength=1.0, borderaxespad=0)
-panel_label(ax, "(a)", -0.52, 1.03)
-ax.set_title("Registered simulation, 30 regimes", loc="left", fontsize=8.5, pad=6)
+panel_label(ax, "a", -0.52, 1.1)
+ax.set_title("registered simulation", loc="left", fontsize=8, pad=6, family=["Courier New","Menlo","DejaVu Sans Mono"], fontweight="bold")
 
 # (b) real streams, share of runs
 conds = ["clean", "adverse\ndropout", "adverse\ndelay"]
@@ -63,7 +63,7 @@ for i, a in enumerate(show):
 bx.set_xticks(x); bx.set_xticklabels(conds)
 bx.set_ylabel("runs above $R$=24 (%)"); bx.set_ylim(0, 34)
 bx.legend(loc="upper left", ncol=2, fontsize=7, columnspacing=0.8, handlelength=0.9, handletextpad=0.4, borderaxespad=0, bbox_to_anchor=(0.0, 1.02))
-panel_label(bx, "(b)", -0.3, 1.03)
-bx.set_title("Real streams", loc="left", fontsize=8.5, pad=6)
+panel_label(bx, "b", -0.3, 1.1)
+bx.set_title("real streams", loc="left", fontsize=8, pad=6, family=["Courier New","Menlo","DejaVu Sans Mono"], fontweight="bold")
 save(fig, "violations")
 print({a: [round(100 * c / n, 1) for c, n in zip(cnt[a], tot)] for a in show}, tot)

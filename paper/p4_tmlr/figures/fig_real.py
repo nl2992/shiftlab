@@ -67,15 +67,23 @@ for i, p in enumerate(pols):
     xs = np.zeros(len(y)); dense = []
     for kk in np.unique(key):
         m = np.where(key == kk)[0]
-        dx = min(0.07, 0.6 / max(len(m) - 1, 1))  # stack spans <= 60% of the spacing between methods; xs[m] = (np.arange(len(m)) - (len(m) - 1) / 2) * dx
+        dx = min(0.07, 0.6 / max(len(m) - 1, 1))  # stack spans <= 60% of the spacing between methods
+        xs[m] = (np.arange(len(m)) - (len(m) - 1) / 2) * dx
         if len(m) >= 4:
             dense.append((i, y[m].mean(), len(m)))
     a1.scatter(i + xs, y, s=6, color=col, alpha=0.85, linewidths=0, zorder=3)
     for x0, y0, cnt in dense:
-        # centred above its own row: baseline 6 pt above the dot tops (dot radius ~1.2 pt), white backing, no border
-        a1.annotate(f"{cnt}", (x0, y0), xytext=(0, 6 + 1.2), textcoords="offset points", fontsize=7, color=col,
-                    ha="center", va="baseline", zorder=5,
-                    bbox=dict(boxstyle="square,pad=0.14", fc="white", ec="none"))
+        # centred above its own row (baseline 6 pt above the dot tops), unless other dots of the same column sit just
+        # above the row; then the count goes to the right of the row so it cannot cover them
+        crowded = np.any((y > y0 * 1.02) & (y < y0 * 2 ** 0.45))
+        if crowded:
+            half = (cnt - 1) / 2 * min(0.07, 0.6 / max(cnt - 1, 1))
+            a1.annotate(f"{cnt}", (x0 + half, y0), xytext=(5, 0), textcoords="offset points", fontsize=7, color=col,
+                        ha="left", va="center", zorder=5, bbox=dict(boxstyle="square,pad=0.14", fc="white", ec="none"))
+        else:
+            a1.annotate(f"{cnt}", (x0, y0), xytext=(0, 6 + 1.2), textcoords="offset points", fontsize=7, color=col,
+                        ha="center", va="baseline", zorder=5,
+                        bbox=dict(boxstyle="square,pad=0.14", fc="white", ec="none"))
 a1.axhline(1, color=P["dark"], lw=0.8, ls=":")
 a1.text(-1.7, 1.04, "budget $\\alpha$", fontsize=7, ha="left", va="bottom")
 a1.set_yscale("log", base=2); a1.set_yticks([0.5, 1, 2, 4, 8]); a1.set_yticklabels(["1/2", "1", "2", "4", "8"])
@@ -84,7 +92,7 @@ a1.set_ylabel("worst adaptive risk / $\\alpha$")
 a1.set_title("%d fitted chains, 12 settings each" % N_CH, loc="left", fontsize=8.5)
 a1.text(5, 0.42, "i.i.d.-calibrated", fontsize=7, color=P["red_strong"], ha="center")
 a1.text(1.4, 0.42, "causal-safe", fontsize=7, color=P["grey"], ha="center")
-a1.set_ylim(0.38, 10); a1.set_xlim(-1.8, 6.4)
+a1.set_ylim(0.38, 10); a1.set_xlim(-1.8, 6.7)
 
 for j, p in enumerate(SAFE):
     m = cost[p].mean(); lo, hi = ci[p]

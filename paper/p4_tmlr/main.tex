@@ -49,7 +49,7 @@
 \printAffiliationsAndNotice{}
 
 \begin{abstract}
-We study when to replace a deployed model with a challenger, using a small budget of labels bought on rounds where the two models disagree. We require the probability of promoting a challenger that is no better to stay below $\alpha$ under an \emph{adaptive} null, in which the challenger's chance of winning a disagreement may change with the history but never exceeds one half. Policies calibrated against the usual i.i.d.\ null violate this requirement: in our synthetic grid their worst-case adaptive risk reaches up to $4\alpha$. For one-round label delay, we show that the adaptive-null problem is exactly a dynamic programme on time, belief, remaining labels and a risk budget, and that it differs from the i.i.d.\ programme by a single constraint. The value is piecewise linear in the risk budget with breakpoints on the dyadic grid $\{k/2^n\}$, so a finite grid solves it exactly. The solver, RB-DP, matches 190 certified optima, runs to horizon 256, and solves in 0.4\,s a cell on which the previous exact method ran out of time after 3{,}600\,s. RB-DP finds that the long-horizon premium for adaptive-null safety levels off at 0.05 to 0.37 of the value of information. On 44 real binary streams, i.i.d.-calibrated policies break the adaptive budget while RB-DP costs no more than any of seven causal-safe baselines, including an always-valid A/B test, and in held-out replay on 9{,}525 windows from 100 promotion datasets it has the lowest mean realised cost among safe policies.
+We study when to replace a deployed model with a challenger, using a small budget of labels bought on rounds where the two models disagree. We require the probability of promoting a challenger that is no better to stay below $\alpha$ under an \emph{adaptive} null, in which the challenger's chance of winning a disagreement may change with the history but never exceeds one half. Policies calibrated against the usual i.i.d.\ null violate this requirement: in our synthetic grid their worst-case adaptive risk reaches up to $4\alpha$. For one-round label delay, we show that the adaptive-null problem is exactly a dynamic programme on time, belief, remaining labels and a risk budget, and that it differs from the i.i.d.\ programme by a single constraint. The value is piecewise linear in the risk budget with breakpoints on the dyadic grid $\{k/2^n\}$, so a finite grid solves it exactly. The solver, RB-DP, matches 190 certified optima, runs to horizon 256, and solves in 0.4\,s a cell on which the previous exact method ran out of time after 3{,}600\,s. RB-DP finds that the long-horizon premium for adaptive-null safety levels off at 0.05 to 0.40 of the value of information. On 44 real binary streams, i.i.d.-calibrated policies break the adaptive budget while RB-DP costs no more than any of seven causal-safe baselines, including an always-valid A/B test, and in held-out replay on 9{,}525 windows from 100 promotion datasets it has the lowest mean realised cost among safe policies.
 \end{abstract}
 
 %=====================================================================
@@ -73,7 +73,7 @@ Formally, the problem is a chance-constrained POMDP whose constraint must hold a
 \item \textbf{Exact reduction (Theorem~\ref{thm:reduction}).} For one-round label delay and a two-state hidden-Markov alternative, the adaptive-null problem is a Markov decision problem on $(t,\beta,n,w)$: time, alternative belief, remaining labels, and a risk budget $w$, the worst-case probability of ever promoting from here on. The i.i.d.\ problem is the same programme with one constraint removed (Corollary~\ref{cor:oneconstraint}): after a label that favours the incumbent the risk budget may not increase. We call the solver RB-DP (Figure~\ref{fig:overview}).
 \item \textbf{Dyadic lattice (Theorem~\ref{thm:lattice}).} The value is convex and piecewise linear in $w$ with all breakpoints in $\{k/2^n\}$, $n$ the remaining labels. A grid of $2^B+1$ points is therefore exact (Corollary~\ref{cor:finite}). The only approximation left is belief interpolation, which gives a certified sandwich $L\le V^\star\le U$.
 \item \textbf{The i.i.d.\ design is unsafe.} Wherever the two optima differ in our synthetic grid, the i.i.d.-optimal policy has worst-case adaptive risk $2\alpha$ to $4\alpha$ without label and switching costs and $1.33\alpha$ with them (Table~\ref{tab:e4}).
-\item \textbf{The premium at long horizons.} RB-DP follows $\rhoG(T)$ to $T=200$. For every label budget $B\le 6$ and the three anti-persistent chains studied, the premium levels off at a positive value between 0.05 and 0.33, and at 0.37 for $B=7$ (Table~\ref{tab:e3}). The levels match the closed form for $B=1$ and lie at or above every proved bound of Theorem~\ref{thm:premium}.
+\item \textbf{The premium at long horizons.} RB-DP follows $\rhoG(T)$ to $T=200$. For every label budget $B\le 6$ and the three anti-persistent chains studied, the premium levels off at a positive value between 0.05 and 0.33, and at 0.37 and 0.40 for $B=7$ and $B=8$ (Table~\ref{tab:e3}). The levels match the closed form for $B=1$ and lie at or above every proved bound of Theorem~\ref{thm:premium}.
 \item \textbf{Real streams.} On 44 real binary streams the fitted models have a positive premium. RB-DP is never more expensive than any of seven causal-safe baselines, including the always-valid mSPRT, in 528 in-model settings. In a held-out replay on 9{,}525 real windows it has the lowest realised cost of the safe policies (Table~\ref{tab:replay}), so safety against the adaptive null comes without a cost penalty.
 \end{enumerate}
 
@@ -114,10 +114,10 @@ The learner may randomise. Randomisation matters here, as in any chance-constrai
 
 Throughout this section $d=1$, so at every decision the learner has seen every label it has queried. A \emph{pre-promotion history} $h$ at time $t$ lists past query decisions and released labels; it determines the belief $\beta(h)$ and remaining budget $n(h)$.
 
-\begin{figure*}[!tbp]
+\begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_overview.pdf}
-\caption{How RB-DP works (schematic, except where noted). (a) An incumbent and a challenger score the same inputs. Rounds where they agree are dropped. On the disagreements, up to $B$ labels can be bought, which gives a stream such as $Y=0\,0\,?\,?\,1\,?$, where ? means not queried. (b) RB-DP filters a two-state hidden regime with switching probabilities $t_{01}$ and $t_{10}$ and carries the state $(t,\beta,n,w)$, where $w$ is the risk budget. After a query the adversary picks $p\in\{0,1/2\}$ and the budget $w'$ splits into $w_0$ and $w_1$ for the two label branches. The adaptive null adds the cap $w_0\le w'$ (Theorem~\ref{thm:reduction}). The extracted policy gives the sandwich $L\le V^\star\le U$ (Corollary~\ref{cor:sandwich}). (c) Computed: the value of information at $t=1$ with $n=3$ labels left over a grid of beliefs $\beta$ and budgets $w\le0.3$, from the lattice solver (same cell as Figure~\ref{fig:lattice}). The solid surface is the adaptive null and the pale layer above it the i.i.d.\ null; the gap is the premium. The green path is one simulated run of the extracted policy, with $s_t=(\beta_t,w_t)$ drawn on the surface at $t=1$, $n=3$ (states $s_3$ to $s_6$ lie on $w=0$, so returning segments are offset for legibility); the strip in (a) is that run.}
+\caption{How RB-DP works (schematic, except where noted). (a) An incumbent and a challenger score the same inputs. Rounds where they agree are dropped. On the disagreements, up to $B$ labels can be bought, which gives a stream such as $Y=0\,0\,?\,?\,1\,?$, where ? means not queried. (b) RB-DP filters a two-state hidden regime with switching probabilities $t_{01}$ and $t_{10}$ and carries the state $(t,\beta,n,w)$, where $w$ is the risk budget. After a query the adversary picks $p\in\{0,1/2\}$ and the budget $w'$ splits into $w_0$ and $w_1$ for the two label branches. The adaptive null adds the cap $w_0\le w'$ (Theorem~\ref{thm:reduction}). The extracted policy gives the sandwich $L\le V^\star\le U$ (Corollary~\ref{cor:sandwich}). (c) Computed: the value of information at $t=1$ with $n=3$ labels left over a grid of beliefs $\beta$ and budgets $w\le0.3$, from the lattice solver (same cell as Figure~\ref{fig:lattice}). The blue surface is the adaptive null and the red wireframe above it the i.i.d.\ null; the gap is the premium. The green path is one simulated run of the extracted policy, with $s_t=(\beta_t,w_t)$ drawn on the surface at $t=1$, $n=3$ (states $s_3$ to $s_6$ lie on $w=0$, so returning segments are offset for legibility); the strip in (a) is that run.}
 \label{fig:overview}
 \end{figure*}
 
@@ -245,8 +245,8 @@ For every $B\le6$ and $t\in\{2/3,3/4,9/10\}$, $\rhoG(T)$ levels off at a positiv
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.84\linewidth]{figures/fig_premium.pdf}
-\caption{Relative premium $\rhoG$ against horizon $T$ for label budgets $B=1,\dots,6$ (and $B=7,8$ for $t=3/4$), symmetric anti-persistent chains with switching probability $t$ ($r=2t-1$), $e=1/10$, $\alpha=1/10$, $c=k=0$, $d=1$. Darker lines are larger budgets; each label is joined to its curve by a short leader. Every curve levels off above zero; the $B=8$ curve has not fully levelled at $T=64$. The figure shows 223 solver cells. Top row $B\le4$, bottom row $B\ge5$, same axes.}
+\includegraphics[width=0.92\linewidth]{figures/fig_premium.pdf}
+\caption{Relative premium $\rhoG$ against horizon $T$ for label budgets $B=1,\dots,6$ (and $B=7,8$ for $t=3/4$), symmetric anti-persistent chains with switching probability $t$ ($r=2t-1$), $e=1/10$, $\alpha=1/10$, $c=k=0$, $d=1$. Darker lines are larger budgets; each label is joined to its curve by a short leader. Every curve levels off above zero. The figure shows 223 solver cells. Top row $B\le4$, bottom row $B\ge5$, same axes.}
 \label{fig:premium}
 \end{figure*}
 
@@ -256,7 +256,7 @@ In every cell of the table the i.i.d.-mode policy, evaluated against the adaptiv
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.72\linewidth]{figures/fig_real.pdf}
+\includegraphics[width=0.92\linewidth]{figures/fig_real.pdf}
 \caption{Real streams. (a) For each of the 44 fitted chains, the largest worst-case adaptive risk over the 12 panel settings, in units of $\alpha$ (log scale). RB-DP (P7, blue) and the safe baselines P1, P2, P6 sit at $\alpha$; the i.i.d.-calibrated rules P3, P4, P5 exceed it on 40 of 44 datasets, by up to $8\alpha$. P1 fixed-sample test; P2 count SPRT; P3c HMM filter, recalibrated; P5r i.i.d.-optimal planner, repaired for adaptive risk; P6 e-process gate; P8c mixture SPRT (always-valid A/B test), recalibrated. In (a), the number above a point counts the chains with that worst-case ratio. (b) Held-out replay: pooled mean realised cost per window of the safe policies with 95\% window-bootstrap intervals (2{,}000 resamples, seed 20261119). P4c (15.83) is off the scale and omitted.}
 \label{fig:real}
 \end{figure*}
@@ -374,7 +374,7 @@ Let $B=1$ and let $T$, $d\ge1$, $c,k\ge0$ and $\alpha\in[0,1]$ be arbitrary. If 
 % Source: docs/paper4_continuation/rbdp/RESULTS.md and E2_E3_SCALING_PREMIUM.md section 1.
 \begin{table*}[t]
 \centering
-\caption{Relative premium $\rhoG$ at the largest horizon run ($T=100$; $T=200$ for $t=3/4$, $B\le5$), $\alpha=1/10$, $e=1/10$, $c=k=0$, $d=1$, symmetric stationary chains. $L$--$U$ brackets are at most $7\times10^{-4}$ wide in $\rhoG$. For $t=3/4$ we also ran $B=7$ (0.3680 at $T=100$) and $B=8$ (0.4018 at $T=64$, not yet level).}
+\caption{Relative premium $\rhoG$ at the largest horizon run ($T=100$; $T=200$ for $t=3/4$, $B\le5$), $\alpha=1/10$, $e=1/10$, $c=k=0$, $d=1$, symmetric stationary chains. $L$--$U$ brackets are at most $7\times10^{-4}$ wide in $\rhoG$. For $t=3/4$ we also ran $B=7$ (0.3680 at $T=100$) and $B=8$ (0.4010 at $T=100$).}
 \label{tab:e3}
 \small
 \begin{tabular}{lcccccc}
@@ -558,7 +558,7 @@ $B$ & $T=6$ & 8 & 12 & 16 & 32 & 64 & 100 & 200\\
 5 & 0.3120 & 0.3694 & 0.3318 & 0.2858 & 0.2240 & 0.2141 & 0.2139 & 0.2139\\
 6 & 0.3120 & 0.4139 & 0.4294 & 0.4001 & 0.3216 & 0.3039 & 0.3034 & --\\
 7 & -- & -- & -- & 0.4559 & 0.3881 & 0.3687 & 0.3680 & --\\
-8 & -- & -- & -- & 0.4752 & 0.4189 & 0.4018 & -- & --\\
+8 & -- & -- & -- & 0.4752 & 0.4189 & 0.4018 & 0.4010 & --\\
 \bottomrule
 \end{tabular}
 \end{table}

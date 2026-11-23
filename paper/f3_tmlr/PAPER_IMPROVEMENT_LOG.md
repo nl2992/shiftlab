@@ -366,3 +366,6 @@ Overview (Fig 1) and pipeline (Sec 5) rebuilt as one-canvas figures in the figur
 
 ## Round 14 - Codex critic pass on the three scene figures
 Pipeline, overview and mechanism figures were critiqued by Codex against the figures4papers miscellaneous references and revised: pipeline (keys for the heatmap and dot grid, corrected "5 of 12 worse than never" label, smaller outlined arrows, plain footer); mechanism (five pending labels drawn as envelopes, +5 bracket on the data, aligned SHIELD / STOP-LOSS endpoint labels, shared prefix in charcoal); overview (cone aimed at the in-transit segment, smaller icons, compact claim box, wider panel b, plain footer).
+
+## Round 15 - alignment with TMLR practice (57 TMLR-format papers from arXiv surveyed)
+Corpus medians: main text 13 pages (IQR 12-17), 30 pages in total, abstract ~190 words, Related Work present in 31/57, Conclusion in 54/57, Limitations section in 28/57, Figure 1 on page 2 in 22/57, contribution list on pages 1-2 in 24/57. Changes: abstract shortened (311 -> 260 words), contribution bullets added to the introduction, Related Work moved to Section 2, the ablation and harmful-stream tables and the calibration protocol moved to the appendix. Main text still about 19 pages.

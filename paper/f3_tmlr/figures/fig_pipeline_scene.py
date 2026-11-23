@@ -26,13 +26,13 @@ robot, envelope, shield, stop = cut_sheet(HERE / "assets_raw" / "icons2_sheet.pn
 BLUE, RED = P["blue_main"], P["red_strong"]
 kw = lambda c, **k: dict(weight="bold", color=c, **k)
 SW, STEP, S = 1.38, 1.6, 1.06                        # stage width, stage pitch, motif scale (motif units are 1.3 x 1.0)
-OX = [0.08 + i * STEP for i in range(4)]
+OX = [0.2 + i * 2.1 for i in range(3)]
 OY = 0.84
 DK = '#444444'
 
 conf = load_json(RES / "confirm_summary.json"); c3 = conf["C3"]["arms"]
-titles = ["1  simulation", "2  calibration", "3  real streams", "4  public screen"]
-for ox, t, ic in zip(OX, titles, (robot, None, envelope, shield)):
+titles = ["1  simulation", "2  calibration", "3  real streams"]
+for ox, t, ic in zip(OX, titles, (robot, None, envelope)):
     mono(ov, ox, 2.1, t, fs=7.6, weight="bold")
     if ic is not None:
         paste(ov, ic, ox + SW - 0.12, 2.1, 0.27)
@@ -46,8 +46,8 @@ def oarrow(x, y, w=0.17, h=0.12, head=0.06):
     ov.add_patch(_Poly(pts, closed=True, fc="none", ec="#505860", lw=0.6, zorder=3))
 
 
-for i in range(3):
-    oarrow(OX[i] + SW + 0.0, 1.35)
+for i in range(2):
+    oarrow(OX[i] + SW + 0.22, 1.35)
 
 
 mx = lambda ox, u: ox + u * S                         # motif x in inches
@@ -103,45 +103,19 @@ for i, (g, s) in enumerate(gains):
     ov.add_patch(FancyBboxPatch((mx(OX[2], bx0 + i * (bw_ + bg_)), my(min(by0, by0 + h))), bw_ * S, abs(h) * S, boxstyle="round,pad=0,rounding_size=0.01",
                                 fc="#5C93D1" if g > 0 else "#E08A84", ec=OUTLINE, lw=0.5, zorder=3))
 mono(ov, mx(OX[2], bx0), my(0.96), "shield gain vs never", fs=6.5, color=DK, va="center")
-nneg = sum(1 for g, _ in gains if g < 0)
-assert nneg == 5 and len(gains) == 12
-bxn0, bxn1 = mx(OX[2], bx0 + (12 - nneg) * (bw_ + bg_)), mx(OX[2], bx0 + 12 * bw_ + 11 * bg_)
-yb = my(by0 - 0.5 * abs(min(g for g, _ in gains)) / gm) - 0.05
-ov.plot([bxn0, bxn0, bxn1, bxn1], [yb + 0.03, yb, yb, yb + 0.03], color=RED, lw=0.7)
-ov.text((bxn0 + bxn1) / 2, yb - 0.08, "5 of 12 worse than never", fontsize=6.2, color=RED, ha="center", va="center")
-
-# 4: 100 dots, S2 met vs not
-tally = json.loads((OUT / "screen100/tally.json").read_text())["rows"]
-sup = sorted([r for r in tally if r["status"] == "supported"], key=lambda r: -r["shield_gain_vs_never"])
-non = [r for r in tally if r["status"] != "supported"]
-dsp, dr = 0.113, 0.043
-dx0 = (1.3 - 9 * dsp) / 2
-for i, r in enumerate(sup + non):
-    rr, cc = divmod(i, 10)
-    ok = r["status"] == "supported"
-    ov.add_patch(Circle((mx(OX[3], dx0 + cc * dsp), my(0.9 - rr * 0.085)), dr * 0.8 * S, fc="#4A82C4" if ok else "#E6E6E6",
-                        ec=RED if not r["S1"] else (OUTLINE if ok else "#BDBDBD"), lw=1.1 if not r["S1"] else 0.5, zorder=3))
-
-ky4 = 0.8
-kxs = OX[3] + 0.08
-ov.add_patch(Circle((kxs, ky4), 0.03, fc="#4A82C4", ec=OUTLINE, lw=0.5, zorder=3)); ov.text(kxs + 0.05, ky4, "S2 met", fontsize=6.2, va="center", color=DK)
-ov.add_patch(Circle((kxs + 0.43, ky4), 0.03, fc="#E6E6E6", ec="#BDBDBD", lw=0.5, zorder=3)); ov.text(kxs + 0.48, ky4, "not", fontsize=6.2, va="center", color=DK)
-ov.add_patch(Circle((kxs + 0.78, ky4), 0.03, fc="#E6E6E6", ec=RED, lw=1.1, zorder=3)); ov.text(kxs + 0.83, ky4, "S1 failed", fontsize=6.2, va="center", color=DK)
-
 # captions (counts from the macros)
-for k, key in (("NRegimes", "30"), ("ScreenPool", "100"), ("ScreenSOne", "99"), ("ScreenSupported", "57"), ("NStreamEpisodes", "194")):
+for k, key in (("NRegimes", "30"), ("NStreamEpisodes", "194")):
     assert M[k].replace("{,}", "") == key, (k, M[k])
 cap = [
     ([("30 regimes", kw(BLUE)), (", 1,000 seeds each;", {})], [("shield: ", {}), ("0 violations", kw(BLUE)), (" (full)", {})]),
     ([("stop-loss meets the target", {})], [("only by ", {}), ("blocking promotion", kw(RED))]),
     ([("12 real streams", kw(BLUE)), (", 194 episodes;", {})], [("shield: ", {}), ("0 violations", kw(BLUE))]),
-    ([("100 public streams", kw(BLUE)), (":", {})], [("S1 on 99, S2 on ", {}), ("57", kw(BLUE))]),
 ]
 for ox, (l1, l2) in zip(OX, cap):
     rich(ov, ox, 0.58, l1, fs=6.9); rich(ov, ox, 0.43, l2, fs=6.9)
 
 ov.plot([0.08, 6.42], [0.29, 0.29], color=BLUE, lw=0.6)
-rich(ov, 0.08, 0.15, [("The same ", {}), ("frozen arms", kw(BLUE)), (" are run from synthetic stress to public streams.", {})], fs=7.8)
+rich(ov, 0.08, 0.15, [("The same ", {}), ("frozen arms", kw(BLUE)), (" are run from synthetic stress to real streams.", {})], fs=7.8)
 
 fig.savefig(HERE / "fig_pipeline.pdf", dpi=300); fig.savefig(HERE / "fig_pipeline.png", dpi=300)
 plt.close(fig)

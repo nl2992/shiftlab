@@ -1,4 +1,4 @@
-\begin{tabular}{@{}p{3.7cm} r r r@{}}
+\begin{tabular}{@{}p{4.4cm} r r r@{}}
 \toprule
 Controller & $J$ & vs never (\%) & labels \\
 \midrule
@@ -13,9 +13,9 @@ Shield, full sampling, $R=20$ & 69.43 & $-$2.9 & 44.2 \\
 Shield, paced, $R=20$, $\delta=.05$ & 69.80 & $-$2.4 & 37.8 \\
 \bottomrule
 \end{tabular}\par\smallskip
-\begin{tabular}{@{}p{3.7cm} r r r p{3.3cm} p{2.3cm}@{}}
+{\setlength{\tabcolsep}{4pt}\begin{tabular}{@{}p{4.5cm} r r r p{3.0cm} p{2.3cm}@{}}
 \toprule
-Controller & $q_{99}$ harm & max harm & pooled viol. (\%) & worst-regime rate [Wilson] & worst regime \\
+Controller & $q_{99}$ harm & max harm & pooled viol. (\%) & worst rate [Wilson] & worst regime \\
 \midrule
 Never switch & 0 & 0 & 0.0 & 0.000 & -- \\
 Wald+cutoff (tuned) & 37 & 59 & 6.6 & 0.852 [0.829, 0.873] & Adverse dropout \\
@@ -27,4 +27,4 @@ Stop-loss, $R=20$ & 34 & 59 & 4.2 & 0.841 [0.817, 0.862] & Adverse dropout \\
 Shield, full sampling, $R=20$ & 20 & 20 & 0.000 & 0.000 [0.000, 0.004] & -- \\
 Shield, paced, $R=20$, $\delta=.05$ & 16 & 22 & 0.003 & 0.001 [0.000, 0.006] & Bait reversal \\
 \bottomrule
-\end{tabular}
+\end{tabular}}

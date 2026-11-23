@@ -164,18 +164,18 @@ arms = [("Never switch", "never", ("0.0", "0.000", "--")),
 for lab, a, R in [("Shield, full sampling, $R=20$", "f3_pi1_R20", "C1"), ("Shield, paced, $R=20$, $\\delta=.05$", "f3v2d_R20", "C2")]:
     v = conf[R]["arms"][a]
     arms.append((lab, a, (f"{100*v['pooled']:.3f}", f"{r3(v['worst_stats']['rate'])} [{r3(v['worst_stats']['lo'])}, {r3(v['worst_stats']['hi'])}]", regime_label(v["worst"]) if v["worst_stats"]["k"] > 0 else "--")))
-body = "\\begin{tabular}{@{}p{3.7cm} r r r@{}}\n\\toprule\nController & $J$ & vs never (\\%) & labels \\\\\n\\midrule\n"
+body = "\\begin{tabular}{@{}p{4.4cm} r r r@{}}\n\\toprule\nController & $J$ & vs never (\\%) & labels \\\\\n\\midrule\n"
 for lab, a, (vp, vw, wr) in arms:
     r = arm_row(lab, a, vp, vw, wr)
     body += " & ".join(r[:4]) + " \\\\\n"
     if a == "stoploss_R20": body += "\\midrule\n"
 body += "\\bottomrule\n\\end{tabular}\\par\\smallskip\n"
-body += "\\begin{tabular}{@{}p{3.7cm} r r r p{3.3cm} p{2.3cm}@{}}\n\\toprule\nController & $q_{99}$ harm & max harm & pooled viol. (\\%) & worst-regime rate [Wilson] & worst regime \\\\\n\\midrule\n"
+body += "{\\setlength{\\tabcolsep}{4pt}\\begin{tabular}{@{}p{4.5cm} r r r p{3.0cm} p{2.3cm}@{}}\n\\toprule\nController & $q_{99}$ harm & max harm & pooled viol. (\\%) & worst rate [Wilson] & worst regime \\\\\n\\midrule\n"
 for lab, a, (vp, vw, wr) in arms:
     r = arm_row(lab, a, vp, vw, wr)
     body += " & ".join((r[0], r[4], r[5], r[6], r[7], r[8])) + " \\\\\n"
     if a == "stoploss_R20": body += "\\midrule\n"
-body += "\\bottomrule\n\\end{tabular}\n"
+body += "\\bottomrule\n\\end{tabular}}\n"
 write("tab_sim.tex", body)
 
 # Appendix: all 18 arms
@@ -517,7 +517,7 @@ def regime_rows(cfgd):
 
 body = ("\\begin{longtable}{@{}p{3.3cm}p{2.9cm}rrp{2.4cm}p{1.1cm}p{2.7cm}@{}}\n"
         "\\caption{All 30 simulated regimes. $p(t)$ is the probability that the challenger is correct when the models disagree, given by knots $t/T$:$p$ (``steps'': constant from each knot; ``linear'': interpolated; evaluated at $(t-\\tfrac12)/T$). $r$ is the disagreement rate, $\\rho$ the lag-1 dependence of the latent Gaussian process, $d_t$ the label delay in rounds. Defaults: $r=.3$, $\\rho=0$, $e_{\\rm both}=.1$, delay fixed at 5, $k=3$, $B=60$, $c_q=.05$. Override lists departures from the defaults other than $r$, $\\rho$ and the delay. Meaning is the description in the configuration file.}\\label{tab:regimes_app}\\\\\n"
-        "\\toprule id & $p(t)$ (knots $t/T$:$p$) & $r$ & $\\rho$ & delay $d_t$ & override & meaning \\\\\n\\midrule\n\\endfirsthead\n\\toprule id & $p(t)$ (knots $t/T$:$p$) & $r$ & $\\rho$ & delay $d_t$ & override & meaning \\\\\n\\midrule\n\\endhead\n"
+        "\\toprule id & $p(t)$ (knots $t/T$:$p$) & $r$ & $\\rho$ & delay $d_t$ & override & meaning \\\\\n\\midrule\n\\endfirsthead\n\\multicolumn{7}{@{}l}{\\emph{Table~\\thetable{} (continued)}} \\\\[2pt]\n\\toprule id & $p(t)$ (knots $t/T$:$p$) & $r$ & $\\rho$ & delay $d_t$ & override & meaning \\\\\n\\midrule\n\\endhead\n"
         "\\multicolumn{7}{@{}l}{\\emph{24 original regimes} (\\texttt{regimes\\_v1.json})} \\\\\n"
         + "\n".join(regime_rows(reg1)) +
         "\n\\midrule\n\\multicolumn{7}{@{}l}{\\emph{6 stress regimes} (\\texttt{regimes\\_f3\\_v1.json})} \\\\\n"

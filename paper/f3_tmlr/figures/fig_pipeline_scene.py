@@ -66,12 +66,12 @@ for i, v in enumerate(rate):
     ov.add_patch(FancyBboxPatch((mx(OX[0], x0 + c_ * (tw + tg)), my(0.75 - r_ * (th + tg))), tw * S, th * S, boxstyle="round,pad=0,rounding_size=0.02",
                                 fc=to_hex(cm(min(1, v / 0.9))), ec="#777D82", lw=0.45, zorder=3))
 ov.text(mx(OX[0], x0 + 6 * (tw + tg) - tg), my(0.75 - 4 * (th + tg) - 0.055), "stress regimes", fontsize=6.6, color=RED, ha="right", va="center", style="italic")
-mono(ov, mx(OX[0], x0), my(0.985), "Wald share above R", fs=5.9, color=DK, va="top")
+mono(ov, mx(OX[0], x0), my(0.985), "Wald share above R", fs=6.5, color=DK, va="top")
 kx, ky = mx(OX[0], x0), my(0.75 - 4 * (th + tg) - 0.055)
 ov.imshow(np.linspace(0, 1, 64)[None, :], cmap=cm, extent=(kx + 0.1, kx + 0.5, ky - 0.03, ky + 0.03), aspect="auto", zorder=3)
 ov.add_patch(FancyBboxPatch((kx + 0.1, ky - 0.03), 0.4, 0.06, boxstyle="square,pad=0", fc="none", ec=OUTLINE, lw=0.4, zorder=4))
-ov.text(kx + 0.07, ky, "0", fontsize=5.6, ha="right", va="center", color=DK)
-ov.text(kx + 0.53, ky, ".9", fontsize=5.6, ha="left", va="center", color=DK)
+ov.text(kx + 0.07, ky, "0", fontsize=6.2, ha="right", va="center", color=DK)
+ov.text(kx + 0.53, ky, ".9", fontsize=6.2, ha="left", va="center", color=DK)
 
 # 2: stop-loss margin line
 Rv, kv, cs = 20.0, 3.0, float(M["CalStopCB"])
@@ -86,7 +86,7 @@ for c, lab in ((0, "0"), (Rv - 2 * kv, "R$-$2k"), (Rv, "R")):
     ov.plot([fx(c)] * 2, [my(ly) - hh, my(ly) - hh - 0.05], color=OUTLINE, lw=0.7)
     ov.text(fx(c), my(ly) - hh - 0.13, lab, fontsize=6.6, ha="center", va="center")
 ov.add_patch(Polygon([(fx(cs), my(ly) + hh), (fx(cs) - .05, my(ly) + hh + 0.1), (fx(cs) + .05, my(ly) + hh + 0.1)], fc=RED, ec=OUTLINE, lw=0.6, zorder=4))
-mono(ov, mx(OX[1], lx0), my(1.0), "stop-loss margin c", fs=5.9, color=DK)
+mono(ov, mx(OX[1], lx0), my(1.0), "stop-loss margin c", fs=6.5, color=DK)
 ov.text(fx(cs) + .02, my(ly) + hh + 0.24, "first c that\nmeets .05", fontsize=6.6, color=RED, fontweight="bold", style="italic", ha="right", va="center", linespacing=1.1)
 
 # 3: per-stream shield cost vs never (h = 14, clean)
@@ -102,7 +102,7 @@ for i, (g, s) in enumerate(gains):
     h = 0.5 * g / gm
     ov.add_patch(FancyBboxPatch((mx(OX[2], bx0 + i * (bw_ + bg_)), my(min(by0, by0 + h))), bw_ * S, abs(h) * S, boxstyle="round,pad=0,rounding_size=0.01",
                                 fc="#5C93D1" if g > 0 else "#E08A84", ec=OUTLINE, lw=0.5, zorder=3))
-mono(ov, mx(OX[2], bx0), my(0.96), "shield gain vs never", fs=5.9, color=DK, va="center")
+mono(ov, mx(OX[2], bx0), my(0.96), "shield gain vs never", fs=6.5, color=DK, va="center")
 nneg = sum(1 for g, _ in gains if g < 0)
 assert nneg == 5 and len(gains) == 12
 bxn0, bxn1 = mx(OX[2], bx0 + (12 - nneg) * (bw_ + bg_)), mx(OX[2], bx0 + 12 * bw_ + 11 * bg_)
@@ -124,9 +124,9 @@ for i, r in enumerate(sup + non):
 
 ky4 = 0.8
 kxs = OX[3] + 0.08
-ov.add_patch(Circle((kxs, ky4), 0.03, fc="#4A82C4", ec=OUTLINE, lw=0.5, zorder=3)); ov.text(kxs + 0.05, ky4, "S2 met", fontsize=5.6, va="center", color=DK)
-ov.add_patch(Circle((kxs + 0.43, ky4), 0.03, fc="#E6E6E6", ec="#BDBDBD", lw=0.5, zorder=3)); ov.text(kxs + 0.48, ky4, "not", fontsize=5.6, va="center", color=DK)
-ov.add_patch(Circle((kxs + 0.78, ky4), 0.03, fc="#E6E6E6", ec=RED, lw=1.1, zorder=3)); ov.text(kxs + 0.83, ky4, "S1 failed", fontsize=5.6, va="center", color=DK)
+ov.add_patch(Circle((kxs, ky4), 0.03, fc="#4A82C4", ec=OUTLINE, lw=0.5, zorder=3)); ov.text(kxs + 0.05, ky4, "S2 met", fontsize=6.2, va="center", color=DK)
+ov.add_patch(Circle((kxs + 0.43, ky4), 0.03, fc="#E6E6E6", ec="#BDBDBD", lw=0.5, zorder=3)); ov.text(kxs + 0.48, ky4, "not", fontsize=6.2, va="center", color=DK)
+ov.add_patch(Circle((kxs + 0.78, ky4), 0.03, fc="#E6E6E6", ec=RED, lw=1.1, zorder=3)); ov.text(kxs + 0.83, ky4, "S1 failed", fontsize=6.2, va="center", color=DK)
 
 # captions (counts from the macros)
 for k, key in (("NRegimes", "30"), ("ScreenPool", "100"), ("ScreenSOne", "99"), ("ScreenSupported", "57"), ("NStreamEpisodes", "194")):

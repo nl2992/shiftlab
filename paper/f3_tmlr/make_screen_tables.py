@@ -92,7 +92,7 @@ hdr = "Stream & Group & $J$ never & $J$ shield & Shield gain & Wald gain \\\\"
 long = ("\\begin{longtable}{@{}l l r r r r@{}}\n\\caption{Streams of the 100-stream screen on which the better $h=50$ shield arm costs less than never switching "
         "(S2; all of them also meet S1). $J$ is mean episode cost under clean feedback; ``shield'' is the better of the two "
         "$h=50$ shield arms (chosen on these data); gains are the reduction in $J$ against never switching, in cost units.}"
-        "\\label{tab:screen_supported}\\\\\n\\toprule\n" + hdr + "\n\\midrule\n\\endfirsthead\n\\toprule\n" + hdr
+        "\\label{tab:screen_supported}\\\\\n\\toprule\n" + hdr + "\n\\midrule\n\\endfirsthead\n\\multicolumn{6}{@{}l}{\\emph{Table~\\thetable{} (continued)}} \\\\[2pt]\n\\toprule\n" + hdr
         + "\n\\midrule\n\\endhead\n\\bottomrule\n\\endfoot\n" + body + "\n\\end{longtable}\n")
 (HERE / "tables/app_screen_supported.tex").write_text(long)
 

@@ -96,7 +96,8 @@ John Hogue.
   Sekhon]{howard2021time}
 Steven~R. Howard, Aaditya Ramdas, Jon McAuliffe, and Jasjeet Sekhon.
 \newblock Time-uniform, nonparametric, nonasymptotic confidence sequences.
-\newblock \emph{The Annals of Statistics}, 49\penalty0 (2), 2021.
+\newblock \emph{The Annals of Statistics}, 49\penalty0 (2):\penalty0
+  1055--1080, 2021.
 
 \bibitem[Hu et~al.(2026)Hu, Cai, and Vlatakis-Gkaragkounis]{hu2026prudent}
 Ting Hu, Luanda Cai, and Emmanouil-Vasileios Vlatakis-Gkaragkounis.
@@ -180,7 +181,7 @@ Ismail Lamaakal, Chaymae Yahyati, Khalid El~Makkaoui, Ibrahim Ouahbi, and
 Romain Laroche, Paul Trichelair, and R{\'e}mi Tachet~des Combes.
 \newblock Safe policy improvement with baseline bootstrapping.
 \newblock In \emph{Proceedings of the 36th International Conference on Machine
-  Learning}, volume~97 of \emph{PMLR}, 2019.
+  Learning}, volume~97 of \emph{PMLR}, pp.\  3652--3661, 2019.
 
 \bibitem[Lindon \& Kallus(2026)Lindon and Kallus]{lindon2026design}
 Michael Lindon and Nathan Kallus.

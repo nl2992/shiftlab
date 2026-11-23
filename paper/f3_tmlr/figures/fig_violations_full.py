@@ -31,7 +31,7 @@ for i in range(M.shape[0]):
         if v >= 0.1: ax.text(j, i, f"{v:.2f}".lstrip("0"), ha="center", va="center", fontsize=6.5, color="white" if v > 0.45 else P["dark"])
         elif j >= 5: ax.text(j, i, f"{v:.3f}".lstrip("0") if v > 0 else "0", ha="center", va="center", fontsize=6.5, color=P["dark"])
 cax = fig.add_axes([0.14, 0.07, 0.3, 0.012])
-cb = fig.colorbar(im, cax=cax, orientation="horizontal"); cb.set_label("exceedance rate of $R$=20 (runs above $R$ / 1000)", fontsize=7)
+cb = fig.colorbar(im, cax=cax, orientation="horizontal"); cb.set_label("exceedance rate of $R$=20 (runs above $R$ / 1,000)", fontsize=7)
 cb.outline.set_visible(False); cb.solids.set_rasterized(False); cb.solids.set_edgecolor("face"); cb.ax.tick_params(labelsize=6.5, length=2)
 panel_label(ax, "(a)", -0.55, 1.08)
 ax.text(0.5, -0.045, "", transform=ax.transAxes)

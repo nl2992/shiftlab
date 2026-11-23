@@ -6,137 +6,136 @@
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
 \bibitem[Altman(1999)]{altman1999constrained}
-Eitan Altman.
+Altman, E.
 \newblock \emph{Constrained {M}arkov Decision Processes}.
 \newblock Chapman and Hall/CRC, 1999.
 
 \bibitem[Azzalini \& Bowman(1990)Azzalini and Bowman]{azzalini1990faithful}
-Adelchi Azzalini and Adrian~W. Bowman.
+Azzalini, A. and Bowman, A.~W.
 \newblock A look at some data on the {O}ld {F}aithful geyser.
 \newblock \emph{Journal of the Royal Statistical Society Series C}, 39\penalty0
   (3):\penalty0 357--365, 1990.
 
 \bibitem[Bo{\v{s}}ansk{\'y} et~al.(2014)Bo{\v{s}}ansk{\'y}, Kiekintveld,
   Lis{\'y}, and P{\v{e}}chou{\v{c}}ek]{bosansky2014exact}
-Branislav Bo{\v{s}}ansk{\'y}, Christopher Kiekintveld, Viliam Lis{\'y}, and
-  Michal P{\v{e}}chou{\v{c}}ek.
+Bo{\v{s}}ansk{\'y}, B., Kiekintveld, C., Lis{\'y}, V., and
+  P{\v{e}}chou{\v{c}}ek, M.
 \newblock An exact double-oracle algorithm for zero-sum extensive-form games
   with imperfect information.
 \newblock \emph{Journal of Artificial Intelligence Research}, 51:\penalty0
   829--866, 2014.
 
 \bibitem[Fau{\ss} et~al.(2020)Fau{\ss}, Zoubir, and Poor]{fauss2020minimax}
-Michael Fau{\ss}, Abdelhak~M. Zoubir, and H.~Vincent Poor.
+Fau{\ss}, M., Zoubir, A.~M., and Poor, H.~V.
 \newblock Minimax optimal sequential hypothesis tests for {M}arkov processes.
 \newblock \emph{The Annals of Statistics}, 48\penalty0 (5):\penalty0
   2599--2621, 2020.
 
 \bibitem[Hor{\'a}k et~al.(2023)Hor{\'a}k, Bo{\v{s}}ansk{\'y},
   Kov{\v{a}}{\v{r}}{\'\i}k, and Kiekintveld]{horak2023solving}
-Karel Hor{\'a}k, Branislav Bo{\v{s}}ansk{\'y}, Vojt{\v{e}}ch
-  Kov{\v{a}}{\v{r}}{\'\i}k, and Christopher Kiekintveld.
+Hor{\'a}k, K., Bo{\v{s}}ansk{\'y}, B., Kov{\v{a}}{\v{r}}{\'\i}k, V., and
+  Kiekintveld, C.
 \newblock Solving zero-sum one-sided partially observable stochastic games.
 \newblock \emph{Artificial Intelligence}, 316:\penalty0 103838, 2023.
 
 \bibitem[Howard et~al.(2021)Howard, Ramdas, McAuliffe, and
   Sekhon]{howard2021timeuniform}
-Steven~R. Howard, Aaditya Ramdas, Jon McAuliffe, and Jasjeet Sekhon.
+Howard, S.~R., Ramdas, A., McAuliffe, J., and Sekhon, J.
 \newblock Time-uniform, nonparametric, nonasymptotic confidence sequences.
 \newblock \emph{The Annals of Statistics}, 49\penalty0 (2), 2021.
 
 \bibitem[Iyengar(2005)]{iyengar2005robust}
-Garud~N. Iyengar.
+Iyengar, G.~N.
 \newblock Robust dynamic programming.
 \newblock \emph{Mathematics of Operations Research}, 30\penalty0 (2):\penalty0
   257--280, 2005.
 
 \bibitem[Krale et~al.(2025)Krale, Bovy, Galesloot, Sim{\~a}o, and
   Jansen]{krale2025evaluating}
-Merlijn Krale, Eline~M. Bovy, Maris F.~L. Galesloot, Thiago~D. Sim{\~a}o, and
-  Nils Jansen.
+Krale, M., Bovy, E.~M., Galesloot, M. F.~L., Sim{\~a}o, T.~D., and Jansen, N.
 \newblock On evaluating policies for robust {POMDP}s.
 \newblock In \emph{Advances in Neural Information Processing Systems}, 2025.
 
 \bibitem[Krishnamurthy(2016)]{krishnamurthy2016pomdp}
-Vikram Krishnamurthy.
+Krishnamurthy, V.
 \newblock \emph{Partially Observed {M}arkov Decision Processes: From Filtering
   to Controlled Sensing}.
 \newblock Cambridge University Press, 2016.
 
 \bibitem[Kuhn(1953)]{kuhn1953extensive}
-Harold~W. Kuhn.
+Kuhn, H.~W.
 \newblock Extensive games and the problem of information.
 \newblock In \emph{Contributions to the Theory of Games, Volume {II}},
   number~28 in Annals of Mathematics Studies, pp.\  193--216. Princeton
   University Press, 1953.
 
 \bibitem[Naghshvar \& Javidi(2013)Naghshvar and Javidi]{naghshvar2013active}
-Mohammad Naghshvar and Tara Javidi.
+Naghshvar, M. and Javidi, T.
 \newblock Active sequential hypothesis testing.
 \newblock \emph{The Annals of Statistics}, 41\penalty0 (6):\penalty0
   2703--2738, 2013.
 
 \bibitem[Nilim \& El~Ghaoui(2005)Nilim and El~Ghaoui]{nilim2005robust}
-Arnab Nilim and Laurent El~Ghaoui.
+Nilim, A. and El~Ghaoui, L.
 \newblock Robust control of {M}arkov decision processes with uncertain
   transition matrices.
 \newblock \emph{Operations Research}, 53\penalty0 (5):\penalty0 780--798, 2005.
 
 \bibitem[Nitinawarat et~al.(2013)Nitinawarat, Atia, and
   Veeravalli]{nitinawarat2013controlled}
-Sirin Nitinawarat, George~K. Atia, and Venugopal~V. Veeravalli.
+Nitinawarat, S., Atia, G.~K., and Veeravalli, V.~V.
 \newblock Controlled sensing for multihypothesis testing.
 \newblock \emph{IEEE Transactions on Automatic Control}, 58\penalty0 (10),
   2013.
 
 \bibitem[Ramdas et~al.(2023)Ramdas, Gr{\"u}nwald, Vovk, and
   Shafer]{ramdas2023gametheoretic}
-Aaditya Ramdas, Peter Gr{\"u}nwald, Vladimir Vovk, and Glenn Shafer.
+Ramdas, A., Gr{\"u}nwald, P., Vovk, V., and Shafer, G.
 \newblock Game-theoretic statistics and safe anytime-valid inference.
 \newblock \emph{Statistical Science}, 38\penalty0 (4), 2023.
 
 \bibitem[Thomas et~al.(2015)Thomas, Theocharous, and
   Ghavamzadeh]{thomas2015high}
-Philip~S. Thomas, Georgios Theocharous, and Mohammad Ghavamzadeh.
+Thomas, P.~S., Theocharous, G., and Ghavamzadeh, M.
 \newblock High confidence policy improvement.
 \newblock In \emph{Proceedings of the 32nd International Conference on Machine
   Learning}, volume~37 of \emph{Proceedings of Machine Learning Research}, pp.\
    2380--2388, 2015.
 
 \bibitem[Ville(1939)]{ville1939etude}
-Jean Ville.
+Ville, J.
 \newblock \emph{{\'E}tude critique de la notion de collectif}.
 \newblock Gauthier-Villars, Paris, 1939.
 
 \bibitem[Wald(1945)]{wald1945sequential}
-Abraham Wald.
+Wald, A.
 \newblock Sequential tests of statistical hypotheses.
 \newblock \emph{The Annals of Mathematical Statistics}, 16\penalty0
   (2):\penalty0 117--186, 1945.
 
 \bibitem[Walraven \& Spaan(2018)Walraven and Spaan]{walraven2018column}
-Erwin Walraven and Matthijs T.~J. Spaan.
+Walraven, E. and Spaan, M. T.~J.
 \newblock Column generation algorithms for constrained {POMDP}s.
 \newblock \emph{Journal of Artificial Intelligence Research}, 62:\penalty0
   489--533, 2018.
 
 \bibitem[Waudby-Smith \& Ramdas(2024)Waudby-Smith and
   Ramdas]{waudbysmith2024betting}
-Ian Waudby-Smith and Aaditya Ramdas.
+Waudby-Smith, I. and Ramdas, A.
 \newblock Estimating means of bounded random variables by betting.
 \newblock \emph{Journal of the Royal Statistical Society Series B}, 86\penalty0
   (1):\penalty0 1--27, 2024.
 
 \bibitem[Wu et~al.(2016)Wu, Shariff, Lattimore, and
   Szepesv{\'a}ri]{wu2016conservative}
-Yifan Wu, Roshan Shariff, Tor Lattimore, and Csaba Szepesv{\'a}ri.
+Wu, Y., Shariff, R., Lattimore, T., and Szepesv{\'a}ri, C.
 \newblock Conservative bandits.
 \newblock In \emph{Proceedings of the 33rd International Conference on Machine
   Learning}, volume~48 of \emph{Proceedings of Machine Learning Research}, pp.\
    1254--1262, 2016.
 
 \bibitem[Yost \& Washburn(2000)Yost and Washburn]{yost2000lp}
-Kirk~A. Yost and Alan~R. Washburn.
+Yost, K.~A. and Washburn, A.~R.
 \newblock The {LP/POMDP} marriage: Optimization with imperfect information.
 \newblock \emph{Naval Research Logistics}, 47\penalty0 (8):\penalty0 607--619,
   2000.

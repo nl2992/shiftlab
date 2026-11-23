@@ -30,34 +30,40 @@ for key, val in TABLE2.items():
 
 cmap = LinearSegmentedColormap.from_list("b", [P["blue_secondary"], P["blue_main"], P["dark"]])
 apply_style(8.5)
-fig, axes = plt.subplots(1, 3, figsize=(WIDTH, 2.8), sharey=True, gridspec_kw=dict(wspace=0.08))
-for i, (ax, t) in enumerate(zip(axes, ("2/3", "3/4", "9/10"))):
-    Bs = sorted(B for (tt, B) in curves if tt == t)
-    ends = []
-    for B in Bs:
-        T = sorted(curves[(t, B)]); y = [curves[(t, B)][x] for x in T]
-        col = cmap((B - 1) / 7)
-        ax.plot(T, y, color=col, lw=1.3, marker="o", ms=2.5)
-        ends.append([y[-1], T[-1], B, col])
-    ends.sort()
-    groups = []  # merge labels of curves that end within 0.01 of each other
-    for yv, Tl, B, col in ends:
-        if groups and yv - groups[-1][0] < 0.01 and Tl == groups[-1][1]:
-            groups[-1][2].append(B)
-        else:
-            groups.append([yv, Tl, [B], col])
-    for j in range(1, len(groups)):  # then spread remaining labels
-        groups[j][0] = max(groups[j][0], groups[j - 1][0] + 0.028)
-    for yv, Tl, Bl, col in groups:
-        ax.text(Tl * 1.12, yv, "B=" + ",".join(map(str, sorted(Bl))), fontsize=6.5, color=col, va="center")
-    r = 2 * eval(t) - 1
-    ax.set_xscale("log"); ax.set_xlim(3.5, 420); ax.set_ylim(0, 0.66)
-    ax.set_xticks([4, 16, 64, 256]); ax.set_xticklabels(["4", "16", "64", "256"])
-    ax.set_title(f"$t={t}$  ($r={r:.2g}$)", loc="left", fontsize=8.5)
-    ax.set_xlabel("horizon $T$ (log scale)")
-    if i:
-        ax.tick_params(axis="y", left=False); ax.spines["left"].set_visible(False)
-    panel_label(ax, "abc"[i], dx=-0.2 if i == 0 else -0.1, dy=1.1)
-axes[0].set_ylabel("relative premium $\\rho_\\Gamma$")
+fig, axes = plt.subplots(2, 3, figsize=(WIDTH, 4.3), sharex=True, sharey=True, gridspec_kw=dict(wspace=0.08, hspace=0.12))
+XMAX = 3.5 * (200 / 3.5) ** (1 / 0.72)  # data end (T=200) at 72% of the axis; right 16%+ holds labels
+XL = 3.5 * (XMAX / 3.5) ** 0.86
+SEP = 0.062  # > one 7 pt text line in data units
+for i, t in enumerate(("2/3", "3/4", "9/10")):
+    allB = sorted(B for (tt, B) in curves if tt == t)
+    for row, Bs in enumerate(([B for B in allB if B <= 4], [B for B in allB if B >= 5])):
+        ax = axes[row, i]
+        ends = []
+        for B in Bs:
+            T = sorted(curves[(t, B)]); y = [curves[(t, B)][x] for x in T]
+            col = cmap((B - 1) / 7)
+            ax.plot(T, y, color=col, lw=2.2, marker="o", ms=3.5)
+            ends.append([y[-1], T[-1], B, col])
+        ends.sort()
+        ly = [e[0] for e in ends]  # label heights: spread so each endpoint keeps its own label
+        for j in range(1, len(ly)):
+            ly[j] = max(ly[j], ly[j - 1] + SEP)
+        for (yv, Tl, B, col), yl in zip(ends, ly):
+            ax.plot([Tl * 1.1, XL / 1.1], [yv, yl], color=col, lw=0.8, clip_on=False)
+            ax.text(XL, yl, f"$B={B}$", fontsize=7, color=col, va="center")
+        ax.set_xscale("log"); ax.set_xlim(3.5, XMAX); ax.set_ylim(0, 0.66)
+        ax.set_xticks([4, 16, 64, 256]); ax.set_xticklabels(["4", "16", "64", "256"])
+        if row == 0:
+            r = 2 * eval(t) - 1
+            ax.set_title(f"$t={t}$  ($r={r:.2g}$)", loc="left", fontsize=8.5)
+            panel_label(ax, "abc"[i], dx=-0.2 if i == 0 else -0.1, dy=1.14)
+        if row == 1:
+            ax.set_xlabel("horizon $T$ (log scale)")
+        if i:
+            ax.tick_params(axis="y", left=False); ax.spines["left"].set_visible(False)
+        if i == 2:
+            ax.text(0.98, 0.97, "$B\\leq4$" if row == 0 else "$B\\geq5$", transform=ax.transAxes, ha="right", va="top",
+                    fontsize=7.5, color=P["grey"])
+fig.supylabel("relative premium $\\rho_\\Gamma$", fontsize=8.5, x=0.02)
 save(fig, "premium")
 print("wrote fig_premium;", len(rows), "cells")

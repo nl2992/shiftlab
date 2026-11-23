@@ -26,7 +26,7 @@ import lattice_data as LD
 from style import RBDP
 
 TALLY = RBDP / "real_data/results/phase10c_baselines/tally.json"
-WMAX = 1.0
+WMAX = 0.3  # show w in [0, 0.3]: the rollout lives at small w
 T_SHOW, N_SHOW = 1, LD.B  # surface shown at t=1 with all B labels left
 
 
@@ -95,50 +95,45 @@ def tally():
     return d
 
 
-def render_landscape(path, L, steps, size=(4.4, 3.5), elev=17, azim=-46, dpi=600):
+def render_landscape(path, L, steps, size=(5.2, 4.4), elev=36, azim=-45, dpi=600, zoom=0.86):
+    """Adaptive = opaque blue ramp (#CFE3F6 -> #3775BA); i.i.d. = sparse #B64342 wireframe over a 12% #F6CFCB fill.
+    The rollout path itself is drawn in the SVG from the projected anchors (so it can carry arrowheads)."""
     beta, w, Wc, Wi = L["beta"], L["w"], L["Wc"], L["Wi"]
-    cmap = LinearSegmentedColormap.from_list("pale", ["#8FB0EC", "#C4D3F2", "#F1EEF4", "#F3C3B8", "#E8826F"])
+    cmap = LinearSegmentedColormap.from_list("blues", ["#CFE3F6", "#3775BA"])
     sub = np.unique(np.r_[np.arange(0, len(beta), 6), len(beta) - 1])
     wfull = w
-    wk = w <= WMAX + 1e-12  # show w in [0, WMAX]: where the policy lives and the kinks are
+    wk = w <= WMAX + 1e-12
     w = w[wk]
     Bg, Wg = np.meshgrid(beta[sub], w, indexing="ij")
     Zc, Zi = Wc[sub][:, wk], Wi[sub][:, wk]
     fig = plt.figure(figsize=size)
-    ax = fig.add_axes([-0.05, -0.08, 1.1, 1.18], projection="3d")
+    ax = fig.add_axes([0, 0, 1, 1], projection="3d")
     ax.set_proj_type("ortho")
     ls = LightSource(azdeg=300, altdeg=50)
     zmin, zmax = float(Zi.min()), float(Zc.max())
-    # adaptive surface first (opaque), i.i.d. surface above it (translucent); explicit z-order
+    zmax_i = float(Zi.max())
     ax.computed_zorder = False
-    rgb_c = ls.shade(Zc, cmap=cmap, vert_exag=1.5, blend_mode="soft", vmin=zmin, vmax=zmax)
-    ax.plot_surface(Bg, Wg, Zc, facecolors=rgb_c, rstride=1, cstride=1, linewidth=0.12, edgecolor=(1, 1, 1, 0.35),
-                    antialiased=True, alpha=0.97, shade=False, zorder=1)
-    # trajectory lifted onto the adaptive surface
+    rgb_c = ls.shade(Zc, cmap=cmap, vert_exag=0.6, blend_mode="soft", vmin=float(Zc.min()), vmax=float(Zc.max()))
+    ax.plot_surface(Bg, Wg, Zc, facecolors=rgb_c, rstride=1, cstride=1, linewidth=0.2, edgecolor=(1, 1, 1, 0.35),
+                    antialiased=True, alpha=1.0, shade=False, zorder=1)
+    ax.plot_surface(Bg, Wg, Zi, color="#F6CFCB", rstride=1, cstride=1, linewidth=0, antialiased=True, alpha=0.12,
+                    shade=False, zorder=40)
+    ax.plot_wireframe(Bg, Wg, Zi, rstride=max(1, Bg.shape[0] // 14), cstride=max(1, Bg.shape[1] // 5), color="#B64342",
+                      linewidth=0.55, alpha=0.9, zorder=41)
     interp = RegularGridInterpolator((beta, wfull), Wc)
     pts = [(r["beta"], r["w"]) for r in steps]
+    zs = [(b_, w_, float(interp([[b_, w_]])[0]) + 0.05) for b_, w_ in pts]
     path_xyz = []
     for (b0, w0), (b1, w1) in zip(pts[:-1], pts[1:]):
         for u in np.linspace(0, 1, 24):
             bb, ww = b0 + u * (b1 - b0), w0 + u * (w1 - w0)
             path_xyz.append((bb, ww, float(interp([[bb, ww]])[0]) + 0.05))
-    if len(pts) == 1:
-        path_xyz = [(*pts[0], float(interp([pts[0]])[0]) + 0.05)]
-    P = np.array(path_xyz)
-    ax.plot(P[:, 0], P[:, 1], P[:, 2], color="#2E6B2E", lw=1.8, zorder=20)
-    zs = [(b_, w_, float(interp([[b_, w_]])[0]) + 0.05) for b_, w_ in pts]
-    for (b_, w_, z_) in zs:
-        ax.scatter([b_], [w_], [z_], s=16, color="#8CC084", edgecolor="#2E6B2E", linewidth=0.8, depthshade=False, zorder=30)
-    rgb_i = ls.shade(Zi, cmap=cmap, vert_exag=1.5, blend_mode="soft", vmin=zmin, vmax=zmax)
-    ax.plot_surface(Bg, Wg, Zi, facecolors=rgb_i, rstride=2, cstride=2, linewidth=0, antialiased=True, alpha=0.28,
-                    shade=False, zorder=40)
     ax.view_init(elev=elev, azim=azim)
-    ax.set_xlim(0, 1); ax.set_ylim(0, WMAX); ax.set_zlim(zmin - 0.1, zmax + 0.2)
-    ax.set_box_aspect((1.0, 0.95, 0.75))
+    ax.set_xlim(0, 1); ax.set_ylim(0, WMAX); ax.set_zlim(zmin - 0.05, zmax_i + 0.1)
+    ax.set_box_aspect((1.0, 0.95, 0.52), zoom=zoom)
     ax.set_axis_off()
     fig.patch.set_alpha(0); ax.patch.set_alpha(0)
     fig.canvas.draw()
-    # projected anchors (fractions of the figure, origin top-left) for the SVG labels
     M = ax.get_proj()
 
     def proj(x, y, z):
@@ -147,14 +142,18 @@ def render_landscape(path, L, steps, size=(4.4, 3.5), elev=17, azim=-46, dpi=600
         W_, H_ = fig.canvas.get_width_height()
         return [float(px / W_), float(1 - py / H_)]
 
+    ZI = RegularGridInterpolator((beta, wfull), Wi)
+    zlo = zmin - 0.05
     anchors = dict(
         traj=[proj(*z) for z in zs],
-        corner_b0w0=proj(0, 0, zmin - 0.1), corner_b1w0=proj(1, 0, zmin - 0.1), corner_b0w1=proj(0, WMAX, zmin - 0.1),
-        corner_b1w1=proj(1, WMAX, zmin - 0.1),
-        # the gap between the surfaces at the ridge, w = 0.25
-        gap_top=proj(0.5, 0.25, float(RegularGridInterpolator((beta, wfull), Wc)([[0.5, 0.25]])[0])),
-        gap_bot=proj(0.5, 0.25, float(RegularGridInterpolator((beta, wfull), Wi)([[0.5, 0.25]])[0])),
-        peak=proj(0.5, 0.0, float(Wc[np.argmin(abs(beta - 0.5)), 0])),
+        path=[proj(*z) for z in path_xyz],
+        corner_b0w0=proj(0, 0, zlo), corner_b1w0=proj(1, 0, zlo), corner_b0w1=proj(0, WMAX, zlo),
+        corner_b1w1=proj(1, WMAX, zlo),
+        iid_b1=proj(1, 0.15, float(ZI([[1, 0.15]])[0])), iid_w1=proj(0.5, WMAX, float(ZI([[0.5, WMAX]])[0])),
+        iid_b0=proj(0, 0.15, float(ZI([[0, 0.15]])[0])),
+        ad_b1=proj(1, 0.15, float(interp([[1, 0.15]])[0])), ad_w1=proj(0.5, WMAX, float(interp([[0.5, WMAX]])[0])),
+        ad_b0=proj(0, 0.15, float(interp([[0, 0.15]])[0])), ad_w0=proj(0.6, 0, float(interp([[0.6, 0]])[0])),
+        iid_top=proj(*max(((b_, w_, float(ZI([[b_, w_]])[0])) for b_ in np.linspace(0, 1, 21) for w_ in np.linspace(0, WMAX, 7)), key=lambda t: t[2])),
     )
     fig.savefig(path, dpi=dpi, transparent=True)
     plt.close(fig)

@@ -154,8 +154,8 @@ class Svg:
             self.text(x + (k + .5) * w, y + h / 2 + size * 0.33, s, size=size, anchor="middle", family=MONO,
                       weight="bold" if bold else "normal", extra=(' opacity="%g"' % op) if op != 1 else "")
 
-    def group_box(self, x, y, w, h, title, tcolor, dash="5 3", sw=1.3, tsize=11.5, tpos="top", tx=None):
-        self.rect(x, y, w, h, fill="none", stroke="ink", sw=sw, rx=10, dash=dash)
+    def group_box(self, x, y, w, h, title, tcolor, dash="5 3", sw=1.3, tsize=11.5, tpos="top", tx=None, rx=10):
+        self.rect(x, y, w, h, fill="none", stroke="ink", sw=sw, rx=rx, dash=dash)
         ty = y - 3 if tpos == "top" else y + h + tsize
         # white cut so the title sits on the dashed line
         tw = len(title) * tsize * 0.55 + 8

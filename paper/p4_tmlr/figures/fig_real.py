@@ -41,8 +41,7 @@ assert max(max(worst[p].values()) for p in ("P1", "P2", "P6", "P7")) <= 1 + 1e-9
 # ---- (b) replay pooled cost
 rep = [r for r in read_jsonl(REAL / "phase9_replay.jsonl") if r["status"] == "replayed"]
 SAFE = ["P7", "P5r", "P2", "P3c", "P1", "P6"]
-LAB = {"P7": "RB-DP", "P5r": "P5r i.i.d.-opt., repaired", "P2": "P2 count SPRT", "P3c": "P3c filter, recal.",
-       "P1": "P1 fixed-sample", "P6": "P6 e-process gate"}
+LAB = {"P7": "RB-DP", "P5r": "P5r", "P2": "P2", "P3c": "P3c", "P1": "P1", "P6": "P6"}
 cost = {p: np.concatenate([np.asarray(r["cost"][p], float) for r in rep]) for p in SAFE + ["P4c"]}
 n = len(cost["P7"]); assert n == 9525, n
 TABLE4 = {"P7": 13.799, "P5r": 13.799, "P2": 13.838, "P3c": 13.850, "P1": 13.918, "P6": 14.173, "P4c": 15.834}
@@ -53,29 +52,41 @@ idx = rng.integers(0, n, size=(2000, n))
 ci = {p: np.percentile(cost[p][idx].mean(axis=1), [2.5, 97.5]) for p in SAFE}
 
 apply_style(8.5)
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(WIDTH, 2.9), gridspec_kw=dict(width_ratios=[1.0, 1.15], wspace=0.95))
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(WIDTH, 2.9), gridspec_kw=dict(width_ratios=[1.5, 1.0], wspace=0.3))
 pols = ["P7", "P1", "P2", "P6", "P3", "P4", "P5"]
-rng_j = np.random.default_rng(0)
 for i, p in enumerate(pols):
     y = np.array([worst[p][c] for c in chains])
     col = P["blue_main"] if p == "P7" else (P["grey"] if p in ("P1", "P2", "P6") else P["red_strong"])
-    a1.scatter(i + rng_j.uniform(-0.18, 0.18, len(y)), y, s=9, color=col, alpha=0.7, linewidths=0)
+    # coincident observations (same value to 1e-3 in log2) form a centred horizontal row; y stays exact
+    key = np.round(np.log2(y) / 0.03).astype(int)
+    xs = np.zeros(len(y)); dense = []
+    for kk in np.unique(key):
+        m = np.where(key == kk)[0]
+        dx = min(0.07, 0.6 / max(len(m) - 1, 1))  # stack spans <= 60% of the spacing between methods; xs[m] = (np.arange(len(m)) - (len(m) - 1) / 2) * dx
+        if len(m) >= 4:
+            dense.append((i, y[m].mean(), len(m)))
+    a1.scatter(i + xs, y, s=6, color=col, alpha=0.85, linewidths=0, zorder=3)
+    for x0, y0, cnt in dense:
+        # centred above its own row: baseline 6 pt above the dot tops (dot radius ~1.2 pt), white backing, no border
+        a1.annotate(f"{cnt}", (x0, y0), xytext=(0, 6 + 1.2), textcoords="offset points", fontsize=7, color=col,
+                    ha="center", va="baseline", zorder=5,
+                    bbox=dict(boxstyle="square,pad=0.14", fc="white", ec="none"))
 a1.axhline(1, color=P["dark"], lw=0.8, ls=":")
-a1.text(6.6, 1.08, "budget $\\alpha$", fontsize=7, ha="right", va="bottom")
+a1.text(-1.7, 1.04, "budget $\\alpha$", fontsize=7, ha="left", va="bottom")
 a1.set_yscale("log", base=2); a1.set_yticks([0.5, 1, 2, 4, 8]); a1.set_yticklabels(["1/2", "1", "2", "4", "8"])
 a1.set_xticks(range(len(pols))); a1.set_xticklabels(pols)
-a1.set_ylabel("worst adaptive risk / $\\alpha$ per dataset")
+a1.set_ylabel("worst adaptive risk / $\\alpha$")
 a1.set_title("%d fitted chains, 12 settings each" % N_CH, loc="left", fontsize=8.5)
 a1.text(5, 0.42, "i.i.d.-calibrated", fontsize=7, color=P["red_strong"], ha="center")
-a1.text(1.5, 0.42, "causal-safe", fontsize=7, color=P["grey"], ha="center")
-a1.set_ylim(0.38, 10)
+a1.text(1.4, 0.42, "causal-safe", fontsize=7, color=P["grey"], ha="center")
+a1.set_ylim(0.38, 10); a1.set_xlim(-1.8, 6.4)
 
 for j, p in enumerate(SAFE):
     m = cost[p].mean(); lo, hi = ci[p]
-    col = P["blue_main"] if p == "P7" else P["red_strong"]
-    a2.errorbar(m, j, xerr=[[m - lo], [hi - m]], fmt="o", color=col, ms=4.5, capsize=2.5, lw=1.1,
+    col = P["blue_main"] if p == "P7" else P["grey"]
+    a2.errorbar(m, j, xerr=[[m - lo], [hi - m]], fmt="o", color=col, ms=4.5, capsize=2.5, lw=2.0,
                 mfc=col if p == "P7" else "white")
-a2.axvline(cost["P7"].mean(), color=P["blue_main"], lw=0.7, ls=":")
+a2.axvline(cost["P7"].mean(), color=P["blue_main"], lw=1.0, ls=":")
 a2.set_yticks(range(len(SAFE))); a2.set_yticklabels([LAB[p] for p in SAFE]); a2.invert_yaxis()
 a2.set_xlabel("mean realised cost per window (95% bootstrap CI)")
 a2.set_title("held-out replay, 9,525 windows", loc="left", fontsize=8.5)

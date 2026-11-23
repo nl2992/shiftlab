@@ -1,12 +1,12 @@
-"""Figure 3: real streams. (a) worst adaptive risk / alpha per dataset on the 39-chain panel;
+"""Figure 3: real streams. (a) worst adaptive risk / alpha per dataset on the 44-chain panel;
 (b) pooled realised cost of safe policies in the held-out replay.
 
 Sources:
  (a) docs/paper4_continuation/rbdp/real_data/results/phase7_baselines_T16_32/settings.jsonl
-     + phase10_baselines/settings.jsonl (4 chains) (39 chains x 12 settings, T in {16,32}, B in {2,3,4}, alpha in {0.05,0.1}); per chain the max over settings.
+     + phase10_baselines/settings.jsonl (4 chains) + phase10c_baselines/settings.jsonl (5 chains) (44 chains x 12 settings, T in {16,32}, B in {2,3,4}, alpha in {0.05,0.1}); per chain the max over settings.
  (b) docs/paper4_continuation/rbdp/real_data/results/phase9_replay.jsonl (100 datasets, 9,525 windows,
      T = 32, B = 4, alpha = 0.1, c = 0.01); window bootstrap, 2,000 resamples, seed 20261119.
-Asserted: 35 of 39 chains violated by P3/P4/P5; maxima 4, 8, 8; pooled means equal Table 4 to 1e-3.
+Asserted against phase10c_baselines/tally.json (key new) and len(make_tables.ORDER): chains violated by P3/P4/P5 and their maxima; pooled means equal Table 4 to 1e-3.
 """
 import sys
 from collections import defaultdict
@@ -22,14 +22,20 @@ from style import PALETTE as P, REAL, WIDTH, apply_style, panel_label, read_json
 NAMES = {"P1_fixed_sample": "P1", "P2_count_sprt": "P2", "P6_eprocess_gate": "P6", "P7_rbdp_causal": "P7",
          "P3_hmm_filter": "P3", "P4_myopic_voi": "P4", "P5_iid_optimal_pomdp": "P5"}
 worst = defaultdict(lambda: defaultdict(float))
-for r in read_jsonl(REAL / "phase7_baselines_T16_32/settings.jsonl") + read_jsonl(REAL / "phase10_baselines/settings.jsonl"):
+for r in (read_jsonl(REAL / "phase7_baselines_T16_32/settings.jsonl") + read_jsonl(REAL / "phase10_baselines/settings.jsonl")
+          + read_jsonl(REAL / "phase10c_baselines/settings.jsonl")):
     p = NAMES[r["policy"]]
     worst[p][r["chain_id"]] = max(worst[p][r["chain_id"]], r["ratio_causal_over_alpha"])
 chains = sorted(worst["P7"])
-assert len(chains) == 39
+import json
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+import make_tables as MT
+TAL = json.loads((REAL / "phase10c_baselines/tally.json").read_text())["new"]
+N_CH = len(chains)
+assert N_CH == TAL["chains"] == len(MT.ORDER), (N_CH, TAL["chains"], len(MT.ORDER))
 viol = {c for c in chains if any(worst[p][c] > 1 + 1e-9 for p in ("P3", "P4", "P5"))}
-assert len(viol) == 35, len(viol)
-assert [round(max(worst[p].values()), 6) for p in ("P3", "P4", "P5")] == [4.0, 8.0, 8.0]
+assert len(viol) == TAL["iid_break_datasets"], len(viol)
+assert [round(max(worst[p].values()), 6) for p in ("P3", "P4", "P5")] == [round(TAL["max_ratio"][p], 6) for p in ("P3", "P4", "P5")]
 assert max(max(worst[p].values()) for p in ("P1", "P2", "P6", "P7")) <= 1 + 1e-9
 
 # ---- (b) replay pooled cost
@@ -59,7 +65,7 @@ a1.text(6.6, 1.08, "budget $\\alpha$", fontsize=7, ha="right", va="bottom")
 a1.set_yscale("log", base=2); a1.set_yticks([0.5, 1, 2, 4, 8]); a1.set_yticklabels(["1/2", "1", "2", "4", "8"])
 a1.set_xticks(range(len(pols))); a1.set_xticklabels(pols)
 a1.set_ylabel("worst adaptive risk / $\\alpha$ per dataset")
-a1.set_title("39 fitted chains, 12 settings each", loc="left", fontsize=8.5)
+a1.set_title("%d fitted chains, 12 settings each" % N_CH, loc="left", fontsize=8.5)
 a1.text(5, 0.42, "i.i.d.-calibrated", fontsize=7, color=P["red_strong"], ha="center")
 a1.text(1.5, 0.42, "causal-safe", fontsize=7, color=P["grey"], ha="center")
 a1.set_ylim(0.38, 10)

@@ -1,0 +1,30 @@
+22:07:02 PRE E:geyser/Little_Cub n 3000 mean 0.489 r1 0.543 wn_r1 -0.012
+22:07:31 E:geyser/Little_Cub x=1 n 3000 r1 0.543 pos False None
+22:07:59 E:geyser/Little_Cub 1-x n 3000 r1 0.543 pos False None
+22:07:59 DONE E:geyser/Little_Cub evaluated positive False
+22:08:00 PRE E:geyser/Spouter n 3000 mean 0.499 r1 0.0423 wn_r1 -0.012
+22:08:42 E:geyser/Spouter x=1 n 3000 r1 0.042 pos False None
+22:09:27 E:geyser/Spouter 1-x n 3000 r1 0.042 pos False None
+22:09:27 DONE E:geyser/Spouter evaluated positive False
+22:09:27 PRE E:geyser/Logbridge n 3000 mean 0.4977 r1 0.103 wn_r1 -0.012
+22:10:40 E:geyser/Logbridge x=1 n 3000 r1 0.103 pos False None
+22:11:51 E:geyser/Logbridge 1-x n 3000 r1 0.103 pos False None
+22:11:51 DONE E:geyser/Logbridge evaluated positive False
+22:11:51 PRE E:tennis_first_server/women n 3000 mean 0.5083 r1 -0.0053 wn_r1 -0.034
+22:14:05 E:tennis_first_server/women x=1 n 3000 r1 -0.005 pos False None
+22:16:05 E:tennis_first_server/women 1-x n 3000 r1 -0.005 pos False None
+22:16:05 DONE E:tennis_first_server/women evaluated positive False
+22:16:05 PRE E:collagen/P02453 n 1463 mean 0.2153 r1 -0.0423 wn_r1 -0.028
+22:17:18 E:collagen/P02453 x=1 n 1463 r1 -0.042 pos False None
+22:18:13 E:collagen/P02453 1-x n 1463 r1 -0.042 pos False None
+22:18:13 DONE E:collagen/P02453 evaluated positive False
+22:18:17 PRE E:lang/af n 3000 mean 0.436 r1 -0.2496 wn_r1 -0.018
+22:18:48 E:lang/af vowel=1 n 3000 r1 -0.250 pos False None
+22:29:45 E:lang/af consonant=1 n 3000 r1 -0.250 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.22334895153610732, 'C0': 8.983183960439193, 'U_iid': 8.697337598582216, 'risk_causal_of_iid_policy': 0.325}
+22:29:45 DONE E:lang/af evaluated positive True
+22:33:23 PRE E:lang/br n 3000 mean 0.4353 r1 -0.3911 wn_r1 -0.018
+22:34:34 E:lang/br vowel=1 n 3000 r1 -0.391 pos False None
+22:46:18 E:lang/br consonant=1 n 3000 r1 -0.391 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.3517389874383355, 'C0': 8.993430238489905, 'U_iid': 8.577045405796259, 'risk_causal_of_iid_policy': 0.32499999999999996}
+22:46:18 DONE E:lang/br evaluated positive True
+22:49:36 DONE E:lang/lv fetch failed positive False
+22:56:53 DONE E:lang/hr fetch failed positive False

@@ -1,7 +1,7 @@
 """Data and 3D assets for fig_overview (composed schematic).
 
 Everything numeric is computed from the lattice solver (risk_budget_dp_fast, same cell as Fig. 4) or read from
-docs/.../real_data/results/phase10_baselines/tally.json.  Needs PYTHONPATH=src.
+docs/.../real_data/results/phase10c_baselines/tally.json.  Needs PYTHONPATH=src.
 
   landscape()  -> value surfaces W(beta, w) at t=1, n=B (adaptive and i.i.d.) from the solver tables Vup[t][n]
   rollout()    -> one simulated stream under the extracted RB-DP policy (the solver's own _Evaluator._decide,
@@ -25,7 +25,7 @@ from shiftlab.paper4 import risk_budget_dp_fast as F
 import lattice_data as LD
 from style import RBDP
 
-TALLY = RBDP / "real_data/results/phase10_baselines/tally.json"
+TALLY = RBDP / "real_data/results/phase10c_baselines/tally.json"
 WMAX = 1.0
 T_SHOW, N_SHOW = 1, LD.B  # surface shown at t=1 with all B labels left
 

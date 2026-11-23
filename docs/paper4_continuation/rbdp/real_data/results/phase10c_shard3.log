@@ -1,0 +1,27 @@
+22:07:03 PRE E:geyser/Jet n 3000 mean 0.4757 r1 0.496 wn_r1 -0.012
+22:07:35 E:geyser/Jet x=1 n 3000 r1 0.496 pos False None
+22:08:06 E:geyser/Jet 1-x n 3000 r1 0.496 pos False None
+22:08:06 DONE E:geyser/Jet evaluated positive False
+22:08:07 PRE E:geyser/Oblong n 3000 mean 0.4917 r1 0.2696 wn_r1 -0.012
+22:08:52 E:geyser/Oblong x=1 n 3000 r1 0.270 pos False None
+22:09:40 E:geyser/Oblong 1-x n 3000 r1 0.270 pos False None
+22:09:40 DONE E:geyser/Oblong evaluated positive False
+22:09:40 PRE E:geyser/Plate n 3000 mean 0.4917 r1 0.3756 wn_r1 -0.012
+22:10:12 E:geyser/Plate x=1 n 3000 r1 0.376 pos False None
+22:10:45 E:geyser/Plate 1-x n 3000 r1 0.376 pos False None
+22:10:45 DONE E:geyser/Plate evaluated positive False
+22:10:46 PRE E:collagen/P08123 n 1366 mean 0.2328 r1 -0.0199 wn_r1 -0.018
+22:11:53 E:collagen/P08123 x=1 n 1366 r1 -0.020 pos False None
+22:12:57 E:collagen/P08123 1-x n 1366 r1 -0.020 pos False None
+22:12:57 DONE E:collagen/P08123 evaluated positive False
+22:12:57 PRE E:collagen/P08121 n 1464 mean 0.1872 r1 0.0408 wn_r1 -0.009
+22:13:11 E:collagen/P08121 x=1 n 1464 r1 0.041 pos False None
+22:13:22 E:collagen/P08121 1-x n 1464 r1 0.041 pos False None
+22:13:22 DONE E:collagen/P08121 evaluated positive False
+22:22:15 DONE E:lang/oc fetch failed positive False
+22:34:14 DONE E:lang/gd fetch failed positive False
+22:47:03 DONE E:lang/sk fetch failed positive False
+23:00:14 PRE E:cricket/ipl_runs_scored n 3000 mean 0.625 r1 0.0512 wn_r1 -0.02
+23:22:31 E:cricket/ipl_runs_scored x=1 n 3000 r1 0.051 pos False None
+23:23:01 E:cricket/ipl_runs_scored 1-x n 3000 r1 0.051 pos False None
+23:23:01 DONE E:cricket/ipl_runs_scored evaluated positive False

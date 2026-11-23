@@ -1,0 +1,92 @@
+{
+ "old": {
+  "label": "old 39",
+  "chains": 39,
+  "settings": 468,
+  "p7settings": 468,
+  "cheaper": 212,
+  "tie": 256,
+  "dearer": 0,
+  "min_delta": -6.323830348264892e-13,
+  "cheaper3": 238,
+  "tie3": 230,
+  "dearer3": 0,
+  "min_delta3": -6.323830348264892e-13,
+  "iid_break_datasets": 35,
+  "max_ratio": {
+   "P1": 1.0,
+   "P2": 1.0,
+   "P3": 4.0,
+   "P4": 8.0,
+   "P5": 8.0,
+   "P6": 1.0,
+   "P7": 1.0000000000000002
+  },
+  "violations": {
+   "P3": 324,
+   "P4": 304,
+   "P5": 288
+  },
+  "violating_chains_p7_p1_p2_p6": []
+ },
+ "new": {
+  "label": "new 44",
+  "chains": 44,
+  "settings": 528,
+  "p7settings": 528,
+  "cheaper": 268,
+  "tie": 260,
+  "dearer": 0,
+  "min_delta": -6.323830348264892e-13,
+  "cheaper3": 294,
+  "tie3": 234,
+  "dearer3": 0,
+  "min_delta3": -6.323830348264892e-13,
+  "iid_break_datasets": 40,
+  "max_ratio": {
+   "P1": 1.0,
+   "P2": 1.0,
+   "P3": 4.0,
+   "P4": 8.0,
+   "P5": 8.0,
+   "P6": 1.0,
+   "P7": 1.0000000000000002
+  },
+  "violations": {
+   "P3": 384,
+   "P4": 364,
+   "P5": 348
+  },
+  "violating_chains_p7_p1_p2_p6": []
+ },
+ "added": {
+  "label": "5 new only",
+  "chains": 5,
+  "settings": 60,
+  "p7settings": 60,
+  "cheaper": 56,
+  "tie": 4,
+  "dearer": 0,
+  "min_delta": -8.881784197001252e-14,
+  "cheaper3": 56,
+  "tie3": 4,
+  "dearer3": 0,
+  "min_delta3": -8.881784197001252e-14,
+  "iid_break_datasets": 5,
+  "max_ratio": {
+   "P1": 1.0,
+   "P2": 1.0,
+   "P3": 4.0,
+   "P4": 4.0,
+   "P5": 4.0,
+   "P6": 1.0,
+   "P7": 1.0
+  },
+  "violations": {
+   "P3": 60,
+   "P4": 60,
+   "P5": 60
+  },
+  "violating_chains_p7_p1_p2_p6": []
+ }
+}

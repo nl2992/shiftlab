@@ -1,0 +1,16 @@
+23:43:58 PRE E:lang/fy n 3000 mean 0.3993 r1 -0.4145 wn_r1 -0.005 gutendex (original rule)
+23:44:20 E:lang/fy vowel=1 n 3000 r1 -0.414 pos False None
+23:55:01 E:lang/fy consonant=1 n 3000 r1 -0.414 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.24253400151322266, 'C0': 9.5465494476075, 'U_iid': 8.931457141893913, 'risk_causal_of_iid_policy': 0.32500000000000007}
+23:55:01 DONE E:lang/fy evaluated positive True
+23:58:21 PRE E:lang/gl n 3000 mean 0.4717 r1 -0.5134 wn_r1 -0.02 gutendex (original rule)
+00:08:46 E:lang/gl vowel=1 n 3000 r1 -0.513 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.2672758433007547, 'C0': 7.562961199533148, 'U_iid': 7.373864566825184, 'risk_causal_of_iid_policy': 0.4}
+00:19:24 E:lang/gl consonant=1 n 3000 r1 -0.513 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.4159716612759456, 'C0': 16.874077541037238, 'U_iid': 16.245347192811256, 'risk_causal_of_iid_policy': 0.325}
+00:19:24 DONE E:lang/gl evaluated positive True
+00:19:26 PRE E:lang/ia n 3000 mean 0.4597 r1 -0.4922 wn_r1 -0.025 gutendex (original rule)
+00:30:20 E:lang/ia vowel=1 n 3000 r1 -0.492 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.2561848070644724, 'C0': 14.760678963204098, 'U_iid': 14.610975018978177, 'risk_causal_of_iid_policy': 0.4}
+00:41:54 E:lang/ia consonant=1 n 3000 r1 -0.492 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.4136713681633255, 'C0': 8.61966051382515, 'U_iid': 8.211262751471287, 'risk_causal_of_iid_policy': 0.32499999999999996}
+00:41:54 DONE E:lang/ia evaluated positive True
+00:41:57 PRE E:lang/et n 3000 mean 0.453 r1 -0.4842 wn_r1 -0.02 gutendex (original rule)
+00:52:28 E:lang/et vowel=1 n 3000 r1 -0.484 pos True {'T': 32, 'B': 4, 'rho_Gamma': 0.2516741364490286, 'C0': 14.559194007304374, 'U_iid': 14.425304752384747, 'risk_causal_of_iid_policy': 0.4}
+01:02:58 E:lang/et consonant=1 n 3000 r1 -0.484 pos True {'T': 16, 'B': 4, 'rho_Gamma': 0.41808334485428494, 'C0': 8.720403028125869, 'U_iid': 8.287709120549152, 'risk_causal_of_iid_policy': 0.32499999999999996}
+01:02:58 DONE E:lang/et evaluated positive True

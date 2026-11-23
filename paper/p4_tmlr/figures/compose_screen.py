@@ -1,7 +1,7 @@
 """Figure 5: how real streams become supporting datasets.  (a) composed schematic (source icons -> bit strips -> screen gates),
 (b, c) matplotlib bars embedded as inline SVG.  Run: PYTHONPATH=src ../../../.venv/bin/python compose_screen.py
 Counts are read at build time from LEDGER_PHASE10.md, make_tables.ORDER, REAL_CHAINS.md, the baseline settings files and
-phase9_replay.jsonl, and cross-checked; nothing is hard-coded (the ledger grows with Phase 10c).
+phase9_replay.jsonl, and cross-checked; nothing is hard-coded (the ledger now covers Phases 10, 10b and 10c).
 """
 import io
 import re
@@ -25,6 +25,7 @@ import make_tables as MT
 ledger = (RBDP / "real_data/LEDGER_PHASE10.md").read_text()
 cnt = {}
 for key, pat in (("attempted", r"Attempted: (\d+)"), ("positive", r"Positive \(supporting\): (\d+)"),
+                 ("excluded", r"Positive by the evaluator but excluded: (\d+)"),
                  ("null", r"Evaluated, no premium \(null\): (\d+)"), ("short", r"Too short: (\d+)"),
                  ("fit", r"Fit rejected \(G1 or G2\): (\d+)"), ("unavail", r"Source unavailable: (\d+)"),
                  ("dup", r"Already evaluated in Phase 4: (\d+)")):
@@ -42,7 +43,7 @@ assert sum(kinds.values()) == N_SUP
 rc = (RBDP / "real_data/REAL_CHAINS.md").read_text()
 assert "| positive and non-degenerate | 2 (8%) | 13 (8.7%) |" in rc and "24 i.i.d. Gaussian series" in rc
 NOISE, NOISE_N, REAL_POS, REAL_N = 2, 24, 13, 150
-n_rec = len(read_jsonl(REAL / "phase7_baselines_T16_32/settings.jsonl")) + len(read_jsonl(REAL / "phase10_baselines/settings.jsonl"))
+n_rec = sum(len(read_jsonl(REAL / f"{d}/settings.jsonl")) for d in ("phase7_baselines_T16_32", "phase10_baselines", "phase10c_baselines"))
 assert n_rec % (7 * 12) == 0
 N_SET = n_rec // 7
 assert N_SET == 12 * N_SUP, (N_SET, N_SUP)  # 7 policies x 12 settings x chains
@@ -58,8 +59,8 @@ assert "ivk = iv[ok][:CAP]" in t10b and "> median" in t10b
 
 n_stream = cnt["attempted"] - cnt["short"] - cnt["unavail"] - cnt["dup"]
 n_fit = n_stream - cnt["fit"]
-n_prem = n_fit - cnt["null"]
-assert n_prem == cnt["positive"]
+n_prem = n_fit - cnt["null"]  # passes the evaluator, including the excluded Frisian stream
+assert n_prem == cnt["positive"] + cnt["excluded"]
 N_EARLIER = N_SUP - cnt["positive"]
 assert N_EARLIER >= 0
 
@@ -71,7 +72,8 @@ fig = plt.figure(figsize=(6.5, BH))
 axb = fig.add_axes([0.205, 0.06, 0.29, 0.70]); axc = fig.add_axes([0.745, 0.06, 0.22, 0.70])
 labs = [("fit rejected (G1/G2)", cnt["fit"], P["red_2"]), ("no premium", cnt["null"], P["neutral"]),
         ("too short", cnt["short"], P["neutral"]), ("unavailable", cnt["unavail"], P["neutral"]),
-        ("already in Phase 4", cnt["dup"], P["neutral"]), ("supporting", cnt["positive"], P["blue_main"])]
+        ("already in Phase 4", cnt["dup"], P["neutral"]), ("excluded (not Frisian)", cnt["excluded"], P["neutral"]),
+        ("supporting", cnt["positive"], P["blue_main"])]
 kl = [("texts", kinds["text"]), ("promotion", kinds["promotion"]), ("proteins", kinds["protein"]), ("geysers", kinds["geyser"])]
 for ax_, items, xl in ((axb, labs, max(v for _, v, _ in labs) * 1.22), (axc, [(l, v, P["blue_main"]) for l, v in kl], max(v for _, v in kl) * 1.22)):
     for k, (l, v, c) in enumerate(items):
@@ -174,10 +176,11 @@ S.lines(XM - 4, YM + 24, ["levels only,", "no differences:", "noise passes %d/%d
 # gates inside a dashed group
 GX0, GX1 = 382, 556
 S.group_box(GX0, 40, GX1 - GX0, 152, "screen (fixed rule)", C["dblue"], tx=GX0 + 20)
-S.text((GX0 + GX1) / 2, 62, "%d new sources" % cnt["attempted"], size=9.8, weight="bold", fill=GT, anchor="middle")
+S.text((GX0 + GX1) / 2, 62, "%d sources" % cnt["attempted"], size=9.8, weight="bold", fill=GT, anchor="middle")
+S.text((GX0 + GX1) / 2, 74, "Phases 10, 10b, 10c", size=9.4, fill=C["gtxt"], anchor="middle")
 S.arrow([(XM + 8 * CW + 3, YM), (GX0 - 1, YM)], sw=1)
 names = [["\u2265200", "rounds,", "available"], ["fit", "<i>G</i><sub>1</sub>, <i>G</i><sub>2</sub>"], ["premium", "> 0"], ["shuffle", "control"]]
-surv = [n_stream, n_fit, n_prem, n_prem]
+surv = [n_stream, n_fit, n_prem, n_prem]  # the last gate also holds the excluded Frisian stream (one more check, by source)
 pitch = (GX1 - GX0 - 8) / 4
 for k in range(4):
     cx = GX0 + 4 + pitch * (k + .5)

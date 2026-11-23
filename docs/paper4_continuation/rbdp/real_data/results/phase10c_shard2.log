@@ -1,0 +1,24 @@
+22:07:03 PRE E:geyser/Lion n 3000 mean 0.478 r1 0.3452 wn_r1 -0.012
+22:07:09 E:geyser/Lion x=1 n 3000 r1 0.345 pos False None
+22:07:16 E:geyser/Lion 1-x n 3000 r1 0.345 pos False None
+22:07:16 DONE E:geyser/Lion evaluated positive False
+22:07:16 PRE E:geyser/Fountain n 3000 mean 0.4983 r1 0.5092 wn_r1 -0.012
+22:07:46 E:geyser/Fountain x=1 n 3000 r1 0.509 pos False None
+22:08:14 E:geyser/Fountain 1-x n 3000 r1 0.509 pos False None
+22:08:14 DONE E:geyser/Fountain evaluated positive False
+22:08:15 PRE E:geyser/Turban n 3000 mean 0.49 r1 0.4956 wn_r1 -0.012
+22:08:49 E:geyser/Turban x=1 n 3000 r1 0.496 pos False None
+22:09:25 E:geyser/Turban 1-x n 3000 r1 0.496 pos False None
+22:09:25 DONE E:geyser/Turban evaluated positive False
+22:09:30 PRE E:collagen/P02452 n 1464 mean 0.2165 r1 -0.0454 wn_r1 -0.029
+22:10:49 E:collagen/P02452 x=1 n 1464 r1 -0.045 pos False None
+22:11:58 E:collagen/P02452 1-x n 1464 r1 -0.045 pos False None
+22:11:58 DONE E:collagen/P02452 evaluated positive False
+22:11:59 PRE E:collagen/P11087 n 1453 mean 0.2106 r1 -0.0252 wn_r1 -0.017
+22:12:59 E:collagen/P11087 x=1 n 1453 r1 -0.025 pos False None
+22:13:53 E:collagen/P11087 1-x n 1453 r1 -0.025 pos False None
+22:13:53 DONE E:collagen/P11087 evaluated positive False
+22:20:19 DONE E:lang/gl fetch failed positive False
+22:31:25 DONE E:lang/ia fetch failed positive False
+22:44:14 DONE E:lang/et fetch failed positive False
+23:00:13 DONE E:lang/sq fetch failed positive False

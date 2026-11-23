@@ -1,5 +1,8 @@
-"""Old (35) vs new (35+4) tallies of the T16/32 panel (Phase 7 rows + Phase 9 safe baselines)."""
-import json, collections, os
+"""Old (35) vs new (35+4) tallies of the T16/32 panel (Phase 7 rows + Phase 9 safe baselines).
+With --phase10c: previous 39 vs combined 44 (39 + the 5 Phase 10c chains) vs the 5 alone, written to
+results/phase10c_baselines/tally.json (key "old" = 39 chains, "new" = 44, "added" = the 5); phase10_baselines/tally.json is not touched.
+"""
+import json, collections, os, sys
 R = "docs/paper4_continuation/rbdp/real_data/results/"
 def rd(p): return [json.loads(l) for l in open(R + p)]
 P7 = rd("phase7_baselines_T16_32/settings.jsonl"); P7n = rd("phase10_baselines/settings.jsonl")
@@ -31,6 +34,11 @@ def tally(p7, p9, label):
                violating_chains_p7_p1_p2_p6=[c for c in ch if any(br[(p, c)] > 1 + 1e-9 for p in ("P1", "P2", "P6", "P7"))])
     print(json.dumps(out, indent=1))
     return out
+if "--phase10c" in sys.argv:
+    P7c = rd("phase10c_baselines/settings.jsonl"); P9c = rd("phase10c_baselines_panel9.jsonl")
+    a = tally(P7 + P7n, P9 + P9n, "old 39"); b = tally(P7 + P7n + P7c, P9 + P9n + P9c, "new 44"); c = tally(P7c, P9c, "5 new only")
+    json.dump(dict(old=a, new=b, added=c), open(R + "phase10c_baselines/tally.json", "w"), indent=1)
+    sys.exit()
 a = tally(P7, P9, "old 35"); b = tally(P7 + P7n, P9 + P9n, "new 39"); c = tally(P7n, P9n, "4 new only")
 print("iid-break among the 4:", [x for x in NEWIDS if any(r["chain_id"] == x and "policy" in r and r["policy"][:2] in ("P3", "P4", "P5") and r["ratio_causal_over_alpha"] > 1 + 1e-9 for r in P7n)])
 json.dump(dict(old=a, new=b, added=c), open(R + "phase10_baselines/tally.json", "w"), indent=1)

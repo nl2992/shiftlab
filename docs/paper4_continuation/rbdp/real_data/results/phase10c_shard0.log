@@ -1,0 +1,24 @@
+22:07:02 PRE E:geyser/Plume n 3000 mean 0.4693 r1 0.3554 wn_r1 -0.012
+22:07:47 E:geyser/Plume x=1 n 3000 r1 0.355 pos False None
+22:08:29 E:geyser/Plume 1-x n 3000 r1 0.355 pos False None
+22:08:29 DONE E:geyser/Plume evaluated positive False
+22:08:30 PRE E:geyser/Aurum n 3000 mean 0.4967 r1 0.2571 wn_r1 -0.012
+22:09:07 E:geyser/Aurum x=1 n 3000 r1 0.257 pos False None
+22:09:46 E:geyser/Aurum 1-x n 3000 r1 0.257 pos False None
+22:09:46 DONE E:geyser/Aurum evaluated positive False
+22:09:46 PRE E:geyser/Whirligig n 3000 mean 0.5 r1 0.3791 wn_r1 -0.012
+22:09:54 E:geyser/Whirligig x=1 n 3000 r1 0.379 pos False None
+22:10:01 E:geyser/Whirligig 1-x n 3000 r1 0.379 pos False None
+22:10:01 DONE E:geyser/Whirligig evaluated positive False
+22:10:02 PRE E:tennis_first_server/men n 3000 mean 0.4947 r1 0.0196 wn_r1 -0.024
+22:12:20 E:tennis_first_server/men x=1 n 3000 r1 0.020 pos False None
+22:14:47 E:tennis_first_server/men 1-x n 3000 r1 0.020 pos False None
+22:14:47 DONE E:tennis_first_server/men evaluated positive False
+22:14:47 PRE E:collagen/P02461 n 1466 mean 0.2026 r1 0.0516 wn_r1 -0.018
+22:15:03 E:collagen/P02461 x=1 n 1466 r1 0.052 pos False None
+22:15:17 E:collagen/P02461 1-x n 1466 r1 0.052 pos False None
+22:15:17 DONE E:collagen/P02461 evaluated positive False
+22:15:18 DONE E:lang/eu fetch failed positive False
+22:26:22 DONE E:lang/fy fetch failed positive False
+22:39:11 DONE E:lang/lt fetch failed positive False
+22:49:55 DONE E:lang/sl fetch failed positive False

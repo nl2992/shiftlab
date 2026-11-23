@@ -21,8 +21,12 @@ TEXTS = [("en", "English"), ("fr", "French"), ("de", "German"), ("es", "Spanish"
          ("pt", "Portuguese"), ("nl", "Dutch"), ("sv", "Swedish"), ("da", "Danish"), ("fi", "Finnish"),
          ("hu", "Hungarian"), ("pl", "Polish"), ("cs", "Czech"), ("la", "Latin"), ("ro", "Romanian"),
          ("ca", "Catalan"), ("eo", "Esperanto"), ("cy", "Welsh")]
+# Phase 10c languages (family E); E:lang/fy/retry is positive by the evaluator but excluded (English translation), so absent.
+TEXTS_10C = [("E:lang/af", "Afrikaans"), ("E:lang/br", "Breton"), ("E:lang/gl/retry", "Galician"),
+             ("E:lang/ia/retry", "Interlingua"), ("E:lang/et/retry", "Estonian")]
 ORDER = (
     [(f"T:{k}|L:{k}|L2:{k}", n, "text") for k, n in TEXTS]
+    + [(i, n, "text") for i, n in TEXTS_10C]
     + [("S:P15502", "Elastin, human", "protein"), ("S:P04985", "Elastin, bovine", "protein"),
        ("S3:P07916", "Elastin, chicken", "protein"), ("S3:P11547", "Elastin, sheep", "protein"),
        ("S2:P46804", "Spidroin-2", "protein")]

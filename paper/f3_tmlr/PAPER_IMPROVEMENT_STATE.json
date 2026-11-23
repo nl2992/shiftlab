@@ -1,8 +1,8 @@
 {
-  "current_round": 6,
+  "current_round": 8,
   "last_score": 7,
   "status": "completed",
-  "timestamp": "2026-11-21T08:41:18Z",
+  "timestamp": "2026-11-22T12:00:00Z",
   "run_id": "2026-11-17_run01",
   "round1_verdict": "Almost",
   "round2_verdict": "Almost",
@@ -14,7 +14,7 @@
   "review_independence": "same-family",
   "acceptance_status": "provisional",
   "review_scope_complete": true,
-  "final_pdf_pages": 35,
+  "final_pdf_pages": 38,
   "reviewer_backend": "codex",
   "requested_reviewer_model": "gpt-6-astra",
   "reported_reviewer_model": null,
@@ -28,5 +28,9 @@
     "request": "review-stage/round6.request.json",
     "response": "review-stage/round6.response.md",
     "metadata": "review-stage/round6.meta.json"
-  }
+  },
+  "round7_verdict": "Almost",
+  "round7_score": 7,
+  "round7_note": "HKUSTDial pre-submission review plus two ARIS-style fresh reviews; fixes applied; same-family reviewers",
+  "round8_note": "blockers removed (12 streams), 100-stream screen integrated, HKUSTDial presub/tech-paper-template/paper-polish and ARIS kill-argument/regression run"
 }

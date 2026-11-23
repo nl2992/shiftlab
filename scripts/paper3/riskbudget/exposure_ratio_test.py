@@ -62,6 +62,8 @@ def real_units():
     out = []
     for f in sorted(glob.glob(str(O / "real" / "clean" / "*.json"))):
         name = os.path.basename(f)[:-5]
+        if name not in rs.STREAMS:  # streams dropped for missing provenance (real_streams.EXCLUDED)
+            continue
         d = json.loads(Path(f).read_text())
         d3 = json.loads((O / "real_v3" / "clean" / f"{name}.json").read_text())
         l0, l1 = rs.load_stream(name)

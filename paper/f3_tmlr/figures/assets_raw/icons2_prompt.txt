@@ -1,0 +1,9 @@
+Use your native image generation tool (not code, not matplotlib, not SVG) to create ONE wide image (aspect ratio about 4:1) and save it as /Users/nigelli/Desktop/ICML/shift-paper3-f3/paper/f3_tmlr/figures/assets_raw/icons2_sheet.png
+
+It is a sheet of FOUR small flat line-art icons on a pure white background, in a row, far apart from each other (at least one icon-width of white space between neighbours), all the same height, centred vertically. Style: hand-drawn-in-a-vector-editor look as in machine-learning paper figures: THICK uniform dark outline (near-black, about 6 px at 400 px icon height), rounded line caps, white interior fill, exactly ONE accent colour per icon used only for the outline or a small detail, NO gradients, NO shadows, NO 3D shading, NO glossy highlights, NO text.
+Icons left to right:
+1. A friendly robot head (rounded-square head, two round eyes, small mouth line, antenna with a small ball, two side ear bolts); outline in warm orange (#D9772B) instead of black.
+2. A closed white envelope (black outline, flap lines) with a small round clock badge at its lower right corner (clock face with two hands, red #B64342 outline).
+3. A shield with a bold check mark inside; shield outline dark blue (#0F4D92), check mark dark blue.
+4. An octagonal stop sign shape with a small downward-trending zigzag arrow inside (no letters); outline red (#B64342).
+No other elements, no captions, no borders.

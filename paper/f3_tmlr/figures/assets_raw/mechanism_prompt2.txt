@@ -1,0 +1,13 @@
+Use your native image generation tool (not code, not matplotlib, not SVG) to create ONE wide landscape image (aspect ratio about 16:9) and save it as /Users/nigelli/Desktop/ICML/shift-paper3-f3/paper/f3_tmlr/figures/assets_raw/mechanism_gen2.png
+
+This is a worked-example figure of a machine-learning paper, assembled by hand in a vector editor: a polished but UNCLUTTERED illustrated composite with generous white space. White background. Look: a dashed rounded claim banner on top with one bold coloured keyword; cute flat-illustrated icons with thin dark outlines and soft fills; pale rounded callout boxes with bold coloured keywords; a wide flat block arrow with a light-to-dark blue gradient at the bottom. Palette only: blue (#0F4D92, #3775BA, pale #CFE0F3), light grey, red (#B64342), pale green, dark grey outlines. Clean Helvetica-like sans-serif text.
+
+LAYOUT:
+- Top, full width: dashed rounded banner with the exact text: One tape, two controllers: only the shield stops at the budget.   (the words "only the shield" bold blue).
+- Left 72% of the image, below the banner and above the bottom arrow: a large EMPTY white rectangular area with a thin light-grey rounded outline, reserved for a chart pasted in later. Draw NOTHING inside it.
+- Right 28%: TWO stacked rounded pale callout boxes (not three), each with a solid circular badge containing a white bold numeral at its top-left corner, a small flat icon, and short text (render exactly):
+  Box 1 (blue badge "1"): icon white envelope with a small red clock badge. Text: Labels arrive five rounds late. The shield counts them as possible harm.   (bold blue "counts them as possible harm")
+  Box 2 (red badge "2"): icon cartoon blue robot head. Text: The stop-loss ignores unseen labels and overshoots the budget.   (bold red "overshoots the budget")
+- Bottom, full width: a wide flat gradient block arrow (pale blue at left to medium blue at right, head at far right) with the centred text: Booking the labels in transit is what keeps the harm at or below R.   (the words "at or below R" bold blue).
+
+TEXT RULES: render every text string exactly as written, correctly spelled, no extra words, no made-up numbers. If a string does not fit, enlarge the box rather than changing the words.

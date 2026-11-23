@@ -1,6 +1,6 @@
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\linewidth]{figures/fig_cost_tail.pdf}
-\caption{Tail-risk diagnostic for the registered run (\NRegimes{} regimes, \NSeedsPerRegime{} seeds each): mean cost $J$ against the 99th percentile $q_{99}$ of maximum harm. Panels group arms by budget $R=12,20,30$; the vertical line is $R$ and the shaded region is $q_{99}\le R$. Filled markers satisfy this quantile check; open markers do not, including the stop-loss and the three reserve/width ablations. This 99th-percentile diagnostic does not replace the time-uniform violation guarantee. Never switching has zero harm but pooled $J=\JNever$, about 3 above tuned Wald with cutoff ($J=\JWald$); the budget-free comparators (faint circles: Wald with cutoff, CUSUM, CUSUM rollback, e-process gate) have $q_{99}$ between 31 and 37.}
+\includegraphics[width=0.72\linewidth]{figures/fig_cost_tail.pdf}
+\caption{Cost against tail risk at the default budget $R=20$ (registered run, \NRegimes{} regimes, \NSeedsPerRegime{} seeds each; the vertical axis is truncated to 68.4--72.1): mean cost $J$ against the 99th percentile of maximum harm. The vertical line is $R$ and the shaded region is $q_{99}\le R$. The three shield variants (filled squares) satisfy this check; the stop-loss (open circle) and the budget-free comparators (faint circles: Wald with cutoff, CUSUM, CUSUM rollback, e-process gate) have $q_{99}$ between 31 and 37. Never switching has zero harm but pooled $J=\JNever$, about 3 above tuned Wald with cutoff ($J=\JWald$). This quantile diagnostic does not replace the time-uniform violation guarantee. Budgets $R=12$ and $R=30$ and the ablations are in Figure~\ref{fig:cost_tail_full}.}
 \label{fig:cost_tail}
 \end{figure}

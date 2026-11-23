@@ -1,6 +1,6 @@
 """F3 real-stream check (protocol: 2026_programme/05F_F3_REAL_STREAM_PROTOCOL.md).
 
-Registry of the 14 cached paired 0/1 loss streams, the three feedback conditions, the arm list
+Registry of the cached paired 0/1 loss streams (14 in the first study; 12 after dropping two without provenance), the three feedback conditions, the arm list
 (frozen specs, budget restated as R = 2k + h) and the per-episode runner. New code only.
 """
 
@@ -28,7 +28,7 @@ ATLAS_DIR = ROOT / "data" / "atlas_v2_losses"
 SPRINT_DIR = ROOT / "data" / "sprint_fresh_losses"
 
 # stream -> (directory, label delay); atlas delays = REAL_DELAYS of run_atlas_v2.py
-STREAMS: dict[str, tuple[Path, int]] = {
+_ALL14: dict[str, tuple[Path, int]] = {
     "airlines": (ATLAS_DIR, 100),
     "bank": (ATLAS_DIR, 100),
     "criteo": (ATLAS_DIR, 100),
@@ -44,6 +44,9 @@ STREAMS: dict[str, tuple[Path, int]] = {
     "household_power": (SPRINT_DIR, 144),
     "metro": (SPRINT_DIR, 24),
 }
+# Dropped 2026-11-22: neither stream's source, task nor models is recorded anywhere in the repository.
+EXCLUDED = ("openml_ldpa", "uci_occupancy")
+STREAMS: dict[str, tuple[Path, int]] = {k: v for k, v in _ALL14.items() if k not in EXCLUDED}
 HARMFUL = ("airlines", "bank")
 BENEFICIAL = tuple(s for s in STREAMS if s not in HARMFUL)
 

@@ -19,7 +19,7 @@ fig, axes = plt.subplots(1, 3, figsize=(WIDTH, 3.0), sharey=True, gridspec_kw=di
 for ax, R in zip(axes, (12, 20, 30)):
     ax.axhline(0.05, color=P["grey"], lw=0.9, ls=(0, (4, 2)))
     ax.axvline(J_never, color=P["dark"], lw=0.9, ls=":")
-    for key, col, mk, nm in (("stoploss_cal", STOP, "v", "c"), ("cusumrb_cal", CUS, "D", "h_c")):
+    for key, col, mk, nm in (("stoploss_cal", STOP, "v", "c"), ("cusumrb_cal", CUS, "D", "theta_c")):
         fr = cal[f"R{R}"][key]["frontier"]
         x = [f["pooled_J"] for f in fr]; y = [f["worst_viol"] for f in fr]
         ax.plot(x, y, color=col, lw=1.2, marker=mk, ms=3.2, zorder=3)
@@ -49,7 +49,7 @@ for a in axes[1:]: a.tick_params(axis="y", left=False); a.spines["left"].set_vis
 axes[0].text(87, 0.065, "standard .05", fontsize=6.5, color=P["grey"], ha="right", va="bottom")
 axes[0].text(J_never + 0.25, 0.9, "never\nswitch", fontsize=6.5, color=P["dark"], va="top")
 h = [Line2D([], [], color=STOP, marker="v", ms=4, lw=1.2, label="stop-loss, margin $c$"),
-     Line2D([], [], color=CUS, marker="D", ms=4, lw=1.2, label="CUSUM rollback, threshold $h_c$"),
+     Line2D([], [], color=CUS, marker="D", ms=4, lw=1.2, label="CUSUM rollback, threshold $\theta_c$"),
      Line2D([], [], color=P["grey"], marker="o", mfc="white", mew=1.3, lw=0, ms=5.5, label="calibrated choice, fresh seeds"),
      Line2D([], [], color=P["blue_main"], marker="o", lw=0, ms=6, label="shield, fresh seeds")]
 fig.subplots_adjust(left=0.085, right=0.99, top=0.9, bottom=0.3)

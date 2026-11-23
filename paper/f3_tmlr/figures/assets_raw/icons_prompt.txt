@@ -1,0 +1,9 @@
+Use your native image generation tool (not code, not matplotlib, not SVG) to create ONE image and save it as /Users/nigelli/Desktop/ICML/shift-paper3-f3/paper/f3_tmlr/figures/assets_raw/icons_sheet.png
+
+Content: a clean sheet of four separate flat illustrated icons for a machine-learning paper figure, arranged in a 2 by 2 grid, each centred in its own cell with generous empty white margin around it, nothing overlapping, pure white background.
+1. top-left: a small friendly cartoon robot head (rounded square face, two round eyes, small antenna), coloured light grey, representing an incumbent model.
+2. top-right: the same robot head design, coloured blue, with a tiny spark at the antenna tip, representing a challenger model.
+3. bottom-left: a blue shield with a white check mark inside.
+4. bottom-right: a closed white envelope with a small clock badge on its corner, representing a delayed label in the mail.
+
+Style: modern academic-teaser illustration like those in top ML papers, flat vector look with thin dark-grey outlines (about 2 px, colour #3A3A3A), soft fills with very subtle gradients, slightly rounded shapes, no drop shadows, no 3D. Palette only: blue #0F4D92 and #3775BA, light grey #CFCECE, red accent #B64342, gold #F3C94F. ABSOLUTELY NO text, letters, numbers or labels anywhere in the image.

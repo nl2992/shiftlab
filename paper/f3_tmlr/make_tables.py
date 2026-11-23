@@ -159,7 +159,7 @@ def regime_label(name):
 def c3(a): v = conf["C3"]["arms"][a]; return f"{100*v['pooled']:.1f}", f"{r3(v['worst_stats']['rate'])} [{r3(v['worst_stats']['lo'])}, {r3(v['worst_stats']['hi'])}]", regime_label(v["worst"])
 arms = [("Never switch", "never", ("0.0", "0.000", "--")),
         ("Wald+cutoff (tuned)", "wald_cut", c3("wald_cut")), ("CUSUM (tuned)", "cusum", c3("cusum")),
-        ("E-process gate (tuned)", "gate_wald", c3("gate_wald")), ("CUSUM rollback, $h=8$", "cusum_rb_h8", c3("cusum_rb_h8")),
+        ("E-process gate (tuned)", "gate_wald", c3("gate_wald")), ("CUSUM rollback, $\\theta=8$", "cusum_rb_h8", c3("cusum_rb_h8")),
         ("Stop-loss, $R=20$", "stoploss_R20", c3("stoploss_R20"))]
 for lab, a, R in [("Shield, full sampling, $R=20$", "f3_pi1_R20", "C1"), ("Shield, paced, $R=20$, $\\delta=.05$", "f3v2d_R20", "C2")]:
     v = conf[R]["arms"][a]
@@ -229,8 +229,8 @@ write("app_ablation.tex", body)
 # ---------------------------------------------------------------- real streams
 real = parse_md(RES / "real_tables.md")
 CONDS = [("clean", "Clean"), ("dropout_adverse", "Adverse dropout"), ("delay_adverse", "Adverse delay")]
-def pooled(cond, grp="all14"): return real[(cond, grp)]
-mac("RealRunsPerArm", thousands(4600))
+def pooled(cond, grp="all12"): return real[(cond, grp)]
+mac("RealRunsPerArm", thousands(3880))  # 194 episodes x 20 policy seeds (asserted with NStreamEpisodes below)
 for cond, key in [("clean", "Clean"), ("dropout_adverse", "Dropout"), ("delay_adverse", "Delay")]:
     t = pooled(cond)
     w = rowdict(t, "wald_cut"); s = rowdict(t, "stoploss_h14")
@@ -244,6 +244,8 @@ for cond, key in [("clean", "Clean"), ("dropout_adverse", "Dropout"), ("delay_ad
 mac("RealJNever", rowdict(pooled("clean"), "never")["J"]); mac("RealJWald", rowdict(pooled("clean"), "wald_cut")["J"])
 vn = [abs(float(rowdict(pooled("clean"), f"f3_pi1_h{h}")["dJ vs never"])) for h in (14, 24, 50, 100)]
 mac("RealVsNeverMin", f"{min(vn):.0f}"); mac("RealVsNeverMax", f"{max(vn):.0f}")
+wg = float(rowdict(pooled("clean"), "never")["J"]) - float(rowdict(pooled("clean"), "wald_cut")["J"])
+mac("RealWaldGain", f"{wg:.0f}"); mac("RealPiShareFourteen", f"{100 * vn[0] / wg:.0f}")  # share of Wald's gain kept by full sampling at h=14, clean feedback
 mac("RealMaxExceed", thousands(max(exceed(rowdict(pooled(c), "wald_cut")["violations (own R) or exceed"]) for c, _ in CONDS)))
 # fraction of the two harmful streams under corrupted feedback
 hv = {}
@@ -254,7 +256,7 @@ mac("HarmDropMin", f"{abs(hv['dropout_adverse'][1]):.0f}"); mac("HarmDropMax", f
 mac("HarmDelayMin", f"{abs(hv['delay_adverse'][1]):.0f}"); mac("HarmDelayMax", f"{abs(hv['delay_adverse'][0]):.0f}")
 
 REAL_ARMS = [("Never switch", "never"), ("Wald+cutoff", "wald_cut"), ("CUSUM", "cusum"), ("E-process gate", "gate_wald"),
-             ("CUSUM rollback $h=8$", "cusum_rb_h8"), ("Stop-loss, $R=24$", "stoploss_h14"),
+             ("CUSUM rollback $\\theta=8$", "cusum_rb_h8"), ("Stop-loss, $R=24$", "stoploss_h14"),
              ("Shield, full, $R=24$", "f3_pi1_h14"), ("Shield, paced, $R=24$", "f3v2d_h14"),
              ("Shield, full, $R=60$", "f3_pi1_h50"), ("Shield, paced, $R=60$", "f3v2d_h50"), ("Shield, paced, $R=110$", "f3v2d_h100")]
 body = "\\begin{tabular}{@{}l " + "r r r " * 3 + "@{}}\n\\toprule\n"
@@ -280,7 +282,7 @@ for cond, n in CONDS:
 body += "\\bottomrule\n\\end{tabular}\n"
 write("tab_harmful.tex", body)
 
-# appendix: all14 pooled tables per condition, plus harmful2/beneficial12 clean
+# appendix: all12 pooled tables per condition, plus harmful2/beneficial10 clean
 def full_real(cond, grp):
     t = pooled(cond, grp); hdr, rows = t
     body = "\\begin{tabular}{@{}l r r r r r r r r@{}}\n\\toprule\nArm & $J$ & $\\Delta J$ vs Wald & $\\Delta J$ vs never & max harm & viol./exceed & labels & deployed & forced rb \\\\\n\\midrule\n"
@@ -291,8 +293,8 @@ def full_real(cond, grp):
                  f"{tex(ex.replace(' ', ', '))} & {d['labels']} & {d['deployed']} & {d['forced rb']} \\\\\n")
     body += "\\bottomrule\n\\end{tabular}\n"
     return body
-for cond, grp, name in [("clean", "all14", "app_real_clean"), ("dropout_adverse", "all14", "app_real_dropout"), ("delay_adverse", "all14", "app_real_delay"),
-                        ("clean", "harmful2", "app_real_clean_harm"), ("clean", "beneficial12", "app_real_clean_ben")]:
+for cond, grp, name in [("clean", "all12", "app_real_clean"), ("dropout_adverse", "all12", "app_real_dropout"), ("delay_adverse", "all12", "app_real_delay"),
+                        ("clean", "harmful2", "app_real_clean_harm"), ("clean", "beneficial10", "app_real_clean_ben")]:
     write(name + ".tex", full_real(cond, grp))
 
 # per-stream mean J at h=50, clean
@@ -382,7 +384,7 @@ for r in t[1]:
         body += tex(r[0]) + " & " + d["J"] + " & " + tex(d["dJ vs wald_cut"]) + " & " + tex(d["dJ vs never"]) + " & " + tex(vv.split(" (")[0]) + " \\\\\n"
 body += "\\bottomrule\n\\end{tabular}\n"
 write("app_v3_orig30.tex", body)
-t = rv[("clean", "clean / all14: pooled (equal weight over streams)")]
+t = rv[("clean", "clean / all12: pooled (equal weight over streams)")]
 body = "\\begin{tabular}{@{}l r r r r@{}}\n\\toprule\nArm & $J$ & $\\Delta J$ vs Wald & $\\Delta J$ vs never & viol. \\\\\n\\midrule\n"
 for r in t[1]:
     if r[0] in ("f3_pi1_h50", "f3v2d_h50", "v3_h50", "f3_pi1_h100", "f3v2d_h100", "v3_h100"):
@@ -553,21 +555,21 @@ body += f"\nv3 (frozen in \\texttt{{f3\\_v3\\_frozen.json}}) & label-scarce & wa
 body += "\\bottomrule\n\\end{tabular}\n"
 write("app_shield_arms.tex", body)
 
-# ---- appendix: the 14 real streams
+# ---- appendix: the 12 real streams (two streams without recorded provenance were dropped on 2026-11-22)
 sprint = re.findall(r'\|\s*(\w+)\s*\|\s*(\d+),\s*https', (ROOT / "data/sprint_fresh_losses/README.md").read_text())
 sprint_id = {n: i for n, i in sprint}
 assert sprint_id == {"metro": "492", "beijing_pm25": "381", "bike_hour": "275", "appliances": "374", "household_power": "235"}
 import numpy as np
 dl_map = {m[0]: (m[1], int(m[2])) for m in re.findall(r'"(\w+)": \((\w+_DIR), (\d+)\)', rs_src)}
 dl_map = {n: (d, int(v)) for n, d, v in re.findall(r'"(\w+)": \((\w+_DIR), (\d+)\)', rs_src)}
-assert len(dl_map) == 14
+dl_map = {n: v for n, v in dl_map.items() if n not in ("openml_ldpa", "uci_occupancy")}
+assert len(dl_map) == 12
 import csv
 inv = {r["name"]: r for r in csv.DictReader(open(PROG / "02_DATASET_INVENTORY.csv"))}
-order = ["airlines", "bank", "criteo", "elec2", "openml_ldpa", "rialto", "spam", "uci_occupancy", "weather",
+order = ["airlines", "bank", "criteo", "elec2", "rialto", "spam", "weather",
          "metro", "beijing_pm25", "bike_hour", "appliances", "household_power"]
 src_atlas = {"airlines": "OpenML 1169", "bank": "UCI 222", "criteo": "Criteo attribution", "elec2": "OpenML electricity-normalized",
-             "openml_ldpa": "not in the inventory", "rialto": "Losing mirror", "spam": "Katakis spam stream",
-             "uci_occupancy": "not in the inventory", "weather": "Elwell-Polikar Offutt AFB"}
+             "rialto": "Losing mirror", "spam": "Katakis spam stream", "weather": "Elwell-Polikar Offutt AFB"}
 task_atlas = {"criteo": "click prediction"}
 models_atlas = {"airlines": "LR / HGB", "bank": "LR / LR", "criteo": "LR / gradient boosting",
                 "elec2": "LR / gradient boosting", "rialto": "LR / HGB", "spam": "LR / LR",
@@ -591,20 +593,20 @@ for n in order:
         models = "LR / HGB"
     prov_rows.append(f"{tex(n)} & {tex(task)} & {tex(source)} & {models} \\\\")
     stats_rows.append(f"{tex(n)} & {K} & {dv} & {l0.mean():.3f} & {l1.mean():.3f} & {(l0 != l1).mean():.3f} & {'worse' if l1.mean() > l0.mean() else 'better'} \\\\")
-assert tot_ep == 230, tot_ep
+assert tot_ep == 194 and tot_ep * 20 == 3880, tot_ep
 mac("NStreamEpisodes", tot_ep)
 prov = ("\\begin{tabular}{@{}p{2.5cm}p{4.1cm}p{3.6cm}p{3.4cm}@{}}\n\\toprule\n"
         "Stream & Task & Source & Incumbent / challenger \\\\\n\\midrule\n"
-        + "\n".join(prov_rows[:9]) + "\n\\midrule\n" + "\n".join(prov_rows[9:]) + "\n\\bottomrule\n\\end{tabular}\n")
+        + "\n".join(prov_rows[:7]) + "\n\\midrule\n" + "\n".join(prov_rows[7:]) + "\n\\bottomrule\n\\end{tabular}\n")
 stats = ("\\begin{tabular}{@{}l r r r r r l@{}}\n\\toprule\n"
          "Stream & Episodes & Delay & Inc. err. & Chall. err. & Disagr. & Better loss \\\\\n\\midrule\n"
-         + "\n".join(stats_rows[:9]) + "\n\\midrule\n" + "\n".join(stats_rows[9:]) + "\n\\bottomrule\n\\end{tabular}\n")
+         + "\n".join(stats_rows[:7]) + "\n\\midrule\n" + "\n".join(stats_rows[7:]) + "\n\\bottomrule\n\\end{tabular}\n")
 write("app_stream_provenance.tex", prov)
 write("app_streams_desc.tex", stats)
 
 # ---- compute (ledger wall-clock per stage)
 led = [json.loads(l) for l in open(PROG / "ledger/riskbudget.jsonl")]
-wall = {d["stage"]: d["wall_clock_s"] for d in led}
+wall = {d["stage"]: d["wall_clock_s"] for d in led if "wall_clock_s" in d}  # skips paper-integration notes
 for st, nm in [("confirmation", "WallConfirm"), ("real_streams", "WallReal"), ("v3_select", "WallVSel"), ("v3_scarce", "WallVScarce"),
                ("v3_orig30", "WallVOrig"), ("real_streams_v3_second_look", "WallVReal"), ("dev_v2", "WallDevTwo")]:
     mac(nm, f"{wall[st]:,.0f}".replace(",", "{,}"))
@@ -662,15 +664,15 @@ mac("CalStopDNever", f"{A['stoploss_cal_R20']['d_never']['all']['delta']:+.2f}")
 # real streams (third look), clean pooled and adverse cusum violations
 rp = cal["real"]["results"]
 for cond, C in (("clean", "Clean"), ("dropout_adverse", "Drop"), ("delay_adverse", "Delay")):
-    P = rp[cond]["pooled"]["all14"]
+    P = rp[cond]["pooled"]["all12"]
     for h, H in ((6, "Six"), (14, "Fourteen"), (24, "TwentyFour")):
         a = P[f"cusumrb_cal_h{h}"]; Rk = str(int(cal["real"]["R_by_h"][str(h)]))
         mac(f"RCalCusViol{C}{H}", thousands(a["violation"]["k"]))
         mac(f"RCalCusJ{C}{H}", f"{a['J']:.1f}")
         s = P[f"stoploss_cal_h{h}"]
         mac(f"RCalStopViol{C}{H}", thousands(s["violation"]["k"]))
-mac("RCalStopJ", f"{rp['clean']['pooled']['all14']['stoploss_cal_h14']['J']:.1f}")
-mac("RCalStopDep", f"{rp['clean']['pooled']['all14']['stoploss_cal_h14']['deployed']:.3f}")
-b = rp["clean"]["boot"]["all14"]["cusumrb_cal_h14"]["f3_pi1"]
+mac("RCalStopJ", f"{rp['clean']['pooled']['all12']['stoploss_cal_h14']['J']:.1f}")
+mac("RCalStopDep", f"{rp['clean']['pooled']['all12']['stoploss_cal_h14']['deployed']:.3f}")
+b = rp["clean"]["boot"]["all12"]["cusumrb_cal_h14"]["f3_pi1"]
 mac("RCalCusVsShield", f"{b['delta']:.1f}"); mac("RCalCusVsShieldLo", f"{b['lo']:.1f}"); mac("RCalCusVsShieldHi", f"{b['hi']:.1f}")
 (OUT / "numbers.tex").write_text("% generated by make_tables.py; do not edit\n" + "".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in MAC.items()))

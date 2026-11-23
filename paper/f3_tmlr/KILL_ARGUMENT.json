@@ -1,0 +1,128 @@
+{
+  "audit_skill": "kill-argument",
+  "verdict": "WARN",
+  "reason_code": "partial_critical_or_repeated_major",
+  "summary": "No unresolved points; 3 major partial points are abstract-level overclaims",
+  "audited_input_hashes": {
+    "main.tex": "sha256:82644f6fe68087cf1701974b3ba5e5f76d2bc5e568e9cccd0d89a9db831a7e25",
+    "main.pdf": "sha256:637a04d209bc1b0fbf8055588e84bbeb2e6b950a3686c71baaf57cfd68ec30be",
+    "tables/app_ablation.tex": "sha256:69174ede1dd27617a94f2d452c7b579db820652e926eb9a61ffd82ec6bc6a979",
+    "tables/app_c3regime.tex": "sha256:8f2c65ca6f6f0a5a30ab625ab5286ecb2a0edf97adccd43706af4edf5d3c20ec",
+    "tables/app_comparators.tex": "sha256:6a7184c5f948386f545ab25d3eb0c735f594867e5930d7933e311c89d838aa44",
+    "tables/app_desc.tex": "sha256:c7fdfd4328ea714984d29b69cb8e8ffdcc816462fffd765181c5282364bdb637",
+    "tables/app_ols.tex": "sha256:24d3a084fb828bb4b128e10de45cac269bd2f2e4bb0594b14b4798fb867e8b0a",
+    "tables/app_prop3.tex": "sha256:1ed3ec73e848e8faae3eed1db45c5741e707e60d593210a832a5769a3eac4e2e",
+    "tables/app_prop4.tex": "sha256:b068c770f4843ef42c8f74185d661af5ed03d2f0413f1cd70e7cda9117797eb8",
+    "tables/app_real_clean.tex": "sha256:cf26645219270b0b36dfbb9ee3b5688003341c1193fbad2bf081697f83b8ab72",
+    "tables/app_real_clean_ben.tex": "sha256:4bd4c0fd71b984fc2779bd41a0142b589824399f82bd222742f1de8e1cd34313",
+    "tables/app_real_clean_harm.tex": "sha256:df5e0fd1fdad7d96b8ea910612e89823805cec13bf0b7d6b4d121aa9f1698322",
+    "tables/app_real_delay.tex": "sha256:783572a23790e8d28e6ff4aacae97c9567ca8ad71ddabeee9a2f6e301e147d45",
+    "tables/app_real_dropout.tex": "sha256:078a6101af696ab961c605d74e1ec67a674bb7f1a1c83f70596d0b4ad08868a5",
+    "tables/app_regimes.tex": "sha256:7c306e5a32f96a520f6eec49635e1cf2a50facdc884f92d291a845b327c344b0",
+    "tables/app_screen_supported.tex": "sha256:06232a269e7ce1cebc32f15a3ed3c4a58c092f18f5c244ba6974951c8ddac4ef",
+    "tables/app_shield_arms.tex": "sha256:d4cfc0d5fad7785933f8ac106b4177a94a2f2d4854b2fadf42c1a90519143948",
+    "tables/app_split.tex": "sha256:de56042d49bda76c5cf199477ffbaa9d4fe6e26e58dc268a0769079ae74248ee",
+    "tables/app_stream.tex": "sha256:c3f757f9eede33b02a94648cbdae8fdfab3aab43ad84020a7e2e8496247ab8e5",
+    "tables/app_stream_provenance.tex": "sha256:d74670f79d5086a0f7091437785ef181ac6c475d3894eebba1af51eda21e4eda",
+    "tables/app_streams_desc.tex": "sha256:8bf22f50223576085fb97b1a93595d3c639842251b3eb3e22a3d892a82e18633",
+    "tables/app_v3_orig30.tex": "sha256:884954a3d683e53f18bbe9d6dd35b230daabb2b579c76783e58095d0c4bf30be",
+    "tables/app_v3_real.tex": "sha256:59be7e7f41b6300f22c87be962c73832e7316fdb51077b0e9e8ec1989a5b0ac5",
+    "tables/app_v3_scarce.tex": "sha256:41f13a17f91919663eaa7285ae60de09d9f6bc2f915eaf6883705309498defac",
+    "tables/ex_w.tex": "sha256:3d3fb45fedd6ebec3f4e530523876285dd99b9b0dcbe0da25245a03930e3a2b9",
+    "tables/numbers.tex": "sha256:5d28c67ca7071aa3acc741a4f9836e26c9f2cc4bb4bef23364f9e49c752985c1",
+    "tables/screen_groups.tex": "sha256:01c96ca670e45021f6de19a965164766aea331cc12a132bc1ea992ce9ffbd009",
+    "tables/screen_numbers.tex": "sha256:cc7508c977507d574931c6c73b1295cda4f81bc6053dbc1843b3def3b8690cfc",
+    "tables/tab_calib.tex": "sha256:7ed4046a412d245bd8fd4b5a58dd1d33ae4d72dc6edaf721c58ade901a697704",
+    "tables/tab_confirm.tex": "sha256:4034cb6e6928edf7994785bb94b34d93e8b4f26bf81552429ee42d425a0f1b89",
+    "tables/tab_harmful.tex": "sha256:e9699890cba8aff8e006e959144f0acbec87597fada4693403abe3f4b069c541",
+    "tables/tab_real.tex": "sha256:0b3826dff61d7574056673cbe872e2b76208351560f129d98a320cd540c84f92",
+    "tables/tab_regime.tex": "sha256:fdd71fc753c36ff829530c3def0cb9337f86a3fea48e66b259771844ed58fa7f",
+    "tables/tab_sim.tex": "sha256:817e49b72dedbbb3df8f661351561b18eab5e7104c6906449c4572140582a531",
+    "figures/fig_cost_tail.tex": "sha256:4d9cd9b8d0343c159d001a941df476dc5eb1448e7efa796ccaad7a81eca617b5",
+    "figures/fig_mechanism.tex": "sha256:b67972c61e9b90be181703b39fabd55d8304e44f009c75e9c8492790e102a208",
+    "figures/fig_regime_map.tex": "sha256:c6c4cf54a568c7ade8a6c6daf9ebec66ffebdefeb8898b24eeecbf72186bb10f",
+    "figures/fig_violations.tex": "sha256:271b7e9a8c107fc19d7588b3c20e00a84244f770ba485eb7433bda8afba65469"
+  },
+  "trace_path": null,
+  "agent_id": null,
+  "executor_model": "claude-sonnet-5-5",
+  "executor_family": "anthropic",
+  "reviewer_model": "claude-sonnet-5-5",
+  "reviewer_family": "anthropic",
+  "review_independence": "same-context",
+  "acceptance_status": "provisional",
+  "reviewer_reasoning": "default",
+  "generated_at": "2026-11-22T00:00:00Z",
+  "details": {
+    "attack_agent_id": null,
+    "defense_agent_id": null,
+    "attack_memo": "The guarantee is real but much thinner than advertised. Under full sampling the \"shield\" is a deterministic worst-case stop-loss that books every unlabelled exposed round at one unit and reserves a second fee; that sup H_t <= R follows by construction, so the zero-violation tables (Tables 4, 9, 100-stream screen) test arithmetic, not a finding. The abstract's \"matching lower bound\" is Proposition 2, which covers only the first promotion, needs a feedback-blind window m <= d (so it says nothing when d < R-2k, the running example's own d=5, h=14), and is attained only by the full-sampling variant on an all-harm tape; nothing shows the sampling width or later spells are necessary. The empirical case then compares against heuristics that were tuned for cost, mostly not told R, and quotes their worst regime (64-99%) from author-built stress regimes that withhold unfavourable labels; pooled over the 24 original regimes they exceed R in 1-6% of runs. Where feedback is truly scarce and slow (x >= 1, the motivating setting) the shield costs more than never switching. Real-data support is 12 cached streams from the authors' earlier studies with simulated delay and dropout (two of 14 streams were dropped after the run, disclosed only in Appendix C), plus a 100-stream screen that the text itself calls development evidence yet the abstract reports as \"beat never switching on 57\". The regime-map prediction was fixed after its outputs already existed. Correct, but overclaimed and under-evidenced for the stated scope.",
+    "decomposed_points": [
+      {
+        "id": "P_1",
+        "label": "Scope of the guarantee",
+        "attack_claim": "Guarantee needs Assumption L, O1 exogeneity, excludes label and shadow costs, relative to never switching.",
+        "verdict": "answered_by_current_text",
+        "evidence": "Sec. 2 (Assumption L, O1-O4, 'Why harm against never switching'); Sec. 7; Broader impact",
+        "severity_if_unresolved": "minor",
+        "recommended_fix": "None required."
+      },
+      {
+        "id": "P_2",
+        "label": "Lower bound and triviality of full-sampling guarantee",
+        "attack_claim": "Abstract 'matching lower bound' is first-promotion only, needs m<=d, attained only by full sampling on all-harm tape.",
+        "verdict": "partially_answered",
+        "evidence": "Table 1; text after Prop. 2; App. A.3 and Table 12 qualify in body; abstract omits d>=R-2k and first-promotion restriction",
+        "severity_if_unresolved": "major",
+        "recommended_fix": "Qualify abstract sentence (first promotion, delay >= R-2k); state that tightness of width and later spells is not claimed."
+      },
+      {
+        "id": "P_3",
+        "label": "Comparison design and worst-regime framing",
+        "attack_claim": "Comparators cost-tuned, mostly not told R; 64-99% is worst-regime on author-built stress regimes.",
+        "verdict": "partially_answered",
+        "evidence": "Sec. 5 intro, Tables 5-6, Sec. 5.2, Table 7 answer in body; abstract/intro quote worst-regime only; no cost comparison with weaker budget-aware designs",
+        "severity_if_unresolved": "major",
+        "recommended_fix": "Add stress-regime qualifier and pooled original-regime 1-6% to abstract/intro; add sentence that comparison shows necessity of reserves, not cost-optimality."
+      },
+      {
+        "id": "P_4",
+        "label": "Utility claims in the motivating setting",
+        "attack_claim": "In slow scarce-label setting shield gives up the gain or costs more than never switching.",
+        "verdict": "answered_by_current_text",
+        "evidence": "Abstract and Sec. 5.4 (x split, association not theorem); Sec. 5.3 (h=6, harmful streams); App. Table 15",
+        "severity_if_unresolved": "minor",
+        "recommended_fix": "Optional: add 'at h >= 14' after 'beats never switching' in abstract."
+      },
+      {
+        "id": "P_5",
+        "label": "Scope of real-data evidence",
+        "attack_claim": "12 cached streams, simulated delay/corruption, post-hoc exclusion of 2 of 14 streams, author-defined 100-stream screen.",
+        "verdict": "partially_answered",
+        "evidence": "Sec. 5, 5.3, 7 cover cached/simulated and development status; 14-to-12 exclusion only in App. C; abstract omits development label for screen",
+        "severity_if_unresolved": "major",
+        "recommended_fix": "Move exclusion sentence to Sec. 5 and 7; add 'development screen' in abstract."
+      },
+      {
+        "id": "P_6",
+        "label": "Registered / pre-stated language",
+        "attack_claim": "Registration is in-repo commit; regime-map test used existing outputs so prediction did not precede data.",
+        "verdict": "partially_answered",
+        "evidence": "App. C ('using existing outputs only') vs Sec. 4 and 5.4 ('fixed before the test run', 'pre-stated')",
+        "severity_if_unresolved": "minor",
+        "recommended_fix": "Add sentence in Sec. 5.4 that thresholds preceded the script but not the runs; say 'dated committed protocol' in abstract."
+      }
+    ],
+    "counts": {
+      "answered_by_current_text": 2,
+      "partially_answered": 4,
+      "still_unresolved": 0
+    },
+    "net_assessment": "Theorem 1 and assumptions hold up; remaining exposure is abstract-level phrasing outrunning body-text caveats (lower bound, comparator headline, real-data scope).",
+    "top_action_items": [
+      "Qualify abstract lower-bound sentence (first promotion, d >= R-2k)",
+      "Qualify comparator headline with stress-regime and pooled rates",
+      "Disclose 14-to-12 stream exclusion and label 100-stream screen as development evidence"
+    ]
+  }
+}

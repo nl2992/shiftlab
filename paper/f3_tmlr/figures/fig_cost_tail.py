@@ -1,51 +1,33 @@
-"""Figure 4: mean cost J vs 99th percentile of sup-harm, all arms of the registered run (confirm_summary.json, descriptive).
-One panel per budget R; arms without a budget (comparators, never) are repeated faintly in every panel."""
+"""Figure (main text): cost against tail risk at the default budget R=20 (registered run, descriptive).
+The panels for R=12 (with the ablations) and R=30 are in fig_cost_tail_full.py (appendix)."""
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
 from style import PALETTE as P, RES, WIDTH, apply_style, load_json, save
 
 desc = load_json(RES / "confirm_summary.json")["descriptive"]
-# arm -> (label, family, (dx, dy, ha)) ; family: sh shield, st stop-loss, abl ablation
-PANELS = {
-    12: {"f3_pi1_R12": ("full", "sh", (-6, 5, "right")), "stoploss_R12": ("stop-loss", "st", (0, 13, "center")),
-         "f3_pi1_R12_nopending": ("no pending", "abl", (-6, 7, "right")), "f3_pi1_R12_norollback": ("no rollback", "abl", (-6, 0, "right")),
-         "f3_pi25_R12_noconf": ("no width", "abl", (0, -10, "center"))},
-    20: {"f3_pi1_R20": ("full", "sh", (6, 4, "left")), "f3v2d_R20": ("paced", "sh", (-6, 6, "right")),
-         "f3v2_R20_blind8": ("blind-8", "sh", (-6, -6, "right")), "stoploss_R20": ("stop-loss", "st", (-7, -9, "right"))},
-    30: {"f3_pi1_R30": ("full", "sh", (-6, 5, "right")), "f3v2d_R30": ("paced", "sh", (-6, -7, "right")),
-         "stoploss_R30": ("stop-loss", "st", (-7, -9, "right"))},
-}
-NOBUD = ["wald_cut", "cusum", "gate_wald", "cusum_rb_h4", "cusum_rb_h8"]
-COL = {"sh": P["blue_main"], "st": P["red_strong"], "abl": P["violet"]}
-MK = {"sh": "s", "st": "o", "abl": "^"}
-assert set(desc) == set(NOBUD) | {"never"} | {a for p in PANELS.values() for a in p}
-
+R = 20
+OTHER = {"wald_cut": "Wald cutoff", "cusum": "CUSUM", "gate_wald": "e-process gate", "cusum_rb_h4": "CUSUM rb 4", "cusum_rb_h8": "CUSUM rb 8"}
 apply_style(8.5)
-fig, axes = plt.subplots(1, 3, figsize=(WIDTH, 3.1), sharey=True, gridspec_kw=dict(wspace=0.08, left=0.1, right=0.99, top=0.88, bottom=0.2))
-for k, (ax, (R, arms)) in enumerate(zip(axes, PANELS.items())):
-    ax.axvspan(-3, R, color=P["green_1"], alpha=0.55, lw=0)
-    ax.axvline(R, color=P["dark"], lw=1.0)
-    ax.set_title(f"budget $R$ = {R}", loc="left", fontsize=8.5)
-    for a in NOBUD:
-        ax.scatter(desc[a]["sup_q99"], desc[a]["J"], s=22, marker="o", facecolor="none", edgecolor=P["red_2"], linewidths=1.0, zorder=2)
-    ax.scatter(0, desc["never"]["J"], s=34, marker="X", color=P["grey"], zorder=2)
-    for a, (lab, fam, (dx, dy, ha)) in arms.items():
-        d = desc[a]; ok = d["sup_q99"] <= R
-        ax.scatter(d["sup_q99"], d["J"], s=40, marker=MK[fam], edgecolor=COL[fam], facecolor=COL[fam] if ok else "white", linewidths=1.4, zorder=4)
-        ax.annotate(lab, (d["sup_q99"], d["J"]), xytext=(dx, dy), textcoords="offset points", ha=ha, va="center", fontsize=7.5, color=COL[fam])
-    ax.set_xlim(-2, 40); ax.set_ylim(68.2, 72.1)
-    ax.set_xlabel("$q_{99}$ of sup-harm (loss units)")
-axes[0].set_ylabel("mean cost $J$ (per episode)")
-for ax in axes[1:]: ax.tick_params(axis="y", left=False); ax.spines["left"].set_visible(False)
-axes[0].annotate("never switch", (0, desc["never"]["J"]), xytext=(5, 0), textcoords="offset points", fontsize=7.5, color=P["grey"], va="center")
-handles = [Line2D([], [], marker="s", color=P["blue_main"], lw=0, ms=6, label="shield"),
-           Line2D([], [], marker="o", color=P["red_strong"], lw=0, ms=6, label="stop-loss"),
-           Line2D([], [], marker="^", color=P["violet"], lw=0, ms=6, label="ablation"),
-           Line2D([], [], marker="o", mfc="none", mec=P["red_2"], lw=0, ms=6, label="other comparator"),
-           Line2D([], [], marker="o", mfc="white", mec=P["dark"], lw=0, ms=6, label="open: $q_{99}>R$")]
-fig.legend(handles=handles, loc="lower center", ncol=5, bbox_to_anchor=(0.55, -0.03), fontsize=7.5, columnspacing=1.2, handletextpad=0.2)
+fig, ax = plt.subplots(figsize=(WIDTH * 0.72, 2.9))
+ax.axvspan(-3, R, color=P["green_1"], alpha=0.6, lw=0)
+ax.axvline(R, color=P["dark"], lw=1.0)
+ax.text(R - 0.7, 71.95, "$q_{99}\\leq R$: budget met", ha="right", va="top", fontsize=7.5, color="#3E5A2A")
+for a in OTHER:
+    ax.scatter(desc[a]["sup_q99"], desc[a]["J"], s=26, marker="o", facecolor="none", edgecolor=P["red_2"], linewidths=1.1, zorder=2)
+ax.text(33.0, 71.62, "other comparators\n(no budget)", fontsize=7.5, color=P["red_strong"], ha="center", va="top", alpha=0.9)
+ax.scatter(0, desc["never"]["J"], s=44, marker="X", color=P["grey"], zorder=3)
+ax.annotate("never switch", (0, desc["never"]["J"]), xytext=(7, 0), textcoords="offset points", fontsize=7.5, color=P["grey"], va="center")
+for a, lab, dx, dy, ha in (("f3_pi1_R20", "shield (full)", 7, 5, "left"), ("f3v2d_R20", "paced", -7, 6, "right"), ("f3v2_R20_blind8", "blind-8", -7, -6, "right")):
+    d = desc[a]
+    ax.scatter(d["sup_q99"], d["J"], s=52, marker="s", color=P["blue_main"], zorder=4)
+    ax.annotate(lab, (d["sup_q99"], d["J"]), xytext=(dx, dy), textcoords="offset points", ha=ha, va="center", fontsize=8, color=P["blue_main"])
+d = desc["stoploss_R20"]
+ax.scatter(d["sup_q99"], d["J"], s=52, marker="o", facecolor="white", edgecolor=P["red_strong"], linewidths=1.8, zorder=4)
+ax.annotate("stop-loss", (d["sup_q99"], d["J"]), xytext=(-8, -6), textcoords="offset points", ha="right", va="center", fontsize=8, color=P["red_strong"])
+ax.set_xlim(-2, 40); ax.set_ylim(68.4, 72.1)
+ax.set_xlabel("99th percentile of maximum harm (loss units)"); ax.set_ylabel("mean cost $J$ per episode")
+fig.subplots_adjust(left=0.13, right=0.985, top=0.97, bottom=0.17)
 save(fig, "cost_tail")

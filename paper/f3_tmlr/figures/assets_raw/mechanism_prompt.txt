@@ -1,0 +1,14 @@
+Use your native image generation tool (not code, not matplotlib, not SVG) to create ONE wide landscape image (aspect ratio about 16:10) and save it as /Users/nigelli/Desktop/ICML/shift-paper3-f3/paper/f3_tmlr/figures/assets_raw/mechanism_gen1.png
+
+This is a worked-example figure of a machine-learning paper, assembled by hand in a vector editor: a polished illustrated composite. White background. Look: a dashed rounded claim banner on top with one bold coloured keyword; cute flat-illustrated characters and icons with thin dark outlines and soft fills; pale rounded callout boxes with bold coloured keywords; a wide flat block arrow with a light-to-dark blue gradient at the bottom. Palette only: blue (#0F4D92, #3775BA, pale #CFE0F3), light grey, red (#B64342), pale green, gold coins, dark grey outlines. Clean Helvetica-like sans-serif text.
+
+LAYOUT:
+- Top, full width: dashed rounded banner with the exact text: One tape, two controllers: only the shield stops at the budget.   (the words "only the shield" bold blue).
+- Left 68% of the image, below the banner and above the bottom arrow: a large EMPTY white rectangular area with a thin light-grey rounded outline, reserved for a chart pasted in later. Draw NOTHING inside it.
+- Right 32%: three stacked rounded pale callout boxes, each with a small flat illustrated icon on its left and short text (render exactly):
+  1. Icon: gold coin with an italic k. Text: Each switch costs a fee, so the shield keeps k in reserve to undo it.   (bold gold-brown "keeps k in reserve")
+  2. Icon: white envelope with a small red clock badge. Text: Labels arrive five rounds late. The shield counts them as possible harm.   (bold blue "counts them as possible harm")
+  3. Icon: blue shield with a white check, next to a small cartoon blue robot head. Text: The stop-loss ignores unseen labels and overshoots the budget.   (bold red "overshoots the budget")
+- Bottom, full width: a wide flat gradient block arrow (pale blue at left to medium blue at right, head at far right) with the centred text: Booking the labels in transit is what keeps the harm at or below R.   (the words "at or below R" bold blue).
+
+TEXT RULES: render every text string exactly as written, correctly spelled, no extra words, no made-up numbers. If a string does not fit, enlarge the box rather than changing the words.

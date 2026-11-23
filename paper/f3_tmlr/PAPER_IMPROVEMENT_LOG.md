@@ -321,3 +321,45 @@ Bibliography reviewed: :codex-file-citation{path="/Users/nigelli/Desktop/ICML/sh
 
 
 </details>
+
+## Round 7 (2026-11-22): HKUSTDial pre-submission review and ARIS fresh-context reviews
+
+Three fresh, manuscript-only reviews (no code, data, results or prior-round material opened), all same-family subagents: an HKUSTDial `pre-submission-reviewer` pass (verdict Almost, no CRITICAL), an ARIS-style review (6.5/10, Almost), and a second ARIS-style review of the revised paper (**7/10 accept, Almost**, no CRITICAL). Requested stance: fair, TMLR bar, fixes from material the paper already has.
+
+Fixes applied (text, figures and notation only; no experiment, number or citation added):
+- Abstract and introduction restructured to problem, gap, idea, strongest result; added a plain challenges paragraph and the headline comparison before Table 1; the abstract now names the stop-loss that is told R among the comparators that exceed it (0.841 of runs in its worst regime), states that zero real-stream violations is what the theorem implies, and gives the price of the guarantee as a function of the exposure ratio. The intro states the real-stream retention at h=14 (75 of 194 cost units, about 39%).
+- Proposition 2 retitled "Lower bound on first-promotion exposure" (the pending reserve is shown necessary only inside the first delay window); Table 1 row and Section 3 text aligned; ablations cited for the empirical role of each reserve.
+- Proof of Theorem 1, Step 2: round t's own coin term is now explicit (xi_t joins M, V_t = V + v_t is predictable, M_t <= D_delta(V_t)); ride-out states T known in advance; one sentence that the proof covers all variants.
+- Process and artifact language removed or softened: four "Source: *.json" caption lines (and the one in the regime-map figure), "programme", "committed", "make_tables.py", "native-source reproduction", "a third look"; registered protocol defined once in Section 5 with a pointer to Appendix D.
+- Limitations and Conclusion split into two sections; the conclusion ends on the result; the "correlational" hedge appears in the abstract, Section 5.4 and Limitations only.
+- Paced-arm violation count harmonised (one in each of two arms); Table 8 caption notes it uses fresh seeds and differs slightly from Table 5; Proposition 3 simulation excess stated as within sampling error; em-dash removed.
+- Notation: CUSUM rollback threshold renamed from h to theta (text, tables and make_tables.py strings), so h is only the headroom.
+- Figures: Figure 2 enlarged labels, condition order matches Table 9, rotated count labels dropped (counts are in Table 9); cost-tail figure labels de-overlapped.
+
+Rebuilt with `latexmk` (35 pages, no undefined references, no overfull boxes); saved as `main_round7.pdf`. `build.sh` was not run (it reads the protected confirmation summary). Remaining optional items: provenance for `openml_ldpa` and `uci_occupancy`, seed-registry mapping, further trimming of the appendix tables, other notation collisions (d and D_delta, P, L).
+
+## Round 8 (2026-11-22): blockers removed, public screen added, thorough HKUSTDial and ARIS pass
+
+Blockers. The two streams without recorded provenance (`openml_ldpa`, `uci_occupancy`) were removed from every real-stream analysis (14 to 12 streams, 194 episodes); the pre-specified 14-stream results are archived in `results/riskbudget/superseded_14stream/` and the change is recorded in the ledger. All analyses were re-run on existing outputs only and the paper's tables, figures and macros regenerated (regime-map test: 472 units, real Spearman intervals still above 0). The seed-block mapping was checked against the ledger (5303500000-999 confirmation; 5301071000-499 scarce; 5301072000-299 original regimes; 5301080000-199 calibration; 5301081000-999 calibration evaluation; 5301060000-019 real streams) and matches the paper. The 100-stream public screen (protocol 05G, already run) is integrated as a development screen: S1 holds on 99 of 100 streams (full sampling 0 violations; paced arms 2 of 24,465 runs, one stream, within delta = .05), S2 on 57. The 43 streams that did not meet S2 are recorded in `results/riskbudget/screen100_not_supported.md` and the ledger; the paper reports the pool size, the S2 streams and the aggregate cost of the rest.
+
+Reviews (all manuscript-only, same-family subagents): HKUSTDial `pre-submission-reviewer` (five dimensions), `tech-paper-template` (skeleton and four-point consistency), `paper-polish` (audit mode); ARIS `kill-argument` (verdict WARN: 2 answered, 4 partially answered, 0 unresolved, 0 critical; `KILL_ARGUMENT.md/.json`) and the restatement regression test (6 theorem-type environments, no drift, no duplicate labels). Fixes: abstract rewritten as one self-contained paragraph with the lower bound scoped to delay at least R - 2k; stress-regime context and pooled original-regime rates added beside the 64-99% figure; "beats never switching" scoped; screen split into S1 and S2 (removes the circular "supports" wording) and labelled development evidence; `heta` rendering bug (a tab in `make_tables.py`) fixed; challenge labels (i)-(iii) added to the introduction; intro citations and prior-work limitation added; colloquial and garbled sentences fixed; Section 5 provenance wording reconciled; v3 and the 47-regime family motivated; figures re-checked one by one (Fig. 1 legend moved off the traces, Fig. 3 labels, Fig. 4 labels).
+
+Figures. Two schematic and process figures were added in the style of the figures4papers miscellaneous set: an overview teaser (Fig. 1) and a four-stage evaluation pipeline (Section 5); see `figures/README.md`.
+
+Rebuilt with `latexmk` (38 pages, no undefined references, no overfull boxes); `make_tables.py` and `make_screen_tables.py` now regenerate every table and number from the result files. Not addressed: notation collisions in the appendix (d and D_delta, lambda, c, L, m), main-text length (about 20 pages), splitting Table 5.
+
+## Round 9 (2026-11-22): prose pass by actor and critic, illustrated figures
+
+Prose. A Codex critic (run through the ChatGPT app's bundled `codex exec`, read-only) diagnosed the densest passages: semicolon chains (about 65), "which" chains, repeated headline numbers, table-announcing sentences. The actor (Claude) rewrote the abstract, introduction, Section 2 fee and O1-O4 paragraphs, Section 5 setup, 5.1 to 5.4, related work, limitations and conclusion into shorter sentences. The critic then compared old and new text and flagged meaning drift in three rounds (dropped "pooled", the median and threshold, the payback horizon, the stress-regime qualifier, a contradiction on default settings, and a stale hard-coded "4,600" runs that is now the live count of 3,880); each flag was fixed. A script guarded citations, labels, references, numbers and macros between versions.
+
+Figures. Their composite style is built from illustrated objects, speech cards, zoom cones, gradient block arrows and real plot panels. The overview and pipeline figures now use illustrated icons (robots, shield, envelope with clock) generated with Codex native image generation (the route of `paper-illustration-image2`; the Gemini PaperBanana route needs `GEMINI_API_KEY`, which is not set) and composited under our own text, arrows and data in matplotlib. Assets: `figures/assets_raw/icons_sheet.png`, prompt `icons_prompt.txt`.
+
+
+## Round 11 (figure declutter)
+Main-text figures reduced to one message each; originals moved to appendix "Full-detail figures" (Figs mechanism_full, violations_full, cost_tail_full, regime_map_full). Captions rewritten. 41 pages, no undefined references. PDF: main_round11.pdf
+
+## Round 12
+Mechanism figure rebuilt as one canvas in the figures4papers miscellaneous style (fig_mechanism_scene.py): annotations on the data, flat line-art icons (assets_raw/icons2_sheet.png), bold monospace title, pale tinted callouts, dark-red highlight frame. Replaces the pasted-chart-in-template composite (mechanism_gen2.png kept for reference).
+
+## Round 13
+Overview (Fig 1) and pipeline (Sec 5) rebuilt as one-canvas figures in the figures4papers miscellaneous style (fig_overview_scene.py, fig_pipeline_scene.py; line-art icons assets_raw/icons2_sheet.png). Caption panel letters fixed to (a),(b). compose_composites.py and the generated scene PNGs are kept for reference only.

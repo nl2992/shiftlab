@@ -363,3 +363,6 @@ Mechanism figure rebuilt as one canvas in the figures4papers miscellaneous style
 
 ## Round 13
 Overview (Fig 1) and pipeline (Sec 5) rebuilt as one-canvas figures in the figures4papers miscellaneous style (fig_overview_scene.py, fig_pipeline_scene.py; line-art icons assets_raw/icons2_sheet.png). Caption panel letters fixed to (a),(b). compose_composites.py and the generated scene PNGs are kept for reference only.
+
+## Round 14 - Codex critic pass on the three scene figures
+Pipeline, overview and mechanism figures were critiqued by Codex against the figures4papers miscellaneous references and revised: pipeline (keys for the heatmap and dot grid, corrected "5 of 12 worse than never" label, smaller outlined arrows, plain footer); mechanism (five pending labels drawn as envelopes, +5 bracket on the data, aligned SHIELD / STOP-LOSS endpoint labels, shared prefix in charcoal); overview (cone aimed at the in-transit segment, smaller icons, compact claim box, wider panel b, plain footer).

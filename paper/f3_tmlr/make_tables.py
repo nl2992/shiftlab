@@ -335,9 +335,9 @@ write("app_ols.tex", body)
 # ---------------------------------------------------------------- propositions check
 p3 = props["prop3"]
 mac("PThreeCells", len(p3)); mac("PThreeAttain", sum(1 for r in p3 if r["attains"]))
-body = "\\begin{tabular}{@{}r r r r r l@{}}\n\\toprule\n$d$ & $R$ & first spell & $\\lfloor R-2k\\rfloor$ & $\\min(d,\\lfloor R-2k\\rfloor)$ & attained \\\\\n\\midrule\n"
+body = "\\begin{tabular}{@{}r r r r r l l@{}}\n\\toprule\n$d$ & $R$ & first spell & $\\lfloor R-2k\\rfloor$ & $\\min(d,\\lfloor R-2k\\rfloor)$ & spell $=h$ & $d\\ge h$ \\\\\n\\midrule\n"
 for r in p3:
-    body += f"{r['d']} & {r['R']} & {r['first_spell']} & {r['floor_R_minus_2k']} & {r['blind_hold_allowed']} & {'yes' if r['attains'] else 'no'} \\\\\n"
+    body += f"{r['d']} & {r['R']} & {r['first_spell']} & {r['floor_R_minus_2k']} & {r['blind_hold_allowed']} & {'yes' if r['attains'] else 'no'} & {'yes' if r['d']>=r['floor_R_minus_2k'] else 'no'} \\\\\n"
 body += "\\bottomrule\n\\end{tabular}\n"
 write("app_prop3.tex", body)
 p4 = props["prop4"]

@@ -24,7 +24,7 @@ Take any mixture $\mu$ on $\mathcal M$ and any adaptive null $\nu$. Couple the n
 
 \subsection{Proof of Proposition~\ref{prop:z1}}
 
-Write $\rho=1-t_{01}-t_{10}\ge0$ for the eigenvalue of the transition matrix. Fix a pure plan $\pi$ with one label. If $\pi$ never queries, or promotes at some $s<\tau+d$ before its label is released, its promotion event is constant (empty or everything); $\tau$ is deterministic because nothing has been observed before it. Otherwise, after the release the plan is open-loop given the label value $y=y_\tau$ and promotes at $s_y\in\{\tau+d,\dots,T\}\cup\{\infty\}$. Its event $g(y)=\one\{s_{y_\tau}<\infty\}$ is non-monotone only if $s_0<\infty=s_1$.
+Write $\rho=1-\eta_{01}-\eta_{10}\ge0$ for the eigenvalue of the transition matrix. Fix a pure plan $\pi$ with one label. If $\pi$ never queries, or promotes at some $s<\tau+d$ before its label is released, its promotion event is constant (empty or everything); $\tau$ is deterministic because nothing has been observed before it. Otherwise, after the release the plan is open-loop given the label value $y=y_\tau$ and promotes at $s_y\in\{\tau+d,\dots,T\}\cup\{\infty\}$. Its event $g(y)=\one\{s_{y_\tau}<\infty\}$ is non-monotone only if $s_0<\infty=s_1$.
 
 For $y\in\{0,1\}$ and $s\ge\tau+d$ let $G_y(s)$ be the expected cost saved by ``promote at $s$, then continue optimally'' over ``never promote'', given $Y_\tau=y$. After the single query the budget is 0, so the continuation is open loop and
 \[
@@ -54,7 +54,7 @@ we have $\Vi=C_0-\alpha r_{\mathrm{IID}}$, $\Vc=C_0-\alpha r_c$ and $\Gamma=\alp
 A pure plan with one label has a constant event (risk 0 or 1 under every null), a $\{Y_\tau=1\}$ event (i.i.d.\ and adaptive risk $1/2$), or a $\{Y_\tau=0\}$ event (i.i.d.\ risk $1/2$, adaptive risk 1). At the public query node $\tau$ the null picks $p\in[0,1/2]$; nodes with different $\tau$ are publicly distinguishable. A mixture with masses $a_\tau$ (both branches), $b_\tau$ ($Y=1$ only), $c_\tau$ ($Y=0$ only) and pre-release mass $m$ therefore has adaptive risk $\sum_\tau[a_\tau+\max(c_\tau,(b_\tau+c_\tau)/2)]+m$, because the null maximises $(1-p)Z_0+pZ_1$ at an endpoint, and i.i.d.\ risk $\sum_\tau[a_\tau+(b_\tau+c_\tau)/2]+m$. Each problem maximises a linear gain under a sum of positively homogeneous convex gauges, so its optimum is $\alpha$ times the best gain per unit risk over the extreme rays. Under adaptive risk the rays are $b$ alone (ratio $2g_{z1}$), $c$ alone ($g_{z0}$), $c=b$ (ratio at most $g_{\mathrm{both}}$, dominated), $a$ ($g_{\mathrm{both}}$) and pre-release ($g_{\mathrm{pre}}$). Under i.i.d.\ risk, $c$ alone has ratio $2g_{z0}$. Since $\alpha\le1/2$, the risk-$1/2$ rays are feasible at mass $2\alpha\le1$.
 \end{proof}
 
-\paragraph{The symmetric chain.} Take $t_{01}=t_{10}=t\in(1/2,1)$, $\rho=1-2t=-r$, prior $1/2$, emissions $(e,1-e)$ with $a=1-2e$ and $g=a^2$.
+\paragraph{The symmetric chain.} Take $\eta_{01}=\eta_{10}=\eta\in(1/2,1)$, $\rho=1-2\eta=-r$, prior $1/2$, emissions $(e,1-e)$ with $a=1-2e$ and $g=a^2$.
 
 \begin{lemma}
 \label{lem:S}

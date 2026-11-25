@@ -37,9 +37,9 @@ The hull is two-dimensional because $\pi$ and $\kappa$ are shared across the two
 \small
 \begin{tabular}{lcccccc}
 \toprule
-$t$, $B$ & $T=8$ & 16 & 32 & 64 & 100\\
+$\eta$, $B$ & $T=8$ & 16 & 32 & 64 & 100\\
 \midrule
-any $t$, $B=1$ & 0 & 0 & 0 & 0 & 0\\
+any $\eta$, $B=1$ & 0 & 0 & 0 & 0 & 0\\
 2/3 and 3/4, $B=2$ & 0 & 0 & 0 & 0 & 0\\
 9/10, $B=2$ & 0.1355 & 0.0562 & 0 & 0 & 0\\
 2/3, $B=3$ & 0 & 0 & 0 & 0 & 0\\
@@ -51,6 +51,6 @@ any $t$, $B=1$ & 0 & 0 & 0 & 0 & 0\\
 \bottomrule
 \end{tabular}
 \end{center}
-In every cell the estimated $d=2$ premium is at or below the $d=1$ premium of the same cell; past $T=10$ it is not certified, since both the i.i.d.-mode and the adaptive-mode values there are upper bounds. Where it is positive, the i.i.d.-mode policy has adaptive risk $2\alpha$ or more; the adaptive-mode policy is at $\alpha$ in all cells. At $T\ge11$ the values are costs of feasible policies; values at $T\le10$ agree with the exact solver to $4.4\times10^{-16}$. One explanation, which we have not proved: a label queried at $t$ is used at $t+2$, and the two-step chain has eigenvalue $(1-t_{01}-t_{10})^2\ge0$, so it is persistent whatever the one-step chain is. A label 1 is then good news when it arrives. With a single query the learner wants its risk on the branch the adaptive constraint never caps. A premium at $d=2$ needs at least two interacting labels.
+In every cell the estimated $d=2$ premium is at or below the $d=1$ premium of the same cell; past $T=10$ it is not certified, since both the i.i.d.-mode and the adaptive-mode values there are upper bounds. Where it is positive, the i.i.d.-mode policy has adaptive risk $2\alpha$ or more; the adaptive-mode policy is at $\alpha$ in all cells. At $T\ge11$ the values are costs of feasible policies; values at $T\le10$ agree with the exact solver to $4.4\times10^{-16}$. One explanation, which we have not proved: a label queried at $t$ is used at $t+2$, and the two-step chain has eigenvalue $(1-\eta_{01}-\eta_{10})^2\ge0$, so it is persistent whatever the one-step chain is. A label 1 is then good news when it arrives. With a single query the learner wants its risk on the branch the adaptive constraint never caps. A premium at $d=2$ needs at least two interacting labels.
 
 \paragraph{What is not established.} For a proof at $d=2$ we still need joint convexity of the value in $(w^0,w^1)$, the monotonicity that lets the budget constraint hold with equality, the post-promotion value $P^1$, and the edge cases. The dyadic-lattice argument of Theorem~\ref{thm:lattice} does not transfer, since a facet of a two-dimensional hull can meet the diagonal at a non-dyadic point. That the grid $d_\alpha\cdot2^B$ was exact on every cell tried is an empirical observation.

@@ -75,7 +75,7 @@ Formally, the problem is a chance-constrained partially observable Markov decisi
 \item \textbf{Exact reduction (Theorem~\ref{thm:reduction}).} For one-round label delay and a two-state hidden-Markov alternative, the adaptive-null problem is a Markov decision problem on $(t,\beta,n,w)$: time, alternative belief, remaining labels, and a risk budget $w$, the worst-case probability of ever promoting from here on. The i.i.d.\ problem is the same programme with one constraint removed (Corollary~\ref{cor:oneconstraint}): after a label that favours the incumbent the continuation budget may not exceed the budget committed to that query. We call the solver risk-budget dynamic programming, RB-DP (Figure~\ref{fig:overview}).
 \item \textbf{Dyadic lattice (Theorem~\ref{thm:lattice}).} The value is convex and piecewise linear in $w$ with all breakpoints in $\{k/2^n\}$, $n$ the remaining labels. A grid of $2^B+1$ points is therefore exact (Corollary~\ref{cor:finite}). The only approximation left is belief interpolation, which gives a certified sandwich $L\le V^\star\le U$.
 \item \textbf{The i.i.d.\ design is unsafe.} Wherever the two optima differ in our synthetic grid, the i.i.d.-optimal policy has worst-case adaptive risk $2\alpha$ to $4\alpha$ without label and switching costs and $1.33\alpha$ with them (Table~\ref{tab:e4}).
-\item \textbf{The premium at long horizons.} RB-DP follows $\rhoG(T)$ to $T=200$. For every label budget $B\le 6$ and the three anti-persistent chains studied, the premium stays positive and settles between 0.05 and 0.33, and near 0.37 and 0.40 for $B=7$ and $B=8$ at $t=3/4$ (Table~\ref{tab:e3}). The levels match the closed form for $B=1$ and lie at or above every proved bound of Theorem~\ref{thm:premium}.
+\item \textbf{The premium at long horizons.} RB-DP follows $\rhoG(T)$ to $T=200$. For every label budget $B\le 6$ and the three anti-persistent chains studied, the premium stays positive and settles between 0.05 and 0.33, and near 0.37 and 0.40 for $B=7$ and $B=8$ at $\eta=3/4$ (Table~\ref{tab:e3}). The levels match the closed form for $B=1$ and lie at or above every proved bound of Theorem~\ref{thm:premium}.
 \item \textbf{Real streams.} On 44 real binary streams the fitted models have a positive premium. RB-DP is never more expensive than any of seven causal-safe baselines, including the always-valid mixture sequential probability ratio test (mSPRT), in 528 in-model settings. In a held-out replay on 9{,}525 real windows it matches the best safe baseline (Table~\ref{tab:replay}), so safety against the adaptive null comes at no measurable cost.
 \end{enumerate}
 
@@ -88,7 +88,7 @@ Formally, the problem is a chance-constrained partially observable Markov decisi
 
 \paragraph{Labels.} At each round the learner may query $Y_t$ at cost $c\ge 0$, with at most $B$ queries in total (a hard pathwise budget). A label queried at $t$ is released before the decision at $t+d$. Every change of action costs $k\ge 0$. Rollback and re-promotion after the first promotion are allowed.
 
-\paragraph{Alternative.} The alternative is a two-state hidden Markov model (HMM): a hidden chain $S_t\in\{0,1\}$ with $\PP(S_{t+1}=1\mid S_t=0)=t_{01}$ and $\PP(S_{t+1}=0\mid S_t=1)=t_{10}$ drives the labels, $Y_t\sim\mathrm{Bernoulli}(e_{S_t})$ with $e_0<1/2<e_1$. State 1 is a regime in which the challenger is better. The learner's belief $\beta_t=\PP(S_t=1\mid\text{released labels})$ is updated by the forward filter, and $\pos(\beta)=e_0+(e_1-e_0)\beta$ is the predicted probability that the challenger wins. The expected cost of a strategy under the alternative is $C(\sigma)$; never promoting costs $C_0=\sum_t\E[\pos(\beta_t)]$.
+\paragraph{Alternative.} The alternative is a two-state hidden Markov model (HMM): a hidden chain $S_t\in\{0,1\}$ with $\PP(S_{t+1}=1\mid S_t=0)=\eta_{01}$ and $\PP(S_{t+1}=0\mid S_t=1)=\eta_{10}$ drives the labels, $Y_t\sim\mathrm{Bernoulli}(e_{S_t})$ with $e_0<1/2<e_1$. State 1 is a regime in which the challenger is better. The learner's belief $\beta_t=\PP(S_t=1\mid\text{released labels})$ is updated by the forward filter, and $\pos(\beta)=e_0+(e_1-e_0)\beta$ is the predicted probability that the challenger wins. The expected cost of a strategy under the alternative is $C(\sigma)$; never promoting costs $C_0=\sum_t\E[\pos(\beta_t)]$.
 
 \paragraph{Nulls and risk.} The risk of a strategy is the probability of a \emph{first promotion} under a null. After the first promotion the learner is free; the guarantee is about the decision to switch.
 
@@ -119,7 +119,7 @@ Throughout this section $d=1$, so at every decision the learner has seen every l
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_overview.pdf}
-\caption{How RB-DP works (schematic, except where noted). (a) An incumbent and a challenger score the same inputs. Rounds where they agree are dropped. On the disagreements, up to $B$ labels can be bought, which gives a stream such as $Y=0\,0\,?\,?\,1\,?$, where ? means not queried. (b) RB-DP (risk-budget dynamic programming) filters a two-state hidden regime with switching probabilities $t_{01}$ and $t_{10}$ and carries the state $(t,\beta,n,w)$, where $w$ is the risk budget. After a query the adversary picks $p\in\{0,1/2\}$ and the budget $w'$ splits into $w_0$ and $w_1$ for the two label branches. The adaptive null adds the cap $w_0\le w'$ (Theorem~\ref{thm:reduction}). The extracted policy gives the sandwich $L\le V^\star\le U$ (Corollary~\ref{cor:sandwich}). (c) Computed: the value of information $V=C_0-W$ at $t=1$ with $n=3$ labels left over a grid of beliefs $\beta$ and budgets $w\le0.3$, from the lattice solver (same cell as Figure~\ref{fig:lattice}). The blue surface is the adaptive null and the red wireframe above it the i.i.d.\ null; the gap is the premium. The green path is one simulated run of the extracted policy, with $s_t=(\beta_t,w_t)$ drawn on the surface at $t=1$, $n=3$ (states $s_3$ to $s_6$ lie on $w=0$, so returning segments are offset for legibility); the strip in (a) is that run.}
+\caption{How RB-DP works (schematic, except where noted). (a) An incumbent and a challenger score the same inputs. Rounds where they agree are dropped. On the disagreements, up to $B$ labels can be bought, which gives a stream such as $Y=0\,0\,?\,?\,1\,?$, where ? means not queried. (b) RB-DP (risk-budget dynamic programming) filters a two-state hidden regime with switching probabilities $\eta_{01}$ and $\eta_{10}$ and carries the state $(t,\beta,n,w)$, where $w$ is the risk budget. After a query the adversary picks $p\in\{0,1/2\}$ and the budget $w'$ splits into $w_0$ and $w_1$ for the two label branches. The adaptive null adds the cap $w_0\le w'$ (Theorem~\ref{thm:reduction}). The extracted policy gives the sandwich $L\le V^\star\le U$ (Corollary~\ref{cor:sandwich}). (c) Computed: the value of information $V=C_0-W$ at $t=1$ with $n=3$ labels left over a grid of beliefs $\beta$ and budgets $w\le0.3$, from the lattice solver (same cell as Figure~\ref{fig:lattice}). The blue surface is the adaptive null and the red wireframe above it the i.i.d.\ null; the gap is the premium. The green path is one simulated run of the extracted policy, with $s_t=(\beta_t,w_t)$ drawn on the surface at $t=1$, $n=3$ (states $s_3$ to $s_6$ lie on $w=0$, so returning segments are offset for legibility); the strip in (a) is that run.}
 \label{fig:overview}
 \end{figure*}
 
@@ -206,9 +206,9 @@ In the symmetric chains below the belief stays at $1/2$ until the first label, a
 
 By Corollary~\ref{cor:oneconstraint}, the premium is positive only when the cap $w_0\le w'$ binds at the optimum.
 
-\paragraph{Persistent regimes: no premium at one label.} If the chain is persistent ($t_{01}+t_{10}\le 1$) and a challenger win is at least as likely as not at every query time, then with one label ($B=1$) some optimal plan promotes on a monotone event of the label tape, whose risk is the same under every adaptive null as under fair coins, so $\Gamma=0$ (Proposition~\ref{prop:z1} in Appendix~\ref{app:extra}, proved in Appendix~\ref{app:structure}). With $B\ge 2$ persistent cells can have a small positive premium; the large premia come from anti-persistent regimes.
+\paragraph{Persistent regimes: no premium at one label.} If the chain is persistent ($\eta_{01}+\eta_{10}\le 1$) and a challenger win is at least as likely as not at every query time, then with one label ($B=1$) some optimal plan promotes on a monotone event of the label tape, whose risk is the same under every adaptive null as under fair coins, so $\Gamma=0$ (Proposition~\ref{prop:z1} in Appendix~\ref{app:extra}, proved in Appendix~\ref{app:structure}). With $B\ge 2$ persistent cells can have a small positive premium; the large premia come from anti-persistent regimes.
 
-\paragraph{Anti-persistent regimes: a premium that does not vanish.} Take the symmetric stationary anti-persistent chain $t_{01}=t_{10}=t\in(1/2,1)$, with $r=2t-1$, emissions $(e,1-e)$ and $g=(1-2e)^2$. Here a label that favours the incumbent predicts that the challenger will be better shortly afterwards, so the best i.i.d.\ plan promotes after $Y=0$ with high probability. That is the branch an adaptive null can force. The following results are proved in Appendix~\ref{app:structure}.
+\paragraph{Anti-persistent regimes: a premium that does not vanish.} Take the symmetric stationary anti-persistent chain $\eta_{01}=\eta_{10}=\eta\in(1/2,1)$, with $r=2\eta-1$, emissions $(e,1-e)$ and $g=(1-2e)^2$. Here a label that favours the incumbent predicts that the challenger will be better shortly afterwards, so the best i.i.d.\ plan promotes after $Y=0$ with high probability. That is the branch an adaptive null can force. The following results are proved in Appendix~\ref{app:structure}.
 
 \begin{theorem}[Premium bounds; $d=1$ unless stated]
 \label{thm:premium}
@@ -237,24 +237,24 @@ We compared RB-DP with an exact sequence-form solver that returns rational inter
 \label{sec:e2}
 
 
-Run time is linear in $T$ (0.6\,s at $T=16$ to 8.3\,s at $T=256$, $B=3$) and exponential in $B$ (0.2\,s at $B=1$ to 122\,s at $B=8$, $T=32$; Table~\ref{tab:scaling} in Appendix~\ref{app:extra}), as Corollary~\ref{cor:sandwich} predicts; a rough rule is $1.6\times10^{-3}\,T\,B\,2^B$ seconds per mode. For comparison, the exact sequence-form solver took 37 to 71\,s at $T=10$ and timed out at 3{,}600\,s on the cell $T=16$, $B=3$, $t=63/125$, $e=3/20$. RB-DP solves that cell in 0.4\,s with $L=U$ to twelve digits.
+Run time is linear in $T$ (0.6\,s at $T=16$ to 8.3\,s at $T=256$, $B=3$) and exponential in $B$ (0.2\,s at $B=1$ to 122\,s at $B=8$, $T=32$; Table~\ref{tab:scaling} in Appendix~\ref{app:extra}), as Corollary~\ref{cor:sandwich} predicts; a rough rule is $1.6\times10^{-3}\,T\,B\,2^B$ seconds per mode. For comparison, the exact sequence-form solver took 37 to 71\,s at $T=10$ and timed out at 3{,}600\,s on the cell $T=16$, $B=3$, $\eta=63/125$, $e=3/20$. RB-DP solves that cell in 0.4\,s with $L=U$ to twelve digits.
 
 \subsection{The premium at long horizons}
 \label{sec:e3}
 
 
-For every $B\le6$ and $t\in\{2/3,3/4,9/10\}$, $\rhoG(T)$ stays positive and flattens as $T$ grows. For $t\in\{2/3,3/4\}$ consecutive values from $T=64$ on agree to within $5\times10^{-4}$; for $t=9/10$ the value still drifts down slowly, by at most $3\times10^{-3}$ between $T=64$ and $T=100$. These limits are numerical observations; only $B=1$ has a closed form (Figure~\ref{fig:premium}, Table~\ref{tab:e3}; the values are in Appendix~\ref{app:curves}).
+For every $B\le6$ and $\eta\in\{2/3,3/4,9/10\}$, $\rhoG(T)$ stays positive and flattens as $T$ grows. For $\eta\in\{2/3,3/4\}$ consecutive values from $T=64$ on agree to within $5\times10^{-4}$; for $\eta=9/10$ the value still drifts down slowly, by at most $3\times10^{-3}$ between $T=64$ and $T=100$. These limits are numerical observations; only $B=1$ has a closed form (Figure~\ref{fig:premium}, Table~\ref{tab:e3}; the values are in Appendix~\ref{app:curves}).
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.92\linewidth]{figures/fig_premium.pdf}
-\caption{Relative premium $\rhoG$ against horizon $T$ for label budgets $B=1,\dots,6$ (and $B=7,8$ for $t=3/4$), symmetric anti-persistent chains with switching probability $t$ ($r=2t-1$), $e=1/10$, $\alpha=1/10$, $c=k=0$, $d=1$. Darker lines are larger budgets; each label is joined to its curve by a short leader. Every curve flattens above zero. The figure shows 223 solver cells. Top row $B\le4$, bottom row $B\ge5$, same axes.}
+\caption{Relative premium $\rhoG$ against horizon $T$ for label budgets $B=1,\dots,6$ (and $B=7,8$ for $\eta=3/4$), symmetric anti-persistent chains with switching probability $\eta$ ($r=2\eta-1$), $e=1/10$, $\alpha=1/10$, $c=k=0$, $d=1$. Darker lines are larger budgets; each label is joined to its curve by a short leader. Every curve flattens above zero. The figure shows 223 solver cells. Top row $B\le4$, bottom row $B\ge5$, same axes.}
 \label{fig:premium}
 \end{figure*}
 
 In every cell of Table~\ref{tab:e3} the i.i.d.-mode policy, evaluated against the adaptive null, has worst-case risk 0.2 to 0.4 against a budget of 0.1, while the adaptive-mode policy sits at 0.1000.
 
-\paragraph{Agreement with the theory.} The $B=1$ values match the closed form of Theorem~\ref{thm:premium}(1) to $2.3\times10^{-12}$ at every $T\le200$. In the parameter region of part 3 ($t=63/125$, $e=3/20$, $g=0.49$), the values of $\rhoG$ for $B=3,\dots,6$ are 0.2470, 0.1975, 0.1645 and 0.1409, respectively. For each budget the value agrees to four decimals at $T=16$, 20 and 32. The corresponding proved lower bounds are 0.1881, 0.1548, 0.1320 and 0.1102, all below the measured values.
+\paragraph{Agreement with the theory.} The $B=1$ values match the closed form of Theorem~\ref{thm:premium}(1) to $2.3\times10^{-12}$ at every $T\le200$. In the parameter region of part 3 ($\eta=63/125$, $e=3/20$, $g=0.49$), the values of $\rhoG$ for $B=3,\dots,6$ are 0.2470, 0.1975, 0.1645 and 0.1409, respectively. For each budget the value agrees to four decimals at $T=16$, 20 and 32. The corresponding proved lower bounds are 0.1881, 0.1548, 0.1320 and 0.1102, all below the measured values.
 
 \begin{figure*}[t]
 \centering
@@ -340,7 +340,7 @@ This paper presents work whose goal is to advance the field of machine learning,
 
 \begin{proposition}[No premium at one label in persistent regimes]
 \label{prop:z1}
-Let $B=1$ and let $T$, $d\ge1$, $c,k\ge0$ and $\alpha\in[0,1]$ be arbitrary. If $t_{01}+t_{10}\le1$, $e_1>e_0$, and $\PP_A(Y_\tau=1)\ge1/2$ for every query time $\tau\le T-d$, then $\Gamma=0$.
+Let $B=1$ and let $T$, $d\ge1$, $c,k\ge0$ and $\alpha\in[0,1]$ be arbitrary. If $\eta_{01}+\eta_{10}\le1$, $e_1>e_0$, and $\PP_A(Y_\tau=1)\ge1/2$ for every query time $\tau\le T-d$, then $\Gamma=0$.
 \end{proposition}
 
 \begin{figure}[h!]
@@ -361,7 +361,7 @@ Let $B=1$ and let $T$, $d\ge1$, $c,k\ge0$ and $\alpha\in[0,1]$ be arbitrary. If 
 \caption{RB-DP (delay 1)}
 \label{alg:rbdp}
 \begin{algorithmic}[1]
-\REQUIRE horizon $T$, budget $B$, costs $c,k$, level $\alpha$, chain $(t_{01},t_{10},e_0,e_1)$, prior, mode $X$
+\REQUIRE horizon $T$, budget $B$, costs $c,k$, level $\alpha$, chain $(\eta_{01},\eta_{10},e_0,e_1)$, prior, mode $X$
 \STATE belief grid $\{\beta_g\}_{g=1}^G\ni 0,1$; risk lattice $\{j/N\}$ with $2^B\mid N$
 \STATE $W(T+1,\cdot,\cdot,\cdot)\leftarrow 0$; precompute post-promotion values $P(t,n,\beta_g)$ by the belief DP
 \FOR{$t=T,\dots,1$}
@@ -381,12 +381,12 @@ Let $B=1$ and let $T$, $d\ge1$, $c,k\ge0$ and $\alpha\in[0,1]$ be arbitrary. If 
 % Source: docs/paper4_continuation/rbdp/RESULTS.md and E2_E3_SCALING_PREMIUM.md section 1.
 \begin{table*}[t]
 \centering
-\caption{Relative premium $\rhoG$ at the largest horizon run ($T=100$; $T=200$ for $t=3/4$, $B\le5$), $\alpha=1/10$, $e=1/10$, $c=k=0$, $d=1$, symmetric stationary chains. $L$--$U$ brackets are at most $1.4\times10^{-3}$ wide in $\rhoG$. For $t=3/4$ we also ran $B=7$ (0.3680 at $T=100$) and $B=8$ (0.4010 at $T=100$).}
+\caption{Relative premium $\rhoG$ at the largest horizon run ($T=100$; $T=200$ for $\eta=3/4$, $B\le5$), $\alpha=1/10$, $e=1/10$, $c=k=0$, $d=1$, symmetric stationary chains. $L$--$U$ brackets are at most $1.4\times10^{-3}$ wide in $\rhoG$. For $\eta=3/4$ we also ran $B=7$ (0.3680 at $T=100$) and $B=8$ (0.4010 at $T=100$).}
 \label{tab:e3}
 \small
 \begin{tabular}{lcccccc}
 \toprule
-$t$ & $B=1$ & $B=2$ & $B=3$ & $B=4$ & $B=5$ & $B=6$\\
+$\eta$ & $B=1$ & $B=2$ & $B=3$ & $B=4$ & $B=5$ & $B=6$\\
 \midrule
 2/3 & 0.3333 & 0.2000 & 0.1429 & 0.1111 & 0.1135 & 0.1404\\
 3/4 & 0.2500 & 0.1429 & 0.1000 & 0.1379 & 0.2139 & 0.3034\\
@@ -398,7 +398,7 @@ $t$ & $B=1$ & $B=2$ & $B=3$ & $B=4$ & $B=5$ & $B=6$\\
 % Source: docs/paper4_continuation/rbdp/E1_E4_VALIDATION_BASELINES.md, E4 table (selected rows; full table in appendix).
 \begin{table*}[t]
 \centering
-\caption{Share of RB-DP's value of information captured by safe baselines, and worst-case adaptive risk of the unrepaired i.i.d.-optimal policy ($\alpha=1/10$, $e=1/10$, $d=1$). ``anti $t$'': symmetric anti-persistent chain; ``pers $t$'': persistent; ``asym'': $(t_{01},t_{10})=(9/10,2/3)$. Full table: Appendix~\ref{app:e4}.}
+\caption{Share of RB-DP's value of information captured by safe baselines, and worst-case adaptive risk of the unrepaired i.i.d.-optimal policy ($\alpha=1/10$, $e=1/10$, $d=1$). ``anti $\eta$'': symmetric anti-persistent chain; ``pers $\eta$'': persistent; ``asym'': $(\eta_{01},\eta_{10})=(9/10,2/3)$. Full table: Appendix~\ref{app:e4}.}
 \label{tab:e4}
 \small
 \begin{tabular}{rlrcrrrr}
@@ -427,7 +427,7 @@ $T$ & chain & $B$ & $c,k$ & VOI RB-DP & repair & e-gate & i.i.d.-opt risk$/\alph
 % Source: docs/paper4_continuation/rbdp/E2_E3_SCALING_PREMIUM.md section 4 (shared machine; timings pessimistic).
 \begin{table}[t]
 \centering
-\caption{Run time of RB-DP (one CPU thread, shared machine; $t=3/4$, $e=1/10$, adaptive mode, $G=401$). $N_w$ is the size of the risk lattice. Left: growth in $T$ at $B=3$. Right: growth in $B$ at $T=32$.}
+\caption{Run time of RB-DP (one CPU thread, shared machine; $\eta=3/4$, $e=1/10$, adaptive mode, $G=401$). $N_w$ is the size of the risk lattice. Left: growth in $T$ at $B=3$. Right: growth in $B$ at $T=32$.}
 \label{tab:scaling}
 \small
 \begin{tabular}{rrr@{\qquad}rrr}
@@ -471,7 +471,7 @@ P5 i.i.d.-optimal & 13.803 [13.672, 13.939] & & 5\\
 \end{tabular}
 \end{table}
 
-\paragraph{Delay two: summary.} At $d=2$ a label queried at $t-1$ is pending at the decision at $t$: the null has seen it and the learner has not. Lemma~\ref{lem:risk} then fails on learner histories, because the null's information is finer than the learner's. The natural extension carries one risk budget per pending value: a pair $(w^0,w^1)$ when a label is pending and a scalar otherwise, with the hull taken on $[0,1]^2$ (Appendix~\ref{app:delay2}). We built this solver; it matches the certified exact optimum on 166 small cells, but it gives an upper bound only and we have no lattice theorem for it. Its long-horizon study (81 cells: $B\le3$ to $T=100$ and $B=4$ to $T=16$, plus 24 further $B=4$ cells to $T=100$) finds an estimated premium at or below the $d=1$ premium in every cell: zero for $B=1$, zero at $T\ge32$ for $B=2,3$ except $t=9/10$, $B=3$ (level at 0.0399). For $B=4$ (24 cells) the premium levels at 0.0331 for $t=3/4$ and 0.1229 for $t=9/10$, and is zero for $t=2/3$. Values past $T=10$ are not certified. Delay $d\ge3$ is not built.
+\paragraph{Delay two: summary.} At $d=2$ a label queried at $t-1$ is pending at the decision at $t$: the null has seen it and the learner has not. Lemma~\ref{lem:risk} then fails on learner histories, because the null's information is finer than the learner's. The natural extension carries one risk budget per pending value: a pair $(w^0,w^1)$ when a label is pending and a scalar otherwise, with the hull taken on $[0,1]^2$ (Appendix~\ref{app:delay2}). We built this solver; it matches the certified exact optimum on 166 small cells, but it gives an upper bound only and we have no lattice theorem for it. Its long-horizon study (81 cells: $B\le3$ to $T=100$ and $B=4$ to $T=16$, plus 24 further $B=4$ cells to $T=100$) finds an estimated premium at or below the $d=1$ premium in every cell: zero for $B=1$, zero at $T\ge32$ for $B=2,3$ except $\eta=9/10$, $B=3$ (level at 0.0399). For $B=4$ (24 cells) the premium levels at 0.0331 for $\eta=3/4$ and 0.1229 for $\eta=9/10$, and is zero for $\eta=2/3$. Values past $T=10$ are not certified. Delay $d\ge3$ is not built.
 \FloatBarrier
 
 \section{Proofs of Lemma~\ref{lem:risk} and Theorem~\ref{thm:reduction}}
@@ -534,7 +534,7 @@ Random cells: transitions and emissions in twentieths (half anti-persistent, asy
 % Source: docs/paper4_continuation/rbdp/E2_E3_SCALING_PREMIUM.md section 1 (lattice solver, G = 401).
 \begin{table}[h]
 \centering
-\caption{$\rhoG(T)$ for $t=2/3$ ($r=1/3$), $e=1/10$, $\alpha=1/10$, $c=k=0$, $d=1$.}
+\caption{$\rhoG(T)$ for $\eta=2/3$ ($r=1/3$), $e=1/10$, $\alpha=1/10$, $c=k=0$, $d=1$.}
 \small
 \begin{tabular}{ccccccccc}
 \toprule
@@ -552,7 +552,7 @@ $B$ & $T=6$ & 8 & 12 & 16 & 24 & 32 & 64 & 100\\
 
 \begin{table}[h]
 \centering
-\caption{$\rhoG(T)$ for $t=3/4$ ($r=1/2$), same settings. ``--'': not run.}
+\caption{$\rhoG(T)$ for $\eta=3/4$ ($r=1/2$), same settings. ``--'': not run.}
 \small
 \begin{tabular}{ccccccccc}
 \toprule
@@ -572,7 +572,7 @@ $B$ & $T=6$ & 8 & 12 & 16 & 32 & 64 & 100 & 200\\
 
 \begin{table}[h]
 \centering
-\caption{$\rhoG(T)$ for $t=9/10$ ($r=4/5$), same settings.}
+\caption{$\rhoG(T)$ for $\eta=9/10$ ($r=4/5$), same settings.}
 \small
 \begin{tabular}{ccccccccc}
 \toprule

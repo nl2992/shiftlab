@@ -55,7 +55,7 @@ for i, t in enumerate(("2/3", "3/4", "9/10")):
         ax.set_xticks([4, 16, 64, 256]); ax.set_xticklabels(["4", "16", "64", "256"])
         if row == 0:
             r = 2 * eval(t) - 1
-            ax.set_title(f"$t={t}$  ($r={r:.2g}$)", loc="left", fontsize=8.5)
+            ax.set_title(f"$\\eta={t}$  ($r={r:.2g}$)", loc="left", fontsize=8.5)
             panel_label(ax, "abc"[i], dx=-0.2 if i == 0 else -0.1, dy=1.14)
         if row == 1:
             ax.set_xlabel("horizon $T$ (log scale)")

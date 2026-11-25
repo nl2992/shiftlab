@@ -1,0 +1,375 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="624" height="232" viewBox="0 0 624 232"><defs><filter id="sh" x="-20%" y="-20%" width="150%" height="160%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.3"/><feOffset dx="1" dy="1.4" result="b"/><feComponentTransfer><feFuncA type="linear" slope="0.28"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.2"/></filter><marker id="ah" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs><rect width="624" height="232" fill="#FFFFFF"/><text x="2" y="17" font-size="16" font-weight="bold" fill="#272727" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" >a</text><text x="392" y="17" font-size="16" font-weight="bold" fill="#272727" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" >b</text><text x="10" y="56" font-size="10.5" font-weight="normal" fill="#0F4D92" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" >Same label spend <tspan font-style="italic" font-family="'Times New Roman', Times, serif">r</tspan>.</text><text x="10" y="71" font-size="10.5" font-weight="normal" fill="#0F4D92" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" >What changes is the</text><text x="10" y="88" font-size="10" font-weight="normal" fill="#0F4D92" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" ><tspan font-family="'Courier New', Courier, monospace" font-weight="bold">second moment</tspan></text><text x="10" y="103" font-size="10.5" font-weight="normal" fill="#0F4D92" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" >and the</text><text x="10" y="120" font-size="10" font-weight="normal" fill="#0F4D92" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" ><tspan font-family="'Courier New', Courier, monospace" font-weight="bold">support bound</tspan></text><text x="10" y="135" font-size="10.5" font-weight="normal" fill="#0F4D92" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" ><tspan font-style="italic" font-family="'Times New Roman', Times, serif">B</tspan> of the increment.</text><path d="M136,30 Q128,30 128,38 L128,114.0 Q128,122.0 120,122.0 Q128,122.0 128,130.0 L128,206 Q128,214 136,214" fill="none" stroke="#272727" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><rect x="140" y="30" width="238" height="44" rx="8" fill="#DDF0D2" stroke="#4E8A3E" stroke-width="1.5"/><text x="259" y="49" font-size="12" font-weight="normal" fill="#272727" text-anchor="middle" font-family="'Times New Roman', Times, serif" font-style="normal" ><tspan font-style="italic" font-family="'Times New Roman', Times, serif">G</tspan> = <tspan font-style="italic" font-family="'Times New Roman', Times, serif">E</tspan> log( 1 + <tspan font-style="italic" font-family="'Times New Roman', Times, serif">s</tspan> <tspan font-style="italic" font-family="'Times New Roman', Times, serif">Z</tspan> / <tspan font-style="italic" font-family="'Times New Roman', Times, serif">B</tspan> )</text><text x="259" y="65" font-size="9.2" font-weight="normal" fill="#4D4D4D" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-style="normal" >per-event log-growth of the betting e-process</text><rect x="140" y="82" width="238" height="64" rx="8" fill="#F6CFCB" stroke="#B64342" stroke-width="1.5"/><text x="150" y="100" font-size="9.8" font-weight="normal" fill="#272727" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" ><tspan font-weight="bold"><tspan fill="#8B1E1E">Uniform</tspan></tspan></text><text x="281" y="100" font-size="11" font-weight="normal" fill="#272727" text-anchor="middle" font-family="'Times New Roman', Times, serif" font-style="normal" ><tspan font-style="italic" font-family="'Times New Roman', Times, serif">Z</tspan> = −ε + <tspan font-style="italic" font-family="'Times New Roman', Times, serif">L</tspan> <tspan font-style="italic" font-family="'Times New Roman', Times, serif">c</tspan> / <tspan font-style="italic" font-family="'Times New Roman', Times, serif">r</tspan></text><rect x="150" y="114" width="150" height="11" rx="2" fill="#B64342" stroke="none" stroke-width="1"/><text x="305" y="123" font-size="9.6" font-weight="bold" fill="#8B1E1E" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" ><tspan font-style="italic" font-family="'Times New Roman', Times, serif">B</tspan> = 45.9</text><text x="150" y="140" font-size="9.2" font-weight="normal" fill="#4D4D4D" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" >every event is a candidate for a label</text><rect x="140" y="154" width="238" height="64" rx="8" fill="#DCE9F6" stroke="#0F4D92" stroke-width="1.5"/><text x="150" y="172" font-size="9.8" font-weight="normal" fill="#272727" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" ><tspan font-weight="bold"><tspan fill="#0F4D92">Gated (ours)</tspan></tspan></text><text x="281" y="172" font-size="11" font-weight="normal" fill="#272727" text-anchor="middle" font-family="'Times New Roman', Times, serif" font-style="normal" ><tspan font-style="italic" font-family="'Times New Roman', Times, serif">Z</tspan> = −ε + <tspan fill="#C2318F"><tspan font-style="italic" font-family="'Times New Roman', Times, serif">A</tspan></tspan> <tspan font-style="italic" font-family="'Times New Roman', Times, serif">L</tspan> <tspan font-style="italic" font-family="'Times New Roman', Times, serif">c</tspan> / <tspan fill="#C2318F"><tspan font-style="italic" font-family="'Times New Roman', Times, serif">q</tspan></tspan></text><rect x="150" y="186" width="16.6667" height="11" rx="2" fill="#0F4D92" stroke="none" stroke-width="1"/><text x="171.667" y="195" font-size="9.6" font-weight="bold" fill="#0F4D92" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" ><tspan font-style="italic" font-family="'Times New Roman', Times, serif">B</tspan> = 5.1</text><text x="150" y="212" font-size="9.2" font-weight="normal" fill="#4D4D4D" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-style="normal" >only disagreements (<tspan fill="#C2318F"><tspan font-style="italic" font-family="'Times New Roman', Times, serif">A</tspan> = 1</tspan>) are queried</text><text x="372" y="212" font-size="9.2" font-weight="normal" fill="#767676" text-anchor="end" font-family="Helvetica, Arial, sans-serif" font-style="italic" ><tspan font-style="italic" font-family="'Times New Roman', Times, serif">r</tspan> = 0.20</text><svg x="394" y="22" width="224" height="204" viewBox="0 0 219.433359 206.756521" preserveAspectRatio="xMinYMin meet">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-23T21:04:24.214643</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 206.756521 
+L 219.433359 206.756521 
+L 219.433359 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 31.190938 137.268 
+L 206.960938 137.268 
+L 206.960938 1.44 
+L 31.190938 1.44 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 39.180483 137.268 
+L 50.171392 137.268 
+L 50.171392 82.9368 
+L 39.180483 82.9368 
+z
+" clip-path="url(#p007e260335)" style="fill: #dce9f6; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 81.45321 137.268 
+L 92.444119 137.268 
+L 92.444119 82.498645 
+L 81.45321 82.498645 
+z
+" clip-path="url(#p007e260335)" style="fill: #dce9f6; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 123.725937 137.268 
+L 134.716847 137.268 
+L 134.716847 93.014361 
+L 123.725937 93.014361 
+z
+" clip-path="url(#p007e260335)" style="fill: #dce9f6; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 165.998665 137.268 
+L 176.989574 137.268 
+L 176.989574 114.922103 
+L 165.998665 114.922103 
+z
+" clip-path="url(#p007e260335)" style="fill: #dce9f6; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 50.171392 137.268 
+L 61.162301 137.268 
+L 61.162301 49.637032 
+L 50.171392 49.637032 
+z
+" clip-path="url(#p007e260335)" style="fill: #9dbfe3; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 92.444119 137.268 
+L 103.435028 137.268 
+L 103.435028 50.951497 
+L 92.444119 50.951497 
+z
+" clip-path="url(#p007e260335)" style="fill: #9dbfe3; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 134.716847 137.268 
+L 145.707756 137.268 
+L 145.707756 69.354 
+L 134.716847 69.354 
+z
+" clip-path="url(#p007e260335)" style="fill: #9dbfe3; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 176.989574 137.268 
+L 187.980483 137.268 
+L 187.980483 103.968232 
+L 176.989574 103.968232 
+z
+" clip-path="url(#p007e260335)" style="fill: #9dbfe3; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 61.162301 137.268 
+L 72.15321 137.268 
+L 72.15321 60.590903 
+L 61.162301 60.590903 
+z
+" clip-path="url(#p007e260335)" style="fill: #0f4d92; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 103.435028 137.268 
+L 114.425938 137.268 
+L 114.425938 47.008103 
+L 103.435028 47.008103 
+z
+" clip-path="url(#p007e260335)" style="fill: #0f4d92; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 145.707756 137.268 
+L 156.698665 137.268 
+L 156.698665 72.859239 
+L 145.707756 72.859239 
+z
+" clip-path="url(#p007e260335)" style="fill: #0f4d92; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 187.980483 137.268 
+L 198.971392 137.268 
+L 198.971392 105.720852 
+L 187.980483 105.720852 
+z
+" clip-path="url(#p007e260335)" style="fill: #0f4d92; stroke: #272727; stroke-linejoin: miter"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m5afb0abd1b" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m5afb0abd1b" x="55.666847" y="137.268" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="55.666847" y="151.018" transform="rotate(-0 55.666847 151.018)">0.02</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m5afb0abd1b" x="97.939574" y="137.268" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="97.939574" y="151.018" transform="rotate(-0 97.939574 151.018)">0.05</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m5afb0abd1b" x="140.212301" y="137.268" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="140.212301" y="151.018" transform="rotate(-0 140.212301 151.018)">0.10</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m5afb0abd1b" x="182.485028" y="137.268" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="182.485028" y="151.018" transform="rotate(-0 182.485028 151.018)">0.20</text>
+     </g>
+    </g>
+    <g id="text_5">
+     <!-- label budget $r$ -->
+     <g transform="translate(91.445937 163.297297)">
+      <text>
+       <tspan x="0" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">l</tspan>
+       <tspan x="1.999512" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">a</tspan>
+       <tspan x="7.004883" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">b</tspan>
+       <tspan x="12.010254" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">e</tspan>
+       <tspan x="17.015625" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">l</tspan>
+       <tspan x="19.015137" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'"> </tspan>
+       <tspan x="21.515625" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">b</tspan>
+       <tspan x="26.520996" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">u</tspan>
+       <tspan x="31.526367" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">d</tspan>
+       <tspan x="36.531738" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">g</tspan>
+       <tspan x="41.537109" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">e</tspan>
+       <tspan x="46.54248" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'">t</tspan>
+       <tspan x="49.042969" y="-0.515625" style="font-size: 9px; font-family: 'Helvetica'"> </tspan>
+       <tspan x="51.543457" y="-0.515625" style="font-style: oblique; font-size: 9px; font-family: 'DejaVu Sans'">r</tspan>
+      </text>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_5">
+      <defs>
+       <path id="m416cbafc13" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m416cbafc13" x="31.190938" y="137.268" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: end" x="24.190938" y="140.643" transform="rotate(-0 24.190938 140.643)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m416cbafc13" x="31.190938" y="115.360258" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: end" x="24.190938" y="118.735258" transform="rotate(-0 24.190938 118.735258)">5</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m416cbafc13" x="31.190938" y="93.452516" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: end" x="24.190938" y="96.827516" transform="rotate(-0 24.190938 96.827516)">10</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m416cbafc13" x="31.190938" y="71.544774" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: end" x="24.190938" y="74.919774" transform="rotate(-0 24.190938 74.919774)">15</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#m416cbafc13" x="31.190938" y="49.637032" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: end" x="24.190938" y="53.012032" transform="rotate(-0 24.190938 53.012032)">20</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m416cbafc13" x="31.190938" y="27.72929" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: end" x="24.190938" y="31.10429" transform="rotate(-0 24.190938 31.10429)">25</text>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#m416cbafc13" x="31.190938" y="5.821548" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: end" x="24.190938" y="9.196548" transform="rotate(-0 24.190938 9.196548)">30</text>
+     </g>
+    </g>
+    <g id="text_13">
+     <text style="font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="8.19" y="69.354" transform="rotate(-90 8.19 69.354)">gated / uniform evidence growth</text>
+    </g>
+   </g>
+   <g id="patch_15">
+    <path d="M 31.190938 137.268 
+L 31.190938 1.44 
+" style="fill: none; stroke: #000000; stroke-width: 1.1; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 31.190938 137.268 
+L 206.960938 137.268 
+" style="fill: none; stroke: #000000; stroke-width: 1.1; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 8.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="67.50321" y="53.580426" transform="rotate(-0 67.50321 53.580426)">17.5</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 8.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="109.775937" y="42.1884" transform="rotate(-0 109.775937 42.1884)">20.6</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 8.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="152.048665" y="66.725071" transform="rotate(-0 152.048665 66.725071)">14.7</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 8.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle" x="194.321392" y="99.586684" transform="rotate(-0 194.321392 99.586684)">7.2</text>
+   </g>
+   <g id="text_18">
+    <text style="font-style: italic; font-weight: 700; font-size: 9.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle; fill: #0f4d92" x="119.075938" y="18.089884" transform="rotate(-0 119.075938 18.089884)">growth calculation within 15%</text>
+   </g>
+   <g id="text_19">
+    <text style="font-style: italic; font-size: 9px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: middle; fill: #0f4d92" x="119.075938" y="31.234529" transform="rotate(-0 119.075938 31.234529)">of measured at every budget</text>
+   </g>
+   <g id="PathCollection_1">
+    <defs>
+     <path id="m26f6fa3da1" d="M -0 3.316625 
+L 3.316625 0 
+L 0 -3.316625 
+L -3.316625 -0 
+z
+" style="stroke: #ffffff; stroke-width: 0.6"/>
+    </defs>
+    <g clip-path="url(#p007e260335)">
+     <use xlink:href="#m26f6fa3da1" x="55.666847" y="58.400129" style="fill: #b64342; stroke: #ffffff; stroke-width: 0.6"/>
+     <use xlink:href="#m26f6fa3da1" x="97.939574" y="58.400129" style="fill: #b64342; stroke: #ffffff; stroke-width: 0.6"/>
+     <use xlink:href="#m26f6fa3da1" x="140.212301" y="71.544774" style="fill: #b64342; stroke: #ffffff; stroke-width: 0.6"/>
+     <use xlink:href="#m26f6fa3da1" x="182.485028" y="104.406387" style="fill: #b64342; stroke: #ffffff; stroke-width: 0.6"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="PathCollection_2">
+     <g>
+      <use xlink:href="#m26f6fa3da1" x="28.233516" y="185.73531" style="fill: #b64342; stroke: #ffffff; stroke-width: 0.6"/>
+     </g>
+    </g>
+    <g id="text_20">
+     <text style="font-size: 8.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: start" x="39.708516" y="187.96656" transform="rotate(-0 39.708516 187.96656)">Registered prediction</text>
+    </g>
+    <g id="patch_17">
+     <path d="M 23.558516 200.472185 
+L 32.908516 200.472185 
+L 32.908516 194.522185 
+L 23.558516 194.522185 
+z
+" style="fill: #dce9f6; stroke: #272727; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_21">
+     <text style="font-size: 8.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: start" x="39.708516" y="200.472185" transform="rotate(-0 39.708516 200.472185)">Variance ratio</text>
+    </g>
+    <g id="patch_18">
+     <path d="M 128.525547 187.96656 
+L 137.875547 187.96656 
+L 137.875547 182.01656 
+L 128.525547 182.01656 
+z
+" style="fill: #9dbfe3; stroke: #272727; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_22">
+     <text style="font-size: 8.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: start" x="144.675547" y="187.96656" transform="rotate(-0 144.675547 187.96656)">Growth calculation</text>
+    </g>
+    <g id="patch_19">
+     <path d="M 128.525547 200.035896 
+L 137.875547 200.035896 
+L 137.875547 194.085896 
+L 128.525547 194.085896 
+z
+" style="fill: #0f4d92; stroke: #272727; stroke-linejoin: miter"/>
+    </g>
+    <g id="text_23">
+     <text style="font-weight: 700; font-size: 8.5px; font-family: 'Helvetica', 'Arial', sans-serif; text-anchor: start" x="144.675547" y="200.035896" transform="rotate(-0 144.675547 200.035896)">Measured</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p007e260335">
+   <rect x="31.190938" y="1.44" width="175.77" height="135.828"/>
+  </clipPath>
+ </defs>
+</svg></svg>

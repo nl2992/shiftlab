@@ -236,8 +236,21 @@ def replay_gated(
     )
 
 
-def comparison_seed(scenario_name: str, seed: int, budget_rate: float, device: str) -> list[dict]:
-    """Generate one shared path; evaluator truth is used only for summary endpoints."""
+def comparison_seed(
+    scenario_name: str,
+    seed: int,
+    budget_rate: float,
+    device: str,
+    adaptation_strength: float = 1.0,
+) -> list[dict]:
+    """Generate one shared path; evaluator truth is used only for summary endpoints.
+
+    ``adaptation_strength`` is the probability that a post-intervention event is forced to the
+    positive action under ``harmful_adaptation``. The default 1.0 is the registered scenario and
+    draws no extra randomness, so earlier results are unchanged.
+    """
+    if not 0 < adaptation_strength <= 1:
+        raise ValueError("adaptation_strength must lie in (0,1]")
     scenario = next(s for s in SCENARIOS if s.name == scenario_name)
     config = HardBudgetConfig(
         budget_rate=budget_rate,
@@ -265,7 +278,11 @@ def comparison_seed(scenario_name: str, seed: int, budget_rate: float, device: s
     y = frame.target.to_numpy(dtype=float) > 0
     deployed = (ndtr((x[:, 0] - 0.9 * x[:, 1]) / 0.3) >= 0.5).astype(int)
     if scenario.harmful_adaptation:
-        deployed[1600:] = 1
+        if adaptation_strength >= 1:
+            deployed[1600:] = 1
+        else:
+            forced = np.random.default_rng(seed + 31_337).random(3200 - 1600) < adaptation_strength
+            deployed[1600:][forced] = 1
     reference = _source_action(x, scenario)
     active = deployed != reference
     tariffs = _synthetic_label_costs(x)
@@ -406,6 +423,10 @@ def comparison_seed(scenario_name: str, seed: int, budget_rate: float, device: s
                 "q_min": float(result.propensities.min()),
                 "q_mean": float(result.propensities.mean()),
                 "q_max": float(result.propensities.max()),
+                "labels_pre_onset": int(result.queried[:800].sum()),
+                "q_mean_post_onset": float(result.propensities[800:].mean())
+                if len(result.propensities) > 800
+                else None,
             }
         )
         if name == "gated_ppi_paced":
@@ -502,6 +523,7 @@ def comparison_seed(scenario_name: str, seed: int, budget_rate: float, device: s
             scenario=scenario_name,
             seed=seed,
             budget_rate=budget_rate,
+            adaptation_strength=adaptation_strength,
             onset=onset,
             detected=detected,
             false_alarm=alarm is not None and (onset is None or alarm < onset),

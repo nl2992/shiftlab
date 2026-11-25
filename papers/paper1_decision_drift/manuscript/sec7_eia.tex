@@ -1,0 +1,57 @@
+% Paper 1 draft, section 7. Numbers trace to docs/eia_real_data_validity_results.md and
+% docs/eia_real_data_validity_protocol.md. Working draft 2026-11-23.
+
+\section{Real-data results: EIA reserve procurement}\label{sec:eia}
+
+\paragraph{Task.}
+Two balancing authorities (CISO and ERCO) hourly publish demand, day-ahead forecast, net generation and total interchange.
+An hour is an event, the features are those four series, and the outcome is next-hour demand. A policy procures a reserve when its demand forecast exceeds
+$\tau$, the $90$th percentile of next-hour demand over 2019--2024. A shortfall (no reserve, demand above $\tau$) costs $5$, an idle reserve costs $1$.
+The deployed policy is a ridge regression frozen on 2019--2024, and the reference is a weekly-refit ridge with a $24$-hour label delay for its refits.
+Reserve procurement does not change demand, so one realised outcome scores both policies, and the paired cost is exactly zero when the two actions agree.
+Four registered paths cover CISO and ERCO in 2025 and 2026. Disagreement is rare on the real pair ($0.01$--$0.2\%$ of hours, and $2.2\%$ for CISO in 2026, which has $150$ disagreements),
+so CISO-2026 is the informative null path.
+Every parameter of the monitors, including the pacing seed and the injected-harm band, comes from a rehearsal one year earlier (fit on 2019--2023, run on 2024).
+The protocol was frozen by hash before any monitor touched a real path.
+
+\paragraph{Validity.}
+The registered null swaps the roles of the two policies on each event with an independent fair coin, so the monitor sees $S_tZ_t$ with $S_t\in\{-1,+1\}$.
+Conditional on the real path, the null holds exactly, and the check runs per path under real covariates, outcomes and temporal dependence.
+We ran $1{,}000$ replicates per path with shared coins across arms: four paths, each with one full-feedback cell and four arms at four budgets, $68$ cells at $\varepsilon=0.1$.
+All $68$ passed: no arm alarmed in any replicate (largest exact one-sided $95\%$ upper bound $0.30\%$).
+At the sharper boundary $\varepsilon=0$ the largest alarm rate was $28/1{,}000$ (upper bound $3.82\%$). On CISO-2026 the fixed gated arms alarmed in $2.7\%$ of replicates,
+the paced gated arms in $1.6$--$2.8\%$, the empirical-Bernstein arm in $0.3$--$0.8\%$, and ungated HT in $0$--$0.7\%$.
+On the unmodified streams the deterministic full-feedback monitor did not alarm on any path, and no selective-label arm did either, apart from ungated HT at $r=0.20$ on CISO-2026 (2 of 200 replicates).
+
+\paragraph{Injected harm.}
+To create a positive control with a known onset, we inject under-procurement into the real paths. After the onset (at $25\%$, $50\%$ or $75\%$ of the path), every event where the deployed policy procures
+with a forecast margin above $\tau$ in $(0,m]$ is switched to no reserve. The band limit $m$ is the median positive margin in the 2024 rehearsal ($3{,}875$ MW for CISO, $6{,}424$ MW for ERCO).
+The harm is seasonal, since it bites only when forecast demand is near $\tau$, so detection delays run to hundreds or thousands of hours.
+Of the twelve path-by-onset cells, ten contain detectable injected harm and full feedback detects all ten.
+(CISO-2025 at the $75\%$ onset has no affected events, and in ERCO-2025 at $75\%$ even full feedback does not detect the $122$ affected events within the window.)
+Table~\ref{tab:eia} reports detection over $200$ query replicates per cell, and no arm alarmed before onset in any replicate.
+
+\begin{table}[t]
+\centering
+\caption{EIA injected harm over the ten cells with detectable harm: cells at detection $1.00$, or the range of detection, by budget.}
+\label{tab:eia}
+\begin{tabular}{lcccc}
+\toprule
+Arm & $r=0.02$ & $r=0.05$ & $r=0.10$ & $r=0.20$ \\
+\midrule
+gated HT, fixed & 2 of 10 & 10 & 10 & 10 \\
+gated HT, paced & $\le0.33$ everywhere & mixed & 9 & 10 \\
+gated empirical Bernstein, paced & 0 & $\le0.44$ & mixed & 6 \\
+ungated HT & $0.00$--$0.48$ & $0.00$--$1.00$ & $0.02$--$1.00$ & $0.06$--$1.00$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+From a $5\%$ budget upward, fixed gating matches the full-feedback median delay in all ten cells (for example $1{,}232$ hours for both on CISO-2026 with a $50\%$ onset), using $338$ to $701$ labels.
+At $r=0.05$ ungated HT is slower in that cell ($1{,}884$ hours), and at $r=0.20$ on ERCO-2026 with a $75\%$ onset it detects $6\%$ of replicates while every gated HT arm detects all of them.
+At $r=0.02$ the reserve of about $140$--$170$ labels runs out before the summer harm, which explains the low fixed-gating detection in that column.
+
+\paragraph{Pacing replicates on real paths.}
+After onset, injected disagreements rise from about $0.1\%$ to $6$--$15\%$ of events. The past-only $200$-event pacer then pushes $q$ toward its $0.10$ floor, and the bound $5/q+\varepsilon$ grows with it.
+Paced gating is slower than fixed gating on these paths and the empirical-Bernstein engine is slowest, the same ordering as the synthetic intervention sweep of Section~\ref{sec:pacing}.
+A pacing floor and window are therefore design choices to register in any prospective deployment.

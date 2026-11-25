@@ -2,7 +2,7 @@
 usage: analyze_real_v3.py [REAL_DIR] [REAL_V3_DIR] [OUT_DIR]
 
 Uses the statistics of analyze_real.py (episode-cluster bootstrap, equal-weight pooling over 14 /
-harmful2 / beneficial10, significance counts, violations, labels) on the first run's arms plus v3,
+harmful2 / beneficial12, significance counts, violations, labels) on the first run's arms plus v3,
 and adds paired comparisons of v3 against f3_pi1 and f3v2d at the same h (same episodes and seeds).
 """
 

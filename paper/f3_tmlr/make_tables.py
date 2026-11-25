@@ -229,8 +229,8 @@ write("app_ablation.tex", body)
 # ---------------------------------------------------------------- real streams
 real = parse_md(RES / "real_tables.md")
 CONDS = [("clean", "Clean"), ("dropout_adverse", "Adverse dropout"), ("delay_adverse", "Adverse delay")]
-def pooled(cond, grp="all12"): return real[(cond, grp)]
-mac("RealRunsPerArm", thousands(3880))  # 194 episodes x 20 policy seeds (asserted with NStreamEpisodes below)
+def pooled(cond, grp="all14"): return real[(cond, grp)]
+mac("RealRunsPerArm", thousands(4600))  # 230 episodes x 20 policy seeds (asserted with NStreamEpisodes below)
 for cond, key in [("clean", "Clean"), ("dropout_adverse", "Dropout"), ("delay_adverse", "Delay")]:
     t = pooled(cond)
     w = rowdict(t, "wald_cut"); s = rowdict(t, "stoploss_h14")
@@ -246,6 +246,12 @@ vn = [abs(float(rowdict(pooled("clean"), f"f3_pi1_h{h}")["dJ vs never"])) for h 
 mac("RealVsNeverMin", f"{min(vn):.0f}"); mac("RealVsNeverMax", f"{max(vn):.0f}")
 wg = float(rowdict(pooled("clean"), "never")["J"]) - float(rowdict(pooled("clean"), "wald_cut")["J"])
 mac("RealWaldGain", f"{wg:.0f}"); mac("RealPiShareFourteen", f"{100 * vn[0] / wg:.0f}")  # share of Wald's gain kept by full sampling at h=14, clean feedback
+# sensitivity: the 12 streams with recorded provenance (results/riskbudget/sensitivity_12streams/)
+real12 = parse_md(RES / "sensitivity_12streams" / "real_tables.md")
+t12 = real12[("clean", "all12")]
+vn12 = abs(float(rowdict(t12, "f3_pi1_h14")["dJ vs never"]))
+wg12 = float(rowdict(t12, "never")["J"]) - float(rowdict(t12, "wald_cut")["J"])
+mac("SensPiVsNeverFourteen", f"{vn12:.0f}"); mac("SensWaldGain", f"{wg12:.0f}"); mac("SensPiShareFourteen", f"{100 * vn12 / wg12:.0f}")
 mac("RealMaxExceed", thousands(max(exceed(rowdict(pooled(c), "wald_cut")["violations (own R) or exceed"]) for c, _ in CONDS)))
 # fraction of the two harmful streams under corrupted feedback
 hv = {}
@@ -282,7 +288,7 @@ for cond, n in CONDS:
 body += "\\bottomrule\n\\end{tabular}\n"
 write("tab_harmful.tex", body)
 
-# appendix: all12 pooled tables per condition, plus harmful2/beneficial10 clean
+# appendix: all14 pooled tables per condition, plus harmful2/beneficial12 clean
 def full_real(cond, grp):
     t = pooled(cond, grp); hdr, rows = t
     body = "\\begin{tabular}{@{}l r r r r r r r r@{}}\n\\toprule\nArm & $J$ & $\\Delta J$ vs Wald & $\\Delta J$ vs never & max harm & viol./exceed & labels & deployed & forced rb \\\\\n\\midrule\n"
@@ -293,8 +299,8 @@ def full_real(cond, grp):
                  f"{tex(ex.replace(' ', ', '))} & {d['labels']} & {d['deployed']} & {d['forced rb']} \\\\\n")
     body += "\\bottomrule\n\\end{tabular}\n"
     return body
-for cond, grp, name in [("clean", "all12", "app_real_clean"), ("dropout_adverse", "all12", "app_real_dropout"), ("delay_adverse", "all12", "app_real_delay"),
-                        ("clean", "harmful2", "app_real_clean_harm"), ("clean", "beneficial10", "app_real_clean_ben")]:
+for cond, grp, name in [("clean", "all14", "app_real_clean"), ("dropout_adverse", "all14", "app_real_dropout"), ("delay_adverse", "all14", "app_real_delay"),
+                        ("clean", "harmful2", "app_real_clean_harm"), ("clean", "beneficial12", "app_real_clean_ben")]:
     write(name + ".tex", full_real(cond, grp))
 
 # per-stream mean J at h=50, clean
@@ -384,7 +390,7 @@ for r in t[1]:
         body += tex(r[0]) + " & " + d["J"] + " & " + tex(d["dJ vs wald_cut"]) + " & " + tex(d["dJ vs never"]) + " & " + tex(vv.split(" (")[0]) + " \\\\\n"
 body += "\\bottomrule\n\\end{tabular}\n"
 write("app_v3_orig30.tex", body)
-t = rv[("clean", "clean / all12: pooled (equal weight over streams)")]
+t = rv[("clean", "clean / all14: pooled (equal weight over streams)")]
 body = "\\begin{tabular}{@{}l r r r r@{}}\n\\toprule\nArm & $J$ & $\\Delta J$ vs Wald & $\\Delta J$ vs never & viol. \\\\\n\\midrule\n"
 for r in t[1]:
     if r[0] in ("f3_pi1_h50", "f3v2d_h50", "v3_h50", "f3_pi1_h100", "f3v2d_h100", "v3_h100"):
@@ -555,18 +561,17 @@ body += f"\nv3 (frozen in \\texttt{{f3\\_v3\\_frozen.json}}) & label-scarce & wa
 body += "\\bottomrule\n\\end{tabular}\n"
 write("app_shield_arms.tex", body)
 
-# ---- appendix: the 12 real streams (two streams without recorded provenance were dropped on 2026-11-22)
+# ---- appendix: the 14 real streams of the pre-registered study (two have no recorded source or models)
 sprint = re.findall(r'\|\s*(\w+)\s*\|\s*(\d+),\s*https', (ROOT / "data/sprint_fresh_losses/README.md").read_text())
 sprint_id = {n: i for n, i in sprint}
 assert sprint_id == {"metro": "492", "beijing_pm25": "381", "bike_hour": "275", "appliances": "374", "household_power": "235"}
 import numpy as np
 dl_map = {m[0]: (m[1], int(m[2])) for m in re.findall(r'"(\w+)": \((\w+_DIR), (\d+)\)', rs_src)}
 dl_map = {n: (d, int(v)) for n, d, v in re.findall(r'"(\w+)": \((\w+_DIR), (\d+)\)', rs_src)}
-dl_map = {n: v for n, v in dl_map.items() if n not in ("openml_ldpa", "uci_occupancy")}
-assert len(dl_map) == 12
+assert len(dl_map) == 14
 import csv
 inv = {r["name"]: r for r in csv.DictReader(open(PROG / "02_DATASET_INVENTORY.csv"))}
-order = ["airlines", "bank", "criteo", "elec2", "rialto", "spam", "weather",
+order = ["airlines", "bank", "criteo", "elec2", "openml_ldpa", "rialto", "spam", "uci_occupancy", "weather",
          "metro", "beijing_pm25", "bike_hour", "appliances", "household_power"]
 src_atlas = {"airlines": "OpenML 1169", "bank": "UCI 222", "criteo": "Criteo attribution", "elec2": "OpenML electricity-normalized",
              "rialto": "Losing mirror", "spam": "Katakis spam stream", "weather": "Elwell-Polikar Offutt AFB"}
@@ -586,21 +591,21 @@ for n in order:
     assert l0.shape[1] == 2000
     if d == "ATLAS_DIR":
         task = task_atlas.get(n, inv[n]["task"] if n in inv else "not recorded")
-        source = src_atlas[n]
+        source = src_atlas.get(n, "not recorded")
         models = models_atlas.get(n, "not recorded")
     else:
         task = task_sprint[n]; source = f"UCI {sprint_id[n]}"
         models = "LR / HGB"
     prov_rows.append(f"{tex(n)} & {tex(task)} & {tex(source)} & {models} \\\\")
     stats_rows.append(f"{tex(n)} & {K} & {dv} & {l0.mean():.3f} & {l1.mean():.3f} & {(l0 != l1).mean():.3f} & {'worse' if l1.mean() > l0.mean() else 'better'} \\\\")
-assert tot_ep == 194 and tot_ep * 20 == 3880, tot_ep
+assert tot_ep == 230 and tot_ep * 20 == 4600, tot_ep
 mac("NStreamEpisodes", tot_ep)
 prov = ("\\begin{tabular}{@{}p{2.5cm}p{4.1cm}p{3.6cm}p{3.4cm}@{}}\n\\toprule\n"
         "Stream & Task & Source & Incumbent / challenger \\\\\n\\midrule\n"
-        + "\n".join(prov_rows[:7]) + "\n\\midrule\n" + "\n".join(prov_rows[7:]) + "\n\\bottomrule\n\\end{tabular}\n")
+        + "\n".join(prov_rows[:9]) + "\n\\midrule\n" + "\n".join(prov_rows[9:]) + "\n\\bottomrule\n\\end{tabular}\n")
 stats = ("\\begin{tabular}{@{}l r r r r r l@{}}\n\\toprule\n"
          "Stream & Episodes & Delay & Inc. err. & Chall. err. & Disagr. & Better loss \\\\\n\\midrule\n"
-         + "\n".join(stats_rows[:7]) + "\n\\midrule\n" + "\n".join(stats_rows[7:]) + "\n\\bottomrule\n\\end{tabular}\n")
+         + "\n".join(stats_rows[:9]) + "\n\\midrule\n" + "\n".join(stats_rows[9:]) + "\n\\bottomrule\n\\end{tabular}\n")
 write("app_stream_provenance.tex", prov)
 write("app_streams_desc.tex", stats)
 
@@ -664,15 +669,15 @@ mac("CalStopDNever", f"{A['stoploss_cal_R20']['d_never']['all']['delta']:+.2f}")
 # real streams (third look), clean pooled and adverse cusum violations
 rp = cal["real"]["results"]
 for cond, C in (("clean", "Clean"), ("dropout_adverse", "Drop"), ("delay_adverse", "Delay")):
-    P = rp[cond]["pooled"]["all12"]
+    P = rp[cond]["pooled"]["all14"]
     for h, H in ((6, "Six"), (14, "Fourteen"), (24, "TwentyFour")):
         a = P[f"cusumrb_cal_h{h}"]; Rk = str(int(cal["real"]["R_by_h"][str(h)]))
         mac(f"RCalCusViol{C}{H}", thousands(a["violation"]["k"]))
         mac(f"RCalCusJ{C}{H}", f"{a['J']:.1f}")
         s = P[f"stoploss_cal_h{h}"]
         mac(f"RCalStopViol{C}{H}", thousands(s["violation"]["k"]))
-mac("RCalStopJ", f"{rp['clean']['pooled']['all12']['stoploss_cal_h14']['J']:.1f}")
-mac("RCalStopDep", f"{rp['clean']['pooled']['all12']['stoploss_cal_h14']['deployed']:.3f}")
-b = rp["clean"]["boot"]["all12"]["cusumrb_cal_h14"]["f3_pi1"]
+mac("RCalStopJ", f"{rp['clean']['pooled']['all14']['stoploss_cal_h14']['J']:.1f}")
+mac("RCalStopDep", f"{rp['clean']['pooled']['all14']['stoploss_cal_h14']['deployed']:.3f}")
+b = rp["clean"]["boot"]["all14"]["cusumrb_cal_h14"]["f3_pi1"]
 mac("RCalCusVsShield", f"{b['delta']:.1f}"); mac("RCalCusVsShieldLo", f"{b['lo']:.1f}"); mac("RCalCusVsShieldHi", f"{b['hi']:.1f}")
 (OUT / "numbers.tex").write_text("% generated by make_tables.py; do not edit\n" + "".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in MAC.items()))

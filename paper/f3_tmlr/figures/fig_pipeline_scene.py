@@ -94,21 +94,23 @@ rs = json.loads((HERE.parent.parents[1] / "papers/paper3_cost_aware_adaptation/2
 st = rs["results"]["clean"]["streams"]
 gains = sorted([(-st[s]["arms"]["f3_pi1_h14"]["d_never"]["delta"], s) for s in STREAMS], reverse=True)
 gm = max(abs(g) for g, _ in gains)
+NS = len(gains)
 bw_, bg_ = 0.07, 0.019
-bx0 = (1.3 - (12 * bw_ + 11 * bg_)) / 2
+bw_ = min(bw_, 1.2 / (NS * 1.27)); bg_ = bw_ * 0.27
+bx0 = (1.3 - (NS * bw_ + (NS - 1) * bg_)) / 2
 by0 = 0.38
-ov.plot([mx(OX[2], bx0 - 0.03), mx(OX[2], bx0 + 12 * bw_ + 11 * bg_ + 0.03)], [my(by0)] * 2, color=OUTLINE, lw=0.8)
+ov.plot([mx(OX[2], bx0 - 0.03), mx(OX[2], bx0 + NS * bw_ + (NS - 1) * bg_ + 0.03)], [my(by0)] * 2, color=OUTLINE, lw=0.8)
 for i, (g, s) in enumerate(gains):
     h = 0.5 * g / gm
     ov.add_patch(FancyBboxPatch((mx(OX[2], bx0 + i * (bw_ + bg_)), my(min(by0, by0 + h))), bw_ * S, abs(h) * S, boxstyle="round,pad=0,rounding_size=0.01",
                                 fc="#5C93D1" if g > 0 else "#E08A84", ec=OUTLINE, lw=0.5, zorder=3))
 mono(ov, mx(OX[2], bx0), my(0.96), "shield gain vs never", fs=6.5, color=DK, va="center")
 nneg = sum(1 for g, _ in gains if g < 0)
-assert nneg == 5 and len(gains) == 12
-bxn0, bxn1 = mx(OX[2], bx0 + (12 - nneg) * (bw_ + bg_)), mx(OX[2], bx0 + 12 * bw_ + 11 * bg_)
+assert NS == len(STREAMS)
+bxn0, bxn1 = mx(OX[2], bx0 + (NS - nneg) * (bw_ + bg_)), mx(OX[2], bx0 + NS * bw_ + (NS - 1) * bg_)
 yb = my(by0 - 0.5 * abs(min(g for g, _ in gains)) / gm) - 0.05
 ov.plot([bxn0, bxn0, bxn1, bxn1], [yb + 0.03, yb, yb, yb + 0.03], color=RED, lw=0.7)
-ov.text((bxn0 + bxn1) / 2, yb - 0.08, "5 of 12 worse than never", fontsize=6.2, color=RED, ha="center", va="center")
+ov.text((bxn0 + bxn1) / 2, yb - 0.08, f"{nneg} of {NS} worse than never", fontsize=6.2, color=RED, ha="center", va="center")
 
 # 4: 100 dots, S2 met vs not
 tally = json.loads((OUT / "screen100/tally.json").read_text())["rows"]
@@ -129,12 +131,12 @@ ov.add_patch(Circle((kxs + 0.43, ky4), 0.03, fc="#E6E6E6", ec="#BDBDBD", lw=0.5,
 ov.add_patch(Circle((kxs + 0.78, ky4), 0.03, fc="#E6E6E6", ec=RED, lw=1.1, zorder=3)); ov.text(kxs + 0.83, ky4, "S1 failed", fontsize=6.2, va="center", color=DK)
 
 # captions (counts from the macros)
-for k, key in (("NRegimes", "30"), ("ScreenPool", "100"), ("ScreenSOne", "99"), ("ScreenSupported", "57"), ("NStreamEpisodes", "194")):
+for k, key in (("NRegimes", "30"), ("ScreenPool", "100"), ("ScreenSOne", "99"), ("ScreenSupported", "57"), ("NStreamEpisodes", "230")):
     assert M[k].replace("{,}", "") == key, (k, M[k])
 cap = [
     ([("30 regimes", kw(BLUE)), (", 1,000 seeds each;", {})], [("shield: ", {}), ("0 violations", kw(BLUE)), (" (full)", {})]),
     ([("stop-loss meets the target", {})], [("only by ", {}), ("blocking promotion", kw(RED))]),
-    ([("12 real streams", kw(BLUE)), (", 194 episodes;", {})], [("shield: ", {}), ("0 violations", kw(BLUE))]),
+    ([(f"{len(STREAMS)} real streams", kw(BLUE)), (", 230 episodes;", {})], [("shield: ", {}), ("0 violations", kw(BLUE))]),
     ([("100 public streams", kw(BLUE)), (":", {})], [("S1 on 99, S2 on ", {}), ("57", kw(BLUE))]),
 ]
 for ox, (l1, l2) in zip(OX, cap):

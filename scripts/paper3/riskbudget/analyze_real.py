@@ -18,7 +18,7 @@ from shiftlab.paper3.riskbudget.real_streams import BENEFICIAL, CONDITIONS, HARM
 REAL = ROOT / "outputs" / "paper3" / "riskbudget" / "real"
 RES = ROOT / "papers/paper3_cost_aware_adaptation/2026_programme/results/riskbudget"
 EPS, N_BOOT, MIN_EP = 1e-9, 10000, 6
-GROUPS = {"all12": tuple(STREAMS), "harmful2": HARMFUL, "beneficial10": BENEFICIAL}
+GROUPS = {f"all{len(STREAMS)}": tuple(STREAMS), "harmful2": HARMFUL, f"beneficial{len(BENEFICIAL)}": BENEFICIAL}
 HEAD_ARMS = [
     *["never", "wald_cut", "cusum", "gate_wald", "cusum_rb_h4", "cusum_rb_h8"],
     *["stoploss_h14", "stoploss_h50", "f3_pi1_h6", "f3_pi1_h14", "f3_pi1_h24"],

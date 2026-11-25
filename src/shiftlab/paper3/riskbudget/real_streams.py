@@ -1,6 +1,6 @@
 """F3 real-stream check (protocol: 2026_programme/05F_F3_REAL_STREAM_PROTOCOL.md).
 
-Registry of the cached paired 0/1 loss streams (14 in the first study; 12 after dropping two without provenance), the three feedback conditions, the arm list
+Registry of the cached paired 0/1 loss streams (14, as pre-registered; two lack recorded provenance, see NO_PROVENANCE), the three feedback conditions, the arm list
 (frozen specs, budget restated as R = 2k + h) and the per-episode runner. New code only.
 """
 
@@ -45,7 +45,10 @@ _ALL14: dict[str, tuple[Path, int]] = {
     "metro": (SPRINT_DIR, 24),
 }
 # Dropped 2026-11-22: neither stream's source, task nor models is recorded anywhere in the repository.
-EXCLUDED = ("openml_ldpa", "uci_occupancy")
+# Restored 2026-11-25: the pre-registered study (05F) covers all 14 streams; the 12-stream view is a
+# sensitivity analysis (results/riskbudget/sensitivity_12streams/). Set NO_PROVENANCE to reproduce it.
+NO_PROVENANCE = ("openml_ldpa", "uci_occupancy")
+EXCLUDED: tuple[str, ...] = ()
 STREAMS: dict[str, tuple[Path, int]] = {k: v for k, v in _ALL14.items() if k not in EXCLUDED}
 HARMFUL = ("airlines", "bank")
 BENEFICIAL = tuple(s for s in STREAMS if s not in HARMFUL)

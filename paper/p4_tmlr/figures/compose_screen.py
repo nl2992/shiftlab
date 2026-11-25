@@ -161,7 +161,7 @@ S.text(XM + 4 * CW2, YM - 18, "one bit stream", size=10, weight="bold", fill=GT,
 S.tokens(XM, YM - 7.5, list("01101001"), CW2, 15, [fill_y[b] for b in "01101001"], size=9.6)
 # the screen as a flow of gates (no counts): bit stream -> four gates -> supporting datasets -> panel settings
 BXL, BXW, BHT = 482, 136, 26
-gates = [["at least 200 rounds"], ["two-state fit passes", "<i>G</i><sub>1</sub> and <i>G</i><sub>2</sub>"], ["premium > 0", "in some cell"],
+gates = [["enough rounds to fit"], ["two-state fit passes", "<i>G</i><sub>1</sub> and <i>G</i><sub>2</sub>"], ["premium > 0 and", "VoI ≥ 0.1 in some cell"],
          ["time-shuffle control"]]
 ys_ = [34 + 50 * i for i in range(4)]
 S.text(BXL + BXW / 2, 12, "screen", size=10, weight="bold", fill=GT, anchor="middle")

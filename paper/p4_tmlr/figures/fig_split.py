@@ -22,26 +22,26 @@ borrow = (0.45, 0.15)  # feasible under i.i.d., infeasible under adaptive (w0 > 
 
 RET, REM = "#CFE3F6", P["red_1"]
 RED = "#B64342"
-for ax, poly, title in ((axes[0], iid, "i.i.d. null:  $(w_0+w_1)/2 \\leq w'$"),
-                        (axes[1], causal, "adaptive null:  also $w_0 \\leq w'$")):
+for ax, poly, title in ((axes[0], iid, "i.i.d. null:  $(w_0+w_1)/2 \\leq w^{\\prime}$"),
+                        (axes[1], causal, "adaptive null:  also $w_0 \\leq w^{\\prime}$")):
     if ax is axes[1]:
         ax.add_patch(Polygon(iid, closed=True, facecolor=REM, edgecolor="none"))
     ax.add_patch(Polygon(poly, closed=True, facecolor=RET, edgecolor=P["dark"], lw=0.9))
     ax.plot([0, 0.7], [0, 0.7], color=P["grey"], lw=0.8, ls=":")
     ax.text(0.62, 0.66, "$w_0=w_1$", fontsize=7.5, color=P["grey"], ha="right")
     ax.set_xlim(0, 0.7); ax.set_ylim(0, 0.7)
-    ax.set_xticks([0, W, 2 * W]); ax.set_xticklabels(["0", "$w'$", "$2w'$"])
-    ax.set_yticks([0, W, 2 * W]); ax.set_yticklabels(["0", "$w'$", "$2w'$"])
+    ax.set_xticks([0, W, 2 * W]); ax.set_xticklabels(["0", "$w^{\\prime}$", "$2w^{\\prime}$"])
+    ax.set_yticks([0, W, 2 * W]); ax.set_yticklabels(["0", "$w^{\\prime}$", "$2w^{\\prime}$"])
     ax.set_aspect("equal")
     ax.set_title(title, loc="left", fontsize=8.5, pad=3)
 
 axes[0].set_ylabel("$w_1$ after $Y=1$")
 axes[0].scatter(*borrow, s=30, color=P["dark"], zorder=5)
-axes[0].text(0.47, 0.215, "$(1.5w\', 0.5w\')$", fontsize=7.5, va="bottom")
-axes[0].text(0.47, 0.155, "Average = $w'$", fontsize=7.5, va="bottom")
+axes[0].text(0.47, 0.215, "$(1.5w^{\\prime}, 0.5w^{\\prime})$", fontsize=7.5, va="bottom")
+axes[0].text(0.47, 0.155, "Average = $w^{\\prime}$", fontsize=7.5, va="bottom")
 axes[1].scatter(*borrow, s=30, facecolor="white", edgecolor=RED, lw=1.3, zorder=5)
 axes[1].plot([W, W], [0, W], color=RED, lw=2.0, zorder=4, solid_capstyle="butt")
-axes[1].text(W - 0.015, 0.5 * W, "$w_0=w'$", fontsize=7.5, color=RED, ha="right", va="center")
+axes[1].text(W - 0.015, 0.5 * W, "$w_0=w^{\\prime}$", fontsize=7.5, color=RED, ha="right", va="center")
 axes[1].text(0.47, 0.215, "$p=0$ forces\n$Y=0$", fontsize=7.5, color=RED, va="bottom", linespacing=1.1)
 axes[1].text(0.405, 0.045, "Excluded\nsplits", fontsize=7, color=RED, ha="center", va="center", linespacing=1.05)
 axes[1].tick_params(axis="y", left=False)

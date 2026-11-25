@@ -42,7 +42,8 @@ Hor{\'a}k, K., Bo{\v{s}}ansk{\'y}, B., Kov{\v{a}}{\v{r}}{\'\i}k, V., and
   Sekhon]{howard2021timeuniform}
 Howard, S.~R., Ramdas, A., McAuliffe, J., and Sekhon, J.
 \newblock Time-uniform, nonparametric, nonasymptotic confidence sequences.
-\newblock \emph{The Annals of Statistics}, 49\penalty0 (2), 2021.
+\newblock \emph{The Annals of Statistics}, 49\penalty0 (2):\penalty0
+  1055--1080, 2021.
 
 \bibitem[Iyengar(2005)]{iyengar2005robust}
 Iyengar, G.~N.
@@ -93,8 +94,8 @@ Nilim, A. and El~Ghaoui, L.
   Veeravalli]{nitinawarat2013controlled}
 Nitinawarat, S., Atia, G.~K., and Veeravalli, V.~V.
 \newblock Controlled sensing for multihypothesis testing.
-\newblock \emph{IEEE Transactions on Automatic Control}, 58\penalty0 (10),
-  2013.
+\newblock \emph{IEEE Transactions on Automatic Control}, 58\penalty0
+  (10):\penalty0 2451--2464, 2013.
 
 \bibitem[Ono et~al.(2015)Ono, Pavone, Kuwata, and Balaram]{ono2015chance}
 Ono, M., Pavone, M., Kuwata, Y., and Balaram, J.
@@ -106,7 +107,7 @@ Ono, M., Pavone, M., Kuwata, Y., and Balaram, J.
   Shafer]{ramdas2023gametheoretic}
 Ramdas, A., Gr{\"u}nwald, P., Vovk, V., and Shafer, G.
 \newblock Game-theoretic statistics and safe anytime-valid inference.
-\newblock \emph{Statistical Science}, 38\penalty0 (4), 2023.
+\newblock \emph{Statistical Science}, 38\penalty0 (4):\penalty0 576--601, 2023.
 
 \bibitem[Thomas et~al.(2015)Thomas, Theocharous, and
   Ghavamzadeh]{thomas2015high}

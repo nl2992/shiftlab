@@ -1,11 +1,6 @@
-% Paper 1 draft: abstract, sections 1-2, section 8. Working draft 2026-11-23.
-% Citation keys are placeholders: discern, timans2025, xu2024active, zrnic2024active, sfyraki2026,
-% choe2022comparing, podkopaev2022tracking, waudbysmith2024, lheritier2018, mcnemar1947, angelopoulos2023ppi,
-% ramdas2023gamblers, active2sample.
-
 \begin{abstract}
-A deployed model is replaced or adapted, and the team wants to know, as labels trickle in, whether the new
-decisions cost more than the reference policy's. Labels are expensive, so the monitor must choose which events to pay for.
+A deployed model is replaced or adapted, and the team wants to know, as labels trickle in, whether its decisions cost more than a reference policy's.
+Labels are expensive, so the monitor must choose which events to pay for.
 We study this selective-label harm monitoring problem with anytime-valid betting e-processes and a pre-registered protocol.
 Querying only the events where the two policies disagree raises evidence growth by $7.20\times$ at matched label spend
 (95\% interval $6.88$--$7.55$) and wins $100$ of $100$ discordant detection comparisons at a $5\%$ budget.
@@ -14,7 +9,7 @@ When a policy intervention raises disagreement from $8\%$ to $41\%$, past-paced 
 than fixed-rate gating at identical label counts, detects equally often, and takes $1.4$--$2\times$ longer to alarm.
 A sweep over $5$ intervention strengths and $4$ budgets maps where detection succeeds: at budgets of $5\%$ or less every selective monitor stays
 below $0.30$ detection, while at $20\%$ they reach $0.87$ to $0.99$ once the intervention is moderate or stronger.
-Null calibration passes on $2{,}000$ streams per cell, and on four real electricity-demand paths the monitors raise no false alarm and
+Null calibration passes on $2{,}000$ streams per cell, and on four real electricity-demand paths the monitors raise no false alarms and
 detect injected under-procurement as fast as full feedback from a $5\%$ budget.
 \end{abstract}
 
@@ -22,11 +17,11 @@ detect injected under-procurement as fast as full feedback from a $5\%$ budget.
 
 Models in production are retrained, patched and re-thresholded, and each change raises the same question: is the new
 policy making decisions that cost more than the one it replaced? The answer lives in labels, and labels arrive late and at a price.
-A fraud team pays an analyst per case, a clinic pays for a follow-up test, a grid operator learns the cost of an under-procured reserve only after the day has passed.
+A fraud team pays an analyst per case, and a grid operator learns the cost of an under-procured reserve only after the day has passed.
 A monitor for this problem must stay valid while the team watches continuously, and it must decide which events deserve a label.
 
-Anytime-valid betting e-processes give the first requirement. They bound the false-alarm probability at every stopping time and
-have become the standard tool for monitoring risk and comparing forecasters~\citep{waudbysmith2024,choe2022comparing,timans2025}.
+Anytime-valid betting e-processes meet the first requirement. They bound the false-alarm probability at every stopping time and
+are used to monitor risk and compare forecasters~\citep{waudbysmith2024,choe2022comparing,timans2025}.
 The second requirement is a query rule. A deployed policy and its reference policy usually agree on most events, and on an agreement the paired cost difference is exactly zero.
 Buying a label there carries no information. Paired auditing exploits this~\citep{mcnemar1947,discern}: spend labels only where the policies disagree.
 That work establishes the label saving for certifying a single update at fixed confidence. What a monitor operator needs on top of it is the evidence-growth
@@ -35,24 +30,24 @@ and detection-delay consequence at the operator's actual budget, and the behavio
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figures/fig_teaser.pdf}
-\caption{Gating spends the label budget where labels can teach, and the evidence shows it. \textbf{a} A deployed and a reference policy score each event; where they agree the paired cost is exactly zero. Uniform labelling at budget $r=0.05$ puts all four of its labels in this window on agreements (\textbf{$\times$}), while gating puts all five on disagreements (\textbf{$\checkmark$}).
+\caption{Gating spends the label budget where labels can teach, and the evidence shows it. \textbf{a} A deployed and a reference policy score each event; where they agree the paired cost is exactly zero. Uniform labelling at budget $r=0.05$ puts all four of its labels in this window on agreements ($\times$), while gating puts all five on disagreements ($\checkmark$).
 \textbf{b} Log-evidence on the same registered \texttt{boundary\_local\_harm} stream (seed $58400000$): gated labelling crosses the alarm threshold after harm onset (event $800$) at event $961$, matching full feedback, and uniform labelling never alarms. Panel a's robots and scales are schematic; the strips and curves are real.}
 \label{fig:overview}
 \end{figure}
 
-We answer both with a pre-registered study of selective-label harm monitoring. Our contributions are:
+We address both with a pre-registered study of selective-label harm monitoring. Our contributions are:
 \begin{itemize}
-\item \textbf{A measured gating gain.} At matched label spend, disagreement gating grows evidence $7.20\times$ faster than correctly bounded uniform labelling at a $20\%$ budget
+\item At matched label spend, disagreement gating grows evidence $7.20\times$ faster than correctly bounded uniform labelling at a $20\%$ budget
 (95\% interval $6.88$--$7.55$) and wins $100$ to $0$ in discordant detection comparisons at $5\%$ ($p=7.9\times10^{-31}$), with null calibration on $2{,}000$ streams per cell.
-\item \textbf{A closed-form growth prediction.} Per-event log-growth of an inverse-propensity betting e-process, computed with each arm's own support bound,
+\item Per-event log-growth of an inverse-propensity betting e-process, computed with each arm's own support bound,
 predicts the measured growth ratios within $15\%$ at all four budgets ($20.0/19.7/15.5/7.6$ against $17.5/20.6/14.7/7.2$).
 The variance argument gives $\min(1/\rho,1/r)$ and the support-bound range penalty accounts for the rest.
-\item \textbf{A pacing result.} Pacing the query rate to past disagreement keeps the monitor alive longer under a policy intervention but does not change how often it detects,
+\item Pacing the query rate to past disagreement keeps the monitor alive longer under a policy intervention but does not change how often it detects,
 and it lengthens detection delay by a factor of $1.4$ to $2$ through the same range penalty.
-\item \textbf{A detectability map.} Over $2{,}000$ streams spanning five intervention strengths and four budgets, detection rises with both,
+\item Over $2{,}000$ streams spanning five intervention strengths and four budgets, detection rises with both,
 and at budgets of $5\%$ or less selective monitors stay below $0.30$ where uniform labelling detects nothing.
-\item \textbf{A registered regime map and comparator panel.} Eight regimes carry predictions and falsification criteria, evaluated against Timans GRAPA, Xu active betting, prediction-powered e-values, empirical-Bernstein engines and SR/CUSUM under identical gating, bounds, budgets and query coins.
-\item \textbf{Real-data behaviour.} On four electricity-demand paths, all $68$ registered null cells raise no alarm, and under injected under-procurement fixed gating matches the full-feedback median delay in all ten harm cells from a $5\%$ budget upward, using $338$ to $701$ labels.
+\item Eight regimes carry predictions and falsification criteria, evaluated against Timans GRAPA, Xu active betting, prediction-powered e-values, empirical-Bernstein engines and SR/CUSUM under identical gating, bounds, budgets and query coins.
+\item On four electricity-demand paths, all $68$ registered null cells raise no alarm, and under injected under-procurement fixed gating matches the full-feedback median delay in all ten harm cells from a $5\%$ budget upward, using $338$ to $701$ labels.
 \end{itemize}
 
 Section~\ref{sec:prediction} derives the growth prediction, Section~\ref{sec:protocol} describes the registered protocol, Section~\ref{sec:gating} reports the gating results,

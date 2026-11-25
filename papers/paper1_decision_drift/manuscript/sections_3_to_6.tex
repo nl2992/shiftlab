@@ -66,8 +66,7 @@ $r$ & Small-signal & Uncapped & Reg.\ grid & Reg.\ prediction & Measured \\
 \label{fig:growth}
 \end{figure}
 
-The variance argument fixes the order of magnitude, and the support bound accounts for the remainder.
-The registered-grid calculation lands within $15\%$ of the measured ratio at every budget.
+The variance argument fixes the order of magnitude, and the support bound accounts for the remainder: the registered-grid calculation lands within $15\%$ of the measured ratio at every budget.
 
 \section{Registered protocol}\label{sec:protocol}
 
@@ -123,6 +122,10 @@ Xu active & 0.00 & 1{,}616 & 115 \\
 \end{tabular}
 \end{table}
 
+\paragraph{Registered regimes.}
+The regime map predicted that past-paced gating would hold coverage better than a fixed rate when disagreement rises (regime R7). Under \texttt{harmful\_adaptation} fixed gating was equal or better at every budget
+($0.86$ against $0.76$ detection at $r=0.10$), and Section~\ref{sec:pacing} follows up this result.
+
 \paragraph{Panel.}
 Every gated arm dominates every ungated arm at scarce budgets: at $r\le0.05$ gated arms detect $0.82$--$1.00$ and ungated arms $0.00$--$0.01$.
 The strongest selective-label arms are gated HT or PPI with Timans GRAPA and the gated PPE alias (mean detection $0.99$).
@@ -153,7 +156,7 @@ Fixed gating is the faster detector whenever the budget can afford its disagreem
 \begin{table}[t]
 \centering
 \caption{Fixed and paced gating at full intervention strength ($s=1.00$), registered betting engine.
-Horizon is events processed before the reserve stops the monitor (of 2{,}400).}
+Horizon is events processed before the reserve stops the monitor (of 2{,}400). Censored delay is reported for the two budgets where detection is high.}
 \label{tab:pacing}
 \begin{tabular}{lrrrrrr}
 \toprule

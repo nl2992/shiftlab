@@ -4,7 +4,7 @@
 \section{Real-data results: EIA reserve procurement}\label{sec:eia}
 
 \paragraph{Task.}
-Two balancing authorities (CISO and ERCO) hourly publish demand, day-ahead forecast, net generation and total interchange.
+Two balancing authorities (CISO and ERCO) publish hourly demand, day-ahead forecast, net generation and total interchange.
 An hour is an event, the features are those four series, and the outcome is next-hour demand. A policy procures a reserve when its demand forecast exceeds
 $\tau$, the $90$th percentile of next-hour demand over 2019--2024. A shortfall (no reserve, demand above $\tau$) costs $5$, an idle reserve costs $1$.
 The deployed policy is a ridge regression frozen on 2019--2024, and the reference is a weekly-refit ridge with a $24$-hour label delay for its refits.
@@ -40,8 +40,8 @@ Table~\ref{tab:eia} reports detection over $200$ query replicates per cell, and 
 Arm & $r=0.02$ & $r=0.05$ & $r=0.10$ & $r=0.20$ \\
 \midrule
 gated HT, fixed & 2 of 10 & 10 & 10 & 10 \\
-gated HT, paced & $\le0.33$ everywhere & mixed & 9 & 10 \\
-gated empirical Bernstein, paced & 0 & $\le0.44$ & mixed & 6 \\
+gated HT, paced & $\le0.33$ everywhere & $0.00$--$1.00$ & 9 & 10 \\
+gated empirical Bernstein, paced & 0 & $\le0.44$ & $0.00$--$1.00$ & 6 \\
 ungated HT & $0.00$--$0.48$ & $0.00$--$1.00$ & $0.02$--$1.00$ & $0.06$--$1.00$ \\
 \bottomrule
 \end{tabular}

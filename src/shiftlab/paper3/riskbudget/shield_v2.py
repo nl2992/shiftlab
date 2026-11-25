@@ -36,6 +36,9 @@ class RiskBudgetShieldV2(PolicyAdapter):
         paced: bool = True,
         name: str | None = None,
         v_targets=None,
+        width_scale: float = 1.0,
+        mix_m: int | None = None,
+        deterministic: bool = False,
     ):
         if R < 0 or not 0.0 < pi_min <= 1.0:
             raise ValueError("need R >= 0 and pi_min in (0, 1]")
@@ -45,6 +48,9 @@ class RiskBudgetShieldV2(PolicyAdapter):
         self.window, self.default_window = window, default_window
         self.blind_margin, self.label_reserve_frac = blind_margin, label_reserve_frac
         self.ride_out, self.paced = ride_out, paced
+        self.mix_m = mix_m
+        self.deterministic = deterministic  # matched safe comparator: no IPW, every unresolved/unqueried exposure booked at 1
+        self.width_scale = float(width_scale)  # DIAGNOSTIC ONLY (1.0 in every reported arm)
         self.v_targets = None if v_targets is None else tuple(float(v) for v in v_targets)
         self.name = name or f"rbshield2[{inner.name}|R={R:g}]"
 
@@ -55,7 +61,7 @@ class RiskBudgetShieldV2(PolicyAdapter):
         self.w = max(1, int(self.window or spec.delay_known or self.default_window))
         self.inner.reset(spec, np.random.default_rng(int(rng.integers(2**63))))
         self.rng = np.random.default_rng(int(rng.integers(2**63)))
-        self.mix = CoinMixture(self.delta if self.delta > 0 else 0.05, v_targets=self.v_targets)
+        self.mix = CoinMixture(self.delta if self.delta > 0 else 0.05, v_targets=self.v_targets, scale=self.width_scale, mix_m=self.mix_m)
         self.A1 = 0.0  # pi=1 rounds: released x
         self.P1 = 0  # pi=1 rounds: pending count
         self.As = 0.0  # sampled, settled: queried & released x/pi
@@ -190,6 +196,16 @@ class RiskBudgetShieldV2(PolicyAdapter):
                 if cls == "blind":
                     self.nb += 1
                     self.n_blind += 1
+                elif cls == "det":
+                    query = int(self.rng.random() < pi)
+                    if query:
+                        self.P1 += 1
+                        self.n_pi1 += 1
+                        self.rec[t] = {"pi": 1.0, "queried": True, "rel": False, "settled": False}
+                    else:
+                        self.nb += 1
+                        self.n_blind += 1
+                    self._pis.append(pi)
                 elif cls == "pi1":
                     self.P1 += 1
                     self.n_pi1 += 1
@@ -240,6 +256,9 @@ class RiskBudgetShieldV2(PolicyAdapter):
                     pi_p = max(self.pi_min, target)
             else:
                 pi_p = self.pi_min
+        if self.deterministic:
+            w = self._W(prev, 1, "blind")  # same check whatever the coin shows
+            return (1, "det", pi_p, w) if w <= R else (0, None, None, None)
         if pi_p < 1.0:
             w = self._W(prev, 1, "sampled")
             if w + self._lookahead(pi_p) <= R:

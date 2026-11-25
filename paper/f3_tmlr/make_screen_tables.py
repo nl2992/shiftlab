@@ -96,6 +96,39 @@ long = ("\\begin{longtable}{@{}l l r r r r@{}}\n\\caption{Streams of the 100-str
         + "\n\\midrule\n\\endhead\n\\bottomrule\n\\endfoot\n" + body + "\n\\end{longtable}\n")
 (HERE / "tables/app_screen_supported.tex").write_text(long)
 
+# ---- the streams that did not meet S2 (reported in full; every stream of the pool is in the paper)
+non_sorted = sorted(non, key=lambda r: r["shield_gain_vs_never"])
+body = "\n".join(
+    f"{tex(r['name'])} & {tex(r['group'])} & {'yes' if r['S1'] else 'no'} & {r['J_never']:.1f} & {r['J_shield_best_h50']:.1f} & "
+    f"{r['shield_gain_vs_never']:.1f} & {r['wald_gain_vs_never']:.1f} & {r['challenger_better_mean']:.3f} \\\\" for r in non_sorted)
+hdr = "Stream & Group & S1 & $J$ never & $J$ shield & Shield gain & Wald gain & Chall.\\ adv. \\\\"
+long2 = ("\\begin{longtable}{@{}l l c r r r r r@{}}\n\\caption{Streams of the 100-stream screen on which the better $h=50$ shield arm does not cost less than "
+        "never switching (S2 fails). Columns as in Table~\\ref{tab:screen_supported}; negative gains are costs above never switching. "
+        "``Chall.\\ adv.'' is the challenger's mean loss advantage per event. S1 fails only where marked (paced arm, within its level $\\delta$).}"
+        "\\label{tab:screen_not_supported}\\\\\n\\toprule\n" + hdr + "\n\\midrule\n\\endfirsthead\n\\multicolumn{8}{@{}l}{\\emph{Table~\\thetable{} (continued)}} \\\\[2pt]\n\\toprule\n" + hdr
+        + "\n\\midrule\n\\endhead\n\\bottomrule\n\\endfoot\n" + body + "\n\\end{longtable}\n")
+(HERE / "tables/app_screen_not_supported.tex").write_text(long2)
+
+# ---- framing of the cost result: streams with something to gain vs streams without
+gainful = [r for r in rows if r["wald_gain_vs_never"] > 0.05 * r["J_never"]]
+lose = [r for r in rows if r["shield_gain_vs_never"] < 0]
+keep = {"lo": [], "mid": [], "hi": []}
+for r in gainful:
+    b = "lo" if r["x_h50"] < 0.5 else ("mid" if r["x_h50"] < 1 else "hi")
+    keep[b].append(r["shield_gain_vs_never"] / r["wald_gain_vs_never"])
+assert all(r["shield_gain_vs_never"] > 0 for r in gainful)
+macros.update({
+    "ScreenGainful": len(gainful),
+    "ScreenGainfulShieldBeatsNever": sum(1 for r in gainful if r["shield_gain_vs_never"] > 0),
+    "ScreenGainfulLo": len(keep["lo"]), "ScreenKeepLo": f"{100 * np.median(keep['lo']):.0f}",
+    "ScreenGainfulMid": len(keep["mid"]), "ScreenKeepMid": f"{100 * np.median(keep['mid']):.0f}",
+    "ScreenGainfulHi": len(keep["hi"]),
+    "ScreenLose": len(lose), "ScreenLoseWaldAlso": sum(1 for r in lose if r["wald_gain_vs_never"] < 0),
+    "ScreenLoseShieldMed": f"{-np.median([r['shield_gain_vs_never'] for r in lose]):.1f}",
+    "ScreenLoseWaldMed": f"{-np.median([r['wald_gain_vs_never'] for r in lose]):.1f}",
+    "ScreenForexAdv": f"{np.median([r['challenger_better_mean'] for r in rows if r['group'] == 'forex']):.3f}",
+})
+
 (HERE / "tables/screen_numbers.tex").write_text(
     "".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in macros.items()))
 

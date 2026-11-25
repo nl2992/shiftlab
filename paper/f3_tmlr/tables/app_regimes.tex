@@ -1,4 +1,4 @@
-\begin{longtable}{@{}p{3.3cm}p{2.9cm}rrp{2.4cm}p{1.1cm}p{2.7cm}@{}}
+\begin{longtable}{@{}p{3.3cm}p{2.9cm}rr>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{1.1cm}>{\raggedright\arraybackslash}p{2.7cm}@{}}
 \caption{All 30 simulated regimes. $p(t)$ is the probability that the challenger is correct when the models disagree, given by knots $t/T$:$p$ (``steps'': constant from each knot; ``linear'': interpolated; evaluated at $(t-\tfrac12)/T$). $r$ is the disagreement rate, $\rho$ the lag-1 dependence of the latent Gaussian process, $d_t$ the label delay in rounds. Defaults: $r=.3$, $\rho=0$, $e_{\rm both}=.1$, delay fixed at 5, $k=3$, $B=60$, $c_q=.05$. Override lists departures from the defaults other than $r$, $\rho$ and the delay. Meaning is the description in the configuration file.}\label{tab:regimes_app}\\
 \toprule id & $p(t)$ (knots $t/T$:$p$) & $r$ & $\rho$ & delay $d_t$ & override & meaning \\
 \midrule

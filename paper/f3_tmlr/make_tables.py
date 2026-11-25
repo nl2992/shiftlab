@@ -521,7 +521,7 @@ def regime_rows(cfgd):
         out.append(f"{tex(g['id'])} & {path_txt(prm['path'])} & {f2(prm['r'])} & {f2(prm['rho'])} & {delay_txt(prm['delay'])} & {ov} & {tex(g.get('description',''))} \\\\")
     return out
 
-body = ("\\begin{longtable}{@{}p{3.3cm}p{2.9cm}rrp{2.4cm}p{1.1cm}p{2.7cm}@{}}\n"
+body = ("\\begin{longtable}{@{}p{3.3cm}p{2.9cm}rr>{\\raggedright\\arraybackslash}p{2.4cm}>{\\raggedright\\arraybackslash}p{1.1cm}>{\\raggedright\\arraybackslash}p{2.7cm}@{}}\n"
         "\\caption{All 30 simulated regimes. $p(t)$ is the probability that the challenger is correct when the models disagree, given by knots $t/T$:$p$ (``steps'': constant from each knot; ``linear'': interpolated; evaluated at $(t-\\tfrac12)/T$). $r$ is the disagreement rate, $\\rho$ the lag-1 dependence of the latent Gaussian process, $d_t$ the label delay in rounds. Defaults: $r=.3$, $\\rho=0$, $e_{\\rm both}=.1$, delay fixed at 5, $k=3$, $B=60$, $c_q=.05$. Override lists departures from the defaults other than $r$, $\\rho$ and the delay. Meaning is the description in the configuration file.}\\label{tab:regimes_app}\\\\\n"
         "\\toprule id & $p(t)$ (knots $t/T$:$p$) & $r$ & $\\rho$ & delay $d_t$ & override & meaning \\\\\n\\midrule\n\\endfirsthead\n\\multicolumn{7}{@{}l}{\\emph{Table~\\thetable{} (continued)}} \\\\[2pt]\n\\toprule id & $p(t)$ (knots $t/T$:$p$) & $r$ & $\\rho$ & delay $d_t$ & override & meaning \\\\\n\\midrule\n\\endhead\n"
         "\\multicolumn{7}{@{}l}{\\emph{24 original regimes} (\\texttt{regimes\\_v1.json})} \\\\\n"

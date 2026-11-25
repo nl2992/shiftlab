@@ -28,7 +28,7 @@ for ax, n in zip(axes, range(1, B + 1)):
         ax.axvline(k / 2 ** n, color=P["neutral"], lw=0.7, alpha=0.55, zorder=0)
     vi, vc = C0 - res["iid"][1][n], C0 - res["causal"][1][n]
     ax.fill_between(w, vc, vi, color=P["red_1"], lw=0, zorder=1, label="premium")
-    for mode, col, ls, v in (("iid", P["blue_main"], "-", vi), ("causal", P["red_strong"], "--", vc)):
+    for mode, col, ls, v in (("iid", P["red_strong"], "-", vi), ("causal", P["blue_main"], "--", vc)):
         ax.plot(w, v, color=col, ls=ls, lw=1.9, zorder=3, label="i.i.d." if mode == "iid" else "adaptive")
         j = LD.kinks(res[mode][1][n])
         pts = j / N

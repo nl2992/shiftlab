@@ -33,6 +33,7 @@
 \newif\ifdraft \draftfalse
 \newcommand{\draftnote}[1]{\ifdraft{\color{red}[Draft: #1]}\fi}
 
+\raggedbottom
 \icmltitlerunning{Safe Model Promotion against Adaptive Nulls}
 
 \begin{document}
@@ -50,16 +51,16 @@
 \printAffiliationsAndNotice{}
 
 \begin{abstract}
-We study when to replace a deployed model with a challenger, using a small budget of labels bought on rounds where the two models disagree. We require the probability of promoting a challenger that is no better to stay below $\alpha$ under an \emph{adaptive} null, in which the challenger's chance of winning a disagreement may change with the history but never exceeds one half. Policies calibrated against the usual i.i.d.\ null violate this requirement: in our synthetic grid their worst-case adaptive risk reaches up to $4\alpha$. For one-round label delay, we show that the adaptive-null problem is exactly a dynamic programme on time, belief, remaining labels and a risk budget, and that it differs from the i.i.d.\ programme by a single constraint. The value is piecewise linear in the risk budget with breakpoints on the dyadic grid $\{k/2^n\}$, so a finite grid in the risk budget is exact and only belief interpolation remains, with certified bounds. The solver, risk-budget dynamic programming (RB-DP), agrees with or brackets 190 certified optima, runs to horizon 256, and solves in 0.4\,s a cell on which the previous exact method ran out of time after 3{,}600\,s. RB-DP finds that the long-horizon premium for adaptive-null safety stays positive, settling at 0.05 to 0.40 of the value of information. On 44 real binary streams, i.i.d.-calibrated policies break the adaptive budget while RB-DP costs no more than any of seven causal-safe baselines, including an always-valid A/B test. In held-out replay on 9{,}525 windows from 100 promotion datasets it matches the best safe baseline and is cheaper than the textbook always-valid test, the e-process gate and the fixed-sample test.
+We study when to replace a deployed model with a challenger, using a small budget of labels bought on rounds where the two models disagree. We require the probability of promoting a challenger that is no better to stay below $\alpha$ under an \emph{adaptive} null, in which the challenger's chance of winning a disagreement may change with the history but never exceeds one half. Policies calibrated against the usual i.i.d.\ null violate this requirement: in our synthetic grid their worst-case adaptive risk reaches up to $4\alpha$. For one-round label delay, we show that the adaptive-null problem is equivalent to a dynamic programme on time, belief, remaining labels and a risk budget, and that it differs from the i.i.d.\ programme by a single constraint. The value is piecewise linear in the risk budget with breakpoints on the dyadic grid $\{k/2^n\}$, so a finite grid in the risk budget is exact and only belief interpolation remains, with certified bounds. The solver, risk-budget dynamic programming (RB-DP), agrees with or brackets 190 certified optima, runs to horizon 256, and solves in 0.4\,s a cell on which the previous exact method ran out of time after 3{,}600\,s. RB-DP finds that the long-horizon premium for adaptive-null safety stays positive, settling at 0.05 to 0.40 of the value of information. On 44 real binary streams, i.i.d.-calibrated policies break the adaptive budget while RB-DP costs no more than any of seven causal-safe baselines, including an always-valid A/B test. In held-out replay on 9{,}525 windows from 100 promotion datasets it matches the best safe baseline and is cheaper than the textbook always-valid test, the e-process gate and the fixed-sample test.
 \end{abstract}
 
 %=====================================================================
 \section{Introduction}
 \label{sec:intro}
 
-Replacing a production model is a decision under scarce evidence. A challenger model has been trained on recent data; the incumbent is deployed; labels cost money or arrive late, and on most inputs the two models agree, so only disagreement rounds are informative. The operator wants to promote the challenger quickly when it is better and to avoid promoting it when it is not. Promotion is usually gated by a sequential test with a type-I error target $\alpha$: the probability of promoting a challenger that is no better should be at most $\alpha$.
+A challenger model has been trained on recent data and the incumbent is deployed. Labels cost money or arrive late, and the two models agree on most inputs, so only disagreement rounds are informative. The operator wants to promote the challenger quickly when it is better and to avoid promoting it when it is not. Promotion is usually decided by a sequential test with a type-I error target $\alpha$: the probability of promoting a challenger that is no better should be at most $\alpha$.
 
-This paper asks \emph{which null} the gate must control. The textbook choice is the i.i.d.\ null: on each queried disagreement the challenger wins with probability $1/2$, independently. Under distribution shift this is too narrow. The challenger's winning rate can drift with the input stream, and shift can produce a regime in which it is ahead for a while and then behind. We therefore ask the gate to control the \emph{adaptive} (or causal) null: on each queried round the challenger's conditional winning probability, given everything public so far, is at most $1/2$, and it may depend on the history in any way. This is the null class of test supermartingales and anytime-valid inference \citep{ramdas2023gametheoretic,waudbysmith2024betting}, and a rectangular history-adaptive family in the sense of \citet{fauss2020minimax}.
+This paper asks \emph{which null} the gate must control. The textbook choice is the i.i.d.\ null: on each queried disagreement the challenger wins with probability $1/2$, independently. Under distribution shift this is too narrow. The challenger's winning rate can drift with the input stream, and shift can put it ahead for a while and then behind. We therefore ask the gate to control the \emph{adaptive} (or causal) null: on each queried round the challenger's conditional winning probability, given everything public so far, is at most $1/2$, and it may depend on the history in any way. This is the null class of test supermartingales and anytime-valid inference \citep{ramdas2023gametheoretic,waudbysmith2024betting}, and a rectangular history-adaptive family in the sense of \citet{fauss2020minimax}.
 
 Controlling the adaptive null has a price. An i.i.d.-calibrated gate can spend its risk on label patterns that look unlikely under fair coins but that an adaptive null can force. On 40 of 44 real binary streams, at least one of three gates calibrated to the i.i.d.\ null exceeds the adaptive budget, with worst-case risk reaching $8\alpha$ (Section~\ref{sec:real}). A gate that is safe against every adaptive null must give up some of these patterns, and so it promotes later or less often under the alternative. We call the difference in optimal expected cost the \emph{causal-safety premium},
 \[
@@ -67,14 +68,14 @@ Controlling the adaptive null has a price. An i.i.d.-calibrated gate can spend i
 \]
 and measure it relative to the value of information, $\rhoG = \Gamma/(C_0 - \Vi)$, where $C_0$ is the cost of never promoting.
 
-Formally, the problem is a chance-constrained partially observable Markov decision process (POMDP) whose constraint must hold against an adaptive adversary, the structure shared by risk-constrained planning \citep{ono2015chance} and continuously monitored A/B tests \citep{johari2022always}. Two questions remained before such a gate could be used in practice. First, no algorithm could compute the adaptive-null optimum beyond toy horizons. Existing tools each cover part of the problem. Anytime-valid gates such as e-processes control adaptive risk without optimising cost under a label budget. Chance-constrained POMDP planners optimise cost under i.i.d.\ null calibration. Minimax sequential tests against rectangular nulls \citep{fauss2020minimax} leave hidden-state alternatives and query budgets outside their scope. The previous exact method for the combined problem, a sequence-form constraint-generation solver \citep{bosansky2014exact}, enumerates the learner's history tree and timed out at $T=16$, $B=3$. Second, it was unknown whether the premium matters at realistic horizons or vanishes as the horizon grows.
+Formally, the problem is a chance-constrained partially observable Markov decision process (POMDP) whose constraint must hold against an adaptive adversary, the structure shared by risk-constrained planning \citep{ono2015chance} and continuously monitored A/B tests \citep{johari2022always}. Two questions remained open. First, no algorithm could compute the adaptive-null optimum beyond toy horizons. Anytime-valid gates such as e-processes control adaptive risk without optimising cost under a label budget. Chance-constrained POMDP planners optimise cost under i.i.d.\ null calibration. Minimax sequential tests against rectangular nulls \citep{fauss2020minimax} leave hidden-state alternatives and query budgets outside their scope. The previous exact method for the combined problem, a sequence-form constraint-generation solver \citep{bosansky2014exact}, enumerates the learner's history tree and timed out at horizon $T=16$ with $B=3$ labels. Second, it was unknown whether the premium matters at realistic horizons or vanishes as the horizon grows.
 
 \paragraph{Contributions.}
 \begin{enumerate}[leftmargin=*,itemsep=1pt,topsep=2pt]
 \item \textbf{Exact reduction (Theorem~\ref{thm:reduction}).} For one-round label delay and a two-state hidden-Markov alternative, the adaptive-null problem is a Markov decision problem on $(t,\beta,n,w)$: time, alternative belief, remaining labels, and a risk budget $w$, the worst-case probability of ever promoting from here on. The i.i.d.\ problem is the same programme with one constraint removed (Corollary~\ref{cor:oneconstraint}): after a label that favours the incumbent the continuation budget may not exceed the budget committed to that query. We call the solver risk-budget dynamic programming, RB-DP (Figure~\ref{fig:overview}).
 \item \textbf{Dyadic lattice (Theorem~\ref{thm:lattice}).} The value is convex and piecewise linear in $w$ with all breakpoints in $\{k/2^n\}$, $n$ the remaining labels. A grid of $2^B+1$ points is therefore exact (Corollary~\ref{cor:finite}). The only approximation left is belief interpolation, which gives a certified sandwich $L\le V^\star\le U$.
 \item \textbf{The i.i.d.\ design is unsafe.} Wherever the two optima differ in our synthetic grid, the i.i.d.-optimal policy has worst-case adaptive risk $2\alpha$ to $4\alpha$ without label and switching costs and $1.33\alpha$ with them (Table~\ref{tab:e4}).
-\item \textbf{The premium at long horizons.} RB-DP follows $\rhoG(T)$ to $T=200$. For every label budget $B\le 6$ and the three anti-persistent chains studied, the premium stays positive and settles between 0.05 and 0.33, and near 0.37 and 0.40 for $B=7$ and $B=8$ (Table~\ref{tab:e3}). The levels match the closed form for $B=1$ and lie at or above every proved bound of Theorem~\ref{thm:premium}.
+\item \textbf{The premium at long horizons.} RB-DP follows $\rhoG(T)$ to $T=200$. For every label budget $B\le 6$ and the three anti-persistent chains studied, the premium stays positive and settles between 0.05 and 0.33, and near 0.37 and 0.40 for $B=7$ and $B=8$ at $t=3/4$ (Table~\ref{tab:e3}). The levels match the closed form for $B=1$ and lie at or above every proved bound of Theorem~\ref{thm:premium}.
 \item \textbf{Real streams.} On 44 real binary streams the fitted models have a positive premium. RB-DP is never more expensive than any of seven causal-safe baselines, including the always-valid mixture sequential probability ratio test (mSPRT), in 528 in-model settings. In a held-out replay on 9{,}525 real windows it matches the best safe baseline (Table~\ref{tab:replay}), so safety against the adaptive null comes at no measurable cost.
 \end{enumerate}
 
@@ -87,7 +88,7 @@ Formally, the problem is a chance-constrained partially observable Markov decisi
 
 \paragraph{Labels.} At each round the learner may query $Y_t$ at cost $c\ge 0$, with at most $B$ queries in total (a hard pathwise budget). A label queried at $t$ is released before the decision at $t+d$. Every change of action costs $k\ge 0$. Rollback and re-promotion after the first promotion are allowed.
 
-\paragraph{Alternative.} Under the alternative, a two-state hidden Markov model (HMM): a hidden chain $S_t\in\{0,1\}$ with $\PP(S_{t+1}=1\mid S_t=0)=t_{01}$ and $\PP(S_{t+1}=0\mid S_t=1)=t_{10}$ drives the labels, $Y_t\sim\mathrm{Bernoulli}(e_{S_t})$ with $e_0<1/2<e_1$. State 1 is a regime in which the challenger is better. The learner's belief $\beta_t=\PP(S_t=1\mid\text{released labels})$ is updated by the forward filter, and $\pos(\beta)=e_0+(e_1-e_0)\beta$ is the predicted probability that the challenger wins. The expected cost of a strategy under the alternative is $C(\sigma)$; never promoting costs $C_0=\sum_t\E[\pos(\beta_t)]$.
+\paragraph{Alternative.} The alternative is a two-state hidden Markov model (HMM): a hidden chain $S_t\in\{0,1\}$ with $\PP(S_{t+1}=1\mid S_t=0)=t_{01}$ and $\PP(S_{t+1}=0\mid S_t=1)=t_{10}$ drives the labels, $Y_t\sim\mathrm{Bernoulli}(e_{S_t})$ with $e_0<1/2<e_1$. State 1 is a regime in which the challenger is better. The learner's belief $\beta_t=\PP(S_t=1\mid\text{released labels})$ is updated by the forward filter, and $\pos(\beta)=e_0+(e_1-e_0)\beta$ is the predicted probability that the challenger wins. The expected cost of a strategy under the alternative is $C(\sigma)$; never promoting costs $C_0=\sum_t\E[\pos(\beta_t)]$.
 
 \paragraph{Nulls and risk.} The risk of a strategy is the probability of a \emph{first promotion} under a null. After the first promotion the learner is free; the guarantee is about the decision to switch.
 
@@ -105,7 +106,7 @@ V^\star_X=\;&\min_{\sigma}\;C(\sigma)\quad\text{subject to}\\
 with $\mathcal{N}_{\mathrm{IID}}$ the single i.i.d.\ null. Because the i.i.d.\ null is in $\Ncaus$, $\Gamma=\Vc-\Vi\ge 0$. We write $\mathrm{VOI}_X=C_0-V^\star_X$ and $\rhoG=\Gamma/\mathrm{VOI}_{\mathrm{IID}}=1-\mathrm{VOI}_{\mathrm{causal}}/\mathrm{VOI}_{\mathrm{IID}}\in[0,1]$ when $\mathrm{VOI}_{\mathrm{IID}}>0$ (VOI: value of information).
 \end{definition}
 
-The learner may randomise. Randomisation matters here, as in any chance-constrained problem \citep{altman1999constrained,walraven2018column}: the optimum mixes plans so that its risk sits exactly at $\alpha$.
+The learner may randomise. As in any chance-constrained problem \citep{altman1999constrained,walraven2018column}, the optimum mixes plans so that its risk sits exactly at $\alpha$.
 
 \paragraph{Why the adaptive null bites.} Compare two one-label strategies. The first promotes if the queried label is $Y=1$ (the challenger won); the second promotes if $Y=0$. Under fair coins both have risk $1/2$. An adaptive null cannot push $\PP(Y=1)$ above $1/2$, so the first strategy's risk stays $1/2$; but it can set $p=0$, which makes $Y=0$ certain and gives the second strategy risk 1. In an anti-persistent regime, a round won by the incumbent predicts that the challenger will be ahead soon, and the i.i.d.-optimal plan does promote on such events.
 
@@ -139,7 +140,7 @@ The adaptive class is a product over histories, so the null's choice at $h$ and 
 
 \subsection{Exact reduction}
 
-By Lemma~\ref{lem:risk}, the past matters for future risk only through a single number: the worst-case promotion probability the continuation may still use. This suggests carrying it as a state.
+By Lemma~\ref{lem:risk}, the past matters for future risk only through the worst-case promotion probability the continuation may still use, so we carry that number as a state.
 
 \begin{definition}[Risk-budget value]
 $W_X(t,\beta,n,w)$ is the infimum of expected alternative cost from time $t$ on, over continuation strategies started unpromoted at belief $\beta$ with $n$ labels left whose worst-case risk-to-go is at most $w$.
@@ -158,7 +159,7 @@ C_Q(w')&=\pos(\beta)+c+\min_{\substack{m(w_0,w_1)\le w'\\ w_y\in[0,1]}}\ \textst
 and $C_Q\equiv+\infty$ if $n=0$. $W_X$ is nonincreasing and convex in $w$ and concave in $\beta$.
 \end{theorem}
 
-The hull cannot be dropped: the learner may randomise between promoting, continuing without a query and querying, and between continuation budgets; this is exactly a mixture of points on the graph of $f$ with mean abscissa at most $w$.
+The hull cannot be dropped: the learner may randomise between promoting, continuing without a query and querying, and between continuation budgets; this is a mixture of points on the graph of $f$ with mean abscissa at most $w$.
 
 \begin{corollary}[The premium is one constraint]
 \label{cor:oneconstraint}
@@ -170,14 +171,14 @@ Under the i.i.d.\ null a learner can ``borrow'' risk (Figure~\ref{fig:split} in 
 
 \subsection{The dyadic lattice}
 
-The $w$ coordinate is continuous. The next result shows that it can be discretised without loss.
+The coordinate $w$ is continuous, but it can be discretised without loss.
 
 \begin{theorem}[Dyadic lattice]
 \label{thm:lattice}
 Let $D_n=\{k/2^n:k=0,\dots,2^n\}$. For $X\in\{\mathrm{causal},\mathrm{IID}\}$ and every $t,\beta,n$, $W_X(t,\beta,n,\cdot)$ is piecewise linear with all breakpoints in $D_n$.
 \end{theorem}
 
-The proof (Appendix~\ref{app:lattice}) is a backward induction with three steps. The no-query branch inherits breakpoints from the next layer. In the i.i.d.\ query branch the constraint is tight. Here $C_Q(w')$ is the infimal convolution of two convex piecewise-linear functions evaluated at $2w'$. Its breakpoints before rescaling are partial sums of piece lengths, all multiples of $2^{-(n-1)}$, and halving these sums puts the breakpoints in $D_n$, so one query adds one bit. In the adaptive branch, the minimising staircase crosses the diagonal $w_0=w_1$ only at points of $D_{n-1}$. These crossings mark the boundary of the set on which the extra cap $w_0\le w'$ binds. Finally, a lower convex hull introduces no new breakpoints. Figure~\ref{fig:lattice} (Appendix~\ref{app:extra}) shows the kinks on a computed cell.
+The proof (Appendix~\ref{app:lattice}) is a backward induction. The no-query branch inherits breakpoints from the next layer. In the i.i.d.\ query branch the constraint is tight. Here $C_Q(w')$ is the infimal convolution of two convex piecewise-linear functions evaluated at $2w'$. Its breakpoints before rescaling are partial sums of piece lengths, all multiples of $2^{-(n-1)}$, and halving these sums puts the breakpoints in $D_n$, so one query adds one bit. In the adaptive branch, the minimising staircase crosses the diagonal $w_0=w_1$ only at points of $D_{n-1}$. These crossings mark the boundary of the set on which the extra cap $w_0\le w'$ binds. Finally, a lower convex hull introduces no new breakpoints. Figure~\ref{fig:lattice} (Appendix~\ref{app:extra}) shows the kinks on a computed cell.
 
 
 \begin{corollary}[Exact finite programme]
@@ -185,7 +186,7 @@ The proof (Appendix~\ref{app:lattice}) is a backward induction with three steps.
 Let $N$ be a multiple of $2^B$ and restrict every risk budget to $\{j/N\}$. The restricted programme has the same value as $W_X$ at every grid point; at an off-grid $\alpha$, $W_X(\cdot,\alpha)$ is the linear interpolation of its two grid neighbours.
 \end{corollary}
 
-Corollary~\ref{cor:finite} guarantees exactness when $2^B$ divides $N$, the number of grid intervals. With $d_\alpha$ the denominator of $\alpha$, a grid of $3d_\alpha$ points that contains $\alpha$ but is not a multiple of $2^B$ was worse than exact in 9 of 40 stress runs, by up to $6.6\times10^{-3}$ (Appendix~\ref{app:stress}).
+Corollary~\ref{cor:finite} guarantees exactness when $2^B$ divides $N$, the number of grid intervals. With $d_\alpha$ the denominator of $\alpha$, a grid of $3d_\alpha$ intervals that contains $\alpha$ but is not a multiple of $2^B$ was worse than exact in 9 of 40 stress runs, by up to $6.6\times10^{-3}$ (Appendix~\ref{app:stress}).
 
 \subsection{Algorithm and certified bounds}
 
@@ -203,7 +204,7 @@ In the symmetric chains below the belief stays at $1/2$ until the first label, a
 \section{What the premium looks like}
 \label{sec:premium}
 
-Corollary~\ref{cor:oneconstraint} turns the premium into a question about one constraint. When does it bind?
+By Corollary~\ref{cor:oneconstraint}, the premium is positive only when the cap $w_0\le w'$ binds at the optimum.
 
 \paragraph{Persistent regimes: no premium at one label.} If the chain is persistent ($t_{01}+t_{10}\le 1$) and a challenger win is at least as likely as not at every query time, then with one label ($B=1$) some optimal plan promotes on a monotone event of the label tape, whose risk is the same under every adaptive null as under fair coins, so $\Gamma=0$ (Proposition~\ref{prop:z1} in Appendix~\ref{app:extra}, proved in Appendix~\ref{app:structure}). With $B\ge 2$ persistent cells can have a small positive premium; the large premia come from anti-persistent regimes.
 
@@ -213,7 +214,7 @@ Corollary~\ref{cor:oneconstraint} turns the premium into a question about one co
 \label{thm:premium}
 \begin{enumerate}
 \item ($B=1$, $d$ odd, $\alpha\le1/2$, $c=k=0$.) $\rhoG$ does not depend on $\alpha$, and $\inf_{T\ge d+1}\rhoG(T)=\lim_T\rhoG(T)=(1-r)/2$.
-\item ($B=2$, $k=0$, $d$ odd, $c=0$, $\alpha\le 1/2$.) $\liminf_T\rhoG(T)\ge(1-r)/(2(3+r))$.
+\item ($B=2$, $d$ odd, $\alpha\le 1/2$, $c=k=0$.) $\liminf_T\rhoG(T)\ge(1-r)/(2(3+r))$.
 \item ($B\le 6$, $c=k=0$, $\alpha=1/10$, $r\in(1/200,1/100)$, $g\in(2/5,1/2)$.) $\rhoG(T)\ge 0.10$ for every $T\ge 20$; the bounds for $B=3,4,5,6$ are $19/101$, $13/84$, $40/303$ and $13/118$.
 \item (Any fixed $B\ge 1$, $c=k=0$, $\alpha=1/10$, $2/5<g<1/2$, $0<r<1/[16(B+2)(6B^3+3B+2)]$.) $\rhoG(T)\ge 3/[8(B+2)]$ for every $T\ge 3B$.
 \end{enumerate}
@@ -230,7 +231,7 @@ All cells in this section use $d=1$. Solver: lattice mode, $N=10\cdot2^B$, $G=40
 \subsection{Agreement with certified optima}
 \label{sec:e1}
 
-We compared RB-DP with an exact sequence-form solver that returns rational intervals of width about $10^{-12}$, on 150 certified cells from an earlier scaling study ($B\le4$, $T\le16$, all with certified $\Gamma>0$), 40 fresh random cells (seed 20261113; asymmetric chains, $c\in\{0,1/100\}$, $k\le1/10$) and 60 certified premium cells. No bound was violated in any of the 190 value cells: on the 150 certified cells the first, uniform-grid solver agrees to $1.1\times10^{-14}$ on 148, and the two $B=4$ cells it missed by up to $2.5\times10^{-3}$ (its grid was not dyadic) are exact in lattice mode, on the 40 random cells the exact value lies in $[L,U]$ in both modes, and the 60 premium cells agree to $4.2\times10^{-13}$. An independent solver reproduced the exact optimum on 10 cells to $1.3\times10^{-15}$ and verified Theorem~\ref{thm:lattice} in exact rational arithmetic on 45{,}768 value rows with no breakpoint off the dyadic grid.
+We compared RB-DP with an exact sequence-form solver that returns rational intervals of width about $10^{-12}$, on 150 certified cells from an earlier scaling study ($B\le4$, $T\le16$, all with certified $\Gamma>0$), 40 fresh random cells (seed 20261113; asymmetric chains, $c\in\{0,1/100\}$, $k\le1/10$) and 60 certified premium cells. No bound was violated in any of the 190 value cells (the 150 scaling cells and the 40 random cells). On the 150 scaling cells the original uniform-grid solver agrees to $1.1\times10^{-14}$ on 148; on the other two ($B=4$, non-dyadic grid) it is off by up to $2.5\times10^{-3}$, and lattice mode is exact on both. On the 40 random cells the exact value lies in $[L,U]$ in both modes. The 60 premium cells, compared on $\rhoG$, agree to $4.2\times10^{-13}$. An independent solver reproduced the exact optimum on 10 cells to $1.3\times10^{-15}$ and verified Theorem~\ref{thm:lattice} in exact rational arithmetic on 45{,}768 value rows with no breakpoint off the dyadic grid.
 
 \subsection{Scaling}
 \label{sec:e2}
@@ -251,30 +252,30 @@ For every $B\le6$ and $t\in\{2/3,3/4,9/10\}$, $\rhoG(T)$ stays positive and flat
 \label{fig:premium}
 \end{figure*}
 
-In every cell of the table the i.i.d.-mode policy, evaluated against the adaptive null, has worst-case risk 0.2 to 0.4 against a budget of 0.1, while the adaptive-mode policy sits at 0.1000.
+In every cell of Table~\ref{tab:e3} the i.i.d.-mode policy, evaluated against the adaptive null, has worst-case risk 0.2 to 0.4 against a budget of 0.1, while the adaptive-mode policy sits at 0.1000.
 
 \paragraph{Agreement with the theory.} The $B=1$ values match the closed form of Theorem~\ref{thm:premium}(1) to $2.3\times10^{-12}$ at every $T\le200$. In the parameter region of part 3 ($t=63/125$, $e=3/20$, $g=0.49$), the values of $\rhoG$ for $B=3,\dots,6$ are 0.2470, 0.1975, 0.1645 and 0.1409, respectively. For each budget the value agrees to four decimals at $T=16$, 20 and 32. The corresponding proved lower bounds are 0.1881, 0.1548, 0.1320 and 0.1102, all below the measured values.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.92\linewidth]{figures/fig_real.pdf}
-\caption{Real streams. (a) For each of the 44 fitted chains, the largest worst-case adaptive risk over the 12 panel settings, in units of $\alpha$ (log scale). RB-DP (P7, blue) and the safe baselines P1, P2, P6 sit at $\alpha$; at least one of the i.i.d.-calibrated rules P3, P4, P5 exceeds it on 40 of 44 datasets, reaching up to $8\alpha$. P1 fixed-sample test; P2 count SPRT; P3c HMM filter, recalibrated; P5r i.i.d.-optimal planner, repaired for adaptive risk; P6 e-process gate; P8c mixture SPRT (always-valid A/B test), recalibrated. In (a), the number above a point counts the chains with that worst-case ratio. (b) Held-out replay: pooled mean realised cost per window of the safe policies with 95\% window-bootstrap intervals (2{,}000 resamples, seed 20261119). P4c (15.83) and the textbook mSPRT P8 (18.00) are off the scale and omitted.}
+\caption{Real streams. (a) For each of the 44 fitted chains, the largest worst-case adaptive risk over the 12 panel settings, in units of $\alpha$ (log scale). RB-DP (P7, blue) and the safe baselines P1, P2, P6 sit at $\alpha$; at least one of the i.i.d.-calibrated rules P3, P4, P5 exceeds it on 40 of 44 datasets, reaching up to $8\alpha$. P1 fixed-sample test; P2 count SPRT; P3, P4, P5 HMM filter, myopic VOI rule and i.i.d.-optimal planner, all i.i.d.-calibrated; P7 RB-DP; P3c HMM filter, recalibrated; P5r i.i.d.-optimal planner, repaired for adaptive risk; P6 e-process gate; P8c mixture SPRT (always-valid A/B test), recalibrated. In (a), the number above a point counts the chains with that worst-case ratio. (b) Held-out replay: pooled mean realised cost per window of the safe policies with 95\% window-bootstrap intervals (2{,}000 resamples, seed 20261119). P4c (15.83) and the textbook mSPRT P8 (18.00) are off the scale and omitted.}
 \label{fig:real}
 \end{figure*}
 
 \subsection{Comparison with safe baselines}
 \label{sec:e4}
 
-We compare RB-DP with three causal-safe alternatives calibrated to $\alpha=1/10$: the i.i.d.-optimal policy repaired by mixing with never-promote until its adaptive risk is $\alpha$, a stake-1 e-process gate (a betting test that stakes its whole wealth on the challenger winning each queried label and promotes once the wealth reaches a threshold $\theta$, mixed with never-promote so that $\alpha$ holds), safe by Ville's inequality \citep{ville1939etude,ramdas2023gametheoretic} (best $\theta\in\{2,4,8\}$), and never promoting; we also report the adaptive risk of the unrepaired i.i.d.-optimal policy (Table~\ref{tab:e4}, Appendix~\ref{app:extra}).
+We compare RB-DP with three causal-safe alternatives calibrated to $\alpha=1/10$: the i.i.d.-optimal policy repaired by mixing with never-promote until its adaptive risk is $\alpha$; a stake-1 e-process gate, which stakes its whole wealth on the challenger winning each queried label, promotes once the wealth reaches a threshold $\theta$ (best $\theta\in\{2,4,8\}$), is mixed with never-promote so that $\alpha$ holds, and is safe by Ville's inequality \citep{ville1939etude,ramdas2023gametheoretic}; and never promoting. We also report the adaptive risk of the unrepaired i.i.d.-optimal policy (Table~\ref{tab:e4}, Appendix~\ref{app:extra}).
 
 
-Across 40 cells (Appendix~\ref{app:e4}), no safe baseline exceeds RB-DP. On anti-persistent chains without costs the repair captures 0.47 to 0.68 of RB-DP's value of information and the e-process gate 0.74 to 0.96. With $c=1/100$, $k=1/20$ the order flips: 0.89 to 0.92 for the repair and 0.72 to 0.80 for the gate. The unrepaired i.i.d.\ policy has more value of information than RB-DP, but it is not admissible: its adaptive risk is $2\alpha$ in every cost-free anti-persistent cell except one ($4\alpha$), and $1.33\alpha$ with costs.
+Across 40 cells (the 32 with nonzero value of information are listed in Appendix~\ref{app:e4}), no safe baseline exceeds RB-DP. On anti-persistent chains without costs the repair captures 0.47 to 0.68 of RB-DP's value of information and the e-process gate 0.74 to 0.96. With $c=1/100$, $k=1/20$ the order flips: 0.89 to 0.92 for the repair and 0.72 to 0.80 for the gate. The unrepaired i.i.d.\ policy has more value of information than RB-DP, but it is not safe: its adaptive risk is $2\alpha$ in every cost-free anti-persistent cell except one ($4\alpha$), and $1.33\alpha$ with costs.
 
 %=====================================================================
 \section{Real streams}
 \label{sec:real}
 
-The real-data study asks two questions. Under models fitted to real binary streams, is the premium positive and does i.i.d.\ calibration break the adaptive budget? And when the policies are run on real held-out label sequences, how do their realised costs compare? Each screen followed a pre-registered protocol written before it was run.
+The real-data study asks two questions. Under models fitted to real binary streams, is the premium positive, and does i.i.d.\ calibration break the adaptive budget? When the policies are run on real held-out label sequences, how do their realised costs compare? Each screen followed a pre-registered protocol.
 
 \paragraph{Streams and fitting.} We fit the two-state model of Section~\ref{sec:setup} by maximum likelihood to each stream, clip the emissions to $[0.02,0.98]$, and evaluate it with the solver at $d=1$, $T\in\{16,32\}$, $B\in\{1,\dots,4\}$, $\alpha=0.1$, in both label orientations. A dataset counts as supporting when some cell has $\rhoG>10^{-3}$, value of information $C_0-\Vi\ge0.1$, and at most one of five time-shuffles of the stream is also positive. The shuffle control removes temporal structure while keeping the marginal rate. Streams are built from levels, not from differenced series.
 
@@ -282,7 +283,7 @@ The real-data study asks two questions. Under models fitted to real binary strea
 \subsection{Forty-four datasets with a positive premium}
 
 % Source: docs/paper4_continuation/rbdp/real_data/REAL_CHAINS.md (Phases 4b-7).
-The study found 44 supporting datasets (Table~\ref{tab:real35} in Appendix~\ref{app:realdetails}): 23 texts in 23 languages read as vowel/consonant streams, five protein sequences read as hydrophobic/polar streams (four elastins and a spider-silk spidroin), the Old Faithful geyser in three recordings \citep{azzalini1990faithful} and the Grand geyser, and twelve model-promotion streams. In a promotion stream, $Y_t=1$ when the challenger is right and the incumbent wrong on a disagreement round. We construct these streams from the cached paired losses of chronologically trained incumbent and challenger models on standard drift benchmarks (air quality, energy, electricity meters and prices, exchange rates, activity recognition, forest cover). All 44 pass the shuffle control with zero of five shuffles positive. The best-cell $\rhoG$ ranges from 0.001 (Tetouan power) to 0.44 (geyser), and in the best cell the i.i.d.-optimal policy's adaptive risk is 0.15 to 0.8 against $\alpha=0.1$. Most supporting streams are anti-persistent ($r_1$ from $-0.56$ to $-0.13$); the spidroin and eleven of the twelve promotion streams are persistent with noisy emissions and still have a positive premium at $T=32$, $B=4$. Nine of the 44 (covtype, Elec2, two geyser rows and five texts) come from a second, pre-registered screen with the same rule (Figure~\ref{fig:screen}, Appendix~\ref{app:extra}); its ledger is in the supplement.
+The study found 44 supporting datasets (Table~\ref{tab:real35} in Appendix~\ref{app:realdetails}): 23 texts in 23 languages read as vowel/consonant streams, five protein sequences read as hydrophobic/polar streams (four elastins and a spider-silk spidroin), the Old Faithful geyser in three recordings \citep{azzalini1990faithful} and the Grand geyser, and twelve model-promotion streams. In a promotion stream, $Y_t=1$ when the challenger is right and the incumbent wrong on a disagreement round. We construct these streams from the cached paired losses of chronologically trained incumbent and challenger models on standard drift benchmarks (air quality, energy, electricity meters and prices, exchange rates, activity recognition, forest cover). All 44 pass the shuffle control with zero of five shuffles positive. The best-cell $\rhoG$ ranges from 0.001 (Tetouan power) to 0.44 (geyser), and in the best cell the i.i.d.-optimal policy's adaptive risk is 0.15 to 0.8 against $\alpha=0.1$. Most supporting streams are anti-persistent ($r_1$ from $-0.56$ to $-0.055$); the spidroin and eleven of the twelve promotion streams are persistent with noisy emissions and still have a positive premium at $T=32$, $B=4$. Nine of the 44 (covtype, Elec2, two geyser rows and five texts) come from a second, pre-registered screen with the same rule (Figure~\ref{fig:screen}, Appendix~\ref{app:extra}); its ledger is in the supplement.
 
 \paragraph{Baseline panel.} On each of the 44 fitted chains we ran seven policies over 12 settings ($T\in\{16,32\}$, $B\in\{2,3,4\}$, $\alpha\in\{0.05,0.1\}$, label cost $c=0.01$, $k=0$; 528 settings), with exact cost and exact worst-case adaptive risk: P1 fixed-sample test, P2 count SPRT \citep{wald1945sequential}, P3 HMM-filter threshold, P4 myopic value-of-information rule, P5 i.i.d.-optimal planner, P6 e-process gate, and P7 RB-DP. P3 to P5 are calibrated to the i.i.d.\ null as a practitioner would. We then added causal-safe versions of the three i.i.d.-calibrated rules: P3c and P4c recalibrated to exact adaptive risk $\alpha$, and P5r, the cheaper of a deflated-level re-solve and mixing with never-promote. Finally, P8 is the one-sided mixture SPRT of always-valid A/B testing \citep{johari2022always}, run with its textbook threshold $1/\alpha$ and, as P8c, recalibrated to exact adaptive risk $\alpha$.
 
@@ -298,10 +299,12 @@ Figure~\ref{fig:real}(a) shows the worst adaptive risk per dataset for each poli
 
 The 44 datasets were selected by the premium screen. To see what happens on promotion streams in general, we ran two further analyses over the whole inventory of 114 cached promotion datasets, fitting each model on the first half of each dataset's episodes only.
 
-\paragraph{Census and replay.} On the 102 datasets with enough fit-set rounds, the value of information is large (median 1.29, 90th percentile 8.5), and the i.i.d.-optimal policy's adaptive risk reaches 0.40, four times the budget. On the 100 datasets with enough held-out rounds, we split every held-out episode into non-overlapping windows of $T=32$ disagreement rounds, yielding 9{,}525 windows. We calibrated every policy on the fit half and ran it on each window's real label sequence ($B=4$, $\alpha=0.1$, $c=0.01$, $k=0$). Realised cost uses the real labels in place of the predicted probabilities in the cost model.
+\paragraph{Census.} On the 102 datasets with enough fit-set rounds, the value of information is large (median 1.29, 90th percentile 8.5), and the i.i.d.-optimal policy's adaptive risk reaches 0.40, four times the budget.
+
+\paragraph{Replay.} On the 100 datasets with enough held-out rounds, we split every held-out episode into non-overlapping windows of $T=32$ disagreement rounds, which gives 9{,}525 windows. We calibrated every policy on the fit half and ran it on each window's real label sequence ($B=4$, $\alpha=0.1$, $c=0.01$, $k=0$). Realised cost uses the real labels in place of the predicted probabilities in the cost model.
 
 
-RB-DP's pooled realised cost (13.799 per window) matches the best safe baseline, the repaired planner P5r (paired difference $+0.0005$, 95\% interval $[-0.009,0.009]$; Figure~\ref{fig:real}b and Table~\ref{tab:replay} in Appendix~\ref{app:extra}). It is cheaper than P1, P6, P4c and the textbook mSPRT, with paired 95\% intervals excluding zero, and its point estimate is below those of P2, P3c and the calibrated mSPRT P8c (13.838). The i.i.d.-calibrated policies that come close in cost do so while breaking the adaptive budget on 21 (P3) and 5 (P5) datasets. In expected cost under each fitted model, RB-DP is at or below the best safe baseline on all 100 datasets. RB-DP is safe by construction.
+RB-DP's pooled realised cost (13.799 per window) matches the best safe baseline, the repaired planner P5r (paired difference $+0.0005$, 95\% interval $[-0.009,0.009]$; Figure~\ref{fig:real}b and Table~\ref{tab:replay} in Appendix~\ref{app:extra}). It is cheaper than P1, P6, P4c and the textbook mSPRT, with paired 95\% intervals excluding zero, and its point estimate is below those of P2, P3c and the calibrated mSPRT P8c (13.838). The i.i.d.-calibrated policies that come close in cost do so while breaking the adaptive budget on 21 (P3) and 5 (P5) datasets. In expected cost under each fitted model, RB-DP is at or below the best safe baseline on all 100 datasets.
 
 
 %=====================================================================
@@ -318,9 +321,9 @@ RB-DP's pooled realised cost (13.799 per window) matches the best safe baseline,
 \label{sec:conclusion}
 \label{sec:limitations}
 
-Calibrating a promotion gate against fair coins does not control type-I error when the challenger's winning rate can move with the history. For one-round label delay, a single extra scalar, the remaining worst-case promotion probability, turns the adaptive-null problem into an exact dynamic programme that a dyadic lattice makes finite. RB-DP shows that the premium for adaptive-null safety persists at long horizons, and on real promotion streams it is as cheap as the best safe alternative while keeping the guarantee by construction.
+Calibrating a promotion gate against fair coins does not control type-I error when the challenger's winning rate can move with the history. For one-round label delay, a single extra scalar, the remaining worst-case promotion probability, turns the adaptive-null problem into an exact dynamic programme that a dyadic lattice makes finite. RB-DP finds that the premium for adaptive-null safety persists at long horizons, and on real promotion streams it is as cheap as the best safe alternative while keeping the guarantee by construction.
 
-\emph{Limitations.} The exact reduction and lattice theorem are for $d=1$ and a two-state alternative; at $d=2$ we have an upper-bound solver only. The lattice has $2^B$ points per label count: budgets up to $B=8$ solve in minutes at $T=32$, but dozens of labels are out of reach. RB-DP is optimal under the fitted alternative: its safety guarantee does not depend on the alternative, but its cost advantage does.
+\emph{Limitations.} The exact reduction and lattice theorem are for $d=1$ and a two-state alternative; at $d=2$ we have an upper-bound solver only. The lattice size grows as $2^B$ in the label budget: budgets up to $B=8$ solve in minutes at $T=32$, but dozens of labels are out of reach. RB-DP is optimal under the fitted alternative: its safety guarantee does not depend on the alternative, but its cost advantage does.
 
 \section*{Impact Statement}
 This paper presents work whose goal is to advance the field of machine learning, specifically the safe deployment of updated models. A promotion gate that controls type-I error against an adaptive null reduces the chance of replacing a deployed model with a worse one under distribution shift. The guarantee is only as good as its assumptions (one-round label delay, labels that reflect the operator's loss), and an operator who relies on it outside them may be overconfident. We see no other societal consequences that need to be highlighted here.
@@ -340,17 +343,17 @@ This paper presents work whose goal is to advance the field of machine learning,
 Let $B=1$ and let $T$, $d\ge1$, $c,k\ge0$ and $\alpha\in[0,1]$ be arbitrary. If $t_{01}+t_{10}\le1$, $e_1>e_0$, and $\PP_A(Y_\tau=1)\ge1/2$ for every query time $\tau\le T-d$, then $\Gamma=0$.
 \end{proposition}
 
-\begin{figure}[t]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=\linewidth]{figures/fig_split.pdf}
+\includegraphics[width=0.72\linewidth]{figures/fig_split.pdf}
 \caption{Feasible child risk budgets $(w_0,w_1)$ after a query, for a parent budget $w'$. (a) Under the i.i.d.\ null the two branches are averaged, so the learner may give the branch after $Y=0$ more than $w'$ if it gives the other branch less. (b) The adaptive null can make $Y=0$ certain, so it adds the cap $w_0\le w'$ (Corollary~\ref{cor:oneconstraint}). The red triangle is the region the adaptive programme loses; every unit of premium $\Gamma$ comes from optimal i.i.d.\ plans that use it. The point $(1.5w',0.5w')$ has average branch budget $w'$ but $w_0>w'$, so only the i.i.d.\ null allows it. Conceptual figure, no data.}
 \label{fig:split}
 \end{figure}
 
-\begin{figure*}[t]
+\begin{figure*}[h!]
 \centering
-\includegraphics[width=\linewidth]{figures/fig_lattice.pdf}
-\caption{The value is piecewise linear in $w$ with breakpoints on the dyadic grid. Each curve is the value of information $C_0-W_X(1,\beta_1,n,w)$ from the lattice solver on one cell ($T=6$, $B=3$, both transition probabilities $19/20$, $e_1=1-e_0=49/50$, $\alpha=1/10$, $G=401$), for $n=1,2,3$ labels remaining under the i.i.d.\ null (blue, filled markers) and the adaptive null (red dashed, open markers). Markers are the kinks of each curve. Every kink lies on $\{k/2^n\}$ (grey lines). The gap between the curves is the cost of the extra cap $w_0\le w'$. The red bracket in (c) marks the premium at $w=1/2$.}
+\includegraphics[width=0.82\linewidth]{figures/fig_lattice.pdf}
+\caption{The value is piecewise linear in $w$ with breakpoints on the dyadic grid. Each curve is the value of information $C_0-W_X(1,\beta_1,n,w)$ from the lattice solver on one cell ($T=6$, $B=3$, both transition probabilities $19/20$, $e_1=1-e_0=49/50$, $\alpha=1/10$, $G=401$), for $n=1,2,3$ labels remaining under the i.i.d.\ null (red, filled markers) and the adaptive null (blue dashed, open markers). Markers are the kinks of each curve. Every kink lies on $\{k/2^n\}$ (grey lines). The gap between the curves is the cost of the extra cap $w_0\le w'$. The red bracket in (c) marks the premium at $w=1/2$.}
 \label{fig:lattice}
 \end{figure*}
 
@@ -455,7 +458,7 @@ P1 fixed-sample & 13.918 [13.784, 14.050] & $-0.119$ [$-0.176$, $-0.063$] & 0\\
 P2 count SPRT & 13.838 [13.701, 13.971] & $-0.039$ [$-0.097$, 0.019] & 0\\
 P6 e-process gate & 14.173 [14.039, 14.310] & $-0.374$ [$-0.443$, $-0.301$] & 0\\
 P3c filter, recalibrated & 13.850 [13.713, 13.987] & $-0.051$ [$-0.108$, 0.006] & 0\\
-P4c myopic VOI, recalibrated & 15.834 & $-2.035$ [$-2.190$, $-1.890$] & 0\\
+P4c myopic VOI, recalibrated & 15.834 [15.686, 15.986] & $-2.035$ [$-2.190$, $-1.890$] & 0\\
 P5r i.i.d.-optimal, repaired & 13.799 [13.665, 13.938] & $+0.0005$ [$-0.009$, 0.009] & 0\\
 P8 mSPRT, threshold $1/\alpha$ & 18.004 [17.848, 18.165] & $-4.205$ [$-4.393$, $-4.013$] & 0\\
 P8c mSPRT, calibrated & 13.838 [13.698, 13.974] & $-0.039$ [$-0.097$, 0.020] & 0\\
@@ -468,7 +471,7 @@ P5 i.i.d.-optimal & 13.803 [13.672, 13.939] & & 5\\
 \end{tabular}
 \end{table}
 
-\paragraph{Delay two: summary.} At $d=2$ a label queried at $t-1$ is pending at the decision at $t$: the null has seen it and the learner has not. Lemma~\ref{lem:risk} then fails on learner histories, because the null's information is finer than the learner's. The natural extension carries one risk budget per pending value: a pair $(w^0,w^1)$ when a label is pending and a scalar otherwise, with the hull taken on $[0,1]^2$ (Appendix~\ref{app:delay2}). We built this solver; it matches the certified exact optimum on 166 small cells, but it gives an upper bound only and we have no lattice theorem for it. Its long-horizon study (81 cells: $B\le3$ to $T=100$ and $B=4$ to $T=16$) finds an estimated premium at or below the $d=1$ premium in every cell: zero for $B=1$, zero at $T\ge32$ for $B=2,3$ except $t=9/10$, $B=3$ (level at 0.0399). For $B=4$ (24 cells) the premium levels at 0.0331 for $t=3/4$ and 0.1229 for $t=9/10$, and is zero for $t=2/3$. Values past $T=10$ are not certified. Delay $d\ge3$ is not built.
+\paragraph{Delay two: summary.} At $d=2$ a label queried at $t-1$ is pending at the decision at $t$: the null has seen it and the learner has not. Lemma~\ref{lem:risk} then fails on learner histories, because the null's information is finer than the learner's. The natural extension carries one risk budget per pending value: a pair $(w^0,w^1)$ when a label is pending and a scalar otherwise, with the hull taken on $[0,1]^2$ (Appendix~\ref{app:delay2}). We built this solver; it matches the certified exact optimum on 166 small cells, but it gives an upper bound only and we have no lattice theorem for it. Its long-horizon study (81 cells: $B\le3$ to $T=100$ and $B=4$ to $T=16$, plus 24 further $B=4$ cells to $T=100$) finds an estimated premium at or below the $d=1$ premium in every cell: zero for $B=1$, zero at $T\ge32$ for $B=2,3$ except $t=9/10$, $B=3$ (level at 0.0399). For $B=4$ (24 cells) the premium levels at 0.0331 for $t=3/4$ and 0.1229 for $t=9/10$, and is zero for $t=2/3$. Values past $T=10$ are not certified. Delay $d\ge3$ is not built.
 \FloatBarrier
 
 \section{Proofs of Lemma~\ref{lem:risk} and Theorem~\ref{thm:reduction}}
@@ -591,7 +594,7 @@ $B$ & $T=6$ & 8 & 12 & 16 & 24 & 32 & 64 & 100\\
 
 % Source: docs/paper4_continuation/rbdp/E1_E4_VALIDATION_BASELINES.md E4 table. Rows with zero VOI (asym(1/4,3/4)) omitted.
 \begin{longtable}{rlrcrrrrr}
-\caption{All E4 cells with nonzero value of information ($\alpha=1/10$, $e=1/10$, prior $1/2$, $d=1$). Shares are of RB-DP's VOI. The e-gate risk is the Ville bound; T=8 RB-DP values equal the certified exact causal VOI to five digits.}\\
+\caption{All E4 cells with nonzero value of information ($\alpha=1/10$, $e=1/10$, prior $1/2$, $d=1$). Shares are of RB-DP's VOI. The e-gate risk is the Ville bound; $T=8$ RB-DP values equal the certified exact causal VOI to five digits.}\\
 \toprule
 $T$ & chain & $B$ & $c,k$ & VOI RB-DP & repair & e-gate & i.i.d.-opt VOI & risk$/\alpha$\\
 \midrule

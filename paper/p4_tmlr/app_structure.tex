@@ -19,7 +19,7 @@ If $\min_{\pi\in\mathcal P}[C(\pi)+\lambda R_{\mathrm{IID}}(\pi)]=\min_{\pi\in\m
 \begin{proof}
 By Kuhn's theorem every strategy is a mixture of pure plans, and $C$ and $R_{\mathrm{IID}}$ are linear in the mixture. So $\Vi=\min\{\E_\mu C:\E_\mu R_{\mathrm{IID}}\le\alpha,\ \mu\in\Delta(\mathcal P)\}$, and likewise $V_{\mathrm{IID}}(\mathcal M)$ over $\Delta(\mathcal M)$. Both are finite linear programmes with one inequality, and never-promote is feasible with risk 0, so strong duality gives $V_{\mathrm{IID}}(\mathcal S)=\max_{\lambda\ge0}[\min_{\pi\in\mathcal S}(C+\lambda R_{\mathrm{IID}})-\lambda\alpha]$ for $\mathcal S\in\{\mathcal P,\mathcal M\}$. The hypothesis makes the two dual functions equal, so $V_{\mathrm{IID}}(\mathcal M)=\Vi$.
 
-Take any mixture $\mu$ on $\mathcal M$ and any adaptive null $\nu$. Couple the null tape $Y_t=\one\{U_t\le p_t\}$ with $Y^\ast_t=\one\{U_t\le1/2\}$ for i.i.d.\ uniform $U_t$. Since $p_t\le1/2$, $Y_t\le Y^\ast_t$ pathwise, for any adapted $p_t$, including $p_t$ that react to public actions revealing which plan was drawn. Monotonicity gives $g_\pi(Y)\le g_\pi(Y^\ast)$, so $\PP_\nu(\text{promote})\le R_{\mathrm{IID}}(\mu)$. The i.i.d.-optimal mixture over $\mathcal M$ is therefore causal-feasible, and $\Vi\le\Vc\le V_{\mathrm{IID}}(\mathcal M)=\Vi$.
+Take any mixture $\mu$ on $\mathcal M$ and any adaptive null $\nu$. Couple the null tape $Y_t=\one\{U_t\le p_t\}$ with $Y^\ast_t=\one\{U_t\le1/2\}$ for i.i.d.\ uniform $U_t$. Since $p_t\le1/2$, $Y_t\le Y^\ast_t$ pathwise for any adapted $p_t$, including $p_t$ that react to public actions revealing which plan was drawn. Monotonicity gives $g_\pi(Y)\le g_\pi(Y^\ast)$, so $\PP_\nu(\text{promote})\le R_{\mathrm{IID}}(\mu)$. The i.i.d.-optimal mixture over $\mathcal M$ is therefore causal-feasible, and $\Vi\le\Vc\le V_{\mathrm{IID}}(\mathcal M)=\Vi$.
 \end{proof}
 
 \subsection{Proof of Proposition~\ref{prop:z1}}
@@ -54,7 +54,7 @@ we have $\Vi=C_0-\alpha r_{\mathrm{IID}}$, $\Vc=C_0-\alpha r_c$ and $\Gamma=\alp
 A pure plan with one label has a constant event (risk 0 or 1 under every null), a $\{Y_\tau=1\}$ event (i.i.d.\ and adaptive risk $1/2$), or a $\{Y_\tau=0\}$ event (i.i.d.\ risk $1/2$, adaptive risk 1). At the public query node $\tau$ the null picks $p\in[0,1/2]$; nodes with different $\tau$ are publicly distinguishable. A mixture with masses $a_\tau$ (both branches), $b_\tau$ ($Y=1$ only), $c_\tau$ ($Y=0$ only) and pre-release mass $m$ therefore has adaptive risk $\sum_\tau[a_\tau+\max(c_\tau,(b_\tau+c_\tau)/2)]+m$, because the null maximises $(1-p)Z_0+pZ_1$ at an endpoint, and i.i.d.\ risk $\sum_\tau[a_\tau+(b_\tau+c_\tau)/2]+m$. Each problem maximises a linear gain under a sum of positively homogeneous convex gauges, so its optimum is $\alpha$ times the best gain per unit risk over the extreme rays. Under adaptive risk the rays are $b$ alone (ratio $2g_{z1}$), $c$ alone ($g_{z0}$), $c=b$ (ratio at most $g_{\mathrm{both}}$, dominated), $a$ ($g_{\mathrm{both}}$) and pre-release ($g_{\mathrm{pre}}$). Under i.i.d.\ risk, $c$ alone has ratio $2g_{z0}$. Since $\alpha\le1/2$, the risk-$1/2$ rays are feasible at mass $2\alpha\le1$.
 \end{proof}
 
-\paragraph{The symmetric chain.} Take $t_{01}=t_{10}=t\in(1/2,1)$, $\rho=1-2t=-r$, prior $1/2$, emissions $(e,1-e)$ with $a=1-2e$ and $g=a^2$, and write $a_j=gr^j$.
+\paragraph{The symmetric chain.} Take $t_{01}=t_{10}=t\in(1/2,1)$, $\rho=1-2t=-r$, prior $1/2$, emissions $(e,1-e)$ with $a=1-2e$ and $g=a^2$.
 
 \begin{lemma}
 \label{lem:S}
@@ -80,7 +80,7 @@ Take a plan that promotes unconditionally. If no label is released by $T$, all g
 \[
 \bar G_0=gr^d\frac{1-r^{2n_0}}{1-r^2},\qquad \bar G_1^+=gr^{d+1}\frac{1-r^{2n_1}}{1-r^2}\le\bar G_0,
 \]
-where for $n=1$ branch 1 has no positive step, its best design is worth less than 0, and only $\bar G_1^+=0$ enters below. Write $\bar G_1$ for $\bar G_1^+$ from here on.
+where for $n=1$ branch 1 has no positive step and its best design is worth less than 0, so only $\bar G_1^+=0$ enters below. Write $\bar G_1$ for $\bar G_1^+$ from here on.
 By Lemmas~\ref{lem:N1} and~\ref{lem:pre}, $r_c=(\bar G_0+\bar G_1)/2$ and $r_{\mathrm{IID}}=\bar G_0$, so $\Gamma=\alpha(\bar G_0-\bar G_1)/2$ and $\mathrm{VOI}_{\mathrm{IID}}=\alpha\bar G_0$ for every $\alpha\le1/2$. Hence
 \[
 \rhoG(T)=\frac{\bar G_0-\bar G_1}{2\bar G_0}=
@@ -103,15 +103,15 @@ In the symmetric chain, for every $T$, $B$, $d$, $c$, $k$ and $\alpha\in(0,1]$, 
 Let $\nu_1$ be the null with $p=0$ at the first query and $p=1/2$ afterwards; it is adaptive because the first query is public. For $\pi\in\mathsf Q$, $R_{\nu_1}(\pi)=r_0(\pi)$. (i) Let $\mu$ be causal-feasible with mass $m$ on the promoting plans of $\mathsf P$ (plans in $\mathsf P$ that never promote have risk 0 and gain at most 0, so dropping them can only increase the gain), and put $A=\sum_{\pi\in\mathsf Q}\mu(\pi)r_0(\pi)$, $D=\sum_{\pi\in\mathsf Q}\mu(\pi)r_1(\pi)$. Then $\mathrm{gain}(\mu)\le mH_\varnothing^++(s_0^+A+s_1^+D)/2$. If $D\le A$ this is at most $mH_\varnothing^++A(s_0^++s_1^+)/2$; if $D>A$ it is at most $mH_\varnothing^++S'A+S'(D-A)/2$. In both cases $\mathrm{gain}(\mu)\le S'(m+\max(A,(A+D)/2))=S'\max(R_{\nu_1}(\mu),R_{\mathrm{IID}}(\mu))\le S'\alpha$. (ii) The same computation with the i.i.d.\ row only. (iii) Mixing $\hat\pi$ with never-promote at probability $\alpha/R_{\mathrm{IID}}(\hat\pi)$ is i.i.d.-feasible with value $\alpha\zeta$; subtract (i) and divide by (ii).
 \end{proof}
 
-Now let $B=2$, $k=c=0$, $d$ odd, and put $O_d=r^d/(1-r^2)$, $\bar G_0^\infty=gO_d$, $\bar G_1^\infty=r\bar G_0^\infty$ and $v_1=gr^d/(2(1-r))$. With $k=0$ the post-promotion continuation plays $a_s=\one\{w_s>0\}$, so its value is $\sum_{s\ge\sigma}\E(w_s)^+$, nondecreasing in $T$. For a state deviation $x$ at the query time $u$, $\PP(Y_u=1)=(1+ax)/2$ and the posterior deviation is $(x\pm a)/(1\pm ax)$, so $\PP(y)x'_y=(x+s_ya)/2$ with $s_y=2y-1$; by positive homogeneity of $z\mapsto z^+$, every expected post-label value is a sum of positive parts of linear combinations of powers of $\rho$.
+Now let $B=2$, $k=c=0$, $d$ odd, and put $O_d=r^d/(1-r^2)$, $\bar G_0^\infty=gO_d$, $\bar G_1^\infty=r\bar G_0^\infty$ and $v_1=gr^d/(2(1-r))$. With $k=0$ the post-promotion continuation plays $a_s=\one\{w_s>0\}$, so its value is $\sum_{s\ge\sigma}\E(w_s)^+$, nondecreasing in $T$. For a state deviation $x$ at the query time $u$, $\PP(Y_u=1)=(1+ax)/2$ and the posterior deviation is $(x\pm a)/(1\pm ax)$, so $\PP(y)x'_y=(x+\epsilon_ya)/2$ with $\epsilon_y=2y-1$. By positive homogeneity of $z\mapsto z^+$, every expected post-label value is a sum of positive parts of linear combinations of powers of $\rho$.
 
 \begin{lemma}[$T=\infty$ branch values]
 \label{lem:M41}
-For a first label at $u$ and a second at $u+\delta$, $\delta\ge1$, and $y\in\{0,1\}$: promoting at $u+d$ and using the second label freely is worth $H_y(\delta)=\bar G_y^\infty+v_1-gr^{d+\delta}/(2(1-r))$; promoting only on the second label's value $v$ (branch risk $1/2$) has ratio $g(1+s_y\rho^\delta)E_d$ for $v=1$ and $g(1-s_y\rho^\delta)O_d$ for $v=0$, with $E_d=r^{d+1}/(1-r^2)$; and unconditional promotion with both labels free is worth $H_\varnothing\le2v_1$.
+For a first label at $u$ and a second at $u+\delta$, $\delta\ge1$, and $y\in\{0,1\}$: promoting at $u+d$ and using the second label freely is worth $H_y(\delta)=\bar G_y^\infty+v_1-gr^{d+\delta}/(2(1-r))$; promoting only on the second label's value $v$ (branch risk $1/2$) has ratio $g(1+\epsilon_y\rho^\delta)E_d$ for $v=1$ and $g(1-\epsilon_y\rho^\delta)O_d$ for $v=0$, with $E_d=r^{d+1}/(1-r^2)$; and unconditional promotion with both labels free is worth $H_\varnothing\le2v_1$.
 \end{lemma}
 
 \begin{proof}
-Given $Y_u=y$ the deviation at $u$ is $s_ya$. Before the second release the value is $\sum_{j=d}^{\delta+d-1}g(s_y\rho^j)^+$. After it, with $x=s_ya\rho^\delta$, the value at offset $j\ge d$ is $\tfrac g2[((s_y\rho^\delta+1)\rho^j)^++((s_y\rho^\delta-1)\rho^j)^+]=\tfrac g2[(1+s_y\rho^\delta)r^j\one\{j\text{ even}\}+(1-s_y\rho^\delta)r^j\one\{j\text{ odd}\}]$, using $|\rho^\delta|<1$. Summing gives $v_1-s_y\tfrac{gr^d}{2}\tfrac{\rho^\delta}{1+r}$. Adding the first segment and splitting $\delta$ by parity gives, in all four cases, $\bar G_y^\infty+v_1-gr^{d+\delta}/(2(1-r))$. The pattern ratios follow from $\PP(v\mid y)x''=(s_ya\rho^\delta+s_va)/2$. For $H_\varnothing$, average the immediate values over $y$: $(H_0+H_1)/2<(\bar G_0^\infty+\bar G_1^\infty)/2+v_1=2v_1$.
+Given $Y_u=y$ the deviation at $u$ is $\epsilon_ya$. Before the second release the value is $\sum_{j=d}^{\delta+d-1}g(\epsilon_y\rho^j)^+$. After it, with $x=\epsilon_ya\rho^\delta$, the value at offset $j\ge d$ is $\tfrac g2[((\epsilon_y\rho^\delta+1)\rho^j)^++((\epsilon_y\rho^\delta-1)\rho^j)^+]=\tfrac g2[(1+\epsilon_y\rho^\delta)r^j\one\{j\text{ even}\}+(1-\epsilon_y\rho^\delta)r^j\one\{j\text{ odd}\}]$, using $|\rho^\delta|<1$. Summing gives $v_1-\epsilon_y\tfrac{gr^d}{2}\tfrac{\rho^\delta}{1+r}$. Adding the first segment and splitting $\delta$ by parity gives, in all four cases, $\bar G_y^\infty+v_1-gr^{d+\delta}/(2(1-r))$. The pattern ratios follow from $\PP(v\mid y)x''=(\epsilon_ya\rho^\delta+\epsilon_va)/2$. For $H_\varnothing$, average the immediate values over $y$: $(H_0+H_1)/2<(\bar G_0^\infty+\bar G_1^\infty)/2+v_1=2v_1$.
 \end{proof}
 
 \begin{lemma}[Branch slopes at $B=2$]
@@ -126,7 +126,7 @@ In branch $y$ one label remains, so the branch event is empty, everything, or $\
 \paragraph{Proof of Theorem~\ref{thm:premium}(2).} Let $\zeta(T)=\max_\delta H_0(\delta;T)$ be the finite-horizon value of the plan ``query at 1; if $Y_1=0$ promote at $1+d$, query again at $1+\delta$ and follow the sign of the gain; if $Y_1=1$ do nothing''. It has i.i.d.\ risk $1/2\ge\alpha$ and ratio $\zeta(T)$. Lemma~\ref{lem:M42} gives $S'\le\max(2v_1,s_1^\infty,(s_0^\infty+s_1^\infty)/2)=(s_0^\infty+s_1^\infty)/2$ and $S_I\le s_0^\infty$, so Lemma~\ref{lem:M3}(iii) yields
 \[
 \rhoG(T)\ \ge\ \frac{[\zeta(T)-(s_0^\infty+s_1^\infty)/2]^+}{s_0^\infty}.
-\tag{C.1}
+\tag{D.1}
 \]
 Truncating at $T$ loses at most $\sum_{j\ge T-\delta}gr^j$ after the second release, so $\zeta(T)\ge s_0^\infty-g(r^{d+\delta}/2+r^{T-\delta})/(1-r)$ for every $1\le\delta\le T-d$, and $\zeta(T)\to s_0^\infty$. Since $s_0^\infty-s_1^\infty=gr^d/(2(1+r))$,
 \[
@@ -140,49 +140,49 @@ Here $d=1$, $c=k=0$, $\alpha=1/10$. Let $X_t\in\{-1,1\}$ be the spin of the symm
 \paragraph{Step 1: cylinder densities.} For ordered times $v_1<\dots<v_{2q}$, $\E\prod_\ell X_{v_\ell}=\rho^{\sum_{\ell=1}^q(v_{2\ell}-v_{2\ell-1})}$ and odd moments vanish (write each $X_v$ as the initial spin times the transition signs up to $v$). Fix the learner's private seed and a realised decision-tree cylinder with $m\le B$ released signs $s_1,\dots,s_m$ at query times $u_1<\dots<u_m$; these times are fixed on the cylinder because each query decision is determined by earlier signs. Expanding $\E\prod_i(1+as_iX_{u_i})$ gives alternative probability $2^{-m}D_m$ with
 \[
 D_m=\sum_{J\subseteq[m],\,|J|\text{ even}}a^{|J|}s_J\,\rho^{\sum_\ell(u_{j_{2\ell}}-u_{j_{2\ell-1}})},
-\tag{C.2}
+\tag{D.2}
 \]
 and, for $n\ge u_m+1$ with no further labels, posterior gain
 \[
 w_n=\frac1{D_m}\sum_{J\subseteq[m],\,|J|\text{ odd}}a^{|J|+1}s_J\,\rho^{\sum_{\ell\le(|J|-1)/2}(u_{j_{2\ell}}-u_{j_{2\ell-1}})+n-u_{j_{|J|}}}.
-\tag{C.3}
+\tag{D.3}
 \]
 
-\paragraph{Step 2: uniform bounds.} Put $x=B^2r<1/288$. Every paired gap is at least one and $g<1$, so $|D_m-1|\le\delta_B(r):=\sum_{q\ge1}\binom{B}{2q}r^q\le x/(1-x)\le2B^2r$. In (C.3) isolate the latest singleton, whose term is $gs_m\rho^{n-u_m}$; its positive-part tail is $G_0=gr/(1-r^2)$ after a zero label and $G_1=gr^2/(1-r^2)$ after a one. Older singletons have $n-u_i\ge2$, and an odd subset of size $2q+1$ carries at least $q$ powers of $r$ from its paired gaps. Summing absolute values over $n>u_m$ and dividing by $gr$ bounds the rest by $P_B(r)\le2Br+4B^3r$.
+\paragraph{Step 2: uniform bounds.} Put $x=B^2r<1/288$. Every paired gap is at least one and $g<1$, so $|D_m-1|\le\delta_B(r):=\sum_{q\ge1}\binom{B}{2q}r^q\le x/(1-x)\le2B^2r$. In (D.3) isolate the latest singleton, whose term is $gs_m\rho^{n-u_m}$; its positive-part tail is $G_0=gr/(1-r^2)$ after a zero label and $G_1=gr^2/(1-r^2)$ after a one. Older singletons have $n-u_i\ge2$, and an odd subset of size $2q+1$ carries at least $q$ powers of $r$ from its paired gaps. Summing absolute values over $n>u_m$ and dividing by $gr$ bounds the rest by $P_B(r)\le2Br+4B^3r$.
 
 \paragraph{Step 3: Bellman envelope.} For a spin mean $x$, the posterior after sign $s$ is $\psi_s(x)=(x+as)/(1+asx)$ with probability $(1+asx)/2$; then $\E\psi_S(x)=x$, $\E|\psi_S(x)|=\max(|x|,a)$, and for $j\ge1$
 \[
 \E[(a\rho^j\psi_S(x))^+]-(a\rho^jx)^+=\tfrac{gr^j}{2}\big(1-|x|/a\big)^+.
-\tag{C.4}
+\tag{D.4}
 \]
-Let $F_t(x)=\sum_{j=0}^{T-t}(a\rho^jx)^+$ and $W_{t,b}(x)$ the largest expected future gain with $b$ queries left. Backward induction over $(t,b)$ gives $W_{t,b}(x)\le F_t(x)+bv_1$ with $v_1=gr/(2(1-r))$: the current action contributes at most $(ax)^+$; without a query the continuation is at most $F_{t+1}(\rho x)+bv_1$; with a query (released at $t+1$) it is at most $\E F_{t+1}(\rho\psi_S(x))+(b-1)v_1$, and by (C.4) the expected increase over $F_{t+1}(\rho x)$ is at most $\sum_{j\ge1}gr^j/2\le v_1$. Since actions do not affect observations and costs are zero, this covers rollback, re-promotion and a query on the promotion step.
+Let $F_t(x)=\sum_{j=0}^{T-t}(a\rho^jx)^+$ and $W_{t,b}(x)$ the largest expected future gain with $b$ queries left. Backward induction over $(t,b)$ gives $W_{t,b}(x)\le F_t(x)+bv_1$ with $v_1=gr/(2(1-r))$: the current action contributes at most $(ax)^+$; without a query the continuation is at most $F_{t+1}(\rho x)+bv_1$; with a query (released at $t+1$) it is at most $\E F_{t+1}(\rho\psi_S(x))+(b-1)v_1$, and by (D.4) the expected increase over $F_{t+1}(\rho x)$ is at most $\sum_{j\ge1}gr^j/2\le v_1$. Since actions do not affect observations and costs are zero, this covers rollback, re-promotion and a query on the promotion step.
 
 \paragraph{Step 4: leaf bounds.} On a first-promotion leaf $h$ with $m\ge1$ labels, latest label $y$ and $n=B-m$ queries left, Steps 2 and 3 give $D_mV(h)/(gr)\le G_y/(gr)+P_B(r)+(1+\delta_B)n/(2(1-r))$. For $r<1/2$, $G_0/(gr)-1\le2r$, $G_1/(gr)\le2r$ and $\tfrac n2(\tfrac{1+\delta_B}{1-r}-1)\le2B^3r+Br$, so
 \[
 D_mV(h)/(gr)\ \le\ \one\{y=0\}+n/2+H_Br.
-\tag{C.5}
+\tag{D.5}
 \]
 For $m=0$ the spin mean is zero and $V(h)/(gr)\le B/(2(1-r))\le B/2+Br$.
 
 \paragraph{Step 5: null certificate.} Let $\nu_j$ force the $j$th queried label to zero and use fair labels elsewhere; it is adaptive because the query ordinal is public. The mixture $Q=(\mathrm{IID}+\nu_1+\dots+\nu_B)/(B+1)$ gives a cylinder with $z$ zeros the mass $Q(h)=2^{-m}(B+1-m+2z)/(B+1)$, so $\PP_A(h)/Q(h)=(B+1)D_m/(B+1-m+2z)$. First-promotion leaves are disjoint and gain before promotion is zero, so for each seed $\mathrm{gain}\le R_Q\max_h\PP_A(h)V(h)/Q(h)$. If the latest label is zero then $z\ge1$ and the leading term is at most $\frac{B+1}{n+3}(1+\frac n2)\le\frac{(B+1)^2}{2(B+2)}=:C_B$; if it is one, at most $\frac{B+1}{n+1}\frac n2\le C_B$; for $m=0$ it is $B/2\le C_B$. The prefactor on the remainder is at most $B+1$. Averaging over the seed (no conditional feasibility is needed, since $R_Q$ is an average of admissible nulls' risks),
 \[
 \mathrm{VOI}_{\mathrm{causal}}\le\alpha gr[C_B+(B+1)H_Br],\qquad \mathrm{VOI}_{\mathrm{IID}}\le\alpha gr[I_B+H_Br],\quad I_B=\tfrac{B+1}{2}.
-\tag{C.6}
+\tag{D.6}
 \]
 
-\paragraph{Step 6: i.i.d.\ witness.} For $B\ge2$: query at 1; promote at 2 exactly when $Y_1=0$; on that branch query at $5,8,\dots,3B-1$ and play the sign of the posterior gain. Its i.i.d.\ risk is $1/2$. The time-2 gain is $gr$; the time-5 query has prior mean of magnitude $ar^4$ and, by (C.4), adds $gr(1-r^4)/2$; each later query has prior magnitude below $a$ with $\E[|x|/a]=r^3$ and adds $gr(1-r^3)/2$. Release times are distinct and $T\ge3B$ includes them all, so $\zeta_T/(gr)\ge\frac{B+1}{2}-\frac{r^4+(B-2)r^3}{2}$; for $B=1$, $\zeta_T/(gr)\ge1=I_1$. Mixing with never-promote to risk $\alpha$ gives $\mathrm{VOI}_{\mathrm{IID}}\ge\alpha\zeta_T$.
+\paragraph{Step 6: i.i.d.\ witness.} For $B\ge2$: query at 1; promote at 2 exactly when $Y_1=0$; on that branch query at $5,8,\dots,3B-1$ and play the sign of the posterior gain. Its i.i.d.\ risk is $1/2$. The time-2 gain is $gr$; the time-5 query has prior mean of magnitude $ar^4$ and, by (D.4), adds $gr(1-r^4)/2$; each later query has prior magnitude below $a$ with $\E[|x|/a]=r^3$ and adds $gr(1-r^3)/2$. Release times are distinct and $T\ge3B$ includes them all, so $\zeta_T/(gr)\ge\frac{B+1}{2}-\frac{r^4+(B-2)r^3}{2}$; for $B=1$, $\zeta_T/(gr)\ge1=I_1$. Mixing with never-promote to risk $\alpha$ gives $\mathrm{VOI}_{\mathrm{IID}}\ge\alpha\zeta_T$.
 
-\paragraph{Proof of Theorem~\ref{thm:premium}(4).} The witness remainder and the certificate remainder are each below $(B+1)/(16(B+2))$ under $r<r_0(B)$, and $I_B-C_B=(B+1)/(2(B+2))$. Hence $\Gamma\ge\alpha gr\,\frac{3(B+1)}{8(B+2)}$. Also $I_B+H_Br<B+1$, and dividing by (C.6) gives $\rhoG(T)\ge3/(8(B+2))$ for every $T\ge3B$. Since $H_B\le11B^3$ and $B+2\le3B$, $r_0(B)\ge1/(528B^4)$: for $0<r<1/1056$ every $B\le\lfloor(1056r)^{-1/4}\rfloor$ is covered. \hfill$\square$
+\paragraph{Proof of Theorem~\ref{thm:premium}(4).} The witness remainder and the certificate remainder are each below $(B+1)/(16(B+2))$ under $r<r_0(B)$, and $I_B-C_B=(B+1)/(2(B+2))$. Hence $\Gamma\ge\alpha gr\,\frac{3(B+1)}{8(B+2)}$. Also $I_B+H_Br<B+1$, and dividing by (D.6) gives $\rhoG(T)\ge3/(8(B+2))$ for every $T\ge3B$. Since $H_B\le11B^3$ and $B+2\le3B$, $r_0(B)\ge1/(528B^4)$: for $0<r<1/1056$ every $B\le\lfloor(1056r)^{-1/4}\rfloor$ is covered. \hfill$\square$
 
 \paragraph{Proof of Theorem~\ref{thm:premium}(3).} On the rectangle $r\in(1/200,1/100)$, $g\in(2/5,1/2)$:
 \begin{itemize}
 \item $B=1$: part 1 gives $\rhoG\ge(1-r)/2>99/200$.
-\item $B=2$: take $\delta=2$ in (C.1) with the truncation bound; with $d=1$ this gives
+\item $B=2$: take $\delta=2$ in (D.1) with the truncation bound; with $d=1$ this gives
 \[
 \rhoG\ \ge\ \Big[\tfrac1{4(1+r)}-\tfrac{r^2/2+r^{T-3}}{1-r}\Big]\Big/\tfrac{3+r}{2(1-r^2)},
 \]
 whose numerator decreases and denominator increases in $r$, and which increases in $T$; at $r=1/100$, $T=20$ it exceeds $0.16$.
-\item $B=3,\dots,6$: Steps 1--6 with the remainders kept term by term instead of bounded by $P_B$ and $\delta_B$. For $B=3$ the remainder after the latest singleton is $g[s_1\rho^{n-u_1}+s_2\rho^{n-u_2}]+g^2s_1s_2s_3\rho^{u_2-u_1+n-u_3}$, giving $E=[G_0g(2r+r^2)+g(r^2+r^3)/(1-r)+g^2r^2/(1-r)]/(1-g(2r+r^2))$ in place of $H_Br$; $B=4,5,6$ retain the triple, quintuple and six-spin terms in the same way. The leaf maxima of (C.5)--(C.6) are then evaluated by exact rational enumeration of all histories at the closed corner $(r,g)=(1/100,1/2)$, which is valid on the open rectangle because every normalised envelope term increases in $r$ and $g$. The resulting coefficients are, for $B=3,4,5,6$: causal $5360/3333$, $62875/29997$, $60400/23331$, $41125/13332$; i.i.d.\ $6700/3333$, $25150/9999$, $30200/9999$, $11750/3333$. The witnesses of Step 6 give $\zeta_T/(gr)>1.99,\,2.49,\,2.99,\,3.49$ for $T\ge16$ ($T\ge20$ for $B=6$). Hence $\rhoG\ge19/101$, $13/84$, $40/303$, $13/118$.
+\item $B=3,\dots,6$: Steps 1--6 with the remainders kept term by term instead of bounded by $P_B$ and $\delta_B$. For $B=3$ the remainder after the latest singleton is $g[s_1\rho^{n-u_1}+s_2\rho^{n-u_2}]+g^2s_1s_2s_3\rho^{u_2-u_1+n-u_3}$, giving $E=[G_0g(2r+r^2)+g(r^2+r^3)/(1-r)+g^2r^2/(1-r)]/(1-g(2r+r^2))$ in place of $H_Br$; $B=4,5,6$ retain the triple, quintuple and six-spin terms in the same way. The leaf maxima of (D.5)--(D.6) are then evaluated by exact rational enumeration of all histories at the closed corner $(r,g)=(1/100,1/2)$, which is valid on the open rectangle because every normalised envelope term increases in $r$ and $g$. The resulting coefficients are, for $B=3,4,5,6$: causal $5360/3333$, $62875/29997$, $60400/23331$, $41125/13332$; i.i.d.\ $6700/3333$, $25150/9999$, $30200/9999$, $11750/3333$. The witnesses of Step 6 give $\zeta_T/(gr)>1.99,\,2.49,\,2.99,\,3.49$ for $T\ge16$ ($T\ge20$ for $B=6$). Hence $\rhoG\ge19/101$, $13/84$, $40/303$, $13/118$.
 \end{itemize}
 The minimum over $B\le6$ exceeds $0.10$ for every $T\ge20$. \hfill$\square$
 

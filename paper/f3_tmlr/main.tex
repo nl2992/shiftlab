@@ -59,7 +59,7 @@ Controllers not designed for this target can exceed the budget when feedback is 
 \paragraph{Contributions.}
 \begin{itemize}\setlength\itemsep{0pt}
 \item \emph{A pathwise harm budget.} We define the harm of a promotion as excess loss against never switching plus switching fees, and show that a shield wrapped around any promotion rule keeps it below $R$ at every round with probability at least $1-\delta$, for every fixed loss sequence and delay rule (Theorem~\ref{thm:main}).
-\item \emph{A matching lower bound.} No controller can certify a switch from delayed feedback alone, and the first promotion cannot be held through more than $R-2k$ unseen disagreements; the shield reaches this bound (Propositions~\ref{prop:nocert}, \ref{prop:reserves}).
+\item \emph{A matching lower bound.} No rule can certify a switch from indistinguishable delayed feedback (Proposition~\ref{prop:nocert}). For a first-promotion event of probability above $\delta$, a controller that meets the budget cannot hold it through more than $R-2k$ disagreements without feedback, given enough remaining disagreements; the shield reaches this bound (Proposition~\ref{prop:reserves}).
 \item \emph{What the guarantee costs.} In a registered simulation, on 14 real streams and on a screen of \ScreenPool{} public streams, the shield keeps the budget and, in the regimes we study, retains most of the unconstrained rule's gain when one delay window is short relative to the headroom (Section~\ref{sec:exp}).
 \end{itemize}
 Table~\ref{tab:claims} in Appendix~\ref{app:claims} lists each contribution with its supporting results and scope.
@@ -577,7 +577,7 @@ Per-regime exceedance rates are plotted in Figure~\ref{fig:violations_full}(a), 
 \begin{table}[!htbp]
 \caption{Contributions, supporting results and scope.}\label{tab:claims}
 \centering\small
-\begin{tabular}{@{}p{4.5cm} p{4.8cm} p{5.6cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.5cm} >{\raggedright\arraybackslash}p{4.8cm} >{\raggedright\arraybackslash}p{5.6cm}@{}}
 \toprule
 Contribution & Support & Scope \\
 \midrule
@@ -596,7 +596,7 @@ Safety and retained utility in evaluated settings & Tables~\ref{tab:sim}, \ref{t
 \begin{table}[!htbp]
 \caption{Variants of the shield. Each accepts deployment when its accounting check satisfies $W_t\le R$; the paced settlement variant changes how $W_t$ is constructed (Appendix~\ref{app:v2}). Frozen settings are in Appendix Table~\ref{tab:arms}.}\label{tab:variants}
 \centering\small
-\begin{tabular}{@{}p{2.5cm} p{5.3cm} p{2.6cm} p{3.9cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{5.3cm} >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{3.9cm}@{}}
 \toprule
 Variant & What it changes & Guarantee & Use when \\
 \midrule
